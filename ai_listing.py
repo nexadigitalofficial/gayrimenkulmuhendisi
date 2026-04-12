@@ -75,14 +75,43 @@ def _make_chrome(headless: bool = True) -> "webdriver.Chrome":
     opts = ChromeOptions()
     if headless:
         opts.add_argument("--headless=new")
-    opts.add_argument("--start-maximized")
-    opts.add_argument("--disable-gpu")
+
+    # Temel sandbox / container bayrakları
     opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument("--disable-setuid-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")   # /dev/shm küçük container'lar için kritik
+    opts.add_argument("--no-zygote")               # zygote process container'da crash verir
+    opts.add_argument("--single-process")           # container'da daha stabil
+
+    # GPU / render
+    opts.add_argument("--disable-gpu")
+    opts.add_argument("--disable-software-rasterizer")
+    opts.add_argument("--disable-3d-apis")
+
+    # Hafıza / performans
+    opts.add_argument("--disable-extensions")
+    opts.add_argument("--disable-background-networking")
+    opts.add_argument("--disable-default-apps")
+    opts.add_argument("--disable-sync")
+    opts.add_argument("--disable-translate")
+    opts.add_argument("--mute-audio")
+    opts.add_argument("--no-first-run")
+    opts.add_argument("--safebrowsing-disable-auto-update")
+    opts.add_argument("--window-size=1280,900")
     opts.add_argument("--log-level=3")
-    return webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()), options=opts
-    )
+    opts.add_argument("--silent")
+
+    # Render/Linux: apt ile kurulan sistem Chrome'unu kullan
+    SYSTEM_CHROME    = "/usr/bin/chromium-browser"
+    SYSTEM_CHROMEDRV = "/usr/bin/chromedriver"
+    if os.path.exists(SYSTEM_CHROME) and os.path.exists(SYSTEM_CHROMEDRV):
+        opts.binary_location = SYSTEM_CHROME
+        svc = Service(SYSTEM_CHROMEDRV)
+    else:
+        # Lokal geliştirme: ChromeDriverManager otomatik indir
+        svc = Service(ChromeDriverManager().install())
+
+    return webdriver.Chrome(service=svc, options=opts)
 
 
 def _accept_cookies(driver, timeout: int = 5) -> None:
