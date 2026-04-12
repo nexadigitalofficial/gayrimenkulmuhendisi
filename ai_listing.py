@@ -29,19 +29,13 @@ from bs4 import BeautifulSoup
 from google import genai
 from google.genai import types
 
-# Selenium opsiyonel — sadece sahibinden scrape için gerekli
+# Playwright opsiyonel — sadece sahibinden scrape için gerekli
 try:
-    from selenium import webdriver
-    from selenium.webdriver import ChromeOptions
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-    from selenium.webdriver.chrome.service import Service
-    from webdriver_manager.chrome import ChromeDriverManager
-    _SELENIUM = True
+    from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
+    _PLAYWRIGHT = True
 except ImportError:
-    _SELENIUM = False
+    _PLAYWRIGHT = False
+_SELENIUM = _PLAYWRIGHT  # geriye dönük uyumluluk için
 
 # ── Konfigürasyon ─────────────────────────────────────────────────────────────
 GEMINI_MODEL      = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-preview-04-17")
@@ -68,332 +62,63 @@ def ai_listing_status() -> dict:
 # ================================================================
 
 # ================================================================
-# SELENIUM HELPERS (Sahibinden için)
+# PLAYWRIGHT HELPERS (Sahibinden için)
 # ================================================================
 
-def _make_chrome(headless: bool = True) -> "webdriver.Chrome":
-    opts = ChromeOptions()
-    if headless:
-        opts.add_argument("--headless=new")
-
-    # Temel sandbox / container bayrakları
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-setuid-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")   # /dev/shm küçük container'lar için kritik
-    opts.add_argument("--no-zygote")               # zygote process container'da crash verir
-    opts.add_argument("--single-process")           # container'da daha stabil
-
-    # GPU / render
-    opts.add_argument("--disable-gpu")
-    opts.add_argument("--disable-software-rasterizer")
-    opts.add_argument("--disable-3d-apis")
-
-    # Hafıza / performans
-    opts.add_argument("--disable-extensions")
-    opts.add_argument("--disable-background-networking")
-    opts.add_argument("--disable-default-apps")
-    opts.add_argument("--disable-sync")
-    opts.add_argument("--disable-translate")
-    opts.add_argument("--mute-audio")
-    opts.add_argument("--no-first-run")
-    opts.add_argument("--safebrowsing-disable-auto-update")
-    opts.add_argument("--window-size=1280,900")
-    opts.add_argument("--log-level=3")
-    opts.add_argument("--silent")
-
-    # Render/Linux: apt ile kurulan sistem Chrome'unu kullan
-    SYSTEM_CHROME    = "/usr/bin/chromium-browser"
-    SYSTEM_CHROMEDRV = "/usr/bin/chromedriver"
-    if os.path.exists(SYSTEM_CHROME) and os.path.exists(SYSTEM_CHROMEDRV):
-        opts.binary_location = SYSTEM_CHROME
-        svc = Service(SYSTEM_CHROMEDRV)
-    else:
-        # Lokal geliştirme: ChromeDriverManager otomatik indir
-        svc = Service(ChromeDriverManager().install())
-
-    return webdriver.Chrome(service=svc, options=opts)
-
-
-def _accept_cookies(driver, timeout: int = 5) -> None:
-    xpaths = [
-        "//button[contains(.,'Tümünü kabul')]",
-        "//button[contains(.,'Accept all')]",
-        "//button[contains(.,'Kabul et')]",
-        "//button[@id='onetrust-accept-btn-handler']",
+def _pw_accept_cookies(page) -> None:
+    selectors = [
+        "button:has-text('Tümünü kabul')",
+        "button:has-text('Accept all')",
+        "button:has-text('Kabul et')",
+        "#onetrust-accept-btn-handler",
     ]
-    for xp in xpaths:
+    for sel in selectors:
         try:
-            btn = WebDriverWait(driver, timeout).until(
-                EC.element_to_be_clickable((By.XPATH, xp))
-            )
-            btn.click()
-            time.sleep(0.4)
+            page.locator(sel).click(timeout=4000)
+            page.wait_for_timeout(400)
             return
         except Exception:
             pass
 
 
-def _type_url_robust(driver, target_url: str, max_attempts: int = 4) -> bool:
+def _pw_type_url(page, target_url: str, max_attempts: int = 4) -> bool:
     """PageSpeed URL input'una URL'yi güvenilir şekilde yazar."""
-    css = "input[name='url']"
     for attempt in range(1, max_attempts + 1):
         try:
-            inp = WebDriverWait(driver, 15).until(
-                EC.visibility_of_element_located((By.CSS_SELECTOR, css))
+            inp = page.locator("input[name='url']")
+            inp.wait_for(state="visible", timeout=15000)
+            page.wait_for_timeout(300)
+            # JS ile value ata
+            page.evaluate(
+                """(args) => {
+                    const el = args[0];
+                    el.focus(); el.value = '';
+                    el.value = args[1];
+                    el.dispatchEvent(new Event('input',  {bubbles:true}));
+                    el.dispatchEvent(new Event('change', {bubbles:true}));
+                }""",
+                [inp.element_handle(), target_url],
             )
-            time.sleep(0.3)
-            # Yöntem 1: JS ile direkt value ata
-            driver.execute_script(
-                "arguments[0].focus(); arguments[0].value = '';", inp
-            )
-            driver.execute_script(
-                "arguments[0].value = arguments[1];"
-                "arguments[0].dispatchEvent(new Event('input', {bubbles:true}));"
-                "arguments[0].dispatchEvent(new Event('change', {bubbles:true}));",
-                inp, target_url,
-            )
-            time.sleep(0.3)
-            val = driver.execute_script("return arguments[0].value;", inp)
+            page.wait_for_timeout(300)
+            val = page.evaluate("el => el.value", inp.element_handle())
             if val == target_url:
                 print(f"    ✓ URL girildi (deneme {attempt})")
                 return True
-            # Yöntem 2: send_keys
+            # send_keys fallback
             inp.click()
-            inp.send_keys(Keys.CONTROL + "a")
-            time.sleep(0.1)
-            inp.send_keys(Keys.DELETE)
-            inp.clear()
-            time.sleep(0.2)
-            inp.send_keys(target_url)
-            time.sleep(0.4)
-            val = driver.execute_script("return arguments[0].value;", inp)
+            inp.fill(target_url)
+            page.wait_for_timeout(300)
+            val = page.evaluate("el => el.value", inp.element_handle())
             if val == target_url:
-                print(f"    ✓ URL girildi send_keys (deneme {attempt})")
+                print(f"    ✓ URL fill ile girildi (deneme {attempt})")
                 return True
-            print(f"    ⚠ Deneme {attempt} başarısız, tekrar deneniyor...")
-            time.sleep(1)
+            print(f"    ⚠ Deneme {attempt} başarısız, tekrar...")
+            page.wait_for_timeout(1000)
         except Exception as exc:
             print(f"    ⚠ Deneme {attempt} hatası: {exc}")
-            time.sleep(1.5)
+            page.wait_for_timeout(1500)
     print("    ✗ URL girilemedi.")
     return False
-
-
-# ── PSI Fotoğraf + Specs Maps (detay_okuycu_pagespeed.py'den uyarlandı) ──────
-
-_PSI_CD_MAP: dict = {
-    "cd13": "Kategori 1",    "cd14": "Kategori 2",   "cd15": "Marka",
-    "cd16": "Seri",          "cd17": "Model",         "cd19": "Ülke",
-    "cd20": "Şehir",         "cd21": "İlçe",          "cd24": "Bestmatch",
-    "cd29": "Cihaz Tipi",    "cd30": "Ekran DPI",     "cd32": "Motor Hacmi",
-    "cd33": "Motor Gücü",    "cd34": "Kilometre",     "cd37": "Vites",
-    "cd38": "Model Yılı",    "cd39": "Kimden",        "cd42": "Model Detay",
-    "cd43": "İlan No",       "cd46": "Eurotax",       "cd49": "Kasa Tipi",
-    "cd50": "Takas",         "cd53": "Fiyat (Sayısal)", "cd56": "Satıcı Tipi",
-    "cd60": "Data Center",   "cd73": "Mahalle",       "cd74": "Mahalle (detay)",
-    "cd82": "İşletim Sistemi",
-}
-
-_PSI_EP_MAP: dict = {
-    "ep.content_group":     "Sayfa Türü",
-    "ep.kategori_1":        "Kategori 1",   "ep.kategori_2": "Kategori 2",
-    "ep.kategori_3":        "Marka",        "ep.kategori_4": "Seri",
-    "ep.kategori_5":        "Model",
-    "ep.CD_MotorHacmi":     "Motor Hacmi",  "ep.motor_hacmi": "Motor Hacmi",
-    "ep.cd_motorGucu":      "Motor Gücü",   "ep.motor_gucu":  "Motor Gücü",
-    "ep.CD_Km":             "Kilometre",    "ep.km":          "Kilometre",
-    "ep.CD_Vites":          "Vites",        "ep.vites":       "Vites",
-    "ep.CD_ModelYil":       "Model Yılı",   "ep.model_yili":  "Model Yılı",
-    "ep.CD_Kimden":         "Kimden",       "ep.kimden":      "Kimden",
-    "ep.model_js":          "Model Detay",
-    "ep.CD_ilanNo":         "İlan No",      "ep.ilan_no":     "İlan No",
-    "ep.eurotax":           "Eurotax",
-    "ep.CD_KasaTipi":       "Kasa Tipi",    "ep.kasa_tipi":   "Kasa Tipi",
-    "ep.CD_Takas":          "Takas",        "ep.takas":       "Takas",
-    "ep.js_price":          "Fiyat (Sayısal)",
-    "ep.CD_IlanOwnerType":  "Satıcı Tipi",  "ep.js_owner_type": "Satıcı Tipi",
-    "ep.CD_Yer1":           "Ülke",         "ep.yer_1":       "Ülke",
-    "ep.CD_Yer2":           "Şehir",        "ep.yer_2":       "Şehir",
-    "ep.CD_Yer3":           "İlçe",         "ep.yer_3":       "İlçe",
-    "ep.CD_Yer4":           "Mahalle",      "ep.yer_4":       "Mahalle",
-    "ep.CD_Yer5":           "Mahalle (detay)", "ep.yer_5":    "Mahalle (detay)",
-    "ep.data_center":       "Data Center",
-    "ep.site_preference":   "Site Tercihi",
-    "ep.kategori_2":        "Kategori 2",
-}
-
-
-def _extract_psi_photos(raw_text: str) -> list[dict]:
-    """
-    PSI HTML'inden tüm fotoğrafları ayıklar; tip (full/thumb/other) ile döner.
-    Döner: [{"url": "...", "type": "full|thumb|other", "format": "avif|jpg|..."}]
-    """
-    unescaped = html_mod.unescape(raw_text)
-    result: list[dict] = []
-    seen: set = set()
-
-    pattern = re.compile(
-        r"https?://i\d+\.shbdn\.com/photos/[^\s\"'<>&]+\.(?:avif|jpg|jpeg|png|webp)",
-        re.IGNORECASE,
-    )
-    for url in pattern.findall(unescaped):
-        url = url.split("?", 1)[0].split("#", 1)[0]
-        if "blank" in url or url in seen:
-            continue
-        seen.add(url)
-
-        fname = url.rsplit("/", 1)[-1]
-        fmt   = fname.rsplit(".", 1)[-1].lower() if "." in fname else "?"
-
-        if fname.startswith(("x5_", "x3_")):
-            ptype = "full"
-        elif fname.startswith(("thmb_", "lthmb_")):
-            ptype = "thumb"
-        else:
-            ptype = "other"
-
-        result.append({"url": url, "type": ptype, "format": fmt})
-
-    return result
-
-
-def _parse_photos_from_raw(raw_text: str) -> list[str]:
-    """
-    PSI HTML'inden shbdn.com fotoğraf URL'lerini çıkar.
-    Katman 1: x5_/x3_ (tam boyut)
-    Katman 2: thmb_ (thumbnail, x5_ yoksa)
-    Katman 3: prefix temizlenmiş genel fallback
-    """
-    raw_text = html_mod.unescape(raw_text)
-    photos: list[str] = []
-    seen:   set = set()
-
-    # Katman 1 — tam boyut
-    full_pat = re.compile(
-        r"https?://i\d+\.shbdn\.com/photos/[^\s\"'<>&]+/x5_[^\s\"'<>&]+\.(?:avif|jpg|jpeg|png|webp)",
-        re.IGNORECASE,
-    )
-    for url in full_pat.findall(raw_text):
-        url = url.split("?", 1)[0].split("#", 1)[0]
-        if "blank" not in url and url not in seen:
-            seen.add(url)
-            photos.append(url)
-
-    # Katman 2 — thumbnail (sadece tam boyut bulunamadıysa ekle)
-    thumb_pat = re.compile(
-        r"https?://i\d+\.shbdn\.com/photos/[^\s\"'<>&]+/thmb_[^\s\"'<>&]+\.(?:avif|jpg|jpeg|png|webp)",
-        re.IGNORECASE,
-    )
-    thumb_photos: list[str] = []
-    seen_thumb: set = set()
-    for url in thumb_pat.findall(raw_text):
-        url = url.split("?", 1)[0].split("#", 1)[0]
-        if "blank" not in url and url not in seen_thumb:
-            seen_thumb.add(url)
-            thumb_photos.append(url)
-
-    # Katman 3 — genel fallback, prefix kaldır
-    fallback_pat = re.compile(
-        r"https?://i\d+\.shbdn\.com/photos/[^\s\"'<>&]+\.(?:avif|jpg|jpeg|png|webp)",
-        re.IGNORECASE,
-    )
-    for url in fallback_pat.findall(raw_text):
-        url   = url.split("?", 1)[0].split("#", 1)[0]
-        clean = re.sub(r"/(?:x5_|x3_|x2_|x1_|thmb_|lthmb_)", "/", url)
-        if "blank" not in clean and clean not in seen:
-            seen.add(clean)
-            photos.append(clean)
-
-    # Tam boyut yoksa thumbnail'ları kullan
-    if not photos and thumb_photos:
-        photos = thumb_photos
-
-    return photos
-
-
-def _extract_price_tr(raw_text: str) -> str:
-    """Metinden en büyük TL fiyatını çıkar."""
-    t = html_mod.unescape(raw_text)
-    candidates = []
-    for m in re.finditer(r"(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)\s*(TL|₺)", t):
-        try:
-            amt = float(m.group(1).replace(".", "").replace(",", "."))
-            if amt >= 1000:
-                candidates.append((amt, m.group(0)))
-        except Exception:
-            pass
-    return max(candidates, key=lambda x: x[0])[1] if candidates else "—"
-
-
-def _extract_location_from_raw(raw_text: str) -> str:
-    """
-    PSI çıktısından şehir / ilçe / mahalle bilgisini çıkar.
-    Önce GA4 ep. parametreleri, bulunamazsa UA cd. parametrelerine düşer.
-    """
-    from urllib.parse import unquote as _uq
-    t = html_mod.unescape(raw_text)
-
-    def _find(patterns: list[str]) -> str:
-        for pat in patterns:
-            m = re.search(pat, t, re.IGNORECASE)
-            if m:
-                val = _uq(m.group(1).replace("+", " ")).strip()
-                if val and val not in ("0", "null", "undefined"):
-                    return val
-        return ""
-
-    sehir  = _find([r"ep\.(?:CD_Yer2|yer_2)=([^&\n<>]+)",  r"cd20=([^&\n<>]+)"])
-    ilce   = _find([r"ep\.(?:CD_Yer3|yer_3)=([^&\n<>]+)",  r"cd21=([^&\n<>]+)"])
-    mahalle= _find([r"ep\.(?:CD_Yer4|yer_4)=([^&\n<>]+)",  r"cd73=([^&\n<>]+)"])
-
-    parts = [x for x in [mahalle, ilce, sehir] if x]
-    return ", ".join(parts) if parts else ""
-
-
-def _extract_specs_from_raw(raw_text: str) -> dict:
-    """PSI çıktısından GA4 ep. + UA cd. parametrelerini çıkar (full version)."""
-    from urllib.parse import unquote as _unquote
-    specs: dict = {}
-    seen_keys: set = set()
-    t = html_mod.unescape(raw_text)
-
-    # ── GA4 ep. parametreleri ────────────────────────────────────────────────
-    ep_pattern = re.compile(r"ep\.([A-Za-z0-9_]+)=([^&\n\"'<>]+)", re.IGNORECASE)
-    for m in ep_pattern.finditer(t):
-        raw_key = "ep." + m.group(1)
-        val = _unquote(m.group(2).replace("&amp;", "&").replace("+", " ")).strip()
-        if not val or val in ("0", "false"):
-            continue
-        label = _PSI_EP_MAP.get(raw_key)
-        if label and label not in seen_keys:
-            specs[label] = val
-            seen_keys.add(label)
-
-    # ── UA custom dimensions (cd13–cd82) ────────────────────────────────────
-    cd_pattern = re.compile(r"(cd\d{1,3})=([^&\n\"'<>]+)", re.IGNORECASE)
-    for m in cd_pattern.finditer(t):
-        cd_key = m.group(1).lower()
-        val = _unquote(m.group(2).replace("&amp;", "&").replace("+", " ")).strip()
-        if not val or val in ("0", ""):
-            continue
-        label = _PSI_CD_MAP.get(cd_key)
-        if label and label not in seen_keys:
-            specs[label] = val
-            seen_keys.add(label)
-
-    # ── Fiyat sayısaldan TL'ye ──────────────────────────────────────────────
-    if "Fiyat (Sayısal)" in specs:
-        try:
-            specs["Fiyat"] = f"{int(specs['Fiyat (Sayısal)']):,.0f} ₺".replace(",", ".")
-        except Exception:
-            pass
-
-    # Gereksiz teknik alanları temizle
-    for k in ("Cihaz Tipi", "Ekran DPI", "Data Center", "Bestmatch",
-              "Site Tercihi", "Kullanıcı Giriş Durumu", "Oturum Durum"):
-        specs.pop(k, None)
-
-    return specs
 
 
 # ================================================================
@@ -402,91 +127,100 @@ def _extract_specs_from_raw(raw_text: str) -> dict:
 
 def _scrape_via_pagespeed(url: str) -> dict:
     """
-    Selenium ile pagespeed.web.dev'e gidip URL'yi analiz ettirir.
-    Dönen HTML'den fotoğraf + fiyat + lokasyon çıkarır.
-    Render/sunucu ortamında çalışmaz — sadece lokal kullanım.
+    Playwright ile pagespeed.web.dev'e gidip URL'yi analiz ettirir.
+    Selenium'dan çok daha stabil — container ortamında (Render vb.) çalışır.
     """
-    if not _SELENIUM:
+    if not _PLAYWRIGHT:
         return {
             "ok": False,
-            "error": "Selenium kurulu değil: pip install selenium webdriver-manager",
+            "error": "Playwright kurulu değil: pip install playwright && playwright install chromium",
         }
 
     headless = os.environ.get("PS_HEADLESS", "1") != "0"
-    wait_sec = int(os.environ.get("PS_WAIT_SEC", str(DEFAULT_PS_WAIT)))
+    wait_sec  = int(os.environ.get("PS_WAIT_SEC", str(DEFAULT_PS_WAIT)))
 
-    print(f"🌐 Selenium PageSpeed başlatılıyor... (headless={headless}, wait={wait_sec}s)")
-    driver = None
+    print(f"🌐 Playwright PageSpeed başlatılıyor... (headless={headless}, wait={wait_sec}s)")
+
     try:
-        driver = _make_chrome(headless=headless)
-        driver.get(PAGESPEED_WEB_URL)
-        time.sleep(2)
-        _accept_cookies(driver, timeout=6)
-        time.sleep(0.5)
-
-        if not _type_url_robust(driver, url):
-            return {"ok": False, "error": "URL PageSpeed'e girilemedi"}
-
-        # Analiz et butonunu bul ve tıkla
-        try:
-            btn = WebDriverWait(driver, 15).until(
-                EC.element_to_be_clickable((
-                    By.XPATH,
-                    "//span[normalize-space()='Analiz et' or normalize-space()='Analyze']"
-                    "/ancestor::button[1]",
-                ))
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(
+                headless=headless,
+                args=[
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--disable-gpu",
+                    "--no-zygote",
+                    "--disable-extensions",
+                    "--disable-background-networking",
+                    "--mute-audio",
+                    "--no-first-run",
+                ],
             )
-            # URL'nin hâlâ doğru olduğunu doğrula
-            inp = driver.find_element(By.CSS_SELECTOR, "input[name='url']")
-            val = driver.execute_script("return arguments[0].value;", inp)
-            if val != url:
-                if not _type_url_robust(driver, url):
-                    return {"ok": False, "error": "URL doğrulama başarısız"}
-            driver.execute_script("arguments[0].click();", btn)
-        except Exception:
-            print("    ⚠ Buton bulunamadı, Enter ile gönderiliyor...")
-            inp = driver.find_element(By.CSS_SELECTOR, "input[name='url']")
-            inp.send_keys(Keys.RETURN)
+            ctx  = browser.new_context(viewport={"width": 1280, "height": 900})
+            page = ctx.new_page()
 
-        print(f"    ✓ Analiz başlatıldı → bekleniyor ({wait_sec}s)")
-        print("    ⏳", end="", flush=True)
-        for i in range(wait_sec):
-            time.sleep(1)
-            if (i + 1) % 10 == 0:
-                print(f" {wait_sec - i - 1}s", end="", flush=True)
-        print()
+            try:
+                page.goto(PAGESPEED_WEB_URL, wait_until="domcontentloaded", timeout=30000)
+                page.wait_for_timeout(2000)
+                _pw_accept_cookies(page)
+                page.wait_for_timeout(500)
 
-        # /analysis/ sayfasına geçmesini bekle
-        try:
-            WebDriverWait(driver, 20).until(
-                lambda d: "/analysis/" in d.current_url
-            )
-        except Exception:
-            pass
+                if not _pw_type_url(page, url):
+                    return {"ok": False, "error": "URL PageSpeed'e girilemedi"}
 
-        raw_html = driver.page_source
+                # Analiz et butonunu bul ve tıkla
+                try:
+                    btn = page.locator(
+                        "button:has-text('Analiz et'), button:has-text('Analyze')"
+                    ).first
+                    btn.wait_for(state="visible", timeout=15000)
+                    # URL hâlâ doğru mu?
+                    inp = page.locator("input[name='url']")
+                    val = page.evaluate("el => el.value", inp.element_handle())
+                    if val != url:
+                        if not _pw_type_url(page, url):
+                            return {"ok": False, "error": "URL doğrulama başarısız"}
+                    btn.click()
+                except Exception:
+                    print("    ⚠ Buton bulunamadı, Enter ile gönderiliyor...")
+                    page.locator("input[name='url']").press("Enter")
 
-        # ── Fotoğraf çıkarma — full + thumb akıllı birleştirme ───────────────
+                print(f"    ✓ Analiz başlatıldı → bekleniyor ({wait_sec}s)")
+                print("    ⏳", end="", flush=True)
+                for i in range(wait_sec):
+                    page.wait_for_timeout(1000)
+                    if (i + 1) % 10 == 0:
+                        print(f" {wait_sec - i - 1}s", end="", flush=True)
+                print()
+
+                # /analysis/ URL'sine geçmesini bekle
+                try:
+                    page.wait_for_url("**/analysis/**", timeout=20000)
+                except Exception:
+                    pass
+
+                raw_html = page.content()
+
+            finally:
+                ctx.close()
+                browser.close()
+
+        # ── Fotoğraf çıkarma ──────────────────────────────────────────────────
         psi_photos   = _extract_psi_photos(raw_html)
         full_photos  = [p["url"] for p in psi_photos if p["type"] == "full"]
         thumb_photos = [p["url"] for p in psi_photos if p["type"] == "thumb"]
         other_photos = [p["url"] for p in psi_photos if p["type"] == "other"]
 
-        # Her fotoğraf için "foto kimliği": prefix kaldırılmış dosya adı bazlı key
-        # Örn: ".../x5_sbXXYY.avif" ve ".../thmb_sbXXYY.avif" → aynı fotoğraf
         def _photo_key(u: str) -> str:
             fname = u.rsplit("/", 1)[-1]
             clean = re.sub(r"^(?:x5_|x3_|x2_|x1_|thmb_|lthmb_)", "", fname)
             return u.rsplit("/", 1)[0] + "/" + clean
 
-        # Full fotoğrafların key seti — thumb'dan fazlası var mı?
-        full_keys = {_photo_key(u) for u in full_photos}
-
-        # Full ile eşleşmeyen orphan thumbnail'lar (yeni fotoğraflar)
-        orphan_thumbs = [u for u in thumb_photos if _photo_key(u) not in full_keys]
+        full_keys      = {_photo_key(u) for u in full_photos}
+        orphan_thumbs  = [u for u in thumb_photos if _photo_key(u) not in full_keys]
 
         if full_photos or thumb_photos:
-            # Tam boyut önce, ardından eşleşmeyen thumbnail'lar (yeni fotoğraflar)
             photos = full_photos + orphan_thumbs
         elif other_photos:
             photos = other_photos
@@ -497,7 +231,6 @@ def _scrape_via_pagespeed(url: str) -> dict:
         specs    = _extract_specs_from_raw(raw_html)
         price    = specs.get("Fiyat") or _extract_price_tr(raw_html)
 
-        # Lokasyon: specs'ten türet (zaten parse edildi), yoksa raw regex
         loc_parts = [x for x in [
             specs.get("Mahalle", ""),
             specs.get("İlçe", ""),
@@ -505,21 +238,21 @@ def _scrape_via_pagespeed(url: str) -> dict:
         ] if x]
         location = ", ".join(loc_parts) if loc_parts else _extract_location_from_raw(raw_html)
 
-        # Başlık: title tag veya URL'den çıkar
         title = url
         try:
-            soup_tmp = BeautifulSoup(html_mod.unescape(raw_html), "lxml")
+            from bs4 import BeautifulSoup as _BS
+            soup_tmp = _BS(html_mod.unescape(raw_html), "html.parser")
             t_tag = soup_tmp.find("title")
             if t_tag:
                 title = t_tag.get_text(strip=True) or url
         except Exception:
             pass
 
-        print(f"    ✓ Fotoğraf: {len(photos)} (full={len(full_photos)}, thumb={len(thumb_photos)}) | Fiyat: {price} | Lokasyon: {location}")
+        print(f"    ✓ Fotoğraf: {len(photos)} | Fiyat: {price} | Lokasyon: {location}")
 
         return {
             "ok":          True,
-            "source":      "sahibinden_selenium_pagespeed",
+            "source":      "sahibinden_playwright_pagespeed",
             "title":       title,
             "price":       price,
             "location":    location,
@@ -536,14 +269,8 @@ def _scrape_via_pagespeed(url: str) -> dict:
         }
 
     except Exception as e:
-        print(f"    ✗ Selenium hatası: {e}")
+        print(f"    ✗ Playwright hatası: {e}")
         return {"ok": False, "error": str(e)}
-    finally:
-        if driver:
-            try:
-                driver.quit()
-            except Exception:
-                pass
 
 
 def _scrape_hepsiemlak(url: str) -> dict:
