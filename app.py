@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()  # .env dosyasını otomatik yükle
 
 # ── Lokal fallback credential'lar (import'lardan ÖNCE set edilmeli) ──────────
 # mailer.py ve wa_cloud.py modül yüklenirken env'i okur,
@@ -27,6 +29,7 @@ from mailer import (
     build_valuation_report_email, build_advisor_valuation_email,
 )
 from valuation import generate_valuation_report, valuation_status as gemini_status
+from ai_listing import scrape_listing, analyze_listing, ai_listing_status
 
 # ── Firebase Admin SDK ──────────────────────────────────────────
 import firebase_admin
@@ -1863,6 +1866,107 @@ def bootstrap_app():
     _bootstrap_done = True
 
 
+# ================================================================
+# AI ANALİZ MODÜLÜ ROUTE'LARI
+# ================================================================
+
+@app.route("/ai-analysis")
+def ai_analysis_page():
+    """AI Gayrimenkul Analiz sayfası."""
+    try:
+        return send_file("ai_analysis.html")
+    except Exception as e:
+        return f"ai_analysis.html bulunamadı: {e}", 404
+
+
+@app.route("/api/ai/scrape", methods=["POST"])
+def api_ai_scrape():
+    """İlan URL'sini scrape eder."""
+    body = flask_request.json or {}
+    url  = (body.get("url") or "").strip()
+    if not url:
+        return jsonify({"ok": False, "error": "url boş olamaz"}), 400
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+    try:
+        result = scrape_listing(url)
+        if not result.get("ok"):
+            err = result.get("error", "Scrape başarısız")
+            print(f"⚠️  Scrape başarısız [{url}]: {err}")
+            return jsonify({"ok": False, "error": err, "data": result}), 422
+        return jsonify({"ok": True, "data": result})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/ai/analyze", methods=["POST"])
+def api_ai_analyze():
+    """Gemini ile tam gayrimenkul analizi üretir."""
+    body = flask_request.json or {}
+    listing_data    = body.get("listing_data")
+    manual_data     = body.get("manual_data")
+    uploaded_images = body.get("uploaded_images", [])
+    if not listing_data and not manual_data and not uploaded_images:
+        return jsonify({"ok": False, "error": "En az bir girdi gerekli: listing_data, manual_data veya uploaded_images boş olamaz"}), 400
+    try:
+        result = analyze_listing(
+            listing_data=listing_data,
+            manual_data=manual_data,
+            uploaded_images=uploaded_images,
+        )
+        return jsonify(result), (200 if result.get("ok") else 500)
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/ai/status")
+def api_ai_status():
+    """Gemini AI listing modülünün konfigürasyon durumunu döner."""
+    return jsonify(ai_listing_status())
+
+
+@app.route("/api/ai/save-to-crm", methods=["POST"])
+def api_ai_save_to_crm():
+    """Üretilen analiz raporunu Firebase'e kaydeder."""
+    if not _fb_initialized:
+        return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
+    body       = flask_request.json or {}
+    uid        = body.get("uid")
+    report     = body.get("report")
+    url        = body.get("url", "")
+    contact_id = body.get("contact_id", "")
+    if not uid or not report:
+        return jsonify({"ok": False, "error": "uid ve report gerekli"}), 400
+    try:
+        doc_ref = (
+            db_admin
+            .collection("users").document(uid)
+            .collection("ai_analyses")
+            .document()
+        )
+        doc_ref.set({
+            "report":    report,
+            "url":       url,
+            "contactId": contact_id,
+            "createdAt": datetime.now(timezone.utc).isoformat(),
+            "source":    report.get("data_source", ""),
+            "verdict":   report.get("recommendation", {}).get("verdict", ""),
+        })
+        return jsonify({"ok": True, "id": doc_ref.id})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+
+@app.route("/sunum")
+def sunum_page():
+    """Proje Sunumu sayfası."""
+    try:
+        return send_file("sunum.html")
+    except Exception as e:
+        return f"sunum.html bulunamadı: {e}", 404
+
+
 bootstrap_app()
 
 
@@ -1872,4 +1976,6 @@ if __name__ == "__main__":
     print(f"   🌐 Web Sitesi : http://0.0.0.0:{port}/")
     print(f"   📊 CRM Paneli : http://0.0.0.0:{port}/crm")
     print(f"   🔧 Admin Panel: http://0.0.0.0:{port}/admin")
+    print(f"   🤖 AI Analiz  : http://0.0.0.0:{port}/ai-analysis")
+    print(f"   📂 Projeler   : http://0.0.0.0:{port}/sunum")
     app.run(host="0.0.0.0", port=port, debug=False)
