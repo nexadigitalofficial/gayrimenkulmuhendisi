@@ -39,8 +39,15 @@ except ImportError:
 _SELENIUM = _PLAYWRIGHT  # geriye dönük uyumluluk için
 
 # ── Konfigürasyon ─────────────────────────────────────────────────────────────
-GEMINI_MODEL      = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-preview-04-17")
-SCRAPE_TIMEOUT    = 15
+# Geçerli modeller (Nisan 2026):
+#   gemini-2.5-flash      → 10 RPM / 250 RPD  (önerilen ana model)
+#   gemini-2.5-flash-lite → 15 RPM / 1000 RPD (fallback, en yüksek kota)
+#   gemini-2.5-pro        → 5 RPM  / 100 RPD  (en yetenekli, kısıtlı)
+GEMINI_MODEL        = os.environ.get("GEMINI_MODEL",    "gemini-2.5-flash")
+GEMINI_FALLBACK     = os.environ.get("GEMINI_FALLBACK", "gemini-2.5-flash-lite")
+GEMINI_MAX_RETRIES  = 3     # 429 hatası için max tekrar
+GEMINI_RETRY_DELAY  = 10    # ilk bekleme süresi (sn), her seferinde 2x artar
+SCRAPE_TIMEOUT      = 15
 PAGESPEED_WEB_URL = "https://pagespeed.web.dev/?hl=tr"
 DEFAULT_PS_WAIT   = 50   # saniye — sahibinden için bekleme süresi
 
@@ -55,12 +62,249 @@ HEADERS = {
 
 def ai_listing_status() -> dict:
     key = os.environ.get("GEMINI_API_KEY", "").strip()
-    return {"ok": bool(key), "configured": bool(key), "model": GEMINI_MODEL}
+    return {
+        "ok":         bool(key),
+        "configured": bool(key),
+        "model":      GEMINI_MODEL,
+        "fallback":   GEMINI_FALLBACK,
+    }
 
 
 # ================================================================
 # SCRAPERS
 # ================================================================
+
+# ── Ham HTML Yardımcıları ────────────────────────────────────────────────────
+
+def _extract_psi_photos(raw_html: str) -> list[dict]:
+    """
+    PageSpeed Insights tarafından render edilmiş HTML'den
+    Sahibinden CDN fotoğraf URL'lerini çıkarır.
+
+    Döndürülen her öğe: {"url": str, "type": "full" | "thumb" | "other", "format": str}
+      - full  : x5_ / x3_ önekli (tam çözünürlük)
+      - thumb : thmb_ / lthmb_ önekli
+      - other : diğer sahibinden CDN görselleri
+    """
+    # Önce HTML entity'leri decode et — PSI çıktısında URL'ler &quot; ile gömülü olabilir
+    unescaped = html_mod.unescape(raw_html)
+    result: list[dict] = []
+    seen:   set[str]   = set()
+
+    pattern = re.compile(
+        r"https?://i\d+\.shbdn\.com/photos/[^\s\"'<>&]+\.(?:avif|jpg|jpeg|png|webp)",
+        re.IGNORECASE,
+    )
+
+    for url in pattern.findall(unescaped):
+        # Sorgu parametrelerini ve fragment'leri kaldır
+        url = url.split("?", 1)[0].split("#", 1)[0]
+        if "blank" in url or url in seen:
+            continue
+        seen.add(url)
+
+        fname = url.rsplit("/", 1)[-1]
+        fmt   = fname.rsplit(".", 1)[-1].lower() if "." in fname else "?"
+
+        if fname.startswith("x5_") or fname.startswith("x3_"):
+            ptype = "full"
+        elif fname.startswith("thmb_") or fname.startswith("lthmb_"):
+            ptype = "thumb"
+        else:
+            ptype = "other"
+
+        result.append({"url": url, "type": ptype, "format": fmt})
+
+    return result
+
+
+# ── GA4 / UA custom dimension haritaları (detay_okuycu_pagespeed referans) ────
+
+_PSI_CD_MAP: dict[str, str] = {
+    "cd13": "Kategori 1",
+    "cd14": "Kategori 2",
+    "cd15": "Marka",
+    "cd16": "Seri",
+    "cd17": "Model",
+    "cd19": "Ülke",
+    "cd20": "Şehir",
+    "cd21": "İlçe",
+    "cd32": "Motor Hacmi",
+    "cd33": "Motor Gücü",
+    "cd34": "Kilometre",
+    "cd37": "Vites",
+    "cd38": "Model Yılı",
+    "cd39": "Kimden",
+    "cd42": "Model Detay",
+    "cd43": "İlan No",
+    "cd46": "Eurotax",
+    "cd49": "Kasa Tipi",
+    "cd50": "Takas",
+    "cd53": "Fiyat (Sayısal)",
+    "cd56": "Satıcı Tipi",
+    "cd73": "Mahalle",
+    "cd74": "Mahalle (detay)",
+}
+
+_PSI_EP_MAP: dict[str, str] = {
+    "ep.content_group":     "Sayfa Türü",
+    "ep.kategori_1":        "Kategori 1",
+    "ep.kategori_2":        "Kategori 2",
+    "ep.kategori_3":        "Marka",
+    "ep.kategori_4":        "Seri",
+    "ep.kategori_5":        "Model",
+    "ep.CD_MotorHacmi":     "Motor Hacmi",
+    "ep.cd_motorGucu":      "Motor Gücü",
+    "ep.CD_Km":             "Kilometre",
+    "ep.CD_Vites":          "Vites",
+    "ep.CD_ModelYil":       "Model Yılı",
+    "ep.CD_Kimden":         "Kimden",
+    "ep.model_js":          "Model Detay",
+    "ep.CD_ilanNo":         "İlan No",
+    "ep.eurotax":           "Eurotax",
+    "ep.CD_KasaTipi":       "Kasa Tipi",
+    "ep.CD_Takas":          "Takas",
+    "ep.js_price":          "Fiyat (Sayısal)",
+    "ep.CD_IlanOwnerType":  "Satıcı Tipi",
+    "ep.CD_Yer1":           "Ülke",
+    "ep.CD_Yer2":           "Şehir",
+    "ep.CD_Yer3":           "İlçe",
+    "ep.CD_Yer4":           "Mahalle",
+    "ep.CD_Yer5":           "Mahalle (detay)",
+    "ep.kimden":            "Kimden",
+    "ep.ilan_no":           "İlan No",
+    "ep.kasa_tipi":         "Kasa Tipi",
+    "ep.takas":             "Takas",
+    "ep.js_owner_type":     "Satıcı Tipi",
+    "ep.yer_1":             "Ülke",
+    "ep.yer_2":             "Şehir",
+    "ep.yer_3":             "İlçe",
+    "ep.yer_4":             "Mahalle",
+    "ep.yer_5":             "Mahalle (detay)",
+    "ep.model_yili":        "Model Yılı",
+}
+
+
+def _extract_psi_specs(raw_html: str) -> dict:
+    """
+    PageSpeed Insights HTML'inden ilan teknik özelliklerini çıkarır.
+
+    Strateji (öncelik sırası):
+      1. GA4 event parametreleri (ep.XXX=YYY) — en zengin veri seti
+      2. UA custom dimensions (cd13=XXX&cd14=YYY) — fallback
+      3. Fiyat (Sayısal) → TL formatına dönüştürme
+
+    detay_okuycu_pagespeed.py referans alınarak iyileştirildi.
+    """
+    from urllib.parse import unquote
+    specs: dict    = {}
+    seen_keys: set = set()
+
+    # ── 1) GA4 event parametreleri (ep. prefix'li) ────────────────────────────
+    ep_pattern = re.compile(r"ep\.([A-Za-z0-9_]+)=([^&\n\"'<>]+)", re.IGNORECASE)
+    for m in ep_pattern.finditer(raw_html):
+        raw_key = "ep." + m.group(1)
+        raw_val = m.group(2).replace("&amp;", "&").replace("+", " ")
+        try:
+            raw_val = unquote(raw_val)
+        except Exception:
+            pass
+        raw_val = raw_val.strip()
+        if not raw_val or raw_val in ("0", "false", ""):
+            continue
+        label = _PSI_EP_MAP.get(raw_key)
+        if label and label not in seen_keys:
+            specs[label] = raw_val
+            seen_keys.add(label)
+
+    # ── 2) UA custom dimensions (cd13=... formatı) ────────────────────────────
+    cd_pattern = re.compile(r"(cd\d{1,3})=([^&\n\"'<>]+)", re.IGNORECASE)
+    for m in cd_pattern.finditer(raw_html):
+        cd_key  = m.group(1).lower()
+        raw_val = m.group(2).replace("&amp;", "&").replace("+", " ")
+        try:
+            raw_val = unquote(raw_val)
+        except Exception:
+            pass
+        raw_val = raw_val.strip()
+        if not raw_val or raw_val in ("0", ""):
+            continue
+        label = _PSI_CD_MAP.get(cd_key)
+        if label and label not in seen_keys:
+            specs[label] = raw_val
+            seen_keys.add(label)
+
+    # ── 3) Fiyat (Sayısal) → TL formatına çevir ──────────────────────────────
+    if "Fiyat (Sayısal)" in specs:
+        try:
+            amt       = int(specs["Fiyat (Sayısal)"])
+            formatted = f"{amt:,.0f} TL".replace(",", ".")
+            specs.setdefault("Fiyat", formatted)
+        except Exception:
+            pass
+
+    # ── 4) Fiyat hâlâ yoksa regex fallback ───────────────────────────────────
+    if "Fiyat" not in specs:
+        pm = re.search(r"(\d{1,3}(?:[.,]\d{3})+)\s*(?:TL|₺)", raw_html)
+        if pm:
+            specs["Fiyat"] = pm.group(0)
+
+    # ── 5) Gereksiz teknik/debug alanları temizle ─────────────────────────────
+    for k in ("Sayfa Türü", "Kullanıcı Giriş Durumu", "Oturum Durum"):
+        specs.pop(k, None)
+
+    return specs
+
+
+def _extract_price_tr(raw_html: str) -> str:
+    """Ham HTML metninden TL fiyatı regex ile çıkarır."""
+    m = re.search(r"(\d{1,3}(?:[.,]\d{3})+)\s*(?:TL|₺)", raw_html)
+    return m.group(0) if m else ""
+
+
+def _extract_location_from_raw(raw_html: str) -> str:
+    """Ham HTML'den konum/adres bilgisini çıkarır."""
+    try:
+        soup = BeautifulSoup(html_mod.unescape(raw_html), "html.parser")
+        for sel in [
+            "[class*='location']",
+            "[class*='address']",
+            "[class*='adres']",
+            "[class*='konum']",
+            "[class*='Location']",
+        ]:
+            el = soup.select_one(sel)
+            if el:
+                text = el.get_text(strip=True)
+                if text:
+                    return text
+    except Exception:
+        pass
+    return ""
+
+
+def _parse_photos_from_raw(raw_html: str) -> list[str]:
+    """
+    Fallback: ham HTML'deki tüm .jpg / .jpeg / .png / .webp URL'lerini döndürür.
+    _extract_psi_photos hiçbir şey bulamadığında kullanılır.
+    """
+    seen: set[str] = set()
+    urls: list[str] = []
+
+    for m in re.finditer(
+        r'(https?://[^\s"\'<>]+\.(?:jpg|jpeg|png|webp))(?:[^\s"\'<>]*)?',
+        raw_html,
+        re.IGNORECASE,
+    ):
+        url = html_mod.unescape(m.group(1))
+        if url not in seen and len(url) > 20:
+            seen.add(url)
+            urls.append(url)
+        if len(urls) >= 10:
+            break
+
+    return urls
+
 
 # ================================================================
 # PLAYWRIGHT HELPERS — async (greenlet gerektirmez)
@@ -211,7 +455,7 @@ async def _scrape_via_pagespeed_async(url: str) -> dict:
     else:
         photos = _parse_photos_from_raw(raw_html)
 
-    specs    = _extract_specs_from_raw(raw_html)
+    specs    = _extract_psi_specs(raw_html)
     price    = specs.get("Fiyat") or _extract_price_tr(raw_html)
     loc_parts = [x for x in [specs.get("Mahalle",""), specs.get("İlçe",""), specs.get("Şehir","")] if x]
     location  = ", ".join(loc_parts) if loc_parts else _extract_location_from_raw(raw_html)
@@ -711,52 +955,86 @@ JSON YAPISI (TÜM ALANLARI DOLDUR):
   "disclaimer": "Bu analiz Gemini yapay zekası tarafından üretilmiştir; yatırım tavsiyesi değildir. Kesin değerleme için SPK lisanslı ekspertiz önerilir."
 }}"""
 
-    # ── Gemini çağrısı ────────────────────────────────────────────────────────
+    # ── Gemini client ─────────────────────────────────────────────────────────
     try:
         client = genai.Client(api_key=api_key)
-
-        parts: list = []
-
-        # Görsel partlar önce
-        for mime, b64 in all_images[:12]:
-            try:
-                raw_bytes = base64.b64decode(b64)
-                parts.append(
-                    types.Part.from_bytes(
-                        data=raw_bytes,
-                        mime_type=f"image/{mime}",
-                    )
-                )
-            except Exception as e:
-                print(f"⚠ Görsel eklenirken hata: {e}")
-
-        # Text prompt
-        parts.append(types.Part.from_text(text=prompt))
-
-        response = client.models.generate_content(
-            model    = GEMINI_MODEL,
-            contents = [types.Content(role="user", parts=parts)],
-        )
-        raw_text = response.text.strip()
-
     except Exception as e:
-        print(f"\u274c Gemini API hatas\u0131 ({GEMINI_MODEL}): {e}")
-        fallback_model = "gemini-2.0-flash"
-        if GEMINI_MODEL != fallback_model:
-            try:
-                print(f"\U0001f504 Fallback model deneniyor: {fallback_model}")
-                response = client.models.generate_content(
-                    model    = fallback_model,
-                    contents = [types.Content(role="user", parts=parts)],
-                )
-                raw_text = response.text.strip()
-            except Exception as e2:
-                print(f"\u274c Fallback da ba\u015far\u0131s\u0131z: {e2}")
-                return {"ok": False, "error": f"Gemini hatas\u0131: {e} | Fallback hatas\u0131: {e2}"}
-        else:
-            return {"ok": False, "error": f"Gemini hatas\u0131: {e}"}
+        print(f"❌ Gemini client oluşturulamadı: {e}")
+        return {"ok": False, "error": f"Gemini client hatası: {e}"}
 
-    # \u2500\u2500 JSON \u00e7\u0131karma ──────────────────────────────────────────────────────────
+    # ── Part listesi ──────────────────────────────────────────────────────────
+    parts: list = []
+    for mime, b64 in all_images[:12]:
+        try:
+            raw_bytes = base64.b64decode(b64)
+            parts.append(types.Part.from_bytes(data=raw_bytes, mime_type=f"image/{mime}"))
+        except Exception as img_err:
+            print(f"⚠ Görsel eklenirken hata: {img_err}")
+    parts.append(types.Part.from_text(text=prompt))
+
+    contents = [types.Content(role="user", parts=parts)]
+
+    # JSON çıktısını zorla — parse hatasını ortadan kaldırır
+    gen_config = types.GenerateContentConfig(
+        response_mime_type="application/json",
+        temperature=0.3,
+        max_output_tokens=8192,
+    )
+
+    # ── Retry + Fallback mekanizması ──────────────────────────────────────────
+    def _call_gemini(model_name: str) -> tuple[str, str | None]:
+        """(raw_text, error) döner. 429 için exponential backoff uygular."""
+        delay = GEMINI_RETRY_DELAY
+        last_err = ""
+        for attempt in range(1, GEMINI_MAX_RETRIES + 1):
+            try:
+                resp = client.models.generate_content(
+                    model   = model_name,
+                    contents= contents,
+                    config  = gen_config,
+                )
+                text = (resp.text or "").strip()
+                if text:
+                    return text, None
+                return "", "Gemini boş yanıt döndürdü"
+            except Exception as exc:
+                last_err = str(exc)
+                is_429  = "429" in last_err or "RESOURCE_EXHAUSTED" in last_err
+                is_404  = "404" in last_err or "NOT_FOUND" in last_err
+                if is_404:
+                    # Model yok — retry anlamsız
+                    print(f"❌ Model bulunamadı ({model_name}): {exc}")
+                    return "", f"Model bulunamadı: {model_name}"
+                if is_429 and attempt < GEMINI_MAX_RETRIES:
+                    print(f"⏳ 429 kota aşıldı ({model_name}), {delay}s bekleniyor... (deneme {attempt}/{GEMINI_MAX_RETRIES})")
+                    time.sleep(delay)
+                    delay *= 2
+                else:
+                    print(f"❌ Gemini API hatası ({model_name}): {exc}")
+        return "", last_err
+
+    raw_text = ""
+    used_model = GEMINI_MODEL
+
+    raw_text, err = _call_gemini(GEMINI_MODEL)
+
+    if not raw_text and GEMINI_FALLBACK and GEMINI_FALLBACK != GEMINI_MODEL:
+        print(f"🔄 Fallback model deneniyor: {GEMINI_FALLBACK}")
+        used_model = GEMINI_FALLBACK
+        raw_text, err = _call_gemini(GEMINI_FALLBACK)
+
+    if not raw_text:
+        quota_hint = ""
+        if err and ("429" in err or "RESOURCE_EXHAUSTED" in err):
+            quota_hint = (
+                " | 💡 Çözüm: aistudio.google.com > Billing'i aktif edin "
+                "(kart gerekmez) → Tier 1'e geçince limit 30x artar."
+            )
+        return {"ok": False, "error": f"Gemini hatası: {err}{quota_hint}"}
+
+    print(f"✅ Gemini yanıtı alındı ({used_model}) — {len(raw_text)} karakter")
+
+    # ── JSON temizleme (response_mime_type olsa da bazı modeller ``` ekler) ──
     if "```" in raw_text:
         for part in raw_text.split("```"):
             p = part.strip()
@@ -780,5 +1058,6 @@ JSON YAPISI (TÜM ALANLARI DOLDUR):
     report["has_photos"]   = has_photos
     report["photo_count"]  = len(all_images)
     report["data_source"]  = source
+    report["model_used"]   = used_model
 
     return {"ok": True, "report": report}
