@@ -29,9 +29,10 @@ from bs4 import BeautifulSoup
 from google import genai
 from google.genai import types
 
-# Playwright opsiyonel — sadece sahibinden scrape için gerekli
+# Playwright opsiyonel — sadece sahibinden scrape için (async API, greenlet gerektirmez)
+import asyncio
 try:
-    from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
+    from playwright.async_api import async_playwright
     _PLAYWRIGHT = True
 except ImportError:
     _PLAYWRIGHT = False
@@ -62,10 +63,10 @@ def ai_listing_status() -> dict:
 # ================================================================
 
 # ================================================================
-# PLAYWRIGHT HELPERS (Sahibinden için)
+# PLAYWRIGHT HELPERS — async (greenlet gerektirmez)
 # ================================================================
 
-def _pw_accept_cookies(page) -> None:
+async def _pw_accept_cookies(page) -> None:
     selectors = [
         "button:has-text('Tümünü kabul')",
         "button:has-text('Accept all')",
@@ -74,22 +75,22 @@ def _pw_accept_cookies(page) -> None:
     ]
     for sel in selectors:
         try:
-            page.locator(sel).click(timeout=4000)
-            page.wait_for_timeout(400)
+            await page.locator(sel).click(timeout=4000)
+            await page.wait_for_timeout(400)
             return
         except Exception:
             pass
 
 
-def _pw_type_url(page, target_url: str, max_attempts: int = 4) -> bool:
+async def _pw_type_url(page, target_url: str, max_attempts: int = 4) -> bool:
     """PageSpeed URL input'una URL'yi güvenilir şekilde yazar."""
     for attempt in range(1, max_attempts + 1):
         try:
             inp = page.locator("input[name='url']")
-            inp.wait_for(state="visible", timeout=15000)
-            page.wait_for_timeout(300)
-            # JS ile value ata
-            page.evaluate(
+            await inp.wait_for(state="visible", timeout=15000)
+            await page.wait_for_timeout(300)
+            el = await inp.element_handle()
+            await page.evaluate(
                 """(args) => {
                     const el = args[0];
                     el.focus(); el.value = '';
@@ -97,26 +98,25 @@ def _pw_type_url(page, target_url: str, max_attempts: int = 4) -> bool:
                     el.dispatchEvent(new Event('input',  {bubbles:true}));
                     el.dispatchEvent(new Event('change', {bubbles:true}));
                 }""",
-                [inp.element_handle(), target_url],
+                [el, target_url],
             )
-            page.wait_for_timeout(300)
-            val = page.evaluate("el => el.value", inp.element_handle())
+            await page.wait_for_timeout(300)
+            val = await page.evaluate("el => el.value", el)
             if val == target_url:
                 print(f"    ✓ URL girildi (deneme {attempt})")
                 return True
-            # send_keys fallback
-            inp.click()
-            inp.fill(target_url)
-            page.wait_for_timeout(300)
-            val = page.evaluate("el => el.value", inp.element_handle())
+            await inp.click()
+            await inp.fill(target_url)
+            await page.wait_for_timeout(300)
+            val = await page.evaluate("el => el.value", el)
             if val == target_url:
                 print(f"    ✓ URL fill ile girildi (deneme {attempt})")
                 return True
             print(f"    ⚠ Deneme {attempt} başarısız, tekrar...")
-            page.wait_for_timeout(1000)
+            await page.wait_for_timeout(1000)
         except Exception as exc:
             print(f"    ⚠ Deneme {attempt} hatası: {exc}")
-            page.wait_for_timeout(1500)
+            await page.wait_for_timeout(1500)
     print("    ✗ URL girilemedi.")
     return False
 
@@ -125,153 +125,129 @@ def _pw_type_url(page, target_url: str, max_attempts: int = 4) -> bool:
 # SAHIBINDEN SCRAPER — Selenium + PageSpeed Web
 # ================================================================
 
+async def _scrape_via_pagespeed_async(url: str) -> dict:
+    """Async Playwright ile PageSpeed scrape — greenlet gerektirmez."""
+    headless = os.environ.get("PS_HEADLESS", "1") != "0"
+    wait_sec  = int(os.environ.get("PS_WAIT_SEC", str(DEFAULT_PS_WAIT)))
+    print(f"🌐 Playwright (async) PageSpeed başlatılıyor... (headless={headless}, wait={wait_sec}s)")
+
+    async with async_playwright() as pw:
+        browser = await pw.chromium.launch(
+            headless=headless,
+            args=[
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--no-zygote",
+                "--disable-extensions",
+                "--disable-background-networking",
+                "--mute-audio",
+                "--no-first-run",
+            ],
+        )
+        ctx  = await browser.new_context(viewport={"width": 1280, "height": 900})
+        page = await ctx.new_page()
+        raw_html = ""
+        try:
+            await page.goto(PAGESPEED_WEB_URL, wait_until="domcontentloaded", timeout=30000)
+            await page.wait_for_timeout(2000)
+            await _pw_accept_cookies(page)
+            await page.wait_for_timeout(500)
+
+            if not await _pw_type_url(page, url):
+                return {"ok": False, "error": "URL PageSpeed'e girilemedi"}
+
+            try:
+                btn = page.locator(
+                    "button:has-text('Analiz et'), button:has-text('Analyze')"
+                ).first
+                await btn.wait_for(state="visible", timeout=15000)
+                inp = page.locator("input[name='url']")
+                el  = await inp.element_handle()
+                val = await page.evaluate("el => el.value", el)
+                if val != url:
+                    if not await _pw_type_url(page, url):
+                        return {"ok": False, "error": "URL doğrulama başarısız"}
+                await btn.click()
+            except Exception:
+                print("    ⚠ Buton bulunamadı, Enter ile gönderiliyor...")
+                await page.locator("input[name='url']").press("Enter")
+
+            print(f"    ✓ Analiz başlatıldı → bekleniyor ({wait_sec}s)")
+            for i in range(wait_sec):
+                await page.wait_for_timeout(1000)
+                if (i + 1) % 10 == 0:
+                    print(f"    ⏳ {wait_sec - i - 1}s kaldı")
+
+            try:
+                await page.wait_for_url("**/analysis/**", timeout=20000)
+            except Exception:
+                pass
+
+            raw_html = await page.content()
+        finally:
+            await ctx.close()
+            await browser.close()
+
+    # ── Fotoğraf çıkarma ──────────────────────────────────────────────────────
+    psi_photos   = _extract_psi_photos(raw_html)
+    full_photos  = [p["url"] for p in psi_photos if p["type"] == "full"]
+    thumb_photos = [p["url"] for p in psi_photos if p["type"] == "thumb"]
+    other_photos = [p["url"] for p in psi_photos if p["type"] == "other"]
+
+    def _photo_key(u: str) -> str:
+        fname = u.rsplit("/", 1)[-1]
+        clean = re.sub(r"^(?:x5_|x3_|x2_|x1_|thmb_|lthmb_)", "", fname)
+        return u.rsplit("/", 1)[0] + "/" + clean
+
+    full_keys     = {_photo_key(u) for u in full_photos}
+    orphan_thumbs = [u for u in thumb_photos if _photo_key(u) not in full_keys]
+
+    if full_photos or thumb_photos:
+        photos = full_photos + orphan_thumbs
+    elif other_photos:
+        photos = other_photos
+    else:
+        photos = _parse_photos_from_raw(raw_html)
+
+    specs    = _extract_specs_from_raw(raw_html)
+    price    = specs.get("Fiyat") or _extract_price_tr(raw_html)
+    loc_parts = [x for x in [specs.get("Mahalle",""), specs.get("İlçe",""), specs.get("Şehir","")] if x]
+    location  = ", ".join(loc_parts) if loc_parts else _extract_location_from_raw(raw_html)
+
+    title = url
+    try:
+        from bs4 import BeautifulSoup as _BS
+        t_tag = _BS(html_mod.unescape(raw_html), "html.parser").find("title")
+        if t_tag:
+            title = t_tag.get_text(strip=True) or url
+    except Exception:
+        pass
+
+    print(f"    ✓ Fotoğraf: {len(photos)} | Fiyat: {price} | Lokasyon: {location}")
+    return {
+        "ok": True, "source": "sahibinden_playwright_pagespeed",
+        "title": title, "price": price, "location": location,
+        "specs": specs, "description": "",
+        "images": photos, "photo_count": len(photos),
+        "photo_types": {"full": len(full_photos), "thumb": len(thumb_photos), "other": len(other_photos)},
+        "screenshot": "",
+    }
+
+
 def _scrape_via_pagespeed(url: str) -> dict:
-    """
-    Playwright ile pagespeed.web.dev'e gidip URL'yi analiz ettirir.
-    Selenium'dan çok daha stabil — container ortamında (Render vb.) çalışır.
-    """
+    """Sync wrapper — asyncio.run() ile async Playwright çağırır."""
     if not _PLAYWRIGHT:
         return {
             "ok": False,
             "error": "Playwright kurulu değil: pip install playwright && playwright install chromium",
         }
-
-    headless = os.environ.get("PS_HEADLESS", "1") != "0"
-    wait_sec  = int(os.environ.get("PS_WAIT_SEC", str(DEFAULT_PS_WAIT)))
-
-    print(f"🌐 Playwright PageSpeed başlatılıyor... (headless={headless}, wait={wait_sec}s)")
-
     try:
-        with sync_playwright() as pw:
-            browser = pw.chromium.launch(
-                headless=headless,
-                args=[
-                    "--no-sandbox",
-                    "--disable-setuid-sandbox",
-                    "--disable-dev-shm-usage",
-                    "--disable-gpu",
-                    "--no-zygote",
-                    "--disable-extensions",
-                    "--disable-background-networking",
-                    "--mute-audio",
-                    "--no-first-run",
-                ],
-            )
-            ctx  = browser.new_context(viewport={"width": 1280, "height": 900})
-            page = ctx.new_page()
-
-            try:
-                page.goto(PAGESPEED_WEB_URL, wait_until="domcontentloaded", timeout=30000)
-                page.wait_for_timeout(2000)
-                _pw_accept_cookies(page)
-                page.wait_for_timeout(500)
-
-                if not _pw_type_url(page, url):
-                    return {"ok": False, "error": "URL PageSpeed'e girilemedi"}
-
-                # Analiz et butonunu bul ve tıkla
-                try:
-                    btn = page.locator(
-                        "button:has-text('Analiz et'), button:has-text('Analyze')"
-                    ).first
-                    btn.wait_for(state="visible", timeout=15000)
-                    # URL hâlâ doğru mu?
-                    inp = page.locator("input[name='url']")
-                    val = page.evaluate("el => el.value", inp.element_handle())
-                    if val != url:
-                        if not _pw_type_url(page, url):
-                            return {"ok": False, "error": "URL doğrulama başarısız"}
-                    btn.click()
-                except Exception:
-                    print("    ⚠ Buton bulunamadı, Enter ile gönderiliyor...")
-                    page.locator("input[name='url']").press("Enter")
-
-                print(f"    ✓ Analiz başlatıldı → bekleniyor ({wait_sec}s)")
-                print("    ⏳", end="", flush=True)
-                for i in range(wait_sec):
-                    page.wait_for_timeout(1000)
-                    if (i + 1) % 10 == 0:
-                        print(f" {wait_sec - i - 1}s", end="", flush=True)
-                print()
-
-                # /analysis/ URL'sine geçmesini bekle
-                try:
-                    page.wait_for_url("**/analysis/**", timeout=20000)
-                except Exception:
-                    pass
-
-                raw_html = page.content()
-
-            finally:
-                ctx.close()
-                browser.close()
-
-        # ── Fotoğraf çıkarma ──────────────────────────────────────────────────
-        psi_photos   = _extract_psi_photos(raw_html)
-        full_photos  = [p["url"] for p in psi_photos if p["type"] == "full"]
-        thumb_photos = [p["url"] for p in psi_photos if p["type"] == "thumb"]
-        other_photos = [p["url"] for p in psi_photos if p["type"] == "other"]
-
-        def _photo_key(u: str) -> str:
-            fname = u.rsplit("/", 1)[-1]
-            clean = re.sub(r"^(?:x5_|x3_|x2_|x1_|thmb_|lthmb_)", "", fname)
-            return u.rsplit("/", 1)[0] + "/" + clean
-
-        full_keys      = {_photo_key(u) for u in full_photos}
-        orphan_thumbs  = [u for u in thumb_photos if _photo_key(u) not in full_keys]
-
-        if full_photos or thumb_photos:
-            photos = full_photos + orphan_thumbs
-        elif other_photos:
-            photos = other_photos
-        else:
-            photos = _parse_photos_from_raw(raw_html)
-
-        # ── Specs + fiyat + lokasyon ──────────────────────────────────────────
-        specs    = _extract_specs_from_raw(raw_html)
-        price    = specs.get("Fiyat") or _extract_price_tr(raw_html)
-
-        loc_parts = [x for x in [
-            specs.get("Mahalle", ""),
-            specs.get("İlçe", ""),
-            specs.get("Şehir", ""),
-        ] if x]
-        location = ", ".join(loc_parts) if loc_parts else _extract_location_from_raw(raw_html)
-
-        title = url
-        try:
-            from bs4 import BeautifulSoup as _BS
-            soup_tmp = _BS(html_mod.unescape(raw_html), "html.parser")
-            t_tag = soup_tmp.find("title")
-            if t_tag:
-                title = t_tag.get_text(strip=True) or url
-        except Exception:
-            pass
-
-        print(f"    ✓ Fotoğraf: {len(photos)} | Fiyat: {price} | Lokasyon: {location}")
-
-        return {
-            "ok":          True,
-            "source":      "sahibinden_playwright_pagespeed",
-            "title":       title,
-            "price":       price,
-            "location":    location,
-            "specs":       specs,
-            "description": "",
-            "images":      photos,
-            "photo_count": len(photos),
-            "photo_types": {
-                "full":  len(full_photos),
-                "thumb": len(thumb_photos),
-                "other": len(other_photos),
-            },
-            "screenshot":  "",
-        }
-
+        return asyncio.run(_scrape_via_pagespeed_async(url))
     except Exception as e:
         print(f"    ✗ Playwright hatası: {e}")
         return {"ok": False, "error": str(e)}
-
 
 def _scrape_hepsiemlak(url: str) -> dict:
     try:
