@@ -897,6 +897,179 @@ tr:hover td { background:var(--ink3); color:var(--plat) }
 
 <div id="homepage">
 <div class="home-intro"><div class="home-intro-title">Tüm <strong>Projeler</strong></div><div class="home-count">16 Proje</div></div>
+<!-- ═══════════════════════════════════════════════════
+     PROJE HARİTASI
+═══════════════════════════════════════════════════ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+.map-section {
+  max-width:1400px; margin:0 auto;
+  padding:0 72px 48px;
+}
+.map-section-label {
+  font-family:var(--mono); font-size:.65rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:12px;
+}
+.map-section-label::after {
+  content:""; flex:1; height:1px;
+  background:linear-gradient(90deg, var(--border2), transparent);
+}
+.map-wrapper {
+  border-radius:var(--r2);
+  overflow:hidden;
+  border:1px solid var(--border2);
+  box-shadow:0 24px 80px rgba(0,0,0,.6), 0 0 0 1px var(--border);
+  position:relative;
+}
+#proj-map {
+  width:100%; height:480px;
+  background:var(--ink2);
+}
+/* Leaflet overrides for dark theme */
+.leaflet-tile { filter:brightness(.85) saturate(.8) }
+.leaflet-container { font-family:var(--sans); background:var(--ink2) }
+.leaflet-control-zoom a {
+  background:rgba(7,7,18,.92) !important;
+  border-color:var(--border2) !important;
+  color:var(--gold) !important;
+  font-family:var(--mono);
+}
+.leaflet-control-zoom a:hover { background:rgba(200,165,90,.12) !important; }
+.leaflet-control-attribution {
+  background:rgba(7,7,18,.7) !important;
+  color:var(--plat3) !important;
+  font-family:var(--mono); font-size:.5rem;
+}
+.leaflet-control-attribution a { color:var(--plat3) !important }
+/* Custom popup */
+.leaflet-popup-content-wrapper {
+  background:rgba(8,8,15,.95) !important;
+  border:1px solid var(--border2) !important;
+  border-radius:12px !important;
+  box-shadow:0 12px 40px rgba(0,0,0,.7) !important;
+  backdrop-filter:blur(16px);
+}
+.leaflet-popup-tip { background:rgba(8,8,15,.95) !important }
+.leaflet-popup-content { margin:0 !important }
+.map-popup {
+  padding:14px 18px;
+  min-width:180px;
+}
+.map-popup-num {
+  font-family:var(--mono); font-size:.55rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:6px;
+}
+.map-popup-name {
+  font-family:var(--serif); font-size:1.05rem; font-weight:400;
+  color:var(--plat); margin-bottom:10px; line-height:1.25;
+}
+.map-popup-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase;
+  background:rgba(200,165,90,.1); border:1px solid var(--border2);
+  color:var(--gold2); border-radius:999px;
+  padding:6px 14px; cursor:pointer;
+  transition:all .2s; text-decoration:none; width:100%; justify-content:center;
+}
+.map-popup-btn:hover { background:rgba(200,165,90,.22); border-color:var(--gold) }
+/* Marker pulse */
+.proj-marker-wrap {
+  position:relative;
+  cursor:pointer;
+}
+@media (max-width:768px) {
+  .map-section { padding:0 20px 40px }
+  #proj-map { height:360px }
+}
+</style>
+
+<div class="map-section">
+  <div class="map-section-label">📍 Proje Konumları</div>
+  <div class="map-wrapper">
+    <div id="proj-map"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var projects = [
+    { id:'S_POINT_VIP_SARAY',           name:'S POINT - VIP SARAY',                   num:'01', lat:40.0800, lng:32.9850 },
+    { id:'NATURA_BANLIYO',              name:'NATURA BANLİYO',                         num:'02', lat:39.9200, lng:32.8100 },
+    { id:'VIP_CAKIRLAR',                name:'VIP ÇAKIRLAR',                           num:'03', lat:39.9805, lng:32.6878 },
+    { id:'TRIOLE_YASAM',                name:'TRIOLE YAŞAM',                           num:'04', lat:39.8742, lng:32.5960 },
+    { id:'VIP_YASAMKENT',               name:'VIP YAŞAMKENT',                          num:'05', lat:40.0637, lng:32.9174 },
+    { id:'MONZA_EYLUL_CONCEPT_VIP_CAKIRLAR', name:'MONZA EYLÜL CONCEPT - VIP ÇAKIRLAR', num:'06', lat:40.0042, lng:32.7274 },
+    { id:'GOKDEMIR_IMZA',               name:'GÖKDEMİR İMZA',                          num:'07', lat:39.8007, lng:32.6972 },
+    { id:'VIP_AKADEMI',                 name:'VIP AKADEMİ',                            num:'08', lat:39.9751, lng:32.7955 },
+    { id:'NEVA_START_BRAVO',            name:'NEVA - START BRAVO',                     num:'09', lat:39.9228, lng:32.8257 },
+    { id:'VIP_AKADEMI_2',               name:'VIP AKADEMİ 2',                          num:'10', lat:39.9800, lng:32.8050 },
+    { id:'MONZA_MOON',                  name:'MONZA MOON',                             num:'11', lat:39.8283, lng:32.5601 },
+    { id:'NARCIN_RONYA_CITY_1_VIP_WEST',name:'NARÇİN RONYA CITY - 1 (VIP WEST)',      num:'12', lat:39.8320, lng:32.5650 },
+    { id:'VIVA_START_BRAVO',            name:'VIVA - START BRAVO',                     num:'13', lat:39.9884, lng:32.6634 },
+    { id:'IDEA_START_BRAVO',            name:'IDEA - START BRAVO',                     num:'14', lat:39.9150, lng:32.8400 },
+    { id:'ANGIM_BEYTEPE',               name:'ANGİM BEYTEPE',                          num:'15', lat:39.8700, lng:32.7100 },
+    { id:'EVART_YALIKAVAK',             name:'EVART YALIKAVAK',                        num:'16', lat:37.1167, lng:27.3311 }
+  ];
+
+  // Init map centered on Ankara
+  var map = L.map('proj-map', {
+    center: [39.92, 32.75],
+    zoom: 10,
+    zoomControl: true,
+    attributionControl: true
+  });
+
+  // Dark tile layer
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Custom SVG marker
+  function makeIcon(num) {
+    var svg = [
+      '<svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">',
+      '<defs>',
+      '<filter id="ds" x="-30%" y="-10%" width="160%" height="160%">',
+      '<feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,.6)"/>',
+      '</filter>',
+      '</defs>',
+      '<g filter="url(#ds)">',
+      '<path d="M19 2C10.7 2 4 8.7 4 17c0 10.5 15 27 15 27S34 27.5 34 17c0-8.3-6.7-15-15-15z" fill="#C8A55A"/>',
+      '<circle cx="19" cy="17" r="9" fill="#08080F"/>',
+      '<text x="19" y="21" font-family="DM Mono,monospace" font-size="8" font-weight="400" fill="#C8A55A" text-anchor="middle" letter-spacing="0.5">',num,'</text>',
+      '</g>',
+      '</svg>'
+    ].join('');
+    return L.divIcon({
+      html: svg,
+      className: 'proj-marker-wrap',
+      iconSize: [38, 46],
+      iconAnchor: [19, 46],
+      popupAnchor: [0, -48]
+    });
+  }
+
+  projects.forEach(function(p) {
+    var popup = L.popup({ closeButton:true, className:'proj-map-popup', maxWidth:240 }).setContent(
+      '<div class="map-popup">' +
+        '<div class="map-popup-num">Proje ' + p.num + '</div>' +
+        '<div class="map-popup-name">' + p.name + '</div>' +
+        '<button class="map-popup-btn" onclick="(function(){' +
+          'document.querySelector(\'.leaflet-popup-close-button\').click();' +
+          'setTimeout(function(){openProjectAnim(document.querySelector(\'[aria-label=\\"' + p.name.replace(/"/g,'&quot;') + '\\"]\'),\'' + p.id + '\');},150);' +
+        '})()">Projeyi Gör →</button>' +
+      '</div>'
+    );
+    L.marker([p.lat, p.lng], { icon: makeIcon(p.num) })
+      .addTo(map)
+      .bindPopup(popup);
+  });
+})();
+</script>
+
 <div class="home-grid">
 <div class="proj-card" onclick="openProjectAnim(this,'S_POINT_VIP_SARAY')" tabindex="0" role="button"
      onkeydown="if(event.key==='Enter')openProjectAnim(this,'S_POINT_VIP_SARAY')"
@@ -2906,7 +3079,7 @@ tr:hover td { background:var(--ink3); color:var(--plat) }
 <!-- ── FOOTER ────────────────────────────────────── -->
 <footer>
   <span class="footer-logo">◈ Proje Sunumu</span>
-  <span class="footer-meta">drive_to_html.py · 10.04.2026 22:01</span>
+
 </footer>
 
 <script>
