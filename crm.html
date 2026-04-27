@@ -146,6 +146,60 @@
         .timeline-dot.comment { background: #10b981; }
         .timeline-dot.reminder { background: #f59e0b; }
         .timeline-dot.stage { background: #8b5cf6; }
+        .timeline-dot.screenshot { background: #06b6d4; }
+
+        /* SCREENSHOT GALLERY */
+        .screenshot-dropzone {
+            border: 2px dashed rgba(6,182,212,0.35);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(6,182,212,0.04);
+        }
+        .screenshot-dropzone:hover, .screenshot-dropzone.drag-over {
+            border-color: #06b6d4;
+            background: rgba(6,182,212,0.1);
+        }
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .screenshot-thumb {
+            position: relative;
+            aspect-ratio: 16/10;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        .screenshot-thumb:hover { border-color: #06b6d4; transform: scale(1.02); }
+        .screenshot-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .screenshot-thumb .thumb-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0);
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            transition: all 0.2s;
+        }
+        .screenshot-thumb:hover .thumb-overlay { background: rgba(0,0,0,0.55); }
+        .screenshot-thumb:hover .thumb-overlay button { opacity: 1; }
+        .screenshot-thumb .thumb-overlay button { opacity: 0; transition: opacity 0.2s; }
+        /* Lightbox */
+        .screenshot-lightbox {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.92);
+            display: flex; align-items: center; justify-content: center;
+            padding: 1rem;
+        }
+        .screenshot-lightbox img {
+            max-width: 100%; max-height: 90vh;
+            border-radius: 12px; box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+        }
 
         /* REMINDER CARD */
         .reminder-card {
@@ -1195,6 +1249,65 @@
                                 <p class="text-xs text-gray-600 mt-1">Ctrl+Enter ile gönder</p>
                             </div>
 
+                            <!-- SCREENSHOT UPLOAD -->
+                            <div class="glass rounded-xl p-4">
+                                <p class="text-xs text-gray-400 mb-3 font-medium uppercase tracking-wide flex items-center gap-2">
+                                    <i class="fas fa-camera text-cyan-400"></i>Ekran Görüntüleri
+                                    <span v-if="activeLeadScreenshots.length > 0" class="badge badge-info ml-auto" style="font-size:0.65rem;padding:2px 8px;">{{ activeLeadScreenshots.length }}</span>
+                                </p>
+
+                                <!-- Drop zone -->
+                                <div class="screenshot-dropzone"
+                                     :class="{ 'drag-over': screenshotDragOver }"
+                                     @click="$refs.screenshotInput.click()"
+                                     @dragover.prevent="screenshotDragOver = true"
+                                     @dragleave="screenshotDragOver = false"
+                                     @drop.prevent="onScreenshotDrop"
+                                     @paste.prevent="onScreenshotPaste">
+                                    <div v-if="screenshotUploading" class="flex items-center justify-center gap-2 py-2">
+                                        <i class="fas fa-spinner fa-spin text-cyan-400"></i>
+                                        <span class="text-xs text-cyan-400">Yükleniyor...</span>
+                                    </div>
+                                    <div v-else class="py-2">
+                                        <i class="fas fa-cloud-upload-alt text-2xl text-cyan-500 mb-1 block"></i>
+                                        <p class="text-xs text-gray-400">Tıkla, sürükle ya da <kbd class="px-1 py-0.5 rounded text-xs" style="background:rgba(255,255,255,0.08);">Ctrl+V</kbd> ile yapıştır</p>
+                                        <p class="text-gray-600 text-xs mt-0.5">PNG, JPG, WEBP · maks 5 MB</p>
+                                    </div>
+                                </div>
+                                <input ref="screenshotInput" type="file" accept="image/*" multiple class="hidden" @change="onScreenshotFileChange">
+
+                                <!-- Gallery -->
+                                <div v-if="activeLeadScreenshots.length > 0" class="screenshot-grid">
+                                    <div v-for="ss in activeLeadScreenshots" :key="ss.id" class="screenshot-thumb">
+                                        <img :src="ss.url" :alt="ss.name" @click="screenshotLightboxUrl = ss.url" loading="lazy">
+                                        <div class="thumb-overlay">
+                                            <button @click.stop="screenshotLightboxUrl = ss.url"
+                                                    class="w-7 h-7 rounded-full flex items-center justify-center text-white"
+                                                    style="background:rgba(6,182,212,0.7);">
+                                                <i class="fas fa-expand-alt text-xs"></i>
+                                            </button>
+                                            <button @click.stop="deleteScreenshot(ss)"
+                                                    class="w-7 h-7 rounded-full flex items-center justify-center text-white"
+                                                    style="background:rgba(239,68,68,0.7);">
+                                                <i class="fas fa-trash text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p v-else class="text-xs text-gray-600 mt-2 text-center">Henüz ekran görüntüsü yok</p>
+                            </div>
+
+                            <!-- LIGHTBOX -->
+                            <teleport to="body">
+                                <div v-if="screenshotLightboxUrl" class="screenshot-lightbox" @click="screenshotLightboxUrl = null">
+                                    <button class="absolute top-4 right-4 text-white text-2xl hover:text-cyan-400 transition-colors z-10"
+                                            @click.stop="screenshotLightboxUrl = null">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <img :src="screenshotLightboxUrl" @click.stop>
+                                </div>
+                            </teleport>
+
                             <!-- TIMELINE -->
                             <div>
                                 <p class="text-xs text-gray-400 mb-4 font-medium uppercase tracking-wide flex items-center gap-2">
@@ -2008,6 +2121,9 @@
                 if (contact._fromWeb || webLeads.value.find(l => l.id === contact.id)) {
                     loadWebLeadEvents(contact.id);
                 }
+                // Ekran görüntülerini yükle
+                activeLeadScreenshots.value = [];
+                _loadScreenshots(contact.id, !!(contact._fromWeb || webLeads.value.find(l => l.id === contact.id)));
             };
 
             const openLeadPanelById = (contactId) => {
@@ -2096,6 +2212,103 @@
                 } catch (e) {
                     showToast('Silme hatası', 'fas fa-times-circle text-red-400');
                 }
+            };
+
+            // ── SCREENSHOT ─────────────────────────────────────────────────
+            const screenshotUploading  = Vue.ref(false);
+            const screenshotDragOver   = Vue.ref(false);
+            const screenshotLightboxUrl = Vue.ref(null);
+            const activeLeadScreenshots = Vue.ref([]);
+
+            const _loadScreenshots = async (contactId, isWeb) => {
+                if (!user.value || !contactId) { activeLeadScreenshots.value = []; return; }
+                try {
+                    const collRef = isWeb
+                        ? db.collection('leads').doc(contactId).collection('screenshots').orderBy('createdAt', 'desc')
+                        : db.collection('users').doc(user.value.uid).collection('contacts').doc(contactId).collection('screenshots').orderBy('createdAt', 'desc');
+                    const snap = await collRef.get();
+                    // dataUrl → url alias (template her ikisini de destekler)
+                    activeLeadScreenshots.value = snap.docs.map(d => {
+                        const data = d.data();
+                        return { id: d.id, url: data.dataUrl || data.url, ...data };
+                    });
+                } catch(e) { activeLeadScreenshots.value = []; }
+            };
+
+            // Canvas ile sıkıştır → base64 döner (Firebase Storage gerekmez)
+            const _compressImage = (file, maxW = 1400, quality = 0.78) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = reject;
+                reader.onload = (ev) => {
+                    const img = new Image();
+                    img.onerror = reject;
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > maxW) { height = Math.round(height * maxW / width); width = maxW; }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width; canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            const _uploadOneScreenshot = async (file) => {
+                if (!activeLead.value || !user.value) return;
+                if (!file.type.startsWith('image/')) {
+                    showToast('Sadece resim dosyaları yüklenebilir', 'fas fa-times-circle text-red-400'); return;
+                }
+                screenshotUploading.value = true;
+                try {
+                    const dataUrl = await _compressImage(file);
+                    const isWeb = activeLead.value._fromWeb;
+                    const meta = {
+                        dataUrl,
+                        name: file.name || ('screenshot_' + Date.now() + '.jpg'),
+                        createdAt: new Date().toISOString()
+                    };
+                    const collRef = isWeb
+                        ? db.collection('leads').doc(activeLead.value.id).collection('screenshots')
+                        : db.collection('users').doc(user.value.uid).collection('contacts').doc(activeLead.value.id).collection('screenshots');
+                    const docRef = await collRef.add(meta);
+                    activeLeadScreenshots.value.unshift({ id: docRef.id, url: dataUrl, ...meta });
+                    showToast('Ekran görüntüsü kaydedildi ✓', 'fas fa-check-circle text-cyan-400');
+                } catch(e) {
+                    console.error('Screenshot hata:', e);
+                    showToast('Hata: ' + (e.message || String(e)), 'fas fa-times-circle text-red-400');
+                } finally {
+                    screenshotUploading.value = false;
+                }
+            };
+
+            const onScreenshotFileChange = async (e) => {
+                for (const f of Array.from(e.target.files || [])) await _uploadOneScreenshot(f);
+                e.target.value = '';
+            };
+            const onScreenshotDrop = async (e) => {
+                screenshotDragOver.value = false;
+                for (const f of Array.from(e.dataTransfer.files || []).filter(f => f.type.startsWith('image/')))
+                    await _uploadOneScreenshot(f);
+            };
+            const onScreenshotPaste = async (e) => {
+                for (const item of Array.from(e.clipboardData?.items || []).filter(i => i.type.startsWith('image/'))) {
+                    const file = item.getAsFile();
+                    if (file) await _uploadOneScreenshot(file);
+                }
+            };
+            const deleteScreenshot = async (ss) => {
+                if (!confirm('Bu ekran görüntüsü silinsin mi?')) return;
+                try {
+                    const isWeb = activeLead.value._fromWeb;
+                    const collRef = isWeb
+                        ? db.collection('leads').doc(activeLead.value.id).collection('screenshots')
+                        : db.collection('users').doc(user.value.uid).collection('contacts').doc(activeLead.value.id).collection('screenshots');
+                    await collRef.doc(ss.id).delete();
+                    activeLeadScreenshots.value = activeLeadScreenshots.value.filter(s => s.id !== ss.id);
+                    showToast('Silindi', 'fas fa-trash text-red-400');
+                } catch(e) { showToast('Silme hatası: ' + e.message, 'fas fa-times-circle text-red-400'); }
             };
 
             // ── REMINDERS ─────────────────────────────────────────
@@ -2678,6 +2891,9 @@
                 openLeadPanel, openLeadPanelById, closeLeadPanel, updateLeadStage,
                 addComment, deleteComment, addReminderForLead, quickReminder, sendTelegramNow,
                 doneReminder, deleteReminderFn,
+                // ── SCREENSHOT ──
+                screenshotUploading, screenshotDragOver, screenshotLightboxUrl, activeLeadScreenshots,
+                onScreenshotFileChange, onScreenshotDrop, onScreenshotPaste, deleteScreenshot,
                 // ── FOLLOWUP FUNCTIONS ──
                 startFollowupPlan, cancelFollowupPlan, sendFollowupNow,
                 startEditFollowupWeek, saveFollowupNote, formatDateShort,
