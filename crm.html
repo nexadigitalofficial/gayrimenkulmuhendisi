@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/Tz1MNtv/Whats-App-mage-2026-02-14-at-12-33-50.jpg">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nexa CRM Pro - Süreç Yönetimi</title>
@@ -382,8 +382,8 @@
             <div class="max-w-7xl mx-auto px-4 py-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                            <i class="fas fa-chart-line text-xl text-white"></i>
+                        <div class="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0">
+                            <img src="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png" alt="Yiğit Narin" style="width:100%;height:100%;object-fit:cover;">
                         </div>
                         <div>
                             <h1 class="text-lg font-bold">Nexa CRM Pro</h1>
@@ -1425,49 +1425,6 @@
                             <label class="block text-sm font-medium mb-2">Notlar</label>
                             <textarea v-model="editingContact.notes" rows="3"></textarea>
                         </div>
-
-                        <!-- MODAL SCREENSHOT UPLOAD -->
-                        <div>
-                            <label class="block text-sm font-medium mb-2 flex items-center gap-2">
-                                <i class="fas fa-camera text-cyan-400"></i>Ekran Görüntüleri
-                                <span v-if="modalScreenshots.length > 0" class="badge badge-info" style="font-size:0.65rem;padding:2px 8px;">{{ modalScreenshots.length }}</span>
-                            </label>
-                            <div class="screenshot-dropzone"
-                                 :class="{ 'drag-over': modalScreenshotDragOver }"
-                                 @click="$refs.modalScreenshotInput.click()"
-                                 @dragover.prevent="modalScreenshotDragOver = true"
-                                 @dragleave="modalScreenshotDragOver = false"
-                                 @drop.prevent="onModalScreenshotDrop"
-                                 @paste.prevent="onModalScreenshotPaste">
-                                <div v-if="modalScreenshotUploading" class="flex items-center justify-center gap-2 py-2">
-                                    <i class="fas fa-spinner fa-spin text-cyan-400"></i>
-                                    <span class="text-xs text-cyan-400">İşleniyor...</span>
-                                </div>
-                                <div v-else class="py-2">
-                                    <i class="fas fa-image text-2xl text-cyan-500 mb-1 block"></i>
-                                    <p class="text-xs text-gray-400">Tıkla, sürükle ya da <kbd class="px-1 py-0.5 rounded text-xs" style="background:rgba(255,255,255,0.08);">Ctrl+V</kbd></p>
-                                </div>
-                            </div>
-                            <input ref="modalScreenshotInput" type="file" accept="image/*" multiple class="hidden" @change="onModalScreenshotFileChange">
-                            <div v-if="modalScreenshots.length > 0" class="screenshot-grid mt-2">
-                                <div v-for="(ss, idx) in modalScreenshots" :key="ss.tempId || ss.id" class="screenshot-thumb">
-                                    <img :src="ss.url" :alt="ss.name" @click="screenshotLightboxUrl = ss.url" loading="lazy">
-                                    <div class="thumb-overlay">
-                                        <button @click.stop="screenshotLightboxUrl = ss.url"
-                                                class="w-7 h-7 rounded-full flex items-center justify-center text-white"
-                                                style="background:rgba(6,182,212,0.7);">
-                                            <i class="fas fa-expand-alt text-xs"></i>
-                                        </button>
-                                        <button @click.stop="deleteModalScreenshot(ss, idx)"
-                                                class="w-7 h-7 rounded-full flex items-center justify-center text-white"
-                                                style="background:rgba(239,68,68,0.7);">
-                                            <i class="fas fa-trash text-xs"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="flex gap-3 pt-2">
                             <button type="submit" class="btn btn-primary flex-1 justify-center" :disabled="saving">
                                 <i class="fas" :class="saving ? 'fa-spinner fa-spin' : 'fa-save'"></i>
@@ -2128,8 +2085,6 @@
                     } else {
                         const docRef = await db.collection('users').doc(user.value.uid).collection('contacts').add(data);
                         contacts.value.push({ id: docRef.id, ...data });
-                        // Bekleyen screenshot'ları Firestore'a yaz
-                        await _flushPendingModalScreenshots(docRef.id);
                     }
                     showToast('Kaydedildi', 'fas fa-check-circle text-green-400');
                     closeContactModal();
@@ -2259,16 +2214,11 @@
                 }
             };
 
-            // ── SCREENSHOT (Lead Panel) ────────────────────────────────────
+            // ── SCREENSHOT ─────────────────────────────────────────────────
             const screenshotUploading  = Vue.ref(false);
             const screenshotDragOver   = Vue.ref(false);
             const screenshotLightboxUrl = Vue.ref(null);
             const activeLeadScreenshots = Vue.ref([]);
-
-            // ── SCREENSHOT (Contact Modal) ─────────────────────────────────
-            const modalScreenshots         = Vue.ref([]);   // [{tempId|id, url, dataUrl, name, pending?}]
-            const modalScreenshotUploading = Vue.ref(false);
-            const modalScreenshotDragOver  = Vue.ref(false);
 
             const _loadScreenshots = async (contactId, isWeb) => {
                 if (!user.value || !contactId) { activeLeadScreenshots.value = []; return; }
@@ -2359,68 +2309,6 @@
                     activeLeadScreenshots.value = activeLeadScreenshots.value.filter(s => s.id !== ss.id);
                     showToast('Silindi', 'fas fa-trash text-red-400');
                 } catch(e) { showToast('Silme hatası: ' + e.message, 'fas fa-times-circle text-red-400'); }
-            };
-
-            // ── MODAL SCREENSHOT ──────────────────────────────────────────
-            const _addModalScreenshot = async (file) => {
-                if (!file.type.startsWith('image/')) return;
-                modalScreenshotUploading.value = true;
-                try {
-                    const dataUrl = await _compressImage(file);
-                    const name = file.name || ('screenshot_' + Date.now() + '.jpg');
-                    // Mevcut kişi → Firestore'a direkt yaz
-                    if (editingContact.value.id) {
-                        const meta = { dataUrl, name, createdAt: new Date().toISOString() };
-                        const collRef = db.collection('users').doc(user.value.uid)
-                            .collection('contacts').doc(editingContact.value.id).collection('screenshots');
-                        const docRef = await collRef.add(meta);
-                        modalScreenshots.value.unshift({ id: docRef.id, url: dataUrl, ...meta });
-                    } else {
-                        // Yeni kişi → tempId ile beklet, kaydet sonrası yazılacak
-                        const tempId = 'temp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-                        modalScreenshots.value.unshift({ tempId, url: dataUrl, dataUrl, name, pending: true, createdAt: new Date().toISOString() });
-                    }
-                } catch(e) {
-                    showToast('Hata: ' + (e.message || String(e)), 'fas fa-times-circle text-red-400');
-                } finally {
-                    modalScreenshotUploading.value = false;
-                }
-            };
-            const onModalScreenshotFileChange = async (e) => {
-                for (const f of Array.from(e.target.files || [])) await _addModalScreenshot(f);
-                e.target.value = '';
-            };
-            const onModalScreenshotDrop = async (e) => {
-                modalScreenshotDragOver.value = false;
-                for (const f of Array.from(e.dataTransfer.files || []).filter(f => f.type.startsWith('image/')))
-                    await _addModalScreenshot(f);
-            };
-            const onModalScreenshotPaste = async (e) => {
-                for (const item of Array.from(e.clipboardData?.items || []).filter(i => i.type.startsWith('image/'))) {
-                    const file = item.getAsFile();
-                    if (file) await _addModalScreenshot(file);
-                }
-            };
-            const deleteModalScreenshot = async (ss, idx) => {
-                if (!confirm('Silinsin mi?')) return;
-                if (ss.id && editingContact.value.id) {
-                    try {
-                        await db.collection('users').doc(user.value.uid)
-                            .collection('contacts').doc(editingContact.value.id)
-                            .collection('screenshots').doc(ss.id).delete();
-                    } catch(e) {}
-                }
-                modalScreenshots.value.splice(idx, 1);
-            };
-            const _flushPendingModalScreenshots = async (contactId) => {
-                const pending = modalScreenshots.value.filter(s => s.pending);
-                if (!pending.length) return;
-                const collRef = db.collection('users').doc(user.value.uid)
-                    .collection('contacts').doc(contactId).collection('screenshots');
-                for (const ss of pending) {
-                    const { dataUrl, name, createdAt } = ss;
-                    await collRef.add({ dataUrl, name, createdAt });
-                }
             };
 
             // ── REMINDERS ─────────────────────────────────────────
@@ -2646,19 +2534,6 @@
             const openContactDetail = (contact) => {
                 editingContact.value = { ...contact };
                 showContactModal.value = true;
-                // Mevcut kişinin screenshot'larını yükle
-                modalScreenshots.value = [];
-                if (contact.id) {
-                    db.collection('users').doc(user.value.uid)
-                        .collection('contacts').doc(contact.id).collection('screenshots')
-                        .orderBy('createdAt', 'desc').get()
-                        .then(snap => {
-                            modalScreenshots.value = snap.docs.map(d => {
-                                const data = d.data();
-                                return { id: d.id, url: data.dataUrl || data.url, ...data };
-                            });
-                        }).catch(() => {});
-                }
             };
             const openAddContact = (stageId = null) => {
                 editingContact.value = {
@@ -2667,7 +2542,6 @@
                     source: 'manual',
                     name: '', phone: '', price: null, notes: ''
                 };
-                modalScreenshots.value = [];
                 showContactModal.value = true;
             };
             const closeContactModal = () => {
@@ -3020,9 +2894,6 @@
                 // ── SCREENSHOT ──
                 screenshotUploading, screenshotDragOver, screenshotLightboxUrl, activeLeadScreenshots,
                 onScreenshotFileChange, onScreenshotDrop, onScreenshotPaste, deleteScreenshot,
-                // ── MODAL SCREENSHOT ──
-                modalScreenshots, modalScreenshotUploading, modalScreenshotDragOver,
-                onModalScreenshotFileChange, onModalScreenshotDrop, onModalScreenshotPaste, deleteModalScreenshot,
                 // ── FOLLOWUP FUNCTIONS ──
                 startFollowupPlan, cancelFollowupPlan, sendFollowupNow,
                 startEditFollowupWeek, saveFollowupNote, formatDateShort,
