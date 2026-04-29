@@ -30,6 +30,7 @@ from mailer import (
 )
 from valuation import generate_valuation_report, valuation_status as gemini_status
 from ai_listing import scrape_listing, analyze_listing, ai_listing_status
+from fsbo_engine import analyze_fsbo, fsbo_engine_status
 
 # ── Firebase Admin SDK ──────────────────────────────────────────
 import firebase_admin
@@ -159,6 +160,10 @@ def init_firebase_admin():
         # Lokal'de ise service-account.json dosya yoludur.
         # İkisini de destekle:
         sa_value = SERVICE_ACCOUNT.strip()
+        # .env dosyasında değer tek/çift tırnakla sarılmış olabilir → temizle
+        if (sa_value.startswith("'") and sa_value.endswith("'")) or \
+           (sa_value.startswith('"') and sa_value.endswith('"')):
+            sa_value = sa_value[1:-1]
 
         if os.path.exists(sa_value):
             # Dosya yolu → klasik yöntem
@@ -1965,6 +1970,161 @@ def sunum_page():
         return send_file("sunum.html")
     except Exception as e:
         return f"sunum.html bulunamadı: {e}", 404
+
+
+
+# ================================================================
+# FSBO ENGINE ROUTES
+# ================================================================
+
+@app.route("/api/fsbo/status")
+def fsbo_status_route():
+    """FSBO analiz motorunun durumunu döner."""
+    return jsonify(fsbo_engine_status())
+
+
+@app.route("/api/fsbo/analyze", methods=["POST"])
+def fsbo_analyze():
+    """
+    Gemini 2.5 Flash ile FSBO stratejisi üretir.
+    Korumalı endpoint — Firebase ID token gerektirir.
+
+    Body: {
+        contact_data: {name, phone, district, price, stage, notes, category},
+        screenshots:  [base64_str, ...],
+        text_input:   "...",
+        audio_b64:    "data:audio/webm;base64,...",
+        audio_mime:   "audio/webm",
+        timeline:     [{type, text, createdAt}, ...]
+    }
+    """
+    token, err = _require_admin()
+    if err:
+        return jsonify({"ok": False, "error": err}), 401
+
+    body         = flask_request.json or {}
+    contact_data = body.get("contact_data", {})
+    screenshots  = body.get("screenshots", [])
+    text_input   = body.get("text_input", "")
+    audio_b64    = body.get("audio_b64")
+    audio_mime   = body.get("audio_mime", "audio/webm")
+    timeline     = body.get("timeline", [])
+
+    if not contact_data.get("name"):
+        return jsonify({"ok": False, "error": "contact_data.name zorunlu"}), 400
+
+    try:
+        result = analyze_fsbo(
+            contact_data = contact_data,
+            screenshots  = screenshots,
+            text_input   = text_input,
+            audio_b64    = audio_b64,
+            audio_mime   = audio_mime,
+            timeline     = timeline,
+        )
+        status = 200 if result.get("ok") else 500
+        return jsonify(result), status
+    except Exception as e:
+        print(f"❌ fsbo_analyze hatası: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/fsbo/save", methods=["POST"])
+def fsbo_save():
+    """
+    FSBO stratejisini Firebase'e kaydeder.
+    Body: {uid, contact_id, is_web, strategy, transcript}
+    """
+    token, err = _require_admin()
+    if err:
+        return jsonify({"ok": False, "error": err}), 401
+
+    if not _fb_initialized:
+        return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
+
+    body       = flask_request.json or {}
+    uid        = body.get("uid")
+    contact_id = body.get("contact_id")
+    is_web     = body.get("is_web", False)
+    strategy   = body.get("strategy")
+    transcript = body.get("transcript", "")
+
+    if not uid or not contact_id or not strategy:
+        return jsonify({"ok": False, "error": "uid, contact_id ve strategy zorunlu"}), 400
+
+    try:
+        now_iso = datetime.now(timezone.utc).isoformat()
+
+        if is_web:
+            coll_ref = (db_admin
+                        .collection("leads").document(contact_id)
+                        .collection("fsbo_strategies"))
+        else:
+            coll_ref = (db_admin
+                        .collection("users").document(uid)
+                        .collection("contacts").document(contact_id)
+                        .collection("fsbo_strategies"))
+
+        # Mevcut strateji sayısını al → numara ver
+        existing = list(coll_ref.limit(20).stream())
+        strat_num = len(existing) + 1
+
+        doc_ref = coll_ref.document()
+        doc_ref.set({
+            "strategy":   strategy,
+            "transcript": transcript,
+            "savedAt":    now_iso,
+            "stratNum":   strat_num,
+            "label":      f"FSBO Stratejim {strat_num}",
+            "resistance": strategy.get("resistance_level", ""),
+            "score":      strategy.get("confidence_score", 0),
+        })
+
+        # Timeline'a da yaz
+        if is_web:
+            db_admin.collection("leads").document(contact_id).collection("events").add({
+                "type":      "fsbo_strategy_saved",
+                "payload":   {"stratNum": strat_num, "score": strategy.get("confidence_score", 0), "resistance": strategy.get("resistance_level", "")},
+                "createdAt": now_iso,
+            })
+
+        print(f"✅ FSBO Stratejim {strat_num} kaydedildi: {contact_id}")
+        return jsonify({"ok": True, "id": doc_ref.id, "stratNum": strat_num})
+    except Exception as e:
+        print(f"❌ fsbo_save hatası: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/fsbo/delete", methods=["POST"])
+def fsbo_delete():
+    """FSBO stratejisini siler."""
+    token, err = _require_admin()
+    if err:
+        return jsonify({"ok": False, "error": err}), 401
+
+    if not _fb_initialized:
+        return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
+
+    body        = flask_request.json or {}
+    uid         = body.get("uid")
+    contact_id  = body.get("contact_id")
+    strategy_id = body.get("strategy_id")
+    is_web      = body.get("is_web", False)
+
+    if not uid or not contact_id or not strategy_id:
+        return jsonify({"ok": False, "error": "uid, contact_id ve strategy_id zorunlu"}), 400
+
+    try:
+        if is_web:
+            (db_admin.collection("leads").document(contact_id)
+             .collection("fsbo_strategies").document(strategy_id).delete())
+        else:
+            (db_admin.collection("users").document(uid)
+             .collection("contacts").document(contact_id)
+             .collection("fsbo_strategies").document(strategy_id).delete())
+        return jsonify({"ok": True})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
 
 
 bootstrap_app()
