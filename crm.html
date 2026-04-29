@@ -256,6 +256,60 @@
         /* SCROLLABLE PANEL */
         .panel-scroll { scrollbar-width: thin; scrollbar-color: #4f46e5 transparent; }
 
+        /* ── PANEL TABS ─────────────────────────── */
+        .panel-tabs { display: flex; gap: 0.25rem; padding: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 14px; }
+        .panel-tab { flex: 1; padding: 0.5rem 0.25rem; border-radius: 10px; font-size: 0.7rem; font-weight: 700; text-align: center; cursor: pointer; transition: all 0.2s; color: #64748b; background: transparent; border: none; letter-spacing: 0.03em; text-transform: uppercase; }
+        .panel-tab.active { background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; box-shadow: 0 4px 12px rgba(99,102,241,0.35); }
+        .panel-tab:hover:not(.active) { color: #a5b4fc; background: rgba(99,102,241,0.08); }
+        .panel-tab-icon { display: block; font-size: 1rem; margin-bottom: 0.15rem; }
+
+        /* ── FSBO ANALYSIS ──────────────────────── */
+        .fsbo-input-zone { border: 2px dashed rgba(251,191,36,0.3); border-radius: 14px; padding: 1rem; background: rgba(251,191,36,0.03); transition: all 0.2s; }
+        .fsbo-input-zone.active { border-color: #fbbf24; background: rgba(251,191,36,0.07); }
+        .fsbo-score-ring { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 800; border: 3px solid; }
+        .fsbo-score-high { border-color: #22c55e; color: #22c55e; background: rgba(34,197,94,0.1); }
+        .fsbo-score-mid  { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.1); }
+        .fsbo-score-low  { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.1); }
+        .fsbo-card { border-radius: 14px; padding: 1rem; background: rgba(30,41,59,0.4); border: 1px solid rgba(255,255,255,0.06); margin-bottom: 0.75rem; }
+        .fsbo-card-header { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+        .fsbo-q-item { padding: 0.6rem 0.75rem; border-radius: 10px; background: rgba(99,102,241,0.07); border-left: 3px solid #6366f1; margin-bottom: 0.4rem; }
+        .fsbo-obj-item { padding: 0.6rem 0.75rem; border-radius: 10px; background: rgba(245,158,11,0.06); border-left: 3px solid #f59e0b; margin-bottom: 0.4rem; }
+        .fsbo-action-item { padding: 0.5rem 0.75rem; border-radius: 10px; display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.4rem; }
+        .fsbo-action-acil { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+        .fsbo-action-yuksek { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+        .fsbo-action-orta { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); }
+        .fsbo-action-dusuk { background: rgba(100,116,139,0.08); border: 1px solid rgba(100,116,139,0.2); }
+        .fsbo-followup-step { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .fsbo-followup-step:last-child { border-bottom: none; }
+        .fsbo-step-num { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#6366f1,#8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; flex-shrink: 0; color: #fff; }
+        .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        .swot-cell { padding: 0.6rem; border-radius: 10px; }
+        .swot-s { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
+        .swot-w { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+        .swot-o { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); }
+        .swot-t { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); }
+        .swot-title { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+        .saved-strategy-card { padding: 0.75rem 1rem; border-radius: 12px; background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.2); margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s; }
+        .saved-strategy-card:hover { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.35); }
+        .saved-strategy-card.active-strat { background: rgba(251,191,36,0.14); border-color: #fbbf24; }
+        .audio-record-btn { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #ef4444; background: rgba(239,68,68,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .audio-record-btn.recording { background: #ef4444; animation: pulse-rec 1s infinite; }
+        @keyframes pulse-rec { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 50% { box-shadow: 0 0 0 8px rgba(239,68,68,0); } }
+        .fsbo-analyzing { display: flex; flex-direction: column; align-items: center; padding: 2rem; gap: 1rem; }
+        .fsbo-analyzing .spinner { width: 48px; height: 48px; border: 3px solid rgba(251,191,36,0.2); border-top-color: #fbbf24; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .resistance-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; }
+        .resistance-dusuk { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+        .resistance-orta  { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+        .resistance-yuksek { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        .fsbo-verdict { padding: 1rem; border-radius: 12px; background: linear-gradient(135deg,rgba(251,191,36,0.08),rgba(245,158,11,0.04)); border: 1px solid rgba(251,191,36,0.25); font-size: 0.85rem; line-height: 1.6; color: #e2e8f0; }
+        .transcript-box { background: rgba(0,0,0,0.25); border-radius: 10px; padding: 0.75rem; font-size: 0.75rem; line-height: 1.6; color: #94a3b8; max-height: 120px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); }
+        .channel-tag { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.65rem; font-weight: 700; }
+        .channel-whatsapp { background: rgba(34,197,94,0.15); color: #4ade80; }
+        .channel-telefon { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .channel-email { background: rgba(139,92,246,0.15); color: #a78bfa; }
+        .channel-yuz { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
         /* COMMENT BOX */
         .comment-box { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 10px; padding: 0.75rem; }
 
@@ -1029,8 +1083,29 @@
                             </div>
                         </div>
 
+                        <!-- PANEL TAB NAV -->
+                        <div class="px-5 pt-4 pb-0">
+                            <div class="panel-tabs">
+                                <button @click="leadPanelTab='ozet'" :class="['panel-tab', leadPanelTab==='ozet'?'active':'']">
+                                    <i class="fas fa-user panel-tab-icon"></i>Özet
+                                </button>
+                                <button @click="leadPanelTab='fsbo'" :class="['panel-tab', leadPanelTab==='fsbo'?'active':'']" :style="leadPanelTab!=='fsbo'?'color:#fbbf24':''">
+                                    <i class="fas fa-robot panel-tab-icon" :style="leadPanelTab!=='fsbo'?'color:#fbbf24':''"></i>FSBO
+                                </button>
+                                <button @click="leadPanelTab='medya'" :class="['panel-tab', leadPanelTab==='medya'?'active':'']">
+                                    <i class="fas fa-camera panel-tab-icon"></i>Medya
+                                </button>
+                                <button @click="leadPanelTab='gecmis'" :class="['panel-tab', leadPanelTab==='gecmis'?'active':'']">
+                                    <i class="fas fa-history panel-tab-icon"></i>Geçmiş
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- PANEL BODY -->
-                        <div class="p-5 space-y-6">
+                        <div class="p-5 space-y-4">
+                            <!-- ══ TAB: ÖZET ══ -->
+                            <template v-if="leadPanelTab==='ozet'">
+
                             <!-- STAGE CHANGE -->
                             <div class="glass rounded-xl p-4">
                                 <div class="flex items-center justify-between mb-2">
@@ -1249,6 +1324,11 @@
                                 <p class="text-xs text-gray-600 mt-1">Ctrl+Enter ile gönder</p>
                             </div>
 
+                            </template><!-- /ozet -->
+
+                            <!-- ══ TAB: MEDYA ══ -->
+                            <template v-if="leadPanelTab==='medya'">
+
                             <!-- SCREENSHOT UPLOAD -->
                             <div class="glass rounded-xl p-4">
                                 <p class="text-xs text-gray-400 mb-3 font-medium uppercase tracking-wide flex items-center gap-2">
@@ -1308,6 +1388,11 @@
                                 </div>
                             </teleport>
 
+                            </template><!-- /medya -->
+
+                            <!-- ══ TAB: GEÇMİŞ ══ -->
+                            <template v-if="leadPanelTab==='gecmis'">
+
                             <!-- TIMELINE -->
                             <div>
                                 <p class="text-xs text-gray-400 mb-4 font-medium uppercase tracking-wide flex items-center gap-2">
@@ -1346,8 +1431,311 @@
                                 </div>
                             </div>
 
+                            </template><!-- /gecmis -->
+
+                            <!-- ══ TAB: FSBO ══ -->
+                            <template v-if="leadPanelTab==='fsbo'">
+
+                                <!-- ─── INPUT SECTION ─────────────────────── -->
+                                <div class="glass rounded-xl p-4">
+                                    <p class="fsbo-card-header" style="color:#fbbf24;">
+                                        <i class="fas fa-brain text-yellow-400"></i>AI FSBO Analiz Motoru
+                                        <span v-if="fsboStrategies.length > 0" class="ml-auto badge" style="background:rgba(251,191,36,0.15);color:#fbbf24;font-size:0.6rem;">{{ fsboStrategies.length }} Kayıtlı Strateji</span>
+                                    </p>
+
+                                    <!-- Text input -->
+                                    <div class="mb-3">
+                                        <label class="block text-xs font-semibold text-gray-400 mb-1.5">
+                                            <i class="fas fa-align-left mr-1 text-indigo-400"></i>Manuel Not / Konuşma Metni
+                                        </label>
+                                        <textarea v-model="fsboTextInput" rows="3" placeholder="Kopyala-yapıştır: ilan açıklaması, WhatsApp konuşması, görüşme notu, sahibinden.com metni..." class="text-xs" style="min-height:70px;line-height:1.5;"></textarea>
+                                    </div>
+
+                                    <!-- Audio upload -->
+                                    <div class="mb-3">
+                                        <label class="block text-xs font-semibold text-gray-400 mb-1.5">
+                                            <i class="fas fa-microphone mr-1 text-red-400"></i>Ses Kaydı Yükle
+                                        </label>
+                                        <div class="flex items-center gap-3">
+                                            <div :class="['audio-record-btn', fsboRecording ? 'recording':'']" @click="toggleFsboRecording" :title="fsboRecording ? 'Kaydı Durdur' : 'Mikrofon Kaydı Başlat'">
+                                                <i :class="['fas', fsboRecording ? 'fa-stop':'fa-microphone', 'text-red-400']"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div v-if="fsboRecording" class="flex items-center gap-2">
+                                                    <span class="text-red-400 text-xs font-bold animate-pulse">● Kayıt yapılıyor...</span>
+                                                    <span class="text-xs text-gray-500">{{ fsboRecordingTime }}s</span>
+                                                </div>
+                                                <div v-else-if="fsboAudioBlob" class="flex items-center gap-2">
+                                                    <i class="fas fa-check-circle text-green-400 text-xs"></i>
+                                                    <span class="text-xs text-green-400">Ses kaydedildi ({{ (fsboAudioBlob.size / 1024).toFixed(0) }} KB)</span>
+                                                    <button @click="fsboAudioBlob=null; fsboAudioB64=null" class="text-xs text-red-400 hover:text-red-300"><i class="fas fa-times"></i></button>
+                                                </div>
+                                                <div v-else>
+                                                    <p class="text-xs text-gray-500">ya da dosya yükle:</p>
+                                                </div>
+                                                <input ref="fsboAudioInput" type="file" accept="audio/*" class="hidden" @change="onFsboAudioFile">
+                                                <button v-if="!fsboRecording && !fsboAudioBlob" @click="$refs.fsboAudioInput.click()" class="mt-1 text-xs text-gray-400 hover:text-gray-300 flex items-center gap-1">
+                                                    <i class="fas fa-upload"></i> Dosyadan seç
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- Transcript preview -->
+                                        <div v-if="fsboTranscript" class="mt-2">
+                                            <p class="text-xs text-gray-500 mb-1 flex items-center gap-1"><i class="fas fa-file-alt text-indigo-400"></i> Transkript:</p>
+                                            <div class="transcript-box">{{ fsboTranscript }}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Info: screenshots from medya tab -->
+                                    <div v-if="activeLeadScreenshots.length > 0" class="mb-3 flex items-center gap-2 px-3 py-2 rounded-lg" style="background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.2);">
+                                        <i class="fas fa-images text-cyan-400 text-xs"></i>
+                                        <span class="text-xs text-cyan-300">{{ activeLeadScreenshots.length }} ekran görüntüsü analize dahil edilecek</span>
+                                        <button @click="leadPanelTab='medya'" class="ml-auto text-xs text-cyan-400 hover:text-cyan-300">Görüntüle →</button>
+                                    </div>
+                                    <div v-else class="mb-3 flex items-center gap-2 px-3 py-2 rounded-lg" style="background:rgba(99,102,241,0.06);border:1px dashed rgba(99,102,241,0.2);">
+                                        <i class="fas fa-info-circle text-indigo-400 text-xs"></i>
+                                        <span class="text-xs text-gray-500">Medya sekmesinden ilan/WA ekran görüntüleri ekleyebilirsiniz</span>
+                                        <button @click="leadPanelTab='medya'" class="ml-auto text-xs text-indigo-400 hover:text-indigo-300">Ekle →</button>
+                                    </div>
+
+                                    <!-- Analyze button -->
+                                    <button @click="runFsboAnalysis" :disabled="fsboAnalyzing"
+                                        class="btn btn-primary w-full justify-center"
+                                        style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 4px 15px rgba(245,158,11,0.3);">
+                                        <i :class="['fas', fsboAnalyzing ? 'fa-spinner fa-spin':'fa-bolt']"></i>
+                                        {{ fsboAnalyzing ? 'Analiz ediliyor...' : 'FSBO Analizi Başlat' }}
+                                    </button>
+                                </div>
+
+                                <!-- ─── ANALYZING STATE ──────────────────── -->
+                                <div v-if="fsboAnalyzing" class="glass rounded-xl">
+                                    <div class="fsbo-analyzing">
+                                        <div class="spinner"></div>
+                                        <p class="text-yellow-400 font-bold text-sm">Gemini 2.5 Flash analiz ediyor...</p>
+                                        <p class="text-xs text-gray-500 text-center">Ev sahibi profili, itiraz senaryoları, takip planı ve SWOT hazırlanıyor</p>
+                                    </div>
+                                </div>
+
+                                <!-- ─── ANALYSIS RESULTS ─────────────────── -->
+                                <div v-if="fsboResult && !fsboAnalyzing" class="space-y-3">
+
+                                    <!-- HEADER: Score + Resistance + Verdict -->
+                                    <div class="glass rounded-xl p-4">
+                                        <div class="flex items-start gap-3 mb-3">
+                                            <div :class="['fsbo-score-ring', fsboResult.confidence_score>=7?'fsbo-score-high':fsboResult.confidence_score>=4?'fsbo-score-mid':'fsbo-score-low']">
+                                                {{ fsboResult.confidence_score }}
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                                    <span :class="['resistance-badge', 'resistance-'+(fsboResult.resistance_level||'orta')]">
+                                                        <i class="fas fa-shield-alt"></i>
+                                                        Direnç: {{ (fsboResult.resistance_level||'').charAt(0).toUpperCase()+(fsboResult.resistance_level||'').slice(1) }}
+                                                    </span>
+                                                    <span v-if="fsboResult.estimated_conversion_probability" class="badge" :class="{'badge-success':fsboResult.estimated_conversion_probability==='yüksek','badge-warning':fsboResult.estimated_conversion_probability==='orta','badge-danger':fsboResult.estimated_conversion_probability==='düşük'}">
+                                                        Dönüşüm: {{ fsboResult.estimated_conversion_probability }}
+                                                    </span>
+                                                </div>
+                                                <p class="text-xs text-gray-400">{{ fsboResult.next_contact_timing }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="fsbo-verdict">{{ fsboResult.verdict }}</div>
+                                        <!-- Risk flags -->
+                                        <div v-if="fsboResult.risk_flags && fsboResult.risk_flags.length > 0" class="mt-2 space-y-1">
+                                            <div v-for="rf in fsboResult.risk_flags" :key="rf" class="flex items-start gap-1.5 text-xs" style="color:#fca5a5;">
+                                                <i class="fas fa-exclamation-triangle mt-0.5 flex-shrink-0"></i>{{ rf }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- OWNER PROFILE -->
+                                    <div class="fsbo-card" v-if="fsboResult.owner_profile">
+                                        <div class="fsbo-card-header" style="color:#a78bfa;"><i class="fas fa-user-circle"></i>Ev Sahibi Profili</div>
+                                        <div class="grid grid-cols-2 gap-2 mb-2">
+                                            <div class="text-xs"><span class="text-gray-500">Motivasyon:</span><br><span class="font-semibold text-white capitalize">{{ fsboResult.owner_profile.motivation_level }}</span></div>
+                                            <div class="text-xs"><span class="text-gray-500">Karar Verici:</span><br><span class="font-semibold text-white">{{ fsboResult.owner_profile.decision_maker }}</span></div>
+                                            <div class="text-xs"><span class="text-gray-500">Zaman Çerçevesi:</span><br><span class="font-semibold text-white">{{ fsboResult.owner_profile.timeline }}</span></div>
+                                            <div class="text-xs"><span class="text-gray-500">Piyasa Bilgisi:</span><br><span class="font-semibold text-white">{{ fsboResult.owner_profile.knowledge_level }}</span></div>
+                                        </div>
+                                        <p class="text-xs text-gray-300 mb-2 italic">{{ fsboResult.owner_profile.likely_situation }}</p>
+                                        <div v-if="fsboResult.owner_profile.pain_points && fsboResult.owner_profile.pain_points.length > 0">
+                                            <p class="text-xs text-gray-500 mb-1 font-semibold">Sorun Noktaları:</p>
+                                            <div v-for="pp in fsboResult.owner_profile.pain_points" :key="pp" class="flex items-start gap-1.5 text-xs text-orange-300 mb-0.5">
+                                                <i class="fas fa-dot-circle mt-0.5 flex-shrink-0 text-orange-400" style="font-size:0.5rem;"></i>{{ pp }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FSBO APPROACH -->
+                                    <div class="fsbo-card" v-if="fsboResult.fsbo_approach">
+                                        <div class="fsbo-card-header" style="color:#34d399;"><i class="fas fa-bullseye"></i>Yaklaşım Stratejisi</div>
+                                        <div class="flex items-center gap-2 mb-2 flex-wrap">
+                                            <span class="badge badge-success text-xs">{{ fsboResult.fsbo_approach.strategy_type }}</span>
+                                            <span class="badge badge-info text-xs">{{ fsboResult.fsbo_approach.tone }}</span>
+                                        </div>
+                                        <p class="text-xs text-gray-300 font-semibold mb-1">📢 Temel Mesaj:</p>
+                                        <p class="text-xs text-white mb-2">{{ fsboResult.fsbo_approach.primary_message }}</p>
+                                        <p class="text-xs text-gray-300 font-semibold mb-1">💬 Açılış Scripti:</p>
+                                        <div class="transcript-box text-xs text-indigo-200">{{ fsboResult.fsbo_approach.opening_script }}</div>
+                                    </div>
+
+                                    <!-- KEY QUESTIONS -->
+                                    <div class="fsbo-card" v-if="fsboResult.key_questions && fsboResult.key_questions.length > 0">
+                                        <div class="fsbo-card-header" style="color:#60a5fa;"><i class="fas fa-question-circle"></i>Kritik Sorular ({{ fsboResult.key_questions.length }})</div>
+                                        <div v-for="(q, qi) in fsboResult.key_questions.slice(0, showAllQuestions ? 999 : 4)" :key="qi" class="fsbo-q-item">
+                                            <div class="flex items-start gap-2">
+                                                <span class="text-xs font-bold text-indigo-400 flex-shrink-0">{{ qi+1 }}.</span>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-xs text-white font-semibold">{{ q.question }}</p>
+                                                    <p class="text-xs text-gray-500 mt-0.5">{{ q.purpose }}</p>
+                                                    <div class="flex items-center gap-2 mt-0.5 flex-wrap">
+                                                        <span class="text-xs text-gray-600">⏱ {{ q.best_moment }}</span>
+                                                        <span :class="['badge', q.priority==='yüksek'?'badge-danger':q.priority==='orta'?'badge-warning':'badge-info']" style="font-size:0.55rem;padding:1px 5px;">{{ q.priority }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button v-if="fsboResult.key_questions.length > 4" @click="showAllQuestions=!showAllQuestions" class="text-xs text-indigo-400 hover:text-indigo-300 mt-1">
+                                            {{ showAllQuestions ? '↑ Daha az göster' : '↓ Tümünü gör ('+fsboResult.key_questions.length+')' }}
+                                        </button>
+                                    </div>
+
+                                    <!-- OBJECTION HANDLING -->
+                                    <div class="fsbo-card" v-if="fsboResult.objection_handling && fsboResult.objection_handling.length > 0">
+                                        <div class="fsbo-card-header" style="color:#fbbf24;"><i class="fas fa-shield-alt"></i>İtiraz Yönetimi ({{ fsboResult.objection_handling.length }})</div>
+                                        <div v-for="(obj, oi) in fsboResult.objection_handling" :key="oi" class="fsbo-obj-item cursor-pointer" @click="expandedObj===oi ? expandedObj=null : expandedObj=oi">
+                                            <div class="flex items-center justify-between gap-2">
+                                                <p class="text-xs font-semibold text-yellow-300">❝ {{ obj.objection }}</p>
+                                                <div class="flex items-center gap-1.5 flex-shrink-0">
+                                                    <span :class="['badge', obj.probability==='yüksek'?'badge-danger':obj.probability==='orta'?'badge-warning':'badge-info']" style="font-size:0.55rem;padding:1px 5px;">{{ obj.probability }}</span>
+                                                    <i :class="['fas', expandedObj===oi ? 'fa-chevron-up':'fa-chevron-down', 'text-gray-500 text-xs']"></i>
+                                                </div>
+                                            </div>
+                                            <div v-if="expandedObj===oi" class="mt-2 space-y-1.5">
+                                                <p class="text-xs text-white">💬 {{ obj.response }}</p>
+                                                <p class="text-xs text-gray-400">→ {{ obj.follow_up }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FOLLOWUP SCHEDULE -->
+                                    <div class="fsbo-card" v-if="fsboResult.followup_schedule">
+                                        <div class="fsbo-card-header" style="color:#38bdf8;"><i class="fas fa-calendar-alt"></i>Takip Planı</div>
+                                        <div v-for="(step, si) in Object.entries(fsboResult.followup_schedule)" :key="si" class="fsbo-followup-step">
+                                            <div class="fsbo-step-num">{{ si+1 }}</div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center gap-2 flex-wrap mb-0.5">
+                                                    <span class="text-xs font-bold text-sky-300">{{ step[1].timing }}</span>
+                                                    <span :class="['channel-tag', 'channel-'+(step[1].channel||'').split('|')[0].trim()]">
+                                                        <i :class="['fas', step[1].channel && step[1].channel.includes('whatsapp') ? 'fa-whatsapp':step[1].channel && step[1].channel.includes('email') ? 'fa-envelope':'fa-phone']"></i>
+                                                        {{ step[1].channel }}
+                                                    </span>
+                                                </div>
+                                                <p class="text-xs text-gray-300">{{ step[1].message }}</p>
+                                                <p class="text-xs text-gray-600 mt-0.5">Hedef: {{ step[1].goal }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- TALKING POINTS -->
+                                    <div class="fsbo-card" v-if="fsboResult.talking_points && fsboResult.talking_points.length > 0">
+                                        <div class="fsbo-card-header" style="color:#a78bfa;"><i class="fas fa-comments"></i>Konuşma Noktaları</div>
+                                        <div v-for="(tp, ti) in fsboResult.talking_points" :key="ti" class="mb-2">
+                                            <p class="text-xs text-white font-semibold">▸ {{ tp.point }}</p>
+                                            <p class="text-xs text-gray-400 ml-3">{{ tp.supporting_data }}</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- SWOT -->
+                                    <div class="fsbo-card" v-if="fsboResult.swot">
+                                        <div class="fsbo-card-header" style="color:#f472b6;"><i class="fas fa-th-large"></i>SWOT Analizi</div>
+                                        <div class="swot-grid">
+                                            <div class="swot-cell swot-s">
+                                                <div class="swot-title" style="color:#4ade80;">💪 Güçlü</div>
+                                                <div v-for="s in (fsboResult.swot.strengths||[])" :key="s" class="text-xs text-green-300 mb-0.5">• {{ s }}</div>
+                                            </div>
+                                            <div class="swot-cell swot-w">
+                                                <div class="swot-title" style="color:#f87171;">⚠️ Zayıf</div>
+                                                <div v-for="s in (fsboResult.swot.weaknesses||[])" :key="s" class="text-xs text-red-300 mb-0.5">• {{ s }}</div>
+                                            </div>
+                                            <div class="swot-cell swot-o">
+                                                <div class="swot-title" style="color:#60a5fa;">🚀 Fırsat</div>
+                                                <div v-for="s in (fsboResult.swot.opportunities||[])" :key="s" class="text-xs text-blue-300 mb-0.5">• {{ s }}</div>
+                                            </div>
+                                            <div class="swot-cell swot-t">
+                                                <div class="swot-title" style="color:#fbbf24;">⚡ Risk</div>
+                                                <div v-for="s in (fsboResult.swot.threats||[])" :key="s" class="text-xs text-yellow-300 mb-0.5">• {{ s }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- RECOMMENDED ACTIONS -->
+                                    <div class="fsbo-card" v-if="fsboResult.recommended_actions && fsboResult.recommended_actions.length > 0">
+                                        <div class="fsbo-card-header" style="color:#34d399;"><i class="fas fa-tasks"></i>Önerilen Aksiyonlar</div>
+                                        <div v-for="(act, ai) in fsboResult.recommended_actions" :key="ai"
+                                            :class="['fsbo-action-item', 'fsbo-action-'+(act.priority||'orta').replace('ü','u').replace('ş','s')]">
+                                            <i :class="['fas mt-0.5 text-xs flex-shrink-0', act.priority==='acil'?'fa-fire text-red-400':act.priority==='yüksek'?'fa-arrow-up text-orange-400':'fa-minus text-indigo-400']"></i>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-xs text-white font-semibold">{{ act.action }}</p>
+                                                <div class="flex flex-wrap gap-2 mt-0.5">
+                                                    <span class="text-xs text-gray-500">⏱ {{ act.timeframe }}</span>
+                                                    <span class="text-xs text-gray-600">→ {{ act.expected_outcome }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- URGENCY TRIGGERS -->
+                                    <div class="fsbo-card" v-if="fsboResult.urgency_triggers && fsboResult.urgency_triggers.length > 0">
+                                        <div class="fsbo-card-header" style="color:#f59e0b;"><i class="fas fa-bolt"></i>Aciliyet Tetikleyicileri</div>
+                                        <div v-for="(ut, ui) in fsboResult.urgency_triggers" :key="ui" class="mb-2">
+                                            <p class="text-xs text-white font-semibold">⚡ {{ ut.trigger }}</p>
+                                            <p class="text-xs text-gray-400 ml-3 mb-0.5">{{ ut.explanation }}</p>
+                                            <p class="text-xs text-yellow-400 ml-3">→ {{ ut.how_to_use }}</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- SAVE STRATEGY -->
+                                    <div class="flex gap-2">
+                                        <button @click="saveFsboStrategy" :disabled="fsboSaving" class="btn btn-primary flex-1 justify-center text-sm" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 4px 12px rgba(245,158,11,0.3);">
+                                            <i :class="['fas', fsboSaving ? 'fa-spinner fa-spin':'fa-save']"></i>
+                                            {{ fsboSaving ? 'Kaydediliyor...' : 'FSBO Stratejimi Kaydet' }}
+                                        </button>
+                                        <button @click="fsboResult=null; fsboTextInput=''; fsboAudioBlob=null; fsboAudioB64=null; fsboTranscript=null" class="btn btn-secondary px-4 text-sm" title="Temizle">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- ─── SAVED STRATEGIES ─────────────────── -->
+                                <div v-if="fsboStrategies.length > 0" class="glass rounded-xl p-4">
+                                    <div class="fsbo-card-header" style="color:#fbbf24;">
+                                        <i class="fas fa-archive"></i>Kaydedilmiş Stratejiler
+                                        <span class="ml-auto text-yellow-400 font-bold">{{ fsboStrategies.length }}</span>
+                                    </div>
+                                    <div v-for="(strat, si) in fsboStrategies" :key="strat.id"
+                                        :class="['saved-strategy-card', expandedSavedStrat===strat.id ? 'active-strat':'']"
+                                        @click="expandedSavedStrat===strat.id ? expandedSavedStrat=null : (expandedSavedStrat=strat.id, fsboResult=strat.strategy)">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <div class="flex items-center gap-2 flex-1 min-w-0">
+                                                <span class="text-xs font-black text-yellow-400 flex-shrink-0">FSBO Stratejim {{ si+1 }}</span>
+                                                <span v-if="strat.strategy" :class="['resistance-badge flex-shrink-0', 'resistance-'+(strat.strategy.resistance_level||'orta')]" style="font-size:0.6rem;padding:1px 6px;">
+                                                    {{ strat.strategy.resistance_level }}
+                                                </span>
+                                                <span class="text-xs text-gray-600 truncate">{{ formatDate(strat.savedAt) }}</span>
+                                            </div>
+                                            <div class="flex items-center gap-1.5 flex-shrink-0">
+                                                <span v-if="strat.strategy" class="text-xs font-bold" :class="strat.strategy.confidence_score>=7?'text-green-400':strat.strategy.confidence_score>=4?'text-yellow-400':'text-red-400'">{{ strat.strategy.confidence_score }}/10</span>
+                                                <button @click.stop="deleteFsboStrategy(strat.id)" class="text-xs text-gray-600 hover:text-red-400 p-1"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                        <p v-if="strat.strategy && strat.strategy.verdict" class="text-xs text-gray-500 mt-1 line-clamp-1">{{ strat.strategy.verdict }}</p>
+                                    </div>
+                                </div>
+
+                            </template><!-- /fsbo -->
+
                             <!-- EDIT BUTTON -->
-                            <button @click="openContactDetail(activeLead); closeLeadPanel()" class="btn btn-secondary w-full justify-center">
+                            <button v-if="leadPanelTab==='ozet'" @click="openContactDetail(activeLead); closeLeadPanel()" class="btn btn-secondary w-full justify-center">
                                 <i class="fas fa-edit mr-2"></i>Tam Düzenleme Formunu Aç
                             </button>
                         </div>
@@ -1641,6 +2029,27 @@
             const importStage = ref('new');
             const importing = ref(false);
             const importProgress = ref(0);
+
+
+            // ── FSBO ANALYSIS STATE ──────────────────────────────
+            const leadPanelTab      = Vue.ref('ozet');
+            const fsboTextInput     = Vue.ref('');
+            const fsboAudioBlob     = Vue.ref(null);
+            const fsboAudioB64      = Vue.ref(null);
+            const fsboAudioMime     = Vue.ref('audio/webm');
+            const fsboRecording     = Vue.ref(false);
+            const fsboRecordingTime = Vue.ref(0);
+            const fsboTranscript    = Vue.ref(null);
+            const fsboAnalyzing     = Vue.ref(false);
+            const fsboResult        = Vue.ref(null);
+            const fsboSaving        = Vue.ref(false);
+            const fsboStrategies    = Vue.ref([]);
+            const expandedObj       = Vue.ref(null);
+            const expandedSavedStrat = Vue.ref(null);
+            const showAllQuestions  = Vue.ref(false);
+            let _fsboMediaRecorder  = null;
+            let _fsboRecordChunks   = [];
+            let _fsboRecordTimer    = null;
 
             // ── FOLLOWUP STATE ────────────────────────────────────
             const followups           = ref([]);   // Tüm aktif takip planları
@@ -2153,6 +2562,17 @@
 
             // ── LEAD PANEL ────────────────────────────────────────
             const openLeadPanel = (contact) => {
+                // Reset FSBO state
+                leadPanelTab.value = 'ozet';
+                fsboResult.value = null;
+                fsboTextInput.value = '';
+                fsboAudioBlob.value = null;
+                fsboAudioB64.value = null;
+                fsboTranscript.value = null;
+                fsboStrategies.value = [];
+                expandedObj.value = null;
+                expandedSavedStrat.value = null;
+                showAllQuestions.value = false;
                 activeLeadId.value = contact.id;
                 showLeadPanel.value = true;
                 newCommentText.value = '';
@@ -2169,6 +2589,7 @@
                 // Ekran görüntülerini yükle
                 activeLeadScreenshots.value = [];
                 _loadScreenshots(contact.id, !!(contact._fromWeb || webLeads.value.find(l => l.id === contact.id)));
+                loadFsboStrategies(contact.id);
             };
 
             const openLeadPanelById = (contactId) => {
@@ -2978,6 +3399,175 @@
                 });
             });
 
+
+            // ══════════════════════════════════════════════════════
+            // FSBO ENGINE METHODS
+            // ══════════════════════════════════════════════════════
+
+            const loadFsboStrategies = async (contactId) => {
+                if (!user.value || !contactId) return;
+                try {
+                    const isWeb = activeLead.value?._fromWeb;
+                    const collRef = isWeb
+                        ? db.collection('leads').doc(contactId).collection('fsbo_strategies').orderBy('savedAt','desc')
+                        : db.collection('users').doc(user.value.uid).collection('contacts').doc(contactId).collection('fsbo_strategies').orderBy('savedAt','desc');
+                    const snap = await collRef.limit(10).get();
+                    fsboStrategies.value = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                } catch(e) {
+                    console.error('loadFsboStrategies:', e);
+                }
+            };
+
+            const onFsboAudioFile = async (ev) => {
+                const file = ev.target.files[0];
+                if (!file) return;
+                fsboAudioMime.value = file.type || 'audio/webm';
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    fsboAudioB64.value = e.target.result;
+                    fsboAudioBlob.value = file;
+                };
+                reader.readAsDataURL(file);
+            };
+
+            const toggleFsboRecording = async () => {
+                if (fsboRecording.value) {
+                    // Stop
+                    _fsboMediaRecorder?.stop();
+                    fsboRecording.value = false;
+                    clearInterval(_fsboRecordTimer);
+                    return;
+                }
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    _fsboRecordChunks = [];
+                    _fsboMediaRecorder = new MediaRecorder(stream);
+                    fsboAudioMime.value = _fsboMediaRecorder.mimeType || 'audio/webm';
+                    _fsboMediaRecorder.ondataavailable = e => _fsboRecordChunks.push(e.data);
+                    _fsboMediaRecorder.onstop = () => {
+                        const blob = new Blob(_fsboRecordChunks, { type: fsboAudioMime.value });
+                        fsboAudioBlob.value = blob;
+                        stream.getTracks().forEach(t => t.stop());
+                        const reader = new FileReader();
+                        reader.onload = e => { fsboAudioB64.value = e.target.result; };
+                        reader.readAsDataURL(blob);
+                    };
+                    _fsboMediaRecorder.start();
+                    fsboRecording.value = true;
+                    fsboRecordingTime.value = 0;
+                    _fsboRecordTimer = setInterval(() => { fsboRecordingTime.value++; }, 1000);
+                } catch(e) {
+                    showToast('Mikrofon erişimi reddedildi', 'fas fa-times-circle text-red-400');
+                }
+            };
+
+            const runFsboAnalysis = async () => {
+                if (!activeLead.value) return;
+                fsboAnalyzing.value = true;
+                fsboResult.value = null;
+                expandedObj.value = null;
+                showAllQuestions.value = false;
+                try {
+                    // Collect screenshots as base64
+                    const images = activeLeadScreenshots.value.map(s => s.dataUrl || s.url).filter(Boolean);
+
+                    // Build timeline array
+                    const tl = [];
+                    if (activeLead.value) {
+                        const isWeb = activeLead.value._fromWeb;
+                        const evSnap = isWeb
+                            ? await db.collection('leads').doc(activeLead.value.id).collection('events').orderBy('createdAt').limit(20).get()
+                            : await db.collection('users').doc(user.value.uid).collection('contacts').doc(activeLead.value.id).collection('comments').orderBy('createdAt').limit(20).get();
+                        evSnap.docs.forEach(d => tl.push({ type: d.data().type || 'comment', text: d.data().text || d.data().payload?.to || '', createdAt: d.data().createdAt }));
+                    }
+
+                    const body = {
+                        contact_data: {
+                            name:     activeLead.value.name,
+                            phone:    activeLead.value.phone,
+                            district: activeLead.value.district || '',
+                            price:    activeLead.value.price || '',
+                            stage:    activeLead.value.stage || activeLead.value.status || '',
+                            notes:    activeLead.value.notes || '',
+                            category: activeLead.value.category || 'fsbo',
+                        },
+                        screenshots: images,
+                        text_input:  fsboTextInput.value || '',
+                        audio_b64:   fsboAudioB64.value || null,
+                        audio_mime:  fsboAudioMime.value,
+                        timeline:    tl,
+                    };
+
+                    const idToken = await firebase.auth().currentUser.getIdToken();
+                    const resp = await fetch('/api/fsbo/analyze', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + idToken },
+                        body: JSON.stringify(body),
+                    });
+                    const data = await resp.json();
+                    if (data.ok) {
+                        fsboResult.value = data.strategy;
+                        if (data.audio_transcript) fsboTranscript.value = data.audio_transcript;
+                        showToast('FSBO analizi tamamlandı!', 'fas fa-check-circle text-yellow-400');
+                    } else {
+                        showToast('Analiz hatası: ' + (data.error || 'Bilinmeyen'), 'fas fa-times-circle text-red-400');
+                    }
+                } catch(e) {
+                    showToast('Bağlantı hatası: ' + e.message, 'fas fa-times-circle text-red-400');
+                    console.error('runFsboAnalysis:', e);
+                } finally {
+                    fsboAnalyzing.value = false;
+                }
+            };
+
+            const saveFsboStrategy = async () => {
+                if (!fsboResult.value || !activeLead.value || !user.value) return;
+                fsboSaving.value = true;
+                try {
+                    const isWeb = activeLead.value._fromWeb;
+                    const idToken = await firebase.auth().currentUser.getIdToken();
+                    const resp = await fetch('/api/fsbo/save', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + idToken },
+                        body: JSON.stringify({
+                            uid:        user.value.uid,
+                            contact_id: activeLead.value.id,
+                            is_web:     isWeb || false,
+                            strategy:   fsboResult.value,
+                            transcript: fsboTranscript.value || '',
+                        }),
+                    });
+                    const data = await resp.json();
+                    if (data.ok) {
+                        showToast('FSBO Stratejim ' + (fsboStrategies.value.length + 1) + ' kaydedildi!', 'fas fa-star text-yellow-400');
+                        await loadFsboStrategies(activeLead.value.id);
+                    } else {
+                        showToast('Kaydetme hatası: ' + (data.error || '?'), 'fas fa-times-circle text-red-400');
+                    }
+                } catch(e) {
+                    showToast('Kaydetme hatası', 'fas fa-times-circle text-red-400');
+                } finally {
+                    fsboSaving.value = false;
+                }
+            };
+
+            const deleteFsboStrategy = async (stratId) => {
+                if (!activeLead.value || !user.value) return;
+                try {
+                    const isWeb = activeLead.value._fromWeb;
+                    const idToken = await firebase.auth().currentUser.getIdToken();
+                    await fetch('/api/fsbo/delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + idToken },
+                        body: JSON.stringify({ uid: user.value.uid, contact_id: activeLead.value.id, strategy_id: stratId, is_web: isWeb || false }),
+                    });
+                    await loadFsboStrategies(activeLead.value.id);
+                    if (expandedSavedStrat.value === stratId) { expandedSavedStrat.value = null; fsboResult.value = null; }
+                    showToast('Strateji silindi', 'fas fa-trash text-red-400');
+                } catch(e) {}
+            };
+
+
             watch(activeView, (newView) => {
                 if (newView === 'analytics' || newView === 'dashboard') {
                     setTimeout(initCharts, 150);
@@ -2996,6 +3586,7 @@
                 user, uiLoading, authMode, authLoading, authError, email, password, displayName,
                 activeView, currentPipeline, contacts, searchQuery, showMenu, showContactModal,
                 editingContact, saving, toast, draggedContact,
+                leadPanelTab,
                 leadTab, leadSearch, leadSourceFilter, webLeads, newWebLeadCount,
                 webLeadStages, updateWebLeadState, webLeadEvents, loadWebLeadEvents,
                 showLeadPanel, activeLeadId,
@@ -3017,6 +3608,12 @@
                 openLeadPanel, openLeadPanelById, closeLeadPanel, updateLeadStage,
                 addComment, deleteComment, addReminderForLead, quickReminder, sendTelegramNow,
                 doneReminder, deleteReminderFn,
+                // ── FSBO ──
+                fsboTextInput, fsboAudioBlob, fsboAudioB64, fsboRecording, fsboRecordingTime,
+                fsboTranscript, fsboAnalyzing, fsboResult, fsboSaving, fsboStrategies,
+                expandedObj, expandedSavedStrat, showAllQuestions,
+                runFsboAnalysis, saveFsboStrategy, deleteFsboStrategy,
+                toggleFsboRecording, onFsboAudioFile, loadFsboStrategies,
                 // ── SCREENSHOT ──
                 screenshotUploading, screenshotDragOver, screenshotLightboxUrl, activeLeadScreenshots,
                 onScreenshotFileChange, onScreenshotDrop, onScreenshotPaste, deleteScreenshot,
