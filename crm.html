@@ -1856,6 +1856,25 @@
                             </div>
                         </div>
 
+                        <!-- SCREENSHOT AI EXTRACT -->
+                        <transition name="fade">
+                            <div v-if="modalScreenshots.length > 0" class="rounded-xl p-3 flex items-center gap-3" style="background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.25);">
+                                <i class="fas fa-robot text-cyan-400 text-lg flex-shrink-0"></i>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs font-semibold text-cyan-300">Ekrandan Otomatik Doldur</p>
+                                    <p class="text-xs text-gray-500 leading-tight">Ad, soyad ve telefonu fotoğraftan çıkarır</p>
+                                </div>
+                                <button type="button"
+                                        @click="extractFromScreenshots"
+                                        :disabled="screenshotExtractLoading"
+                                        class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs transition-all"
+                                        style="background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;box-shadow:0 4px 12px rgba(6,182,212,0.3);">
+                                    <i class="fas" :class="screenshotExtractLoading ? 'fa-spinner fa-spin' : 'fa-magic'"></i>
+                                    {{ screenshotExtractLoading ? 'Analiz...' : 'Doldur' }}
+                                </button>
+                            </div>
+                        </transition>
+
                         <div class="flex gap-3 pt-2">
                             <button type="submit" class="btn btn-primary flex-1 justify-center" :disabled="saving">
                                 <i class="fas" :class="saving ? 'fa-spinner fa-spin' : 'fa-save'"></i>
@@ -2690,6 +2709,7 @@
             const modalScreenshots         = Vue.ref([]);   // [{tempId|id, url, dataUrl, name, pending?}]
             const modalScreenshotUploading = Vue.ref(false);
             const modalScreenshotDragOver  = Vue.ref(false);
+            const screenshotExtractLoading = Vue.ref(false);
 
             const _loadScreenshots = async (contactId, isWeb) => {
                 if (!user.value || !contactId) { activeLeadScreenshots.value = []; return; }
@@ -2833,6 +2853,55 @@
                 }
                 modalScreenshots.value.splice(idx, 1);
             };
+
+            // ── EKRANDAN OTOMATİK DOLDUR ──────────────────────────────
+            const extractFromScreenshots = async () => {
+                if (!modalScreenshots.value.length) return;
+                screenshotExtractLoading.value = true;
+                try {
+                    // Backend proxy → Gemini Vision (CORS/API-key sorunu olmaz)
+                    const images = modalScreenshots.value.slice(0, 3)
+                        .map(ss => ss.dataUrl || ss.url || '')
+                        .filter(Boolean);
+
+                    if (!images.length) {
+                        showToast('⚠️ Görüntü verisi bulunamadı', 'fas fa-exclamation-triangle text-yellow-400');
+                        return;
+                    }
+
+                    const resp = await fetch('/api/crm/extract-contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ images })
+                    });
+
+                    const parsed = await resp.json();
+
+                    if (!parsed.ok) throw new Error(parsed.error || 'Sunucu hatası');
+
+                    let filled = false;
+                    if (parsed.name) {
+                        editingContact.value.name = parsed.name;
+                        filled = true;
+                    }
+                    if (parsed.phone) {
+                        editingContact.value.phone = parsed.phone;
+                        filled = true;
+                    }
+
+                    if (filled) {
+                        showToast('✅ Bilgiler ekrandan çıkarıldı', 'fas fa-check-circle text-cyan-400');
+                    } else {
+                        showToast('⚠️ Gerekli bilgiler bulunamadı', 'fas fa-exclamation-triangle text-yellow-400');
+                    }
+                } catch (err) {
+                    console.error('extractFromScreenshots hata:', err);
+                    showToast('❌ Analiz başarısız: ' + (err.message || 'Bilinmeyen hata'), 'fas fa-times-circle text-red-400');
+                } finally {
+                    screenshotExtractLoading.value = false;
+                }
+            };
+
             const _flushPendingModalScreenshots = async (contactId) => {
                 const pending = modalScreenshots.value.filter(s => s.pending);
                 if (!pending.length) return;
@@ -3620,6 +3689,7 @@
                 // ── MODAL SCREENSHOT ──
                 modalScreenshots, modalScreenshotUploading, modalScreenshotDragOver,
                 onModalScreenshotFileChange, onModalScreenshotDrop, onModalScreenshotPaste, deleteModalScreenshot,
+                screenshotExtractLoading, extractFromScreenshots,
                 // ── FOLLOWUP FUNCTIONS ──
                 startFollowupPlan, cancelFollowupPlan, sendFollowupNow,
                 startEditFollowupWeek, saveFollowupNote, formatDateShort,
