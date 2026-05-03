@@ -1858,18 +1858,32 @@
 
                         <!-- SCREENSHOT AI EXTRACT -->
                         <transition name="fade">
-                            <div v-if="modalScreenshots.length > 0" class="rounded-xl p-3 flex items-center gap-3" style="background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.25);">
-                                <i class="fas fa-robot text-cyan-400 text-lg flex-shrink-0"></i>
+                            <div v-if="modalScreenshots.length > 0" class="rounded-xl p-3 flex items-center gap-3"
+                                 :style="editingContact.category === 'fsbo'
+                                    ? 'background:rgba(251,191,36,0.07);border:1px solid rgba(251,191,36,0.3);'
+                                    : 'background:rgba(6,182,212,0.07);border:1px solid rgba(6,182,212,0.25);'">
+                                <i :class="editingContact.category === 'fsbo' ? 'fas fa-bolt text-yellow-400' : 'fas fa-robot text-cyan-400'" class="text-lg flex-shrink-0"></i>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-xs font-semibold text-cyan-300">Ekrandan Otomatik Doldur</p>
-                                    <p class="text-xs text-gray-500 leading-tight">Ad, soyad ve telefonu fotoğraftan çıkarır</p>
+                                    <p class="text-xs font-semibold" :style="editingContact.category === 'fsbo' ? 'color:#fbbf24;' : 'color:#67e8f9;'">
+                                        {{ editingContact.category === 'fsbo' ? 'FSBO Akıllı Doldur' : 'Ekrandan Otomatik Doldur' }}
+                                    </p>
+                                    <p class="text-xs text-gray-500 leading-tight">
+                                        <template v-if="editingContact.category === 'fsbo'">
+                                            İsim · Telefon · Fiyat · İlçe · Kategori · Notlar → <span style="color:#fbbf24;font-weight:600;">tüm alanlar otomatik</span>
+                                        </template>
+                                        <template v-else>
+                                            İsim, telefon, fiyat, ilçe, kategori, notlar otomatik doldurulur
+                                        </template>
+                                    </p>
                                 </div>
                                 <button type="button"
                                         @click="extractFromScreenshots"
                                         :disabled="screenshotExtractLoading"
                                         class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs transition-all"
-                                        style="background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;box-shadow:0 4px 12px rgba(6,182,212,0.3);">
-                                    <i class="fas" :class="screenshotExtractLoading ? 'fa-spinner fa-spin' : 'fa-magic'"></i>
+                                        :style="editingContact.category === 'fsbo'
+                                            ? 'background:linear-gradient(135deg,#d97706,#fbbf24);color:#1a1200;box-shadow:0 4px 12px rgba(251,191,36,0.35);'
+                                            : 'background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;box-shadow:0 4px 12px rgba(6,182,212,0.3);'">
+                                    <i class="fas" :class="screenshotExtractLoading ? 'fa-spinner fa-spin' : (editingContact.category === 'fsbo' ? 'fa-bolt' : 'fa-magic')"></i>
                                     {{ screenshotExtractLoading ? 'Analiz...' : 'Doldur' }}
                                 </button>
                             </div>
@@ -2854,12 +2868,11 @@
                 modalScreenshots.value.splice(idx, 1);
             };
 
-            // ── EKRANDAN OTOMATİK DOLDUR ──────────────────────────────
+            // ── EKRANDAN OTOMATİK DOLDUR (Full CRM Agent) ────────────
             const extractFromScreenshots = async () => {
                 if (!modalScreenshots.value.length) return;
                 screenshotExtractLoading.value = true;
                 try {
-                    // Backend proxy → Gemini Vision (CORS/API-key sorunu olmaz)
                     const images = modalScreenshots.value.slice(0, 3)
                         .map(ss => ss.dataUrl || ss.url || '')
                         .filter(Boolean);
@@ -2876,21 +2889,73 @@
                     });
 
                     const parsed = await resp.json();
-
                     if (!parsed.ok) throw new Error(parsed.error || 'Sunucu hatası');
 
-                    let filled = false;
-                    if (parsed.name) {
-                        editingContact.value.name = parsed.name;
-                        filled = true;
-                    }
-                    if (parsed.phone) {
-                        editingContact.value.phone = parsed.phone;
-                        filled = true;
+                    const isFsbo = (editingContact.value.category || parsed.category || '') === 'fsbo';
+                    const filledFields = [];
+
+                    // ── 1. İSİM — FSBO akıllı format ────────────────────────
+                    if (parsed.seller_name || parsed.listing_title) {
+                        if (isFsbo) {
+                            const _type  = parsed.listing_type || '';
+                            const _pre   = [parsed.seller_name, 'FSBO', _type].filter(Boolean).join(' ');
+                            editingContact.value.name = parsed.listing_title
+                                ? `${_pre} - ${parsed.listing_title}`
+                                : _pre;
+                        } else {
+                            editingContact.value.name = parsed.seller_name || parsed.listing_title;
+                        }
+                        filledFields.push('isim');
                     }
 
-                    if (filled) {
-                        showToast('✅ Bilgiler ekrandan çıkarıldı', 'fas fa-check-circle text-cyan-400');
+                    // ── 2. TELEFON ───────────────────────────────────────────
+                    if (parsed.phone) {
+                        editingContact.value.phone = parsed.phone;
+                        filledFields.push('telefon');
+                    }
+
+                    // ── 3. FİYAT ────────────────────────────────────────────
+                    if (parsed.price) {
+                        editingContact.value.price = parsed.price;
+                        filledFields.push('fiyat');
+                    }
+
+                    // ── 4. İLÇE ─────────────────────────────────────────────
+                    if (parsed.district) {
+                        editingContact.value.district = parsed.district;
+                        filledFields.push('ilçe');
+                    }
+
+                    // ── 5. KATEGORİ (sadece kullanıcı henüz seçmediyse) ──────
+                    if (parsed.category && !editingContact.value.id) {
+                        editingContact.value.category = parsed.category;
+                        filledFields.push('kategori');
+                    }
+
+                    // ── 6. KAYNAK (sadece yeni kayıt) ───────────────────────
+                    if (parsed.source && !editingContact.value.id) {
+                        editingContact.value.source = parsed.source;
+                        filledFields.push('kaynak');
+                    }
+
+                    // ── 7. AŞAMA (sadece yeni kayıt) ────────────────────────
+                    if (parsed.stage && !editingContact.value.id) {
+                        editingContact.value.stage = parsed.stage;
+                        filledFields.push('aşama');
+                    }
+
+                    // ── 8. NOTLAR — mevcut notu koru, yenisini ekle ──────────
+                    if (parsed.notes) {
+                        const cur = (editingContact.value.notes || '').trim();
+                        editingContact.value.notes = cur ? `${cur}\n${parsed.notes}` : parsed.notes;
+                        filledFields.push('notlar');
+                    }
+
+                    if (filledFields.length > 0) {
+                        showToast(
+                            `✅ ${filledFields.length} alan dolduruldu: ${filledFields.join(', ')}`,
+                            'fas fa-check-circle text-cyan-400'
+                        );
                     } else {
                         showToast('⚠️ Gerekli bilgiler bulunamadı', 'fas fa-exclamation-triangle text-yellow-400');
                     }
