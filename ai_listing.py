@@ -1061,3 +1061,116 @@ JSON YAPISI (TÜM ALANLARI DOLDUR):
     report["model_used"]   = used_model
 
     return {"ok": True, "report": report}
+
+
+# ================================================================
+# CONTACT EXTRACT — CRM için ekran görüntüsünden kişi bilgisi
+# ================================================================
+
+def extract_contact_from_images(images_b64: list[str]) -> dict:
+    """
+    Ekran görüntülerinden ad soyad ve telefon numarasını çıkarır.
+
+    Parametreler:
+        images_b64 — ["data:image/jpeg;base64,...", ...] listesi (maks 3)
+
+    Dönüş:
+        {"ok": True,  "name": "Ad Soyad", "phone": "05XXXXXXXXX"}
+        {"ok": True,  "name": None, "phone": None}   ← bilgi bulunamadı
+        {"ok": False, "error": "..."}
+    """
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not api_key:
+        return {"ok": False, "error": "GEMINI_API_KEY tanımlı değil"}
+
+    if not images_b64:
+        return {"ok": False, "error": "Görüntü listesi boş"}
+
+    # Görselleri parse et (maks 3)
+    parts: list = []
+    for img_data in images_b64[:3]:
+        parsed = _parse_uploaded(img_data)
+        if parsed:
+            mime, b64 = parsed
+            try:
+                raw_bytes = base64.b64decode(b64)
+                parts.append(types.Part.from_bytes(data=raw_bytes, mime_type=f"image/{mime}"))
+            except Exception:
+                pass
+
+    if not parts:
+        return {"ok": False, "error": "Geçerli görüntü verisi bulunamadı"}
+
+    prompt = (
+        "Bu ekran görüntüsünde/fotoğrafta bir kişinin adı soyadı ve/veya telefon numarası var mı? "
+        "SADECE aşağıdaki JSON formatında yanıt ver, başka hiçbir şey yazma:\n"
+        "{\"name\": \"Ad Soyad veya null\", \"phone\": \"05XXXXXXXXX veya null\"}\n"
+        "Türkiye telefon formatını kullan (0 ile başlayan 11 hane). "
+        "Bilgi yoksa değerleri null yap. Asla tahmin yapma."
+    )
+    parts.append(types.Part.from_text(text=prompt))
+    contents = [types.Content(role="user", parts=parts)]
+
+    gen_config = types.GenerateContentConfig(
+        response_mime_type="application/json",
+        temperature=0.1,
+        max_output_tokens=100,
+    )
+
+    import time
+
+    # Deneme sırası: ana model → fallback → ek güvenilir modeller (503'e karşı)
+    models_to_try = [GEMINI_MODEL]
+    if GEMINI_FALLBACK and GEMINI_FALLBACK != GEMINI_MODEL:
+        models_to_try.append(GEMINI_FALLBACK)
+    for extra in ("gemini-1.5-flash", "gemini-1.5-pro"):
+        if extra not in models_to_try:
+            models_to_try.append(extra)
+
+    client     = genai.Client(api_key=api_key)
+    last_error = "Bilinmeyen hata"
+
+    for model_name in models_to_try:
+        for attempt in range(2):           # her model için en fazla 2 deneme
+            try:
+                if attempt > 0:
+                    time.sleep(2)
+
+                print(f"🔄 extract_contact deniyor: {model_name} (deneme {attempt+1})")
+                resp = client.models.generate_content(
+                    model=model_name,
+                    contents=contents,
+                    config=gen_config,
+                )
+                raw = (resp.text or "").strip()
+
+                # JSON temizle
+                if "```" in raw:
+                    for part in raw.split("```"):
+                        p = part.strip().lstrip("json").strip()
+                        if p.startswith("{"):
+                            raw = p
+                            break
+                start = raw.find("{")
+                end   = raw.rfind("}") + 1
+                if start != -1 and end > start:
+                    raw = raw[start:end]
+
+                data  = json.loads(raw)
+                name  = data.get("name")  or None
+                phone = data.get("phone") or None
+                if isinstance(name,  str) and name.lower()  in ("null", "none", ""): name  = None
+                if isinstance(phone, str) and phone.lower() in ("null", "none", ""): phone = None
+
+                print(f"✅ extract_contact başarılı: {model_name}")
+                return {"ok": True, "name": name, "phone": phone}
+
+            except Exception as e:
+                last_error = str(e)
+                print(f"❌ extract_contact [{model_name}] deneme {attempt+1}: {e}")
+                if "503" not in last_error and "UNAVAILABLE" not in last_error:
+                    break   # 503 değilse bu modeli bırak
+                time.sleep(3)
+
+    print(f"❌ extract_contact_from_images tüm modeller başarısız: {last_error}")
+    return {"ok": False, "error": f"AI servisi şu an yoğun, lütfen tekrar deneyin. ({last_error[:120]})"}
