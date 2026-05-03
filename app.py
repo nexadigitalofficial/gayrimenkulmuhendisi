@@ -2127,6 +2127,41 @@ def fsbo_delete():
         return jsonify({"ok": False, "error": str(e)}), 500
 
 
+
+# ── API: CRM Ekran Görüntüsünden Kişi Bilgisi Çıkar ─────────────────────────
+
+@app.route("/api/crm/extract-contact", methods=["POST"])
+def api_crm_extract_contact():
+    """
+    Ekran görüntülerinden ad soyad + telefon çıkarır (Gemini Vision).
+
+    Body: {
+      "images": ["data:image/jpeg;base64,...", ...]   // maks 3 görüntü
+    }
+    Döner:
+      {"ok": true,  "name": "Ad Soyad", "phone": "05XXXXXXXXX"}
+      {"ok": true,  "name": null, "phone": null}       // bilgi bulunamadı
+      {"ok": false, "error": "..."}
+    """
+    from ai_listing import extract_contact_from_images
+
+    body   = flask_request.json or {}
+    images = body.get("images", [])
+
+    if not images:
+        return jsonify({"ok": False, "error": "images listesi boş"}), 400
+
+    if not isinstance(images, list):
+        return jsonify({"ok": False, "error": "images bir liste olmalı"}), 400
+
+    try:
+        result = extract_contact_from_images(images)
+        status = 200 if result.get("ok") else 500
+        return jsonify(result), status
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
 bootstrap_app()
 
 
