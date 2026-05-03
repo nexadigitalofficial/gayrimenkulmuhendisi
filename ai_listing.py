@@ -1069,14 +1069,22 @@ JSON YAPISI (TÜM ALANLARI DOLDUR):
 
 def extract_contact_from_images(images_b64: list[str]) -> dict:
     """
-    Ekran görüntülerinden ad soyad ve telefon numarasını çıkarır.
+    Ekran görüntüsünden tüm CRM alanlarını (Gemini Agent) doldurur.
 
     Parametreler:
         images_b64 — ["data:image/jpeg;base64,...", ...] listesi (maks 3)
 
-    Dönüş:
-        {"ok": True,  "name": "Ad Soyad", "phone": "05XXXXXXXXX"}
-        {"ok": True,  "name": None, "phone": None}   ← bilgi bulunamadı
+    Dönüş (tüm alanlar None olabilir):
+        {
+          "ok": True,
+          "seller_name", "phone",
+          "listing_title", "listing_type",
+          "price" (int), "district",
+          "category" (fsbo|portfolio|client|project),
+          "source"  (website|whatsapp|meta|manual),
+          "stage",
+          "notes", "rooms", "area_m2", "building_age", "floor"
+        }
         {"ok": False, "error": "..."}
     """
     api_key = os.environ.get("GEMINI_API_KEY", "").strip()
@@ -1101,20 +1109,65 @@ def extract_contact_from_images(images_b64: list[str]) -> dict:
     if not parts:
         return {"ok": False, "error": "Geçerli görüntü verisi bulunamadı"}
 
-    prompt = (
-        "Bu ekran görüntüsünde/fotoğrafta bir kişinin adı soyadı ve/veya telefon numarası var mı? "
-        "SADECE aşağıdaki JSON formatında yanıt ver, başka hiçbir şey yazma:\n"
-        "{\"name\": \"Ad Soyad veya null\", \"phone\": \"05XXXXXXXXX veya null\"}\n"
-        "Türkiye telefon formatını kullan (0 ile başlayan 11 hane). "
-        "Bilgi yoksa değerleri null yap. Asla tahmin yapma."
-    )
+    prompt = """Sen bir gayrimenkul CRM veri çıkarma ajanısın.
+Sana verilen 1-3 ekran görüntüsü Türkiye'deki bir gayrimenkul ilanına ait mobil/web uygulama ekranlarıdır
+(sahibinden.com, hepsiemlak, zingat, emlakjet, milligazete vb.).
+
+GÖREV: Ekranlardaki TÜM metni oku ve aşağıdaki JSON alanlarını doldur.
+ÇIKTI: Sadece geçerli JSON. Markdown, açıklama, kod bloğu YOK.
+
+EKRAN OKUMA REHBERİ (sahibinden mobil için):
+- Başlık: Sayfanın en üstündeki BÜYÜK HARF metin (örn: "SAHİBİNDEN 3+1 SATILIK,TURAN GÜNEŞ ARKA SOKAĞI...")
+- Satıcı adı: Fotoğrafın hemen altındaki isim kutusu (örn: "Orkun K.") VEYA telefon pop-up'ındaki isim
+- Telefon: Yeşil buton içindeki veya "Cep" / "Sabit" yanındaki numara (örn: "0 (546) 590 61 XX")
+  → Parantez, boşluk, tire kaldır → 05465906100 formatına getir
+  → Numara kısmi görünüyorsa (son rakamlar gizli/bulanık) yine de gördüğün kadarını yaz
+- Fiyat: "Fiyat" satırındaki mavi/renkli rakam (örn: "13.900.000 TL" → 13900000)
+- Konum breadcrumb: "Ankara, Çankaya, Yıldızevler Mh." → district=Çankaya, city=Ankara
+- Kategori breadcrumb: "Emlak > Konut > Satılık > Daire" → listing_type=Satılık
+- Emlak Tipi satırı: "Satılık Daire", "Kiralık Daire" vb.
+- "Hesap Açma Tarihi" → satıcı bireysel kullanıcı → category=fsbo
+- İlan başlığında "SAHİBİNDEN" kelimesi → category=fsbo (mülk sahibi)
+- İlan başlığında "3+1", "2+1" gibi ifade → rooms alanı
+
+JSON ŞEMASI:
+{
+  "seller_name":   "Satıcı adı — fotoğraf altı veya telefon pop-up'ından (örn: Orkun K.)",
+  "phone":         "05XXXXXXXXX — 11 hane, sadece rakam, 0 ile başlayan",
+  "listing_title": "İlanın TAM başlığı — sayfanın en üstündeki büyük metin, kelimesi kelimesine",
+  "listing_type":  "Satılık veya Kiralık",
+  "price":         "Sadece rakamlar, noktalama yok (örn: 13900000)",
+  "district":      "Sadece ilçe (örn: Çankaya) — şehir veya mahalle değil",
+  "category":      "fsbo | portfolio | client | project",
+  "source":        "website | whatsapp | meta | manual",
+  "stage":         "ilk_temas | degerleme | sozlesme | ilanda | gorunum | teklif | satildi",
+  "notes":         "Kısa özet: oda sayısı, m², kat, bina yaşı, öne çıkan özellikler",
+  "rooms":         "3+1 gibi oda formatı",
+  "area_m2":       "Sadece sayı (brüt m²)",
+  "building_age":  "Sayı (yıl)",
+  "floor":         "7/10 gibi kat/toplam format"
+}
+
+DOLDURMA KURALLARI:
+1. Ekranda net göremediğin alanı null bırak — ASLA tahmin etme.
+2. Telefon: parantez/boşluk/tire kaldır, 0 ile başlayan 11 hane yap.
+   Kısmi görünüyorsa (son 2 hane gizli) yine de gördüğün kadarıyla doldur.
+3. price: SADECE rakamlar — 13.900.000 TL → 13900000
+4. district: İlçe adı — "Ankara, Çankaya, Yıldızevler Mh." → "Çankaya"
+5. listing_type: breadcrumb'daki "Satılık"/"Kiralık" VEYA "Emlak Tipi" satırından al.
+6. category:
+   - Başlıkta "SAHİBİNDEN" VEYA "Hesap Açma Tarihi" var → "fsbo"
+   - Emlakçı/ofis adı var → "portfolio"
+7. source: sahibinden/hepsiemlak/zingat mobil ekranı → "website"
+8. stage: yeni ilan ekran görüntüsü → "ilk_temas"
+9. notes: başlıktan ve görünen özellik tablolarından kısa özet yap."""
     parts.append(types.Part.from_text(text=prompt))
     contents = [types.Content(role="user", parts=parts)]
 
     gen_config = types.GenerateContentConfig(
         response_mime_type="application/json",
         temperature=0.1,
-        max_output_tokens=100,
+        max_output_tokens=800,
     )
 
     import time
@@ -1129,6 +1182,15 @@ def extract_contact_from_images(images_b64: list[str]) -> dict:
 
     client     = genai.Client(api_key=api_key)
     last_error = "Bilinmeyen hata"
+
+    def _clean_str(val) -> str | None:
+        """JSON'dan gelen değeri temizle; boş/null ise None döndür."""
+        if not isinstance(val, str):
+            return None
+        val = val.strip()
+        if val.lower() in ("null", "none", "", "yok", "bilinmiyor"):
+            return None
+        return val
 
     for model_name in models_to_try:
         for attempt in range(2):           # her model için en fazla 2 deneme
@@ -1156,14 +1218,110 @@ def extract_contact_from_images(images_b64: list[str]) -> dict:
                 if start != -1 and end > start:
                     raw = raw[start:end]
 
-                data  = json.loads(raw)
-                name  = data.get("name")  or None
-                phone = data.get("phone") or None
-                if isinstance(name,  str) and name.lower()  in ("null", "none", ""): name  = None
-                if isinstance(phone, str) and phone.lower() in ("null", "none", ""): phone = None
+                data          = json.loads(raw)
+                seller_name   = _clean_str(data.get("seller_name"))
+                phone         = _clean_str(data.get("phone"))
+                listing_title = _clean_str(data.get("listing_title"))
+                listing_type  = _clean_str(data.get("listing_type"))
+                rooms         = _clean_str(data.get("rooms"))
+                area_m2       = _clean_str(data.get("area_m2"))
+                building_age  = _clean_str(data.get("building_age"))
+                floor         = _clean_str(data.get("floor"))
+                notes_raw     = _clean_str(data.get("notes"))
+                category      = _clean_str(data.get("category"))
+                source        = _clean_str(data.get("source"))
+                stage         = _clean_str(data.get("stage"))
 
-                print(f"✅ extract_contact başarılı: {model_name}")
-                return {"ok": True, "name": name, "phone": phone}
+                # price: sadece rakam bırak
+                price_raw = _clean_str(data.get("price"))
+                price: int | None = None
+                if price_raw:
+                    digits = "".join(filter(str.isdigit, price_raw))
+                    price = int(digits) if digits else None
+
+                # district
+                district = _clean_str(data.get("district"))
+
+                # listing_type normalize
+                if listing_type and listing_type not in ("Satılık", "Kiralık"):
+                    if "kira" in listing_type.lower():
+                        listing_type = "Kiralık"
+                    elif "satı" in listing_type.lower():
+                        listing_type = "Satılık"
+                    else:
+                        listing_type = None
+
+                # category normalize
+                valid_cats = ("fsbo", "portfolio", "client", "project")
+                if category and category not in valid_cats:
+                    cat_lower = category.lower()
+                    if "fsbo" in cat_lower or "sahib" in cat_lower:
+                        category = "fsbo"
+                    elif "portf" in cat_lower or "emlak" in cat_lower:
+                        category = "portfolio"
+                    elif "client" in cat_lower or "müşteri" in cat_lower or "musteri" in cat_lower:
+                        category = "client"
+                    elif "proje" in cat_lower or "project" in cat_lower:
+                        category = "project"
+                    else:
+                        category = None
+
+                # source normalize
+                valid_src = ("website", "whatsapp", "meta", "manual")
+                if source and source not in valid_src:
+                    src_lower = source.lower()
+                    if "whatsapp" in src_lower or "wa" in src_lower:
+                        source = "whatsapp"
+                    elif "meta" in src_lower or "facebook" in src_lower or "instagram" in src_lower:
+                        source = "meta"
+                    elif "site" in src_lower or "web" in src_lower or "sahibinden" in src_lower or "hepsi" in src_lower:
+                        source = "website"
+                    else:
+                        source = "manual"
+
+                # stage normalize — valid stage id'leri CRM ile eşleştir
+                valid_stages = (
+                    "ilk_temas", "degerleme", "sozlesme", "ilanda",
+                    "gorunum", "teklif", "satildi",
+                    "aktif", "tamamlandi",
+                )
+                if stage and stage not in valid_stages:
+                    stage = "ilk_temas"   # default: yeni ilan → ilk temas
+
+                # notes: ek bilgileri birleştir
+                notes_parts = []
+                if notes_raw:
+                    notes_parts.append(notes_raw)
+                if rooms:         notes_parts.append(f"Oda: {rooms}")
+                if area_m2:       notes_parts.append(f"Alan: {area_m2} m²")
+                if floor:         notes_parts.append(f"Kat: {floor}")
+                if building_age:  notes_parts.append(f"Bina yaşı: {building_age}")
+                if listing_type:  notes_parts.append(f"Tür: {listing_type}")
+                notes_combined = " | ".join(notes_parts) if notes_parts else None
+
+                print(f"✅ extract_contact (FULL) başarılı: {model_name} | "
+                      f"seller={seller_name} | price={price} | district={district} | cat={category}")
+                return {
+                    "ok":            True,
+                    # Kimlik
+                    "seller_name":   seller_name,
+                    "phone":         phone,
+                    # İlan
+                    "listing_title": listing_title,
+                    "listing_type":  listing_type,
+                    # CRM alanları
+                    "price":         price,
+                    "district":      district,
+                    "category":      category,
+                    "source":        source,
+                    "stage":         stage,
+                    "notes":         notes_combined,
+                    # Detaylar (opsiyonel referans)
+                    "rooms":         rooms,
+                    "area_m2":       area_m2,
+                    "building_age":  building_age,
+                    "floor":         floor,
+                }
 
             except Exception as e:
                 last_error = str(e)
