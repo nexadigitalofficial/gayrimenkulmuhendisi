@@ -1,0 +1,29 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Output directories
+scratch/
+downloaded_files/
+scraper_output/
+matcher_output/
+jobs/
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Temp files
+*.tmp
+*.bak
+*~

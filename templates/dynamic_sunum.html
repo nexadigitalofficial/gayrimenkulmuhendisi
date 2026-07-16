@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ listing.title }} - Özel Sunum</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --dark-bg: #0A0A0A;
+            --text-light: #F8F9FA;
+            --glass-bg: rgba(10, 10, 10, 0.65);
+            --glass-border: rgba(212, 175, 55, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--dark-bg);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+        }
+
+        /* --- CAROUSEL STRUCTURE --- */
+        .slider-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            transform: scale(1.05);
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        /* Background Image with Gradient Overlay */
+        .slide-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 100%);
+            z-index: -1;
+        }
+
+        /* --- CONTENT PLACEMENT --- */
+        .slide-content {
+            position: absolute;
+            bottom: 120px; /* Leave space for branding */
+            left: 5%;
+            right: 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: fadeUp 1s forwards ease-out;
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--dark-bg);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            align-self: flex-start;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .slide-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 700;
+            line-height: 1.1;
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.8);
+            color: #fff;
+        }
+
+        .slide-price {
+            font-size: clamp(24px, 3vw, 42px);
+            color: var(--gold);
+            font-weight: 600;
+            text-shadow: 1px 2px 5px rgba(0,0,0,0.8);
+        }
+
+        /* --- GLASSMORPHISM DATA BOXES --- */
+        .features-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .feature-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .feature-box i {
+            color: var(--gold);
+            font-size: 24px;
+        }
+
+        .feature-box div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feat-val { font-size: 18px; font-weight: 600; color: #fff; }
+        .feat-lbl { font-size: 12px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- CONTROLS --- */
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .control-btn {
+            pointer-events: auto;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: var(--gold);
+            border-color: var(--dark-bg);
+            color: var(--dark-bg);
+            transform: scale(1.1);
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        /* --- BRANDING (YİĞİT NARİN) --- */
+        .branding {
+            position: absolute;
+            top: 40px;
+            left: 5%;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 2s forwards;
+        }
+
+        .brand-logo {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            object-fit: cover;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .brand-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .slider-controls { display: none; } /* Hide arrows on mobile, use swipe */
+            .slide-title { font-size: 28px; }
+            .slide-price { font-size: 22px; }
+            .features-grid { flex-direction: column; }
+            .feature-box { padding: 10px 15px; }
+            .slide-content { bottom: 80px; }
+            .branding { top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BRANDING FIXED TOP -->
+    <div class="branding">
+        <!-- CB Logo or Personal Avatar -->
+        <img src="https://media.cb.com.tr/OfficeUserImages/5313/119_H3JA3P5QK2_75X75.png" alt="Yiğit Narin" class="brand-logo">
+        <div class="brand-text">
+            <span class="brand-name">YİĞİT NARİN</span>
+            <span class="brand-title">Gayrimenkul ve Yatırım Danışmanınız</span>
+        </div>
+    </div>
+
+    <!-- CAROUSEL -->
+    <div class="slider-container" id="slider">
+        
+        <!-- Slide 1: Cover -->
+        <div class="slide active">
+            <div class="slide-bg" style="background-image: url('{{ listing.img }}');"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <span class="slide-badge">{{ listing.type }}</span>
+                <h1 class="slide-title">{{ listing.title }}</h1>
+                <div class="slide-price">{{ listing.price }}</div>
+                
+                <div class="features-grid" style="margin-top: 20px;">
+                    <div class="feature-box">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span class="feat-val">{{ listing.loc }}</span>
+                            <span class="feat-lbl">Lokasyon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Details -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('{{ listing.img }}'); filter: blur(4px) brightness(0.6);"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <span class="slide-badge" style="background: transparent; border: 1px solid var(--gold); color: var(--gold);">Özellikler</span>
+                <h1 class="slide-title">Mülk Detayları</h1>
+                
+                <div class="features-grid">
+                    {% if listing.rooms %}
+                    <div class="feature-box">
+                        <i class="fas fa-door-open"></i>
+                        <div>
+                            <span class="feat-val">{{ listing.rooms }}</span>
+                            <span class="feat-lbl">Oda Sayısı</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if listing.area %}
+                    <div class="feature-box">
+                        <i class="fas fa-vector-square"></i>
+                        <div>
+                            <span class="feat-val">{{ listing.area }}</span>
+                            <span class="feat-lbl">Büyüklük</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Custom generic feature box for extra luxury feel -->
+                    <div class="feature-box">
+                        <i class="fas fa-gem"></i>
+                        <div>
+                            <span class="feat-val">Premium</span>
+                            <span class="feat-lbl">Sınıf</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Call to Action -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('{{ listing.img }}');"></div>
+            <div class="slide-overlay" style="background: linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.7) 100%);"></div>
+            <div class="slide-content" style="align-items: center; text-align: center; bottom: 50%; transform: translateY(50%);">
+                <i class="fas fa-handshake" style="font-size: 60px; color: var(--gold); margin-bottom: 20px;"></i>
+                <h1 class="slide-title" style="font-size: clamp(28px, 4vw, 48px);">Hayalinizdeki Yatırım<br>Bir Telefon Uzağınızda</h1>
+                <p style="color: #ccc; font-size: 18px; max-width: 600px; line-height: 1.6; margin-top: 15px;">
+                    Bu mülk hakkında daha fazla detay öğrenmek veya yerinde görmek için benimle doğrudan iletişime geçebilirsiniz.
+                </p>
+                <a href="tel:+905000000000" style="display: inline-block; margin-top: 30px; padding: 15px 40px; background: var(--gold); color: var(--dark-bg); text-decoration: none; font-weight: 700; font-size: 18px; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 30px rgba(212,175,55,0.3);">
+                    <i class="fas fa-phone-alt" style="margin-right: 10px;"></i> İletişime Geç
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="slider-controls">
+        <div class="control-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
+        <div class="control-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
+    </div>
+    
+    <div class="slider-dots" id="dotsContainer"></div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('dotsContainer');
+        
+        let currentSlide = 0;
+
+        // Create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            // Re-trigger animation for the content
+            const content = slides[currentSlide].querySelector('.slide-content');
+            if(content) content.style.animation = 'none';
+
+            currentSlide = (index + slides.length) % slides.length;
+
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            
+            const newContent = slides[currentSlide].querySelector('.slide-content');
+            if(newContent) {
+                newContent.style.animation = ''; // Reflow
+                void newContent.offsetWidth; // Trigger reflow
+                newContent.style.animation = 'fadeUp 1s forwards ease-out 0.3s';
+            }
+        }
+
+        prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+        // Touch / Swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('slider').addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('slider').addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) goToSlide(currentSlide + 1); // swipe left
+            if (touchEndX > touchStartX + 50) goToSlide(currentSlide - 1); // swipe right
+        }
+
+        // Auto advance every 7 seconds
+        let autoPlay = setInterval(() => goToSlide(currentSlide + 1), 7000);
+
+        // Pause autoplay on interaction
+        document.getElementById('slider').addEventListener('click', () => {
+            clearInterval(autoPlay);
+        });
+    </script>
+</body>
+</html>

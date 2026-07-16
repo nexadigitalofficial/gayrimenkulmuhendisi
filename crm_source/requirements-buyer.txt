@@ -1,0 +1,18 @@
+# ================================================================
+# requirements-buyer.txt
+# Buyer Extension için gerekli ek paketler
+# ================================================================
+# Kurulum: pip install -r requirements-buyer.txt
+
+# Vektör benzerliği (Natural Language matching)
+sentence-transformers>=2.2.0
+
+# İsteğe bağlı: Daha hızlı vector embedding
+# onnx>=1.14.0
+# onnxruntime>=1.16.0
+
+# Zaten yüklü olması beklenen (app.py'de):
+# flask
+# firebase-admin
+# requests
+# google-generativeai
