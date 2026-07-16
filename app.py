@@ -12389,6 +12389,73 @@ def sunum_page():
     except Exception as e:
         return f"sunum.html bulunamadı: {e}", 404
 
+@app.route("/sunum/advanced/<int:listing_index>")
+def advanced_sunum_page(listing_index):
+    try:
+        listings = _listings_cache.get("data", [])
+        if not listings or listing_index >= len(listings):
+            return "İlan bulunamadı.", 404
+        listing = listings[listing_index]
+        cb_url = listing.get("url")
+        if not cb_url:
+            return "İlanın detay linki bulunamadı.", 404
+
+        # İlan detay sayfasından tüm fotoğrafları ve bilgileri kazı (scrape)
+        import requests
+        from bs4 import BeautifulSoup
+        resp = requests.get(cb_url, headers=HEADERS, timeout=20)
+        soup = BeautifulSoup(resp.content, "html.parser")
+        
+        # Resimleri bul
+        images = []
+        gallery = soup.select(".property-detail-gallery img, .swiper-slide img, #gallery img, .gallery-slider img, .lightgallery img, .property-gallery img")
+        for img in gallery:
+            src = img.get("data-src") or img.get("src")
+            if src and not src.endswith(".gif") and "logo" not in src.lower():
+                # Fix relative links
+                if src.startswith("//"): src = "https:" + src
+                elif src.startswith("/"): src = "https://www.cb.com.tr" + src
+                if src not in images:
+                    images.append(src)
+        
+        # Eğer resim kazınamazsa en azından ana resmi listeye koy
+        if not images:
+            images = [listing.get("img")]
+
+        # Gemini ile pazarlama sloganı üret (Eğer API key varsa)
+        ai_slogan = "Lüks, Konfor ve Geleceğiniz İçin Eşsiz Bir Fırsat!"
+        try:
+            from google import genai
+            import os
+            api_key = os.getenv("GEMINI_API_KEY")
+            if api_key:
+                client = genai.Client(api_key=api_key)
+                prompt = f"Sen lüks gayrimenkul danışmanısın. Şu ilan için SADECE 1 CÜMLELİK çok havalı, prestijli, premium bir pazarlama sloganı yaz:\nBaşlık: {listing.get('title')}\nFiyat: {listing.get('price')}\nLokasyon: {listing.get('loc')}"
+                resp_gemini = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=prompt,
+                )
+                if resp_gemini.text:
+                    ai_slogan = resp_gemini.text.strip().replace('"', '')
+        except Exception as e:
+            print(f"Gemini slogan hatası: {e}")
+
+        # Veriyi hazırla
+        advanced_listing = {
+            "title": listing.get("title"),
+            "price": listing.get("price"),
+            "loc": listing.get("loc"),
+            "type": listing.get("type"),
+            "rooms": listing.get("rooms", ""),
+            "area": listing.get("area", ""),
+            "img": listing.get("img"),
+            "images": images,
+            "slogan": ai_slogan
+        }
+        return render_template_string(open("templates/dynamic_sunum.html", encoding="utf-8").read(), listing=advanced_listing)
+    except Exception as e:
+        return f"Gelişmiş sunum oluşturulurken hata: {e}", 500
+
 @app.route("/sunum/auto/<int:listing_index>")
 def auto_sunum_page(listing_index):
     """Otomatik ilan sunumu jeneratörü."""
