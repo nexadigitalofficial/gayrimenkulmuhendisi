@@ -6130,9 +6130,11 @@ def run_server():
     _startup_check()
     print("\n+------------------------------------------------------+")
     print("|  NEXA.OS v5.0 -- Unified PropTech Command Center     |")
-    print("|  http://127.0.0.1:5000                               |")
+    print("|  http://0.0.0.0:5000                                 |")
     print("+------------------------------------------------------+\n")
-    app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False, threaded=True)
 
 
 
