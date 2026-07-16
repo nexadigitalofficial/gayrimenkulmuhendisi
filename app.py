@@ -12396,7 +12396,7 @@ def advanced_sunum_page(listing_index):
         if not listings or listing_index >= len(listings):
             return "İlan bulunamadı.", 404
         listing = listings[listing_index]
-        cb_url = listing.get("url")
+        cb_url = listing.get("link") or listing.get("url")
         if not cb_url:
             return "İlanın detay linki bulunamadı.", 404
 
