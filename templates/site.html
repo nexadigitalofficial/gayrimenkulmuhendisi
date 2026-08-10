@@ -9,7 +9,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Raleway:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 
@@ -30,6 +30,96 @@
       --shadow: 0 10px 40px rgba(10, 22, 40, 0.12);
       --shadow-lg: 0 20px 60px rgba(10, 22, 40, 0.20);
       --shadow-xl: 0 30px 80px rgba(10, 22, 40, 0.30);
+    }
+
+    
+    /* ── CINEMATIC LUXURY DARK THEME UNIFICATION & TYPOGRAPHY ── */
+    :root {
+      --deep-navy: #070d18;
+      --navy: #0f1a2e;
+      --navy-light: #182842;
+      --navy-surface-1: #132238;
+      --navy-surface-2: #1c2d4a;
+      --gold: #d4af37;
+      --gold-dark: #b8941f;
+      --gold-light: #f4e4a6;
+      --cream: #f8fafc;
+      --cream-dark: #e2e8f0;
+      --gray: #64748b;
+      --gray-light: #94a3b8;
+      --white: #ffffff;
+      --text-muted: #94a3b8;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      background-color: var(--deep-navy) !important;
+      color: var(--cream) !important;
+    }
+
+    h1, h2, h3, .section-title, .logo {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .stat-number, .nxc-price, .filter-label, .btn, .val-price-item, .roi-res-val {
+      font-family: 'Outfit', sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .section:not(.section-dark) {
+      background-color: var(--navy-surface-1) !important;
+      color: var(--cream) !important;
+    }
+
+    button, .filter-tab, .view-btn, .social-link, .map-trigger-btn, .val-close {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    @media (max-width: 768px) {
+      .floating-cta { display: none !important; }
+      .mobile-bottom-dock {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        background: rgba(7, 13, 24, 0.96);
+        backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(212, 175, 55, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        z-index: 99999;
+        padding: 0 10px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+      }
+      .dock-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        color: #f8fafc;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 600;
+        min-height: 48px;
+      }
+      .dock-item i {
+        font-size: 18px;
+        color: var(--gold);
+      }
+      .dock-item.highlight-wa {
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        border-radius: 12px;
+        color: #fff;
+        padding: 6px 12px;
+      }
+      .dock-item.highlight-wa i { color: #fff; }
+      body { padding-bottom: 70px !important; }
     }
 
     /* ── Glow Orbs ── */
@@ -3041,6 +3131,17 @@
         <!-- Filters grid -->
         <div class="filter-grid">
           <div class="filter-item">
+            <label class="filter-label" for="filterLocation"><i class="fas fa-map-marker-alt" style="margin-right:4px;"></i>Lokasyon / Semt</label>
+            <select class="filter-select" id="filterLocation" aria-label="Lokasyon Seçin">
+              <option value="">Tüm Ankara</option>
+              <option value="Çankaya">Çankaya</option>
+              <option value="İncek">İncek</option>
+              <option value="Ümitköy">Ümitköy / Çayyolu</option>
+              <option value="GOP">Gaziosmanpaşa (GOP)</option>
+              <option value="Yenimahalle">Yenimahalle / Batıkent</option>
+            </select>
+          </div>
+          <div class="filter-item">
             <label class="filter-label"><i class="fas fa-home" style="margin-right:4px;"></i>Oda Sayısı</label>
             <select class="filter-select" id="filterRooms">
               <option value="">Tüm Odalar</option>
@@ -3173,6 +3274,55 @@
           </tbody>
         </table>
       </div>
+
+      <!-- ── INTERACTIVE PROPTECH ROI CALCULATOR WIDGET ── -->
+      <div class="proptech-roi-calculator" id="roiCalculatorWidget" style="margin-top: 40px; background: rgba(19, 34, 56, 0.7); border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 24px; padding: 36px; backdrop-filter: blur(15px); box-shadow: var(--shadow-xl);">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+          <div style="width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05)); border: 1px solid rgba(212,175,55,0.4); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 20px;">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <div>
+            <h3 style="font-family: 'Playfair Display', serif; color: var(--white); font-size: 22px; margin: 0;">Ankara Gayrimenkul ROI &amp; Amortisman Hesaplayıcı</h3>
+            <p style="color: var(--text-muted); font-size: 14px; margin: 4px 0 0 0;">Yatırım yapmak istediğiniz mülkün tahmini geri dönüş süresini ve 5 yıllık toplam getirisini anında hesaplayın.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; align-items: center;">
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div>
+              <label for="roiPrice" style="display: block; color: var(--gold-light); font-size: 13px; font-weight: 600; margin-bottom: 8px;">Gayrimenkul Fiyatı (₺)</label>
+              <input type="number" id="roiPrice" value="5000000" step="100000" style="width: 100%; padding: 14px 18px; background: rgba(7, 13, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; color: var(--white); font-family: 'Outfit', sans-serif; font-size: 16px;">
+            </div>
+            <div>
+              <label for="roiRent" style="display: block; color: var(--gold-light); font-size: 13px; font-weight: 600; margin-bottom: 8px;">Tahmini Aylık Kira Getirisi (₺)</label>
+              <input type="number" id="roiRent" value="25000" step="1000" style="width: 100%; padding: 14px 18px; background: rgba(7, 13, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; color: var(--white); font-family: 'Outfit', sans-serif; font-size: 16px;">
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label for="roiAppreciation" style="color: var(--gold-light); font-size: 13px; font-weight: 600;">Yıllık Beklenen Değer Artışı (%)</label>
+                <span id="appVal" style="color: var(--gold); font-family: 'Outfit', sans-serif; font-weight: 700;">%35</span>
+              </div>
+              <input type="range" id="roiAppreciation" min="10" max="70" value="35" oninput="document.getElementById('appVal').textContent = '%' + this.value" style="width: 100%; accent-color: var(--gold);">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr; gap: 16px; background: rgba(7, 13, 24, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.15);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <span style="color: var(--text-muted); font-size: 14px;">Amortisman Süresi</span>
+              <span id="roiYears" style="color: var(--white); font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700;">16.6 Yıl</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+              <span style="color: var(--text-muted); font-size: 14px;">Yıllık Kira Getirisi (Cap Rate)</span>
+              <span id="roiCapRate" style="color: #25D366; font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700;">%6.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 6px;">
+              <span style="color: var(--gold-light); font-size: 14px; font-weight: 600;">5 Yıllık Toplam Getiri (Kira + Değer)</span>
+              <span id="roi5YearReturn" style="color: var(--gold); font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800;">17.412.500 ₺</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -7163,11 +7313,89 @@ ${src.length ? `
       });
     };
 
+    
+    // ── DEBOUNCED INSTANT FILTER SEARCH ──
+    function debounce(func, wait = 300) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    const debouncedApplyFilters = debounce(() => {
+      if (typeof applyFilters === 'function') applyFilters();
+    }, 350);
+
+    ['filterLocation', 'filterRooms', 'filterMinPrice', 'filterMaxPrice', 'filterMinArea', 'filterMaxArea', 'sortSelect']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', debouncedApplyFilters);
+          el.addEventListener('change', debouncedApplyFilters);
+        }
+      });
+
+    // ── LIVE ROI CALCULATOR LOGIC ──
+    function updateROICalculations() {
+      const priceEl = document.getElementById('roiPrice');
+      const rentEl = document.getElementById('roiRent');
+      const appEl = document.getElementById('roiAppreciation');
+      if (!priceEl || !rentEl || !appEl) return;
+
+      const price = parseFloat(priceEl.value) || 0;
+      const monthlyRent = parseFloat(rentEl.value) || 0;
+      const appreciationRate = (parseFloat(appEl.value) || 0) / 100;
+
+      if (price > 0 && monthlyRent > 0) {
+        const annualRent = monthlyRent * 12;
+        const paybackYears = (price / annualRent).toFixed(1);
+        const capRate = ((annualRent / price) * 100).toFixed(2);
+        const futureValue = price * Math.pow(1 + appreciationRate, 5);
+        const totalRentalIncome5Years = annualRent * 5;
+        const totalReturn5Years = Math.round(futureValue + totalRentalIncome5Years);
+
+        const yearsEl = document.getElementById('roiYears');
+        const capEl = document.getElementById('roiCapRate');
+        const returnEl = document.getElementById('roi5YearReturn');
+
+        if (yearsEl) yearsEl.textContent = `${paybackYears} Yıl`;
+        if (capEl) capEl.textContent = `%${capRate}`;
+        if (returnEl) returnEl.textContent = `${totalReturn5Years.toLocaleString('tr-TR')} ₺`;
+      }
+    }
+
+    ['roiPrice', 'roiRent', 'roiAppreciation'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updateROICalculations);
+    });
+
     // Auto-scroll testimonials every 6 seconds
     setInterval(() => {
       goToTestimonial((currentTestimonial + 1) % totalTestimonials);
     }, 6000);
   })();
   </script>
+
+  <!-- ── MOBILE STICKY BOTTOM DOCK BAR ── -->
+  <div class="mobile-bottom-dock">
+    <a href="tel:+905320000000" class="dock-item" aria-label="Hemen Ara">
+      <i class="fas fa-phone-alt"></i>
+      <span>Ara</span>
+    </a>
+    <a href="https://wa.me/905320000000?text=Merhaba,%20Ankara%20gayrimenkul%20portf%C3%B6y%C3%BCn%C3%BCz%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" class="dock-item highlight-wa" aria-label="WhatsApp İletişim">
+      <i class="fab fa-whatsapp"></i>
+      <span>WhatsApp</span>
+    </a>
+    <a href="#filterPanel" class="dock-item" aria-label="İlan Filtrele">
+      <i class="fas fa-search"></i>
+      <span>Filtrele</span>
+    </a>
+    <a href="#roiCalculatorWidget" class="dock-item" aria-label="ROI Hesapla">
+      <i class="fas fa-calculator"></i>
+      <span>ROI</span>
+    </a>
+  </div>
+
 </body>
 </html>
