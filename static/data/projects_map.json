@@ -1,0 +1,634 @@
+[
+  {
+    "id": "cbvip-prj-1",
+    "db_id": 1,
+    "title": "ANGİM BEYTEPE",
+    "folder_name": "ANGİM BEYTEPE",
+    "folder_path": "/static/projeler/ANGİM BEYTEPE",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_1.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - ANGİM BEYTEPE.pdf",
+        "path": "/static/projeler/ANGİM BEYTEPE/SUNUM - ANGİM BEYTEPE.pdf",
+        "size_mb": 3.96
+      }
+    ],
+    "videos": [
+      {
+        "filename": "SLIDESHOW - ANGİM BEYTEPE.mp4",
+        "path": "/static/projeler/ANGİM BEYTEPE/SLIDESHOW - ANGİM BEYTEPE.mp4",
+        "size_mb": 1.39
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Beytepe / Çankaya",
+    "lat": 39.855,
+    "lng": 32.748,
+    "type": "Lüks Konut & Residence",
+    "price": "12.500.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-2",
+    "db_id": 2,
+    "title": "ANKAPORT - SARAY",
+    "folder_name": "ANKAPORT - SARAY",
+    "folder_path": "/static/projeler/ANKAPORT - SARAY",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_2.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - ANKAPORT SARAY.pdf",
+        "path": "/static/projeler/ANKAPORT - SARAY/SUNUM - ANKAPORT SARAY.pdf",
+        "size_mb": 18.24
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - ANKAPORT SARAY.mp4",
+        "path": "/static/projeler/ANKAPORT - SARAY/TANITIM - ANKAPORT SARAY.mp4",
+        "size_mb": 295.32
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Saray / Kahramankazan",
+    "lat": 40.065,
+    "lng": 32.658,
+    "type": "Ticari & Lojistik Karma",
+    "price": "8.900.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-3",
+    "db_id": 3,
+    "title": "EVART YALIKAVAK",
+    "folder_name": "EVART YALIKAVAK",
+    "folder_path": "/static/projeler/EVART YALIKAVAK",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_3.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - EVART YALIKAVAK.pdf",
+        "path": "/static/projeler/EVART YALIKAVAK/SUNUM - EVART YALIKAVAK.pdf",
+        "size_mb": 24.43
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - EVART YALIKAVAK.mp4",
+        "path": "/static/projeler/EVART YALIKAVAK/TANITIM - EVART YALIKAVAK.mp4",
+        "size_mb": 204.85
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Yalıkavak / Bodrum",
+    "lat": 37.106,
+    "lng": 27.291,
+    "type": "Ultra Lüks Villa Portföyü",
+    "price": "45.000.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-4",
+    "db_id": 4,
+    "title": "GRANDE YAŞAMKENT",
+    "folder_name": "GRANDE YAŞAMKENT",
+    "folder_path": "/static/projeler/GRANDE YAŞAMKENT",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_4.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - GRANDE YAŞAMKENT.pdf",
+        "path": "/static/projeler/GRANDE YAŞAMKENT/SUNUM - GRANDE YAŞAMKENT.pdf",
+        "size_mb": 7.59
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - GRANDE YAŞAMKENT.mp4",
+        "path": "/static/projeler/GRANDE YAŞAMKENT/TANITIM - GRANDE YAŞAMKENT.mp4",
+        "size_mb": 126.73
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Yaşamkent / Çankaya",
+    "lat": 39.878,
+    "lng": 32.671,
+    "type": "Prestijli Konut Projesi",
+    "price": "9.500.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-5",
+    "db_id": 5,
+    "title": "GÖKDEMİR İMZA",
+    "folder_name": "GÖKDEMİR İMZA",
+    "folder_path": "/static/projeler/GÖKDEMİR İMZA",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_5.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - GÖKDEMİR İMZA.pdf",
+        "path": "/static/projeler/GÖKDEMİR İMZA/SUNUM - GÖKDEMİR İMZA.pdf",
+        "size_mb": 8.91
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - GÖKDEMİR İMZA.mp4",
+        "path": "/static/projeler/GÖKDEMİR İMZA/TANITIM - GÖKDEMİR İMZA.mp4",
+        "size_mb": 236.97
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "İncek / Çankaya",
+    "lat": 39.832,
+    "lng": 32.705,
+    "type": "Lüks Karma Yaşam Projesi",
+    "price": "14.200.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-6",
+    "db_id": 6,
+    "title": "IDEA - START BRAVO",
+    "folder_name": "IDEA - START BRAVO",
+    "folder_path": "/static/projeler/IDEA - START BRAVO",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_6.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - IDEA - START BRAVO.pdf",
+        "path": "/static/projeler/IDEA - START BRAVO/SUNUM - IDEA - START BRAVO.pdf",
+        "size_mb": 15.71
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - IDEA - START BRAVO.mp4",
+        "path": "/static/projeler/IDEA - START BRAVO/TANITIM - IDEA - START BRAVO.mp4",
+        "size_mb": 130.42
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Çayyolu / Çankaya",
+    "lat": 39.885,
+    "lng": 32.685,
+    "type": "Modern Konut & Ofis",
+    "price": "7.800.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-7",
+    "db_id": 7,
+    "title": "MONZA EYLÜL CONCEPT - VIP ÇAKIRLAR",
+    "folder_name": "MONZA EYLÜL CONCEPT - VIP ÇAKIRLAR",
+    "folder_path": "/static/projeler/MONZA EYLÜL CONCEPT - VIP ÇAKIRLAR",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_7.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP ÇAKIRLAR.pdf",
+        "path": "/static/projeler/MONZA EYLÜL CONCEPT - VIP ÇAKIRLAR/SUNUM - VIP ÇAKIRLAR.pdf",
+        "size_mb": 9.4
+      }
+    ],
+    "videos": [
+      {
+        "filename": "SUNUM - VIP ÇAKIRLAR.mp4",
+        "path": "/static/projeler/MONZA EYLÜL CONCEPT - VIP ÇAKIRLAR/SUNUM - VIP ÇAKIRLAR.mp4",
+        "size_mb": 296.24
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Çakırlar / Yenimahalle",
+    "lat": 39.972,
+    "lng": 32.712,
+    "type": "Konut & Ticari Aks",
+    "price": "6.400.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-8",
+    "db_id": 8,
+    "title": "MONZA MOON",
+    "folder_name": "MONZA MOON",
+    "folder_path": "/static/projeler/MONZA MOON",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_8.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - MONZA MOON.pdf",
+        "path": "/static/projeler/MONZA MOON/SUNUM - MONZA MOON.pdf",
+        "size_mb": 5.13
+      }
+    ],
+    "videos": [
+      {
+        "filename": "ANİMASYON.mp4",
+        "path": "/static/projeler/MONZA MOON/ANİMASYON.mp4",
+        "size_mb": 10.87
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Batıkent / Yenimahalle",
+    "lat": 39.965,
+    "lng": 32.731,
+    "type": "Butik Konut Projesi",
+    "price": "5.900.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-9",
+    "db_id": 9,
+    "title": "NARÇİN RONYA CITY - 1 (VIP WEST)",
+    "folder_name": "NARÇİN RONYA CITY - 1 (VIP WEST)",
+    "folder_path": "/static/projeler/NARÇİN RONYA CITY - 1 (VIP WEST)",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_9.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - NARÇIN RONYA CITY 1.pdf",
+        "path": "/static/projeler/NARÇİN RONYA CITY - 1 (VIP WEST)/SUNUM - NARÇIN RONYA CITY 1.pdf",
+        "size_mb": 14.87
+      }
+    ],
+    "videos": [
+      {
+        "filename": "SUNUM - NARÇIN RONYA CITY 1.mp4",
+        "path": "/static/projeler/NARÇİN RONYA CITY - 1 (VIP WEST)/SUNUM - NARÇIN RONYA CITY 1.mp4",
+        "size_mb": 219.75
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Eryaman / Etimesgut",
+    "lat": 39.981,
+    "lng": 32.628,
+    "type": "Geniş Yaşam Kompleksi",
+    "price": "6.800.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-10",
+    "db_id": 10,
+    "title": "NEVA - START BRAVO",
+    "folder_name": "NEVA - START BRAVO",
+    "folder_path": "/static/projeler/NEVA - START BRAVO",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_10.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - NEVA - START BRAVO.pdf",
+        "path": "/static/projeler/NEVA - START BRAVO/SUNUM - NEVA - START BRAVO.pdf",
+        "size_mb": 6.4
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - NEVA - START BRAVO.mp4",
+        "path": "/static/projeler/NEVA - START BRAVO/TANITIM - NEVA - START BRAVO.mp4",
+        "size_mb": 177.9
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Ümitköy / Çankaya",
+    "lat": 39.892,
+    "lng": 32.702,
+    "type": "Lüks Konut",
+    "price": "8.500.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-11",
+    "db_id": 11,
+    "title": "S POINT - VIP SARAY",
+    "folder_name": "S POINT - VIP SARAY",
+    "folder_path": "/static/projeler/S POINT - VIP SARAY",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_11.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - S POINT.pdf",
+        "path": "/static/projeler/S POINT - VIP SARAY/SUNUM - S POINT.pdf",
+        "size_mb": 7.38
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - S POINT.mp4",
+        "path": "/static/projeler/S POINT - VIP SARAY/TANITIM - S POINT.mp4",
+        "size_mb": 229.56
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Saray / Kahramankazan",
+    "lat": 40.061,
+    "lng": 32.662,
+    "type": "Ticari & Sanayi",
+    "price": "11.000.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-12",
+    "db_id": 12,
+    "title": "TRIOLE YAŞAM",
+    "folder_name": "TRIOLE YAŞAM",
+    "folder_path": "/static/projeler/TRIOLE YAŞAM",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_12.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - TRIOLE YAŞAM.pdf",
+        "path": "/static/projeler/TRIOLE YAŞAM/SUNUM - TRIOLE YAŞAM.pdf",
+        "size_mb": 13.6
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - TRIOLE YAŞAM.mp4",
+        "path": "/static/projeler/TRIOLE YAŞAM/TANITIM - TRIOLE YAŞAM.mp4",
+        "size_mb": 346.73
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Yaşamkent / Çankaya",
+    "lat": 39.873,
+    "lng": 32.665,
+    "type": "Konut Projesi",
+    "price": "7.200.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-13",
+    "db_id": 13,
+    "title": "VERDE MONA",
+    "folder_name": "VERDE MONA",
+    "folder_path": "/static/projeler/VERDE MONA",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_13.jpg",
+    "presentations": [],
+    "videos": [
+      {
+        "filename": "TANITIM - VERDE MONA.mp4",
+        "path": "/static/projeler/VERDE MONA/TANITIM - VERDE MONA.mp4",
+        "size_mb": 12.09
+      }
+    ],
+    "has_presentation": false,
+    "has_video": true,
+    "district": "İncek / Çankaya",
+    "lat": 39.839,
+    "lng": 32.715,
+    "type": "Villa & Lüks Konut",
+    "price": "18.500.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-14",
+    "db_id": 14,
+    "title": "VIP AKADEMİ",
+    "folder_name": "VIP AKADEMİ",
+    "folder_path": "/static/projeler/VIP AKADEMİ",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_14.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP AKADEMİ 1.pdf",
+        "path": "/static/projeler/VIP AKADEMİ/SUNUM - VIP AKADEMİ 1.pdf",
+        "size_mb": 8.39
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - VIP AKADEMİ 1 (1).mp4",
+        "path": "/static/projeler/VIP AKADEMİ/TANITIM - VIP AKADEMİ 1 (1).mp4",
+        "size_mb": 81.79
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Üniversite Aksı / Çankaya",
+    "lat": 39.871,
+    "lng": 32.738,
+    "type": "Öğrenci & Yatırım Konutları",
+    "price": "3.800.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-15",
+    "db_id": 15,
+    "title": "VIP AKADEMİ 2",
+    "folder_name": "VIP AKADEMİ 2",
+    "folder_path": "/static/projeler/VIP AKADEMİ 2",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_15.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP AKADEMİ 2.pdf",
+        "path": "/static/projeler/VIP AKADEMİ 2/SUNUM - VIP AKADEMİ 2.pdf",
+        "size_mb": 7.92
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - VIP AKADEMİ 2.mp4",
+        "path": "/static/projeler/VIP AKADEMİ 2/TANITIM - VIP AKADEMİ 2.mp4",
+        "size_mb": 189.02
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Üniversite Aksı / Çankaya",
+    "lat": 39.868,
+    "lng": 32.741,
+    "type": "Yatırımlık Residence",
+    "price": "4.200.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-16",
+    "db_id": 16,
+    "title": "VIP MARIN",
+    "folder_name": "VIP MARIN",
+    "folder_path": "/static/projeler/VIP MARIN",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_16.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP MARIN.pdf",
+        "path": "/static/projeler/VIP MARIN/SUNUM - VIP MARIN.pdf",
+        "size_mb": 11.02
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - VIP MARIN.mp4",
+        "path": "/static/projeler/VIP MARIN/TANITIM - VIP MARIN.mp4",
+        "size_mb": 118.71
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Gölbaşı / Ankara",
+    "lat": 39.791,
+    "lng": 32.812,
+    "type": "Göl Manzaralı Lüks Villa",
+    "price": "22.000.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-17",
+    "db_id": 17,
+    "title": "VIP YAŞAMKENT - GÖKDEMİR STAR",
+    "folder_name": "VIP YAŞAMKENT - GÖKDEMİR STAR",
+    "folder_path": "/static/projeler/VIP YAŞAMKENT - GÖKDEMİR STAR",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_17.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP YAŞAMKENT.pdf",
+        "path": "/static/projeler/VIP YAŞAMKENT - GÖKDEMİR STAR/SUNUM - VIP YAŞAMKENT.pdf",
+        "size_mb": 20.02
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - VIP YAŞAMKENT.mp4",
+        "path": "/static/projeler/VIP YAŞAMKENT - GÖKDEMİR STAR/TANITIM - VIP YAŞAMKENT.mp4",
+        "size_mb": 327.53
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Yaşamkent / Çankaya",
+    "lat": 39.881,
+    "lng": 32.675,
+    "type": "Lüks Residence Projesi",
+    "price": "10.800.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-18",
+    "db_id": 18,
+    "title": "VIP YENİKENT",
+    "folder_name": "VIP YENİKENT",
+    "folder_path": "/static/projeler/VIP YENİKENT",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_18.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP YENİKENT.pdf",
+        "path": "/static/projeler/VIP YENİKENT/SUNUM - VIP YENİKENT.pdf",
+        "size_mb": 2.67
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - YENİKENT.mp4",
+        "path": "/static/projeler/VIP YENİKENT/TANITIM - YENİKENT.mp4",
+        "size_mb": 218.9
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Yenikent / Sincan",
+    "lat": 40.031,
+    "lng": 32.502,
+    "type": "Gelişim Aksı Konutları",
+    "price": "4.500.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-19",
+    "db_id": 19,
+    "title": "VIP ÇAKIRLAR",
+    "folder_name": "VIP ÇAKIRLAR",
+    "folder_path": "/static/projeler/VIP ÇAKIRLAR",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_19.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP ÇAKIRLAR.pdf",
+        "path": "/static/projeler/VIP ÇAKIRLAR/SUNUM - VIP ÇAKIRLAR.pdf",
+        "size_mb": 9.4
+      }
+    ],
+    "videos": [
+      {
+        "filename": "SUNUM - VIP ÇAKIRLAR.mp4",
+        "path": "/static/projeler/VIP ÇAKIRLAR/SUNUM - VIP ÇAKIRLAR.mp4",
+        "size_mb": 296.24
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Çakırlar / Yenimahalle",
+    "lat": 39.975,
+    "lng": 32.718,
+    "type": "Konut & Avm Aksı",
+    "price": "6.200.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-20",
+    "db_id": 20,
+    "title": "VIP ÜNİVERSİTE",
+    "folder_name": "VIP ÜNİVERSİTE",
+    "folder_path": "/static/projeler/VIP ÜNİVERSİTE",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_20.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIP UNIVERSITE.pdf",
+        "path": "/static/projeler/VIP ÜNİVERSİTE/SUNUM - VIP UNIVERSITE.pdf",
+        "size_mb": 6.0
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - VIP UNIVERSITE.mp4",
+        "path": "/static/projeler/VIP ÜNİVERSİTE/TANITIM - VIP UNIVERSITE.mp4",
+        "size_mb": 273.2
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Başkent Aksı / Çankaya",
+    "lat": 39.876,
+    "lng": 32.729,
+    "type": "Yüksek Kira Getirili Daireler",
+    "price": "4.100.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-21",
+    "db_id": 21,
+    "title": "VIVA - START BRAVO",
+    "folder_name": "VIVA - START BRAVO",
+    "folder_path": "/static/projeler/VIVA - START BRAVO",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_21.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - VIVA - START BRAVO.pdf",
+        "path": "/static/projeler/VIVA - START BRAVO/SUNUM - VIVA - START BRAVO.pdf",
+        "size_mb": 21.42
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM - VIVA - START BRAVO.mp4",
+        "path": "/static/projeler/VIVA - START BRAVO/TANITIM - VIVA - START BRAVO.mp4",
+        "size_mb": 281.21
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Çayyolu / Çankaya",
+    "lat": 39.889,
+    "lng": 32.689,
+    "type": "Modern Konut Projesi",
+    "price": "8.100.000 ₺'den Başlayan"
+  },
+  {
+    "id": "cbvip-prj-22",
+    "db_id": 22,
+    "title": "WM - PRIME",
+    "folder_name": "WM - PRIME",
+    "folder_path": "/static/projeler/WM - PRIME",
+    "thumbnail": "/static/img/video_thumbs/video_thumb_22.jpg",
+    "presentations": [
+      {
+        "filename": "SUNUM - WM PRIME.pdf",
+        "path": "/static/projeler/WM - PRIME/SUNUM - WM PRIME.pdf",
+        "size_mb": 9.1
+      }
+    ],
+    "videos": [
+      {
+        "filename": "TANITIM 1 - WM PRIME.mp4",
+        "path": "/static/projeler/WM - PRIME/TANITIM 1 - WM PRIME.mp4",
+        "size_mb": 56.21
+      }
+    ],
+    "has_presentation": true,
+    "has_video": true,
+    "district": "Çankaya Merkez",
+    "lat": 39.898,
+    "lng": 32.855,
+    "type": "Ultra Lüks Ofis & Residence",
+    "price": "16.000.000 ₺'den Başlayan"
+  }
+]

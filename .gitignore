@@ -33,6 +33,10 @@ nexa_embedding_cache.json
 # Standalone 3/ folder (kept local, not deployed)
 3/
 
+# Heavy local assets (kept local, not deployed)
+static/img/pdf_previews/
+static/projeler/
+
 # Temp files
 *.tmp
 *.bak
