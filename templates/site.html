@@ -4,8 +4,8 @@
     <link rel="icon" type="image/png" href="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Yiğit Narin | Dikmen Gayrimenkul | Coldwell Banker CB VIP</title>
-  <meta name="description" content="Ankara Dikmen'de teknoloji odaklı gayrimenkul danışmanlığı. AI destekli değerleme, analitik fiyatlama ve premium sunum. Coldwell Banker CB VIP Dikmen." />
+  <title>Yiğit Narin | Ankara Gayrimenkul | Coldwell Banker CB VIP</title>
+  <meta name="description" content="Ankara'da teknoloji odaklı gayrimenkul danışmanlığı. AI destekli değerleme, analitik fiyatlama ve premium sunum. Coldwell Banker CB VIP Ankara." />
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,6 +30,49 @@
       --shadow: 0 10px 40px rgba(10, 22, 40, 0.12);
       --shadow-lg: 0 20px 60px rgba(10, 22, 40, 0.20);
       --shadow-xl: 0 30px 80px rgba(10, 22, 40, 0.30);
+    }
+
+    /* ── Glow Orbs ── */
+    .bg-glow-orb {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+      animation: orbFloat 25s infinite alternate ease-in-out;
+    }
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(80px, 120px) scale(1.25); }
+    }
+
+    /* ── 3D Card Hover Perspective ── */
+    .card {
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease !important;
+    }
+    
+    /* ── Play Button Glow ── */
+    .play-btn-glow {
+      box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+      animation: pulsePlay 2s infinite;
+    }
+    @keyframes pulsePlay {
+      0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    }
+    .video-card:hover img {
+      transform: scale(1.05);
+    }
+    .video-card:hover .play-btn-glow {
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
+      transform: translate(-50%, -50%) scale(1.1);
     }
 
     * {
@@ -134,7 +177,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(10, 22, 40, 0.70);
+      background: radial-gradient(circle, rgba(10, 22, 40, 0.40) 20%, rgba(10, 22, 40, 0.85) 100%);
       z-index: 1;
     }
 
@@ -2745,7 +2788,7 @@
     <div class="top-bar-inner">
       <span class="top-bar-text">
         <i class="fas fa-star"></i>
-        Dikmen'deki mülkünüzün gerçek piyasa değerini AI destekli motorumuzla öğrenin
+        Ankara'daki mülkünüzün gerçek piyasa değerini AI destekli motorumuzla öğrenin
       </span>
       <a href="#contact" class="top-bar-btn" id="topBarBtn">
         <i class="fas fa-tag"></i>
@@ -2866,6 +2909,11 @@
 
   <!-- Animated Background -->
   <div class="bg-animated"></div>
+  <!-- Background Glow Orbs -->
+  <div class="bg-glow-orb" style="top: 12%; left: 8%;"></div>
+  <div class="bg-glow-orb" style="top: 38%; right: 4%; background: radial-gradient(circle, rgba(19,34,56,0.06) 0%, transparent 70%); animation-duration: 35s;"></div>
+  <div class="bg-glow-orb" style="top: 72%; left: 12%; animation-duration: 20s;"></div>
+
   <div class="grain"></div>
 
   <!-- Navigation -->
@@ -2878,6 +2926,7 @@
         <a href="#portfolio">Portföy</a>
         <a href="/ilanlar"><i class="fas fa-th-list" style="margin-right:4px;color:var(--gold);"></i>İlanlar</a>
         <a href="/ai-analysis"><i class="fas fa-robot" style="margin-right:4px;color:var(--gold);"></i>AI Analiz</a>
+        <a href="/haberler"><i class="fas fa-newspaper" style="margin-right:4px;color:var(--gold);"></i>Haberler</a>
         <a href="/sunum"><i class="fas fa-folder-open" style="margin-right:4px;color:var(--gold);"></i>Projeler</a>
         <a href="#services">Hizmetler</a>
         <a href="#odullerimiz"><i class="fas fa-award" style="margin-right:4px;color:var(--gold);"></i>Ödüller</a>
@@ -2895,7 +2944,7 @@
   <div class="nav-overlay" id="navOverlay"></div>
 
   <div class="trust-bar" id="trustBar" style="display:none;">
-    <div class="trust-item"><i class="fas fa-award"></i> Coldwell Banker CB VIP Dikmen</div>
+    <div class="trust-item"><i class="fas fa-award"></i> Coldwell Banker CB VIP Ankara</div>
     <div class="trust-item"><i class="fas fa-home"></i> Aktif Portföy</div>
     <div class="trust-item"><i class="fas fa-robot"></i> AI Destekli Değerleme</div>
     <div class="trust-item"><i class="fas fa-users"></i> Mutlu Müşteriler</div>
@@ -2908,8 +2957,8 @@
       <source src="https://cdn.pixabay.com/video/2021/05/24/75133-554743224_large.mp4" type="video/mp4">
     </video>
     <div class="hero-content">
-      <div class="hero-badge">Coldwell Banker CB VIP Dikmen</div>
-      <h1>Dikmen'de<br/>Akıllı Yatırım</h1>
+      <div class="hero-badge">Coldwell Banker CB VIP Ankara</div>
+      <h1>Ankara'da<br/>Akıllı Yatırım</h1>
       <p class="hero-subtitle">
         <span id="typingText"></span>
       </p>
@@ -2940,9 +2989,9 @@
       <!-- Section Header -->
       <div class="section-header">
         <span class="section-label">Portföy</span>
-        <h2 class="section-title">Dikmen'de Seçkin Gayrimenkuller</h2>
+        <h2 class="section-title">Ankara'da Seçkin Gayrimenkuller</h2>
         <p class="section-subtitle">
-          Dikmen Vadisi manzaralı, metro ve otobüs hatlarına yakın prestijli lokasyonlarda, AI destekli ROI analizi ile özenle seçilmiş portföyümüz
+          Şehir manzaralı, metro ve otobüs hatlarına yakın prestijli lokasyonlarda, AI destekli ROI analizi ile özenle seçilmiş portföyümüz
         </p>
         <a href="/ilanlar" class="btn btn-primary" style="margin-top:28px;display:inline-flex;align-items:center;gap:10px;padding:16px 36px;">
           <i class="fas fa-th-list"></i>
@@ -3056,6 +3105,78 @@
   </section>
 
 
+
+  <!-- Ankara Emlak ROI Karşılaştırma Matrisi -->
+  <section class="section section-dark" id="roiMatrixSection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Yatırım &amp; Finansman</span>
+        <h2 class="section-title">Ankara Gayrimenkul ROI Karşılaştırma Matrisi</h2>
+        <p class="section-subtitle">
+          Başkentin en popüler yatırım akslarındaki güncel amortisman süreleri, Cap Rate değerleri ve AI destekli yatırım puanları.
+        </p>
+      </div>
+
+      <div style="overflow-x: auto; background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); border-radius: 24px; box-shadow: var(--shadow-lg);">
+        <table style="width: 100%; border-collapse: collapse; min-width: 800px; font-family: 'Raleway', sans-serif;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(212,175,55,0.3); text-align: left; color: var(--gold-light); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">
+              <th style="padding: 24px 20px;">Bölge / Semt</th>
+              <th style="padding: 24px 20px;">Ort. m² Fiyatı</th>
+              <th style="padding: 24px 20px;">Yıllık Değer Artışı</th>
+              <th style="padding: 24px 20px;">Ort. Amortisman</th>
+              <th style="padding: 24px 20px;">Cap Rate (Kira Çarpanı)</th>
+              <th style="padding: 24px 20px;">AI Yatırım Skoru</th>
+            </tr>
+          </thead>
+          <tbody style="color: var(--cream); font-size: 15px;">
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+              <td style="padding: 20px; font-weight: 700; color: var(--white); font-family: 'Playfair Display', serif; font-size: 17px;">Çankaya (Merkez)</td>
+              <td style="padding: 20px;">48.500 ₺</td>
+              <td style="padding: 20px; color: #25D366;"><i class="fas fa-caret-up"></i> %42.4</td>
+              <td style="padding: 20px;">16 Yıl</td>
+              <td style="padding: 20px;">%6.25</td>
+              <td style="padding: 20px; font-weight: 700; color: var(--gold);">⭐ 9.2/10</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+              <td style="padding: 20px; font-weight: 700; color: var(--white); font-family: 'Playfair Display', serif; font-size: 17px;">İncek</td>
+              <td style="padding: 20px;">54.000 ₺</td>
+              <td style="padding: 20px; color: #25D366;"><i class="fas fa-caret-up"></i> %58.1</td>
+              <td style="padding: 20px;">18 Yıl</td>
+              <td style="padding: 20px;">%5.55</td>
+              <td style="padding: 20px; font-weight: 700; color: var(--gold);">⭐ 9.5/10</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+              <td style="padding: 20px; font-weight: 700; color: var(--white); font-family: 'Playfair Display', serif; font-size: 17px;">Gaziosmanpaşa (GOP)</td>
+              <td style="padding: 20px;">62.000 ₺</td>
+              <td style="padding: 20px; color: #25D366;"><i class="fas fa-caret-up"></i> %38.7</td>
+              <td style="padding: 20px;">15 Yıl</td>
+              <td style="padding: 20px;">%6.67</td>
+              <td style="padding: 20px; font-weight: 700; color: var(--gold);">⭐ 8.9/10</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+              <td style="padding: 20px; font-weight: 700; color: var(--white); font-family: 'Playfair Display', serif; font-size: 17px;">Çayyolu / Alacaatlı</td>
+              <td style="padding: 20px;">49.800 ₺</td>
+              <td style="padding: 20px; color: #25D366;"><i class="fas fa-caret-up"></i> %48.9</td>
+              <td style="padding: 20px;">17 Yıl</td>
+              <td style="padding: 20px;">%5.88</td>
+              <td style="padding: 20px; font-weight: 700; color: var(--gold);">⭐ 9.0/10</td>
+            </tr>
+            <tr style="transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+              <td style="padding: 20px; font-weight: 700; color: var(--white); font-family: 'Playfair Display', serif; font-size: 17px;">Yenimahalle (Batıkent)</td>
+              <td style="padding: 20px;">35.200 ₺</td>
+              <td style="padding: 20px; color: #25D366;"><i class="fas fa-caret-up"></i> %36.2</td>
+              <td style="padding: 20px;">16 Yıl</td>
+              <td style="padding: 20px;">%6.25</td>
+              <td style="padding: 20px; font-weight: 700; color: var(--gold);">⭐ 8.5/10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
   <!-- Services Section -->
   <section class="section" id="services">
     <div class="container">
@@ -3133,8 +3254,8 @@
             Yiğit Narin
           </h2>
           <p style="color: var(--gray-light); line-height: 1.8; font-size: 17px; margin-bottom: 25px;">
-            Coldwell Banker CB VIP Dikmen danışmanı ve PropTech girişimcisi. Yazılım mühendisliği altyapısını 
-            gayrimenkul danışmanlığıyla birleştirerek Dikmen'de tamamen farklı bir müşteri deneyimi sunuyorum.
+            Coldwell Banker CB VIP Ankara danışmanı ve PropTech girişimcisi. Yazılım mühendisliği altyapısını 
+            gayrimenkul danışmanlığıyla birleştirerek Ankara genelinde tamamen farklı bir müşteri deneyimi sunuyorum.
           </p>
           <p style="color: var(--gray-light); line-height: 1.8; font-size: 17px; margin-bottom: 25px;">
             AI destekli değerleme motoru, sinematik mülk sunumu ve veri odaklı fiyatlama stratejisiyle 
@@ -3177,24 +3298,24 @@
     </style>
   </section>
 
-  <!-- About Dikmen Section -->
+  <!-- About Ankara Section -->
   <section class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-label">Bölge Rehberi</span>
-        <h2 class="section-title">Dikmen'i Keşfedin</h2>
+        <h2 class="section-title">Ankara'yı Keşfedin</h2>
         <p class="section-subtitle">
-          Çankaya'nın en prestijli semtlerinden Dikmen, modern yaşamın tüm olanaklarını sunan bir bölgedir
+          Çankaya'nın gözde şehri Ankara, modern yaşamın tüm olanaklarını sunan bir bölgedir
         </p>
       </div>
 
       <div class="cards-grid">
         <div class="card">
           <div class="card-img">
-            <img src="https://i.ibb.co/1G0NFt12/dikmen-vadisi-1.jpg" alt="Dikmen Vadisi">
+            <img src="https://i.ibb.co/1G0NFt12/dikmen-vadisi-1.jpg" alt="Ankara Manzarası">
           </div>
           <div class="card-body">
-            <h3 class="card-title">Dikmen Vadisi</h3>
+            <h3 class="card-title">Ankara Yaşamı</h3>
             <p class="card-location"><i class="fas fa-tree"></i> 378.695 m² Yeşil Alan</p>
             <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
               Türkiye'nin en önemli kentsel dönüşüm projesi. 120.000+ ağaç, 50+ bitki türü, 
@@ -3249,7 +3370,7 @@
 
       <div style="margin-top: 60px; background: linear-gradient(135deg, var(--navy) 0%, var(--deep-navy) 100%); padding: 50px; border-radius: 30px; text-align: center; color: var(--white);">
         <h3 style="font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 20px; color: var(--gold-light);">
-          Dikmen'de Neden Yatırım Yapmalısınız?
+          Ankara'da Neden Yatırım Yapmalısınız?
         </h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; text-align: left;">
           <div>
@@ -3263,7 +3384,7 @@
             <div style="font-size: 40px; color: var(--gold); margin-bottom: 15px;">🌳</div>
             <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--gold-light);">Yeşil Yaşam</h4>
             <p style="color: var(--gray-light); line-height: 1.7; font-size: 14px;">
-              Dikmen Vadisi'ne komşu, 378.695 m² yeşil alan, temiz hava ve doğayla iç içe yaşam
+              Ankara'nın parklarına yakın, 378.695 m² yeşil alan, temiz hava ve doğayla iç içe yaşam
             </p>
           </div>
           <div>
@@ -3290,7 +3411,7 @@
     <div class="container">
       <div class="section-header">
         <span class="section-label">Lokal Mekanlar</span>
-        <h2 class="section-title">Dikmen'de Yaşam Kolaylığı</h2>
+        <h2 class="section-title">Ankara'da Yaşam Kolaylığı</h2>
         <p class="section-subtitle">
           Günlük yaşamınızı kolaylaştıran tüm hizmetler ayağınızın dibinde
         </p>
@@ -3305,12 +3426,12 @@
             <h3 class="card-title">Sağlık Tesisleri</h3>
             <p class="card-location"><i class="fas fa-hospital"></i> Yakın Hastaneler</p>
             <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Dikmen'de ve çevresinde 7/24 hizmet veren özel ve devlet hastaneleri, poliklinikler ve eczaneler
+              Ankara'da ve çevresinde 7/24 hizmet veren özel ve devlet hastaneleri, poliklinikler ve eczaneler
             </p>
             <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
               <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Medicana Hastanesi</div>
               <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Memorial Hastanesi</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Dikmen Aile Sağlığı Merkezi</div>
+              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Ankara Sağlık Tesisleri</div>
             </div>
           </div>
         </div>
@@ -3461,7 +3582,7 @@
             <span class="valuation-cta-highlight">Piyasa Değerini Öğrenin</span>
           </h2>
           <p class="valuation-cta-desc">
-            Dikmen bölgesindeki derin piyasa bilgisi ve AI destekli analiz motoru ile
+            Ankara bölgesindeki derin piyasa bilgisi ve AI destekli analiz motoru ile
             mülkünüz için <strong>kapsamlı, ücretsiz değerleme raporu</strong> hazırlıyoruz. 
             Satmak, kiralamak veya sadece değerini merak etmek için bile olsa.
           </p>
@@ -3828,14 +3949,103 @@
   </style>
 
   <!-- ============================================================ -->
+
+  <!-- Live Market Dashboard Section -->
+  <section class="section" id="marketDashboardSection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Piyasa Analitiği</span>
+        <h2 class="section-title">Ankara Canlı Emlak Endeksi</h2>
+        <p class="section-subtitle">
+          Semt bazında m² birim fiyat değişimleri ve son 6 aylık fiyat trend analizi.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center;">
+        
+        <!-- Sol: SVG Neon Fiyat Grafiği -->
+        <div style="background: var(--white); border-radius: 24px; padding: 30px; box-shadow: var(--shadow); border: 1px solid rgba(10,22,40,0.04); display: flex; flex-direction: column;">
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); margin-bottom: 20px;">Son 6 Aylık Fiyat Trendi (Ort. m² Fiyatı ₺)</h3>
+          
+          <div style="position: relative; width: 100%; height: 220px;">
+            <svg viewBox="0 0 500 200" style="width: 100%; height: 100%; overflow: visible;">
+              <defs>
+                <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--gold)" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="var(--gold)" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid Lines -->
+              <line x1="0" y1="40" x2="500" y2="40" stroke="rgba(19, 34, 56, 0.05)" stroke-width="1"/>
+              <line x1="0" y1="90" x2="500" y2="90" stroke="rgba(19, 34, 56, 0.05)" stroke-width="1"/>
+              <line x1="0" y1="140" x2="500" y2="140" stroke="rgba(19, 34, 56, 0.05)" stroke-width="1"/>
+              
+              <!-- Area -->
+              <path d="M 0,150 L 100,140 L 200,115 L 300,105 L 400,80 L 500,55 L 500,180 L 0,180 Z" fill="url(#chartGradient)"/>
+              
+              <!-- Sparkline Line -->
+              <path d="M 0,150 L 100,140 L 200,115 L 300,105 L 400,80 L 500,55" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round"/>
+              
+              <!-- Glow shadow -->
+              <path d="M 0,150 L 100,140 L 200,115 L 300,105 L 400,80 L 500,55" fill="none" stroke="var(--gold)" stroke-width="6" stroke-linecap="round" opacity="0.3" filter="blur(4px)"/>
+              
+              <!-- Nodes -->
+              <circle cx="0" cy="150" r="5" fill="var(--navy)"/>
+              <circle cx="100" cy="140" r="5" fill="var(--navy)"/>
+              <circle cx="200" cy="115" r="5" fill="var(--navy)"/>
+              <circle cx="300" cy="105" r="5" fill="var(--navy)"/>
+              <circle cx="400" cy="80" r="5" fill="var(--navy)"/>
+              <circle cx="500" cy="55" r="6" fill="var(--gold)"/>
+              
+              <!-- Month labels -->
+              <text x="0" y="195" font-family="'Raleway', sans-serif" font-size="10" fill="var(--gray-light)" text-anchor="middle">Eylül</text>
+              <text x="100" y="195" font-family="'Raleway', sans-serif" font-size="10" fill="var(--gray-light)" text-anchor="middle">Ekim</text>
+              <text x="200" y="195" font-family="'Raleway', sans-serif" font-size="10" fill="var(--gray-light)" text-anchor="middle">Kasım</text>
+              <text x="300" y="195" font-family="'Raleway', sans-serif" font-size="10" fill="var(--gray-light)" text-anchor="middle">Aralık</text>
+              <text x="400" y="195" font-family="'Raleway', sans-serif" font-size="10" fill="var(--gray-light)" text-anchor="middle">Ocak</text>
+              <text x="500" y="195" font-family="'Raleway', sans-serif" font-size="10" fill="var(--gold)" font-weight="700" text-anchor="middle">Şubat</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Sağ: Pazar İstatistikleri ve ROI Özet -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div style="background: var(--white); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid rgba(10,22,40,0.04); display: flex; align-items: center; gap: 20px;">
+            <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(212,175,55,0.1); border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 20px;"><i class="fas fa-chart-line"></i></div>
+            <div>
+              <div style="font-size: 13px; color: var(--gray-light); font-weight: 600; text-transform: uppercase;">Yıllık Ortalama Prim</div>
+              <div style="font-size: 24px; font-weight: 800; color: var(--navy); margin-top: 4px;">%44.8 <span style="font-size: 14px; color: #25D366; font-weight: 700;"><i class="fas fa-arrow-up"></i> Enflasyon Üstü</span></div>
+            </div>
+          </div>
+          <div style="background: var(--white); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid rgba(10,22,40,0.04); display: flex; align-items: center; gap: 20px;">
+            <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(212,175,55,0.1); border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 20px;"><i class="fas fa-hourglass-half"></i></div>
+            <div>
+              <div style="font-size: 13px; color: var(--gray-light); font-weight: 600; text-transform: uppercase;">Ortalama Satış Hızı</div>
+              <div style="font-size: 24px; font-weight: 800; color: var(--navy); margin-top: 4px;">22 Gün <span style="font-size: 14px; color: var(--gold); font-weight: 700;"><i class="fas fa-check"></i> VIP Premium Servis</span></div>
+            </div>
+          </div>
+          <div style="background: var(--white); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid rgba(10,22,40,0.04); display: flex; align-items: center; gap: 20px;">
+            <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(212,175,55,0.1); border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 20px;"><i class="fas fa-shield-alt"></i></div>
+            <div>
+              <div style="font-size: 13px; color: var(--gray-light); font-weight: 600; text-transform: uppercase;">Amortisman Güven Endeksi</div>
+              <div style="font-size: 24px; font-weight: 800; color: var(--navy); margin-top: 4px;">A+ Premium <span style="font-size: 14px; color: var(--gray-light); font-weight: 600;">(Çankaya Bölgesi)</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
   <!-- HARİTA'DA İLANLAR Bölümü -->
   <!-- ============================================================ -->
   <section class="map-section" id="harita">
     <div class="map-section-header">
-      <span class="section-label">Dikmen Haritası</span>
+      <span class="section-label">Ankara Haritası</span>
       <h2 class="section-title">İlanları Harita'da Keşfedin</h2>
       <p class="section-subtitle">
-        Dikmen'deki tüm portföyümüzü interaktif harita üzerinde inceleyin — markere tıklayın, detayları görün
+        Ankara'daki tüm portföyümüzü interaktif harita üzerinde inceleyin — markere tıklayın, detayları görün
       </p>
     </div>
 
@@ -3889,9 +4099,9 @@
     <div class="container">
       <div class="section-header">
         <span class="section-label">Blog & Haberler</span>
-        <h2 class="section-title">Dikmen'den Güncel İçgörüler</h2>
+        <h2 class="section-title">Ankara'dan Güncel İçgörüler</h2>
         <p class="section-subtitle">
-          Gayrimenkul piyasası, Dikmen bölgesi ve emlak dünyasından en güncel haberler
+          Gayrimenkul piyasası, Ankara geneli ve emlak dünyasından en güncel haberler
         </p>
       </div>
 
@@ -3910,6 +4120,14 @@
       </div>
 
       <div class="blog-dots" id="blogDots"></div>
+      
+      <!-- Haberler Sayfası CTA -->
+      <div style="text-align: center; margin-top: 40px;">
+        <a href="/haberler" class="btn btn-primary" style="background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); padding: 16px 36px; border-radius: 50px; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
+          <i class="fas fa-newspaper"></i>
+          <span>Tüm Haber & Analizleri Gör</span>
+        </a>
+      </div>
         </div><!-- end blog left col -->
       </div><!-- end container -->
   </section>
@@ -3922,51 +4140,135 @@
         <h2 class="section-title">Onlar Ne Diyor?</h2>
       </div>
 
-      <div class="testimonials-grid">
-        <div class="testimonial">
-          <p class="testimonial-text">
-            "Dikmen'de 3+1 dairemizi sadece 1 hafta içinde sattık. Profesyonel fotoğraf çekimi ve 
-            analitik fiyatlama sayesinde doğru alıcıya çok hızlı ulaştık. Kesinlikle tavsiye ederim!"
-          </p>
-          <div class="testimonial-author">
-            <div class="author-avatar">A</div>
-            <div class="author-info">
-              <h4>Ahmet Kaya</h4>
-              <div class="author-stars">★★★★★</div>
+      <!-- Testimonials Slider -->
+      <div class="testimonials-slider" style="position: relative; overflow: hidden; width: 100%; max-width: 850px; margin: 0 auto;">
+        <div class="testimonials-slider-container" id="testimonialsSliderContainer" style="display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);">
+          
+          <div class="testimonial-slide" style="min-width: 100%; padding: 0 10px;">
+            <div class="testimonial">
+              <p class="testimonial-text">
+                "Ankara'da 3+1 dairemizi sadece 1 hafta içinde sattık. Profesyonel fotoğraf çekimi ve 
+                analitik fiyatlama sayesinde doğru alıcıya çok hızlı ulaştık. Kesinlikle tavsiye ederim!"
+              </p>
+              <div class="testimonial-author">
+                <div class="author-avatar" style="background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--navy); display: flex; align-items: center; justify-content: center; font-weight: 700; width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; font-size: 18px;">A</div>
+                <div class="author-info">
+                  <h4 style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy);">Ahmet Kaya</h4>
+                  <div class="author-stars" style="color: var(--gold); font-size: 14px; margin-top: 4px;">★★★★★</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="testimonial">
-          <p class="testimonial-text">
-            "Yatırım amaçlı aldığımız daireyi 2 ay içinde premium kiracıya verdik. Bölge bilgisi ve 
-            pazarlama stratejisi mükemmeldi. Her aşamada yanımızda oldular."
-          </p>
-          <div class="testimonial-author">
-            <div class="author-avatar">E</div>
-            <div class="author-info">
-              <h4>Elif Demir</h4>
-              <div class="author-stars">★★★★★</div>
+          <div class="testimonial-slide" style="min-width: 100%; padding: 0 10px;">
+            <div class="testimonial">
+              <p class="testimonial-text">
+                "Yatırım amaçlı aldığımız daireyi 2 ay içinde premium kiracıya verdik. Bölge bilgisi ve 
+                pazarlama stratejisi mükemmeldi. Her aşamada yanımızda oldular."
+              </p>
+              <div class="testimonial-author">
+                <div class="author-avatar" style="background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--navy); display: flex; align-items: center; justify-content: center; font-weight: 700; width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; font-size: 18px;">E</div>
+                <div class="author-info">
+                  <h4 style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy);">Elif Demir</h4>
+                  <div class="author-stars" style="color: var(--gold); font-size: 14px; margin-top: 4px;">★★★★★</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="testimonial">
-          <p class="testimonial-text">
-            "Dikmen'de ev alırken en doğru kararı verdik. Detaylı mahalle analizi ve fiyat karşılaştırması 
-            ile bütçemize en uygun evi bulduk. Teşekkürler!"
-          </p>
-          <div class="testimonial-author">
-            <div class="author-avatar">M</div>
-            <div class="author-info">
-              <h4>Mehmet Yılmaz</h4>
-              <div class="author-stars">★★★★★</div>
+          <div class="testimonial-slide" style="min-width: 100%; padding: 0 10px;">
+            <div class="testimonial">
+              <p class="testimonial-text">
+                "Ankara'da ev alırken en doğru kararı verdik. Detaylı mahalle analizi ve fiyat karşılaştırması 
+                ile bütçemize en uygun evi bulduk. Teşekkürler!"
+              </p>
+              <div class="testimonial-author">
+                <div class="author-avatar" style="background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--navy); display: flex; align-items: center; justify-content: center; font-weight: 700; width: 50px; height: 50px; border-radius: 50%; margin-right: 15px; font-size: 18px;">M</div>
+                <div class="author-info">
+                  <h4 style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy);">Mehmet Yılmaz</h4>
+                  <div class="author-stars" style="color: var(--gold); font-size: 14px; margin-top: 4px;">★★★★★</div>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
+        
+        <!-- Navigation Dots -->
+        <div class="testimonial-dots" id="testimonialDots" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
+          <div class="testimonial-dot active" onclick="goToTestimonial(0)" style="width: 12px; height: 12px; border-radius: 50%; background: var(--gray-light); cursor: pointer; transition: all 0.3s;"></div>
+          <div class="testimonial-dot" onclick="goToTestimonial(1)" style="width: 12px; height: 12px; border-radius: 50%; background: var(--gray-light); cursor: pointer; transition: all 0.3s;"></div>
+          <div class="testimonial-dot" onclick="goToTestimonial(2)" style="width: 12px; height: 12px; border-radius: 50%; background: var(--gray-light); cursor: pointer; transition: all 0.3s;"></div>
+        </div>
+      </div>
       </div>
     </div>
   </section>
+
+
+  <!-- Sinematik Video Galerisi (Theater-Mode) -->
+  <section class="section section-dark" id="videoGallerySection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Sinematik Tanıtım Filmleri</span>
+        <h2 class="section-title">Gayrimenkul Sinema Deneyimi</h2>
+        <p class="section-subtitle">
+          Portföylerimiz için özel hazırladığımız, yüksek prodüksiyonlu ve hedefli sinematik mülk filmlerimizden örnekler.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px;">
+        
+        <!-- Video 1 -->
+        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://www.youtube.com/embed/dQw4w9WgXcQ', 'Çankaya Modern Luxury Penthouse Tanıtım Filmi')">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Çankaya Modern Luxury" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, transparent 80%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; z-index: 2;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--white); margin-bottom: 6px;">Çankaya Luxury Penthouse</h3>
+            <p style="font-size: 13px; color: var(--gold-light); font-weight: 600;"><i class="fas fa-play" style="margin-right: 6px;"></i> Sinematik Tur · 2:15 dk</p>
+          </div>
+          <div class="play-btn-glow" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 50%; background: rgba(10, 22, 40, 0.7); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 20px; transition: all 0.3s; z-index: 3;">
+            <i class="fas fa-play" style="margin-left: 4px;"></i>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://www.youtube.com/embed/dQw4w9WgXcQ', 'İncek Modern Villa Yaşam Filmi')">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="İncek Modern Villa" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, transparent 80%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; z-index: 2;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--white); margin-bottom: 6px;">İncek Detached Smart Villa</h3>
+            <p style="font-size: 13px; color: var(--gold-light); font-weight: 600;"><i class="fas fa-play" style="margin-right: 6px;"></i> Mimari Tanıtım Filmi · 1:45 dk</p>
+          </div>
+          <div class="play-btn-glow" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 50%; background: rgba(10, 22, 40, 0.7); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 20px; transition: all 0.3s; z-index: 3;">
+            <i class="fas fa-play" style="margin-left: 4px;"></i>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://www.youtube.com/embed/dQw4w9WgXcQ', 'Bilkent Rezidans Yaşam Analizi')">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Bilkent Rezidans" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, transparent 80%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; z-index: 2;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--white); margin-bottom: 6px;">Bilkent Prime Residence</h3>
+            <p style="font-size: 13px; color: var(--gold-light); font-weight: 600;"><i class="fas fa-play" style="margin-right: 6px;"></i> Bölge &amp; Yaşam Analizi · 3:00 dk</p>
+          </div>
+          <div class="play-btn-glow" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 50%; background: rgba(10, 22, 40, 0.7); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 20px; transition: all 0.3s; z-index: 3;">
+            <i class="fas fa-play" style="margin-left: 4px;"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Theater-Mode Video Modal -->
+  <div id="theaterModal" style="display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(10, 22, 40, 0.95); align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(15px);">
+    <div style="position: relative; width: 100%; max-width: 900px; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 100px rgba(212,175,55,0.25); border: 1.5px solid rgba(212,175,55,0.3);">
+      <iframe id="theaterIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%;"></iframe>
+      <button onclick="closeTheaterMode()" style="position: absolute; top: -50px; right: 0; background: transparent; border: none; color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-times"></i> Kapat
+      </button>
+    </div>
+  </div>
+
 
   <!-- Photo Gallery Section -->
   <section class="section">
@@ -3975,7 +4277,7 @@
         <span class="section-label">Galeri</span>
         <h2 class="section-title">Yiğit Narin — Profesyonel Profil</h2>
         <p class="section-subtitle">
-          Coldwell Banker CB VIP Dikmen danışmanı ve PropTech girişimcisi olarak sahadan kareler
+          Coldwell Banker CB VIP Ankara danışmanı ve PropTech girişimcisi olarak sahadan kareler
         </p>
       </div>
 
@@ -4017,7 +4319,7 @@
               Coldwell Banker CB VIP
             </h3>
             <p style="font-size: 14px; color: var(--gray-light);">
-              Dikmen'de güvenin adresi
+              Ankara'da güvenin adresi
             </p>
           </div>
         </div>
@@ -4088,7 +4390,7 @@
         </h2>
 
         <p class="contact-left-desc">
-          AI destekli analiz motoru ve Dikmen piyasa verisiyle mülkünüzün gerçek değerini belirleyelim. Formu doldurun, 24 saat içinde sizi arayalım.
+          AI destekli analiz motoru ve Ankara piyasa verisiyle mülkünüzün gerçek değerini belirleyelim. Formu doldurun, 24 saat içinde sizi arayalım.
         </p>
 
         <!-- Process steps -->
@@ -4126,7 +4428,7 @@
           <img src="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png" alt="Yiğit Narin" style="width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0;box-shadow:0 0 0 3px rgba(212,175,55,0.3);">
           <div class="contact-agent-info">
             <strong>Yiğit Narin</strong>
-            <span>Coldwell Banker CB VIP · Dikmen</span>
+            <span>Coldwell Banker CB VIP · Ankara</span>
             <div class="contact-agent-stars">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
               <em>PropTech Danışmanı</em>
@@ -4148,7 +4450,7 @@
           <div class="contact-stat-sep"></div>
           <div class="contact-stat">
             <strong>CB VIP</strong>
-            <span>Dikmen</span>
+            <span>Ankara</span>
           </div>
         </div>
 
@@ -4185,7 +4487,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Mahalle</label>
-                <input type="text" class="form-input" name="neighborhood" value="Dikmen" placeholder="Dikmen">
+                <input type="text" class="form-input" name="neighborhood" value="Ankara" placeholder="Ankara">
               </div>
             </div>
 
@@ -4513,8 +4815,8 @@
       <div class="footer-brand">
         <h3>Yiğit Narin</h3>
         <p>
-          Coldwell Banker CB VIP Dikmen danışmanı ve PropTech girişimcisi. 
-          AI destekli değerleme, sinematik mülk sunumu ve veri odaklı pazar analizi ile Dikmen'de farklı bir danışmanlık deneyimi.
+          Coldwell Banker CB VIP Ankara danışmanı ve PropTech girişimcisi. 
+          AI destekli değerleme, sinematik mülk sunumu ve veri odaklı pazar analizi ile Ankara'da farklı bir danışmanlık deneyimi.
         </p>
         <div class="social-links">
           <a href="https://wa.me/905324514008" class="social-link" target="_blank">
@@ -4557,18 +4859,18 @@
         <ul class="footer-links">
           <li><a href="tel:+905324514008">+90 532 451 40 08</a></li>
           <li><a href="https://www.cb.com.tr/danismanlar/yigit-narin-23339" target="_blank">CB Profil Sayfası</a></li>
-          <li><a href="#">Dikmen, Çankaya / Ankara</a></li>
+          <li><a href="#">Çankaya / Ankara</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; 2026 Yiğit Narin — Tüm hakları saklıdır. | Coldwell Banker CB VIP Dikmen</p>
+      <p>&copy; 2026 Yiğit Narin — Tüm hakları saklıdır. | Coldwell Banker CB VIP Ankara</p>
     </div>
   </footer>
 
   <!-- Map Trigger Button -->
-  <button class="map-trigger-btn" id="mapTrigger" title="Dikmen Haritası">
+  <button class="map-trigger-btn" id="mapTrigger" title="Ankara Haritası">
     <i class="fas fa-map-marked-alt"></i>
   </button>
 
@@ -4578,7 +4880,7 @@
       <div class="map-modal-header">
         <h3 class="map-modal-title">
           <i class="fas fa-map-marker-alt" style="color: var(--gold); margin-right: 10px;"></i>
-          Dikmen Haritası - Ankara
+          Ankara Haritası - Ankara
         </h3>
         <button class="map-close-btn" id="mapClose">
           <i class="fas fa-times"></i>
@@ -4586,7 +4888,7 @@
       </div>
       <div class="map-modal-body">
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48762.42364906938!2d32.83134687910156!3d39.88547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d348d97e25f5e9%3A0x5e1f8b9c6e5d4c3b!2sDikmen%2C%20%C3%87ankaya%2FAnkara!5e0!3m2!1str!2str!4v1234567890123!5m2!1str!2str&markers=color:gold%7Clabel:D%7C39.8854,32.8514"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48762.42364906938!2d32.83134687910156!3d39.88547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d348d97e25f5e9%3A0x5e1f8b9c6e5d4c3b!2sAnkara%2C%20Turkey!5e0!3m2!1str!2str!4v1234567890123!5m2!1str!2str&markers=color:gold%7Clabel:D%7C39.8854,32.8514"
           allowfullscreen="" 
           loading="lazy" 
           referrerpolicy="no-referrer-when-downgrade">
@@ -4615,12 +4917,12 @@
     // HARİTA (LEAFLET) - İLAN MARKERLERİ
     // ============================================================
     (function initMap() {
-      const DIKMEN = [39.8854, 32.8514];
+      const ANKARA = [39.9334, 32.8597];
 
       // Haritayı oluştur
       const map = L.map('mapContainer', {
-        center: DIKMEN,
-        zoom: 14,
+        center: ANKARA,
+        zoom: 12,
         zoomControl: true,
         scrollWheelZoom: true
       });
@@ -4631,8 +4933,8 @@
         maxZoom: 19
       }).addTo(map);
 
-      // Dikmen merkezi referans markeri (sabit)
-      const dikmenIcon = L.divIcon({
+      // Ankara merkezi referans markeri (sabit)
+      const ankaraIcon = L.divIcon({
         className: '',
         html: `<div style="
           width:44px; height:44px;
@@ -4648,8 +4950,8 @@
         popupAnchor: [0, -26]
       });
 
-      L.marker(DIKMEN, { icon: dikmenIcon })
-        .bindTooltip('Dikmen Merkezi', { permanent: false, direction: 'top' })
+      L.marker(ANKARA, { icon: ankaraIcon })
+        .bindTooltip('Ankara Merkezi', { permanent: false, direction: 'top' })
         .addTo(map);
 
       // İlan markeri ikonu (altın pin)
@@ -4694,7 +4996,7 @@
               <div class="popup-meta">
                 ${listing.rooms ? `<span><i class="fas fa-bed"></i> ${listing.rooms}</span>` : ''}
                 ${listing.area ? `<span><i class="fas fa-ruler-combined"></i> ${listing.area}</span>` : ''}
-                <span><i class="fas fa-map-marker-alt"></i> Dikmen</span>
+                <span><i class="fas fa-map-marker-alt"></i> Ankara</span>
               </div>
               <div class="popup-actions">
                 <button class="popup-btn popup-btn-primary nexa-popup-incele" data-url="${listing.link||''}" style="cursor:pointer;border:none;">
@@ -4746,12 +5048,12 @@
         // Demo veri (backend yoksa)
         if (!listings.length) {
           listings = [
-            { title:"Dikmen'de Lüks 4+1 Dublex", price:"8.500.000 TL", type:"Satılık", rooms:"4+1", area:"220 m²", link:"#contact", img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=280&q=80", lat:39.890, lng:32.855 },
-            { title:"Premium Site İçi 3+1", price:"35.000 TL/ay", type:"Kiralık", rooms:"3+1", area:"165 m²", link:"#contact", img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=280&q=80", lat:39.882, lng:32.847 },
-            { title:"Dikmen Merkezi Satılık Daire", price:"5.200.000 TL", type:"Satılık", rooms:"3+1", area:"145 m²", link:"#contact", img:"https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=280&q=80", lat:39.885, lng:32.858 },
-            { title:"Yeni Yapı 2+1 Lüks Daire", price:"22.000 TL/ay", type:"Kiralık", rooms:"2+1", area:"115 m²", link:"#contact", img:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=280&q=80", lat:39.878, lng:32.861 },
-            { title:"Dikmen'de Satılık Villa", price:"18.500.000 TL", type:"Satılık", rooms:"5+2", area:"380 m²", link:"#contact", img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=280&q=80", lat:39.893, lng:32.842 },
-            { title:"Lüks Rezidans Dairesi", price:"6.800.000 TL", type:"Satılık", rooms:"3+1", area:"155 m²", link:"#contact", img:"https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=280&q=80", lat:39.887, lng:32.852 }
+            { title:"Ankara'da Lüks 4+1 Dublex", price:"8.500.000 TL", type:"Satılık", rooms:"4+1", area:"220 m²", link:"#contact", img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=280&q=80", lat:39.940, lng:32.865 },
+            { title:"Premium Site İçi 3+1", price:"35.000 TL/ay", type:"Kiralık", rooms:"3+1", area:"165 m²", link:"#contact", img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=280&q=80", lat:39.925, lng:32.845 },
+            { title:"Ankara Merkezi Satılık Daire", price:"5.200.000 TL", type:"Satılık", rooms:"3+1", area:"145 m²", link:"#contact", img:"https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=280&q=80", lat:39.930, lng:32.870 },
+            { title:"Yeni Yapı 2+1 Lüks Daire", price:"22.000 TL/ay", type:"Kiralık", rooms:"2+1", area:"115 m²", link:"#contact", img:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=280&q=80", lat:39.915, lng:32.880 },
+            { title:"Ankara'da Satılık Villa", price:"18.500.000 TL", type:"Satılık", rooms:"5+2", area:"380 m²", link:"#contact", img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=280&q=80", lat:39.950, lng:32.835 },
+            { title:"Lüks Rezidans Dairesi", price:"6.800.000 TL", type:"Satılık", rooms:"3+1", area:"155 m²", link:"#contact", img:"https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=280&q=80", lat:39.935, lng:32.850 }
           ];
         }
 
@@ -5070,8 +5372,8 @@
     const texts = [
       "AI destekli değerleme ile doğru fiyat, hızlı satış",
       "PropTech danışmanlığı — teknolojiyle güçlendirilmiş gayrimenkul",
-      "Dikmen'de sinematik sunum ve veri odaklı pazarlama",
-      "Coldwell Banker CB VIP · Ankara Dikmen"
+      "Ankara'da sinematik sunum ve veri odaklı pazarlama",
+      "Coldwell Banker CB VIP · Ankara"
     ];
     let textIndex = 0;
     let charIndex = 0;
@@ -5153,26 +5455,26 @@
     // ============================================================
     const FALLBACK_POSTS = [
       {
-        title: "Dikmen'de Fiyat Trendleri 2026",
-        summary: "Dikmen bölgesinde 2026 yılı ilk çeyreğinde gayrimenkul fiyatlarındaki gelişmeleri ve yatırım fırsatlarını değerlendiriyoruz.",
+        title: "Ankara'da Fiyat Trendleri 2026",
+        summary: "Ankara genelinde 2026 yılı ilk çeyreğinde gayrimenkul fiyatlarındaki gelişmeleri ve yatırım fırsatlarını değerlendiriyoruz.",
         image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
         createdAt: "2026-02-13T00:00:00.000Z"
       },
       {
-        title: "Dikmen Vadisi Yenileme Projesi",
+        title: "Ankara Gayrimenkul Projeleri",
         summary: "378.695 m² yeşil alanın yenileme projesinin ikinci fazı başladı. Bölgeye değer katacak yenilikler neler?",
         image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
         createdAt: "2026-02-10T00:00:00.000Z"
       },
       {
-        title: "Yatırımcılar İçin Dikmen Rehberi",
-        summary: "Dikmen'de gayrimenkul yatırımı yaparken dikkat edilmesi gereken 10 önemli nokta ve uzman tavsiyeleri.",
+        title: "Yatırımcılar İçin Ankara Rehberi",
+        summary: "Ankara'da gayrimenkul yatırımı yaparken dikkat edilmesi gereken 10 önemli nokta ve uzman tavsiyeleri.",
         image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
         createdAt: "2026-02-07T00:00:00.000Z"
       },
       {
         title: "M4 Metro Hattı Yeni Durakları",
-        summary: "Dikmen bölgesini doğrudan etkileyen M4 metro hattının yeni durakları açıldı. Ulaşım kolaylığı artıyor.",
+        summary: "Ankara genelini doğrudan etkileyen M4 metro hattının yeni durakları açıldı. Ulaşım kolaylığı artıyor.",
         image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
         createdAt: "2026-02-05T00:00:00.000Z"
       },
@@ -5183,8 +5485,8 @@
         createdAt: "2026-02-03T00:00:00.000Z"
       },
       {
-        title: "Dikmen'de Yaşam Kalitesi Artıyor",
-        summary: "Yeni açılan sosyal tesisler, kafeler ve spor alanları ile Dikmen'de yaşam kalitesi yükseliyor.",
+        title: "Ankara'da Yaşam Kalitesi Artıyor",
+        summary: "Yeni açılan sosyal tesisler, kafeler ve spor alanları ile Ankara'da yaşam kalitesi yükseliyor.",
         image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
         createdAt: "2026-02-01T00:00:00.000Z"
       }
@@ -5451,7 +5753,7 @@
       const typeLabel = listing.type || 'Satılık';
       const price = listing.price || 'Fiyat Sorunuz';
       const title = escapeHtml(listing.title || '');
-      const loc = escapeHtml(listing.loc || 'Dikmen, Çankaya');
+      const loc = escapeHtml(listing.loc || 'Ankara, Çankaya');
       const link = escapeHtml(listing.link || '');
 
       card.innerHTML = `
@@ -5525,9 +5827,9 @@
 
       const demoListings = [
         {
-          title: "Dikmen'de Lüks 4+1 Dublex",
+          title: "Ankara'da Lüks 4+1 Dublex",
           price: "8.500.000 TL",
-          loc: "Dikmen, Çankaya",
+          loc: "Ankara, Çankaya",
           img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
           type: "Satılık",
           rooms: "4+1",
@@ -5536,16 +5838,16 @@
         {
           title: "Premium Site İçi 3+1",
           price: "35.000 TL/ay",
-          loc: "Dikmen, Çankaya",
+          loc: "Ankara, Çankaya",
           img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
           type: "Kiralık",
           rooms: "3+1",
           area: "165 m²"
         },
         {
-          title: "Dikmen Merkezi Satılık Daire",
+          title: "Ankara Merkezi Satılık Daire",
           price: "5.200.000 TL",
-          loc: "Dikmen, Çankaya",
+          loc: "Ankara, Çankaya",
           img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
           type: "Satılık",
           rooms: "3+1",
@@ -5554,16 +5856,16 @@
         {
           title: "Yeni Yapı 2+1 Lüks Daire",
           price: "22.000 TL/ay",
-          loc: "Dikmen, Çankaya",
+          loc: "Ankara, Çankaya",
           img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
           type: "Kiralık",
           rooms: "2+1",
           area: "115 m²"
         },
         {
-          title: "Dikmen'de Satılık Villa",
+          title: "Ankara'da Satılık Villa",
           price: "18.500.000 TL",
-          loc: "Dikmen, Çankaya",
+          loc: "Ankara, Çankaya",
           img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
           type: "Satılık",
           rooms: "5+2",
@@ -5572,7 +5874,7 @@
         {
           title: "Lüks Rezidans Dairesi",
           price: "6.800.000 TL",
-          loc: "Dikmen, Çankaya",
+          loc: "Ankara, Çankaya",
           img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80",
           type: "Satılık",
           rooms: "3+1",
@@ -6782,6 +7084,89 @@ ${src.length ? `
       c.innerHTML = html;
       c.style.display = 'block';
     };
+
+
+    // ── 3D Card Hover Tilt Effect ──
+    if (window.innerWidth > 968) {
+      document.querySelectorAll('.card, .video-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const xc = rect.width / 2;
+          const yc = rect.height / 2;
+          const angleX = (yc - y) / 14;
+          const angleY = (x - xc) / 14;
+          card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.02)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        });
+      });
+    }
+
+    // ── Parallax Scroll Hero ──
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const heroVideo = document.querySelector('.hero-video');
+      if (heroVideo) {
+        heroVideo.style.transform = `translate(-50%, calc(-50% + ${scrolled * 0.35}px))`;
+      }
+    });
+
+    // ── Video Gallery Theater-Mode ──
+    const theaterModal = document.getElementById('theaterModal');
+    const theaterIframe = document.getElementById('theaterIframe');
+    
+    window.openTheaterMode = function(url, title) {
+      if (theaterIframe) {
+        theaterIframe.src = url;
+      }
+      if (theaterModal) {
+        theaterModal.style.display = 'flex';
+      }
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeTheaterMode = function() {
+      if (theaterModal) {
+        theaterModal.style.display = 'none';
+      }
+      if (theaterIframe) {
+        theaterIframe.src = '';
+      }
+      document.body.style.overflow = 'auto';
+    };
+
+    if (theaterModal) {
+      theaterModal.addEventListener('click', (e) => {
+        if (e.target === theaterModal) closeTheaterMode();
+      });
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeTheaterMode();
+    });
+
+
+    // Testimonial Carousel Logic
+    let currentTestimonial = 0;
+    const totalTestimonials = 3;
+    const testimonialContainer = document.getElementById('testimonialsSliderContainer');
+    
+    window.goToTestimonial = function(index) {
+      currentTestimonial = index;
+      if (testimonialContainer) {
+        testimonialContainer.style.transform = `translateX(-${currentTestimonial * 100}%)`;
+      }
+      document.querySelectorAll('.testimonial-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentTestimonial);
+      });
+    };
+
+    // Auto-scroll testimonials every 6 seconds
+    setInterval(() => {
+      goToTestimonial((currentTestimonial + 1) % totalTestimonials);
+    }, 6000);
   })();
   </script>
 </body>

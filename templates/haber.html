@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ankara Gayrimenkul Blog & Yatırım Haberleri | Yiğit Narin</title>
+  <meta name="description" content="Ankara gayrimenkul piyasası, konut kredi faizleri, kentsel dönüşüm, ulaşım projeleri ve emlak yatırımlarına dair yapay zeka destekli analizler ve en güncel haberler.">
+  
+  <link rel="icon" type="image/png" href="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Raleway:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --deep-navy: #0a1628;
+      --navy: #132238;
+      --navy-light: #1e3a52;
+      --gold: #d4af37;
+      --gold-dark: #b8941f;
+      --gold-light: #f4e4a6;
+      --cream: #faf8f3;
+      --cream-dark: #f0ece1;
+      --gray: #4a5568;
+      --gray-light: #a0aec0;
+      --white: #ffffff;
+      --shadow-sm: 0 2px 8px rgba(10, 22, 40, 0.04);
+      --shadow: 0 10px 40px rgba(10, 22, 40, 0.12);
+      --shadow-lg: 0 20px 60px rgba(10, 22, 40, 0.20);
+      --shadow-xl: 0 30px 80px rgba(10, 22, 40, 0.30);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    body {
+      font-family: 'Raleway', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      overflow-x: hidden;
+      position: relative;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    /* Background Animation */
+    .bg-animated {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #faf8f3 0%, #f5f0e5 50%, #faf8f3 100%);
+      overflow: hidden;
+    }
+
+    .bg-animated::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 30%, rgba(212, 175, 55, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 90% 70%, rgba(19, 34, 56, 0.02) 0%, transparent 50%);
+      animation: float 25s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(20px, -20px) rotate(3deg); }
+    }
+
+    .grain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+    }
+
+    /* Navigation */
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: rgba(250, 248, 243, 0.95);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-sm);
+      border-bottom: 1px solid rgba(19, 34, 56, 0.05);
+    }
+
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      text-decoration: none;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-gold {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .mobile-toggle span {
+      width: 28px;
+      height: 3px;
+      background: var(--navy);
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 968px) {
+      nav { padding: 15px 20px; }
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        width: 100%;
+        max-width: 320px;
+        height: calc(100vh - 70px);
+        background: var(--cream);
+        flex-direction: column;
+        padding: 40px;
+        gap: 25px;
+        box-shadow: var(--shadow-xl);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 998;
+        border-left: 1px solid rgba(19, 34, 56, 0.08);
+      }
+      .nav-links.active { right: 0; }
+      .mobile-toggle { display: flex; }
+    }
+
+    /* Page Header */
+    .page-header {
+      padding: 160px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header-badge {
+      display: inline-block;
+      padding: 8px 24px;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 50px;
+      color: var(--gold-dark);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      color: var(--deep-navy);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .page-header p {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* Filter & Search Bar */
+    .search-filter-section {
+      margin-bottom: 50px;
+    }
+
+    .search-filter-wrapper {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(10, 22, 40, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .search-row {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 18px 24px 18px 60px;
+      border-radius: 16px;
+      border: 1.5px solid var(--cream-dark);
+      background: var(--cream);
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      color: var(--navy);
+      transition: all 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-light);
+      font-size: 18px;
+    }
+
+    .filter-chips {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-chip {
+      padding: 10px 22px;
+      background: var(--cream);
+      border: 1.5px solid var(--cream-dark);
+      border-radius: 50px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .filter-chip:hover {
+      border-color: var(--gold);
+      color: var(--gold-dark);
+    }
+
+    .filter-chip.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+      box-shadow: 0 8px 20px rgba(19, 34, 56, 0.2);
+    }
+
+    /* News Grid */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 80px;
+    }
+
+    @media (max-width: 1024px) {
+      .news-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .news-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Card */
+    .news-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(10, 22, 40, 0.05);
+      border: 1px solid rgba(10, 22, 40, 0.04);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .news-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      border: 1.5px solid transparent;
+      background: linear-gradient(135deg, rgba(212,175,55,0.4), rgba(212,175,55,0)) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .news-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 45px rgba(10, 22, 40, 0.12);
+    }
+
+    .news-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-banner {
+      height: 230px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .news-card:hover .card-banner img {
+      transform: scale(1.06);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 6px 14px;
+      background: rgba(10, 22, 40, 0.85);
+      backdrop-filter: blur(8px);
+      color: var(--gold-light);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-body {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--gray-light);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .card-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.35;
+      margin-bottom: 12px;
+      transition: color 0.3s;
+    }
+
+    .news-card:hover .card-title {
+      color: var(--gold-dark);
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-link {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold-dark);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .news-card:hover .card-link {
+      color: var(--navy);
+    }
+
+    /* Skeleton Loading */
+    .skeleton-card {
+      background: var(--white);
+      border-radius: 20px;
+      height: 450px;
+      border: 1px solid rgba(10, 22, 40, 0.04);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .skeleton-banner {
+      height: 230px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+
+    .skeleton-body {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .skeleton-line {
+      height: 14px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: 4px;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Empty State */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(10, 22, 40, 0.04);
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      color: var(--gray-light);
+      font-size: 14px;
+    }
+
+    /* Modal */
+    .blog-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(10, 22, 40, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow-y: auto;
+    }
+
+    .blog-modal-content {
+      background: #ffffff;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 780px;
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      position: relative;
+      animation: modalIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-banner {
+      width: 100%;
+      height: 340px;
+      overflow: hidden;
+      background: var(--cream-dark);
+      position: relative;
+    }
+
+    .modal-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.45);
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      background: rgba(0, 0, 0, 0.7);
+      transform: scale(1.05);
+    }
+
+    .modal-body {
+      padding: 40px 45px;
+    }
+
+    @media (max-width: 500px) {
+      .modal-body { padding: 30px 20px; }
+      .modal-banner { height: 220px; }
+    }
+
+    .modal-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .modal-category {
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--gold-dark);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .modal-meta-item {
+      color: var(--gray);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 700;
+      color: var(--deep-navy);
+      line-height: 1.25;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .modal-summary {
+      font-size: 17px;
+      color: var(--gray);
+      line-height: 1.75;
+      margin-bottom: 28px;
+      border-left: 3.5px solid var(--gold);
+      padding-left: 18px;
+      font-style: italic;
+    }
+
+    .modal-text {
+      font-size: 16px;
+      color: #1d1d1f;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .modal-cta-box {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: var(--white);
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.2);
+      transition: all 0.3s;
+    }
+
+    .btn-wa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(37, 211, 102, 0.35);
+    }
+
+    .btn-close {
+      padding: 14px 28px;
+      background: transparent;
+      border: 1.5px solid rgba(0, 0, 0, 0.15);
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-close:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    /* Floating CTA */
+    .floating-cta {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+    }
+
+    .float-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 22px;
+      text-decoration: none;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .float-btn:hover {
+      transform: scale(1.1) translateY(-5px);
+    }
+
+    .float-btn.whatsapp {
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+    }
+
+    .float-btn.home-btn {
+      background: var(--navy);
+      box-shadow: 0 10px 25px rgba(19, 34, 56, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--deep-navy);
+      color: var(--cream);
+      padding: 80px 0 30px;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.2fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 968px) {
+      .footer-content { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 500px) {
+      .footer-content { grid-template-columns: 1fr; }
+    }
+
+    .footer-brand h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--gray-light);
+      line-height: 1.7;
+      margin-bottom: 25px;
+      max-width: 320px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-link {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      border-color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .footer-section h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 14px;
+    }
+
+    .footer-links a {
+      color: var(--gray-light);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-light);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-animated"></div>
+  <div class="grain"></div>
+
+  <!-- Navigation -->
+  <div class="nav-wrapper">
+    <nav>
+      <a href="/" class="logo">
+        <span>Yiğit Narin</span><span class="logo-gold">.</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="/">Ana Sayfa</a>
+        <a href="/#portfolio">Portföy</a>
+        <a href="/#services">Hizmetler</a>
+        <a href="/#odullerimiz">Uzmanlık</a>
+        <a href="/#testimonials">Yorumlar</a>
+        <a href="/#contact">İletişim</a>
+      </div>
+      <div class="mobile-toggle" id="mobileToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Page Header -->
+  <header class="page-header container">
+    <span class="header-badge">Emlak & Yatırım</span>
+    <h1>Ankara Gayrimenkul Gelişmeleri</h1>
+    <p>Başkent gayrimenkul piyasasından en son kentsel dönüşüm, ulaşım, finansman ve yatırım fırsatları analizleri.</p>
+  </header>
+
+  <!-- Filter & Search Section -->
+  <section class="search-filter-section container">
+    <div class="search-filter-wrapper">
+      <!-- Search Input -->
+      <div class="search-row">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Haber başlığı veya içerik ara...">
+      </div>
+
+      <!-- Filter Chips -->
+      <div class="filter-chips" id="filterChips">
+        <div class="filter-chip active" data-category="Tümü">Tümü</div>
+        <div class="filter-chip" data-category="Yatırım">Yatırım</div>
+        <div class="filter-chip" data-category="Piyasa Analizi">Piyasa Analizi</div>
+        <div class="filter-chip" data-category="Ulaşım">Ulaşım</div>
+        <div class="filter-chip" data-category="Yaşam">Yaşam</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News Grid -->
+  <main class="news-grid container" id="newsGrid">
+    <!-- Dynimcally loaded cards will go here -->
+  </main>
+
+  <!-- Blog Modal -->
+  <div id="blogModal" class="blog-modal">
+    <div class="blog-modal-content">
+      <!-- Image & Close Button -->
+      <div class="modal-banner">
+        <img id="modalImg" src="" alt="Haber Görseli">
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Content Body -->
+      <div class="modal-body">
+        <div class="modal-meta">
+          <span class="modal-category" id="modalCategory">Yatırım</span>
+          <span class="modal-meta-item" id="modalDate"><i class="far fa-calendar"></i> </span>
+          <span class="modal-meta-item" id="modalReadTime"><i class="far fa-clock"></i> </span>
+        </div>
+
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-summary" id="modalSummary"></p>
+        <div class="modal-text" id="modalText"></div>
+
+        <!-- Action CTA -->
+        <div class="modal-cta-box">
+          <div class="modal-buttons">
+            <a href="" id="modalWaBtn" target="_blank" class="btn-wa">
+              <i class="fab fa-whatsapp"></i> Yiğit Narin'e Danış
+            </a>
+            <button class="btn-close" onclick="closeModal()">Kapat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Quick Actions -->
+  <div class="floating-cta">
+    <a href="/" class="float-btn home-btn" title="Ana Sayfaya Dön">
+      <i class="fas fa-home"></i>
+    </a>
+    <a href="https://wa.me/905324514008" class="float-btn whatsapp" target="_blank" title="WhatsApp İletişim">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h3>Yiğit Narin</h3>
+        <p>Coldwell Banker CB VIP Ankara danışmanı ve PropTech girişimcisi. Yapay zeka destekli değerleme, sinematik sunum ve pazar analizi çözümleri.</p>
+        <div class="social-links">
+          <a href="https://wa.me/905324514008" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://instagram.com/yigitnarin" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.cb.com.tr/danismanlar/yigit-narin-23339" class="social-link" target="_blank"><i class="fas fa-home"></i></a>
+          <a href="https://linkedin.com/in/yigitnarin" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h4>Hızlı Linkler</h4>
+        <ul class="footer-links">
+          <li><a href="/">Ana Sayfa</a></li>
+          <li><a href="/#portfolio">Portföy</a></li>
+          <li><a href="/#services">Hizmetler</a></li>
+          <li><a href="/#testimonials">Yorumlar</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Hizmetler</h4>
+        <ul class="footer-links">
+          <li><a href="/#contact">Ücretsiz AI Değerleme</a></li>
+          <li><a href="/#services">Sinematik Mülk Sunumu</a></li>
+          <li><a href="/#services">Hedefli Alıcı Pazarlaması</a></li>
+          <li><a href="/#services">PropTech Danışmanlığı</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>İletişim</h4>
+        <ul class="footer-links">
+          <li><a href="tel:+905324514008">+90 532 451 40 08</a></li>
+          <li><a href="https://www.cb.com.tr/danismanlar/yigit-narin-23339" target="_blank">CB Profil Sayfası</a></li>
+          <li><a href="/#contact">Çankaya / Ankara</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Yiğit Narin — Tüm hakları saklıdır. | Coldwell Banker CB VIP Ankara</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navigation Drawer Toggle
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileToggle.classList.toggle('open');
+    });
+
+    // Close nav on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        mobileToggle.classList.remove('open');
+      });
+    });
+
+    // Fallback Data
+    const FALLBACK_POSTS = [
+      {
+        title: "Ankara'da Fiyat Trendleri 2026",
+        summary: "Ankara genelinde 2026 yılı ilk çeyreğinde gayrimenkul fiyatlarındaki gelişmeleri ve yatırım fırsatlarını değerlendiriyoruz.",
+        image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+        createdAt: "2026-02-13T00:00:00.000Z",
+        category: "Piyasa Analizi",
+        readTime: "4 dk",
+        content: "Ankara'nın genel gayrimenkul piyasası, 2026 yılının ilk çeyreğinde istikrarlı bir büyüme sergilemektedir. Özellikle batı aksındaki İncek, Çayyolu ve Ümitköy gibi bölgelerde konut fiyatları ortalamanın üzerinde değer kazanmaktadır.\n\nYüksek mevduat faizlerinin piyasayı baskıladığı bu dönemde, gayrimenkul yatırımı yapacak alıcılar için cazip pazarlık fırsatları doğmuştur. Enflasyona karşı koruma kalkanı arayan yatırımcılar, ticari mülklere ve arsa yatırımlarına yönelmektedir.\n\nÖnümüzdeki dönemde faiz oranlarındaki olası bir düşüşün, birikmiş talebi harekete geçirerek fiyatlarda hızlı bir yükseliş dalgası yaratması bekleniyor. Bu nedenle 'şimdi alım zamanı' stratejisini izleyen yatırımcılar karlı çıkacaktır."
+      },
+      {
+        title: "Ankara Gayrimenkul Projeleri ve Kentsel Dönüşüm",
+        summary: "Şehrin çehresini değiştiren büyük park alanları, sosyal tesisler ve kentsel gelişim projelerinin çevre bölgelere değer etkisi.",
+        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+        createdAt: "2026-02-10T00:00:00.000Z",
+        category: "Yaşam",
+        readTime: "3 dk",
+        content: "Ankara Büyükşehir ve ilçe belediyelerinin sürdürdüğü kentsel dönüşüm ve rekreasyon çalışmaları, başkentin sosyal yaşam kalitesini zirveye taşıyor.\n\nYapılan araştırmalar, büyük yeşil alanlara ve sosyal donatılara komşu konutların, diğer konutlara kıyasla %25 daha hızlı değer kazandığını ve kiralama talebinin çok daha yoğun olduğunu gösteriyor.\n\nÖzellikle modern peyzaj tasarımları, yürüyüş yolları, çocuk oyun alanları ve göletler barındıran projelerin çevresinde prestijli konut siteleri hızla yükselmektedir. Doğayla iç içe yaşam, başkent alıcılarının bir numaralı kriteri haline gelmiştir."
+      },
+      {
+        title: "Yatırımcılar İçin Ankara Rehberi",
+        summary: "Ankara'da gayrimenkul yatırımı yaparken dikkat edilmesi gereken 10 önemli nokta ve uzman tavsiyeleri.",
+        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+        createdAt: "2026-02-07T00:00:00.000Z",
+        category: "Yatırım",
+        readTime: "5 dk",
+        content: "Ankara gayrimenkul piyasası, memur nüfusu, öğrenci yoğunluğu ve gelişmiş sanayisi ile Türkiye'nin en stabil yatırım limanlarından biridir. Ankara'da doğru yatırım yapmak için şu unsurlara dikkat edilmelidir:\n\n1. Lokasyon Analizi: Şehrin gelişim aksı batı yönündedir (Eskişehir Yolu ve İstanbul Yolu koridorları).\n2. ROI (Amortisman Süresi): Konutlarda amortisman süreleri 15-18 yıla kadar düşen bölgeler öncelikli değerlendirilmelidir.\n3. Ulaşım Hatları: Metro istasyonlarına yürüme mesafesinde olan mülkler her dönemde yüksek prim yapar.\n4. PropTech ve Veri Odaklı Kararlar: Fiyat belirlerken sahibinden listelemeleri yerine veri tabanlı emsal analiz motorları kullanılmalıdır.\n\nDetaylı bir pazar analizi ve doğru fiyatlama ile yapılan yatırımlar, enflasyon karşısında reel kazanç sağlamanın en güvenli yoludur."
+      },
+      {
+        title: "Metro Hatları ve Ulaşım Projelerinin Değerleme Etkisi",
+        summary: "Ankara'nın yeni metro hatları ve alternatif güzergah projeleri hangi bölgelerdeki emlak fiyatlarını nasıl etkiliyor?",
+        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+        createdAt: "2026-02-05T00:00:00.000Z",
+        category: "Ulaşım",
+        readTime: "3 dk",
+        content: "Raylı sistemler ve toplu taşıma entegrasyonu, büyükşehirlerde konut seçimini belirleyen en kritik etkendir. Ankara genelinde planlanan ve inşası devam eden yeni metro durakları, gayrimenkul fiyatlarını doğrudan şekillendiriyor.\n\nİstasyon çevresindeki 1 kilometrelik yarıçapta bulunan konut ve ticari mülklerde, proje duyurulduğu andan itibaren %30'a varan spekülatif değer artışları gözlemlenmektedir. İnşaat tamamlanıp hat aktif olduğunda ise bu artış kalıcı hale gelmektedir.\n\nUlaşım kolaylığı, sadece satış fiyatlarını değil, kira getirilerini ve mülkün likiditesini de (satılabilirlik hızını) doğrudan artırır. Yatırımcıların metro gelişim planlarını yakından takip etmesi hayati önem taşımaktadır."
+      }
+    ];
+
+    let allPosts = [];
+    let activeCategory = 'Tümü';
+    let searchQuery = '';
+
+    // Elements
+    const newsGrid = document.getElementById('newsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const filterChips = document.getElementById('filterChips');
+    const blogModal = document.getElementById('blogModal');
+
+    // Load Blog Posts from API
+    async function loadPosts() {
+      showSkeletons();
+      try {
+        const response = await fetch('/api/blog/posts');
+        const resData = await response.json();
+        
+        if (resData.ok && resData.data && resData.data.length > 0) {
+          allPosts = resData.data;
+        } else {
+          allPosts = FALLBACK_POSTS;
+        }
+      } catch (error) {
+        console.warn('API error, falling back to static posts', error);
+        allPosts = FALLBACK_POSTS;
+      }
+      renderPosts();
+    }
+
+    // Show Skeleton Cards
+    function showSkeletons() {
+      newsGrid.innerHTML = '';
+      for (let i = 0; i < 6; i++) {
+        const skeleton = document.createElement('div');
+        skeleton.className = 'skeleton-card';
+        skeleton.innerHTML = `
+          <div class="skeleton-banner"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-line" style="width: 30%"></div>
+            <div class="skeleton-line" style="width: 85%; height: 22px;"></div>
+            <div class="skeleton-line" style="width: 100%"></div>
+            <div class="skeleton-line" style="width: 100%"></div>
+            <div class="skeleton-line" style="width: 40%"></div>
+          </div>
+        `;
+        newsGrid.appendChild(skeleton);
+      }
+    }
+
+    // Render Posts based on Filters
+    function renderPosts() {
+      newsGrid.innerHTML = '';
+
+      // Filter logic
+      const filtered = allPosts.filter(post => {
+        const matchesCategory = activeCategory === 'Tümü' || post.category === activeCategory;
+        const matchesSearch = searchQuery === '' || 
+          post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          post.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        newsGrid.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search-minus"></i>
+            <h3>Sonuç Bulunamadı</h3>
+            <p>Aradığınız kriterlere uygun haber veya analiz yazısı bulunmamaktadır.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach((post, index) => {
+        const card = document.createElement('article');
+        card.className = 'news-card';
+        card.style.animation = `modalIn 0.5s ease forwards`;
+        card.style.animationDelay = `${index * 0.05}s`;
+        
+        const dateStr = post.createdAt 
+          ? new Date(post.createdAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
+          : '';
+        const category = post.category || 'Genel';
+        const image = post.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+        const readTime = post.readTime || '3 dk';
+
+        card.innerHTML = `
+          <div class="card-banner">
+            <img src="${image}" alt="${post.title}" loading="lazy">
+            <span class="card-badge">${category}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span><i class="far fa-calendar"></i> ${dateStr}</span>
+              <span><i class="far fa-clock"></i> ${readTime}</span>
+            </div>
+            <h3 class="card-title">${post.title}</h3>
+            <p class="card-desc">${post.summary || ''}</p>
+            <span class="card-link">Devamını Oku <i class="fas fa-arrow-right"></i></span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => openModal(post));
+        newsGrid.appendChild(card);
+      });
+    }
+
+    // Modal Operations
+    function openModal(post) {
+      document.getElementById('modalImg').src = post.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+      document.getElementById('modalTitle').textContent = post.title;
+      document.getElementById('modalCategory').textContent = post.category || 'Genel';
+      
+      const dateStr = post.createdAt 
+        ? new Date(post.createdAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
+        : '';
+      document.getElementById('modalDate').innerHTML = `<i class="far fa-calendar"></i> ${dateStr}`;
+      document.getElementById('modalReadTime').innerHTML = `<i class="far fa-clock"></i> ${post.readTime || '3 dk'} okuma`;
+      
+      const summaryEl = document.getElementById('modalSummary');
+      summaryEl.textContent = post.summary || '';
+      
+      const contentEl = document.getElementById('modalText');
+      contentEl.innerHTML = (post.content || '').replace(/\n/g, '<br>');
+
+      if (!post.content) {
+        summaryEl.style.borderLeft = 'none';
+        summaryEl.style.paddingLeft = '0';
+        summaryEl.style.fontStyle = 'normal';
+      } else {
+        summaryEl.style.borderLeft = '3.5px solid var(--gold)';
+        summaryEl.style.paddingLeft = '18px';
+        summaryEl.style.fontStyle = 'italic';
+      }
+
+      // WhatsApp link customization
+      const message = encodeURIComponent(`Merhaba Yiğit Bey, "${post.title}" haber analiziniz hakkında görüşmek istiyorum.`);
+      document.getElementById('modalWaBtn').href = `https://wa.me/905324514008?text=${message}`;
+
+      blogModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Modal
+    function closeModal() {
+      blogModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on overlay click
+    blogModal.addEventListener('click', (e) => {
+      if (e.target === blogModal) closeModal();
+    });
+
+    // Close modal on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Event Listeners for Filters
+    filterChips.addEventListener('click', (e) => {
+      if (e.target.classList.contains('filter-chip')) {
+        document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+        e.target.classList.add('active');
+        activeCategory = e.target.getAttribute('data-category');
+        renderPosts();
+      }
+    });
+
+    // Search bar listener (with debounce)
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchQuery = e.target.value;
+        renderPosts();
+      }, 300);
+    });
+
+    // Bootstrap
+    window.addEventListener('DOMContentLoaded', loadPosts);
+  </script>
+</body>
+</html>

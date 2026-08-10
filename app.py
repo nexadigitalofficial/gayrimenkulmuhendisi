@@ -9863,6 +9863,134 @@ def _refresh_listings_bg():
     except Exception as e:
         print(f"⚠️  Listing refresh hatası: {e}")
 
+# ================================================================
+# DAILY BLOG / NEWS SIGNAL CRAWLER AGENT
+# ================================================================
+
+def run_blog_agent():
+    """Ankara gayrimenkul ve yatırım haberlerini otonom olarak toplayan AI Ajanı."""
+    if not _fb_initialized or db_admin is None:
+        print("⚠️ Firebase Admin bağlı değil, blog agent çalıştırılamadı.")
+        return
+        
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip() or GEMINI_API_KEY
+    if not api_key:
+        print("⚠️ GEMINI_API_KEY ayarlanmamış, blog agent çalıştırılamadı.")
+        return
+        
+    print("🤖 Blog Agent: Ankara Emlak ve Yatırım haberleri taranıyor...")
+    
+    try:
+        from google import genai
+        from google.genai import types
+        import json
+        import random
+        
+        # Unsplash luxury real estate resim havuzu (Ankara veya modern mimari temalı)
+        images_pool = [
+            "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+        ]
+        
+        # 1. Gemini'den emlak piyasası hakkında güncel makaleler üretilmesini talep et
+        client = genai.Client(api_key=api_key)
+        prompt = """
+        Ankara ve Türkiye genelindeki emlak/gayrimenkul piyasası, yeni kentsel dönüşüm alanları, konut faiz oranları, gayrimenkul yatırım stratejileri, metro/ulaşım projeleri gibi güncel konuları analiz et.
+        Buna dayanarak, 3 adet son derece profesyonel, zengin içerikli ve bilgilendirici Türkçe haber/blog yazısı oluştur.
+        Yazılar genel Ankara emlak piyasasını veya Çankaya, İncek, GOP, Çayyolu gibi Ankara'nın farklı semtlerini kapsasın (kesinlikle Dikmen kelimesini kullanma).
+        
+        Her makale için aşağıdaki alanları içeren bir JSON formatında çıktı üret:
+        {
+          "articles": [
+            {
+              "title": "Haber Başlığı",
+              "summary": "1-2 cümlelik çarpıcı özet",
+              "content": "Detaylı, paragraflara bölünmüş, alt başlıklar veya listeler içeren en az 3-4 paragraflık tam makale metni (yeni satırları \\n ile ayır)",
+              "category": "Kategori ('Yatırım', 'Piyasa Analizi', 'Ulaşım' veya 'Yaşam' kategorilerinden biri olmalı)",
+              "readTime": "Tahmini okuma süresi (örneğin: '4 dk')"
+            }
+          ]
+        }
+        """
+        
+        resp = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                temperature=0.7
+            )
+        )
+        
+        raw_text = (resp.text or "").strip()
+        if "```" in raw_text:
+            for part in raw_text.split("```"):
+                p = part.strip()
+                if p.lower().startswith("json"):
+                    raw_text = p[4:].strip()
+                elif p.startswith("{") or p.startswith("["):
+                    raw_text = p
+                    break
+                    
+        payload = json.loads(raw_text)
+        articles = payload.get("articles", [])
+        
+        print(f"🤖 Blog Agent: {len(articles)} adet haber üretildi. Firestore kontrol ediliyor...")
+        
+        now = datetime.now(timezone.utc)
+        added_count = 0
+        
+        for art in articles:
+            title = art.get("title", "").strip()
+            if not title:
+                continue
+                
+            # Duplicate kontrolü (Firestore'da aynı başlıklı doküman var mı?)
+            dups = list(db_admin.collection("blogs").where(filter=FieldFilter("title", "==", title)).limit(1).stream())
+            if dups:
+                print(f"⏭️ Haber zaten mevcut, eklenseydi mükerrer olacaktı: {title}")
+                continue
+                
+            post = {
+                "title": title,
+                "summary": art.get("summary", "").strip(),
+                "content": art.get("content", "").strip(),
+                "image": random.choice(images_pool),
+                "category": art.get("category", "Genel").strip(),
+                "readTime": art.get("readTime", "3 dk").strip(),
+                "published": True,
+                "createdAt": now,
+                "updatedAt": now
+            }
+            
+            db_admin.collection("blogs").add(post)
+            print(f"✅ Yeni haber başarıyla Firestore'a eklendi: {title}")
+            added_count += 1
+            
+        print(f"🤖 Blog Agent: İşlem tamamlandı. {added_count} adet yeni haber/blog yazısı sisteme çekildi.")
+        
+    except Exception as e:
+        print(f"❌ Blog Agent hatası: {e}")
+
+def run_blog_agent_periodically():
+    """Her 24 saatte bir otonom olarak blog agent'ı çalıştırır."""
+    time.sleep(15)  # Uygulama ayağa kalkarken Firebase'in hazır olması için bekle
+    while True:
+        try:
+            run_blog_agent()
+        except Exception as e:
+            print(f"run_blog_agent_periodically döngü hatası: {e}")
+        # 24 saat uyu
+        time.sleep(86400)
+
 def check_bootstrap_status() -> dict:
     """Bootstrap durumunu kontrol et."""
     return {
@@ -9886,6 +10014,9 @@ def bootstrap_app():
     init_firebase_admin()
     start_scheduler()
     _refresh_listings_bg()
+    
+    # Günlük AI Haber Ajanı threadini başlat
+    threading.Thread(target=run_blog_agent_periodically, daemon=True).start()
     
     _bootstrap_done = True
     
@@ -9928,6 +10059,14 @@ def crm():
         return send_from_directory("templates", "crm.html")
     except Exception as e:
         return f"crm.html bulunamadı: {e}", 404
+
+@app.route("/haberler")
+def haberler():
+    """Haberler / Blog sayfası — haber.html"""
+    try:
+        return send_from_directory("templates", "haber.html")
+    except Exception as e:
+        return f"haber.html bulunamadı: {e}", 404
 
 # ================================================================
 # API — İLAN SCRAPER
