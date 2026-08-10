@@ -22,6 +22,16 @@ jobs/
 # Logs and databases
 *.log
 *.sqlite3
+*.jsonl
+logs/
+3/logs/
+
+# Runtime caches
+nexa_embedding_cache.json
+3/nexa_embedding_cache.json
+
+# Standalone 3/ folder (kept local, not deployed)
+3/
 
 # Temp files
 *.tmp

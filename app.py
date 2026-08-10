@@ -10068,6 +10068,398 @@ def haberler():
     except Exception as e:
         return f"haber.html bulunamadı: {e}", 404
 
+@app.route("/projeler")
+def projeler():
+    """CB VIP Prestijli Gayrimenkul Projeleri Sayfası — projeler.html"""
+    try:
+        return send_from_directory("templates", "projeler.html")
+    except Exception as e:
+        return f"projeler.html bulunamadı: {e}", 404
+
+# ================================================================
+# PROJELER SAYFASI — NEXA AI / CB VIP PORTFÖY API ENTEGRASYONU
+# (3/ klasöründeki Suzanne sistemi, Yiğit Narin projeler bölümüne taşındı)
+# ================================================================
+
+from flask import Response as _FlaskResponse
+
+try:
+    from nexa_ai_engine import process_nexa_query, extract_keywords_and_projects
+    from nexa_rag import (cognitive_chat as _nexa_cognitive_chat,
+                          _find_project_by_name as _nexa_find_project,
+                          _load_summaries as _nexa_load_summaries,
+                          get_project_summary as _nexa_get_project_summary)
+    _NEXA_IMPORT_OK = True
+except Exception:
+    _NEXA_IMPORT_OK = False
+
+_NEXA_PROJELER_ROOT = BASE_DIR / "static" / "projeler"
+_NEXA_PROJECTS_MAP = BASE_DIR / "static" / "data" / "projects_map.json"
+_NEXA_LOG_DIR = BASE_DIR / "logs"
+_NEXA_LOG_DIR.mkdir(exist_ok=True)
+
+_nexa_rate_lock = threading.Lock()
+_nexa_rate_hits = {}
+
+
+def _nexa_check_rate_limit(ip):
+    now = time.time()
+    with _nexa_rate_lock:
+        for old_ip in [k for k, ts_list in _nexa_rate_hits.items()
+                       if not ts_list or now - ts_list[-1] >= 60]:
+            del _nexa_rate_hits[old_ip]
+        hits = [t for t in _nexa_rate_hits.get(ip, []) if now - t < 60]
+        if len(hits) >= 12:
+            return False
+        hits.append(now)
+        _nexa_rate_hits[ip] = hits
+    return True
+
+
+def _nexa_telemetry(event: dict):
+    try:
+        line = json.dumps({"ts": datetime.now(timezone.utc).isoformat(), **event},
+                          ensure_ascii=False)
+        with open(_NEXA_LOG_DIR / "telemetry.jsonl", "a", encoding="utf-8") as f:
+            f.write(line + "\n")
+    except Exception:
+        pass
+
+
+def _nexa_stream_file_response(path: Path, mimetype: str):
+    file_size = path.stat().st_size
+    range_header = flask_request.headers.get('Range', None)
+    if not range_header:
+        return send_file(str(path), mimetype=mimetype)
+    m = re.search(r'bytes=(\d+)-(\d*)', range_header)
+    if not m:
+        return send_file(str(path), mimetype=mimetype)
+    byte1 = int(m.group(1))
+    byte2 = int(m.group(2)) if m.group(2) else None
+    length = file_size - byte1
+    if byte2 is not None:
+        length = byte2 - byte1 + 1
+
+    def generate():
+        with open(path, 'rb') as f:
+            f.seek(byte1)
+            remaining = length
+            while remaining > 0:
+                data = f.read(min(1024 * 1024, remaining))
+                if not data:
+                    break
+                remaining -= len(data)
+                yield data
+
+    resp = _FlaskResponse(generate(), 206, mimetype=mimetype,
+                          content_type=mimetype, direct_passthrough=True)
+    resp.headers.add('Content-Range', f'bytes {byte1}-{byte1 + length - 1}/{file_size}')
+    resp.headers.add('Accept-Ranges', 'bytes')
+    resp.headers.add('Content-Length', str(length))
+    return resp
+
+
+def _nexa_load_projects():
+    if _NEXA_PROJECTS_MAP.exists():
+        with open(_NEXA_PROJECTS_MAP, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
+
+
+@app.route("/api/projects", methods=["GET"])
+def api_projects_nexa():
+    data = _nexa_load_projects()
+    if data:
+        return jsonify({"success": True, "data": data})
+    return jsonify({"success": False, "message": "projects_map.json bulunamadı"}), 404
+
+
+@app.route("/api/nexa-ai-chat", methods=["POST"])
+def api_nexa_ai_chat():
+    client_ip = flask_request.remote_addr or "?"
+    if not _nexa_check_rate_limit(client_ip):
+        _nexa_telemetry({"event": "rate_limited", "ip": client_ip})
+        return jsonify({"success": False,
+                        "response": "Çok hızlı soru gönderiyorsunuz. Lütfen birkaç saniye bekleyip tekrar deneyin."}), 429
+
+    data = flask_request.get_json(silent=True) or {}
+    message = (data.get("message") or "").strip()
+    if not message:
+        return jsonify({"success": False, "response": "Lütfen bir soru yazın."}), 400
+    if len(message) > 2000:
+        return jsonify({"success": False, "response": "Soru çok uzun (en fazla 2000 karakter)."}), 400
+    history = data.get("history") or []
+    if not isinstance(history, list) or len(history) > 20:
+        history = []
+
+    t0 = time.time()
+    cards, mode, reply_text = [], "heuristic", "Nexa AI Analizi tamamlandı."
+    if _NEXA_IMPORT_OK:
+        try:
+            result = process_nexa_query(message)
+            cards = result.get("projects", [])
+            reply_text = result.get("response", reply_text)
+        except Exception as e:
+            _nexa_telemetry({"event": "engine_error", "ip": client_ip, "err": str(e)[:200]})
+            return jsonify({"success": False,
+                            "response": "Sistem kısa süreliğine meşgul. Lütfen bir dakika sonra tekrar deneyin."}), 500
+        try:
+            named = extract_keywords_and_projects(message)
+            project = None
+            if len(named) == 1:
+                project = _nexa_find_project(named[0])
+            rag_reply = _nexa_cognitive_chat(message, project=project, history=history)
+            if rag_reply:
+                mode = "cognitive-rag"
+                reply_text = rag_reply
+        except Exception:
+            pass
+    else:
+        reply_text = ("Nexa AI modülü şu anda yüklenemedi; "
+                      "detaylı bilgi için Yiğit Bey ile WhatsApp'tan iletişime geçin.")
+
+    payload = {
+        "success": True,
+        "response": reply_text,
+        "projects": cards,
+        "mode": mode,
+        "elapsed_ms": int((time.time() - t0) * 1000),
+    }
+    _nexa_telemetry({"event": "chat", "ip": client_ip, "mode": mode,
+                     "msg": message[:120], "projects": [c.get("title") for c in cards],
+                     "elapsed_ms": payload["elapsed_ms"]})
+    return jsonify(payload)
+
+
+@app.route("/api/track", methods=["POST"])
+def api_nexa_track():
+    data = flask_request.get_json(silent=True) or {}
+    _nexa_telemetry({"event": f"ui_{data.get('event') or 'click'}",
+                     "ip": flask_request.remote_addr or "?",
+                     "project": data.get("project") or "",
+                     "target": data.get("target") or ""})
+    return jsonify({"success": True})
+
+
+@app.route("/api/nexa-documents", methods=["GET"])
+def api_nexa_documents():
+    project_id = flask_request.args.get("project_id", type=int)
+    try:
+        import sqlite3 as _sqlite3
+        from nexa_rag import DB_PATH as _NEXA_DB_PATH
+        conn = _sqlite3.connect(f"file:{_NEXA_DB_PATH}?mode=ro", uri=True)
+        conn.row_factory = _sqlite3.Row
+        if project_id:
+            rows = conn.execute(
+                "SELECT id, project_id, doc_type, title, file_url, category FROM documents WHERE project_id = ? ORDER BY id",
+                (project_id,)).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT id, project_id, doc_type, title, file_url, category FROM documents ORDER BY project_id, id").fetchall()
+        conn.close()
+        out = []
+        for r in rows:
+            d = dict(r)
+            url = d.get("file_url") or "#"
+            if url.startswith("/static/documents/"):
+                url = url.replace("/static/documents/", "/nexa-docs/", 1)
+            d["download_url"] = url
+            out.append(d)
+        return jsonify({"success": True, "count": len(out), "documents": out})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+@app.route("/api/nexa-summaries", methods=["GET"])
+def api_nexa_summaries():
+    try:
+        data = _nexa_load_summaries()
+        items = [{"project_id": v.get("project_id"), "title": k, "summary": v.get("summary", "")}
+                 for k, v in data.items()]
+        return jsonify({"success": True, "count": len(items), "summaries": items})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+@app.route("/api/nexa-regions", methods=["GET"])
+def api_nexa_regions():
+    """Bölge/Konum filtresi + zihin haritası paneli için proje verisi.
+    Öncelik: NEXA DB; yoksa projects_map.json + nexa_portfolio_data.json üzerinden türetir."""
+    try:
+        import sqlite3 as _sqlite3
+        from nexa_rag import DB_PATH as _NEXA_DB_PATH, _load_db as _nexa_load_db
+        conn = _nexa_load_db()
+        conn.row_factory = _sqlite3.Row
+        rows = conn.execute("""
+            SELECT id, name, il, ilce, mahalle, location, description, ada_no, parsel_no,
+                   price_display, room_info, tkgm_verified
+            FROM projects WHERE COALESCE(is_portfolio,0) = 0 ORDER BY name
+        """).fetchall()
+        conn.close()
+        out = []
+        for r in rows:
+            p = dict(r)
+            loc = p.get("location") or f"{p.get('mahalle') or ''} {p.get('ilce') or ''} {p.get('il') or ''}".strip()
+            out.append({
+                "name": p["name"],
+                "il": p.get("il") or "",
+                "ilce": p.get("ilce") or "",
+                "mahalle": p.get("mahalle") or "",
+                "location": loc,
+                "price_display": p.get("price_display") or "",
+                "room_info": p.get("room_info") or "",
+                "tkgm_verified": bool(p.get("tkgm_verified")),
+                "summary": _nexa_get_project_summary(p["name"]) or "",
+            })
+        if out:
+            return jsonify({"success": True, "count": len(out), "data": out})
+    except Exception:
+        pass
+
+    # Fallback: proje haritası + zengin portföy verisi
+    try:
+        projects = _nexa_load_projects()
+        rich = {}
+        pf = BASE_DIR / "nexa_portfolio_data.json"
+        if pf.exists():
+            pdata = json.loads(pf.read_text(encoding="utf-8"))
+            pool = pdata if isinstance(pdata, list) else pdata.get("projects", [])
+            for item in pool:
+                key = str(item.get("title") or item.get("name") or "").strip()
+                if key:
+                    rich[key] = item
+        out = []
+        for p in projects:
+            title = str(p.get("title") or "").strip()
+            r = rich.get(title) or {}
+            out.append({
+                "name": title,
+                "il": "Ankara",
+                "ilce": r.get("ilce") or p.get("district") or "",
+                "mahalle": r.get("mahalle") or "",
+                "location": r.get("location") or p.get("district") or "",
+                "price_display": r.get("price_display") or p.get("price") or "",
+                "room_info": r.get("room_info") or "",
+                "tkgm_verified": bool(r.get("tkgm_verified")),
+                "summary": "",
+            })
+        if out:
+            return jsonify({"success": True, "count": len(out), "data": out})
+    except Exception:
+        pass
+    return jsonify({"success": False, "message": "Bölge verisi yüklenemedi"}), 500
+
+
+@app.route("/api/projects/<project_id>/report", methods=["GET"])
+def api_nexa_project_report(project_id):
+    projects = _nexa_load_projects()
+    project = next((p for p in projects if str(p.get("id")) == str(project_id) or str(p.get("db_id")) == str(project_id)), None)
+    if not project:
+        return jsonify({"success": False, "message": "Proje bulunamadı"}), 404
+
+    title = project.get("title") or "Prestij Projesi"
+    summary = ""
+    if _NEXA_IMPORT_OK:
+        try:
+            summary = _nexa_get_project_summary(title)
+        except Exception:
+            summary = ""
+    pricing = {}
+    try:
+        pf = BASE_DIR / "nexa_portfolio_data.json"
+        if pf.exists():
+            pdata = json.loads(pf.read_text(encoding="utf-8"))
+            pool = pdata if isinstance(pdata, list) else pdata.get("projects", [])
+            for item in pool:
+                if str(item.get("title")) == str(title) or str(item.get("name")) == str(title):
+                    pricing = item
+                    break
+    except Exception:
+        pricing = {}
+
+    price_display = pricing.get("price_display") or project.get("price") or "Fiyat için danışmanımızdan bilgi alınız"
+    room_info = pricing.get("room_info") or "Daire tipleri için danışmanımızdan bilgi alınız"
+    loc = pricing.get("location") or project.get("district") or project.get("location") or "Prestij Lokasyonu"
+
+    report = (
+        f"DANISMAN NOTU — {title}\n"
+        "===============================================\n\n"
+        "📌 PROJE ÖZETİ\n"
+        f"• Proje: {title}\n"
+        f"• Bölge: {loc}\n"
+        f"• Fiyat: {price_display}\n"
+        f"• Daire Tipleri: {room_info}\n"
+        f"• Geliştirici: Coldwell Banker CB VIP Ankara\n\n"
+    )
+    if summary:
+        report += f"💡 NEXA AI PROJE ÖZETİ\n{summary}\n\n"
+    else:
+        report += (
+            "💡 NEXA AI DEĞERLENDİRMESİ\n"
+            "Proje için otomatik özet verisi; detaylı bilgi için "
+            "Yiğit Bey ile iletişime geçiniz.\n\n"
+        )
+    report += "📞 0532 451 40 08\nWhatsApp üzerinden anlık bilgi alabilirsiniz."
+    return jsonify({"success": True, "report": report})
+
+
+@app.route("/file")
+def nexa_file_serve():
+    path_arg = flask_request.args.get("path", "")
+    if not path_arg:
+        return "path parametresi gerekli", 400
+    try:
+        rel = os.path.normpath(path_arg).lstrip("/\\")
+        if rel.lower().startswith("projeler" + os.sep) or rel.lower().startswith("projeler/"):
+            rel = rel[len("projeler"):].lstrip("/\\")
+        if rel.lower().startswith("static" + os.sep) or rel.lower().startswith("static/"):
+            rel = rel[len("static"):].lstrip("/\\")
+        base = _NEXA_PROJELER_ROOT.resolve()
+        target = (base / rel).resolve()
+        if target != base and base not in target.parents:
+            return "Geçersiz yol", 400
+        if not target.exists() or not target.is_file():
+            return "Dosya bulunamadı", 404
+    except Exception:
+        return "Hatalı yol", 400
+
+    suffix = target.suffix.lower()
+    if suffix == ".mp4":
+        return _nexa_stream_file_response(target, "video/mp4")
+    if suffix == ".pdf":
+        return send_file(str(target), mimetype="application/pdf")
+    return send_file(str(target))
+
+
+@app.route("/stream/video/<project_id>")
+def nexa_stream_video(project_id):
+    projects = _nexa_load_projects()
+    project = next((p for p in projects if str(p.get("id")) == str(project_id) or str(p.get("db_id")) == str(project_id)), None)
+    if not project:
+        return "Project not found", 404
+
+    target_dir = _NEXA_PROJELER_ROOT / (project.get("folder_name") or project.get("title") or "")
+    _PRIORITY_WORDS_1 = ("tanitim", "tanıtım", "intro", "main", "ana")
+    _PRIORITY_WORDS_2 = ("slayt", "slideshow", "slaytlar")
+
+    def _mp4_priority(f: Path):
+        name = f.stem.lower()
+        for i, kw in enumerate(_PRIORITY_WORDS_1):
+            if kw in name:
+                return (0, i, -f.stat().st_size)
+        for i, kw in enumerate(_PRIORITY_WORDS_2):
+            if kw in name:
+                return (1, i, -f.stat().st_size)
+        return (2, 0, -f.stat().st_size)
+
+    mp4_files = sorted(target_dir.glob("*.mp4"), key=_mp4_priority) if target_dir.exists() else []
+    real_mp4 = next((f for f in mp4_files if f.stat().st_size > 500 * 1024), None)
+    if real_mp4 is None and mp4_files:
+        real_mp4 = mp4_files[0]
+    if not real_mp4 or not real_mp4.exists():
+        return "Video file not found", 404
+    return _nexa_stream_file_response(real_mp4, "video/mp4")
+
 # ================================================================
 # API — İLAN SCRAPER
 # ================================================================
