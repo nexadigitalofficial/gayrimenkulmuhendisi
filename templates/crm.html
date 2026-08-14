@@ -1642,7 +1642,7 @@
                     Henüz ilan bulunamadı veya yükleniyor...
                 </div>
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div v-for="(lst, idx) in myListings" :key="idx" class="kanban-card" style="display:flex; flex-direction:column; padding:0; overflow:hidden; background: var(--bg-surface); border: 1px solid var(--border-subtle);">
+                    <div v-for="(lst, idx) in myListings" :key="idx" class="kanban-card" style="display:flex; flex-direction:column; padding:0; overflow:hidden; background: var(--bg-surface); border: 1px solid var(--border-subtle); cursor:pointer;" @click="openListingPortfoy(lst)">
                         <div style="width:100%; height:200px; background-size:cover; background-position:center;" :style="{ backgroundImage: 'url(' + lst.img + ')' }"></div>
                         <div style="padding: 16px; flex: 1; display:flex; flex-direction:column;">
                             <div class="flex justify-between items-start mb-2">
@@ -1651,8 +1651,11 @@
                             </div>
                             <h3 style="font-size:14px; font-weight:600; margin-bottom:8px; line-height:1.4;">{{lst.title}}</h3>
                             <div style="font-size:12px; color:var(--text-tertiary); margin-bottom:12px;"><i class="fas fa-map-marker-alt"></i> {{lst.loc}}</div>
-                            <div style="margin-top:auto;">
-                                <a :href="'/sunum/advanced/' + idx" target="_blank" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3);">
+                            <div style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
+                                <button @click.stop="openListingPortfoy(lst)" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: linear-gradient(135deg,#059669,#10b981); color:white; border:none;">
+                                    <i class="fas fa-chart-line"></i> İlerleme Raporu
+                                </button>
+                                <a :href="'/sunum/advanced/' + idx" target="_blank" @click.stop class="btn btn-primary" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3);">
                                     <i class="fas fa-magic"></i> Sunum Oluştur
                                 </a>
                             </div>
@@ -2440,7 +2443,7 @@
                                 <button @click="leadPanelTab='gecmis'" :class="['panel-tab', leadPanelTab==='gecmis'?'active':'']">
                                     <i class="fas fa-history panel-tab-icon"></i>Geçmiş
                                 </button>
-                                <button @click="leadPanelTab='portfoy'" :class="['panel-tab', leadPanelTab==='portfoy'?'active':'']" :style="leadPanelTab!=='portfoy'?'color:#34d399':''">
+                                <button @click="openLeadPortfoy()" :class="['panel-tab', leadPanelTab==='portfoy'?'active':'']" :style="leadPanelTab!=='portfoy'?'color:#34d399':''">
                                     <i class="fas fa-chart-line panel-tab-icon" :style="leadPanelTab!=='portfoy'?'color:#34d399':''"></i>İlerleme
                                 </button>
                                 <button @click="openChatTab()" :class="['panel-tab', leadPanelTab==='chat'?'active':'']" style="color: leadPanelTab!=='chat' ? '#34d399' : ''">
@@ -3220,8 +3223,20 @@
                             </div>
                             </template><!-- /chat -->
 
-                            <!-- ══ TAB: İLERLEME (PORTFÖY) ══ -->
-                            <template v-if="leadPanelTab==='portfoy'">
+                            <!-- ══ PORTFÖY İLERLEME MODAL (paylaşımlı: ilan kartı & lead paneli) ══ -->
+                            <template v-if="showPortfoyModal">
+                                <div class="modal-backdrop" @click="showPortfoyModal=false">
+                                    <div class="modal-content glass-strong rounded-2xl p-6" @click.stop>
+                                        <div class="flex items-center justify-between mb-4">
+                                            <div class="flex items-center gap-2 min-w-0">
+                                                <i class="fas fa-chart-line" style="color:#34d399;"></i>
+                                                <h2 class="text-lg font-bold truncate">Portföy İlerleme</h2>
+                                                <span class="text-xs text-gray-400 truncate">— {{ portfoyCtx.title || 'İlan' }}</span>
+                                            </div>
+                                            <button @click="showPortfoyModal=false" class="p-2 rounded-xl hover:bg-white/5">
+                                                <i class="fas fa-times text-xl"></i>
+                                            </button>
+                                        </div>
 
                                 <!-- ─── RAPOR HEADER ─────────────────────── -->
                                 <div class="glass rounded-xl p-4" style="border:1px solid rgba(52,211,153,0.25);">
@@ -3397,6 +3412,9 @@
                                             <i v-if="portfoyChatLoading" class="fas fa-spinner fa-spin text-sm"></i>
                                             <i v-else class="fas fa-paper-plane text-sm"></i>
                                         </button>
+                                    </div>
+                                </div>
+
                                     </div>
                                 </div>
                             </template><!-- /İlerleme -->
@@ -4046,6 +4064,8 @@
                 { id: 'insaat',    label: 'İnşaat',    icon: 'fas fa-hard-hat' },
                 { id: 'teslim',    label: 'Teslim',    icon: 'fas fa-key' },
             ];
+            const portfoyCtx           = Vue.ref({ kind: 'contact', refId: '', title: '' });
+            const showPortfoyModal     = Vue.ref(false);
             const portfoyChatActions     = [
                 'Son durum nedir?', 'Bu hafta ne yapmalıyım?', 'Riskler nedir?', 'Fiyat önerisi ver'
             ];
@@ -4628,16 +4648,7 @@
                 expandedSavedStrat.value = null;
                 showAllQuestions.value = false;
                 // Reset portfolio
-                portfoyMedia.value = [];
-                portfoyNotes.value = [];
-                portfoyReports.value = [];
-                portfoyReportResult.value = null;
-                portfoyReportError.value = '';
-                portfoyPdfB64.value = null;
-                portfoySelectedStage.value = 'belirsiz';
-                portfoyNoteText.value = '';
-                portfoyChatMessages.value = [];
-                portfoyChatInput.value = ''; 
+                resetPortfoyState();
                 // Reset chat
                 chatMessages.value = [];
                 chatInput.value = '';
@@ -5956,13 +5967,16 @@ ${comments}`;
 
             // ── PORTFÖY İLERLEME: YARDIMCILAR ──────────────────
             const _activeIsWeb = () => {
-                return !!(activeLead.value && (activeLead.value._fromWeb || webLeads.value.find(l => l.id === activeLead.value.id)));
+                return portfoyCtx.value.kind === 'lead';
             };
             const _portfoyColl = (sub) => {
-                if (!user.value || !activeLead.value) return null;
-                return _activeIsWeb()
-                    ? db.collection('leads').doc(activeLead.value.id).collection(sub)
-                    : db.collection('users').doc(user.value.uid).collection('contacts').doc(activeLead.value.id).collection(sub);
+                if (!user.value || !portfoyCtx.value.refId) return null;
+                const c = portfoyCtx.value;
+                if (c.kind === 'listing')
+                    return db.collection('users').doc(user.value.uid).collection('listings').doc(c.refId).collection(sub);
+                if (c.kind === 'lead')
+                    return db.collection('leads').doc(c.refId).collection(sub);
+                return db.collection('users').doc(user.value.uid).collection('contacts').doc(c.refId).collection(sub);
             };
             const stageLabel = (id) => {
                 return (portfoyStages.find(s => s.id === id) || {}).label || id || '';
@@ -5974,22 +5988,55 @@ ${comments}`;
             };
             const _portfoyApi = async (path, payload) => {
                 const idToken = await firebase.auth().currentUser.getIdToken();
+                const c = portfoyCtx.value;
                 const resp = await fetch(path, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + idToken },
                     body: JSON.stringify({
                         uid: user.value ? user.value.uid : '',
-                        contactId: activeLead.value ? activeLead.value.id : '',
-                        is_web: _activeIsWeb(),
+                        contactId: c.refId || '',
+                        is_web: c.kind === 'lead',
+                        ctx: c.kind || 'contact',
                         ...(payload || {}),
                     }),
                 });
                 return resp.json();
             };
 
+            // ── PORTFÖY İLERLEME: PANEL AÇ/KAPAT ────────────────
+            const resetPortfoyState = () => {
+                portfoyMedia.value = [];
+                portfoyNotes.value = [];
+                portfoyReports.value = [];
+                portfoyReportResult.value = null;
+                portfoyReportError.value = '';
+                portfoyPdfB64.value = null;
+                portfoySelectedStage.value = 'belirsiz';
+                portfoyNoteText.value = '';
+                portfoyChatMessages.value = [];
+                portfoyChatInput.value = '';
+                portfoyReportLoading.value = false;
+                portfoyReportProgress.value = '';
+            };
+            const openPortfoyPanel = async (kind, refId, title) => {
+                portfoyCtx.value = { kind, refId, title: title || '' };
+                resetPortfoyState();
+                showPortfoyModal.value = true;
+                await loadPortfoyData();
+            };
+            const openListingPortfoy = (lst) => {
+                const refId = lst.id || String((lst.link || lst.title + lst.price || '').split('').reduce((a, ch) => (a * 31 + (ch.charCodeAt(0) || 0)) >>> 0, 7).toString(36));
+                openPortfoyPanel('listing', refId, lst.title || lst.loc || 'İlan');
+            };
+            const openLeadPortfoy = () => {
+                if (!activeLead.value) return;
+                const isWeb = !!(activeLead.value._fromWeb || webLeads.value.find(l => l.id === activeLead.value.id));
+                openPortfoyPanel(isWeb ? 'lead' : 'contact', activeLead.value.id, activeLead.value.name || activeLead.value.title || '');
+            };
+
             // ── PORTFÖY İLERLEME: YÜKLEME ──────────────────────
             const loadPortfoyData = async () => {
-                if (!user.value || !activeLead.value) { portfoyMedia.value = []; portfoyNotes.value = []; portfoyReports.value = []; return; }
+                if (!user.value || !portfoyCtx.value.refId) { portfoyMedia.value = []; portfoyNotes.value = []; portfoyReports.value = []; return; }
                 try {
                     const mcoll = _portfoyColl('portfolio_media');
                     const ncoll = _portfoyColl('portfolio_notes');
@@ -6065,7 +6112,7 @@ ${comments}`;
             // ── PORTFÖY İLERLEME: NOTLAR ────────────────────────
             const addPortfoyNote = async () => {
                 const text = portfoyNoteText.value.trim();
-                if (!text || !activeLead.value) return;
+                if (!text || !portfoyCtx.value.refId) return;
                 try {
                     const coll = _portfoyColl('portfolio_notes');
                     if (!coll) return;
@@ -6088,7 +6135,7 @@ ${comments}`;
 
             // ── PORTFÖY İLERLEME: RAPOR ─────────────────────────
             const runPortfoyReport = async () => {
-                if (!activeLead.value || portfoyReportLoading.value) return;
+                if (!portfoyCtx.value.refId || portfoyReportLoading.value) return;
                 portfoyReportLoading.value = true;
                 portfoyReportError.value = '';
                 portfoyReportResult.value = null;
@@ -6131,11 +6178,12 @@ ${comments}`;
             };
 
             const downloadPortfoyReport = async (reportId) => {
-                if (!activeLead.value || !user.value) return;
+                if (!portfoyCtx.value.refId || !user.value) return;
                 try {
                     const idToken = await firebase.auth().currentUser.getIdToken();
-                    const isWebQ = _activeIsWeb() ? '?is_web=1' : '';
-                    const resp = await fetch(`/api/portfolio/report/${user.value.uid}/${activeLead.value.id}/${reportId}/pdf${isWebQ}`, {
+                    const kind = portfoyCtx.value.kind;
+                    const q = kind === 'listing' ? '?ctx=listing' : (kind === 'lead' ? '?is_web=1' : '');
+                    const resp = await fetch(`/api/portfolio/report/${user.value.uid}/${portfoyCtx.value.refId}/${reportId}/pdf${q}`, {
                         headers: { 'Authorization': 'Bearer ' + idToken },
                     });
                     if (!resp.ok) { const d = await resp.json().catch(() => ({})); throw new Error(d.error || 'İndirilemedi'); }
@@ -6151,7 +6199,7 @@ ${comments}`;
             // ── PORTFÖY İLERLEME: SOHBET ────────────────────────
             const sendPortfoyChat = async (prefill) => {
                 let text = (prefill || portfoyChatInput.value || '').trim();
-                if (!text || portfoyChatLoading.value || !activeLead.value) return;
+                if (!text || portfoyChatLoading.value || !portfoyCtx.value.refId) return;
                 portfoyChatInput.value = '';
                 portfoyChatMessages.value.push({ role: 'user', content: text });
                 portfoyChatLoading.value = true;
@@ -6347,6 +6395,8 @@ ${comments}`;
                 onScreenshotFileChange, onScreenshotDrop, onScreenshotPaste, deleteScreenshot,
                 // ── PORTFÖY İLERLEME ──
                 portfoyStages, portfoyChatActions,
+                portfoyCtx, showPortfoyModal,
+                openPortfoyPanel, openListingPortfoy, openLeadPortfoy,
                 portfoyMedia, portfoyMediaUploading, portfoyMediaDragOver, portfoySelectedStage,
                 portfoyNotes, portfoyNoteText, portfoyReports,
                 portfoyReportLoading, portfoyReportProgress, portfoyReportResult, portfoyReportError,

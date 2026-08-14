@@ -10740,6 +10740,7 @@ def fetch_real_estate_data() -> list:
                     lat, lng = get_listing_coords(title, loc)
 
                 listings.append({
+                    "id": hashlib.md5(link.encode("utf-8")).hexdigest()[:12],
                     "title": title, "price": price, "loc": loc,
                     "img": img_url, "link": link, "rooms": rooms, "area": area,
                     "type": "Kiralık" if "Kiralık" in title else "Satılık",
@@ -13281,8 +13282,14 @@ Görevin:
 # Görsel OCR + ilerleme analizi + PDF rapor + portföy chatbot
 # ================================================================
 
-def _portfolio_coll(user_tok: dict, uid: str, contact_id: str, is_web: bool, sub: str):
-    """Portföy alt koleksiyonunu döndürür: portfolio_media/_notes/_reports."""
+def _portfolio_coll(user_tok: dict, uid: str, contact_id: str, is_web: bool, sub: str, ctx: str = "contact"):
+    """Portföy alt koleksiyonunu döndürür: portfolio_media/_notes/_reports.
+    ctx: contact | lead | listing (listing → users/{uid}/listings/{id}/portfolio_*)"""
+    if ctx == "listing":
+        return (db_admin
+                .collection("users").document(uid)
+                .collection("listings").document(contact_id)
+                .collection(sub))
     if is_web:
         return db_admin.collection("leads").document(contact_id).collection(sub)
     return (db_admin
@@ -13291,13 +13298,27 @@ def _portfolio_coll(user_tok: dict, uid: str, contact_id: str, is_web: bool, sub
             .collection(sub))
 
 
-def _portfolio_lead_doc(user_tok: dict, uid: str, contact_id: str, is_web: bool):
+def _portfolio_lead_doc(user_tok: dict, uid: str, contact_id: str, is_web: bool, ctx: str = "contact"):
+    if ctx == "listing":
+        return (db_admin
+                .collection("users").document(uid)
+                .collection("listings").document(contact_id)
+                .get())
     if is_web:
         return db_admin.collection("leads").document(contact_id).get()
     return (db_admin
             .collection("users").document(uid)
             .collection("contacts").document(contact_id)
             .get())
+
+
+def _portfolio_ctx(body_or_args, default: str = "contact") -> str:
+    """İstekten geçerli ctx döner (contact|lead|listing); geçersizse 'contact'."""
+    try:
+        ctx = str((body_or_args or {}).get("ctx", default))
+    except Exception:
+        ctx = default
+    return ctx if ctx in ("contact", "lead", "listing") else default
 
 
 def _portfolio_read_media(coll, limit_n: int = 24) -> tuple:
@@ -13374,12 +13395,16 @@ def portfolio_ocr():
     uid        = token.get("uid") or body.get("uid")
     contact_id = body.get("contactId")
     is_web     = bool(body.get("is_web", False))
+    ctx        = _portfolio_ctx(body)
     media_ids  = body.get("mediaIds") or []
 
     if not uid or not contact_id:
         return jsonify({"ok": False, "error": "uid ve contactId zorunlu"}), 400
 
-    coll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
+    if ctx == "listing":
+        is_web = False
+
+    coll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media", ctx)
     media, docs = _portfolio_read_media(coll)
 
     targets = [m for m in media if m.get("ocrStatus") != "done"]
@@ -13437,20 +13462,24 @@ def portfolio_report():
     uid        = token.get("uid") or body.get("uid")
     contact_id = body.get("contactId")
     is_web     = bool(body.get("is_web", False))
+    ctx        = _portfolio_ctx(body)
 
     if not uid or not contact_id:
         return jsonify({"ok": False, "error": "uid ve contactId zorunlu"}), 400
 
+    if ctx == "listing":
+        is_web = False
+
     import portfolio_progress as pp
     api_key = os.environ.get("GEMINI_API_KEY", "")
 
-    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
-    ncoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_notes")
-    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports")
+    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media", ctx)
+    ncoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_notes", ctx)
+    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports", ctx)
 
     media, _docs  = _portfolio_read_media(coll)
     notes         = _portfolio_read_notes(ncoll)
-    lead_snap     = _portfolio_lead_doc(token, uid, contact_id, is_web)
+    lead_snap     = _portfolio_lead_doc(token, uid, contact_id, is_web, ctx)
     lead_knowledge = lead_snap.to_dict() if lead_snap.exists else {}
 
     # 1) Eksik görsellerin OCR'ı
@@ -13544,10 +13573,13 @@ def portfolio_report_pdf(uid, contact_id, report_id):
         return jsonify({"ok": False, "error": "Yetkisiz erişim"}), 403
 
     is_web = flask_request.args.get("is_web") == "1"
+    ctx    = _portfolio_ctx(flask_request.args)
+    if ctx == "listing":
+        is_web = False
     import portfolio_progress as pp
 
-    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
-    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports")
+    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media", ctx)
+    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports", ctx)
     rdoc  = rcoll.document(report_id).get()
     if not rdoc.exists:
         return jsonify({"ok": False, "error": "Rapor bulunamadı"}), 404
@@ -13589,11 +13621,15 @@ def portfolio_chat():
     uid        = token.get("uid") or body.get("uid")
     contact_id = body.get("contactId")
     is_web     = bool(body.get("is_web", False))
+    ctx        = _portfolio_ctx(body)
     message    = (body.get("message") or "").strip()
     history    = body.get("history", [])
 
     if not uid or not contact_id or not message:
         return jsonify({"ok": False, "error": "uid, contactId ve message zorunlu"}), 400
+
+    if ctx == "listing":
+        is_web = False
 
     GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
     if not GEMINI_API_KEY:
@@ -13601,14 +13637,14 @@ def portfolio_chat():
 
     import portfolio_progress as pp
 
-    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
-    ncoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_notes")
-    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports")
+    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media", ctx)
+    ncoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_notes", ctx)
+    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports", ctx)
 
     media, _      = _portfolio_read_media(coll, limit_n=12)
     notes         = _portfolio_read_notes(ncoll)
     last_reports  = _portfolio_read_reports(rcoll)
-    lead_snap     = _portfolio_lead_doc(token, uid, contact_id, is_web)
+    lead_snap     = _portfolio_lead_doc(token, uid, contact_id, is_web, ctx)
     lead_knowledge = lead_snap.to_dict() if lead_snap.exists else {}
 
     ocr_results = []
@@ -13670,7 +13706,7 @@ Kurallar:
 
     # Geçmişi kalıcı kaydet (ai_data → portfolioChat)
     try:
-        acoll = _portfolio_coll(token, uid, contact_id, is_web, "ai_data")
+        acoll = _portfolio_coll(token, uid, contact_id, is_web, "ai_data", ctx)
         acoll.add({"role": "user", "content": message, "type": "portfolioChat",
                    "createdAt": datetime.now(timezone.utc).isoformat()})
         acoll.add({"role": "assistant", "content": reply, "type": "portfolioChat",
