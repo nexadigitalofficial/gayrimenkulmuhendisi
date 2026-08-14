@@ -2440,6 +2440,9 @@
                                 <button @click="leadPanelTab='gecmis'" :class="['panel-tab', leadPanelTab==='gecmis'?'active':'']">
                                     <i class="fas fa-history panel-tab-icon"></i>Geçmiş
                                 </button>
+                                <button @click="leadPanelTab='portfoy'" :class="['panel-tab', leadPanelTab==='portfoy'?'active':'']" :style="leadPanelTab!=='portfoy'?'color:#34d399':''">
+                                    <i class="fas fa-chart-line panel-tab-icon" :style="leadPanelTab!=='portfoy'?'color:#34d399':''"></i>İlerleme
+                                </button>
                                 <button @click="openChatTab()" :class="['panel-tab', leadPanelTab==='chat'?'active':'']" style="color: leadPanelTab!=='chat' ? '#34d399' : ''">
                                     <i class="fas fa-comments panel-tab-icon" :style="leadPanelTab!=='chat'?'color:#34d399':''"></i>Chat
                                 </button>
@@ -3217,6 +3220,187 @@
                             </div>
                             </template><!-- /chat -->
 
+                            <!-- ══ TAB: İLERLEME (PORTFÖY) ══ -->
+                            <template v-if="leadPanelTab==='portfoy'">
+
+                                <!-- ─── RAPOR HEADER ─────────────────────── -->
+                                <div class="glass rounded-xl p-4" style="border:1px solid rgba(52,211,153,0.25);">
+                                    <p class="fsbo-card-header" style="color:#34d399;">
+                                        <i class="fas fa-chart-line text-emerald-400"></i>Portföy İlerleme
+                                        <span v-if="portfoyMedia.length" class="ml-auto badge" style="background:rgba(52,211,153,0.15);color:#34d399;font-size:0.6rem;">{{ portfoyMedia.length }} Görsel</span>
+                                    </p>
+                                    <p class="text-xs text-gray-500 mb-3 leading-relaxed">
+                                        Görselleri yükleyin — otomatik analiz edilir. Ardından tek dokunuşla AI destekli, görsel zengin İlerleme Raporu (PDF) üretin.
+                                    </p>
+                                    <button @click="runPortfoyReport" :disabled="portfoyReportLoading || portfoyMedia.length===0"
+                                            class="btn btn-primary w-full justify-center"
+                                            :style="portfoyMedia.length===0 ? '' : 'background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 15px rgba(16,185,129,0.3);'">
+                                        <i :class="['fas', portfoyReportLoading ? 'fa-spinner fa-spin' : 'fa-file-pdf']"></i>
+                                        {{ portfoyReportLoading ? portfoyReportProgress || 'Rapor hazırlanıyor...' : 'İlerleme Raporu Oluştur' }}
+                                    </button>
+
+                                    <!-- RAPOR SONUCU -->
+                                    <div v-if="portfoyReportResult" class="mt-3 space-y-2">
+                                        <div class="flex items-center gap-2 text-xs text-emerald-400 font-semibold">
+                                            <i class="fas fa-check-circle"></i>Rapor hazır!
+                                        </div>
+                                        <p class="text-xs text-gray-300 leading-relaxed">{{ portfoyReportResult.ozet }}</p>
+                                        <div class="flex flex-wrap gap-1.5">
+                                            <span v-if="portfoyReportResult.suanki_durum_pct!=null" class="badge" style="background:rgba(16,185,129,0.15);color:#34d399;font-size:0.65rem;">
+                                                %{{ portfoyReportResult.suanki_durum_pct }} durum
+                                            </span>
+                                            <span v-for="(r,ri) in portfoyReportResult.riskler.slice(0,3)" :key="'rk'+ri"
+                                                  class="badge" style="background:rgba(239,68,68,0.12);color:#f87171;font-size:0.65rem;">
+                                                <i class="fas fa-exclamation-triangle mr-1"></i>{{ r.risk }}
+                                            </span>
+                                        </div>
+                                        <button @click="downloadPortfoyResult"
+                                                class="btn w-full justify-center text-xs"
+                                                style="background:linear-gradient(135deg,#dc2626,#ef4444);color:white;box-shadow:0 4px 15px rgba(239,68,68,0.3);">
+                                            <i class="fas fa-download mr-1"></i> PDF Raporu İndir
+                                        </button>
+                                    </div>
+                                    <!-- HATA -->
+                                    <div v-if="portfoyReportError" class="mt-3 text-xs text-red-400 flex items-center gap-2">
+                                        <i class="fas fa-times-circle"></i>{{ portfoyReportError }}
+                                    </div>
+                                </div>
+
+                                <!-- ─── GÖRSEL YÜKLEME ───────────────────── -->
+                                <div class="glass rounded-xl p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Proje Görselleri</p>
+                                        <span v-if="portfoyMediaUploading" class="text-xs text-emerald-400 flex items-center gap-1">
+                                            <i class="fas fa-spinner fa-spin"></i> Yükleniyor + analiz...
+                                        </span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2 mb-2">
+                                        <label v-for="st in portfoyStages" :key="st.id"
+                                               class="text-center text-[0.6rem] cursor-pointer rounded-lg px-1 py-1.5 transition-all"
+                                               :style="portfoySelectedStage===st.id
+                                                   ? 'background:rgba(52,211,153,0.18);color:#34d399;border:1px solid rgba(52,211,153,0.4);'
+                                                   : 'background:rgba(255,255,255,0.04);color:#64748b;border:1px solid rgba(255,255,255,0.07);'">
+                                            <input type="radio" :value="st.id" v-model="portfoySelectedStage" class="hidden">
+                                            <i :class="st.icon" class="mr-1"></i>{{ st.label }}
+                                        </label>
+                                    </div>
+                                    <div class="upload-zone" :class="portfoyMediaDragOver ? 'drag-over' : ''"
+                                         @dragover.prevent="portfoyMediaDragOver=true"
+                                         @dragleave.prevent="portfoyMediaDragOver=false"
+                                         @drop.prevent="onPortfoyMediaDrop">
+                                        <i class="fas fa-cloud-upload-alt text-2xl emerald-400 mb-2"></i>
+                                        <p class="text-xs text-gray-400">Fotoğrafları buraya bırak ya da</p>
+                                        <label class="cursor-pointer text-emerald-400 hover:text-emerald-300 text-xs font-semibold mt-1">
+                                            <i class="fas fa-folder-open mr-1"></i>dosya seç (çoklu)
+                                            <input type="file" accept="image/*" multiple class="hidden" @change="onPortfoyMediaChange">
+                                        </label>
+                                    </div>
+
+                                    <!-- Görsel grid -->
+                                    <div v-if="portfoyMedia.length" class="mt-3 grid grid-cols-3 gap-2">
+                                        <div v-for="m in portfoyMedia" :key="m.id" class="relative rounded-lg overflow-hidden"
+                                             style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+                                            <img :src="m.url" class="w-full h-20 object-cover" loading="lazy">
+                                            <div class="absolute inset-x-0 bottom-0 flex items-center justify-between px-1 py-0.5"
+                                                 style="background:rgba(0,0,0,0.6);">
+                                                <span class="text-[0.55rem] text-emerald-300 truncate">{{ stageLabel(m.stage) }}</span>
+                                                <span v-if="m.ocrStatus==='done'" class="text-[0.55rem] text-green-400" title="Analiz edildi"><i class="fas fa-check-circle"></i></span>
+                                                <span v-else class="text-[0.55rem] text-amber-400" title="Analiz bekliyor"><i class="fas fa-hourglass-half"></i></span>
+                                            </div>
+                                            <button @click="deletePortfoyMedia(m)"
+                                                    class="absolute top-0.5 right-0.5 w-4 h-4 flex items-center justify-center rounded-full text-red-400 hover:bg-red-500/20"
+                                                    style="background:rgba(0,0,0,0.5);">
+                                                <i class="fas fa-times text-[0.5rem]"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p v-else class="text-[0.65rem] text-gray-600 mt-2">Henüz görsel yok — projenin mevcut durumunu fotoğraflayın.</p>
+                                </div>
+
+                                <!-- ─── NOTLAR ───────────────────────────── -->
+                                <div class="glass rounded-xl p-4">
+                                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-2">
+                                        <i class="fas fa-sticky-note mr-1 text-emerald-400"></i>İlerleme Notları
+                                    </p>
+                                    <div class="flex gap-2 mb-3">
+                                        <input v-model="portfoyNoteText" @keydown.enter.self="addPortfoyNote"
+                                               class="flex-1" placeholder="Not ekle: kaba inşaat bitti, boya başladı...">
+                                        <button @click="addPortfoyNote" :disabled="!portfoyNoteText.trim()"
+                                                class="px-3 rounded-lg text-emerald-400 hover:bg-emerald-500/10 disabled:opacity-40">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                    <div v-if="portfoyNotes.length" class="space-y-1.5 max-h-40 overflow-y-auto">
+                                        <div v-for="n in portfoyNotes" :key="n.id"
+                                             class="flex items-start gap-2 text-xs px-2 py-1.5 rounded-lg"
+                                             style="background:rgba(255,255,255,0.03);">
+                                            <span class="text-emerald-400 text-[0.6rem] mt-0.5" v-if="n.type==='stage'"><i class="fas fa-tag"></i></span>
+                                            <span class="flex-1 text-gray-300">{{ n.text }}</span>
+                                            <span class="text-gray-600 text-[0.6rem] whitespace-nowrap mt-0.5">{{ formatPortfoyDate(n.createdAt) }}</span>
+                                            <button @click="deletePortfoyNote(n)" class="text-gray-600 hover:text-red-400"><i class="fas fa-times text-[0.6rem]"></i></button>
+                                        </div>
+                                    </div>
+                                    <p v-else class="text-[0.65rem] text-gray-600">Henüz not yok — ilerleme adımlarını buraya yazın.</p>
+                                </div>
+
+                                <!-- ─── RAPOR GEÇMİŞİ ────────────────────── -->
+                                <div v-if="portfoyReports.length" class="glass rounded-xl p-4">
+                                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-2">
+                                        <i class="fas fa-history mr-1 text-emerald-400"></i>Rapor Geçmişi
+                                    </p>
+                                    <div class="space-y-1.5">
+                                        <div v-for="r in portfoyReports" :key="r.id"
+                                             class="flex items-center justify-between gap-2 text-xs px-2 py-1.5 rounded-lg"
+                                             style="background:rgba(255,255,255,0.03);">
+                                            <span class="text-gray-400">{{ formatPortfoyDate(r.createdAt) }}</span>
+                                            <button @click="downloadPortfoyReport(r.id)"
+                                                    class="text-emerald-400 hover:text-emerald-300">
+                                                <i class="fas fa-download mr-1"></i>İndir
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ─── PORTFÖY SOHBET ──────────────────── -->
+                                <div class="glass rounded-xl overflow-hidden flex flex-col" style="min-height:300px;">
+                                    <div class="flex items-center gap-2 px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,0.07); background:rgba(16,185,129,0.05);">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:linear-gradient(135deg,#10b981,#059669);">
+                                            <i class="fas fa-robot text-white text-sm"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-bold text-white">İlerleme Danışmanı</p>
+                                            <p class="text-xs text-emerald-400">portföy ilerlemesini biliyor</p>
+                                        </div>
+                                    </div>
+                                    <div class="px-2 pt-2 flex flex-wrap gap-1.5" style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                                        <button v-for="q in portfoyChatActions" :key="q" @click="sendPortfoyChat(q)" class="chat-quick-btn">{{ q }}</button>
+                                    </div>
+                                    <div class="p-2 space-y-1.5 max-h-56 overflow-y-auto flex-1">
+                                        <div v-if="portfoyChatMessages.length===0" class="chat-bubble chat-bubble-ai">
+                                            <p class="text-gray-300 text-xs">Portföy raporunuz ve görselleriniz hakkında soru sorabilirsiniz.</p>
+                                        </div>
+                                        <template v-for="(msg,idx) in portfoyChatMessages" :key="idx">
+                                            <div :class="['chat-bubble', msg.role==='user' ? 'chat-bubble-user' : 'chat-bubble-ai']">
+                                                <span v-html="formatChatText(msg.content)" class="text-xs"></span>
+                                            </div>
+                                        </template>
+                                        <div v-if="portfoyChatLoading" class="chat-bubble chat-bubble-ai" style="padding:0.4rem 0.6rem;">
+                                            <div class="chat-typing"><span></span><span></span><span></span></div>
+                                        </div>
+                                    </div>
+                                    <div class="chat-input-row" style="border-top:1px solid rgba(255,255,255,0.04);">
+                                        <textarea v-model="portfoyChatInput" @keydown.enter.exact.prevent="sendPortfoyChat()"
+                                                  placeholder="Portföy ilerlemesini sor..." rows="1"
+                                                  @input="autoResizeChatInput($event)" class="flex-1"></textarea>
+                                        <button @click="sendPortfoyChat()" :disabled="portfoyChatLoading || !portfoyChatInput.trim()"
+                                                class="chat-send-btn self-end">
+                                            <i v-if="portfoyChatLoading" class="fas fa-spinner fa-spin text-sm"></i>
+                                            <i v-else class="fas fa-paper-plane text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template><!-- /İlerleme -->
+
                             <!-- EDIT BUTTON -->
                             <button v-if="leadPanelTab==='ozet'" @click="openContactDetail(activeLead); closeLeadPanel()" class="btn btn-secondary w-full justify-center">
                                 <i class="fas fa-edit mr-2"></i>Tam Düzenleme Formunu Aç
@@ -3852,6 +4036,34 @@
             // ── FSBO ANALYSIS STATE ──────────────────────────────
             const leadPanelTab      = Vue.ref('ozet');
             const panelFullscreen   = Vue.ref(false);
+
+            // ── PORTFÖY İLERLEME STATE ───────────────────────────
+            const portfoyStages          = [
+                { id: 'belirsiz',  label: 'Belirsiz',  icon: 'fas fa-question' },
+                { id: 'temel',     label: 'Temel',     icon: 'fas fa-database' },
+                { id: 'kaba',      label: 'Kaba',      icon: 'fas fa-cubes' },
+                { id: 'ince',      label: 'İnce',      icon: 'fas fa-paint-roller' },
+                { id: 'insaat',    label: 'İnşaat',    icon: 'fas fa-hard-hat' },
+                { id: 'teslim',    label: 'Teslim',    icon: 'fas fa-key' },
+            ];
+            const portfoyChatActions     = [
+                'Son durum nedir?', 'Bu hafta ne yapmalıyım?', 'Riskler nedir?', 'Fiyat önerisi ver'
+            ];
+            const portfoyMedia           = Vue.ref([]);
+            const portfoyMediaUploading  = Vue.ref(false);
+            const portfoyMediaDragOver   = Vue.ref(false);
+            const portfoySelectedStage   = Vue.ref('belirsiz');
+            const portfoyNotes           = Vue.ref([]);
+            const portfoyNoteText        = Vue.ref('');
+            const portfoyReports         = Vue.ref([]);
+            const portfoyReportLoading   = Vue.ref(false);
+            const portfoyReportProgress  = Vue.ref('');
+            const portfoyReportResult    = Vue.ref(null);
+            const portfoyReportError     = Vue.ref('');
+            const portfoyChatMessages    = Vue.ref([]);
+            const portfoyChatInput       = Vue.ref('');
+            const portfoyChatLoading     = Vue.ref(false);
+            const portfoyPdfB64          = Vue.ref(null);
             const fsboTextInput     = Vue.ref('');
             const fsboAudioBlob     = Vue.ref(null);
             const fsboAudioB64      = Vue.ref(null);
@@ -4415,6 +4627,17 @@
                 expandedObj.value = null;
                 expandedSavedStrat.value = null;
                 showAllQuestions.value = false;
+                // Reset portfolio
+                portfoyMedia.value = [];
+                portfoyNotes.value = [];
+                portfoyReports.value = [];
+                portfoyReportResult.value = null;
+                portfoyReportError.value = '';
+                portfoyPdfB64.value = null;
+                portfoySelectedStage.value = 'belirsiz';
+                portfoyNoteText.value = '';
+                portfoyChatMessages.value = [];
+                portfoyChatInput.value = ''; 
                 // Reset chat
                 chatMessages.value = [];
                 chatInput.value = '';
@@ -4441,6 +4664,8 @@
                 activeLeadScreenshots.value = [];
                 _loadScreenshots(contact.id, !!(contact._fromWeb || webLeads.value.find(l => l.id === contact.id)));
                 loadFsboStrategies(contact.id);
+                // Portföy ilerleme verilerini yükle
+                loadPortfoyData();
                 // Proaktif uyarı yükle (async, ÖZET tab'ı bloklamaz)
                 Vue.nextTick(() => loadProactiveAlert(contact));
             };
@@ -5581,6 +5806,7 @@ m²: ${l.sqm || 'Belirtilmemiş'}
 Oda: ${l.rooms || 'Belirtilmemiş'}
 Eklenme: ${l.createdAt ? new Date(l.createdAt).toLocaleDateString('tr-TR') : 'Bilinmiyor'}
 FSBO Analiz: ${fsboSummary}
+Portföy İlerleme: ${portfoyMedia.value.length} görsel, ${portfoyNotes.value.length} not${portfoyReports.value.length ? `, ${portfoyReports.value.length} rapor` : ''}
 Notlar/Yorumlar:
 ${comments}`;
             };
@@ -5725,6 +5951,219 @@ ${comments}`;
                     console.warn('Proaktif uyarı yüklenemedi:', e);
                 } finally {
                     proactiveLoading.value = false;
+                }
+            };
+
+            // ── PORTFÖY İLERLEME: YARDIMCILAR ──────────────────
+            const _activeIsWeb = () => {
+                return !!(activeLead.value && (activeLead.value._fromWeb || webLeads.value.find(l => l.id === activeLead.value.id)));
+            };
+            const _portfoyColl = (sub) => {
+                if (!user.value || !activeLead.value) return null;
+                return _activeIsWeb()
+                    ? db.collection('leads').doc(activeLead.value.id).collection(sub)
+                    : db.collection('users').doc(user.value.uid).collection('contacts').doc(activeLead.value.id).collection(sub);
+            };
+            const stageLabel = (id) => {
+                return (portfoyStages.find(s => s.id === id) || {}).label || id || '';
+            };
+            const formatPortfoyDate = (iso) => {
+                if (!iso) return '';
+                try { return new Date(iso).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit' }); }
+                catch(e) { return ''; }
+            };
+            const _portfoyApi = async (path, payload) => {
+                const idToken = await firebase.auth().currentUser.getIdToken();
+                const resp = await fetch(path, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + idToken },
+                    body: JSON.stringify({
+                        uid: user.value ? user.value.uid : '',
+                        contactId: activeLead.value ? activeLead.value.id : '',
+                        is_web: _activeIsWeb(),
+                        ...(payload || {}),
+                    }),
+                });
+                return resp.json();
+            };
+
+            // ── PORTFÖY İLERLEME: YÜKLEME ──────────────────────
+            const loadPortfoyData = async () => {
+                if (!user.value || !activeLead.value) { portfoyMedia.value = []; portfoyNotes.value = []; portfoyReports.value = []; return; }
+                try {
+                    const mcoll = _portfoyColl('portfolio_media');
+                    const ncoll = _portfoyColl('portfolio_notes');
+                    const rcoll = _portfoyColl('portfolio_reports');
+                    if (mcoll) {
+                        const [msnap, nsnap, rsnap] = await Promise.all([
+                            mcoll.orderBy('createdAt', 'desc').get(),
+                            ncoll.orderBy('createdAt', 'desc').get(),
+                            rcoll.orderBy('createdAt', 'desc').limit(5).get(),
+                        ]);
+                        portfoyMedia.value = msnap.docs.map(d => ({ id: d.id, url: (d.data().dataUrl || d.data().url || ''), ...d.data() }));
+                        portfoyNotes.value = nsnap.docs.map(d => ({ id: d.id, ...d.data() }));
+                        portfoyReports.value = rsnap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    }
+                } catch(e) { console.warn('Portföy verisi yüklenemedi:', e); }
+            };
+
+            const _autoOcr = async (mediaDocId) => {
+                try {
+                    await _portfoyApi('/api/portfolio/ocr', { mediaIds: [mediaDocId] });
+                    const m = portfoyMedia.value.find(x => x.id === mediaDocId);
+                    if (m) m.ocrStatus = 'done';
+                } catch(e) { console.warn('Otomatik OCR başarısız:', e); }
+            };
+
+            const _uploadOnePortfoyMedia = async (file) => {
+                if (!file.type.startsWith('image/')) return;
+                portfoyMediaUploading.value = true;
+                try {
+                    const dataUrl = await _compressImage(file);
+                    const coll = _portfoyColl('portfolio_media');
+                    if (!coll) return;
+                    const docRef = await coll.add({
+                        dataUrl, name: file.name || ('portfoy_' + Date.now() + '.jpg'),
+                        mimeType: file.type, sizeBytes: file.size,
+                        stage: portfoySelectedStage.value,
+                        createdAt: new Date().toISOString(),
+                        ocrStatus: 'pending',
+                    });
+                    const meta = {
+                        id: docRef.id, url: dataUrl, name: file.name,
+                        stage: portfoySelectedStage.value,
+                        createdAt: new Date().toISOString(), ocrStatus: 'pending',
+                    };
+                    portfoyMedia.value.unshift(meta);
+                    _autoOcr(docRef.id); // arka planda otomatik analiz
+                } catch(e) {
+                    console.error('Portföy görsel hata:', e);
+                } finally {
+                    portfoyMediaUploading.value = false;
+                }
+            };
+
+            const onPortfoyMediaChange = async (e) => {
+                for (const f of Array.from(e.target.files || [])) await _uploadOnePortfoyMedia(f);
+                e.target.value = '';
+            };
+            const onPortfoyMediaDrop = async (e) => {
+                portfoyMediaDragOver.value = false;
+                for (const f of Array.from(e.dataTransfer.files || []).filter(f => f.type.startsWith('image/')))
+                    await _uploadOnePortfoyMedia(f);
+            };
+            const deletePortfoyMedia = async (m) => {
+                if (!confirm('Bu görsel silinsin mi?')) return;
+                try {
+                    const coll = _portfoyColl('portfolio_media');
+                    if (!coll) return;
+                    await coll.doc(m.id).delete();
+                    portfoyMedia.value = portfoyMedia.value.filter(x => x.id !== m.id);
+                } catch(e) { showToast('Silme hatası: ' + e.message, 'fas fa-times-circle text-red-400'); }
+            };
+
+            // ── PORTFÖY İLERLEME: NOTLAR ────────────────────────
+            const addPortfoyNote = async () => {
+                const text = portfoyNoteText.value.trim();
+                if (!text || !activeLead.value) return;
+                try {
+                    const coll = _portfoyColl('portfolio_notes');
+                    if (!coll) return;
+                    const docRef = await coll.add({
+                        text, type: 'note', stage: portfoySelectedStage.value,
+                        createdAt: new Date().toISOString(),
+                    });
+                    portfoyNotes.value.unshift({ id: docRef.id, text, type: 'note', stage: portfoySelectedStage.value, createdAt: new Date().toISOString() });
+                    portfoyNoteText.value = '';
+                } catch(e) { showToast('Not eklenemedi: ' + e.message, 'fas fa-times-circle text-red-400'); }
+            };
+            const deletePortfoyNote = async (n) => {
+                try {
+                    const coll = _portfoyColl('portfolio_notes');
+                    if (!coll) return;
+                    await coll.doc(n.id).delete();
+                    portfoyNotes.value = portfoyNotes.value.filter(x => x.id !== n.id);
+                } catch(e) { showToast('Not silinemedi: ' + e.message, 'fas fa-times-circle text-red-400'); }
+            };
+
+            // ── PORTFÖY İLERLEME: RAPOR ─────────────────────────
+            const runPortfoyReport = async () => {
+                if (!activeLead.value || portfoyReportLoading.value) return;
+                portfoyReportLoading.value = true;
+                portfoyReportError.value = '';
+                portfoyReportResult.value = null;
+                portfoyPdfB64.value = null;
+                try {
+                    portfoyReportProgress.value = 'Görseller analiz ediliyor (OCR)...';
+                    await new Promise(r => setTimeout(r, 50));
+                    const data = await _portfoyApi('/api/portfolio/report', {});
+                    if (!data.ok) throw new Error(data.error || 'Rapor alınamadı');
+                    portfoyReportProgress.value = 'Rapor hazırlanıyor...';
+                    portfoyReportResult.value = {
+                        ozet: data.analiz ? data.analiz.ozet : (data.bodyMd || '').slice(0, 200),
+                        suanki_durum_pct: data.analiz ? data.analiz.suanki_durum_pct : null,
+                        ne_yaptik: data.analiz ? data.analiz.ne_yaptik : [],
+                        riskler: data.analiz ? data.analiz.riskler : [],
+                        reportId: data.reportId,
+                    };
+                    portfoyPdfB64.value = data.pdfBase64 || null;
+                    // Geçmişi tazele
+                    loadPortfoyData();
+                } catch(e) {
+                    portfoyReportError.value = e.message || String(e);
+                } finally {
+                    portfoyReportLoading.value = false;
+                    portfoyReportProgress.value = '';
+                }
+            };
+
+            const downloadPortfoyResult = () => {
+                if (!portfoyPdfB64.value && !portfoyReportResult.value) return;
+                if (portfoyPdfB64.value) {
+                    const a = document.createElement('a');
+                    a.href = portfoyPdfB64.value;
+                    a.download = 'ilerleme_raporu_' + (portfoyReportResult.value.reportId || 'yeni').slice(0, 8) + '.pdf';
+                    document.body.appendChild(a); a.click(); a.remove();
+                } else if (portfoyReportResult.value.reportId) {
+                    const mid = portfoyReportResult.value.reportId;
+                    downloadPortfoyReport(mid);
+                }
+            };
+
+            const downloadPortfoyReport = async (reportId) => {
+                if (!activeLead.value || !user.value) return;
+                try {
+                    const idToken = await firebase.auth().currentUser.getIdToken();
+                    const isWebQ = _activeIsWeb() ? '?is_web=1' : '';
+                    const resp = await fetch(`/api/portfolio/report/${user.value.uid}/${activeLead.value.id}/${reportId}/pdf${isWebQ}`, {
+                        headers: { 'Authorization': 'Bearer ' + idToken },
+                    });
+                    if (!resp.ok) { const d = await resp.json().catch(() => ({})); throw new Error(d.error || 'İndirilemedi'); }
+                    const blob = await resp.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = 'ilerleme_raporu_' + reportId.slice(0, 8) + '.pdf';
+                    document.body.appendChild(a); a.click(); a.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 5000);
+                } catch(e) { showToast('PDF indirme hatası: ' + (e.message || e), 'fas fa-times-circle text-red-400'); }
+            };
+
+            // ── PORTFÖY İLERLEME: SOHBET ────────────────────────
+            const sendPortfoyChat = async (prefill) => {
+                let text = (prefill || portfoyChatInput.value || '').trim();
+                if (!text || portfoyChatLoading.value || !activeLead.value) return;
+                portfoyChatInput.value = '';
+                portfoyChatMessages.value.push({ role: 'user', content: text });
+                portfoyChatLoading.value = true;
+                try {
+                    const history = portfoyChatMessages.value.slice(-10, -1).map(m => ({ role: m.role, content: m.content }));
+                    const data = await _portfoyApi('/api/portfolio/chat', { message: text, history });
+                    if (!data.ok) throw new Error(data.error || 'Yanıt alınamadı');
+                    portfoyChatMessages.value.push({ role: 'assistant', content: data.reply });
+                } catch(e) {
+                    portfoyChatMessages.value.push({ role: 'assistant', content: '⚠️ ' + (e.message || String(e)) });
+                } finally {
+                    portfoyChatLoading.value = false;
                 }
             };
 
@@ -5906,6 +6345,16 @@ ${comments}`;
                 // ── SCREENSHOT ──
                 screenshotUploading, screenshotDragOver, screenshotLightboxUrl, activeLeadScreenshots,
                 onScreenshotFileChange, onScreenshotDrop, onScreenshotPaste, deleteScreenshot,
+                // ── PORTFÖY İLERLEME ──
+                portfoyStages, portfoyChatActions,
+                portfoyMedia, portfoyMediaUploading, portfoyMediaDragOver, portfoySelectedStage,
+                portfoyNotes, portfoyNoteText, portfoyReports,
+                portfoyReportLoading, portfoyReportProgress, portfoyReportResult, portfoyReportError,
+                portfoyChatMessages, portfoyChatInput, portfoyChatLoading,
+                stageLabel, formatPortfoyDate,
+                loadPortfoyData, onPortfoyMediaChange, onPortfoyMediaDrop, deletePortfoyMedia,
+                addPortfoyNote, deletePortfoyNote,
+                runPortfoyReport, downloadPortfoyResult, downloadPortfoyReport, sendPortfoyChat,
                 // ── MODAL SCREENSHOT ──
                 modalScreenshots, modalScreenshotUploading, modalScreenshotDragOver,
                 onModalScreenshotFileChange, onModalScreenshotDrop, onModalScreenshotPaste, deleteModalScreenshot,

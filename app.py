@@ -13276,6 +13276,411 @@ Görevin:
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
+# ================================================================
+# API — PORTFÖY İLERLEME (portfolio_progress.py)
+# Görsel OCR + ilerleme analizi + PDF rapor + portföy chatbot
+# ================================================================
+
+def _portfolio_coll(user_tok: dict, uid: str, contact_id: str, is_web: bool, sub: str):
+    """Portföy alt koleksiyonunu döndürür: portfolio_media/_notes/_reports."""
+    if is_web:
+        return db_admin.collection("leads").document(contact_id).collection(sub)
+    return (db_admin
+            .collection("users").document(uid)
+            .collection("contacts").document(contact_id)
+            .collection(sub))
+
+
+def _portfolio_lead_doc(user_tok: dict, uid: str, contact_id: str, is_web: bool):
+    if is_web:
+        return db_admin.collection("leads").document(contact_id).get()
+    return (db_admin
+            .collection("users").document(uid)
+            .collection("contacts").document(contact_id)
+            .get())
+
+
+def _portfolio_read_media(coll, limit_n: int = 24) -> tuple:
+    """portfolio_media'yı okur → (medya listesi [{id,dataUrl,name,stage,createdAt,ocrText}], veri dikteleri)"""
+    media, docs = [], []
+    try:
+        for snap in coll.limit(limit_n + 6).stream():
+            docs.append(snap)
+        docs.sort(key=lambda s: str(s.to_dict().get("createdAt", "")), reverse=True)
+        docs = docs[:limit_n]
+        for snap in docs:
+            d = snap.to_dict() or {}
+            media.append({
+                "id": snap.id,
+                "data_b64": d.get("dataUrl", ""),
+                "dataUrl":  d.get("dataUrl", ""),
+                "mime_type": d.get("mimeType", "image/jpeg"),
+                "name":     d.get("name", ""),
+                "stage":    d.get("stage", ""),
+                "createdAt": d.get("createdAt", ""),
+                "ocrText":  d.get("ocrText", ""),
+                "ocrAsama": d.get("ocrAsama", ""),
+                "ocrBulgular": d.get("ocrBulgular", []),
+                "ocrStatus": d.get("ocrStatus", ""),
+            })
+    except Exception as e:
+        print(f"⚠️ portfolio media okunamadı: {e}")
+    return media, docs
+
+
+def _portfolio_read_notes(coll) -> list:
+    notes = []
+    try:
+        for snap in coll.limit(30).stream():
+            d = snap.to_dict() or {}
+            notes.append({
+                "text":      d.get("text", ""),
+                "type":      d.get("type", "note"),
+                "stage":     d.get("stage", ""),
+                "createdAt": d.get("createdAt", ""),
+            })
+    except Exception as e:
+        print(f"⚠️ portfolio notes okunamadı: {e}")
+    notes.sort(key=lambda n: str(n.get("createdAt", "")))
+    return notes
+
+
+def _portfolio_read_reports(coll) -> list:
+    reports = []
+    for snap in coll.limit(3).stream():
+        d = snap.to_dict() or {}
+        if d.get("status") == "done":
+            reports.append({
+                "id": snap.id, "bodyMd": d.get("bodyMd", ""),
+                "createdAt": d.get("createdAt", ""),
+            })
+    reports.sort(key=lambda r: str(r.get("createdAt", "")), reverse=True)
+    return reports
+
+
+@app.route("/api/portfolio/ocr", methods=["POST"])
+def portfolio_ocr():
+    """
+    Portföy görsellerinin OCR'ı (seçili mediaId'ler; boşsa tümü).
+    Body: {uid, contactId, is_web, mediaIds?: []}
+    """
+    token, err = _require_admin()
+    if err:
+        return jsonify({"ok": False, "error": err}), 401
+    if not _fb_initialized:
+        return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
+
+    body       = flask_request.json or {}
+    uid        = token.get("uid") or body.get("uid")
+    contact_id = body.get("contactId")
+    is_web     = bool(body.get("is_web", False))
+    media_ids  = body.get("mediaIds") or []
+
+    if not uid or not contact_id:
+        return jsonify({"ok": False, "error": "uid ve contactId zorunlu"}), 400
+
+    coll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
+    media, docs = _portfolio_read_media(coll)
+
+    targets = [m for m in media if m.get("ocrStatus") != "done"]
+    if media_ids:
+        idset = set(media_ids)
+        targets = [m for m in media if m["id"] in idset and m.get("ocrStatus") != "done"]
+    if not targets:
+        return jsonify({"ok": True, "bulgular": [], "message": "OCR gerektiren görsel yok"})
+
+    try:
+        import portfolio_progress as pp
+        result = pp.ocr_images(targets, api_key=os.environ.get("GEMINI_API_KEY", ""))
+    except Exception as e:
+        print(f"❌ portfolio_ocr hatası: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+    updated = []
+    if result.get("ok"):
+        for b in result.get("bulgular", []):
+            mid = b.get("key")
+            if not mid:
+                continue
+            try:
+                coll.document(mid).update({
+                    "ocrText":     b.get("ocr_metni", ""),
+                    "ocrAsama":    b.get("asama", ""),
+                    "ocrBulgular": b.get("sorunlar", []),
+                    "ocrStatus":   "done",
+                    "analyzedAt":  datetime.now(timezone.utc).isoformat(),
+                })
+                updated.append(mid)
+            except Exception as e:
+                print(f"⚠️ OCR yazılamadı {mid}: {e}")
+    else:
+        return jsonify({"ok": False, "error": result.get("error", "OCR başarısız")}), 500
+
+    print(f"✅ OCR tamamlandı: {len(updated)} görsel güncellendi")
+    return jsonify({"ok": True, "bulgular": result.get("bulgular", []), "updated": updated})
+
+
+@app.route("/api/portfolio/report", methods=["POST"])
+def portfolio_report():
+    """
+    Portföy İlerleme Raporu: OCR (eksikler) → analiz → Markdown → PDF.
+    Body: {uid, contactId, is_web}
+    Döner: {ok, reportId, bodyMd, pdfBase64?, meta}
+    """
+    token, err = _require_admin()
+    if err:
+        return jsonify({"ok": False, "error": err}), 401
+    if not _fb_initialized:
+        return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
+
+    body       = flask_request.json or {}
+    uid        = token.get("uid") or body.get("uid")
+    contact_id = body.get("contactId")
+    is_web     = bool(body.get("is_web", False))
+
+    if not uid or not contact_id:
+        return jsonify({"ok": False, "error": "uid ve contactId zorunlu"}), 400
+
+    import portfolio_progress as pp
+    api_key = os.environ.get("GEMINI_API_KEY", "")
+
+    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
+    ncoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_notes")
+    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports")
+
+    media, _docs  = _portfolio_read_media(coll)
+    notes         = _portfolio_read_notes(ncoll)
+    lead_snap     = _portfolio_lead_doc(token, uid, contact_id, is_web)
+    lead_knowledge = lead_snap.to_dict() if lead_snap.exists else {}
+
+    # 1) Eksik görsellerin OCR'ı
+    missing = [m for m in media if m.get("ocrStatus") != "done"]
+    ocr_results = []
+    if missing:
+        r = pp.ocr_images(missing, api_key=api_key)
+        if not r.get("ok"):
+            return jsonify({"ok": False, "error": f"OCR başarısız: {r.get('error')}"}), 500
+        ocr_results = r.get("bulgular", [])
+        for b in ocr_results:
+            mid = b.get("key")
+            if mid:
+                try:
+                    coll.document(mid).update({
+                        "ocrText": b.get("ocr_metni", ""), "ocrAsama": b.get("asama", ""),
+                        "ocrBulgular": b.get("sorunlar", []), "ocrStatus": "done",
+                        "analyzedAt": datetime.now(timezone.utc).isoformat(),
+                    })
+                except Exception:
+                    pass
+    # Önceden OCR'lananları da bağlama kat
+    for m in media:
+        if m.get("ocrStatus") == "done" and m.get("ocrText"):
+            ocr_results.append({
+                "key": m["id"], "ocr_metni": m.get("ocrText", ""),
+                "asama": m.get("ocrAsama", ""), "sorunlar": m.get("ocrBulgular", []),
+            })
+
+    # 2) Analiz
+    ana = pp.analyze_portfolio(lead_knowledge, ocr_results, notes, api_key=api_key)
+    if not ana.get("ok"):
+        return jsonify({"ok": False, "error": f"Analiz başarısız: {ana.get('error')}"}), 500
+    analiz = ana.get("analiz", {})
+
+    report_id = rcoll.document().id
+    body_md   = pp.build_report_body(analiz, lead_knowledge, media, notes, report_id)
+
+    # 3) PDF üretimi
+    pdf_b64 = None
+    try:
+        pdf_io = BytesIO()
+        pp.render_report_pdf(body_md, media, pdf_io)
+        pdf_bytes = pdf_io.getvalue()
+        if len(pdf_bytes) <= 800 * 1024:
+            pdf_b64 = "data:application/pdf;base64," + base64.b64encode(pdf_bytes).decode()
+    except Exception as e:
+        print(f"⚠️ PDF üretilemedi (metin raporu kaydedilecek): {e}")
+
+    # 4) Raporu kaydet
+    report_doc = {
+        "status":    "done",
+        "bodyMd":    body_md,
+        "meta": {
+            "mediaCount": len(media),
+            "noteCount":  len(notes),
+            "contactTitle": lead_knowledge.get("name", ""),
+            "model":      analiz.get("model", pp.GEMINI_MODEL),
+        },
+        "createdAt": datetime.now(timezone.utc).isoformat(),
+    }
+    if pdf_b64:
+        report_doc["pdfBase64"] = pdf_b64
+    rcoll.document(report_id).set(report_doc)
+
+    print(f"✅ Portföy raporu oluşturuldu: {report_id} ({len(media)} görsel, PDF={bool(pdf_b64)})")
+    return jsonify({
+        "ok": True, "reportId": report_id,
+        "bodyMd": body_md, "pdfBase64": pdf_b64,
+        "analiz": {
+            "ozet": analiz.get("ozet", ""),
+            "suanki_durum_pct": (analiz.get("kpi", {}) or {}).get("suanki_durum_pct"),
+            "ne_yaptik": analiz.get("ne_yaptik", [])[:4],
+            "riskler":  analiz.get("riskler", [])[:4],
+            "aksiyonlar": analiz.get("aksiyonlar", [])[:5],
+        },
+        "meta": report_doc["meta"],
+    })
+
+
+@app.route("/api/portfolio/report/<uid>/<contact_id>/<report_id>/pdf", methods=["GET"])
+def portfolio_report_pdf(uid, contact_id, report_id):
+    """Kayıtlı raporun PDF'ini yeniden üretir (pdfBase64 saklanmamışsa da çalışır)."""
+    token, err = _require_admin()
+    if err:
+        return jsonify({"ok": False, "error": err}), 401
+    if not _fb_initialized:
+        return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
+
+    if token.get("uid") not in (None, uid):
+        return jsonify({"ok": False, "error": "Yetkisiz erişim"}), 403
+
+    is_web = flask_request.args.get("is_web") == "1"
+    import portfolio_progress as pp
+
+    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
+    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports")
+    rdoc  = rcoll.document(report_id).get()
+    if not rdoc.exists:
+        return jsonify({"ok": False, "error": "Rapor bulunamadı"}), 404
+
+    report = rdoc.to_dict()
+    body_md = report.get("bodyMd", "")
+    if not body_md:
+        return jsonify({"ok": False, "error": "Rapor içeriği boş"}), 400
+
+    media, _ = _portfolio_read_media(coll, limit_n=12)
+    try:
+        pdf_io = BytesIO()
+        pp.render_report_pdf(body_md, media, pdf_io)
+        pdf_io.seek(0)
+        return send_file(
+            pdf_io, mimetype="application/pdf",
+            as_attachment=True,
+            download_name=f"ilerleme_raporu_{report_id[:8]}.pdf",
+        )
+    except Exception as e:
+        print(f"❌ PDF üretim hatası ({report_id}): {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/portfolio/chat", methods=["POST"])
+def portfolio_chat():
+    """
+    Portföy bağlamlı AI sohbet.
+    Body: {uid, contactId, is_web, message, history?: [{role, content}]}
+    Geçmiş Firestore ai_data'ya (portfolioChat ile etiketlenir) kaydedilir.
+    """
+    token, err = _require_admin()
+    if err:
+        return jsonify({"ok": False, "error": err}), 401
+    if not _fb_initialized:
+        return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
+
+    body       = flask_request.json or {}
+    uid        = token.get("uid") or body.get("uid")
+    contact_id = body.get("contactId")
+    is_web     = bool(body.get("is_web", False))
+    message    = (body.get("message") or "").strip()
+    history    = body.get("history", [])
+
+    if not uid or not contact_id or not message:
+        return jsonify({"ok": False, "error": "uid, contactId ve message zorunlu"}), 400
+
+    GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not GEMINI_API_KEY:
+        return jsonify({"ok": False, "error": "GEMINI_API_KEY tanımlı değil"}), 503
+
+    import portfolio_progress as pp
+
+    coll  = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_media")
+    ncoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_notes")
+    rcoll = _portfolio_coll(token, uid, contact_id, is_web, "portfolio_reports")
+
+    media, _      = _portfolio_read_media(coll, limit_n=12)
+    notes         = _portfolio_read_notes(ncoll)
+    last_reports  = _portfolio_read_reports(rcoll)
+    lead_snap     = _portfolio_lead_doc(token, uid, contact_id, is_web)
+    lead_knowledge = lead_snap.to_dict() if lead_snap.exists else {}
+
+    ocr_results = []
+    for m in media:
+        if m.get("ocrStatus") == "done" and m.get("ocrText"):
+            ocr_results.append({
+                "key": m["id"], "ocr_metni": m.get("ocrText", ""),
+                "asama": m.get("ocrAsama", ""), "sorunlar": m.get("ocrBulgular", []),
+            })
+
+    context = pp.portfolio_chat_context(lead_knowledge, notes, ocr_results, last_reports)
+
+    system_prompt = f"""Sen Nexa CRM'in "Portföy İlerleme Danışmanı"sın.
+Aşağıdaki portföy bağlamından gelen bilgileri kullanarak danışmana yardım et:
+
+--- PORTFÖY BAĞLAMI ---
+{context}
+------------------------
+
+Kurallar:
+- SADECE verilen bağlamdan konuş; dışarıdan bilgi uydurma.
+- İlerleme yönetimi odaklı, somut ve kısa (5-10 satır) cevaplar ver.
+- Türkçe, profesyonel bir dil kullan.
+- Emin olmadığın bilgi için "görselden doğrulayamıyorum" de.
+"""
+
+    contents = [{"role": m.get("role", "user"), "parts": [{"text": m.get("content", "")}]}
+                for m in history[-10:]]
+    contents.append({"role": "user", "parts": [{"text": message}]})
+
+    payload = {
+        "system_instruction": {"parts": [{"text": system_prompt}]},
+        "contents": contents,
+        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1500},
+    }
+
+    models = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-3.5-flash-lite"]
+    reply = None
+    last_err = "Bilinmeyen hata"
+    for model in models:
+        try:
+            url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
+                   f"{model}:generateContent?key={GEMINI_API_KEY}")
+            resp = requests.post(url, json=payload, timeout=45)
+            data = resp.json()
+            if resp.ok:
+                reply = (data.get("candidates", [{}])[0]
+                             .get("content", {})
+                             .get("parts", [{}])[0]
+                             .get("text", "") or "").strip()
+                if reply:
+                    break
+            last_err = data.get("error", {}).get("message", str(data))
+        except Exception as e:
+            last_err = str(e)
+
+    if not reply:
+        return jsonify({"ok": False, "error": f"Gemini yanıt vermedi: {last_err}"}), 500
+
+    # Geçmişi kalıcı kaydet (ai_data → portfolioChat)
+    try:
+        acoll = _portfolio_coll(token, uid, contact_id, is_web, "ai_data")
+        acoll.add({"role": "user", "content": message, "type": "portfolioChat",
+                   "createdAt": datetime.now(timezone.utc).isoformat()})
+        acoll.add({"role": "assistant", "content": reply, "type": "portfolioChat",
+                   "createdAt": datetime.now(timezone.utc).isoformat()})
+    except Exception as e:
+        print(f"⚠️ Sohbet geçmişi kaydedilemedi: {e}")
+
+    print(f"✅ Portföy sohbet yanıtı üretildi ({contact_id})")
+    return jsonify({"ok": True, "reply": reply})
+
 @app.route("/api/crm/proactive", methods=["POST"])
 def api_crm_proactive():
     """
