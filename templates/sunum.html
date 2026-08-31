@@ -266,39 +266,57 @@
             --sab: env(safe-area-inset-bottom, 0px);
             --sal: env(safe-area-inset-left, 0px);
             --sar: env(safe-area-inset-right, 0px);
-            --navbar-height-base: 64px;
+            --navbar-height-base: 68px;
             --navbar-height: calc(var(--navbar-height-base) + var(--sat));
             --app-height: 100vh;
             --app-dvh: 100dvh;
 
             /* Fluid Typography & Container Tokens */
             --container-padding: clamp(16px, 4.5vw, 5%);
-            --font-hero-title: clamp(24px, 5.2vw + 6px, 44px);
-            --font-section-title: clamp(22px, 4.2vw + 6px, 38px);
-            --font-section-subtitle: clamp(13.5px, 2vw + 4px, 17px);
-            --font-card-title: clamp(16px, 2.2vw, 19px);
-            --font-price-prominent: clamp(18px, 3.2vw + 4px, 23px);
+            --font-hero-title: clamp(26px, 5.2vw + 8px, 48px);
+            --font-section-title: clamp(24px, 4.2vw + 8px, 42px);
+            --font-section-subtitle: clamp(14px, 2vw + 4px, 18px);
+            --font-card-title: clamp(17px, 2.2vw, 21px);
+            --font-price-prominent: clamp(20px, 3.2vw + 4px, 26px);
 
-            /* WCAG 2.2 AAA Contrast Colors */
-            --white: #FFFFFF;
-            --bg: #F5F5F7;
-            --text-primary: #111113;
-            --text-secondary: #525257;
-            --text-muted: #59595E;
-            --accent: #0071E3;
-            --accent-hover: #0A84FF;
-            --focus-ring: #0071E3;
-            --card-bg: #FFFFFF;
-            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
-            --card-shadow-hover: 0 20px 48px rgba(0, 0, 0, 0.08);
-            --border: rgba(0, 0, 0, 0.06);
-            --glass: rgba(255, 255, 255, 0.88);
-            --glass-border: rgba(255, 255, 255, 0.6);
+            /* ── AĞIR PREMİUM KOYU LACİVERT & KRALİYET ALTINI SİSTEMİ ── */
+            --deep-navy: #040711;
+            --navy: #080d19;
+            --navy-light: #10192b;
+            --navy-surface-1: #0c1424;
+            --navy-surface-2: #131f36;
+            --bg: #040711;
+            --card-bg: rgba(12, 20, 36, 0.88);
+
+            /* Lüks Altın & Şampanya Aksanlar */
+            --gold: #d4af37;
+            --gold-dark: #b8941f;
+            --gold-light: #f4e4a6;
+            --gold-glow: rgba(212, 175, 55, 0.35);
+            --accent: #d4af37;
+            --accent-hover: #f4e4a6;
+            --focus-ring: #d4af37;
+
+            /* Metin & Tipografi Renkleri */
+            --white: #ffffff;
+            --cream: #f8fafc;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+
+            /* Sınır & Lüks Cam Gölgeleri */
+            --border: rgba(212, 175, 55, 0.22);
+            --border-hover: rgba(212, 175, 55, 0.6);
+            --glass: rgba(8, 13, 25, 0.94);
+            --glass-border: rgba(212, 175, 55, 0.28);
+            --card-shadow: 0 15px 45px rgba(0, 0, 0, 0.65);
+            --card-shadow-hover: 0 25px 70px rgba(212, 175, 55, 0.22);
             --radius: 24px;
             --radius-sm: 14px;
             --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --font-numbers: 'Outfit', sans-serif;
         }
 
         /* Skip-to-content accessibility link */
@@ -4477,7 +4495,98 @@
             .segment-btn { font-size: 13px !important; }
         }
 
-    </style>
+    
+    /* ── AĞIR PREMİUM TASARIM DİLİ EKLEMELERİ ── */
+    body {
+        background-color: #040711 !important;
+        color: #f8fafc !important;
+        background-image: radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.04) 0%, transparent 45%),
+                          radial-gradient(circle at 85% 80%, rgba(19, 31, 54, 0.4) 0%, transparent 50%);
+    }
+
+    h1, h2, h3, h4, .section-title, .hero-giant-title, .hero-banner-title {
+        font-family: 'Playfair Display', serif !important;
+        letter-spacing: 0.5px;
+    }
+
+    .card, .nxc-card, .project-card, .filter-sidebar-content, .hero-sidebar-card {
+        background: rgba(12, 20, 36, 0.85) !important;
+        border: 1px solid rgba(212, 175, 55, 0.22) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .card:hover, .nxc-card:hover, .project-card:hover {
+        border-color: rgba(212, 175, 55, 0.65) !important;
+        box-shadow: 0 30px 80px rgba(212, 175, 55, 0.2) !important;
+        transform: translateY(-6px) !important;
+    }
+
+    .navbar {
+        background: rgba(4, 7, 17, 0.94) !important;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.22) !important;
+        backdrop-filter: blur(24px) !important;
+    }
+
+    .navbar .logo, .navbar a {
+        color: #f8fafc !important;
+    }
+
+    .btn-primary, .btn-accent, .chat-toggle, .filter-chip.active, .btn-gold {
+        background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%) !important;
+        color: #000000 !important;
+        font-weight: 700 !important;
+        border: none !important;
+        box-shadow: 0 4px 18px rgba(212, 175, 55, 0.35) !important;
+    }
+
+    .btn-primary:hover, .btn-accent:hover, .chat-toggle:hover {
+        background: linear-gradient(135deg, #f4e4a6 0%, #d4af37 100%) !important;
+        box-shadow: 0 6px 25px rgba(212, 175, 55, 0.55) !important;
+        transform: translateY(-2px);
+    }
+
+    .badge, .card-badge, .filter-badge {
+        background: rgba(4, 7, 17, 0.9) !important;
+        border: 1px solid rgba(212, 175, 55, 0.35) !important;
+        color: #f4e4a6 !important;
+    }
+
+    .price-value, .project-price, .nxc-price {
+        color: #d4af37 !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 800 !important;
+        font-variant-numeric: tabular-nums !important;
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+
+    /* Chatbot Window Ağır Premium Cam Stili */
+    .chat-window {
+        background: rgba(8, 13, 25, 0.96) !important;
+        border: 1px solid rgba(212, 175, 55, 0.35) !important;
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.85) !important;
+        backdrop-filter: blur(25px) !important;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, rgba(12, 20, 36, 0.95), rgba(4, 7, 17, 0.98)) !important;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+    }
+
+    .bot-msg, .chat-bubble.bot {
+        background: rgba(16, 25, 43, 0.9) !important;
+        border: 1px solid rgba(212, 175, 55, 0.18) !important;
+        color: #f8fafc !important;
+    }
+
+    .user-msg, .chat-bubble.user {
+        background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+
+</style>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
