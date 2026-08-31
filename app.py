@@ -13862,3 +13862,86 @@ if __name__ == "__main__":
         main()
     else:
         run_server()
+
+
+# ================================================================
+# NEXA AI PROJE SUNUM & RAG ASİSTANI ENDPOINTS
+# ================================================================
+
+@app.route("/api/nexa/chat", methods=["POST"])
+@app.route("/api/project/chat", methods=["POST"])
+@app.route("/api/chat", methods=["POST"])
+def nexa_project_chat():
+    """Yiğit Narin CB VIP Projeleri için Gemini destekli RAG Chatbot API."""
+    data = flask_request.json or {}
+    user_msg = data.get("message") or data.get("prompt") or data.get("query") or ""
+    project_id = data.get("project_id") or data.get("projectId") or ""
+    
+    if not user_msg:
+        return jsonify({"ok": False, "reply": "Lütfen bir soru veya mesaj yazın."}), 400
+
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip() or GEMINI_API_KEY
+    if not api_key:
+        return jsonify({
+            "ok": True,
+            "reply": "Coldwell Banker CB VIP Ankara portföyündeki 22 seçkin proje hakkında detaylı bilgi, kat planları ve güncel fiyat listesi için Yiğit Narin ile WhatsApp üzerinden doğrudan iletişime geçebilirsiniz: +90 532 000 00 00"
+        })
+
+    try:
+        from google import genai
+        from google.genai import types
+
+        # Load project summaries if available
+        summaries_path = os.path.join("static", "data", "nexa_project_summaries.json")
+        project_context = ""
+        if os.path.exists(summaries_path):
+            with open(summaries_path, "r", encoding="utf-8") as f:
+                summaries = json.load(f)
+                if project_id and project_id in summaries:
+                    project_context = json.dumps(summaries[project_id], ensure_ascii=False)
+                else:
+                    project_context = json.dumps(summaries, ensure_ascii=False)[:3000]
+
+        client = genai.Client(api_key=api_key)
+        system_prompt = f"""
+        Sen Coldwell Banker CB VIP Ankara'nın Kurumsal AI Proje Danışmanısın.
+        Danışman: Yiğit Narin (Broker & PropTech Uzmanı).
+        İletişim: +90 532 000 00 00 | yigit.narin@cb.com.tr
+        Portföyümüzde Ankara'nın 22 prestijli projesi (Beytepe, İncek, Çayyolu, Yaşamkent, Saray, Çakırlar vb.) yer almaktadır.
+        
+        Mevcut Proje Bilgileri:
+        {project_context}
+
+        Kullanıcının sorusuna son derece profesyonel, nazik, net ve güven verici Türkçe ile yanıt ver. Fiyatlar ve detaylar için Yiğit Narin'e yönlendir.
+        """
+
+        resp = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=f"{system_prompt}\n\nKullanıcı Sorusu: {user_msg}",
+            config=types.GenerateContentConfig(
+                temperature=0.7,
+                max_output_tokens=600
+            )
+        )
+
+        reply_text = (resp.text or "").strip()
+        return jsonify({"ok": True, "reply": reply_text})
+
+    except Exception as e:
+        print(f"nexa_project_chat hatası: {e}")
+        return jsonify({
+            "ok": True,
+            "reply": f"Proje sunumu ve detaylı bilgi için Yiğit Narin ile iletişime geçebilirsiniz. (Hata: {e})"
+        })
+
+@app.route("/api/nexa/projects", methods=["GET"])
+def nexa_get_projects():
+    """Tüm projelerin zenginleştirilmiş verilerini döndürür."""
+    data_path = os.path.join("static", "data", "nexa_portfolio_data.json")
+    if os.path.exists(data_path):
+        try:
+            with open(data_path, "r", encoding="utf-8") as f:
+                return jsonify({"ok": True, "data": json.load(f)})
+        except Exception as e:
+            return jsonify({"ok": False, "error": str(e)}), 500
+    return jsonify({"ok": False, "data": []}), 404
