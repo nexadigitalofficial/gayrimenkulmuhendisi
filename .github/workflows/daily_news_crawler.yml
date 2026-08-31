@@ -1,0 +1,37 @@
+name: Daily Real Estate & Market News Crawler
+
+on:
+  schedule:
+    # Her gün Türkiye saatiyle 09:00'da (06:00 UTC) çalışır
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Manuel olarak da tetiklenebilir
+
+jobs:
+  crawl-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai requests
+
+      - name: Run Daily News Crawler
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python crawl_daily_news.py
+
+      - name: Commit and Push Updated News Cache
+        run: |
+          git config --global user.name "Nexa News Bot"
+          git config --global user.email "bot@nexadigital.com"
+          git add static/data/latest_news.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(bot): update daily market & real estate news [skip ci]" && git push)
