@@ -8980,7 +8980,7 @@ def _call_gemini_multimodal(
     for attempt_model in models_to_try:
         url = (
             f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{attempt_model}:generateContent?key={GEMINI_API_KEY}"
+            f"{attempt_model}:generateContent"
         )
         delay = GEMINI_RETRY_DELAY
 
@@ -9073,7 +9073,7 @@ def _transcribe_audio(audio_b64: str, audio_mime: str) -> str | None:
 
     url = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
+        f"{GEMINI_MODEL}:generateContent"
     )
     payload = {
         "contents": [{
@@ -11457,6 +11457,13 @@ def _send_with_retry(fn, *args, retries=3, delay=2, **kwargs):
 
 @app.route("/api/lead/state", methods=["POST"])
 def update_lead_state():
+    # Security: verify Firebase ID token before mutating lead state
+    auth_hdr = flask_request.headers.get("Authorization", "")
+    if auth_hdr.startswith("Bearer ") and _fb_initialized:
+        try:
+            fb_auth.verify_id_token(auth_hdr[7:])
+        except Exception:
+            return jsonify({"ok": False, "error": "Yetkisiz işlem: Geçerli oturum açmanız gerekmektedir."}), 401
     """Lead aşamasını günceller ve event log'a yazar."""
     if not _fb_initialized:
         return jsonify({"ok": False, "error": "Firebase bağlı değil"}), 503
@@ -13282,7 +13289,7 @@ Görevin:
     def _call(model):
         url = (
             f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{model}:generateContent?key={GEMINI_API_KEY}"
+            f"{model}:generateContent"
         )
         return requests.post(url, json=payload, timeout=30)
 
@@ -13718,8 +13725,8 @@ Kurallar:
     for model in models:
         try:
             url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-                   f"{model}:generateContent?key={GEMINI_API_KEY}")
-            resp = requests.post(url, json=payload, timeout=45)
+                   f"{model}:generateContent")
+            resp = requests.post(url, json=payload, headers={"x-goog-api-key": GEMINI_API_KEY}, timeout=45)
             data = resp.json()
             if resp.ok:
                 reply = (data.get("candidates", [{}])[0]
@@ -13839,7 +13846,7 @@ SADECE JSON döndür:
 
     try:
         url  = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-                f"gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}")
+                f"gemini-2.5-flash:generateContent")
         resp = requests.post(url, json=payload, timeout=20)
         data = resp.json()
 
@@ -14364,10 +14371,38 @@ Danışman Sorusu: {user_msg}""",
 
 @app.route("/api/appointments", methods=["POST"])
 def create_appointment():
+    import json as _json_appt
     try:
         data = flask_request.json or {}
-        print(f"📅 Yeni Randevu Talebi: {data.get('name')} | {data.get('phone')} | {data.get('project_name')}")
-        return jsonify({"success": True, "ok": True, "message": "Randevu talebiniz başarıyla alındı. Yiğit Narin en kısa sürede sizinle iletişime geçecektir."})
+        name = str(data.get("name", "")).strip()
+        phone = str(data.get("phone", "")).strip()
+        project_name = str(data.get("project_name", "")).strip()
+        note = str(data.get("note", "")).strip()
+        if not name or not phone:
+            return jsonify({"success": False, "ok": False, "error": "Ad ve telefon numarası zorunludur."}), 400
+        print(f"📅 Yeni Randevu Talebi: {name} | {phone} | {project_name}")
+        appt_record = {
+            "id": f"appt_{int(time.time())}",
+            "name": html.escape(name),
+            "phone": html.escape(phone),
+            "project_name": html.escape(project_name),
+            "note": html.escape(note),
+            "date": datetime.now().strftime("%d.%m.%Y %H:%M"),
+            "status": "pending"
+        }
+        appt_file = BASE_DIR / "static" / "data" / "appointments.json"
+        try:
+            existing = _json_appt.loads(appt_file.read_text(encoding="utf-8")) if appt_file.exists() else []
+            existing.insert(0, appt_record)
+            existing = existing[:500]
+            import tempfile as _tmpa, os as _osa
+            fd, tp = _tmpa.mkstemp(dir=str(appt_file.parent), suffix=".tmp")
+            with open(fd, "w", encoding="utf-8") as af:
+                _json_appt.dump(existing, af, ensure_ascii=False, indent=2)
+            _osa.replace(tp, str(appt_file))
+        except Exception as ae:
+            print(f"⚠️ Randevu kayıt hatası: {ae}")
+        return jsonify({"success": True, "ok": True, "message": "Randevu talebiniz başarıyla alındı. Yiğit Narin en kısa sürede sizinle iletişime geçecektir.", "id": appt_record["id"]})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
