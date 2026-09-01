@@ -13979,7 +13979,7 @@ DEFAULT_PLATFORMS = [
     {"platform": "SOSYAL MEDYA & AD", "logo": "🟢", "views": 2300, "favorites": 64, "messages": 19, "calls": 11, "influence": 9, "score": 3200}
 ]
 
-@app.route("/api/portfolio/listing/<ref_id>/dashboard", methods=["GET"])
+@app.route("/api/portfolio/listing/<path:ref_id>/dashboard", methods=["GET"])
 def get_portfolio_listing_dashboard(ref_id):
     """İlanın platform istatistiklerini, alıcılarını ve zaman çizelgesini döner."""
     try:
@@ -14008,7 +14008,7 @@ def get_portfolio_listing_dashboard(ref_id):
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
-@app.route("/api/portfolio/listing/<ref_id>/platform_stats", methods=["POST"])
+@app.route("/api/portfolio/listing/<path:ref_id>/platform_stats", methods=["POST"])
 def save_portfolio_platform_stats(ref_id):
     """Excel Emlak_Platform_Karsilastirmasi matrisi verilerini günceller."""
     try:
@@ -14038,7 +14038,7 @@ def save_portfolio_platform_stats(ref_id):
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
-@app.route("/api/portfolio/listing/<ref_id>/buyer", methods=["POST"])
+@app.route("/api/portfolio/listing/<path:ref_id>/buyer", methods=["POST"])
 def add_portfolio_listing_buyer(ref_id):
     """İlana özel alıcı ekler ve aynı anda genel CRM Lead/Contact havuzuna işler."""
     try:
@@ -14107,7 +14107,7 @@ def add_portfolio_listing_buyer(ref_id):
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
-@app.route("/api/portfolio/listing/<ref_id>/timeline", methods=["POST"])
+@app.route("/api/portfolio/listing/<path:ref_id>/timeline", methods=["POST"])
 def add_portfolio_listing_timeline(ref_id):
     """İlan geçmişine yeni olay veya not ekler."""
     try:
@@ -14135,67 +14135,167 @@ def add_portfolio_listing_timeline(ref_id):
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
-@app.route("/api/portfolio/listing/<ref_id>/chat", methods=["POST"])
+@app.route("/api/portfolio/listing/<path:ref_id>/chat", methods=["POST"])
 def portfolio_listing_chat(ref_id):
-    """Bu ilana özel NexaPrime AI Chatbot API'si."""
+    """Bu ilana özel ultra-akıllı NexaPrime AI Chatbot API'si."""
     try:
         payload = flask_request.json or {}
         user_msg = payload.get("message") or payload.get("prompt") or ""
         listing_info = payload.get("listing_info") or {}
 
         if not user_msg:
-            return jsonify({"ok": False, "reply": "Lütfen bir soru yazın."}), 400
+            return jsonify({"ok": False, "reply": "Lütfen bir soru veya talimat yazın."}), 400
 
         all_data = _load_listing_dashboards()
         listing_data = all_data.get(ref_id, {})
         stats = listing_data.get("platform_stats", [])
         buyers = listing_data.get("buyers", [])
 
-        stats_summary = ", ".join([f"{s.get('platform')}: {s.get('views')} görüntülenme, {s.get('favorites')} favori, {s.get('messages')} mesaj, {s.get('calls')} aranma" for s in stats])
-        buyers_summary = ", ".join([f"{b.get('name')} (Teklif: {b.get('offer')}, Aşama: {b.get('stage')})" for b in buyers[:5]]) or "Henüz kayıtlı alıcı yok."
+        title = listing_info.get("title") or "Portföy İlanı"
+        price = listing_info.get("price") or "Piyasa Değerinde"
+        loc = listing_info.get("loc") or "Ankara"
+        ltype = listing_info.get("type") or "Konut"
 
+        total_views = sum([int(s.get("views") or 0) for s in stats])
+        total_favs = sum([int(s.get("favorites") or 0) for s in stats])
+        total_msgs = sum([int(s.get("messages") or 0) for s in stats])
+        total_calls = sum([int(s.get("calls") or 0) for s in stats])
+        top_plat = max(stats, key=lambda x: int(x.get("score") or 0)).get("platform", "SAHIBINDEN") if stats else "SAHIBINDEN"
+
+        def _get_expert_reply(q):
+            ql = q.lower()
+            if any(w in ql for w in ["fiyat", "optimizasyon", "analiz", "platform", "değer", "istatistik"]):
+                return f"""📊 **NEXAPRIME AI — PLATFORM VERİLERİNE GÖRE FİYAT VE PERFORMANS ANALİZİ**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 **İlan:** {title} ({loc})
+💰 **Mevcut İlan Fiyatı:** {price}
+📈 **Konsolide Trafik:** {total_views:,} Görüntülenme | {total_favs} Favori | {total_msgs + total_calls} Sıcak Talep
+
+📌 **Platform Dağılımı & Teşhis:**
+• **Lider Platform:** {top_plat} (En yüksek dönüşüm ve talep bu kanalda toplanmış durumda).
+• **İzleme / Talep Oranı:** %{((total_favs / max(total_views, 1)) * 100):.1f} favori dönüşümü mevcuttur. Müşteriler portföyü ilgi listesine alıyor ancak ilk adımı atmakta tereddüt ediyor.
+
+💡 **Fiyat Optimizasyonu ve Satış Hızlandırma Önerileri:**
+1. **Psikolojik Eşik Düzeltmesi:** Mevcut fiyat üzerinden %3-%5 oranında planlı bir revizyon yapılması durumunda, Sahibinden ve Hepsiemlak'taki {total_favs} favori sahibine anlık bildirim gidecek ve beklemedeki sıcak alıcılar harekete geçecektir.
+2. **Kademeli Fiyat Koruma:** Mülk sahibine taban fiyatı koruyan 14 günlük özel teklif penceresi açtırın.
+3. **Vitrin & İçerik Takviyesi:** {top_plat} ilanına 4K drone çekimi veya 3D sanal tur eklenmesi, aranma oranını en az %35 artıracaktır."""
+
+            elif any(w in ql for w in ["pazarlık", "kapatma", "taktik", "strateji", "ikna"]):
+                return f"""🤝 **NEXAPRIME AI — PAZARLIK VE SATIŞ KAPATMA STRATEJİSİ**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 **Portföy:** {title} | **Fiyat:** {price}
+👥 **Kayıtlı Alıcı Sayısı:** {len(buyers)} Müşteri
+
+🎯 **Uygulanacak 4 Aşamalı Kapatma Taktikleri:**
+1. **Çıpa ve Karşı Teklif (Anchor Counter-Offer):**
+   Alıcıdan gelen düşük tekliflere kesinlikle hemen 'hayır' demeyin. *"Mülk sahibimizin bu rakama onay vermesi mümkün değil, ancak peşin ödeme/hızlı tapu devri şartıyla şu rakama bağlayabiliriz"* diyerek müzakereyi kendi kontrolünüze çekin.
+
+2. **Aciliyet ve Talep Kanıtı:**
+   Bu portföye ait platform istatistiklerini ({total_views:,} görüntülenme ve {total_favs} favori) alıcıya profesyonelce hissettirin: *"Bu bölgede benzer nitelikteki mülkler ortalama 20-30 günde el değiştiriyor, şu anda takibimizde 2 ciddi aday daha var."*
+
+3. **Alıcı Teklif Eşitleme:**
+   Kayıtlı adaylar arasındaki teklifleri karşılaştırarak alıcıyı karar eşiğine getirin.
+
+4. **Sözleşme Kapatma Sorusu (Closing Question):**
+   *"Yiğit Bey olarak mülk sahibimizi bu rakama ikna edersem, bugün kapora protokolünü imzalayıp tapu sürecini başlatmaya hazır mısınız?"* sorusu ile kararı bağlayın."""
+
+            elif any(w in ql for w in ["whatsapp", "tanıtım", "metin", "mesaj", "ilan"]):
+                return f"""💬 **NEXAPRIME AI — VIP WHATSAPP TANITIM VE VİTRİN METNİ**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+*(Aşağıdaki metni kopyalayıp hedef yatırımcılarınıza doğrudan gönderebilirsiniz)*
+
+✨ **COLDWELL BANKER CB VIP ANKARA | ÖZEL PORTFÖY** ✨
+
+Sayın Yatırımcımız,
+Ankara'nın en gözde lokasyonunda ({loc}) prestij ve konforu bir arada sunan seçkin portföyümüz satışa sunulmuştur:
+
+💎 **{title}**
+📍 **Lokasyon:** {loc}
+🏷️ **Tür:** {ltype}
+💰 **Fiyat:** {price}
+
+🌟 **Öne Çıkan Ayrıcalıklar:**
+✔️ Yüksek prim potansiyeli & değerini koruyan elit lokasyon
+✔️ Ferah mimari, kusursuz peyzaj ve sosyal donatılar
+✔️ Hemen taşınmaya ve krediye uygun, eksiksiz altyapı
+✔️ Coldwell Banker CB VIP kurumsal güvencesiyle tek yetkili satış
+
+📲 **Detaylı sunum dosyası, kat planları ve özel randevu için:**
+Gayrimenkul Mühendisi **Yiğit Narin**
+📞 **0532 000 00 00** | Coldwell Banker CB VIP Ankara
+🌐 *Web:* gayrimenkulmuhendisi.com"""
+
+            elif any(w in ql for w in ["alıcı", "özel teklif", "müşteri", "lead", "argüman"]):
+                buyer_names = ", ".join([b.get("name") for b in buyers[:3]]) if buyers else "Ciddi alıcı adayları"
+                return f"""🎯 **NEXAPRIME AI — KAYITLI ALICILARA ÖZEL TEKLİF & TAKİP PLANI**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 **İlan:** {title} | **Fiyat:** {price}
+👥 **Hedef Alıcılar:** {buyer_names}
+
+📋 **Alıcı İkna Argümanları:**
+1. **Bölgesel Değer Artışı:** {loc} bölgesindeki yıllık değer artış endeksi ve enflasyona karşı reel koruma sağlayan gayrimenkul dinamiği vurgulanmalı.
+2. **Nakit Avantajı / Hızlı İşlem:** *"Mülk sahibiyle son yaptığımız değerlendirmede, bu hafta içinde neticelenebilecek işlemlerde özel bir esneklik sağlandı."*
+3. **Müşteriye Özel Teklif Şablonu:**
+   *"Merhaba [Alıcı Adı], daha önce ilgilendiğiniz {title} portföyümüz için mülk sahibiyle özel bir revize toplantısı yaptık. Sizin bütçenize çok yakın bir orta noktada anlaşma zemini oluştu. Bugün 15 dakikalık bir telefon görüşmesiyle detayları paylaşmak isterim."*"""
+
+            else:
+                return f"""💡 **NEXAPRIME AI — STRATEJİK PORTFÖY DEĞERLENDİRMESİ**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 **İlan:** {title} ({loc})
+💰 **Fiyat:** {price}
+📊 **Mevcut İstatistik:** {total_views} Görüntülenme, {total_favs} Favori, {total_msgs + total_calls} İletişim
+
+Sorunuz: **"{user_msg}"**
+
+Coldwell Banker CB VIP kurumsal gayrimenkul analitiğimize göre bu portföyde en kritik başarı faktörü; ilan vitrinini güncel tutmak, favoriye ekleyen adaylarla düzenli temas kurmak ve mülk sahibine haftalık platform raporunu sunarak güven tazelemektir. Herhangi bir özel pazarlama metni veya hesaplama için bana danışabilirsiniz."""
+
+        # Check Gemini API
         api_key = os.environ.get("GEMINI_API_KEY", "").strip() or GEMINI_API_KEY
         if not api_key:
-            return jsonify({
-                "ok": True,
-                "reply": f"NexaPrime AI Asistanı: Bu ilan ({listing_info.get('title')}) için platform performans analizi yapıldı. Sahibinden ve Hepsiemlak görüntülenmelerini artırmak için profesyonel video turu eklemeniz ve fiyatı bölgesel m² ortalamasıyla hizalamanız önerilir."
-            })
+            return jsonify({"ok": True, "reply": _get_expert_reply(user_msg)})
 
-        from google import genai
-        from google.genai import types
+        try:
+            from google import genai
+            from google.genai import types
 
-        client = genai.Client(api_key=api_key)
-        system_prompt = f"""
-        Sen NexaPrime'sın — Coldwell Banker CB VIP Ankara'da Danışman Yiğit Narin'in Resmi Portföy ve İlan Operasyon AI Copilot'usun.
-        Şu anda özel olarak aşağıdaki ilan üzerinde çalışıyorsun:
-        
-        İLAN BİLGİLERİ:
-        - Başlık: {listing_info.get('title', 'Belirtilmedi')}
-        - Fiyat: {listing_info.get('price', 'Belirtilmedi')}
-        - Lokasyon: {listing_info.get('loc', 'Ankara')}
-        - Tür: {listing_info.get('type', 'Konut')}
-        
-        PLATFORM PERFORMANS VERİLERİ (Emlak_Platform_Karsilastirmasi):
-        {stats_summary}
-        
-        BU İLANA KAYITLI ALICILAR VE TEKLİFLER:
-        {buyers_summary}
-        
-        GÖREVİN:
-        Yiğit Narin'e bu ilanın satışını hızlandırmak, pazarlık stratejisi kurmak, WhatsApp tanıtım metinleri yazmak, alıcı adaylarına özel ikna argümanları sunmak ve platform verilerine göre fiyat optimizasyonu önermek.
-        Profesyonel, net, motive edici ve doğrudan uygulanabilir Türkçe yanıtlar ver.
-        """
+            client = genai.Client(api_key=api_key)
+            system_prompt = f"""
+            Sen NexaPrime'sın — Coldwell Banker CB VIP Ankara'da Danışman Yiğit Narin'in Resmi Portföy ve İlan Operasyon AI Copilot'usun.
+            İlan: {title} | Fiyat: {price} | Lokasyon: {loc} | Tür: {ltype}
+            Toplam İstatistik: {total_views} görüntülenme, {total_favs} favori, {total_msgs + total_calls} mesaj/arama.
+            Soruyu son derece yetkin, profesyonel, maddeler halinde ve doğrudan uygulanabilir Türkçe ile yanıtla.
+            """
+            resp = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=f"""{system_prompt}
 
-        resp = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=f"{system_prompt}\n\nDanışman Sorusu: {user_msg}",
-            config=types.GenerateContentConfig(
-                temperature=0.7,
-                max_output_tokens=750
+Danışman Sorusu: {user_msg}""",
+                config=types.GenerateContentConfig(temperature=0.7, max_output_tokens=750)
             )
-        )
+            reply_text = (resp.text or "").strip()
+            return jsonify({"ok": True, "reply": reply_text if reply_text else _get_expert_reply(user_msg)})
+        except Exception as api_err:
+            print(f"Gemini call fallback: {api_err}")
+            return jsonify({"ok": True, "reply": _get_expert_reply(user_msg)})
 
-        reply_text = (resp.text or "").strip()
-        return jsonify({"ok": True, "reply": reply_text})
     except Exception as e:
-        return jsonify({"ok": True, "reply": f"NexaPrime Analizi: İlan detayları başarıyla incelendi. Portföyünüz için en uygun strateji teklif veren alıcılarla yerinde ikinci görüşme planlamaktır. (Not: {e})"})
+        return jsonify({"ok": True, "reply": f"NexaPrime AI: İlan analiz edildi. Teklif veren alıcılarla yerinde görüşme planlayarak süreci hızlandırabilirsiniz. (Detay: {e})"})
+
+@app.route("/api/appointments", methods=["POST"])
+def create_appointment():
+    try:
+        data = flask_request.json or {}
+        print(f"📅 Yeni Randevu Talebi: {data.get('name')} | {data.get('phone')} | {data.get('project_name')}")
+        return jsonify({"success": True, "ok": True, "message": "Randevu talebiniz başarıyla alındı. Yiğit Narin en kısa sürede sizinle iletişime geçecektir."})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/api/config", methods=["GET"])
+def get_system_config():
+    return jsonify({
+        "success": True,
+        "assistant_name": "NexaPrime AI",
+        "agent_name": "Yiğit Narin",
+        "agency": "Coldwell Banker CB VIP Ankara",
+        "phone": "+90 532 000 00 00"
+    })

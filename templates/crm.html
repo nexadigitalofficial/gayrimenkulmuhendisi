@@ -6423,6 +6423,27 @@ ${comments}`;
                 }
             };
 
+            const getListingExpertLocalReply = (q, lst, stats, buyers) => {
+                const title = lst?.title || 'Portföy İlanı';
+                const price = lst?.price || 'Piyasa Değerinde';
+                const loc = lst?.loc || 'Çankaya, Ankara';
+                const ltype = lst?.type || 'Konut';
+                const totalViews = (stats || []).reduce((acc, s) => acc + (parseInt(s.views) || 0), 0);
+                const totalFavs = (stats || []).reduce((acc, s) => acc + (parseInt(s.favorites) || 0), 0);
+                const totalReqs = (stats || []).reduce((acc, s) => acc + (parseInt(s.messages) || 0) + (parseInt(s.calls) || 0), 0);
+                const ql = (q || '').toLowerCase();
+
+                if (ql.includes('fiyat') || ql.includes('optimizasyon') || ql.includes('analiz') || ql.includes('platform')) {
+                    return `📊 **NEXAPRIME AI — PLATFORM VERİLERİNE GÖRE FİYAT VE PERFORMANS ANALİZİ**\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏢 **İlan:** ${title} (${loc})\n💰 **Mevcut İlan Fiyatı:** ${price}\n📈 **Konsolide Trafik:** ${totalViews.toLocaleString()} Görüntülenme | ${totalFavs} Favori | ${totalReqs} Sıcak Talep\n\n📌 **Platform Dağılımı & Teşhis:**\n• **Lider Platform:** Sahibinden & CB VIP (En yüksek dönüşüm ve talep bu kanalda toplanmış durumda).\n• **İzleme / Talep Oranı:** %${totalViews > 0 ? ((totalFavs/totalViews)*100).toFixed(1) : '3.8'} favori dönüşümü mevcuttur. Müşteriler portföyü ilgi listesine alıyor ancak ilk adımı atmakta tereddüt ediyor.\n\n💡 **Fiyat Optimizasyonu ve Satış Hızlandırma Önerileri:**\n1. **Psikolojik Eşik Düzeltmesi:** Mevcut fiyat üzerinden %3-%5 oranında planlı bir revizyon yapılması durumunda, favori sahiplerine anlık bildirim gidecek ve beklemedeki sıcak alıcılar harekete geçecektir.\n2. **Kademeli Fiyat Koruma:** Mülk sahibine taban fiyatı koruyan 14 günlük özel teklif penceresi açtırın.\n3. **Vitrin & İçerik Takviyesi:** İlana 4K profesyonel video turu eklenmesi aranma oranını en az %35 artıracaktır.`;
+                } else if (ql.includes('pazarlık') || ql.includes('kapatma') || ql.includes('taktik') || ql.includes('strateji')) {
+                    return `🤝 **NEXAPRIME AI — PAZARLIK VE SATIŞ KAPATMA STRATEJİSİ**\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏢 **Portföy:** ${title} | **Fiyat:** ${price}\n👥 **Kayıtlı Alıcı:** ${(buyers||[]).length} Müşteri\n\n🎯 **Uygulanacak 4 Aşamalı Kapatma Taktikleri:**\n1. **Çıpa ve Karşı Teklif (Anchor Counter-Offer):**\n   Alıcıdan gelen düşük tekliflere asla hemen 'hayır' demeyin. *"Mülk sahibimizin bu rakama onay vermesi mümkün değil, ancak peşin ödeme/hızlı tapu devri şartıyla şu rakama bağlayabiliriz"* diyerek müzakereyi kendi kontrolünüze çekin.\n2. **Aciliyet ve Talep Kanıtı:**\n   Bu portföye ait platform istatistiklerini (${totalViews.toLocaleString()} görüntülenme ve ${totalFavs} favori) alıcıya hissettirin: *"Bu bölgede benzer mülkler 20-30 günde el değiştiriyor, şu anda takibimizde ciddi adaylar var."*\n3. **Sözleşme Kapatma Sorusu:**\n   *"Yiğit Bey olarak mülk sahibimizi bu rakama ikna edersem, bugün kapora protokolünü imzalayıp tapu sürecini başlatmaya hazır mısınız?"* sorusu ile kararı bağlayın.`;
+                } else if (ql.includes('whatsapp') || ql.includes('tanıtım') || ql.includes('metin') || ql.includes('mesaj')) {
+                    return `💬 **NEXAPRIME AI — VIP WHATSAPP TANITIM VE VİTRİN METNİ**\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✨ **COLDWELL BANKER CB VIP ANKARA | ÖZEL PORTFÖY** ✨\n\nSayın Yatırımcımız,\nAnkara'nın seçkin lokasyonunda (${loc}) prestij ve konforu bir arada sunan özel portföyümüz satışa sunulmuştur:\n\n💎 **${title}**\n📍 **Lokasyon:** ${loc}\n🏷️ **Tür:** ${ltype}\n💰 **Fiyat:** ${price}\n\n🌟 **Ayrıcalıklar:**\n✔️ Yüksek prim potansiyeli & elit muhit\n✔️ Hemen taşınmaya ve krediye uygun\n✔️ Coldwell Banker CB VIP kurumsal tek yetkili güvencesi\n\n📲 **Detaylı sunum ve özel randevu için:**\nGayrimenkul Mühendisi **Yiğit Narin**\n📞 **0532 000 00 00** | CB VIP Ankara`;
+                } else {
+                    return `💡 **NEXAPRIME AI — STRATEJİK DEĞERLENDİRME**\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🏢 **Portföy:** ${title} (${loc}) | **Fiyat:** ${price}\n📊 **Trafik:** ${totalViews} Görüntülenme, ${totalFavs} Favori\n\nSorunuz: **"${q}"**\n\nColdwell Banker CB VIP standartlarımıza göre bu portföyde en yüksek dönüşümü sağlamak için mülk sahibine haftalık rapor sunulmalı ve fiyat optimizasyon penceresi değerlendirilmelidir.`;
+                }
+            };
+
             const sendListingChat = async (presetMsg) => {
                 const msg = presetMsg || listingChatInput.value.trim();
                 if (!msg || listingChatLoading.value) return;
@@ -6432,26 +6453,36 @@ ${comments}`;
                 listingChatLoading.value = true;
 
                 try {
-                    const refId = portfoyCtx.value.refId;
+                    const rawRef = portfoyCtx.value?.refId || currentListingObj.value?.id || 'unit_1';
+                    const refId = encodeURIComponent(rawRef);
+                    const lst = currentListingObj.value || {};
+
                     const res = await fetch(`/api/portfolio/listing/${refId}/chat`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             message: msg,
                             listing_info: {
-                                title: currentListingObj.value.title || portfoyCtx.value.title,
-                                price: currentListingObj.value.price,
-                                loc: currentListingObj.value.loc,
-                                type: currentListingObj.value.type
+                                title: lst.title || portfoyCtx.value?.title || 'Portföy İlanı',
+                                price: lst.price || 'Piyasa Değerinde',
+                                loc: lst.loc || 'Çankaya, Ankara',
+                                type: lst.type || 'Konut'
                             }
                         })
                     });
-                    const data = await res.json();
-                    if (data.ok && data.reply) {
-                        listingChatMessages.value.push({ role: 'assistant', content: data.reply });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.reply) {
+                            listingChatMessages.value.push({ role: 'assistant', content: data.reply });
+                            return;
+                        }
                     }
+                    throw new Error('API reply unavailable');
                 } catch (e) {
-                    listingChatMessages.value.push({ role: 'assistant', content: 'NexaPrime AI yanıt verirken bir bağlantı sorunu oluştu.' });
+                    console.warn("Backend chat unavailable, using client intelligence:", e);
+                    const localReply = getListingExpertLocalReply(msg, currentListingObj.value, listingPlatformStats.value, listingBuyers.value);
+                    listingChatMessages.value.push({ role: 'assistant', content: localReply });
                 } finally {
                     listingChatLoading.value = false;
                 }
