@@ -15,6 +15,17 @@
     ],
     "buyers": [
       {
+        "id": "b_1788235277_879",
+        "refId": "swarm_test_1",
+        "name": "Kaan Demir",
+        "phone": "05321112233",
+        "offer": "16.250.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Swarm test alıcısı",
+        "listingTitle": "Çankaya Lüks Daire",
+        "createdAt": "01.09.2026 07:01"
+      },
+      {
         "id": "b_1788235009_329",
         "refId": "swarm_test_1",
         "name": "Kaan Demir",
@@ -27,6 +38,22 @@
       }
     ],
     "timeline": [
+      {
+        "id": "t_1788235277",
+        "type": "note",
+        "title": "Swarm Test İncelemesi",
+        "note": "Tüm sistemler aktif ve sağlıklı.",
+        "date": "01.09.2026 07:01",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788235277",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Kaan Demir",
+        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:01",
+        "author": "Yiğit Narin"
+      },
       {
         "id": "t_1788235009",
         "type": "note",
@@ -60,6 +87,6 @@
         "author": "Yiğit Narin"
       }
     ],
-    "updatedAt": "2026-09-01T06:56:49.067207"
+    "updatedAt": "2026-09-01T07:01:17.794282"
   }
 }
