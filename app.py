@@ -4594,6 +4594,14 @@ JOBS_DIR.mkdir(exist_ok=True)
 
 app = Flask(__name__, template_folder=str(BASE_DIR / "templates"))
 
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
+
 @app.route('/testcrm')
 def testcrm():
     return "TEST CRM WORKS"
@@ -13951,6 +13959,7 @@ def nexa_get_projects():
 # CRM İLAN OPERASYON & İSTİHBARAT DASHBOARD ENDPOINTS
 # ================================================================
 
+import html
 import random
 import time
 
@@ -14019,13 +14028,21 @@ def save_portfolio_platform_stats(ref_id):
         if ref_id not in all_data:
             all_data[ref_id] = {"refId": ref_id, "platform_stats": [], "buyers": [], "timeline": []}
         
+        def _to_safe_int(val, default=0):
+            try:
+                # convert to float first in case of string numbers like "12.0"
+                s = str(val).strip().replace(',', '.')
+                return int(float(s))
+            except Exception:
+                return default
+
         # Calculate weighted total scores for each platform
         for st in stats:
-            v = int(st.get("views") or 0)
-            f = int(st.get("favorites") or 0)
-            m = int(st.get("messages") or 0)
-            c = int(st.get("calls") or 0)
-            inf = int(st.get("influence") or 5)
+            v = _to_safe_int(st.get("views"), 0)
+            f = _to_safe_int(st.get("favorites"), 0)
+            m = _to_safe_int(st.get("messages"), 0)
+            c = _to_safe_int(st.get("calls"), 0)
+            inf = _to_safe_int(st.get("influence"), 5)
             # Weighted formula
             score = (v * 1) + (f * 5) + (m * 15) + (c * 25) + (inf * 20)
             st["score"] = score
@@ -14042,13 +14059,14 @@ def save_portfolio_platform_stats(ref_id):
 def add_portfolio_listing_buyer(ref_id):
     """İlana özel alıcı ekler ve aynı anda genel CRM Lead/Contact havuzuna işler."""
     try:
+        ref_id = re.sub(r'[^a-zA-Z0-9_\-\.:]', '_', str(ref_id))[:128]
         payload = flask_request.json or {}
-        name = (payload.get("name") or "").strip()
-        phone = (payload.get("phone") or "").strip()
-        offer = payload.get("offer") or ""
-        stage = payload.get("stage") or "Yeni Talep"
-        note = payload.get("note") or ""
-        listing_title = payload.get("listing_title") or "Portföy İlanı"
+        name = html.escape((payload.get("name") or "").strip()[:100])
+        phone = html.escape((payload.get("phone") or "").strip()[:30])
+        offer = html.escape((payload.get("offer") or "").strip()[:50])
+        stage = html.escape((payload.get("stage") or "Yeni Talep").strip()[:50])
+        note = html.escape((payload.get("note") or "").strip()[:1000])
+        listing_title = html.escape((payload.get("listing_title") or "Portföy İlanı").strip()[:150])
 
         if not name or not phone:
             return jsonify({"ok": False, "error": "Ad ve telefon zorunludur."}), 400
@@ -14087,7 +14105,7 @@ def add_portfolio_listing_buyer(ref_id):
 
         # Global CRM Sync: also register in Firestore / Contacts if available
         try:
-            if db:
+            if "db" in globals() and db:
                 db.collection("crm_leads").add({
                     "name": name,
                     "phone": phone,
@@ -14111,10 +14129,11 @@ def add_portfolio_listing_buyer(ref_id):
 def add_portfolio_listing_timeline(ref_id):
     """İlan geçmişine yeni olay veya not ekler."""
     try:
+        ref_id = re.sub(r'[^a-zA-Z0-9_\-\.:]', '_', str(ref_id))[:128]
         payload = flask_request.json or {}
-        event_type = payload.get("type") or "note"
-        title = payload.get("title") or "Not Eklendi"
-        note = payload.get("note") or ""
+        event_type = html.escape((payload.get("type") or "note").strip()[:30])
+        title = html.escape((payload.get("title") or "Not Eklendi").strip()[:150])
+        note = html.escape((payload.get("note") or "").strip()[:1000])
 
         all_data = _load_listing_dashboards()
         if ref_id not in all_data:
@@ -14139,12 +14158,35 @@ def add_portfolio_listing_timeline(ref_id):
 def portfolio_listing_chat(ref_id):
     """Bu ilana özel ultra-akıllı NexaPrime AI Chatbot API'si."""
     try:
-        payload = flask_request.json or {}
-        user_msg = payload.get("message") or payload.get("prompt") or ""
+        ref_id = re.sub(r'[^a-zA-Z0-9_\-\.:]', '_', str(ref_id))[:128]
+        
+        # Handle malformed / non-JSON gracefully
+        if flask_request.content_type and 'application/json' in flask_request.content_type:
+            payload = flask_request.get_json(silent=True)
+            if payload is None and flask_request.data:
+                return jsonify({"ok": False, "error": "Geçersiz veya bozuk JSON verisi."}), 400
+        else:
+            payload = flask_request.json or {}
+            
+        payload = payload or {}
+        raw_msg = str(payload.get("message") or payload.get("prompt") or "").strip()
+        user_msg = raw_msg[:2000]
         listing_info = payload.get("listing_info") or {}
 
         if not user_msg:
             return jsonify({"ok": False, "reply": "Lütfen bir soru veya talimat yazın."}), 400
+
+        # AI Prompt Injection & Guardrail Filter
+        injection_triggers = [
+            "ignore all previous", "ignore previous", "system override", "forget your",
+            "reveal system prompt", "reveal api key", "sistem komutlarını göster", 
+            "gizli anahtar", "jailbreak", "bypass safety", "danışman rolünden çık"
+        ]
+        if any(tr in user_msg.lower() for tr in injection_triggers):
+            return jsonify({
+                "ok": True,
+                "reply": "🔒 **NexaPrime AI Güvenlik Protokolü:**\nColdwell Banker CB VIP Ankara bünyesinde görev yapan kurumsal bir Gayrimenkul & Portföy Operasyon asistanıyım. Güvenlik politikaları gereğince sistem promptları ve özel yapılandırmalar paylaşılamaz. Size portföy analizi, satış kapatma ve fiyat optimizasyonu konularında yardımcı olmaktan memnuniyet duyarım."
+            })
 
         all_data = _load_listing_dashboards()
         listing_data = all_data.get(ref_id, {})
