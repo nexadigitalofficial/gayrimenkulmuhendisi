@@ -409,7 +409,7 @@ def _sync_projects_map(db_rows=None):
     """DB'deki guncel fiyat/lokasyon verilerini projects_map.json kartlarina isler.
     DB bos alanlari map'teki mevcut degeri korur (kanonik veri kaybi olmaz).
     Boylece CB -> DB -> importer -> MAP -> site zinciri otonom tamamlanir."""
-    map_path = BASE_DIR / "projects_map.json"
+    map_path = BASE_DIR / "static" / "data" / "projects_map.json" if (BASE_DIR / "static" / "data" / "projects_map.json").exists() else BASE_DIR / "projects_map.json"
     if not map_path.exists():
         return
     try:

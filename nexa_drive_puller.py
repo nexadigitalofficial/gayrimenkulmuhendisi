@@ -174,7 +174,7 @@ def _refresh_drive_previews():
     Drive onizlemesi kullanmaya baslar — hosting icin sifir depolama."""
     try:
         import json as _json
-        map_path = SITE_DIR / "projects_map.json"
+        map_path = SITE_DIR / "static" / "data" / "projects_map.json" if (SITE_DIR / "static" / "data" / "projects_map.json").exists() else SITE_DIR / "projects_map.json"
         cards = _json.loads(map_path.read_text(encoding="utf-8"))
         state = _json.loads(STATE_FILE.read_text(encoding="utf-8")) if STATE_FILE.exists() else {}
         vid_pri = ['tanitim', 'lansman', 'animasyon', 'render', 'muteahhit', 'kisa', 'promo']

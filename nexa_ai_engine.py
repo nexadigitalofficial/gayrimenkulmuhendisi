@@ -14,7 +14,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
 DATA_FILE = BASE_DIR / "nexa_portfolio_data.json"
-MAP_FILE = BASE_DIR / "projects_map.json"
+MAP_FILE = BASE_DIR / "static" / "data" / "projects_map.json" if (BASE_DIR / "static" / "data" / "projects_map.json").exists() else BASE_DIR / "projects_map.json"
 
 # ─── VERİ YÜKLEME ───
 def load_portfolio():

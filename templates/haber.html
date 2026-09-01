@@ -870,7 +870,7 @@ Yeni yasal düzenlemeler ile uzlaşma süreçleri hızlandırılmış, harç ve 
       container.innerHTML = filtered.map((p, idx) => {
         const dateStr = p.createdAt ? new Date(p.createdAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Güncel';
         const imgUrl = p.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
-        const postEncoded = encodeURIComponent(JSON.stringify(p));
+        const postEncoded = encodeURIComponent(JSON.stringify(p)).replace(/'/g, '%27');
         return `
           <div class="news-card" onclick="openModal('${postEncoded}')">
             <div class="card-banner">

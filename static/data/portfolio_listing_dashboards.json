@@ -483,6 +483,17 @@
     ],
     "buyers": [
       {
+        "id": "b_1788236920_263",
+        "refId": "swarm_test_1",
+        "name": "Kaan Demir",
+        "phone": "05321112233",
+        "offer": "16.250.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Swarm test alıcısı",
+        "listingTitle": "Çankaya Lüks Daire",
+        "createdAt": "01.09.2026 07:28"
+      },
+      {
         "id": "b_1788236657_589",
         "refId": "swarm_test_1",
         "name": "Kaan Demir",
@@ -495,6 +506,22 @@
       }
     ],
     "timeline": [
+      {
+        "id": "t_1788236920",
+        "type": "note",
+        "title": "Swarm Test İncelemesi",
+        "note": "Tüm sistemler aktif ve sağlıklı.",
+        "date": "01.09.2026 07:28",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236920",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Kaan Demir",
+        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:28",
+        "author": "Yiğit Narin"
+      },
       {
         "id": "t_1788236657",
         "type": "note",
@@ -520,7 +547,7 @@
         "author": "Yiğit Narin"
       }
     ],
-    "updatedAt": "2026-09-01T07:24:17.617331"
+    "updatedAt": "2026-09-01T07:28:40.643401"
   },
   "../../../../etc/passwd": {
     "refId": "../../../../etc/passwd",
@@ -787,5 +814,221 @@
       }
     ],
     "updatedAt": "2026-09-01T07:24:49.844997"
+  },
+  "matrix_test_unit": {
+    "refId": "matrix_test_unit",
+    "platform_stats": [],
+    "buyers": [
+      {
+        "id": "b_1788236740_303",
+        "refId": "matrix_test_unit",
+        "name": "Ahmet Yılmaz",
+        "phone": "05324514008",
+        "offer": "10.000.000 TL",
+        "stage": "Yeni Talep",
+        "note": "",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:25"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1788236740",
+        "type": "note",
+        "title": "Not Eklendi",
+        "note": "",
+        "date": "01.09.2026 07:25",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236740",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz",
+        "note": "Teklif: 10.000.000 TL | Aşama: Yeni Talep",
+        "date": "01.09.2026 07:25",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "01.09.2026 07:25",
+        "author": "Yiğit Narin"
+      }
+    ],
+    "updatedAt": "2026-09-01T07:25:40.185880"
+  },
+  "corrupt_or_uninitialized_id_xyz": {
+    "refId": "corrupt_or_uninitialized_id_xyz",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 1450,
+        "favorites": 48,
+        "messages": 12,
+        "calls": 9,
+        "influence": 9,
+        "score": 2100
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 980,
+        "favorites": 29,
+        "messages": 7,
+        "calls": 5,
+        "influence": 8,
+        "score": 1450
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 620,
+        "favorites": 18,
+        "messages": 4,
+        "calls": 3,
+        "influence": 7,
+        "score": 980
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 840,
+        "favorites": 35,
+        "messages": 11,
+        "calls": 8,
+        "influence": 9,
+        "score": 1620
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 450,
+        "favorites": 12,
+        "messages": 8,
+        "calls": 14,
+        "influence": 8,
+        "score": 1150
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 2300,
+        "favorites": 64,
+        "messages": 19,
+        "calls": 11,
+        "influence": 9,
+        "score": 3200
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "01.09.2026 07:26",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "chaos_unit": {
+    "refId": "chaos_unit",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 1450,
+        "favorites": 48,
+        "messages": 12,
+        "calls": 9,
+        "influence": 9,
+        "score": 2100
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 980,
+        "favorites": 29,
+        "messages": 7,
+        "calls": 5,
+        "influence": 8,
+        "score": 1450
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 620,
+        "favorites": 18,
+        "messages": 4,
+        "calls": 3,
+        "influence": 7,
+        "score": 980
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 840,
+        "favorites": 35,
+        "messages": 11,
+        "calls": 8,
+        "influence": 9,
+        "score": 1620
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 450,
+        "favorites": 12,
+        "messages": 8,
+        "calls": 14,
+        "influence": 8,
+        "score": 1150
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 2300,
+        "favorites": 64,
+        "messages": 19,
+        "calls": 11,
+        "influence": 9,
+        "score": 3200
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1788236775_866",
+        "refId": "chaos_unit",
+        "name": "&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "phone": "05324514008",
+        "offer": "{&quot;$gt&quot;: &quot;&quot;}",
+        "stage": "Yeni Talep",
+        "note": "DROP TABLE users;",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:26"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1788236775",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: &#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "note": "Teklif: {&quot;$gt&quot;: &quot;&quot;} | Aşama: Yeni Talep",
+        "date": "01.09.2026 07:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236775",
+        "type": "note",
+        "title": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "note": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+        "date": "01.09.2026 07:26",
+        "author": "Yiğit Narin"
+      }
+    ]
   }
 }

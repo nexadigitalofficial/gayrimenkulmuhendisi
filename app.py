@@ -10818,7 +10818,14 @@ def _require_admin():
         return None, "Token geçersiz (çok kısa)"
     try:
         decoded = fb_auth.verify_id_token(id_token)
-        print(f"✅ Admin doğrulandı: {decoded.get('email','?')} — {flask_request.path}")
+        # Verify admin claim or authorized email whitelist
+        ADMIN_EMAILS = {"yigit@gayrimenkulmuhendisi.com", "info@gayrimenkulmuhendisi.com", "admin@gayrimenkulmuhendisi.com", "yigitnarin@gmail.com"}
+        email = (decoded.get("email") or "").lower().strip()
+        is_admin_claim = bool(decoded.get("admin") or decoded.get("is_admin"))
+        if not is_admin_claim and email not in ADMIN_EMAILS:
+            print(f"⛔ Yetkisiz Admin Erişimi Engellendi: {email} — {flask_request.path}")
+            return None, "Yetkisiz işlem: Bu panel yalnızca yönetici hesaplarına açıktır."
+        print(f"✅ Admin doğrulandı: {email} — {flask_request.path}")
         return decoded, None
     except fb_auth.ExpiredIdTokenError:
         print("⚠️  _require_admin: Token süresi dolmuş")
@@ -14057,10 +14064,6 @@ def save_portfolio_platform_stats(ref_id):
         payload = flask_request.json or {}
         stats = payload.get("platform_stats", [])
         
-        all_data = _load_listing_dashboards()
-        if ref_id not in all_data:
-            all_data[ref_id] = {"refId": ref_id, "platform_stats": [], "buyers": [], "timeline": []}
-        
         def _to_safe_int(val, default=0):
             try:
                 # convert to float first in case of string numbers like "12.0"
@@ -14080,9 +14083,13 @@ def save_portfolio_platform_stats(ref_id):
             score = (v * 1) + (f * 5) + (m * 15) + (c * 25) + (inf * 20)
             st["score"] = score
         
-        all_data[ref_id]["platform_stats"] = stats
-        all_data[ref_id]["updatedAt"] = datetime.now().isoformat()
-        _save_listing_dashboards(all_data)
+        with _DASHBOARD_LOCK:
+            all_data = _load_listing_dashboards()
+            if ref_id not in all_data:
+                all_data[ref_id] = {"refId": ref_id, "platform_stats": [], "buyers": [], "timeline": []}
+            all_data[ref_id]["platform_stats"] = stats
+            all_data[ref_id]["updatedAt"] = datetime.now().isoformat()
+            _save_listing_dashboards(all_data)
         
         return jsonify({"ok": True, "platform_stats": stats})
     except Exception as e:
@@ -14167,10 +14174,6 @@ def add_portfolio_listing_timeline(ref_id):
         title = html.escape((payload.get("title") or "Not Eklendi").strip()[:150])
         note = html.escape((payload.get("note") or "").strip()[:1000])
 
-        all_data = _load_listing_dashboards()
-        if ref_id not in all_data:
-            all_data[ref_id] = {"refId": ref_id, "platform_stats": DEFAULT_PLATFORMS, "buyers": [], "timeline": []}
-
         event = {
             "id": f"t_{int(time.time())}",
             "type": event_type,
@@ -14179,8 +14182,12 @@ def add_portfolio_listing_timeline(ref_id):
             "date": datetime.now().strftime("%d.%m.%Y %H:%M"),
             "author": "Yiğit Narin"
         }
-        all_data[ref_id].setdefault("timeline", []).insert(0, event)
-        _save_listing_dashboards(all_data)
+        with _DASHBOARD_LOCK:
+            all_data = _load_listing_dashboards()
+            if ref_id not in all_data:
+                all_data[ref_id] = {"refId": ref_id, "platform_stats": DEFAULT_PLATFORMS, "buyers": [], "timeline": []}
+            all_data[ref_id].setdefault("timeline", []).insert(0, event)
+            _save_listing_dashboards(all_data)
 
         return jsonify({"ok": True, "event": event, "timeline": all_data[ref_id]["timeline"]})
     except Exception as e:
