@@ -3223,201 +3223,444 @@
                             </div>
                             </template><!-- /chat -->
 
-                            <!-- ══ PORTFÖY İLERLEME MODAL (paylaşımlı: ilan kartı & lead paneli) ══ -->
+                            
+                            <!-- ══ ULTRA-LÜKS İLAN OPERASYON & İSTİHBARAT DASHBOARD (Emlak_Platform_Karsilastirmasi + NexaPrime Chat + Alıcılar) ══ -->
                             <template v-if="showPortfoyModal">
-                                <div class="modal-backdrop" @click="showPortfoyModal=false">
-                                    <div class="modal-content glass-strong rounded-2xl p-6" @click.stop>
-                                        <div class="flex items-center justify-between mb-4">
-                                            <div class="flex items-center gap-2 min-w-0">
-                                                <i class="fas fa-chart-line" style="color:#34d399;"></i>
-                                                <h2 class="text-lg font-bold truncate">Portföy İlerleme</h2>
-                                                <span class="text-xs text-gray-400 truncate">— {{ portfoyCtx.title || 'İlan' }}</span>
+                                <div class="modal-backdrop" @click="showPortfoyModal=false" style="background:rgba(2, 6, 18, 0.85); backdrop-filter:blur(16px); z-index:100050; display:flex; align-items:center; justify-content:center; padding:16px;">
+                                    <div class="modal-content glass-strong rounded-3xl" @click.stop style="max-width:1180px; width:96vw; max-height:92vh; overflow-y:auto; background:radial-gradient(circle at 10% 10%, #0d172a 0%, #060a15 100%); border:1px solid rgba(212,175,55,0.3); box-shadow:0 30px 90px rgba(0,0,0,0.85); padding:24px; color:#f8fafc;">
+                                        
+                                        <!-- ─── HEADER: İLAN BİLGİ KARTI & HIZLI KONTROLLER ─── -->
+                                        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-white/10">
+                                            <div class="flex items-center gap-4 min-w-0">
+                                                <div v-if="currentListingObj.img" class="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 border border-gold/40 shadow-lg" :style="{ backgroundImage: 'url(' + currentListingObj.img + ')', backgroundSize:'cover', backgroundPosition:'center' }"></div>
+                                                <div v-else class="w-16 h-16 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-emerald-400 text-2xl">
+                                                    <i class="fas fa-building"></i>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <div class="flex items-center gap-2 flex-wrap">
+                                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style="background:linear-gradient(135deg, #d4af37, #b8941f); color:#000;">
+                                                            {{ currentListingObj.type || 'Portföy İlanı' }}
+                                                        </span>
+                                                        <span v-if="currentListingObj.price" class="text-sm font-bold text-amber-300 font-mono">
+                                                            {{ currentListingObj.price }}
+                                                        </span>
+                                                        <span class="text-xs text-gray-400">Ref: {{ portfoyCtx.refId }}</span>
+                                                    </div>
+                                                    <h2 class="text-lg md:text-xl font-bold truncate text-white mt-1">
+                                                        {{ currentListingObj.title || portfoyCtx.title || 'İlan Detayı & Operasyon Merkezi' }}
+                                                    </h2>
+                                                    <div class="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
+                                                        <span v-if="currentListingObj.loc"><i class="fas fa-map-marker-alt text-red-400 mr-1"></i>{{ currentListingObj.loc }}</span>
+                                                        <a v-if="currentListingObj.link" :href="currentListingObj.link" target="_blank" class="text-emerald-400 hover:text-emerald-300 underline ml-2 flex items-center gap-1">
+                                                            <i class="fas fa-external-link-alt text-[10px]"></i> İlan Sayfası
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <button @click="showPortfoyModal=false" class="p-2 rounded-xl hover:bg-white/5">
-                                                <i class="fas fa-times text-xl"></i>
+                                            <div class="flex items-center gap-2 self-end md:self-center">
+                                                <a v-if="currentListingObj.link" :href="'/sunum'" target="_blank" class="btn text-xs px-3 py-1.5 rounded-xl border border-gold/40 text-amber-200 hover:bg-gold/10 flex items-center gap-1.5">
+                                                    <i class="fas fa-magic"></i> Sunumda Gör
+                                                </a>
+                                                <button @click="showPortfoyModal=false" class="p-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-all">
+                                                    <i class="fas fa-times text-lg"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- ─── TOP KPI SUMMARY CARDS ─── -->
+                                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 my-4">
+                                            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col justify-between">
+                                                <span class="text-[11px] text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fas fa-eye text-blue-400"></i> Toplam Görüntülenme</span>
+                                                <span class="text-xl font-bold text-white font-mono mt-1">{{ totalListingViews.toLocaleString('tr-TR') }}</span>
+                                                <span class="text-[10px] text-emerald-400 mt-0.5">Tüm portallar</span>
+                                            </div>
+                                            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col justify-between">
+                                                <span class="text-[11px] text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fas fa-star text-amber-400"></i> Toplam Favori</span>
+                                                <span class="text-xl font-bold text-amber-300 font-mono mt-1">{{ totalListingFavorites.toLocaleString('tr-TR') }}</span>
+                                                <span class="text-[10px] text-gray-400 mt-0.5">Takipteki alıcı adayı</span>
+                                            </div>
+                                            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col justify-between">
+                                                <span class="text-[11px] text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fas fa-comments text-emerald-400"></i> Toplam Mesaj & Arama</span>
+                                                <span class="text-xl font-bold text-emerald-400 font-mono mt-1">{{ totalListingLeads.toLocaleString('tr-TR') }}</span>
+                                                <span class="text-[10px] text-emerald-400 mt-0.5">Doğrudan sıcak talep</span>
+                                            </div>
+                                            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col justify-between">
+                                                <span class="text-[11px] text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fas fa-trophy text-yellow-400"></i> En Başarılı Platform</span>
+                                                <span class="text-base font-bold text-white truncate mt-1">{{ topPerformingPlatform }}</span>
+                                                <span class="text-[10px] text-amber-300 mt-0.5">Lider kanal</span>
+                                            </div>
+                                            <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col justify-between">
+                                                <span class="text-[11px] text-gray-400 uppercase tracking-wider flex items-center gap-1.5"><i class="fas fa-user-check text-purple-400"></i> Kayıtlı Alıcı / Teklif</span>
+                                                <span class="text-xl font-bold text-purple-300 font-mono mt-1">{{ listingBuyers.length }}</span>
+                                                <span class="text-[10px] text-purple-400 mt-0.5">CRM havuzuna entegre</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- ─── SUB-NAVIGATION TABS ─── -->
+                                        <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-white/10 mb-5 scrollbar-none">
+                                            <button @click="activeListingTab='matrix'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap', activeListingTab==='matrix' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5']">
+                                                <i class="fas fa-table text-amber-400"></i> Platform Karşılaştırması (Excel Matrisi)
+                                            </button>
+                                            <button @click="activeListingTab='chat'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap', activeListingTab==='chat' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5']">
+                                                <i class="fas fa-robot text-emerald-400"></i> NexaPrime AI Copilot
+                                            </button>
+                                            <button @click="activeListingTab='buyers'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap', activeListingTab==='buyers' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5']">
+                                                <i class="fas fa-users text-purple-400"></i> Alıcılar & Teklifler ({{ listingBuyers.length }})
+                                            </button>
+                                            <button @click="activeListingTab='timeline'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap', activeListingTab==='timeline' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5']">
+                                                <i class="fas fa-history text-blue-400"></i> İlan Geçmişi & Notlar ({{ listingTimeline.length }})
+                                            </button>
+                                            <button @click="activeListingTab='media'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap', activeListingTab==='media' ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5']">
+                                                <i class="fas fa-images text-teal-400"></i> Görseller & İlerleme Raporu
                                             </button>
                                         </div>
 
-                                <!-- ─── RAPOR HEADER ─────────────────────── -->
-                                <div class="glass rounded-xl p-4" style="border:1px solid rgba(52,211,153,0.25);">
-                                    <p class="fsbo-card-header" style="color:#34d399;">
-                                        <i class="fas fa-chart-line text-emerald-400"></i>Portföy İlerleme
-                                        <span v-if="portfoyMedia.length" class="ml-auto badge" style="background:rgba(52,211,153,0.15);color:#34d399;font-size:0.6rem;">{{ portfoyMedia.length }} Görsel</span>
-                                    </p>
-                                    <p class="text-xs text-gray-500 mb-3 leading-relaxed">
-                                        Görselleri yükleyin — otomatik analiz edilir. Ardından tek dokunuşla AI destekli, görsel zengin İlerleme Raporu (PDF) üretin.
-                                    </p>
-                                    <button @click="runPortfoyReport" :disabled="portfoyReportLoading || portfoyMedia.length===0"
-                                            class="btn btn-primary w-full justify-center"
-                                            :style="portfoyMedia.length===0 ? '' : 'background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 15px rgba(16,185,129,0.3);'">
-                                        <i :class="['fas', portfoyReportLoading ? 'fa-spinner fa-spin' : 'fa-file-pdf']"></i>
-                                        {{ portfoyReportLoading ? portfoyReportProgress || 'Rapor hazırlanıyor...' : 'İlerleme Raporu Oluştur' }}
-                                    </button>
-
-                                    <!-- RAPOR SONUCU -->
-                                    <div v-if="portfoyReportResult" class="mt-3 space-y-2">
-                                        <div class="flex items-center gap-2 text-xs text-emerald-400 font-semibold">
-                                            <i class="fas fa-check-circle"></i>Rapor hazır!
-                                        </div>
-                                        <p class="text-xs text-gray-300 leading-relaxed">{{ portfoyReportResult.ozet }}</p>
-                                        <div class="flex flex-wrap gap-1.5">
-                                            <span v-if="portfoyReportResult.suanki_durum_pct!=null" class="badge" style="background:rgba(16,185,129,0.15);color:#34d399;font-size:0.65rem;">
-                                                %{{ portfoyReportResult.suanki_durum_pct }} durum
-                                            </span>
-                                            <span v-for="(r,ri) in portfoyReportResult.riskler.slice(0,3)" :key="'rk'+ri"
-                                                  class="badge" style="background:rgba(239,68,68,0.12);color:#f87171;font-size:0.65rem;">
-                                                <i class="fas fa-exclamation-triangle mr-1"></i>{{ r.risk }}
-                                            </span>
-                                        </div>
-                                        <button @click="downloadPortfoyResult"
-                                                class="btn w-full justify-center text-xs"
-                                                style="background:linear-gradient(135deg,#dc2626,#ef4444);color:white;box-shadow:0 4px 15px rgba(239,68,68,0.3);">
-                                            <i class="fas fa-download mr-1"></i> PDF Raporu İndir
-                                        </button>
-                                    </div>
-                                    <!-- HATA -->
-                                    <div v-if="portfoyReportError" class="mt-3 text-xs text-red-400 flex items-center gap-2">
-                                        <i class="fas fa-times-circle"></i>{{ portfoyReportError }}
-                                    </div>
-                                </div>
-
-                                <!-- ─── GÖRSEL YÜKLEME ───────────────────── -->
-                                <div class="glass rounded-xl p-4">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Proje Görselleri</p>
-                                        <span v-if="portfoyMediaUploading" class="text-xs text-emerald-400 flex items-center gap-1">
-                                            <i class="fas fa-spinner fa-spin"></i> Yükleniyor + analiz...
-                                        </span>
-                                    </div>
-                                    <div class="grid grid-cols-3 gap-2 mb-2">
-                                        <label v-for="st in portfoyStages" :key="st.id"
-                                               class="text-center text-[0.6rem] cursor-pointer rounded-lg px-1 py-1.5 transition-all"
-                                               :style="portfoySelectedStage===st.id
-                                                   ? 'background:rgba(52,211,153,0.18);color:#34d399;border:1px solid rgba(52,211,153,0.4);'
-                                                   : 'background:rgba(255,255,255,0.04);color:#64748b;border:1px solid rgba(255,255,255,0.07);'">
-                                            <input type="radio" :value="st.id" v-model="portfoySelectedStage" class="hidden">
-                                            <i :class="st.icon" class="mr-1"></i>{{ st.label }}
-                                        </label>
-                                    </div>
-                                    <div class="upload-zone" :class="portfoyMediaDragOver ? 'drag-over' : ''"
-                                         @dragover.prevent="portfoyMediaDragOver=true"
-                                         @dragleave.prevent="portfoyMediaDragOver=false"
-                                         @drop.prevent="onPortfoyMediaDrop">
-                                        <i class="fas fa-cloud-upload-alt text-2xl emerald-400 mb-2"></i>
-                                        <p class="text-xs text-gray-400">Fotoğrafları buraya bırak ya da</p>
-                                        <label class="cursor-pointer text-emerald-400 hover:text-emerald-300 text-xs font-semibold mt-1">
-                                            <i class="fas fa-folder-open mr-1"></i>dosya seç (çoklu)
-                                            <input type="file" accept="image/*" multiple class="hidden" @change="onPortfoyMediaChange">
-                                        </label>
-                                    </div>
-
-                                    <!-- Görsel grid -->
-                                    <div v-if="portfoyMedia.length" class="mt-3 grid grid-cols-3 gap-2">
-                                        <div v-for="m in portfoyMedia" :key="m.id" class="relative rounded-lg overflow-hidden"
-                                             style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-                                            <img :src="m.url" class="w-full h-20 object-cover" loading="lazy">
-                                            <div class="absolute inset-x-0 bottom-0 flex items-center justify-between px-1 py-0.5"
-                                                 style="background:rgba(0,0,0,0.6);">
-                                                <span class="text-[0.55rem] text-emerald-300 truncate">{{ stageLabel(m.stage) }}</span>
-                                                <span v-if="m.ocrStatus==='done'" class="text-[0.55rem] text-green-400" title="Analiz edildi"><i class="fas fa-check-circle"></i></span>
-                                                <span v-else class="text-[0.55rem] text-amber-400" title="Analiz bekliyor"><i class="fas fa-hourglass-half"></i></span>
+                                        <!-- ════════════ TAB 1: EMLAK PLATFORM KARŞILAŞTIRMASI (EXCEL MODELİ) ════════════ -->
+                                        <div v-show="activeListingTab==='matrix'" class="space-y-4">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                                        <i class="fas fa-chart-bar text-amber-400"></i> Emlak Platformları Performans Matrisi (Masaüstü Excel Standardı)
+                                                    </h3>
+                                                    <p class="text-xs text-gray-400 mt-0.5">Masaüstündeki Emlak_Platform_Karsilastirmasi.xlsx matrisi üzerinden anlık veri girişi yapın ve istatistikleri kaydedin.</p>
+                                                </div>
+                                                <button @click="saveListingPlatformStats" :disabled="listingStatsSaving" class="btn px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-2" style="background:linear-gradient(135deg, #d4af37, #b8941f); color:#000;">
+                                                    <i :class="['fas', listingStatsSaving ? 'fa-spinner fa-spin' : 'fa-save']"></i>
+                                                    {{ listingStatsSaving ? 'Kaydediliyor...' : 'İstatistikleri Kaydet' }}
+                                                </button>
                                             </div>
-                                            <button @click="deletePortfoyMedia(m)"
-                                                    class="absolute top-0.5 right-0.5 w-4 h-4 flex items-center justify-center rounded-full text-red-400 hover:bg-red-500/20"
-                                                    style="background:rgba(0,0,0,0.5);">
-                                                <i class="fas fa-times text-[0.5rem]"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <p v-else class="text-[0.65rem] text-gray-600 mt-2">Henüz görsel yok — projenin mevcut durumunu fotoğraflayın.</p>
-                                </div>
 
-                                <!-- ─── NOTLAR ───────────────────────────── -->
-                                <div class="glass rounded-xl p-4">
-                                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-2">
-                                        <i class="fas fa-sticky-note mr-1 text-emerald-400"></i>İlerleme Notları
-                                    </p>
-                                    <div class="flex gap-2 mb-3">
-                                        <input v-model="portfoyNoteText" @keydown.enter.self="addPortfoyNote"
-                                               class="flex-1" placeholder="Not ekle: kaba inşaat bitti, boya başladı...">
-                                        <button @click="addPortfoyNote" :disabled="!portfoyNoteText.trim()"
-                                                class="px-3 rounded-lg text-emerald-400 hover:bg-emerald-500/10 disabled:opacity-40">
-                                            <i class="fas fa-paper-plane"></i>
-                                        </button>
-                                    </div>
-                                    <div v-if="portfoyNotes.length" class="space-y-1.5 max-h-40 overflow-y-auto">
-                                        <div v-for="n in portfoyNotes" :key="n.id"
-                                             class="flex items-start gap-2 text-xs px-2 py-1.5 rounded-lg"
-                                             style="background:rgba(255,255,255,0.03);">
-                                            <span class="text-emerald-400 text-[0.6rem] mt-0.5" v-if="n.type==='stage'"><i class="fas fa-tag"></i></span>
-                                            <span class="flex-1 text-gray-300">{{ n.text }}</span>
-                                            <span class="text-gray-600 text-[0.6rem] whitespace-nowrap mt-0.5">{{ formatPortfoyDate(n.createdAt) }}</span>
-                                            <button @click="deletePortfoyNote(n)" class="text-gray-600 hover:text-red-400"><i class="fas fa-times text-[0.6rem]"></i></button>
-                                        </div>
-                                    </div>
-                                    <p v-else class="text-[0.65rem] text-gray-600">Henüz not yok — ilerleme adımlarını buraya yazın.</p>
-                                </div>
-
-                                <!-- ─── RAPOR GEÇMİŞİ ────────────────────── -->
-                                <div v-if="portfoyReports.length" class="glass rounded-xl p-4">
-                                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wide mb-2">
-                                        <i class="fas fa-history mr-1 text-emerald-400"></i>Rapor Geçmişi
-                                    </p>
-                                    <div class="space-y-1.5">
-                                        <div v-for="r in portfoyReports" :key="r.id"
-                                             class="flex items-center justify-between gap-2 text-xs px-2 py-1.5 rounded-lg"
-                                             style="background:rgba(255,255,255,0.03);">
-                                            <span class="text-gray-400">{{ formatPortfoyDate(r.createdAt) }}</span>
-                                            <button @click="downloadPortfoyReport(r.id)"
-                                                    class="text-emerald-400 hover:text-emerald-300">
-                                                <i class="fas fa-download mr-1"></i>İndir
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- ─── PORTFÖY SOHBET ──────────────────── -->
-                                <div class="glass rounded-xl overflow-hidden flex flex-col" style="min-height:300px;">
-                                    <div class="flex items-center gap-2 px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,0.07); background:rgba(16,185,129,0.05);">
-                                        <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:linear-gradient(135deg,#10b981,#059669);">
-                                            <i class="fas fa-robot text-white text-sm"></i>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm font-bold text-white">İlerleme Danışmanı</p>
-                                            <p class="text-xs text-emerald-400">portföy ilerlemesini biliyor</p>
-                                        </div>
-                                    </div>
-                                    <div class="px-2 pt-2 flex flex-wrap gap-1.5" style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                                        <button v-for="q in portfoyChatActions" :key="q" @click="sendPortfoyChat(q)" class="chat-quick-btn">{{ q }}</button>
-                                    </div>
-                                    <div class="p-2 space-y-1.5 max-h-56 overflow-y-auto flex-1">
-                                        <div v-if="portfoyChatMessages.length===0" class="chat-bubble chat-bubble-ai">
-                                            <p class="text-gray-300 text-xs">Portföy raporunuz ve görselleriniz hakkında soru sorabilirsiniz.</p>
-                                        </div>
-                                        <template v-for="(msg,idx) in portfoyChatMessages" :key="idx">
-                                            <div :class="['chat-bubble', msg.role==='user' ? 'chat-bubble-user' : 'chat-bubble-ai']">
-                                                <span v-html="formatChatText(msg.content)" class="text-xs"></span>
+                                            <div class="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02]">
+                                                <table class="w-full text-left text-xs border-collapse">
+                                                    <thead>
+                                                        <tr class="border-b border-white/10 bg-white/[0.04] text-gray-400 font-semibold uppercase tracking-wider text-[10px]">
+                                                            <th class="py-3 px-4">Platform</th>
+                                                            <th class="py-3 px-3">Görüntülenme</th>
+                                                            <th class="py-3 px-3">Favori</th>
+                                                            <th class="py-3 px-3">Mesaj</th>
+                                                            <th class="py-3 px-3">Aranma</th>
+                                                            <th class="py-3 px-3">Etki Çevresi (1-10)</th>
+                                                            <th class="py-3 px-4 text-right">Toplam Skor</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="divide-y divide-white/5">
+                                                        <tr v-for="(p, pi) in listingPlatformStats" :key="pi" class="hover:bg-white/[0.03] transition-colors">
+                                                            <td class="py-2.5 px-4 font-bold text-white flex items-center gap-2">
+                                                                <span>{{ p.logo }}</span> {{ p.platform }}
+                                                            </td>
+                                                            <td class="py-2 px-3">
+                                                                <input type="number" v-model.number="p.views" min="0" class="w-24 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs font-mono focus:border-amber-400 focus:outline-none">
+                                                            </td>
+                                                            <td class="py-2 px-3">
+                                                                <input type="number" v-model.number="p.favorites" min="0" class="w-20 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-amber-300 text-xs font-mono focus:border-amber-400 focus:outline-none">
+                                                            </td>
+                                                            <td class="py-2 px-3">
+                                                                <input type="number" v-model.number="p.messages" min="0" class="w-20 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-emerald-400 text-xs font-mono focus:border-amber-400 focus:outline-none">
+                                                            </td>
+                                                            <td class="py-2 px-3">
+                                                                <input type="number" v-model.number="p.calls" min="0" class="w-20 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-blue-400 text-xs font-mono focus:border-amber-400 focus:outline-none">
+                                                            </td>
+                                                            <td class="py-2 px-3">
+                                                                <div class="flex items-center gap-2">
+                                                                    <input type="range" v-model.number="p.influence" min="1" max="10" class="w-20 accent-amber-400">
+                                                                    <span class="text-xs font-bold text-amber-300 w-4">{{ p.influence }}</span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="py-2.5 px-4 text-right font-mono font-bold text-sm text-amber-300">
+                                                                {{ ((Number(p.views)||0)*1 + (Number(p.favorites)||0)*5 + (Number(p.messages)||0)*15 + (Number(p.calls)||0)*25 + (Number(p.influence)||5)*20).toLocaleString('tr-TR') }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </template>
-                                        <div v-if="portfoyChatLoading" class="chat-bubble chat-bubble-ai" style="padding:0.4rem 0.6rem;">
-                                            <div class="chat-typing"><span></span><span></span><span></span></div>
+
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                                <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                                                    <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                                        <i class="fas fa-info-circle text-blue-400"></i> Metrik Açıklamaları (Excel Standartları)
+                                                    </h4>
+                                                    <ul class="text-xs text-gray-400 space-y-1.5 leading-relaxed">
+                                                        <li><strong>Görüntülenme:</strong> İlan ve mülk detay sayfasının toplam ziyaretçi tıklanma sayısı.</li>
+                                                        <li><strong>Favori:</strong> Kullanıcıların ilanı kaydetme ve bildirim açma sayısı.</li>
+                                                        <li><strong>Mesaj & Aranma:</strong> Doğrudan gelen portföy teklifleri ve telefon aramaları.</li>
+                                                        <li><strong>Etki Çevresi (1-10):</strong> Hedef yatırımcı ve elit alıcı grubundaki etkinlik skoru.</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col justify-between">
+                                                    <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                                        <i class="fas fa-lightbulb text-amber-400"></i> NexaPrime Hızlı Öneri
+                                                    </h4>
+                                                    <p class="text-xs text-gray-300 leading-relaxed">
+                                                        Sahibinden ve Sosyal Medya kanallarında görüntülenme başına arama dönüşümü yüksek seyrediyor. Teklif sayısını artırmak için favoriye ekleyen kullanıcılara özel indirim bildirimi tetikleyin.
+                                                    </p>
+                                                    <button @click="activeListingTab='chat'; sendListingChat('Platform istatistiklerime göre en hızlı satış stratejisi nedir?')" class="mt-3 text-xs text-amber-300 hover:text-amber-200 underline text-left flex items-center gap-1.5">
+                                                        <i class="fas fa-arrow-right"></i> NexaPrime ile Detaylı Strateji Geliştir
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="chat-input-row" style="border-top:1px solid rgba(255,255,255,0.04);">
-                                        <textarea v-model="portfoyChatInput" @keydown.enter.exact.prevent="sendPortfoyChat()"
-                                                  placeholder="Portföy ilerlemesini sor..." rows="1"
-                                                  @input="autoResizeChatInput($event)" class="flex-1"></textarea>
-                                        <button @click="sendPortfoyChat()" :disabled="portfoyChatLoading || !portfoyChatInput.trim()"
-                                                class="chat-send-btn self-end">
-                                            <i v-if="portfoyChatLoading" class="fas fa-spinner fa-spin text-sm"></i>
-                                            <i v-else class="fas fa-paper-plane text-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
+
+                                        <!-- ════════════ TAB 2: NEXAPRIME AI COPILOT (BU İLANA ÖZEL CHATBOT) ════════════ -->
+                                        <div v-show="activeListingTab==='chat'" class="space-y-4">
+                                            <div class="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 flex items-center justify-between">
+                                                <div class="flex items-center gap-3">
+                                                    <img src="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png" class="w-10 h-10 rounded-full border border-gold object-cover">
+                                                    <div>
+                                                        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                                                            NexaPrime AI Copilot <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full">İlana Özel</span>
+                                                        </h4>
+                                                        <p class="text-xs text-gray-400">Bu ilanın fiyatını, özelliklerini, platform istatistiklerini ve kayıtlı alıcılarını biliyor.</p>
+                                                    </div>
+                                                </div>
+                                                <span class="text-xs text-emerald-400 font-bold flex items-center gap-1">
+                                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Canlı
+                                                </span>
+                                            </div>
+
+                                            <!-- Hızlı Aksiyon Çipleri -->
+                                            <div class="flex flex-wrap gap-2">
+                                                <button @click="sendListingChat('Bu ilan için lüks WhatsApp tanıtım metni hazırla')" class="px-3 py-1.5 rounded-xl text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition-all">
+                                                    💬 WhatsApp Tanıtım Metni Yaz
+                                                </button>
+                                                <button @click="sendListingChat('Platform istatistiklerine göre fiyat analizi ve optimizasyon önerisi ver')" class="px-3 py-1.5 rounded-xl text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition-all">
+                                                    📊 Platform Verilerine Göre Fiyat Analizi
+                                                </button>
+                                                <button @click="sendListingChat('Kayıtlı alıcılar için özel teklif mesajı ve satış argümanı oluştur')" class="px-3 py-1.5 rounded-xl text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition-all">
+                                                    🎯 Alıcılara Özel Teklif Mesajı
+                                                </button>
+                                                <button @click="sendListingChat('Bu portföy için en etkili pazarlık ve satış kapatma taktikleri nelerdir?')" class="px-3 py-1.5 rounded-xl text-xs bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition-all">
+                                                    🤝 Pazarlık & Satış Kapatma Taktikleri
+                                                </button>
+                                            </div>
+
+                                            <!-- Sohbet Mesaj Penceresi -->
+                                            <div class="p-4 rounded-2xl bg-black/40 border border-white/10 h-72 overflow-y-auto space-y-3">
+                                                <div v-if="listingChatMessages.length===0" class="text-center py-10 text-gray-400 text-xs">
+                                                    <i class="fas fa-robot text-2xl text-emerald-400 mb-2 block"></i>
+                                                    Merhaba Yiğit Bey! Bu ilanla ilgili platform analizleri, pazarlama metinleri veya alıcı ikna taktikleri hakkında sorularınızı sorabilirsiniz.
+                                                </div>
+                                                <div v-for="(m, mi) in listingChatMessages" :key="mi" :class="['flex', m.role==='user' ? 'justify-end' : 'justify-start']">
+                                                    <div :class="['max-w-[80%] rounded-2xl p-3 text-xs leading-relaxed', m.role==='user' ? 'bg-amber-500/20 text-amber-200 border border-amber-500/30' : 'bg-white/[0.06] text-gray-200 border border-white/10']">
+                                                        <div class="font-bold text-[10px] mb-1 text-gray-400">{{ m.role==='user' ? 'Siz' : 'NexaPrime AI' }}</div>
+                                                        <div class="whitespace-pre-wrap">{{ m.content }}</div>
+                                                    </div>
+                                                </div>
+                                                <div v-if="listingChatLoading" class="flex justify-start">
+                                                    <div class="rounded-2xl p-3 bg-white/[0.06] text-emerald-400 text-xs flex items-center gap-2 border border-white/10">
+                                                        <i class="fas fa-spinner fa-spin"></i> NexaPrime analiz ediyor...
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Mesaj Gönderme Kutusu -->
+                                            <div class="flex gap-2">
+                                                <input type="text" v-model="listingChatInput" @keydown.enter.exact.prevent="sendListingChat()" placeholder="Bu ilanla ilgili bir soru veya talimat yazın..." class="flex-1 px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-emerald-400 focus:outline-none">
+                                                <button @click="sendListingChat()" :disabled="listingChatLoading || !listingChatInput.trim()" class="px-5 py-3 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40 transition-all flex items-center gap-2">
+                                                    <i class="fas fa-paper-plane"></i> Gönder
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- ════════════ TAB 3: PORTFÖYE ÖZEL ALICILAR (GLOBAL CRM ENTEGRELİ) ════════════ -->
+                                        <div v-show="activeListingTab==='buyers'" class="space-y-4">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                                        <i class="fas fa-users text-purple-400"></i> Bu İlana Bağlı Alıcılar & Teklif Havuzu
+                                                    </h3>
+                                                    <p class="text-xs text-gray-400 mt-0.5">Eklenen alıcılar hem bu ilanın altında saklanır, hem de genel CRM Alıcılar ve Leadler listesine otomatik kaydedilir.</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Yeni Alıcı Ekleme Formu -->
+                                            <div class="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/30 space-y-3">
+                                                <h4 class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+                                                    <i class="fas fa-user-plus"></i> Yeni Alıcı / Teklif Ekle
+                                                </h4>
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                                                    <input type="text" v-model="listingNewBuyer.name" placeholder="Alıcı Adı Soyadı *" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-purple-400 focus:outline-none">
+                                                    <input type="text" v-model="listingNewBuyer.phone" placeholder="Telefon Numarası *" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-purple-400 focus:outline-none">
+                                                    <input type="text" v-model="listingNewBuyer.offer" placeholder="Teklif / Bütçe (örn: 14.500.000 ₺)" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-purple-400 focus:outline-none">
+                                                    <select v-model="listingNewBuyer.stage" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-purple-400 focus:outline-none">
+                                                        <option value="Yeni Talep">Yeni Talep</option>
+                                                        <option value="Yer Gösterildi">Yer Gösterildi</option>
+                                                        <option value="Teklif Verildi">Teklif Verildi</option>
+                                                        <option value="Pazarlık Aşamasında">Pazarlık Aşamasında</option>
+                                                        <option value="Kapora / Sözleşme">Kapora / Sözleşme</option>
+                                                        <option value="Olumsuz / Vazgeçti">Olumsuz / Vazgeçti</option>
+                                                    </select>
+                                                </div>
+                                                <div class="flex gap-2">
+                                                    <input type="text" v-model="listingNewBuyer.note" placeholder="Özel Görüşme Notu (örn: Salonu çok beğendi, kredi onayı bekliyor...)" class="flex-1 px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-purple-400 focus:outline-none">
+                                                    <button @click="addListingBuyer" :disabled="listingBuyerAdding || !listingNewBuyer.name.trim() || !listingNewBuyer.phone.trim()" class="px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-40 transition-all flex items-center gap-1.5">
+                                                        <i :class="['fas', listingBuyerAdding ? 'fa-spinner fa-spin' : 'fa-plus']"></i>
+                                                        Alıcıyı Kaydet (CRM'e Entegre)
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Kayıtlı Alıcılar Listesi -->
+                                            <div v-if="listingBuyers.length" class="space-y-2">
+                                                <div v-for="b in listingBuyers" :key="b.id" class="p-3.5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-white/[0.04] transition-colors">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                                            {{ (b.name || 'A')[0].toUpperCase() }}
+                                                        </div>
+                                                        <div>
+                                                            <div class="flex items-center gap-2">
+                                                                <h4 class="text-sm font-bold text-white">{{ b.name }}</h4>
+                                                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold" :class="{
+                                                                    'bg-blue-500/20 text-blue-300': b.stage==='Yeni Talep',
+                                                                    'bg-amber-500/20 text-amber-300': b.stage==='Yer Gösterildi',
+                                                                    'bg-purple-500/20 text-purple-300': b.stage==='Teklif Verildi',
+                                                                    'bg-emerald-500/20 text-emerald-300': b.stage==='Pazarlık Aşamasında' || b.stage==='Kapora / Sözleşme',
+                                                                    'bg-red-500/20 text-red-300': b.stage==='Olumsuz / Vazgeçti'
+                                                                }">{{ b.stage }}</span>
+                                                            </div>
+                                                            <div class="text-xs text-gray-400 flex items-center gap-3 mt-0.5">
+                                                                <span><i class="fas fa-phone mr-1 text-gray-500"></i>{{ b.phone }}</span>
+                                                                <span v-if="b.offer" class="text-amber-300 font-mono font-bold"><i class="fas fa-tag mr-1 text-amber-400"></i>{{ b.offer }}</span>
+                                                                <span><i class="fas fa-clock mr-1 text-gray-500"></i>{{ b.createdAt }}</span>
+                                                            </div>
+                                                            <p v-if="b.note" class="text-xs text-gray-300 mt-1 italic">"{{ b.note }}"</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center gap-2 self-end sm:self-center">
+                                                        <a :href="'https://wa.me/' + (b.phone.replace(/[^0-9]/g, ''))" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5">
+                                                            <i class="fab fa-whatsapp"></i> WhatsApp
+                                                        </a>
+                                                        <a :href="'tel:' + b.phone" class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5">
+                                                            <i class="fas fa-phone"></i> Ara
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-else class="text-center py-8 text-gray-400 text-xs bg-white/[0.01] rounded-2xl border border-white/5">
+                                                <i class="fas fa-user-friends text-2xl text-purple-400 mb-2 block"></i>
+                                                Bu portföye henüz alıcı kaydedilmemiş. Yukarıdaki formdan ilk alıcı veya teklifi ekleyin.
+                                            </div>
+                                        </div>
+
+                                        <!-- ════════════ TAB 4: İLAN GEÇMİŞİ & ZAMAN ÇİZELGESİ ════════════ -->
+                                        <div v-show="activeListingTab==='timeline'" class="space-y-4">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                                        <i class="fas fa-history text-blue-400"></i> İlan Geçmişi, Fiyat Hareketleri & Notlar
+                                                    </h3>
+                                                    <p class="text-xs text-gray-400 mt-0.5">Fiyat değişiklikleri, yer göstermeler ve danışman aksiyonları zaman damgalı olarak burada tutulur.</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Hızlı Olay / Not Ekleme -->
+                                            <div class="p-3.5 rounded-2xl bg-blue-950/20 border border-blue-500/30 flex gap-2">
+                                                <select v-model="listingTimelineNote.type" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-blue-400 focus:outline-none w-36">
+                                                    <option value="note">Genel Not</option>
+                                                    <option value="price">Fiyat Değişimi</option>
+                                                    <option value="visit">Yer Gösterme</option>
+                                                    <option value="offer">Müşteri Teklifi</option>
+                                                </select>
+                                                <input type="text" v-model="listingTimelineNote.title" placeholder="Başlık / Olay (örn: Fiyat Revizesi Yapıldı)" class="flex-1 px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs focus:border-blue-400 focus:outline-none">
+                                                <button @click="addListingTimelineNote" :disabled="listingTimelineAdding || !listingTimelineNote.title.trim()" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-40 transition-all flex items-center gap-1.5">
+                                                    <i :class="['fas', listingTimelineAdding ? 'fa-spinner fa-spin' : 'fa-plus']"></i> Ekle
+                                                </button>
+                                            </div>
+
+                                            <!-- Zaman Çizelgesi Akışı -->
+                                            <div class="space-y-2.5 max-h-80 overflow-y-auto">
+                                                <div v-for="(t, ti) in listingTimeline" :key="ti" class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-start gap-3">
+                                                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5" :class="{
+                                                        'bg-emerald-500/20 text-emerald-300': t.type==='status' || t.type==='buyer',
+                                                        'bg-amber-500/20 text-amber-300': t.type==='price',
+                                                        'bg-blue-500/20 text-blue-300': t.type==='visit' || t.type==='note',
+                                                        'bg-purple-500/20 text-purple-300': t.type==='offer'
+                                                    }">
+                                                        <i :class="{
+                                                            'fas fa-check': t.type==='status',
+                                                            'fas fa-user-plus': t.type==='buyer',
+                                                            'fas fa-tag': t.type==='price',
+                                                            'fas fa-eye': t.type==='visit',
+                                                            'fas fa-handshake': t.type==='offer',
+                                                            'fas fa-sticky-note': t.type==='note'
+                                                        }"></i>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <div class="flex items-center justify-between">
+                                                            <h5 class="text-xs font-bold text-white">{{ t.title }}</h5>
+                                                            <span class="text-[10px] text-gray-500">{{ t.date }}</span>
+                                                        </div>
+                                                        <p v-if="t.note" class="text-xs text-gray-300 mt-0.5">{{ t.note }}</p>
+                                                        <span class="text-[10px] text-gray-500 mt-1 block">Yazan: {{ t.author || 'Yiğit Narin' }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- ════════════ TAB 5: GÖRSELLER & İLERLEME RAPORU ════════════ -->
+                                        <div v-show="activeListingTab==='media'" class="space-y-4">
+                                            <!-- RAPOR HEADER -->
+                                            <div class="glass rounded-xl p-4" style="border:1px solid rgba(52,211,153,0.25);">
+                                                <p class="fsbo-card-header" style="color:#34d399;">
+                                                    <i class="fas fa-chart-line text-emerald-400"></i> Portföy İlerleme & Raporlama
+                                                    <span v-if="portfoyMedia.length" class="ml-auto badge" style="background:rgba(52,211,153,0.15);color:#34d399;font-size:0.6rem;">{{ portfoyMedia.length }} Görsel</span>
+                                                </p>
+                                                <p class="text-xs text-gray-400 mb-3 leading-relaxed">
+                                                    Görselleri yükleyin — otomatik analiz edilir. Ardından tek dokunuşla AI destekli, görsel zengin İlerleme Raporu (PDF) üretin.
+                                                </p>
+                                                <button @click="runPortfoyReport" :disabled="portfoyReportLoading || portfoyMedia.length===0"
+                                                        class="btn btn-primary w-full justify-center"
+                                                        :style="portfoyMedia.length===0 ? '' : 'background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 15px rgba(16,185,129,0.3);'">
+                                                    <i :class="['fas', portfoyReportLoading ? 'fa-spinner fa-spin' : 'fa-file-pdf']"></i>
+                                                    {{ portfoyReportLoading ? portfoyReportProgress || 'Rapor hazırlanıyor...' : 'İlerleme Raporu Oluştur' }}
+                                                </button>
+
+                                                <!-- RAPOR SONUCU -->
+                                                <div v-if="portfoyReportResult" class="mt-3 space-y-2">
+                                                    <div class="flex items-center gap-2 text-xs text-emerald-400 font-semibold">
+                                                        <i class="fas fa-check-circle"></i>Rapor hazır!
+                                                    </div>
+                                                    <p class="text-xs text-gray-300 leading-relaxed">{{ portfoyReportResult.ozet }}</p>
+                                                    <button @click="downloadPortfoyResult"
+                                                            class="btn w-full justify-center text-xs"
+                                                            style="background:linear-gradient(135deg,#dc2626,#ef4444);color:white;box-shadow:0 4px 15px rgba(239,68,68,0.3);">
+                                                        <i class="fas fa-download mr-1"></i> PDF Raporu İndir
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- GÖRSEL YÜKLEME -->
+                                            <div class="glass rounded-xl p-4">
+                                                <div class="upload-zone" :class="portfoyMediaDragOver ? 'drag-over' : ''"
+                                                     @dragover.prevent="portfoyMediaDragOver=true"
+                                                     @dragleave.prevent="portfoyMediaDragOver=false"
+                                                     @drop.prevent="onPortfoyMediaDrop">
+                                                    <i class="fas fa-cloud-upload-alt text-2xl emerald-400 mb-2"></i>
+                                                    <p class="text-xs text-gray-400">Fotoğrafları buraya bırak ya da</p>
+                                                    <label class="cursor-pointer text-emerald-400 hover:text-emerald-300 text-xs font-semibold mt-1">
+                                                        <i class="fas fa-folder-open mr-1"></i>dosya seç (çoklu)
+                                                        <input type="file" accept="image/*" multiple class="hidden" @change="onPortfoyMediaChange">
+                                                    </label>
+                                                </div>
+
+                                                <!-- Görsel grid -->
+                                                <div v-if="portfoyMedia.length" class="mt-3 grid grid-cols-3 gap-2">
+                                                    <div v-for="m in portfoyMedia" :key="m.id" class="relative rounded-lg overflow-hidden"
+                                                         style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+                                                        <img :src="m.url" class="w-full h-20 object-cover" loading="lazy">
+                                                        <button @click="deletePortfoyMedia(m)"
+                                                                class="absolute top-0.5 right-0.5 w-4 h-4 flex items-center justify-center rounded-full text-red-400 hover:bg-red-500/20"
+                                                                style="background:rgba(0,0,0,0.5);">
+                                                            <i class="fas fa-times text-[0.5rem]"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
-                            </template><!-- /İlerleme -->
+                            </template><!-- /İlan Operasyon & İstihbarat Dashboard -->
+
 
                             <!-- EDIT BUTTON -->
                             <button v-if="leadPanelTab==='ozet'" @click="openContactDetail(activeLead); closeLeadPanel()" class="btn btn-secondary w-full justify-center">
@@ -4066,6 +4309,44 @@
             ];
             const portfoyCtx           = Vue.ref({ kind: 'contact', refId: '', title: '' });
             const showPortfoyModal     = Vue.ref(false);
+
+            // ── LISTING OPERATIONS & INTELLIGENCE DASHBOARD STATE ──
+            const activeListingTab      = Vue.ref('matrix'); // 'matrix', 'chat', 'buyers', 'timeline', 'media'
+            const currentListingObj     = Vue.ref({});
+            const listingPlatformStats  = Vue.ref([
+                { platform: 'SAHIBINDEN', logo: '🟡', views: 1450, favorites: 48, messages: 12, calls: 9, influence: 9, score: 2100 },
+                { platform: 'HEPSIEMLAK', logo: '🔴', views: 980, favorites: 29, messages: 7, calls: 5, influence: 8, score: 1450 },
+                { platform: 'EMLAKJET', logo: '🟣', views: 620, favorites: 18, messages: 4, calls: 3, influence: 7, score: 980 },
+                { platform: 'COLDWELL BANKER', logo: '🔵', views: 840, favorites: 35, messages: 11, calls: 8, influence: 9, score: 1620 },
+                { platform: 'BRANDA / AFİŞ', logo: '🟠', views: 450, favorites: 12, messages: 8, calls: 14, influence: 8, score: 1150 },
+                { platform: 'SOSYAL MEDYA & AD', logo: '🟢', views: 2300, favorites: 64, messages: 19, calls: 11, influence: 9, score: 3200 }
+            ]);
+            const listingBuyers         = Vue.ref([]);
+            const listingTimeline       = Vue.ref([]);
+            const listingStatsSaving    = Vue.ref(false);
+            const listingNewBuyer       = Vue.ref({ name: '', phone: '', offer: '', stage: 'Yeni Talep', note: '' });
+            const listingBuyerAdding    = Vue.ref(false);
+            const listingTimelineNote   = Vue.ref({ title: '', note: '', type: 'note' });
+            const listingTimelineAdding = Vue.ref(false);
+            const listingChatMessages   = Vue.ref([]);
+            const listingChatInput      = Vue.ref('');
+            const listingChatLoading    = Vue.ref(false);
+
+            const totalListingViews = Vue.computed(() => {
+                return listingPlatformStats.value.reduce((acc, p) => acc + (Number(p.views) || 0), 0);
+            });
+            const totalListingFavorites = Vue.computed(() => {
+                return listingPlatformStats.value.reduce((acc, p) => acc + (Number(p.favorites) || 0), 0);
+            });
+            const totalListingLeads = Vue.computed(() => {
+                return listingPlatformStats.value.reduce((acc, p) => acc + (Number(p.messages) || 0) + (Number(p.calls) || 0), 0);
+            });
+            const topPerformingPlatform = Vue.computed(() => {
+                if (!listingPlatformStats.value.length) return 'SAHIBINDEN';
+                const sorted = [...listingPlatformStats.value].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
+                return sorted[0]?.platform || 'SAHIBINDEN';
+            });
+
             const portfoyChatActions     = [
                 'Son durum nedir?', 'Bu hafta ne yapmalıyım?', 'Riskler nedir?', 'Fiyat önerisi ver'
             ];
@@ -6024,9 +6305,162 @@ ${comments}`;
                 showPortfoyModal.value = true;
                 await loadPortfoyData();
             };
+
+            // ── LISTING DASHBOARD METHODS ──
+            const loadListingDashboardData = async (refId) => {
+                try {
+                    const res = await fetch(`/api/portfolio/listing/${refId}/dashboard`);
+                    const data = await res.json();
+                    if (data.ok && data.data) {
+                        if (data.data.platform_stats && data.data.platform_stats.length) {
+                            listingPlatformStats.value = data.data.platform_stats;
+                        }
+                        listingBuyers.value = data.data.buyers || [];
+                        listingTimeline.value = data.data.timeline || [];
+                    }
+                } catch (e) {
+                    console.warn('Dashboard data fetch error:', e);
+                }
+            };
+
+            const saveListingPlatformStats = async () => {
+                listingStatsSaving.value = true;
+                try {
+                    const refId = portfoyCtx.value.refId;
+                    const res = await fetch(`/api/portfolio/listing/${refId}/platform_stats`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ platform_stats: listingPlatformStats.value })
+                    });
+                    const data = await res.json();
+                    if (data.ok) {
+                        if (toast && toast.value) {
+                            toast.value = { show: true, message: 'Platform istatistikleri başarıyla kaydedildi!', icon: 'check-circle' };
+                            setTimeout(() => { toast.value.show = false; }, 3000);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Save stats error:', e);
+                } finally {
+                    listingStatsSaving.value = false;
+                }
+            };
+
+            const addListingBuyer = async () => {
+                if (!listingNewBuyer.value.name.trim() || !listingNewBuyer.value.phone.trim()) return;
+                listingBuyerAdding.value = true;
+                try {
+                    const refId = portfoyCtx.value.refId;
+                    const res = await fetch(`/api/portfolio/listing/${refId}/buyer`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: listingNewBuyer.value.name,
+                            phone: listingNewBuyer.value.phone,
+                            offer: listingNewBuyer.value.offer,
+                            stage: listingNewBuyer.value.stage,
+                            note: listingNewBuyer.value.note,
+                            listing_title: currentListingObj.value.title || portfoyCtx.value.title
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.ok && data.buyer) {
+                        listingBuyers.value.unshift(data.buyer);
+                        if (data.timeline) listingTimeline.value = data.timeline;
+                        
+                        // Also sync to CRM global contacts in memory
+                        if (contacts && contacts.value) {
+                            contacts.value.unshift({
+                                id: data.buyer.id,
+                                name: data.buyer.name,
+                                phone: data.buyer.phone,
+                                pipeline: 'buyer',
+                                stage: 'contacted',
+                                value: data.buyer.offer || '',
+                                notes: data.buyer.note,
+                                source: 'İlan Talebi'
+                            });
+                        }
+
+                        listingNewBuyer.value = { name: '', phone: '', offer: '', stage: 'Yeni Talep', note: '' };
+                        if (toast && toast.value) {
+                            toast.value = { show: true, message: 'Alıcı başarıyla eklendi ve CRM havuzuna işlendi!', icon: 'user-check' };
+                            setTimeout(() => { toast.value.show = false; }, 3000);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Add buyer error:', e);
+                } finally {
+                    listingBuyerAdding.value = false;
+                }
+            };
+
+            const addListingTimelineNote = async () => {
+                if (!listingTimelineNote.value.title.trim()) return;
+                listingTimelineAdding.value = true;
+                try {
+                    const refId = portfoyCtx.value.refId;
+                    const res = await fetch(`/api/portfolio/listing/${refId}/timeline`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            type: listingTimelineNote.value.type,
+                            title: listingTimelineNote.value.title,
+                            note: listingTimelineNote.value.note
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.ok && data.timeline) {
+                        listingTimeline.value = data.timeline;
+                        listingTimelineNote.value = { title: '', note: '', type: 'note' };
+                    }
+                } catch (e) {
+                    console.error('Timeline add error:', e);
+                } finally {
+                    listingTimelineAdding.value = false;
+                }
+            };
+
+            const sendListingChat = async (presetMsg) => {
+                const msg = presetMsg || listingChatInput.value.trim();
+                if (!msg || listingChatLoading.value) return;
+
+                listingChatMessages.value.push({ role: 'user', content: msg });
+                if (!presetMsg) listingChatInput.value = '';
+                listingChatLoading.value = true;
+
+                try {
+                    const refId = portfoyCtx.value.refId;
+                    const res = await fetch(`/api/portfolio/listing/${refId}/chat`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: msg,
+                            listing_info: {
+                                title: currentListingObj.value.title || portfoyCtx.value.title,
+                                price: currentListingObj.value.price,
+                                loc: currentListingObj.value.loc,
+                                type: currentListingObj.value.type
+                            }
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.ok && data.reply) {
+                        listingChatMessages.value.push({ role: 'assistant', content: data.reply });
+                    }
+                } catch (e) {
+                    listingChatMessages.value.push({ role: 'assistant', content: 'NexaPrime AI yanıt verirken bir bağlantı sorunu oluştu.' });
+                } finally {
+                    listingChatLoading.value = false;
+                }
+            };
+
             const openListingPortfoy = (lst) => {
+                currentListingObj.value = lst;
+                activeListingTab.value = 'matrix';
                 const refId = lst.id || String((lst.link || lst.title + lst.price || '').split('').reduce((a, ch) => (a * 31 + (ch.charCodeAt(0) || 0)) >>> 0, 7).toString(36));
                 openPortfoyPanel('listing', refId, lst.title || lst.loc || 'İlan');
+                loadListingDashboardData(refId);
             };
             const openLeadPortfoy = () => {
                 if (!activeLead.value) return;
@@ -6396,6 +6830,14 @@ ${comments}`;
                 // ── PORTFÖY İLERLEME ──
                 portfoyStages, portfoyChatActions,
                 portfoyCtx, showPortfoyModal,
+
+                activeListingTab, currentListingObj, listingPlatformStats, listingBuyers,
+                listingTimeline, listingStatsSaving, listingNewBuyer, listingBuyerAdding,
+                listingTimelineNote, listingTimelineAdding, listingChatMessages, listingChatInput,
+                listingChatLoading, totalListingViews, totalListingFavorites, totalListingLeads,
+                topPerformingPlatform, loadListingDashboardData, saveListingPlatformStats,
+                addListingBuyer, addListingTimelineNote, sendListingChat,
+
                 openPortfoyPanel, openListingPortfoy, openLeadPortfoy,
                 portfoyMedia, portfoyMediaUploading, portfoyMediaDragOver, portfoySelectedStage,
                 portfoyNotes, portfoyNoteText, portfoyReports,

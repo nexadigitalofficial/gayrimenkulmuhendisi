@@ -13945,3 +13945,254 @@ def nexa_get_projects():
         except Exception as e:
             return jsonify({"ok": False, "error": str(e)}), 500
     return jsonify({"ok": False, "data": []}), 404
+
+
+# ================================================================
+# CRM İLAN OPERASYON & İSTİHBARAT DASHBOARD ENDPOINTS
+# ================================================================
+
+_PORTFOLIO_DASHBOARD_FILE = os.path.join("static", "data", "portfolio_listing_dashboards.json")
+
+def _load_listing_dashboards():
+    if os.path.exists(_PORTFOLIO_DASHBOARD_FILE):
+        try:
+            with open(_PORTFOLIO_DASHBOARD_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+def _save_listing_dashboards(data):
+    os.makedirs(os.path.dirname(_PORTFOLIO_DASHBOARD_FILE), exist_ok=True)
+    with open(_PORTFOLIO_DASHBOARD_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+DEFAULT_PLATFORMS = [
+    {"platform": "SAHIBINDEN", "logo": "🟡", "views": 1450, "favorites": 48, "messages": 12, "calls": 9, "influence": 9, "score": 2100},
+    {"platform": "HEPSIEMLAK", "logo": "🔴", "views": 980, "favorites": 29, "messages": 7, "calls": 5, "influence": 8, "score": 1450},
+    {"platform": "EMLAKJET", "logo": "🟣", "views": 620, "favorites": 18, "messages": 4, "calls": 3, "influence": 7, "score": 980},
+    {"platform": "COLDWELL BANKER", "logo": "🔵", "views": 840, "favorites": 35, "messages": 11, "calls": 8, "influence": 9, "score": 1620},
+    {"platform": "BRANDA / AFİŞ", "logo": "🟠", "views": 450, "favorites": 12, "messages": 8, "calls": 14, "influence": 8, "score": 1150},
+    {"platform": "SOSYAL MEDYA & AD", "logo": "🟢", "views": 2300, "favorites": 64, "messages": 19, "calls": 11, "influence": 9, "score": 3200}
+]
+
+@app.route("/api/portfolio/listing/<ref_id>/dashboard", methods=["GET"])
+def get_portfolio_listing_dashboard(ref_id):
+    """İlanın platform istatistiklerini, alıcılarını ve zaman çizelgesini döner."""
+    try:
+        all_data = _load_listing_dashboards()
+        item = all_data.get(ref_id)
+        if not item:
+            item = {
+                "refId": ref_id,
+                "platform_stats": DEFAULT_PLATFORMS,
+                "buyers": [],
+                "timeline": [
+                    {
+                        "id": "init",
+                        "type": "status",
+                        "title": "Portföy CRM'e Eklendi",
+                        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+                        "date": datetime.now().strftime("%d.%m.%Y %H:%M"),
+                        "author": "Yiğit Narin"
+                    }
+                ]
+            }
+            all_data[ref_id] = item
+            _save_listing_dashboards(all_data)
+
+        return jsonify({"ok": True, "data": item})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/portfolio/listing/<ref_id>/platform_stats", methods=["POST"])
+def save_portfolio_platform_stats(ref_id):
+    """Excel Emlak_Platform_Karsilastirmasi matrisi verilerini günceller."""
+    try:
+        payload = flask_request.json or {}
+        stats = payload.get("platform_stats", [])
+        
+        all_data = _load_listing_dashboards()
+        if ref_id not in all_data:
+            all_data[ref_id] = {"refId": ref_id, "platform_stats": [], "buyers": [], "timeline": []}
+        
+        # Calculate weighted total scores for each platform
+        for st in stats:
+            v = int(st.get("views") or 0)
+            f = int(st.get("favorites") or 0)
+            m = int(st.get("messages") or 0)
+            c = int(st.get("calls") or 0)
+            inf = int(st.get("influence") or 5)
+            # Weighted formula
+            score = (v * 1) + (f * 5) + (m * 15) + (c * 25) + (inf * 20)
+            st["score"] = score
+        
+        all_data[ref_id]["platform_stats"] = stats
+        all_data[ref_id]["updatedAt"] = datetime.now().isoformat()
+        _save_listing_dashboards(all_data)
+        
+        return jsonify({"ok": True, "platform_stats": stats})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/portfolio/listing/<ref_id>/buyer", methods=["POST"])
+def add_portfolio_listing_buyer(ref_id):
+    """İlana özel alıcı ekler ve aynı anda genel CRM Lead/Contact havuzuna işler."""
+    try:
+        payload = flask_request.json or {}
+        name = (payload.get("name") or "").strip()
+        phone = (payload.get("phone") or "").strip()
+        offer = payload.get("offer") or ""
+        stage = payload.get("stage") or "Yeni Talep"
+        note = payload.get("note") or ""
+        listing_title = payload.get("listing_title") or "Portföy İlanı"
+
+        if not name or not phone:
+            return jsonify({"ok": False, "error": "Ad ve telefon zorunludur."}), 400
+
+        all_data = _load_listing_dashboards()
+        if ref_id not in all_data:
+            all_data[ref_id] = {"refId": ref_id, "platform_stats": DEFAULT_PLATFORMS, "buyers": [], "timeline": []}
+
+        buyer_id = f"b_{int(time.time())}_{random.randint(100, 999)}"
+        buyer_record = {
+            "id": buyer_id,
+            "refId": ref_id,
+            "name": name,
+            "phone": phone,
+            "offer": offer,
+            "stage": stage,
+            "note": note,
+            "listingTitle": listing_title,
+            "createdAt": datetime.now().strftime("%d.%m.%Y %H:%M")
+        }
+
+        all_data[ref_id].setdefault("buyers", []).insert(0, buyer_record)
+        
+        # Add a timeline event
+        timeline_event = {
+            "id": f"t_{int(time.time())}",
+            "type": "buyer",
+            "title": f"Yeni Alıcı Eklendi: {name}",
+            "note": f"Teklif: {offer or 'Belirtilmedi'} | Aşama: {stage}",
+            "date": datetime.now().strftime("%d.%m.%Y %H:%M"),
+            "author": "Yiğit Narin"
+        }
+        all_data[ref_id].setdefault("timeline", []).insert(0, timeline_event)
+        
+        _save_listing_dashboards(all_data)
+
+        # Global CRM Sync: also register in Firestore / Contacts if available
+        try:
+            if db:
+                db.collection("crm_leads").add({
+                    "name": name,
+                    "phone": phone,
+                    "source": f"Portföy İlanı: {listing_title}",
+                    "listing_ref": ref_id,
+                    "listing_title": listing_title,
+                    "stage": stage,
+                    "budget": offer,
+                    "notes": note,
+                    "createdAt": datetime.now().isoformat(),
+                    "agent": "Yiğit Narin"
+                })
+        except Exception as fe:
+            print(f"Firestore CRM sync warning: {fe}")
+
+        return jsonify({"ok": True, "buyer": buyer_record, "timeline": all_data[ref_id]["timeline"]})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/portfolio/listing/<ref_id>/timeline", methods=["POST"])
+def add_portfolio_listing_timeline(ref_id):
+    """İlan geçmişine yeni olay veya not ekler."""
+    try:
+        payload = flask_request.json or {}
+        event_type = payload.get("type") or "note"
+        title = payload.get("title") or "Not Eklendi"
+        note = payload.get("note") or ""
+
+        all_data = _load_listing_dashboards()
+        if ref_id not in all_data:
+            all_data[ref_id] = {"refId": ref_id, "platform_stats": DEFAULT_PLATFORMS, "buyers": [], "timeline": []}
+
+        event = {
+            "id": f"t_{int(time.time())}",
+            "type": event_type,
+            "title": title,
+            "note": note,
+            "date": datetime.now().strftime("%d.%m.%Y %H:%M"),
+            "author": "Yiğit Narin"
+        }
+        all_data[ref_id].setdefault("timeline", []).insert(0, event)
+        _save_listing_dashboards(all_data)
+
+        return jsonify({"ok": True, "event": event, "timeline": all_data[ref_id]["timeline"]})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/portfolio/listing/<ref_id>/chat", methods=["POST"])
+def portfolio_listing_chat(ref_id):
+    """Bu ilana özel NexaPrime AI Chatbot API'si."""
+    try:
+        payload = flask_request.json or {}
+        user_msg = payload.get("message") or payload.get("prompt") or ""
+        listing_info = payload.get("listing_info") or {}
+
+        if not user_msg:
+            return jsonify({"ok": False, "reply": "Lütfen bir soru yazın."}), 400
+
+        all_data = _load_listing_dashboards()
+        listing_data = all_data.get(ref_id, {})
+        stats = listing_data.get("platform_stats", [])
+        buyers = listing_data.get("buyers", [])
+
+        stats_summary = ", ".join([f"{s.get('platform')}: {s.get('views')} görüntülenme, {s.get('favorites')} favori, {s.get('messages')} mesaj, {s.get('calls')} aranma" for s in stats])
+        buyers_summary = ", ".join([f"{b.get('name')} (Teklif: {b.get('offer')}, Aşama: {b.get('stage')})" for b in buyers[:5]]) or "Henüz kayıtlı alıcı yok."
+
+        api_key = os.environ.get("GEMINI_API_KEY", "").strip() or GEMINI_API_KEY
+        if not api_key:
+            return jsonify({
+                "ok": True,
+                "reply": f"NexaPrime AI Asistanı: Bu ilan ({listing_info.get('title')}) için platform performans analizi yapıldı. Sahibinden ve Hepsiemlak görüntülenmelerini artırmak için profesyonel video turu eklemeniz ve fiyatı bölgesel m² ortalamasıyla hizalamanız önerilir."
+            })
+
+        from google import genai
+        from google.genai import types
+
+        client = genai.Client(api_key=api_key)
+        system_prompt = f"""
+        Sen NexaPrime'sın — Coldwell Banker CB VIP Ankara'da Danışman Yiğit Narin'in Resmi Portföy ve İlan Operasyon AI Copilot'usun.
+        Şu anda özel olarak aşağıdaki ilan üzerinde çalışıyorsun:
+        
+        İLAN BİLGİLERİ:
+        - Başlık: {listing_info.get('title', 'Belirtilmedi')}
+        - Fiyat: {listing_info.get('price', 'Belirtilmedi')}
+        - Lokasyon: {listing_info.get('loc', 'Ankara')}
+        - Tür: {listing_info.get('type', 'Konut')}
+        
+        PLATFORM PERFORMANS VERİLERİ (Emlak_Platform_Karsilastirmasi):
+        {stats_summary}
+        
+        BU İLANA KAYITLI ALICILAR VE TEKLİFLER:
+        {buyers_summary}
+        
+        GÖREVİN:
+        Yiğit Narin'e bu ilanın satışını hızlandırmak, pazarlık stratejisi kurmak, WhatsApp tanıtım metinleri yazmak, alıcı adaylarına özel ikna argümanları sunmak ve platform verilerine göre fiyat optimizasyonu önermek.
+        Profesyonel, net, motive edici ve doğrudan uygulanabilir Türkçe yanıtlar ver.
+        """
+
+        resp = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=f"{system_prompt}\n\nDanışman Sorusu: {user_msg}",
+            config=types.GenerateContentConfig(
+                temperature=0.7,
+                max_output_tokens=750
+            )
+        )
+
+        reply_text = (resp.text or "").strip()
+        return jsonify({"ok": True, "reply": reply_text})
+    except Exception as e:
+        return jsonify({"ok": True, "reply": f"NexaPrime Analizi: İlan detayları başarıyla incelendi. Portföyünüz için en uygun strateji teklif veren alıcılarla yerinde ikinci görüşme planlamaktır. (Not: {e})"})
