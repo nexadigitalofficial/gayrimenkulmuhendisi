@@ -15,7 +15,7 @@ logger = logging = __import__("logging").getLogger("nexa.drive.discovery")
 
 class DriveFileDiscovery:
     def __init__(self, root_dir: Optional[Path] = None):
-        self.root_dir = root_dir or Path(r"c:\Users\USER\Desktop\3\suzannegit\projeler")
+        self.root_dir = root_dir or (Path(__file__).resolve().parent.parent / "static" / "projeler")
 
     def discover_all_files(self, recursive: bool = True) -> List[Dict[str, Any]]:
         results = []
@@ -65,7 +65,7 @@ class DuplicateDetector:
 
 class ChangeTracker:
     def __init__(self, state_file: Optional[Path] = None):
-        self.state_file = state_file or Path(r"c:\Users\USER\Desktop\3\suzannegit\watch_state.json")
+        self.state_file = state_file or (Path(__file__).resolve().parent.parent / "static" / "data" / "watch_state.json")
 
     def detect_changes(self, current_snapshot: Dict[str, float]) -> List[str]:
         if not self.state_file.exists():

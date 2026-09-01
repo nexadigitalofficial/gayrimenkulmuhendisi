@@ -13951,6 +13951,9 @@ def nexa_get_projects():
 # CRM İLAN OPERASYON & İSTİHBARAT DASHBOARD ENDPOINTS
 # ================================================================
 
+import random
+import time
+
 _PORTFOLIO_DASHBOARD_FILE = os.path.join("static", "data", "portfolio_listing_dashboards.json")
 
 def _load_listing_dashboards():
