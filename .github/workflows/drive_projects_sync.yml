@@ -6,6 +6,9 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch: # Manuel tetikleme imkanı
 
+permissions:
+  contents: write
+
 jobs:
   sync-drive:
     runs-on: ubuntu-latest

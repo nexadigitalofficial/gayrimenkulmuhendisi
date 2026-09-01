@@ -612,6 +612,26 @@
       font-size: 13px;
       color: var(--text-muted);
     }
+
+    /* ── RESPONSIVE RULES ── */
+    @media (max-width: 900px) {
+      nav { padding: 12px 20px; }
+      .hero-section { padding: 130px 20px 40px 20px; }
+      .hero-title { font-size: 32px; }
+      .news-section { padding: 0 20px; }
+      .news-grid { grid-template-columns: 1fr; gap: 20px; }
+      .modal-container { margin: 15px; border-radius: 18px; }
+      .modal-body { padding: 24px; }
+      .modal-body h2 { font-size: 22px; }
+      .filter-track { padding: 0 20px; }
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 26px; }
+      .hero-subtitle { font-size: 14px; }
+      .brand-text h1 { font-size: 15px; }
+      .brand-text p { font-size: 10px; }
+      .nav-links { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -653,7 +673,7 @@
         <a href="/projeler"><i class="fas fa-building" style="color:var(--gold);"></i> Projeler &amp; Harita</a>
         <a href="/haberler" class="active"><i class="fas fa-newspaper" style="color:var(--gold);"></i> Piyasa Haberleri</a>
         <a href="/ilanlar">İlanlar</a>
-        <a href="https://wa.me/905320000000?text=Merhaba%20Yi%C4%9Fit%20Bey,%20piyasa%20raporlar%C4%B1%20hakk%C4%B1nda%20dan%C4%B1%C5%9Fmak%20istiyorum." target="_blank" class="btn-consult">
+        <a href="https://wa.me/905324514008?text=Merhaba%20Yi%C4%9Fit%20Bey,%20piyasa%20raporlar%C4%B1%20hakk%C4%B1nda%20dan%C4%B1%C5%9Fmak%20istiyorum." target="_blank" class="btn-consult">
           <i class="fab fa-whatsapp"></i> WhatsApp Danışma
         </a>
       </div>
@@ -847,27 +867,28 @@ Yeni yasal düzenlemeler ile uzlaşma süreçleri hızlandırılmış, harç ve 
         return;
       }
 
-      container.innerHTML = filtered.map(p => {
+      container.innerHTML = filtered.map((p, idx) => {
         const dateStr = p.createdAt ? new Date(p.createdAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Güncel';
         const imgUrl = p.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+        const postEncoded = encodeURIComponent(JSON.stringify(p));
         return `
-          <div class="news-card" onclick="openPostModal(${idx})">
+          <div class="news-card" onclick="openModal('${postEncoded}')">
             <div class="card-banner">
               <span class="card-badge">${p.category || 'Piyasa'}</span>
-              <img src="${imgUrl}" alt="${p.title}" loading="lazy">
+              <img src="${imgUrl}" alt="${p.title}" loading="lazy" decoding="async">
             </div>
             <div class="card-body">
               <div>
                 <div class="card-meta">
                   <span><i class="far fa-calendar-alt"></i> ${dateStr}</span>
-                  <span><i class="far fa-clock"></i> ${p.readTime || '3 dk'}</span>
+                  <span><i class="far fa-clock"></i> ${p.readTime || '4 dk'}</span>
                 </div>
                 <h3 class="card-title">${p.title}</h3>
-                <p class="card-desc">${p.summary || ''}</p>
+                <p class="card-snippet">${p.summary || ''}</p>
               </div>
               <div class="card-footer">
-                <span class="card-read-link">Raporu Oku <i class="fas fa-arrow-right"></i></span>
-                <span style="font-size:12px;color:var(--gold);font-weight:600;"><i class="fas fa-check-circle"></i> Doğrulanmış Analiz</span>
+                <span class="read-more">Devamını Oku <i class="fas fa-arrow-right"></i></span>
+                <span class="author-tag"><i class="fas fa-user-tie"></i> Yiğit Narin</span>
               </div>
             </div>
           </div>
@@ -899,7 +920,7 @@ Yeni yasal düzenlemeler ile uzlaşma süreçleri hızlandırılmış, harç ve 
       document.getElementById('modalMeta').innerHTML = `<span><i class="far fa-calendar-alt"></i> ${dateStr}</span> <span><i class="far fa-clock"></i> ${p.readTime || '4 dk'} Okuma</span>`;
       
       const waText = encodeURIComponent(`Merhaba Yiğit Bey, "${p.title}" başlıklı piyasa analiziniz hakkında danışmak istiyorum.`);
-      document.getElementById('modalWaBtn').href = `https://wa.me/905320000000?text=${waText}`;
+      document.getElementById('modalWaBtn').href = `https://wa.me/905324514008?text=${waText}`;
       
       document.getElementById('readingModal').style.display = 'flex';
       document.body.style.overflow = 'hidden';

@@ -1,4 +1,472 @@
 {
+  "concurrency_unit": {
+    "refId": "concurrency_unit",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 1450,
+        "favorites": 48,
+        "messages": 12,
+        "calls": 9,
+        "influence": 9,
+        "score": 2100
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 980,
+        "favorites": 29,
+        "messages": 7,
+        "calls": 5,
+        "influence": 8,
+        "score": 1450
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 620,
+        "favorites": 18,
+        "messages": 4,
+        "calls": 3,
+        "influence": 7,
+        "score": 980
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 840,
+        "favorites": 35,
+        "messages": 11,
+        "calls": 8,
+        "influence": 9,
+        "score": 1620
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 450,
+        "favorites": 12,
+        "messages": 8,
+        "calls": 14,
+        "influence": 8,
+        "score": 1150
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 2300,
+        "favorites": 64,
+        "messages": 19,
+        "calls": 11,
+        "influence": 9,
+        "score": 3200
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1788236388_376",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 9",
+        "phone": "05321002009",
+        "offer": "19.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 9",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_960",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 8",
+        "phone": "05321002008",
+        "offer": "18.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 8",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_409",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 7",
+        "phone": "05321002007",
+        "offer": "17.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 7",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_930",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 6",
+        "phone": "05321002006",
+        "offer": "16.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 6",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_616",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 5",
+        "phone": "05321002005",
+        "offer": "15.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 5",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_638",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 4",
+        "phone": "05321002004",
+        "offer": "14.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 4",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_843",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 3",
+        "phone": "05321002003",
+        "offer": "13.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 3",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_111",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 2",
+        "phone": "05321002002",
+        "offer": "12.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 2",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_189",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 1",
+        "phone": "05321002001",
+        "offer": "11.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 1",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236388_721",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 0",
+        "phone": "05321002000",
+        "offer": "10.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 0",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:19"
+      },
+      {
+        "id": "b_1788236332_300",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 9",
+        "phone": "05321002009",
+        "offer": "19.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 9",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:18"
+      },
+      {
+        "id": "b_1788236332_543",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 6",
+        "phone": "05321002006",
+        "offer": "16.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 6",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:18"
+      },
+      {
+        "id": "b_1788236332_265",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 3",
+        "phone": "05321002003",
+        "offer": "13.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 3",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:18"
+      },
+      {
+        "id": "b_1788236332_381",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 0",
+        "phone": "05321002000",
+        "offer": "10.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 0",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:18"
+      },
+      {
+        "id": "b_1788236230_514",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 9",
+        "phone": "05321002009",
+        "offer": "19.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 9",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:17"
+      },
+      {
+        "id": "b_1788236230_529",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 5",
+        "phone": "05321002005",
+        "offer": "15.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 5",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:17"
+      },
+      {
+        "id": "b_1788236230_240",
+        "refId": "concurrency_unit",
+        "name": "Alıcı Test 3",
+        "phone": "05321002003",
+        "offer": "13.000.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Eşzamanlı test alıcısı 3",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.09.2026 07:17"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 9",
+        "note": "Teklif: 19.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 8",
+        "note": "Teklif: 18.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 7",
+        "note": "Teklif: 17.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 6",
+        "note": "Teklif: 16.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 5",
+        "note": "Teklif: 15.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 4",
+        "note": "Teklif: 14.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 3",
+        "note": "Teklif: 13.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 2",
+        "note": "Teklif: 12.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 1",
+        "note": "Teklif: 11.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236388",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 0",
+        "note": "Teklif: 10.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:19",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236332",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 9",
+        "note": "Teklif: 19.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:18",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236332",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 6",
+        "note": "Teklif: 16.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:18",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236332",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 3",
+        "note": "Teklif: 13.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:18",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236332",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 0",
+        "note": "Teklif: 10.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:18",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236230",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 9",
+        "note": "Teklif: 19.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:17",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236230",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 5",
+        "note": "Teklif: 15.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:17",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788236230",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Alıcı Test 3",
+        "note": "Teklif: 13.000.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 07:17",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "perf_test": {
+    "refId": "perf_test",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 1450,
+        "favorites": 48,
+        "messages": 12,
+        "calls": 9,
+        "influence": 9,
+        "score": 2100
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 980,
+        "favorites": 29,
+        "messages": 7,
+        "calls": 5,
+        "influence": 8,
+        "score": 1450
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 620,
+        "favorites": 18,
+        "messages": 4,
+        "calls": 3,
+        "influence": 7,
+        "score": 980
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 840,
+        "favorites": 35,
+        "messages": 11,
+        "calls": 8,
+        "influence": 9,
+        "score": 1620
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 450,
+        "favorites": 12,
+        "messages": 8,
+        "calls": 14,
+        "influence": 8,
+        "score": 1150
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 2300,
+        "favorites": 64,
+        "messages": 19,
+        "calls": 11,
+        "influence": 9,
+        "score": 3200
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "01.09.2026 07:18",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
   "swarm_test_1": {
     "refId": "swarm_test_1",
     "platform_stats": [
@@ -15,7 +483,7 @@
     ],
     "buyers": [
       {
-        "id": "b_1788235875_286",
+        "id": "b_1788236657_589",
         "refId": "swarm_test_1",
         "name": "Kaan Demir",
         "phone": "05321112233",
@@ -23,86 +491,24 @@
         "stage": "Teklif Verildi",
         "note": "Swarm test alıcısı",
         "listingTitle": "Çankaya Lüks Daire",
-        "createdAt": "01.09.2026 07:11"
-      },
-      {
-        "id": "b_1788235277_879",
-        "refId": "swarm_test_1",
-        "name": "Kaan Demir",
-        "phone": "05321112233",
-        "offer": "16.250.000 TL",
-        "stage": "Teklif Verildi",
-        "note": "Swarm test alıcısı",
-        "listingTitle": "Çankaya Lüks Daire",
-        "createdAt": "01.09.2026 07:01"
-      },
-      {
-        "id": "b_1788235009_329",
-        "refId": "swarm_test_1",
-        "name": "Kaan Demir",
-        "phone": "05321112233",
-        "offer": "16.250.000 TL",
-        "stage": "Teklif Verildi",
-        "note": "Swarm test alıcısı",
-        "listingTitle": "Çankaya Lüks Daire",
-        "createdAt": "01.09.2026 06:56"
+        "createdAt": "01.09.2026 07:24"
       }
     ],
     "timeline": [
       {
-        "id": "t_1788235875",
+        "id": "t_1788236657",
         "type": "note",
         "title": "Swarm Test İncelemesi",
         "note": "Tüm sistemler aktif ve sağlıklı.",
-        "date": "01.09.2026 07:11",
+        "date": "01.09.2026 07:24",
         "author": "Yiğit Narin"
       },
       {
-        "id": "t_1788235875",
+        "id": "t_1788236657",
         "type": "buyer",
         "title": "Yeni Alıcı Eklendi: Kaan Demir",
         "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
-        "date": "01.09.2026 07:11",
-        "author": "Yiğit Narin"
-      },
-      {
-        "id": "t_1788235277",
-        "type": "note",
-        "title": "Swarm Test İncelemesi",
-        "note": "Tüm sistemler aktif ve sağlıklı.",
-        "date": "01.09.2026 07:01",
-        "author": "Yiğit Narin"
-      },
-      {
-        "id": "t_1788235277",
-        "type": "buyer",
-        "title": "Yeni Alıcı Eklendi: Kaan Demir",
-        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
-        "date": "01.09.2026 07:01",
-        "author": "Yiğit Narin"
-      },
-      {
-        "id": "t_1788235009",
-        "type": "note",
-        "title": "Swarm Test İncelemesi",
-        "note": "Tüm sistemler aktif ve sağlıklı.",
-        "date": "01.09.2026 06:56",
-        "author": "Yiğit Narin"
-      },
-      {
-        "id": "t_1788235009",
-        "type": "buyer",
-        "title": "Yeni Alıcı Eklendi: Kaan Demir",
-        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
-        "date": "01.09.2026 06:56",
-        "author": "Yiğit Narin"
-      },
-      {
-        "id": "t_1788234967",
-        "type": "note",
-        "title": "Swarm Test İncelemesi",
-        "note": "Tüm sistemler aktif ve sağlıklı.",
-        "date": "01.09.2026 06:56",
+        "date": "01.09.2026 07:24",
         "author": "Yiğit Narin"
       },
       {
@@ -110,11 +516,11 @@
         "type": "status",
         "title": "Portföy CRM'e Eklendi",
         "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
-        "date": "01.09.2026 06:56",
+        "date": "01.09.2026 07:24",
         "author": "Yiğit Narin"
       }
     ],
-    "updatedAt": "2026-09-01T07:11:15.751199"
+    "updatedAt": "2026-09-01T07:24:17.617331"
   },
   "../../../../etc/passwd": {
     "refId": "../../../../etc/passwd",
@@ -187,7 +593,7 @@
         "type": "status",
         "title": "Portföy CRM'e Eklendi",
         "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
-        "date": "01.09.2026 07:12",
+        "date": "01.09.2026 07:24",
         "author": "Yiğit Narin"
       }
     ]
@@ -263,7 +669,7 @@
         "type": "status",
         "title": "Portföy CRM'e Eklendi",
         "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
-        "date": "01.09.2026 07:12",
+        "date": "01.09.2026 07:24",
         "author": "Yiğit Narin"
       }
     ]
@@ -339,7 +745,7 @@
         "type": "status",
         "title": "Portföy CRM'e Eklendi",
         "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
-        "date": "01.09.2026 07:12",
+        "date": "01.09.2026 07:24",
         "author": "Yiğit Narin"
       }
     ]
@@ -359,7 +765,7 @@
     ],
     "buyers": [
       {
-        "id": "b_1788236012_366",
+        "id": "b_1788236689_945",
         "refId": "sec_test_unit",
         "name": "&lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt; Mehmet",
         "phone": "05329998877",
@@ -367,19 +773,19 @@
         "stage": "Teklif Verildi",
         "note": "&lt;img src=x onerror=alert(document.cookie)&gt; Acil alıcı",
         "listingTitle": "&lt;b&gt;Lüks Villa&lt;/b&gt;",
-        "createdAt": "01.09.2026 07:13"
+        "createdAt": "01.09.2026 07:24"
       }
     ],
     "timeline": [
       {
-        "id": "t_1788236012",
+        "id": "t_1788236689",
         "type": "buyer",
         "title": "Yeni Alıcı Eklendi: &lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt; Mehmet",
         "note": "Teklif: 25.000.000 TL | Aşama: Teklif Verildi",
-        "date": "01.09.2026 07:13",
+        "date": "01.09.2026 07:24",
         "author": "Yiğit Narin"
       }
     ],
-    "updatedAt": "2026-09-01T07:13:32.404791"
+    "updatedAt": "2026-09-01T07:24:49.844997"
   }
 }

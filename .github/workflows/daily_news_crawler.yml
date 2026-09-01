@@ -6,6 +6,9 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch: # Manuel olarak da tetiklenebilir
 
+permissions:
+  contents: write
+
 jobs:
   crawl-news:
     runs-on: ubuntu-latest

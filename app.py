@@ -4600,6 +4600,22 @@ def add_security_headers(response):
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
     response.headers['X-XSS-Protection'] = '1; mode=block'
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    
+    # ⚡ Performance: GZIP Dynamic Compression for HTML, JSON, CSS & JS
+    try:
+        accept_encoding = flask_request.headers.get('Accept-Encoding', '')
+        if 'gzip' in accept_encoding.lower() and response.status_code == 200 and not response.direct_passthrough:
+            content_type = response.headers.get('Content-Type', '')
+            if any(ct in content_type for ct in ['text/html', 'application/json', 'text/css', 'application/javascript']):
+                import gzip
+                data = response.get_data()
+                if len(data) > 1024:
+                    compressed_data = gzip.compress(data, compresslevel=6)
+                    response.set_data(compressed_data)
+                    response.headers['Content-Encoding'] = 'gzip'
+                    response.headers['Content-Length'] = len(compressed_data)
+    except Exception:
+        pass
     return response
 
 @app.route('/testcrm')
@@ -13963,21 +13979,38 @@ import html
 import random
 import time
 
+import threading
+import tempfile
+_DASHBOARD_LOCK = threading.RLock()
 _PORTFOLIO_DASHBOARD_FILE = os.path.join("static", "data", "portfolio_listing_dashboards.json")
 
 def _load_listing_dashboards():
-    if os.path.exists(_PORTFOLIO_DASHBOARD_FILE):
-        try:
-            with open(_PORTFOLIO_DASHBOARD_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            return {}
-    return {}
+    with _DASHBOARD_LOCK:
+        if os.path.exists(_PORTFOLIO_DASHBOARD_FILE):
+            try:
+                with open(_PORTFOLIO_DASHBOARD_FILE, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        return {}
 
 def _save_listing_dashboards(data):
-    os.makedirs(os.path.dirname(_PORTFOLIO_DASHBOARD_FILE), exist_ok=True)
-    with open(_PORTFOLIO_DASHBOARD_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    with _DASHBOARD_LOCK:
+        dir_name = os.path.dirname(_PORTFOLIO_DASHBOARD_FILE)
+        os.makedirs(dir_name, exist_ok=True)
+        # Atomic Write: write to temporary file first, then atomically replace
+        temp_fd, temp_path = tempfile.mkstemp(dir=dir_name, prefix="dashboards_", suffix=".tmp")
+        try:
+            with open(temp_fd, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            os.replace(temp_path, _PORTFOLIO_DASHBOARD_FILE)
+        except Exception:
+            if os.path.exists(temp_path):
+                try:
+                    os.remove(temp_path)
+                except Exception:
+                    pass
+            raise
 
 DEFAULT_PLATFORMS = [
     {"platform": "SAHIBINDEN", "logo": "🟡", "views": 1450, "favorites": 48, "messages": 12, "calls": 9, "influence": 9, "score": 2100},
@@ -14071,10 +14104,6 @@ def add_portfolio_listing_buyer(ref_id):
         if not name or not phone:
             return jsonify({"ok": False, "error": "Ad ve telefon zorunludur."}), 400
 
-        all_data = _load_listing_dashboards()
-        if ref_id not in all_data:
-            all_data[ref_id] = {"refId": ref_id, "platform_stats": DEFAULT_PLATFORMS, "buyers": [], "timeline": []}
-
         buyer_id = f"b_{int(time.time())}_{random.randint(100, 999)}"
         buyer_record = {
             "id": buyer_id,
@@ -14088,8 +14117,6 @@ def add_portfolio_listing_buyer(ref_id):
             "createdAt": datetime.now().strftime("%d.%m.%Y %H:%M")
         }
 
-        all_data[ref_id].setdefault("buyers", []).insert(0, buyer_record)
-        
         # Add a timeline event
         timeline_event = {
             "id": f"t_{int(time.time())}",
@@ -14099,9 +14126,14 @@ def add_portfolio_listing_buyer(ref_id):
             "date": datetime.now().strftime("%d.%m.%Y %H:%M"),
             "author": "Yiğit Narin"
         }
-        all_data[ref_id].setdefault("timeline", []).insert(0, timeline_event)
-        
-        _save_listing_dashboards(all_data)
+
+        with _DASHBOARD_LOCK:
+            all_data = _load_listing_dashboards()
+            if ref_id not in all_data:
+                all_data[ref_id] = {"refId": ref_id, "platform_stats": DEFAULT_PLATFORMS, "buyers": [], "timeline": []}
+            all_data[ref_id].setdefault("buyers", []).insert(0, buyer_record)
+            all_data[ref_id].setdefault("timeline", []).insert(0, timeline_event)
+            _save_listing_dashboards(all_data)
 
         # Global CRM Sync: also register in Firestore / Contacts if available
         try:
@@ -14264,7 +14296,7 @@ Ankara'nın en gözde lokasyonunda ({loc}) prestij ve konforu bir arada sunan se
 
 📲 **Detaylı sunum dosyası, kat planları ve özel randevu için:**
 Gayrimenkul Mühendisi **Yiğit Narin**
-📞 **0532 000 00 00** | Coldwell Banker CB VIP Ankara
+📞 **0532 451 40 08** | Coldwell Banker CB VIP Ankara
 🌐 *Web:* gayrimenkulmuhendisi.com"""
 
             elif any(w in ql for w in ["alıcı", "özel teklif", "müşteri", "lead", "argüman"]):
@@ -14339,5 +14371,5 @@ def get_system_config():
         "assistant_name": "NexaPrime AI",
         "agent_name": "Yiğit Narin",
         "agency": "Coldwell Banker CB VIP Ankara",
-        "phone": "+90 532 000 00 00"
+        "phone": "+90 532 451 40 08"
     })
