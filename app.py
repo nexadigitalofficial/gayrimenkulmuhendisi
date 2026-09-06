@@ -94,6 +94,18 @@ Version: 1.0.0 PRODUCTION
 ================================================================================
 """
 
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 import os
 import json
 import re
@@ -14835,52 +14847,28 @@ def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
         ratio = min(aw / avatar_obj.imageWidth, ah / avatar_obj.imageHeight)
         avatar_obj.drawWidth  = avatar_obj.imageWidth  * ratio
         avatar_obj.drawHeight = avatar_obj.imageHeight * ratio
-        agent_row = [[avatar_obj, agent_text_col]]
-        col_ws = [30 * mm, inner_w - 30 * mm]
-    else:
-        agent_row = [[agent_text_col]]
-        col_ws = [inner_w]
-
-    # Sarmalamak için iç içe tablo
-    def _flatten(items):
-        """Liste içindeki Spacer ve Paragraph nesnelerini tek listeye çevir."""
-        flat = []
-        for it in items:
-            if isinstance(it, list):
-                flat.extend(it)
-            else:
-                flat.append(it)
-        return flat
-
-    agent_inner = Table(
-        [_flatten(agent_text_col)],
-        colWidths=[inner_w - (30 * mm if avatar_obj else 0)],
-    )
-
-    if avatar_obj:
-        agent_card_data = [[avatar_obj, agent_inner]]
         agent_card = Table(
-            agent_card_data,
+            [[avatar_obj, agent_text_col]],
             colWidths=[30 * mm, inner_w - 30 * mm],
             style=TableStyle([
                 ("VALIGN",       (0, 0), (-1, -1), "MIDDLE"),
                 ("ALIGN",        (0, 0), (0, -1),  "CENTER"),
-                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
-                ("TOPPADDING",   (0, 0), (-1, -1), 8),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 8),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 10),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                ("TOPPADDING",   (0, 0), (-1, -1), 10),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 10),
                 ("BACKGROUND",   (0, 0), (-1, -1), LIGHT_BG),
                 ("BOX",          (0, 0), (-1, -1), 1, GOLD),
             ])
         )
     else:
         agent_card = Table(
-            [[agent_inner]],
+            [[agent_text_col]],
             colWidths=[inner_w],
             style=TableStyle([
-                ("LEFTPADDING",  (0, 0), (-1, -1), 12),
-                ("TOPPADDING",   (0, 0), (-1, -1), 8),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 8),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 14),
+                ("TOPPADDING",   (0, 0), (-1, -1), 10),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 10),
                 ("BACKGROUND",   (0, 0), (-1, -1), LIGHT_BG),
                 ("BOX",          (0, 0), (-1, -1), 1, GOLD),
             ])
@@ -14972,7 +14960,7 @@ def api_listing_pdf():
 
     except Exception as exc:
         _tb.print_exc()
-        return jsonify({"ok": False, "error": "PDF oluşturma hatası: sistem günlüğüne bakın."}), 500
+        return jsonify({"ok": False, "error": f"PDF oluşturma hatası: {exc}"}), 500
 
 
 @app.route("/share/pdf/<pdf_id>")
