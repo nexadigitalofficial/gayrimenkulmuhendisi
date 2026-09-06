@@ -8168,14 +8168,141 @@ def _scrape_via_slug_fallback(url: str) -> dict:
     }
 
 
+def _parse_sahibinden_direct_html(html: str, url: str, listing_id: Optional[str] = None) -> dict:
+    """
+    Sahibinden doğrudan HTML içeriğinden (SeleniumBase veya disk önbelleği)
+    tüm detayları (başlık, fiyat, konum, özellikler, fotoğraflar, açıklama) çıkarır.
+    """
+    try:
+        soup = BeautifulSoup(html, "lxml")
+        h1 = soup.find("h1")
+        title = h1.get_text(strip=True) if h1 else ""
+
+        price = "—"
+        for sel in [".classified-price-wrapper", ".sticky-header-attribute.price"]:
+            el = soup.select_one(sel)
+            if el:
+                txt = el.get_text(strip=True)
+                if txt and len(txt) < 50:
+                    price = txt
+                    break
+
+        loc = ""
+        breadcrumbs = soup.select(".classified-breadcrumb a, .breadcrumb a")
+        if len(breadcrumbs) >= 3:
+            loc = " / ".join(b.get_text(strip=True) for b in breadcrumbs[-3:] if b.get_text(strip=True))
+        elif soup.select_one(".sticky-header-attribute.location"):
+            loc = soup.select_one(".sticky-header-attribute.location").get_text(strip=True)
+
+        specs = _parse_specs(soup)
+        photos = _parse_photos(soup)
+        raw_photos = _parse_photos_from_raw(html)
+        all_photos = list(dict.fromkeys(photos + raw_photos))
+
+        desc_el = soup.find(id="classifiedDescription") or soup.find(class_="classifiedDescription")
+        desc = desc_el.get_text(separator=" ", strip=True) if desc_el else ""
+
+        if not title and not price and not all_photos:
+            return {"ok": False, "error": "Yetersiz içerik"}
+
+        return {
+            "ok": True,
+            "source": "seleniumbase_uc",
+            "url": url,
+            "title": title,
+            "price": price,
+            "location": loc,
+            "specs": specs,
+            "images": all_photos,
+            "photo_count": len(all_photos),
+            "description": desc[:1500] if desc else "",
+            "listing_id": listing_id,
+        }
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+def _scrape_via_seleniumbase_uc(url: str) -> dict:
+    """
+    SeleniumBase UC modu ile doğrudan Sahibinden ilanını çeker.
+    1) Önceden indirilmiş disk önbelleğini (jobs/*/detay_html/) kontrol eder (0 sn'de anında döner).
+    2) Canlı olarak SeleniumBase UC açarak Cloudflare Turnstile'ı aşar.
+    3) Linux üzerinde ekransız (DISPLAY yoksa) headless hatasını önlemek için atlar.
+    """
+    import re
+    m = re.search(r"-(\d{8,12})(?:/|$|\?)", url)
+    listing_id = m.group(1) if m else None
+
+    # 1. Disk Önbelleği Kontrolü
+    if listing_id:
+        try:
+            for h_file in JOBS_DIR.glob(f"*/detay_html/{listing_id}.html"):
+                if h_file.exists() and h_file.stat().st_size > 5000:
+                    raw_html = h_file.read_text(encoding="utf-8", errors="ignore")
+                    if not any(s in raw_html[:3000] for s in CF_SIGNALS):
+                        res = _parse_sahibinden_direct_html(raw_html, url, listing_id)
+                        if res.get("ok"):
+                            print(f"    ✓ [CACHE] Diskteki detay HTML'i kullanıldı ({h_file.name})")
+                            res["source"] = "seleniumbase_cache"
+                            return res
+        except Exception as ce:
+            print(f"    ℹ Disk önbellek kontrolü atlandı: {ce}")
+
+    # 2. Canlı SeleniumBase UC
+    if not _SELENIUMBASE:
+        return {"ok": False, "error": "SeleniumBase yüklü değil"}
+
+    # Linux'ta DISPLAY yoksa (Render gibi bulut container'ları) headless: False çöker; atla
+    if sys.platform.startswith("linux") and not os.environ.get("DISPLAY"):
+        return {"ok": False, "error": "Linux headless ortamında GUI ekranı bulunamadı"}
+
+    proxy_str = os.getenv("RESIDENTIAL_PROXY_URL") or os.getenv("PROXY_URL")
+    try:
+        print(f"    [UC] SeleniumBase başlatılıyor... ({url[:65]})")
+        engine = CFBypassEngine(proxy_str=proxy_str)
+        html = engine.fetch_page(url)
+        if not html:
+            return {"ok": False, "error": "Sayfa içeriği boş döndü veya CF aşılamadı"}
+
+        if any(s in html[:3000] for s in CF_SIGNALS):
+            return {"ok": False, "error": "Cloudflare Turnstile aşılamadı"}
+
+        res = _parse_sahibinden_direct_html(html, url, listing_id)
+        if res.get("ok"):
+            try:
+                cache_dir = JOBS_DIR / "local_cache" / "detay_html"
+                cache_dir.mkdir(parents=True, exist_ok=True)
+                if listing_id:
+                    (cache_dir / f"{listing_id}.html").write_text(html, encoding="utf-8")
+            except Exception:
+                pass
+            return res
+        return {"ok": False, "error": "HTML içeriğinden veri parse edilemedi"}
+
+    except Exception as e:
+        print(f"    ✗ SeleniumBase UC hatası: {e}")
+        return {"ok": False, "error": str(e)}
+
+
 def _scrape_via_pagespeed(url: str) -> dict:
     """
-    Sahibinden Scraper Ana Mantığı (3 Kademeli Dayanıklı Altyapı):
-    1. Kademe: Google PageSpeed Insights REST API ile cloud render (3-5 sn, ultra hızlı).
-    2. Kademe: Playwright headless PageSpeed ile dinamik tarama (Kota veya foto eksikse).
-    3. Kademe: Akıllı URL Slug ve ID analiz fallback'i (PDF üretimini asla kırmaz).
+    Sahibinden Scraper Ana Mantığı (4 Kademeli Dayanıklı Altyapı):
+    1. Kademe: SeleniumBase UC & Disk Önbelleği (Yerel makine veya GUI/Proxy ile tam zengin veri, 80+ foto).
+    2. Kademe: Google PageSpeed Insights REST API ile cloud render (3-5 sn, ultra hızlı).
+    3. Kademe: Playwright headless PageSpeed ile dinamik tarama.
+    4. Kademe: Akıllı 81 İl ve Emlak Terim Slug Fallback'i (PDF üretimini asla kırmaz).
     """
-    # 1. Kademe: Google PageSpeed REST API (3-5 sn, ultra hızlı)
+    # 1. Kademe: SeleniumBase UC & Önbellek
+    if _SELENIUMBASE:
+        try:
+            res_uc = _scrape_via_seleniumbase_uc(url)
+            if res_uc and res_uc.get("ok"):
+                return res_uc
+            print(f"    ⚠ SeleniumBase UC atlandı/başarısız ({res_uc.get('error')}), PSI deneniyor...")
+        except Exception as e:
+            print(f"    ✗ SeleniumBase hatası: {e}, PSI deneniyor...")
+
+    # 2. Kademe: Google PageSpeed REST API (3-5 sn, ultra hızlı)
     try:
         res_psi = _scrape_via_psi_api(url)
         if res_psi and res_psi.get("ok") and (res_psi.get("images") or res_psi.get("title")):
@@ -8184,7 +8311,7 @@ def _scrape_via_pagespeed(url: str) -> dict:
     except Exception as e:
         print(f"    ✗ PSI API hatası: {e}, Playwright deneniyor...")
 
-    # 2. Kademe: Playwright (async) PageSpeed
+    # 3. Kademe: Playwright (async) PageSpeed
     if _PLAYWRIGHT:
         try:
             res = asyncio.run(_scrape_via_pagespeed_async(url))
@@ -8194,7 +8321,7 @@ def _scrape_via_pagespeed(url: str) -> dict:
         except Exception as e:
             print(f"    ✗ Playwright hatası: {e}, Slug fallback deneniyor...")
 
-    # 3. Kademe: Güvenli Slug Fallback (Her zaman ok: True döner)
+    # 4. Kademe: Güvenli Slug Fallback (Her zaman ok: True döner)
     return _scrape_via_slug_fallback(url)
 
 def _scrape_hepsiemlak(url: str) -> dict:
@@ -10004,7 +10131,7 @@ from mailer import (
     build_valuation_report_email, build_advisor_valuation_email,
 )
 from valuation import generate_valuation_report, valuation_status as gemini_status
-from ai_listing import scrape_listing, analyze_listing, ai_listing_status
+from ai_listing import analyze_listing, ai_listing_status
 from fsbo_engine import analyze_fsbo, fsbo_engine_status
 
 # ── Firebase Admin SDK ──────────────────────────────────────────
@@ -14857,12 +14984,12 @@ def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
 
     spec_rows = []
     pairs = [
-        ("Brüt m²",  _s("brut_m2", "gross_m2", "m² (brüt)", "Brüt m²", "area", "m2")),
+        ("Brüt m²",  _s("brut_m2", "gross_m2", "m² (brüt)", "Brüt m²", "area", "m2", "m²")),
         ("Net m²",   _s("net_m2", "m² (net)", "Net m²")),
         ("Oda",      _s("oda_sayisi", "rooms", "oda sayısı", "Oda Sayısı", "Oda")),
-        ("Kat",      _s("bulundugu_kat", "floor", "bulunduğu kat", "Bulunduğu Kat", "Kat")),
+        ("Kat",      _s("bulundugu_kat", "floor", "bulunduğu kat", "Bulunduğu Kat", "Kat", "Kat Sayısı", "kat sayısı")),
         ("Bina Yaşı",_s("bina_yasi", "building_age", "age", "bina yaşı", "Bina Yaşı")),
-        ("Isıtma",   _s("isitma", "heating", "ısıtma", "Isıtma")),
+        ("Isıtma",   _s("isitma", "heating", "ısıtma", "Isıtma", "Isıtma tipi", "ısıtma tipi")),
         ("Banyo",    _s("banyo_sayisi", "bathrooms", "banyo sayısı", "Banyo Sayısı")),
         ("Asansör",  _s("asansor", "elevator", "asansör", "Asansör")),
         ("Otopark",  _s("otopark", "parking", "otopark", "Otopark")),
@@ -14871,7 +14998,7 @@ def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
         ("Site",     _s("site_icerisinde", "complex_name", "site adı", "Site İçerisinde")),
         ("Aidat",    _s("aidat", "dues", "aidat (tl)", "Aidat")),
         ("Fiyat/m²", _s("price_m2", "fiyat_m2", "Birim Fiyat")),
-        ("Tapu",     _s("tapu_durumu", "Tapu Durumu")),
+        ("Tapu",     _s("tapu_durumu", "Tapu Durumu", "tapu durumu")),
     ]
     # Sadece değeri olan satırları al
     valid_pairs = [(k, v) for k, v in pairs if v and v != "—"]

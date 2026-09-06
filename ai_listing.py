@@ -796,9 +796,16 @@ def _scrape_via_slug_fallback(url: str) -> dict:
 
 def _scrape_via_pagespeed(url: str) -> dict:
     """
-    Sahibinden Scraper Ana Mantığı (3 Kademeli Dayanıklı Altyapı):
-    1. Kademe: Google PageSpeed REST API (3-5 sn, ultra hızlı)
+    Sahibinden Scraper Ana Mantığı (4 Kademeli Dayanıklı Altyapı):
+    app.py'deki merkezi 4 kademeli scraper'a (SeleniumBase UC, Disk Cache, PSI API, Playwright, Slug Fallback) delege eder.
     """
+    try:
+        from app import _scrape_via_pagespeed as _app_scrape_psi
+        return _app_scrape_psi(url)
+    except Exception:
+        pass
+
+    # 1. Kademe: Google PageSpeed REST API (3-5 sn, ultra hızlı)
     try:
         res_psi = _scrape_via_psi_api(url)
         if res_psi and res_psi.get("ok") and (res_psi.get("images") or res_psi.get("title")):
