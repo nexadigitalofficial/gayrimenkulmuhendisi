@@ -200,6 +200,7 @@ footer b{color:var(--gold-soft);}
     <button class="tab-btn" id="tabBtn-cb" onclick="switchTab('cb')">◆ CB Scraper</button>
     <button class="tab-btn" id="tabBtn-whatsapp" onclick="switchTab('whatsapp')">◆ WhatsApp Parser</button>
     <button class="tab-btn" id="tabBtn-match" onclick="switchTab('match')">◆ AI Matcher Engine</button>
+    <button class="tab-btn" id="tabBtn-pdf" onclick="switchTab('pdf')" style="background:rgba(201,164,92,.08);border-color:rgba(201,164,92,.3);color:var(--gold-soft);">✦ URL → PDF Sunum</button>
   </div>
 
   <!-- Tab: Sahibinden Scraper -->
@@ -368,6 +369,132 @@ footer b{color:var(--gold-soft);}
         <button class="btn btn-gold" id="btnStartMatch" onclick="startJob('match')">🚀 AI EŞLEŞTİRMEYİ ÇALIŞTIR</button>
       </div>
     </div>
+  </div>
+
+  <!-- Tab: URL → PDF Sunum Oluşturucu -->
+  <div class="tab-pane" id="pane-pdf" style="display:none;">
+
+    <!-- Girdi Paneli -->
+    <div class="panel">
+      <h2>① İlan URL'si → Lüks Sunum PDF</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:var(--text-1);line-height:1.7;">
+        Sahibinden, Hepsiemlak, Zingat veya Coldwell Banker ilan linkini girin.<br>
+        Sistem görselleri, açıklamayı ve özellikleri otomatik çekip <b style="color:var(--gold-soft);">Yiğit Narin</b>
+        iletişim bilgileriyle markalaştırılmış profesyonel PDF sunum oluşturur.
+      </p>
+      <div class="urlrow">
+        <input type="text" id="pdf_url" class="mono"
+               placeholder="https://www.sahibinden.com/ilan/... veya hepsiemlak.com/..."
+               style="font-size:13px;">
+        <button class="btn btn-gold" id="btnGenPdf" onclick="generatePdf()">
+          ✦ SUNUM OLUŞTUR
+        </button>
+      </div>
+
+      <!-- Desteklenen Platformlar -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Sahibinden.com</span>
+        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Hepsiemlak.com</span>
+        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Zingat.com</span>
+        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Emlakjet.com</span>
+        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Coldwellbanker.com.tr</span>
+      </div>
+    </div>
+
+    <!-- Danışman Marka Önizleme -->
+    <div class="panel" style="background:linear-gradient(135deg,#0d1b2a 0%,#111b26 100%);border-color:rgba(201,164,92,.25);">
+      <h2>② PDF'e Otomatik Eklenecek Danışman Kartı</h2>
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <img src="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png" alt="Yiğit Narin"
+             style="width:72px;height:72px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;box-shadow:0 0 20px rgba(201,164,92,.4);"
+             onerror="this.style.display='none'">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--gold-soft);font-family:'Playfair Display',serif;margin-bottom:4px;">
+            Yiğit Narin
+          </div>
+          <div style="font-size:12px;color:var(--gold);margin-bottom:6px;">
+            Gayrimenkul ve Yatırım Danışmanı
+          </div>
+          <div style="font-size:12px;color:var(--text-1);margin-bottom:3px;">
+            Coldwell Banker CB VIP Ankara
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px;">
+            <span style="font-size:11.5px;color:var(--text-0);">📞 +90 532 451 40 08</span>
+            <span style="font-size:11.5px;color:var(--text-1);">🌐 gayrimenkulmuhendisi.com</span>
+            <span style="font-size:11.5px;color:var(--text-1);">💬 WhatsApp: 0532 451 40 08</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- İşlem Durumu -->
+    <div class="panel" id="pdfStatusPanel" style="display:none;">
+      <h2>③ İşlem Durumu</h2>
+      <div id="pdfStatusContent" style="font-size:13.5px;line-height:1.8;color:var(--text-1);">
+        ⏳ Hazırlanıyor...
+      </div>
+      <!-- Adım Göstergesi -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;" id="pdfSteps">
+        <div class="step" id="pdfStep1"><div class="n">ADIM 1</div><div class="t">İlan Scrape</div></div>
+        <div class="step" id="pdfStep2"><div class="n">ADIM 2</div><div class="t">Görseller İndirildi</div></div>
+        <div class="step" id="pdfStep3"><div class="n">ADIM 3</div><div class="t">PDF Oluşturuldu</div></div>
+        <div class="step" id="pdfStep4"><div class="n">ADIM 4</div><div class="t">Hazır!</div></div>
+      </div>
+    </div>
+
+    <!-- Sonuç Paneli -->
+    <div class="panel" id="pdfResultPanel" style="display:none;">
+      <h2>④ Sunum PDF Hazır</h2>
+
+      <!-- İlan Önizleme -->
+      <div id="pdfListingPreview" style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;"></div>
+
+      <!-- Paylaşım Butonları -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+        <a id="pdfOpenBtn" href="#" target="_blank"
+           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
+                  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+                  color:#1a1408;border-radius:10px;font-weight:700;font-size:13.5px;
+                  text-decoration:none;box-shadow:0 8px 24px -8px rgba(201,164,92,.5);">
+          👁 PDF'i Tarayıcıda Aç
+        </a>
+        <a id="pdfDownloadBtn" href="#" download="Yigit_Narin_Ilan_Sunumu.pdf"
+           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
+                  background:var(--bg-2);color:var(--gold-soft);border-radius:10px;
+                  font-weight:600;font-size:13.5px;text-decoration:none;
+                  border:1px solid rgba(201,164,92,.3);">
+          ⬇ İndir (PDF)
+        </a>
+        <button onclick="copyPdfLink()"
+                style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
+                       background:var(--bg-2);color:var(--text-1);border-radius:10px;
+                       font-weight:600;font-size:13.5px;cursor:pointer;
+                       border:1px solid var(--line);">
+          🔗 Paylaşım Linkini Kopyala
+        </button>
+        <button onclick="generatePdf()"
+                style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
+                       background:var(--bg-3);color:var(--text-2);border-radius:10px;
+                       font-weight:600;font-size:13.5px;cursor:pointer;
+                       border:1px solid var(--line);">
+          ↺ Yeni PDF Oluştur
+        </button>
+      </div>
+
+      <!-- Paylaşım Linki Görüntüleme -->
+      <div id="pdfShareBox" style="background:var(--bg-2);border:1px solid var(--line);
+           border-radius:10px;padding:14px 16px;font-family:'JetBrains Mono',monospace;
+           font-size:12px;color:var(--gold);word-break:break-all;margin-bottom:16px;">
+        <!-- Link buraya yazılır -->
+      </div>
+
+      <!-- PDF İnline Önizleme -->
+      <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden;">
+        <iframe id="pdfPreviewFrame" src="" style="width:100%;height:700px;border:none;
+                background:#1a1a1a;display:block;"></iframe>
+      </div>
+    </div>
+
   </div>
 
   <!-- Shared Progress & Console Panel -->
@@ -732,6 +859,122 @@ function esc(s) {
   d.innerText = s || "";
   return d.innerHTML;
 }
+
+// ─── URL → PDF SUNUM ─────────────────────────────────────────────
+let _currentPdfShareUrl = '';
+
+function _pdfStep(n, done) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('pdfStep' + i);
+    if (!el) continue;
+    el.className = 'step' + (i === n ? ' active' : (i < n ? ' done' : ''));
+  }
+}
+
+function _pdfStatus(msg) {
+  const el = document.getElementById('pdfStatusContent');
+  if (el) el.innerHTML = msg;
+}
+
+async function generatePdf() {
+  const urlInput = document.getElementById('pdf_url');
+  const url = (urlInput ? urlInput.value : '').trim();
+  if (!url) {
+    alert('Lütfen bir ilan URL\'si girin.');
+    return;
+  }
+
+  // UI — göster ve sıfırla
+  const btnEl = document.getElementById('btnGenPdf');
+  if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳ İşleniyor...'; }
+  document.getElementById('pdfStatusPanel').style.display = 'block';
+  document.getElementById('pdfResultPanel').style.display  = 'none';
+  _pdfStep(1, false);
+  _pdfStatus('⏳ İlan sayfası okunuyor ve veriler çekiliyor…<br><small style="color:var(--text-2)">Bu işlem 15-45 saniye sürebilir (Sahibinden için Playwright çalışıyor)</small>');
+
+  try {
+    _pdfStep(1, false);
+    const resp = await fetch('/api/listing-pdf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+
+    _pdfStep(2, false);
+    _pdfStatus('📥 Görseller indiriliyor ve PDF oluşturuluyor…');
+
+    const data = await resp.json();
+
+    if (!data.ok) {
+      _pdfStatus(`❌ Hata: ${esc(data.error || 'Bilinmeyen hata')}<br><small style="color:var(--text-2)">URL'nin geçerli bir ilan sayfası olduğundan emin olun.</small>`);
+      _pdfStep(0, false);
+      if (btnEl) { btnEl.disabled = false; btnEl.textContent = '✦ SUNUM OLUŞTUR'; }
+      return;
+    }
+
+    _pdfStep(3, false);
+    _pdfStatus('✅ PDF oluşturuldu. Hazırlanıyor…');
+
+    _pdfStep(4, true);
+    _pdfStatus('🎉 Sunum PDF hazır! Aşağıdan görüntüleyebilir veya paylaşabilirsiniz.');
+
+    // Sonuç paneli doldur
+    const shareUrl  = window.location.origin + data.share_url;
+    const dlUrl     = window.location.origin + data.download_url;
+    _currentPdfShareUrl = shareUrl;
+
+    // Link kutusu
+    document.getElementById('pdfShareBox').innerHTML =
+      '🔗 ' + shareUrl;
+
+    // Buton linkleri
+    document.getElementById('pdfOpenBtn').href     = shareUrl;
+    document.getElementById('pdfDownloadBtn').href = dlUrl;
+
+    // İlan önizleme kartı
+    const preview = document.getElementById('pdfListingPreview');
+    const li = data.listing || {};
+    const thumbs = (li.images || []).slice(0, 2).map(u =>
+      `<img src="${esc(u)}" style="width:120px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line);" onerror="this.style.display='none'">`
+    ).join('');
+
+    preview.innerHTML = `
+      ${thumbs}
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:14px;font-weight:700;color:var(--text-0);margin-bottom:4px;">${esc(li.title || '—')}</div>
+        ${li.price ? `<div style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:4px;">${esc(li.price)}</div>` : ''}
+        ${li.location ? `<div style="font-size:12px;color:var(--text-2);">📍 ${esc(li.location)}</div>` : ''}
+        <div style="font-size:11px;color:var(--text-2);margin-top:4px;">Kaynak: ${esc(li.source || 'bilinmiyor')}</div>
+      </div>
+    `;
+
+    // PDF iframe önizleme
+    document.getElementById('pdfPreviewFrame').src = shareUrl;
+    document.getElementById('pdfResultPanel').style.display = 'block';
+
+    // Scroll into view
+    document.getElementById('pdfResultPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch (err) {
+    _pdfStatus('❌ Bağlantı hatası: ' + esc(err.message));
+  } finally {
+    if (btnEl) { btnEl.disabled = false; btnEl.textContent = '✦ SUNUM OLUŞTUR'; }
+  }
+}
+
+function copyPdfLink() {
+  if (!_currentPdfShareUrl) return;
+  navigator.clipboard.writeText(_currentPdfShareUrl).then(() => {
+    const box = document.getElementById('pdfShareBox');
+    const orig = box.innerHTML;
+    box.innerHTML = '✅ Kopyalandı: ' + _currentPdfShareUrl;
+    box.style.color = 'var(--green)';
+    setTimeout(() => { box.innerHTML = orig; box.style.color = ''; }, 2500);
+  }).catch(() => {
+    prompt('Linki kopyalayın:', _currentPdfShareUrl);
+  });
+}
+
 </script>
 </body>
 </html>

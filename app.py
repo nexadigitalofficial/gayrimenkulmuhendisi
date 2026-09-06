@@ -14406,6 +14406,7 @@ def create_appointment():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
+
 @app.route("/api/config", methods=["GET"])
 def get_system_config():
     return jsonify({
@@ -14415,3 +14416,584 @@ def get_system_config():
         "agency": "Coldwell Banker CB VIP Ankara",
         "phone": "+90 532 451 40 08"
     })
+
+# ============================================================
+#  URL → SUNUM PDF ÜRETİCİ
+#  Herhangi bir ilan URL'sini alır, scrape eder, görselleri
+#  indirir ve Yiğit Narin markasıyla lüks sunum PDF'i oluşturur.
+# ============================================================
+
+# PDF'ler burada saklanır; maksimum 100 adet, sonrası FIFO silme
+_PDF_DIR = Path(__file__).resolve().parent / "static" / "generated_pdfs"
+_PDF_DIR.mkdir(exist_ok=True)
+
+def _download_img_bytes(url: str, timeout: int = 12) -> bytes | None:
+    """Bir resim URL'sinden bytes indir. Hata durumunda None döner."""
+    try:
+        hdrs = {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/124.0.0.0 Safari/537.36"
+            ),
+            "Referer": "https://www.sahibinden.com/",
+        }
+        r = requests.get(url, headers=hdrs, timeout=timeout, stream=True)
+        if not r.ok:
+            return None
+        ct = r.headers.get("content-type", "image/jpeg").split(";")[0].strip()
+        if not ct.startswith("image/"):
+            return None
+        data = b"".join(r.iter_content(65536))
+        if len(data) < 1024:   # 1 KB'dan küçükse bozuk say
+            return None
+        return data
+    except Exception:
+        return None
+
+
+def _img_bytes_to_rl(data: bytes, max_w: float, max_h: float):
+    """Bytes → ReportLab Image nesnesi. Oranı korur. None dönebilir."""
+    try:
+        from reportlab.platypus import Image as _RLImage
+        from PIL import Image as _PILImg
+        import io as _io
+        buf = _io.BytesIO(data)
+        pil = _PILImg.open(buf)
+        # AVIF/HEIC gibi exotik formatları JPEG'e çevir
+        if pil.format not in ("JPEG", "PNG", "GIF", "WEBP") or pil.mode in ("RGBA", "LA", "P"):
+            pil = pil.convert("RGB")
+            out = _io.BytesIO()
+            pil.save(out, format="JPEG", quality=88)
+            out.seek(0)
+        else:
+            buf.seek(0)
+            out = buf
+        iw, ih = pil.size
+        ratio = min(max_w / iw, max_h / ih)
+        return _RLImage(out, width=iw * ratio, height=ih * ratio)
+    except Exception:
+        return None
+
+
+def _sahibinden_avif_to_jpg(url: str) -> str:
+    """Sahibinden .avif URL'sini .jpg'ye çevirir."""
+    if url.lower().endswith(".avif"):
+        return url[:-5] + ".jpg"
+    return url
+
+
+def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
+    """
+    Scrape çıktısından lüks sunum PDF'i oluşturur ve pdf_path'e yazar.
+    Yiğit Narin iletişim bilgileri ve avatar dahil edilir.
+    """
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.units import mm
+    from reportlab.lib import colors as _rlc
+    from reportlab.lib.colors import HexColor
+    from reportlab.lib.styles import ParagraphStyle
+    from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
+    from reportlab.platypus import (
+        SimpleDocTemplate, Paragraph, Spacer, HRFlowable,
+        Table, TableStyle, KeepTogether
+    )
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    import io as _io
+
+    BASE = Path(__file__).resolve().parent
+    FONT_DIR = BASE / "static" / "fonts"
+
+    # ── Fontlar ──────────────────────────────────────────────
+    def _reg(name, path):
+        try:
+            pdfmetrics.registerFont(TTFont(name, str(path)))
+        except Exception:
+            pass
+
+    _reg("DejaVu",      FONT_DIR / "DejaVuSans.ttf")
+    _reg("DejaVu-Bold", FONT_DIR / "DejaVuSans-Bold.ttf")
+
+    FONT       = "DejaVu"
+    FONT_BOLD  = "DejaVu-Bold"
+
+    # ── Renk Paleti ──────────────────────────────────────────
+    NAVY      = HexColor("#0D1B2A")
+    GOLD      = HexColor("#C9A45C")
+    GOLD_SOFT = HexColor("#E8CD93")
+    PLATINUM  = HexColor("#E8E8E4")
+    DARK_GRAY = HexColor("#2C2C2C")
+    MID_GRAY  = HexColor("#707070")
+    LIGHT_BG  = HexColor("#F5F5F3")
+    WHITE     = _rlc.white
+
+    pw, ph = A4   # 595.28 x 841.89 pt
+    margin = 18 * mm
+
+    # ── Stil Fabrikası ───────────────────────────────────────
+    def st(name, parent=None, **kw):
+        base = ParagraphStyle(name)
+        if parent:
+            for k, v in parent.__dict__.items():
+                try:
+                    setattr(base, k, v)
+                except Exception:
+                    pass
+        for k, v in kw.items():
+            setattr(base, k, v)
+        return base
+
+    ST_HEADING = st("h", fontName=FONT_BOLD, fontSize=22, textColor=NAVY,
+                    leading=28, spaceAfter=4)
+    ST_SUBHEAD = st("sh", fontName=FONT, fontSize=13, textColor=GOLD,
+                    leading=18, spaceAfter=2)
+    ST_LABEL   = st("lab", fontName=FONT_BOLD, fontSize=9, textColor=MID_GRAY,
+                    leading=13, spaceAfter=1)
+    ST_VALUE   = st("val", fontName=FONT, fontSize=11, textColor=DARK_GRAY,
+                    leading=16, spaceAfter=6)
+    ST_PRICE   = st("price", fontName=FONT_BOLD, fontSize=26, textColor=GOLD,
+                    leading=32, spaceAfter=8, alignment=TA_LEFT)
+    ST_DESC    = st("desc", fontName=FONT, fontSize=10.5, textColor=DARK_GRAY,
+                    leading=16, spaceAfter=6)
+    ST_FOOTER  = st("foot", fontName=FONT, fontSize=8.5, textColor=MID_GRAY,
+                    leading=13, alignment=TA_CENTER)
+    ST_CONTACT_NAME = st("cn", fontName=FONT_BOLD, fontSize=13, textColor=NAVY,
+                         leading=17, spaceAfter=2)
+    ST_CONTACT_INFO = st("ci", fontName=FONT, fontSize=10, textColor=MID_GRAY,
+                         leading=14, spaceAfter=2)
+    ST_SECTION  = st("sec", fontName=FONT_BOLD, fontSize=10, textColor=WHITE,
+                     leading=14)
+    ST_SPEC_KEY = st("sk", fontName=FONT_BOLD, fontSize=9.5, textColor=DARK_GRAY, leading=14)
+    ST_SPEC_VAL = st("sv", fontName=FONT, fontSize=9.5, textColor=MID_GRAY, leading=14)
+
+    # ── İlan Verisi ──────────────────────────────────────────
+    title    = listing.get("title", "Gayrimenkul Sunum")[:120]
+    price    = listing.get("price", "")
+    location = listing.get("location", "")
+    desc     = listing.get("description", "")
+    specs    = listing.get("specs") or {}
+    img_urls = listing.get("images", [])
+    source   = listing.get("source", "")
+
+    # Specs dict normalise: bazı scraper'lar farklı key kullanır
+    def _s(key, *alts, default="—"):
+        for k in (key, *alts):
+            v = specs.get(k, "")
+            if v and str(v).strip():
+                return str(v).strip()
+        return default
+
+    spec_rows = []
+    pairs = [
+        ("Brüt m²",  _s("brut_m2", "area", "m2", "Brüt m²")),
+        ("Net m²",   _s("net_m2",  "Net m²")),
+        ("Oda",      _s("oda_sayisi", "rooms", "Oda Sayısı")),
+        ("Kat",      _s("bulundugu_kat", "floor", "Bulunduğu Kat")),
+        ("Bina Yaşı",_s("bina_yasi", "age", "Bina Yaşı")),
+        ("Isıtma",   _s("isitma", "Isıtma")),
+        ("Banyo",    _s("banyo_sayisi", "Banyo Sayısı")),
+        ("Asansör",  _s("asansor", "Asansör")),
+        ("Otopark",  _s("otopark", "Otopark")),
+        ("Eşyalı",   _s("esyali", "Eşyalı")),
+        ("Site",     _s("site_icerisinde", "Site İçerisinde")),
+        ("Tapu",     _s("tapu_durumu", "Tapu Durumu")),
+    ]
+    # Sadece değeri olan satırları al
+    valid_pairs = [(k, v) for k, v in pairs if v and v != "—"]
+
+    # ── Görseller ────────────────────────────────────────────
+    # Sahibinden için AVIF → JPG dönüşümü yap
+    clean_urls = [_sahibinden_avif_to_jpg(u) for u in img_urls if u]
+    img_objects = []
+    for iurl in clean_urls[:8]:          # Max 8 görsel al
+        data = _download_img_bytes(iurl)
+        if data:
+            obj = _img_bytes_to_rl(data, 170 * mm, 120 * mm)
+            if obj:
+                img_objects.append(obj)
+        if len(img_objects) >= 6:
+            break
+
+    # ── Danışman Avatar ──────────────────────────────────────
+    AGENT_AVATAR_URL = "https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png"
+    avatar_obj = None
+    av_data = _download_img_bytes(AGENT_AVATAR_URL, timeout=8)
+    if av_data:
+        avatar_obj = _img_bytes_to_rl(av_data, 28 * mm, 28 * mm)
+
+    # ── PDF Belgesi ──────────────────────────────────────────
+    buf = _io.BytesIO()
+    doc = SimpleDocTemplate(
+        buf,
+        pagesize=A4,
+        leftMargin=margin,
+        rightMargin=margin,
+        topMargin=margin,
+        bottomMargin=margin,
+        title=title,
+        author="Yiğit Narin — Coldwell Banker CB VIP Ankara",
+    )
+
+    story = []
+    inner_w = pw - 2 * margin
+
+    # ── [KAPAK] Logo + Başlık Bloğu ─────────────────────────
+    # Altın şerit (kapak üstü)
+    story.append(Table(
+        [[""]],
+        colWidths=[inner_w],
+        rowHeights=[6],
+        style=TableStyle([
+            ("BACKGROUND", (0, 0), (-1, -1), GOLD),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ("TOPPADDING", (0, 0), (-1, -1), 0),
+        ])
+    ))
+    story.append(Spacer(1, 6 * mm))
+
+    # Başlık
+    story.append(Paragraph(title, ST_HEADING))
+    if location:
+        story.append(Paragraph(f"📍 {location}", ST_SUBHEAD))
+    story.append(Spacer(1, 3 * mm))
+
+    # Fiyat kutusu
+    if price:
+        price_tbl = Table(
+            [[Paragraph(price, ST_PRICE)]],
+            colWidths=[inner_w],
+            style=TableStyle([
+                ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BG),
+                ("BOX",        (0, 0), (-1, -1), 1.5, GOLD),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 12),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+                ("TOPPADDING",   (0, 0), (-1, -1), 8),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 8),
+                ("BORDERRADIUS", (0, 0), (-1, -1), 4),
+            ])
+        )
+        story.append(price_tbl)
+        story.append(Spacer(1, 5 * mm))
+
+    # ── [GÖRSELLER] ──────────────────────────────────────────
+    if img_objects:
+        story.append(Table(
+            [[""]],
+            colWidths=[inner_w],
+            rowHeights=[4],
+            style=TableStyle([
+                ("BACKGROUND", (0, 0), (-1, -1), NAVY),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING",    (0, 0), (-1, -1), 0),
+            ])
+        ))
+        story.append(Spacer(1, 1.5 * mm))
+        story.append(Paragraph("📷  Fotoğraflar", ParagraphStyle(
+            "phdr", fontName=FONT_BOLD, fontSize=9, textColor=MID_GRAY,
+            leading=13, spaceAfter=4
+        )))
+
+        # Ana kapak fotoğrafı — tam genişlik
+        hero = img_objects[0]
+        if hero:
+            ratio = min(inner_w / hero.imageWidth, (120 * mm) / hero.imageHeight)
+            hero.drawWidth  = hero.imageWidth  * ratio
+            hero.drawHeight = hero.imageHeight * ratio
+            hero_tbl = Table(
+                [[hero]],
+                colWidths=[inner_w],
+                style=TableStyle([
+                    ("ALIGN",  (0, 0), (-1, -1), "CENTER"),
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    ("BOX",    (0, 0), (-1, -1), 0.5, PLATINUM),
+                    ("TOPPADDING",    (0, 0), (-1, -1), 2),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+                    ("LEFTPADDING",   (0, 0), (-1, -1), 2),
+                    ("RIGHTPADDING",  (0, 0), (-1, -1), 2),
+                ])
+            )
+            story.append(hero_tbl)
+            story.append(Spacer(1, 3 * mm))
+
+        # Geri kalan görseller: 2'li grid
+        rest = img_objects[1:]
+        if rest:
+            cell_w = (inner_w - 4 * mm) / 2
+            rows = []
+            for i in range(0, len(rest), 2):
+                row = []
+                for img in rest[i:i+2]:
+                    ratio = min(cell_w / img.imageWidth, (75 * mm) / img.imageHeight)
+                    img.drawWidth  = img.imageWidth  * ratio
+                    img.drawHeight = img.imageHeight * ratio
+                    row.append(img)
+                if len(row) == 1:
+                    row.append("")
+                rows.append(row)
+            grid = Table(
+                rows,
+                colWidths=[cell_w, cell_w],
+                style=TableStyle([
+                    ("ALIGN",         (0, 0), (-1, -1), "CENTER"),
+                    ("VALIGN",        (0, 0), (-1, -1), "MIDDLE"),
+                    ("BOX",           (0, 0), (-1, -1), 0.5, PLATINUM),
+                    ("INNERGRID",     (0, 0), (-1, -1), 0.5, PLATINUM),
+                    ("TOPPADDING",    (0, 0), (-1, -1), 3),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                    ("LEFTPADDING",   (0, 0), (-1, -1), 3),
+                    ("RIGHTPADDING",  (0, 0), (-1, -1), 3),
+                ])
+            )
+            story.append(grid)
+            story.append(Spacer(1, 4 * mm))
+
+    # ── [ÖZELLİKLER] ─────────────────────────────────────────
+    if valid_pairs:
+        # Bölüm başlığı
+        story.append(Table(
+            [[Paragraph("● GAYRİMENKUL ÖZELLİKLERİ", ST_SECTION)]],
+            colWidths=[inner_w],
+            style=TableStyle([
+                ("BACKGROUND", (0, 0), (-1, -1), NAVY),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 10),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+                ("TOPPADDING",   (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
+            ])
+        ))
+        story.append(Spacer(1, 2 * mm))
+
+        # 2-sütunlu özellik tablosu
+        spec_tbl_data = []
+        for i in range(0, len(valid_pairs), 2):
+            r = []
+            for k, v in valid_pairs[i:i+2]:
+                r.append(Paragraph(k, ST_SPEC_KEY))
+                r.append(Paragraph(v, ST_SPEC_VAL))
+            while len(r) < 4:
+                r.append("")
+            spec_tbl_data.append(r)
+
+        col_w = inner_w / 4
+        spec_tbl = Table(
+            spec_tbl_data,
+            colWidths=[col_w, col_w, col_w, col_w],
+            style=TableStyle([
+                ("VALIGN",       (0, 0), (-1, -1), "TOP"),
+                ("TOPPADDING",   (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+                ("INNERGRID",    (0, 0), (-1, -1), 0.3, PLATINUM),
+                ("BOX",          (0, 0), (-1, -1), 0.5, PLATINUM),
+                *[("BACKGROUND", (0, i), (-1, i), LIGHT_BG)
+                  for i in range(0, len(spec_tbl_data), 2)],
+            ])
+        )
+        story.append(spec_tbl)
+        story.append(Spacer(1, 5 * mm))
+
+    # ── [AÇIKLAMA] ────────────────────────────────────────────
+    if desc and len(desc.strip()) > 30:
+        story.append(Table(
+            [[Paragraph("● İLAN AÇIKLAMASI", ST_SECTION)]],
+            colWidths=[inner_w],
+            style=TableStyle([
+                ("BACKGROUND", (0, 0), (-1, -1), NAVY),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 10),
+                ("TOPPADDING",   (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
+            ])
+        ))
+        story.append(Spacer(1, 2 * mm))
+        clean_desc = desc[:1200].replace("<", "&lt;").replace(">", "&gt;")
+        story.append(Paragraph(clean_desc, ST_DESC))
+        story.append(Spacer(1, 5 * mm))
+
+    # ── [DANIŞMAN KARTI] ──────────────────────────────────────
+    story.append(HRFlowable(width=inner_w, thickness=1.5, color=GOLD, spaceAfter=4 * mm))
+
+    agent_title = Paragraph("YİĞİT NARİN", ST_CONTACT_NAME)
+    agent_title2 = Paragraph("Gayrimenkul ve Yatırım Danışmanı", ParagraphStyle(
+        "asubt", fontName=FONT, fontSize=9.5, textColor=GOLD, leading=14
+    ))
+    agent_company = Paragraph("Coldwell Banker CB VIP Ankara", ST_CONTACT_INFO)
+    agent_phone   = Paragraph("📞  +90 532 451 40 08", ParagraphStyle(
+        "aph", fontName=FONT_BOLD, fontSize=10.5, textColor=NAVY, leading=15
+    ))
+    agent_email   = Paragraph("🌐  www.gayrimenkulmuhendisi.com", ST_CONTACT_INFO)
+    agent_wa      = Paragraph("💬  WhatsApp: 0532 451 40 08", ST_CONTACT_INFO)
+
+    agent_text_col = [agent_title, agent_title2, Spacer(1, 3),
+                      agent_company, Spacer(1, 3), agent_phone,
+                      agent_email, agent_wa]
+
+    if avatar_obj:
+        # Avatar sığdır
+        aw, ah = 26 * mm, 26 * mm
+        ratio = min(aw / avatar_obj.imageWidth, ah / avatar_obj.imageHeight)
+        avatar_obj.drawWidth  = avatar_obj.imageWidth  * ratio
+        avatar_obj.drawHeight = avatar_obj.imageHeight * ratio
+        agent_row = [[avatar_obj, agent_text_col]]
+        col_ws = [30 * mm, inner_w - 30 * mm]
+    else:
+        agent_row = [[agent_text_col]]
+        col_ws = [inner_w]
+
+    # Sarmalamak için iç içe tablo
+    def _flatten(items):
+        """Liste içindeki Spacer ve Paragraph nesnelerini tek listeye çevir."""
+        flat = []
+        for it in items:
+            if isinstance(it, list):
+                flat.extend(it)
+            else:
+                flat.append(it)
+        return flat
+
+    agent_inner = Table(
+        [_flatten(agent_text_col)],
+        colWidths=[inner_w - (30 * mm if avatar_obj else 0)],
+    )
+
+    if avatar_obj:
+        agent_card_data = [[avatar_obj, agent_inner]]
+        agent_card = Table(
+            agent_card_data,
+            colWidths=[30 * mm, inner_w - 30 * mm],
+            style=TableStyle([
+                ("VALIGN",       (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN",        (0, 0), (0, -1),  "CENTER"),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("TOPPADDING",   (0, 0), (-1, -1), 8),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 8),
+                ("BACKGROUND",   (0, 0), (-1, -1), LIGHT_BG),
+                ("BOX",          (0, 0), (-1, -1), 1, GOLD),
+            ])
+        )
+    else:
+        agent_card = Table(
+            [[agent_inner]],
+            colWidths=[inner_w],
+            style=TableStyle([
+                ("LEFTPADDING",  (0, 0), (-1, -1), 12),
+                ("TOPPADDING",   (0, 0), (-1, -1), 8),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 8),
+                ("BACKGROUND",   (0, 0), (-1, -1), LIGHT_BG),
+                ("BOX",          (0, 0), (-1, -1), 1, GOLD),
+            ])
+        )
+
+    story.append(KeepTogether(agent_card))
+    story.append(Spacer(1, 4 * mm))
+
+    # ── Alt Bölüm: Tarih + Kaynak ─────────────────────────────
+    from datetime import datetime as _dt
+    date_str = _dt.now().strftime("%d.%m.%Y")
+    footer_txt = (
+        f"Bu sunum {date_str} tarihinde Nexa OS tarafından otomatik oluşturulmuştur.  "
+        f"Kaynak: {source or url}  •  Yiğit Narin Gayrimenkul ve Yatırım Danışmanlığı"
+    )
+    story.append(HRFlowable(width=inner_w, thickness=0.5, color=PLATINUM))
+    story.append(Spacer(1, 2 * mm))
+    story.append(Paragraph(footer_txt, ST_FOOTER))
+
+    doc.build(story)
+    buf.seek(0)
+    pdf_path.write_bytes(buf.read())
+
+
+def _cleanup_old_pdfs(max_count: int = 100) -> None:
+    """Eski PDF dosyalarını FIFO mantığıyla siler, en fazla max_count tutar."""
+    try:
+        pdfs = sorted(_PDF_DIR.glob("*.pdf"), key=lambda p: p.stat().st_mtime)
+        for old in pdfs[:-max_count]:
+            try:
+                old.unlink()
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+
+@app.route("/api/listing-pdf", methods=["POST"])
+def api_listing_pdf():
+    """
+    İlan URL'sini alır → scrape eder → lüks sunum PDF'i oluşturur.
+
+    Request JSON:
+      { "url": "https://www.sahibinden.com/ilan/..." }
+
+    Response JSON (başarı):
+      { "ok": true, "pdf_id": "<uuid>", "share_url": "/share/pdf/<uuid>",
+        "download_url": "/share/pdf/<uuid>?dl=1",
+        "listing": { title, price, location, images, ... } }
+
+    Response JSON (hata):
+      { "ok": false, "error": "..." }
+    """
+    import traceback as _tb
+    body = flask_request.json or {}
+    url  = (body.get("url") or "").strip()
+    if not url:
+        return jsonify({"ok": False, "error": "URL boş olamaz."}), 400
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+
+    try:
+        # 1. Scrape
+        listing = scrape_listing(url)
+        if not listing.get("ok"):
+            err = listing.get("error") or "Sayfadan veri çekilemedi."
+            return jsonify({"ok": False, "error": err, "listing": listing}), 422
+
+        # 2. PDF üret
+        pdf_id   = str(uuid.uuid4())
+        pdf_path = _PDF_DIR / f"{pdf_id}.pdf"
+        _generate_listing_pdf(listing, pdf_path)
+        _cleanup_old_pdfs(100)
+
+        host = flask_request.host_url.rstrip("/")
+        return jsonify({
+            "ok":           True,
+            "pdf_id":       pdf_id,
+            "share_url":    f"/share/pdf/{pdf_id}",
+            "download_url": f"/share/pdf/{pdf_id}?dl=1",
+            "listing": {
+                "title":    listing.get("title", ""),
+                "price":    listing.get("price", ""),
+                "location": listing.get("location", ""),
+                "images":   listing.get("images", [])[:3],
+                "source":   listing.get("source", ""),
+            }
+        })
+
+    except Exception as exc:
+        _tb.print_exc()
+        return jsonify({"ok": False, "error": "PDF oluşturma hatası: sistem günlüğüne bakın."}), 500
+
+
+@app.route("/share/pdf/<pdf_id>")
+def share_pdf(pdf_id: str):
+    """
+    Paylaşılabilir PDF linki.
+    ?dl=1 parametresiyle indirme zorlanır, yoksa tarayıcıda açılır.
+    """
+    # Güvenlik: sadece UUID formatını kabul et
+    if not re.match(r"^[0-9a-f\-]{36}$", pdf_id):
+        return "Geçersiz PDF ID", 400
+
+    pdf_path = _PDF_DIR / f"{pdf_id}.pdf"
+    if not pdf_path.exists():
+        return "PDF bulunamadı veya süresi dolmuş.", 404
+
+    dl = flask_request.args.get("dl", "0") == "1"
+    return send_file(
+        str(pdf_path),
+        mimetype="application/pdf",
+        as_attachment=dl,
+        download_name="Yigit_Narin_Ilan_Sunumu.pdf",
+    )
+
