@@ -297,23 +297,44 @@ def _extract_location_from_raw(raw_html: str) -> str:
 
 def _parse_photos_from_raw(raw_html: str) -> list[str]:
     """
-    Fallback: ham HTML'deki tüm .jpg / .jpeg / .png / .webp URL'lerini döndürür.
-    _extract_psi_photos hiçbir şey bulamadığında kullanılır.
+    Fallback: ham HTML'deki shbdn fotoğraflarını ayıklar.
+    Google/gstatic favicon veya logo gibi sistem varlıklarını kesinlikle eler.
     """
     seen: set[str] = set()
     urls: list[str] = []
 
+    # Öncelikli: shbdn.com/photos
     for m in re.finditer(
-        r'(https?://[^\s"\'<>]+\.(?:jpg|jpeg|png|webp))(?:[^\s"\'<>]*)?',
+        r'(https?://[^\s"\'<>]*(?:shbdn\.com/photos|i\d?\.shbdn)[^\s"\'<>]*\.(?:jpg|jpeg|png|webp|avif))(?:[^\s"\'<>]*)?',
         raw_html,
         re.IGNORECASE,
     ):
         url = html_mod.unescape(m.group(1))
+        u_low = url.lower()
+        if any(bad in u_low for bad in ["favicon", "google", "gstatic", "logo", "analytics", "sprite", "icon", "placeholder"]):
+            continue
         if url not in seen and len(url) > 20:
             seen.add(url)
             urls.append(url)
-        if len(urls) >= 10:
+        if len(urls) >= 16:
             break
+
+    # İkinci deneme: genel resimler (gstatic/google kesinlikle hariç)
+    if not urls:
+        for m in re.finditer(
+            r'(https?://[^\s"\'<>]+\.(?:jpg|jpeg|png|webp))(?:[^\s"\'<>]*)?',
+            raw_html,
+            re.IGNORECASE,
+        ):
+            url = html_mod.unescape(m.group(1))
+            u_low = url.lower()
+            if any(bad in u_low for bad in ["favicon", "google", "gstatic", "logo", "analytics", "sprite", "icon", "pagespeed", "web.dev"]):
+                continue
+            if url not in seen and len(url) > 20:
+                seen.add(url)
+                urls.append(url)
+            if len(urls) >= 10:
+                break
 
     return urls
 
@@ -497,13 +518,16 @@ async def _scrape_via_pagespeed_async(url: str) -> dict:
                 print("    ⚠ Buton bulunamadı, Enter ile gönderiliyor...")
                 await page.locator("input[name='url']").press("Enter")
 
-            max_wait = min(wait_sec, 20)
-            print(f"    ✓ Analiz başlatıldı → dinamik bekleniyor (max {max_wait}s)")
+            max_wait = min(wait_sec, 25)
+            print(f"    ✓ Analiz başlatıldı → fotoğraflar taranıyor (max {max_wait}s)")
             for i in range(max_wait):
                 await page.wait_for_timeout(1000)
-                if "/analysis/" in page.url:
-                    await page.wait_for_timeout(2500)
-                    print(f"    ✓ PageSpeed analizi tamamlandı ({i+1}s)")
+                content_now = await page.content()
+                if "shbdn.com/photos" in content_now:
+                    print(f"    ✓ Sahibinden fotoğrafları başarıyla yakalandı ({i+1}s)")
+                    break
+                if "denetim sırasında bir hata" in content_now.lower() or "lighthouse hatası" in content_now.lower():
+                    print(f"    ⚠ PSI analiz hatası tespit edildi ({i+1}s)")
                     break
 
             raw_html = await page.content()
@@ -551,6 +575,18 @@ async def _scrape_via_pagespeed_async(url: str) -> dict:
     if not title or "pagespeed" in title.lower():
         title = f"Sahibinden İlanı #{listing_id}" if listing_id else "Gayrimenkul Portföy İlanı"
 
+    slug_data = _scrape_via_slug_fallback(url)
+    if not location or location == "Ankara":
+        if slug_data.get("location") and slug_data.get("location") != "Ankara":
+            location = slug_data.get("location")
+        elif not location:
+            location = "Ankara"
+    if not title or title.islower() or "pagespeed" in title.lower():
+        title = slug_data.get("title", title)
+    for sk, sv in slug_data.get("specs", {}).items():
+        if sk not in specs and sv:
+            specs[sk] = sv
+
     # ── Sahibinden Scraper Mantığı: Açıklama Çıkarma ──
     description = _extract_psi_description(raw_html)
 
@@ -597,7 +633,7 @@ def _scrape_via_psi_api(url: str) -> dict:
     location = "Ankara"
 
     try:
-        resp = requests.get(psi_url, params=params, timeout=45)
+        resp = requests.get(psi_url, params=params, timeout=8)
         if resp.status_code == 200:
             raw_text = resp.text
             psi_photos = _extract_psi_photos(raw_text)
@@ -624,6 +660,18 @@ def _scrape_via_psi_api(url: str) -> dict:
             if extracted_title and len(extracted_title) > 3:
                 title = extracted_title
 
+            slug_data = _scrape_via_slug_fallback(url)
+            if not location or location == "Ankara":
+                if slug_data.get("location") and slug_data.get("location") != "Ankara":
+                    location = slug_data.get("location")
+                elif not location:
+                    location = "Ankara"
+            if not title or title.islower() or "pagespeed" in title.lower():
+                title = slug_data.get("title", title)
+            for sk, sv in slug_data.get("specs", {}).items():
+                if sk not in specs and sv:
+                    specs[sk] = sv
+
             return {
                 "ok": True,
                 "source": "sahibinden_psi_api",
@@ -636,34 +684,109 @@ def _scrape_via_psi_api(url: str) -> dict:
                 "photo_count": len(photos),
             }
     except Exception as exc:
-        print(f"    ⚠ PSI REST API hatası: {exc}")
+        print(f"    ⚠ PSI REST API hatası ({exc}), diğer kademelere geçiliyor...")
 
     return {"ok": False, "error": "PSI REST API başarısız"}
 
 
 def _scrape_via_slug_fallback(url: str) -> dict:
     """
-    Her koşulda çalışan güvenli URL slug ayrıştırıcı.
-    Kullanıcıya asla 'hata' vermez, Yiğit Narin sunum şablonu için geçerli ilan nesnesi üretir.
+    Her koşulda çalışan akıllı URL slug ayrıştırıcı.
+    Türkiye il/ilçe ve mülk türü sözlüğü ile zenginleştirilmiş ilan nesnesi üretir.
+    Kullanıcıya asla 'hata' vermez, Yiğit Narin sunum şablonu için eksiksiz veri sağlar.
     """
+    TURKISH_CITIES = {
+        'adana': 'Adana', 'adiyaman': 'Adıyaman', 'afyon': 'Afyonkarahisar', 'agri': 'Ağrı',
+        'amasya': 'Amasya', 'ankara': 'Ankara', 'antalya': 'Antalya', 'artvin': 'Artvin',
+        'aydin': 'Aydın', 'balikesir': 'Balıkesir', 'bilecik': 'Bilecik', 'bingol': 'Bingöl',
+        'bitlis': 'Bitlis', 'bolu': 'Bolu', 'burdur': 'Burdur', 'bursa': 'Bursa',
+        'canakkale': 'Çanakkale', 'cankiri': 'Çankırı', 'corum': 'Çorum', 'denizli': 'Denizli',
+        'diyarbakir': 'Diyarbakır', 'edirne': 'Edirne', 'elazig': 'Elazığ', 'erzincan': 'Erzincan',
+        'erzurum': 'Erzurum', 'eskisehir': 'Eskişehir', 'gaziantep': 'Gaziantep', 'giresun': 'Giresun',
+        'gumushane': 'Gümüşhane', 'hakkari': 'Hakkari', 'hatay': 'Hatay', 'isparta': 'Isparta',
+        'mersin': 'Mersin', 'istanbul': 'İstanbul', 'izmir': 'İzmir', 'kars': 'Kars',
+        'kastamonu': 'Kastamonu', 'kayseri': 'Kayseri', 'kirklareli': 'Kırklareli', 'kirsehir': 'Kırşehir',
+        'kocaeli': 'Kocaeli', 'konya': 'Konya', 'kutahya': 'Kütahya', 'malatya': 'Malatya',
+        'manisa': 'Manisa', 'kahramanmaras': 'Kahramanmaraş', 'mardin': 'Mardin', 'mugla': 'Muğla',
+        'mus': 'Muş', 'nevsehir': 'Nevşehir', 'nigde': 'Niğde', 'ordu': 'Ordu',
+        'rize': 'Rize', 'sakarya': 'Sakarya', 'samsun': 'Samsun', 'siirt': 'Siirt',
+        'sinop': 'Sinop', 'sivas': 'Sivas', 'tekirdag': 'Tekirdağ', 'tokat': 'Tokat',
+        'trabzon': 'Trabzon', 'tunceli': 'Tunceli', 'sanliurfa': 'Şanlıurfa', 'usak': 'Uşak',
+        'van': 'Van', 'yozgat': 'Yozgat', 'zonguldak': 'Zonguldak', 'aksaray': 'Aksaray',
+        'bayburt': 'Bayburt', 'karaman': 'Karaman', 'kirikkale': 'Kırıkkale', 'batman': 'Batman',
+        'sirnak': 'Şırnak', 'bartin': 'Bartın', 'ardahan': 'Ardahan', 'igdir': 'Iğdır',
+        'yalova': 'Yalova', 'karabuk': 'Karabük', 'kilis': 'Kilis', 'osmaniye': 'Osmaniye',
+        'duzce': 'Düzce'
+    }
+    WORD_MAP = {
+        'satilik': 'Satılık', 'kiralik': 'Kiralık', 'devren': 'Devren',
+        'bina': 'Bina', 'daire': 'Daire', 'villa': 'Villa', 'arsa': 'Arsa',
+        'rezidans': 'Rezidans', 'isyeri': 'İş Yeri', 'dukkan': 'Dükkan',
+        'komple': 'Komple', 'sifir': 'Sıfır', 'tadilatli': 'Tadilatlı',
+        'merkez': 'Merkez', 'cankaya': 'Çankaya', 'bahceli': 'Bahçeli',
+        'havuzlu': 'Havuzlu', 'esyali': 'Eşyalı', 'lux': 'Lüks', 'luks': 'Lüks'
+    }
+    WORD_MAP.update(TURKISH_CITIES)
+
     listing_id = detect_single_listing_id(url)
-    title = _title_from_detail_url(url, listing_id)
-    if not title or len(title) < 4:
-        title = f"Sahibinden Portföy İlanı #{listing_id}" if listing_id else "Gayrimenkul Portföy İlanı"
+    slug = ""
+    if "/ilan/" in url:
+        slug = url.split("/ilan/", 1)[1].split("/detay", 1)[0]
+        if listing_id and slug.endswith("-" + listing_id):
+            slug = slug[: -(len(listing_id) + 1)]
+
+    tokens = [t.strip().lower() for t in re.split(r"[-\.]", slug) if t.strip()]
+
+    city = ""
+    district = ""
+    prop_type = ""
+    status = ""
+    clean_words = []
+
+    for idx, t in enumerate(tokens):
+        if t in TURKISH_CITIES and not city:
+            city = TURKISH_CITIES[t]
+            if idx + 1 < len(tokens) and tokens[idx + 1] not in ["satilik", "kiralik", "daire", "bina", "villa", "arsa", "komple"]:
+                district = WORD_MAP.get(tokens[idx + 1], tokens[idx + 1].capitalize())
+        if t in ["satilik", "kiralik", "devren"] and not status:
+            status = WORD_MAP[t]
+        if t in ["bina", "daire", "villa", "arsa", "rezidans", "isyeri", "dukkan"] and not prop_type:
+            prop_type = WORD_MAP[t]
+            if "komple" in tokens and prop_type == "Bina":
+                prop_type = "Komple Bina"
+
+        if t not in ["emlak", "vasita", "vasıta"]:
+            clean_words.append(WORD_MAP.get(t, t.capitalize()))
+
+    loc_str = f"{city}, {district}".strip(", ") if city else "Ankara"
+    prefix = [p for p in [city, district] if p]
+    body = [WORD_MAP.get(t, t.capitalize()) for t in tokens if t not in TURKISH_CITIES and t != (district or "").lower() and t not in ["emlak", "vasita", "vasıta"]]
+    merged = prefix + [w for w in body if w not in prefix]
+    dedup = []
+    for w in merged:
+        if not dedup or dedup[-1] != w:
+            dedup.append(w)
+    title_str = " ".join(dedup) if dedup else (" ".join(clean_words) if clean_words else (f"Sahibinden Portföy İlanı #{listing_id}" if listing_id else "Gayrimenkul Portföy İlanı"))
 
     specs = {}
     if listing_id:
         specs["İlan No"] = listing_id
-    specs["Konum"] = "Ankara"
+    if loc_str:
+        specs["Konum"] = loc_str
+    if prop_type:
+        specs["Emlak Türü"] = prop_type
+    if status:
+        specs["İşlem"] = status
+    specs["Danışman"] = "Yiğit Narin"
 
-    desc = f"İlan No: {listing_id or 'Belirtilmedi'} — Portföy detayları, yer gösterimi ve yatırım analizi için Gayrimenkul ve Yatırım Danışmanınız Yiğit Narin (+90 532 451 40 08) ile iletişime geçebilirsiniz."
+    desc = f"İlan No: {listing_id or 'Belirtilmedi'} — {loc_str} bölgesindeki bu portföy için yer gösterimi, ekspertiz ve yatırım danışmanlığı: Gayrimenkul Danışmanınız Yiğit Narin (+90 532 451 40 08)."
 
     return {
         "ok": True,
         "source": "sahibinden_slug_fallback",
-        "title": title,
+        "title": title_str,
         "price": "",
-        "location": "Ankara",
+        "location": loc_str,
         "specs": specs,
         "description": desc,
         "images": [],
