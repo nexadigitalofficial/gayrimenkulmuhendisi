@@ -471,14 +471,14 @@
     "refId": "swarm_test_1",
     "platform_stats": [
       {
-        "calls": 18,
-        "favorites": 120,
-        "influence": 10,
+        "calls": 0,
+        "favorites": 0,
+        "influence": 0,
         "logo": "🟡",
-        "messages": 25,
+        "messages": 0,
         "platform": "SAHIBINDEN",
-        "views": 5000,
-        "score": 6625
+        "views": 0,
+        "score": 0
       }
     ],
     "buyers": [
