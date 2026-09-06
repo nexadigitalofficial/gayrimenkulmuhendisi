@@ -1698,6 +1698,9 @@
                 <button @click="activeView = 'my_listings'; loadMyListings();" :class="{ active: activeView === 'my_listings' }" class="sidebar-item" style="color: var(--gold);">
                     <i class="fas fa-crown" style="width:16px"></i> İlanlarım
                 </button>
+                <button @click="showUrlPdfModal = true" class="sidebar-item" style="color: #f59e0b; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); margin-top: 4px;">
+                    <i class="fas fa-magic" style="width:16px; color:#f59e0b;"></i> URL'den PDF Üret
+                </button>
 
             </nav>
 
@@ -1752,6 +1755,10 @@
                         </div>
                         <div class="header-metric-label">Hatırl.</div>
                     </div>
+                    <button @click="showUrlPdfModal = true" class="btn" style="background: linear-gradient(135deg, #d4af37, #f59e0b); color: #0d1117; font-weight: 700; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 10px rgba(212,175,55,0.25); display: inline-flex; align-items: center; gap: 6px; font-size: 12px;" title="URL'den Lüks Sunum PDF'i Üret">
+                        <i class="fas fa-file-pdf"></i>
+                        <span class="hidden sm:inline">URL'den PDF</span>
+                    </button>
                     <button @click="showMenu = !showMenu" class="btn btn-secondary" style="padding:6px 10px;" aria-label="Menü">
                         <i class="fas fa-ellipsis-v"></i>
                     </button>
@@ -1762,6 +1769,9 @@
             <transition>
                 <div v-if="showMenu" class="fixed inset-0 z-50 bg-black/50" @click="showMenu = false">
                     <div class="absolute top-16 right-4 glass-strong rounded-xl p-2 min-w-[200px] shadow-2xl" @click.stop style="border:1px solid var(--border-default)">
+                        <button @click="showUrlPdfModal = true; showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: #f59e0b; font-weight:600;">
+                            <i class="fas fa-file-pdf" style="color: #f59e0b"></i><span>URL'den Sunum PDF</span>
+                        </button>
                         <button @click="activeView = 'my_listings'; loadMyListings(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: var(--gold)">
                             <i class="fas fa-crown" style="color: var(--gold)"></i><span>Portföy İlanlarım</span>
                         </button>
@@ -3397,6 +3407,89 @@
             </div>
         </transition>
 
+        <!-- ═══════════════════ URL'DEN SUNUM PDF MODALI ═══════════════════ -->
+        <transition>
+            <div v-if="showUrlPdfModal" class="modal-backdrop flex items-center justify-center p-4" style="z-index: 9999;" @click.self="showUrlPdfModal = false">
+                <div class="modal-content glass-strong rounded-2xl p-6 shadow-2xl border border-yellow-500/30" style="max-width: 580px; width: 92%;" @click.stop>
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-lg shadow-md">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-base">URL'den Lüks Sunum PDF'i</h3>
+                                <p class="text-xs text-gray-400">Sahibinden, CB, HepsiEmlak veya Zingat İlanı</p>
+                            </div>
+                        </div>
+                        <button @click="showUrlPdfModal = false" class="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+
+                    <!-- Input Section -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1.5">
+                                <i class="fas fa-link text-yellow-400 mr-1.5"></i>İlan Web Adresi (URL)
+                            </label>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input v-model="urlPdfInput" type="url" placeholder="https://www.sahibinden.com/ilan/..." class="flex-1 bg-black/40 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-500" :disabled="urlPdfLoading" @keyup.enter="generateUrlPdf">
+                                <button @click="generateUrlPdf" class="btn justify-center" style="background: linear-gradient(135deg, #d4af37, #f59e0b); color: #0d1117; font-weight: 700; padding: 10px 18px; border-radius: 10px; box-shadow: 0 4px 15px rgba(212,175,55,0.35);" :disabled="urlPdfLoading || !urlPdfInput.trim()">
+                                    <i class="fas" :class="urlPdfLoading ? 'fa-spinner fa-spin' : 'fa-magic'"></i>
+                                    <span class="ml-1">{{ urlPdfLoading ? 'Üretiliyor...' : 'PDF Üret' }}</span>
+                                </button>
+                            </div>
+                            <p class="text-[11px] text-gray-400 mt-1.5 flex items-center gap-1.5">
+                                <i class="fas fa-shield-alt text-yellow-400/80"></i> 3 Kademeli dayanıklı scraper (Playwright &amp; PageSpeed API fallback) aktiftir.
+                            </p>
+                        </div>
+
+                        <!-- Error alert -->
+                        <div v-if="urlPdfError" class="p-3 rounded-xl bg-red-500/10 border border-red-500/25 text-red-400 text-xs flex items-center gap-2">
+                            <i class="fas fa-exclamation-circle text-base flex-shrink-0"></i>
+                            <span>{{ urlPdfError }}</span>
+                        </div>
+
+                        <!-- Loading indicator -->
+                        <div v-if="urlPdfLoading" class="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/25 text-yellow-300 text-xs flex items-center gap-3">
+                            <div class="w-6 h-6 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin flex-shrink-0"></div>
+                            <div>
+                                <p class="font-bold text-yellow-200">İlan taranıyor ve sunum PDF'i derleniyor...</p>
+                                <p class="text-[11px] text-gray-400 mt-0.5">Başlık, fiyat, fotoğraflar ve Yiğit Narin CB VIP marka kimliği işleniyor.</p>
+                            </div>
+                        </div>
+
+                        <!-- Result Card -->
+                        <div v-if="urlPdfResult && urlPdfResult.ok" class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 space-y-3">
+                            <div class="flex items-start gap-3">
+                                <img v-if="urlPdfResult.listing && urlPdfResult.listing.images && urlPdfResult.listing.images.length" :src="urlPdfResult.listing.images[0]" class="w-16 h-16 rounded-xl object-cover border border-white/10 flex-shrink-0" onerror="this.style.display='none'">
+                                <div class="flex-1 min-w-0">
+                                    <div class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                                        <i class="fas fa-check-circle"></i> Lüks Sunum PDF'i Hazır!
+                                    </div>
+                                    <h4 class="font-bold text-white text-sm truncate mt-1">{{ urlPdfResult.listing?.title || 'Gayrimenkul Sunumu' }}</h4>
+                                    <p class="text-xs text-yellow-400 font-semibold mt-0.5">{{ urlPdfResult.listing?.price }} <span class="text-gray-400 font-normal ml-2">{{ urlPdfResult.listing?.location }}</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/10">
+                                <a :href="urlPdfResult.share_url" target="_blank" class="btn btn-secondary text-center justify-center text-xs py-2 rounded-lg">
+                                    <i class="fas fa-eye"></i> İncele
+                                </a>
+                                <a :href="urlPdfResult.download_url" class="btn text-center justify-center text-xs py-2 rounded-lg" style="background: var(--brand); color: white;">
+                                    <i class="fas fa-download"></i> İndir
+                                </a>
+                                <a :href="getWhatsAppShareUrl(urlPdfResult)" target="_blank" class="btn text-center justify-center text-xs py-2 rounded-lg" style="background: #25D366; color: white;">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
         <!-- ═══════════════════ CONTACT DETAIL MODAL ═══════════════════ -->
         <transition>
             <div v-if="showContactModal" class="modal-backdrop" @click="closeContactModal">
@@ -4452,6 +4545,52 @@
             const showMenu = ref(false);
             const showContactModal = ref(false);
             const editingContact = ref({});
+
+            // ── URL'DEN SUNUM PDF ÜRETİCİ ──
+            const showUrlPdfModal = ref(false);
+            const urlPdfInput = ref('');
+            const urlPdfLoading = ref(false);
+            const urlPdfError = ref('');
+            const urlPdfResult = ref(null);
+
+            const generateUrlPdf = async () => {
+                const targetUrl = (urlPdfInput.value || '').trim();
+                if (!targetUrl) {
+                    urlPdfError.value = "Lütfen geçerli bir ilan bağlantısı girin.";
+                    return;
+                }
+                urlPdfLoading.value = true;
+                urlPdfError.value = '';
+                urlPdfResult.value = null;
+                try {
+                    const res = await fetch('/api/listing-pdf', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: targetUrl })
+                    });
+                    const data = await res.json();
+                    if (data && data.ok) {
+                        urlPdfResult.value = data;
+                        showToast("Lüks Sunum PDF'i başarıyla üretildi!", "fas fa-check-circle text-green-400");
+                    } else {
+                        urlPdfError.value = (data && data.error) ? data.error : "PDF üretilemedi.";
+                    }
+                } catch (e) {
+                    urlPdfError.value = "Bağlantı hatası: " + (e.message || String(e));
+                } finally {
+                    urlPdfLoading.value = false;
+                }
+            };
+
+            const getWhatsAppShareUrl = (result) => {
+                if (!result) return '#';
+                const title = (result.listing && result.listing.title) ? result.listing.title : 'Lüks Gayrimenkul Sunumu';
+                const price = (result.listing && result.listing.price) ? `\nFiyat: ${result.listing.price}` : '';
+                const loc = (result.listing && result.listing.location) ? `\nKonum: ${result.listing.location}` : '';
+                const link = window.location.origin + (result.share_url || '');
+                const msg = `*${title}*${price}${loc}\n\nDetaylı PDF Sunumu:\n${link}\n\nYiğit Narin | Coldwell Banker CB VIP Ankara\nTel: +90 532 451 40 08`;
+                return `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+            };
             const saving = ref(false);
             const toast = ref({ show: false, message: '', icon: '' });
             const draggedContact = ref(null);
@@ -7022,6 +7161,7 @@ ${comments}`;
             return {
                 user, uiLoading, authMode, authLoading, authError, email, password, displayName,
                 activeView, currentPipeline, contacts, myListings, loadMyListings, searchQuery, showMenu, showContactModal,
+                showUrlPdfModal, urlPdfInput, urlPdfLoading, urlPdfError, urlPdfResult, generateUrlPdf, getWhatsAppShareUrl,
                 editingContact, saving, toast, draggedContact,
                 leadPanelTab,
                 leadTab, leadSearch, leadSourceFilter, webLeads, newWebLeadCount,
