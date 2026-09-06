@@ -1,0 +1,1197 @@
+================================================================================
+GAYRİMENKUL MÜHENDİSİ / NEXA OS & CRM — TÜM KULLANICI İSTEMLERİ (PROMPTS)
+Konuşma Kimliği (Conversation ID): 33ef4218-6306-4942-903c-ff39b131f817
+Toplam İstem Sayısı: 44
+Dışa Aktarma Tarihi: 06.09.2026 12:52:05
+================================================================================
+
+--------------------------------------------------------------------------------
+İSTEM #01 | Tarih (UTC): 2026-08-08T04:16:42Z
+--------------------------------------------------------------------------------
+tasarım anlamında site.html i nasıl geliştirebiliriz bunu çok detaylı analiz et ve araştır ve dikmeni kaldır tüm ankara yapıcaz
+
+--------------------------------------------------------------------------------
+İSTEM #02 | Tarih (UTC): 2026-08-08T04:19:10Z
+--------------------------------------------------------------------------------
+ve bir agent günlük araştırma signal gather yapıcak ankara türkiye yatırım emlak ve güncel haberleri bizim bir site.html deki ve içine linkini koyacağımız ayıca bir sayfası da olan haber blog sayfamıza çekecek günlük çok gelişmiş bir arayüz bizim tasarım dilimize uygun hem site.html hemde kendi haber.html sayfasına uygula.
+
+--------------------------------------------------------------------------------
+İSTEM #03 | Tarih (UTC): 2026-08-08T04:21:05Z
+--------------------------------------------------------------------------------
+devam
+
+--------------------------------------------------------------------------------
+İSTEM #04 | Tarih (UTC): 2026-08-08T04:27:28Z
+--------------------------------------------------------------------------------
+onay
+
+--------------------------------------------------------------------------------
+İSTEM #05 | Tarih (UTC): 2026-08-08T04:48:06Z
+--------------------------------------------------------------------------------
+çalıştır
+
+--------------------------------------------------------------------------------
+İSTEM #06 | Tarih (UTC): 2026-08-08T04:50:04Z
+--------------------------------------------------------------------------------
+çalışıt
+
+--------------------------------------------------------------------------------
+İSTEM #07 | Tarih (UTC): 2026-08-08T04:52:06Z
+--------------------------------------------------------------------------------
+tasarımı nasıl geliştirebiliriz çok detaylı araştır analiz et site.html çok güzel sinematik görsel olarak tatmin edici akılda kaılıcı viral olmalı
+
+--------------------------------------------------------------------------------
+İSTEM #08 | Tarih (UTC): 2026-08-08T04:52:35Z
+--------------------------------------------------------------------------------
+onay
+
+--------------------------------------------------------------------------------
+İSTEM #09 | Tarih (UTC): 2026-08-08T05:04:35Z
+--------------------------------------------------------------------------------
+çalıştır
+
+--------------------------------------------------------------------------------
+İSTEM #10 | Tarih (UTC): 2026-08-08T05:04:46Z
+--------------------------------------------------------------------------------
+çalıştır
+
+--------------------------------------------------------------------------------
+İSTEM #11 | Tarih (UTC): 2026-08-10T18:06:54Z
+--------------------------------------------------------------------------------
+kodumuzun dosya konumu nerde
+
+--------------------------------------------------------------------------------
+İSTEM #12 | Tarih (UTC): 2026-08-10T18:07:24Z
+--------------------------------------------------------------------------------
+kodumuz dosya konumu n
+
+--------------------------------------------------------------------------------
+İSTEM #13 | Tarih (UTC): 2026-08-10T18:07:42Z
+--------------------------------------------------------------------------------
+githubı güncelledin mi
+
+--------------------------------------------------------------------------------
+İSTEM #14 | Tarih (UTC): 2026-08-10T18:09:50Z
+--------------------------------------------------------------------------------
+https://github.com/nexadigitalofficial/gayrimenkulmuhendisi    repo var güncelleme yap
+
+--------------------------------------------------------------------------------
+İSTEM #15 | Tarih (UTC): 2026-08-10T18:12:44Z
+--------------------------------------------------------------------------------
+site.html tasarımını nasıl geliştirebiliriz çok detaylı analiz et ve agentlar ata tasarım için ui ux
+
+--------------------------------------------------------------------------------
+İSTEM #16 | Tarih (UTC): 2026-08-10T18:15:12Z
+--------------------------------------------------------------------------------
+onay
+
+--------------------------------------------------------------------------------
+İSTEM #17 | Tarih (UTC): 2026-08-10T18:31:38Z
+--------------------------------------------------------------------------------
+ilk girişte arkası boş kalıyor oraya çok güzel bir resim bul
+
+--------------------------------------------------------------------------------
+İSTEM #18 | Tarih (UTC): 2026-08-10T18:39:51Z
+--------------------------------------------------------------------------------
+yüklenme ekranında dönen ilk yüklenme kısmı çok gelişmiş ve profesyonel olsun ve site.html de kurumsal tasarım dili kurumsal profesyonle
+
+--------------------------------------------------------------------------------
+İSTEM #19 | Tarih (UTC): 2026-08-10T18:45:46Z
+--------------------------------------------------------------------------------
+C:\Users\USER\Desktop\1 klasöründeki kodları benim için suzanne tenekecoglu değil de yiğit narin için transform ederek tabi koypasını oluşturup o kodu/kodları bozmadan bizim projeler kısmımıza koy lütfen yani projeler sayfamızı güncelle ve tabi harita üzerinde gösterme yeteneği de ekle .
+
+--------------------------------------------------------------------------------
+İSTEM #20 | Tarih (UTC): 2026-08-31T17:02:45Z
+--------------------------------------------------------------------------------
+bizim haberler mantığımız nasıl çalışıyor çok gelişmiş analiz et lütfen
+
+--------------------------------------------------------------------------------
+İSTEM #21 | Tarih (UTC): 2026-08-31T17:05:20Z
+--------------------------------------------------------------------------------
+güncel olarak günlük piyasa finans ekonomi ve emlak haberleri çekip post ediyor mu ve github ımız güncel mi bu şekilde mi "https://github.com/nexadigitalofficial/gayrimenkulmuhendisi"  ve ultra premium kurumsal haberler dashboard u , gerekiyorsa github cron job başlat , gerek yoksa sorun yok
+
+--------------------------------------------------------------------------------
+İSTEM #22 | Tarih (UTC): 2026-08-31T17:08:33Z
+--------------------------------------------------------------------------------
+/sunum   u bize uyarlanmış biçimde güncelleyerek  burdaki şekilde bunu çek github linki -> "https://github.com/nexadigitalofficial/suzannegit"  yani projelerimiz bize uyarlanmış şekilde böyle gözükecek bu mantık ve kod yapısı ile çalışacak bunu fork mantığı ile bizim güncellenmesi adapte edilmesi gereken yerler varsa uyarla , şuan tamamen iki devasa ekosistemi birleştiriyoruz
+
+--------------------------------------------------------------------------------
+İSTEM #23 | Tarih (UTC): 2026-08-31T17:14:00Z
+--------------------------------------------------------------------------------
+[Kullanıcı Onayı]: Planlama belgesi (implementation_plan.md) kullanıcı tarafından onaylandı.
+
+--------------------------------------------------------------------------------
+İSTEM #24 | Tarih (UTC): 2026-08-31T17:31:27Z
+--------------------------------------------------------------------------------
+ne yaptın
+
+--------------------------------------------------------------------------------
+İSTEM #25 | Tarih (UTC): 2026-08-31T17:33:05Z
+--------------------------------------------------------------------------------
+bu birleştirme zordu ,düzgün yaptığından emin misin ve cron job u da ekledin mi drive tarayan
+
+--------------------------------------------------------------------------------
+İSTEM #26 | Tarih (UTC): 2026-08-31T18:04:45Z
+--------------------------------------------------------------------------------
+ordaki görselleri de güncelle benim  görselimle sistemde illaki vardır ve açılış benim site html deki gibi olsun sunumdaki , ve , arayüz daha premium ve gelişmiş olsun sunumdakli , tasarım dili olarak
+
+--------------------------------------------------------------------------------
+İSTEM #27 | Tarih (UTC): 2026-08-31T18:08:40Z
+--------------------------------------------------------------------------------
+chatbotu da güncelle onun içindeki görseli ve , nexaprime olsun ismi
+
+--------------------------------------------------------------------------------
+İSTEM #28 | Tarih (UTC): 2026-08-31T18:10:40Z
+--------------------------------------------------------------------------------
+gayrimenkulmühendisinedki sunum un tasarım dilini daha ağır premium yap
+
+--------------------------------------------------------------------------------
+İSTEM #29 | Tarih (UTC): 2026-09-01T03:41:20Z
+--------------------------------------------------------------------------------
+crm de ilanlar var onun üstüne tıklayınca tüm detaylı bilgiler , chatbot , ve desktopdaki xlsx. Emlak_Platform_Karsilastirmasi tarzı panel olacak . ve ordan istatistikleri tutucaz , o ilanın üzerine tıklayınca bu dashboard açılacak . çok güzel tasarla bizim lead gibi chatbot olacak , tüm herşeyi geçmişi, alıcıları da bu portföyün burda ayrıca tutabileceğiz ve bunlar da alıcı lara entegre olacak sisteme kayıt olacak lead ler hemde bu portföye özel olacak.
+
+--------------------------------------------------------------------------------
+İSTEM #30 | Tarih (UTC): 2026-09-01T03:46:32Z
+--------------------------------------------------------------------------------
+[Kullanıcı Onayı]: Planlama belgesi (implementation_plan.md) kullanıcı tarafından onaylandı.
+
+--------------------------------------------------------------------------------
+İSTEM #31 | Tarih (UTC): 2026-09-01T03:55:11Z
+--------------------------------------------------------------------------------
+HERŞEY EKSİKSİZ ÇALIŞIYOR MU ÇOK KAPSAMLI ULTRA TEST ULTRA AGENT VE SWARM ORDUSU ATA
+
+--------------------------------------------------------------------------------
+İSTEM #32 | Tarih (UTC): 2026-09-01T04:01:27Z
+--------------------------------------------------------------------------------
+CRM DE CARD LARIN ÜSTÜNE BASINCA DASHBOARD AÇILMIYOR , BUTON EKLE
+
+--------------------------------------------------------------------------------
+İSTEM #33 | Tarih (UTC): 2026-09-01T04:06:44Z
+--------------------------------------------------------------------------------
+Siz
+Platform istatistiklerine göre fiyat analizi ve optimizasyon önerisi ver
+NexaPrime AI
+NexaPrime AI yanıt verirken bir bağlantı sorunu oluştu.
+Siz
+Bu portföy için en etkili pazarlık ve satış kapatma taktikleri nelerdir?
+NexaPrime AI
+NexaPrime AI yanıt verirken bir bağlantı sorunu oluştu
+
+--------------------------------------------------------------------------------
+İSTEM #34 | Tarih (UTC): 2026-09-01T04:08:11Z
+--------------------------------------------------------------------------------
+ULTRA KAPSAMLI BACKEND VE GÜVENLİK TESTİ AI CHATBOT HEPSİNİ
+
+--------------------------------------------------------------------------------
+İSTEM #35 | Tarih (UTC): 2026-09-01T04:16:45Z
+--------------------------------------------------------------------------------
+ULTRA KAPSAMLI FULL TEST YAP HERŞEY ÇALIŞIYOR MU MULTİ AGENT ORDUSU ATAMAK İÇİN MULTİ AGENT ORDUSU VE SWARMLARI KULLAN VE ULTRA KAPSAMLI SİSTEM ANALİZİ VE TESTİ VE EKSİKLER HATALAR BUGLAR EFFİCİENT OLMAYAN YERLERİ BUL VE GELİŞTİRME ÖNER
+
+--------------------------------------------------------------------------------
+İSTEM #36 | Tarih (UTC): 2026-09-01T04:18:41Z
+--------------------------------------------------------------------------------
+# 🧠 NEXA ULTRA SYSTEM AUDITOR
+
+## MULTI-AGENT SWARM / FULL-SPECTRUM SYSTEM AUDIT & AUTONOMOUS QA PROTOCOL
+
+### 🎯 ANA AMAÇ
+
+Sistemi yalnızca yüzeysel olarak test etme.
+
+Sistemin **tüm mimarisini, tüm modüllerini, tüm workflow'larını, tüm veri akışlarını, tüm entegrasyonlarını, tüm UI/UX katmanlarını, backend servislerini, API'lerini, veritabanını, agent orchestration yapısını, swarm davranışlarını, hata yönetimini, güvenlik katmanlarını ve performansını** uçtan uca analiz et.
+
+Amaç:
+
+> **“Çalışıyor mu?” sorusunu değil, “Üretim ortamında ne kadar güvenilir, dayanıklı, hızlı, ölçeklenebilir ve optimize?” sorusunu cevaplamak.**
+
+Hiçbir modül çalışıyor varsayılmayacak.
+
+Hiçbir fonksiyon yalnızca kodun varlığına bakılarak başarılı kabul edilmeyecek.
+
+**Kod ≠ çalışan sistem.**
+
+---
+
+# 1. ULTRA AUDIT MODE
+
+Aşağıdaki prensiplerle çalış:
+
+* Önce sistemi keşfet.
+* Sonra mimariyi çıkar.
+* Sonra bağımlılık grafiğini oluştur.
+* Sonra test planını oluştur.
+* Sonra multi-agent swarm ata.
+* Sonra gerçek testleri çalıştır.
+* Sonra hataları sınıflandır.
+* Sonra kök neden analizi yap.
+* Sonra darboğazları belirle.
+* Sonra optimizasyon öner.
+* Sonra regression test planı oluştur.
+* Son olarak sistemin genel sağlık skorunu hesapla.
+
+**Asla varsayım yapma.**
+
+Bir şey doğrulanamıyorsa:
+
+`UNKNOWN / NOT VERIFIED`
+
+olarak işaretle.
+
+---
+
+# 2. MULTI-AGENT AUDIT ARMY
+
+Sistemi tek agent ile analiz etme.
+
+Göreve uzmanlaşmış bağımsız agent ekipleri oluştur.
+
+## 🧠 ORCHESTRATOR AGENT
+
+Tüm swarm'ın komutanı.
+
+Görevleri:
+
+* görev dağıtımı
+* agent koordinasyonu
+* sonuç birleştirme
+* çelişkileri çözme
+* duplicate bulguları birleştirme
+* önceliklendirme
+* final rapor oluşturma
+
+---
+
+## 🏗️ ARCHITECTURE AGENTS
+
+Sistemin mimarisini analiz et.
+
+İncele:
+
+* frontend
+* backend
+* API
+* database
+* services
+* workers
+* queues
+* cache
+* storage
+* external integrations
+* authentication
+* authorization
+* agent layer
+* orchestration
+* configuration
+* deployment
+* infrastructure
+
+Şunları tespit et:
+
+* circular dependency
+* tight coupling
+* unnecessary abstraction
+* duplicated logic
+* architectural bottleneck
+* single point of failure
+* fragile dependency
+* scalability problem
+* maintainability problem
+
+---
+
+# 3. CODE QUALITY SWARM
+
+Kod tabanını modül modül incele.
+
+Kontrol:
+
+* syntax errors
+* runtime errors
+* logical bugs
+* unreachable code
+* dead code
+* duplicated code
+* inconsistent naming
+* bad abstractions
+* race conditions
+* state management problems
+* memory leaks
+* resource leaks
+* exception handling
+* silent failures
+* hard-coded values
+* magic numbers
+* fragile assumptions
+* unnecessary complexity
+
+Her bulgu için:
+
+`FILE → FUNCTION → LINE → PROBLEM → ROOT CAUSE → IMPACT → FIX`
+
+formatını kullan.
+
+---
+
+# 4. FUNCTIONAL TEST SWARM
+
+Her kritik fonksiyon için:
+
+### Happy Path
+
+Normal kullanım senaryosunu test et.
+
+### Edge Cases
+
+Test et:
+
+* empty input
+* null
+* missing fields
+* malformed input
+* huge input
+* duplicate input
+* unexpected types
+* Unicode
+* Turkish characters
+* special characters
+* boundary values
+
+### Failure Path
+
+Servis başarısız olduğunda sistem ne yapıyor?
+
+### Recovery Path
+
+Hata sonrası sistem kendini toparlayabiliyor mu?
+
+### Repeated Execution
+
+Aynı işlem tekrarlandığında:
+
+* duplicate oluşuyor mu?
+* state bozuluyor mu?
+* memory artıyor mu?
+* cache bozuluyor mu?
+
+---
+
+# 5. END-TO-END WORKFLOW SWARM
+
+Sistemin workflow'larını başlangıçtan sona kadar test et.
+
+Örneğin:
+
+`INPUT → PROCESSING → AGENT → DATABASE → API → UI → OUTPUT`
+
+Her aşamada:
+
+* veri kaybı
+* state corruption
+* timeout
+* race condition
+* incorrect transformation
+* unexpected mutation
+* silent failure
+
+ara.
+
+Sadece tek fonksiyonları değil:
+
+> **Gerçek kullanıcı yolculuğunu test et.**
+
+---
+
+# 6. MULTI-AGENT / SWARM STRESS TEST
+
+Agent sisteminin kendisini ayrıca test et.
+
+Kontrol:
+
+### Agent Coordination
+
+* Agent görevleri doğru dağıtılıyor mu?
+* Aynı görev iki agent'a gereksiz atanıyor mu?
+* Agent'lar birbirlerinin çıktısını doğru kullanıyor mu?
+* Deadlock oluşabilir mi?
+* Infinite loop oluşabilir mi?
+* Agent recursion oluşabilir mi?
+
+### Swarm Efficiency
+
+Ölç:
+
+* task completion rate
+* average task duration
+* token/tool usage
+* duplicate work
+* failed tasks
+* retry count
+* agent utilization
+* orchestration overhead
+
+### Failure Injection
+
+Kontrollü olarak:
+
+* agent failure
+* timeout
+* malformed response
+* tool failure
+* API failure
+* database failure
+* network failure
+
+simüle et.
+
+Sistemin graceful degradation davranışını ölç.
+
+---
+
+# 7. PERFORMANCE SWARM
+
+Performansı yalnızca “hızlı/yavaş” olarak değerlendirme.
+
+Ölç:
+
+* latency
+* throughput
+* CPU
+* RAM
+* disk I/O
+* network I/O
+* database latency
+* API latency
+* agent latency
+* queue latency
+* startup time
+* cold start
+* concurrent execution
+* cache hit ratio
+
+Şunları özellikle ara:
+
+### N+1 Queries
+
+### Unnecessary API Calls
+
+### Repeated Computation
+
+### Duplicate Agent Calls
+
+### Excessive Serialization
+
+### Excessive Database Reads
+
+### Blocking Operations
+
+### Synchronous Bottlenecks
+
+### Memory Growth
+
+### Inefficient Algorithms
+
+Her darboğaz için:
+
+`CURRENT → BOTTLENECK → OPTIMIZATION → EXPECTED GAIN`
+
+oluştur.
+
+---
+
+# 8. DATABASE AUDIT SWARM
+
+Database'i derinlemesine incele.
+
+Kontrol:
+
+* schema
+* indexes
+* foreign keys
+* constraints
+* query efficiency
+* duplicate records
+* orphan records
+* transaction safety
+* connection pooling
+* locking
+* race conditions
+* migrations
+* data consistency
+* normalization
+* unnecessary normalization
+* query plans
+
+Özellikle:
+
+> En pahalı ve en sık çalışan query'leri bul.
+
+---
+
+# 9. API AUDIT
+
+Tüm endpoint'leri keşfet.
+
+Her endpoint için:
+
+* request validation
+* response validation
+* authentication
+* authorization
+* error handling
+* timeout
+* retry
+* idempotency
+* rate limiting
+* pagination
+* caching
+* logging
+* performance
+
+testleri gerçekleştir.
+
+Endpoint matrix oluştur:
+
+| Endpoint | Status | Functional | Security | Performance | Reliability |
+| -------- | ------ | ---------- | -------- | ----------- | ----------- |
+
+---
+
+# 10. SECURITY RED-TEAM SWARM
+
+Sistemi savunmacı bir güvenlik denetimi kapsamında red-team perspektifiyle incele.
+
+Ara:
+
+* authentication weaknesses
+* authorization flaws
+* insecure defaults
+* exposed secrets
+* sensitive data leakage
+* unsafe input handling
+* injection risks
+* insecure file handling
+* dependency vulnerabilities
+* excessive permissions
+* insecure API behavior
+* session problems
+* logging sensitive data
+
+Gerçek saldırı gerçekleştirme.
+
+Yalnızca:
+
+> **zafiyetleri tespit et, kanıtla, riskini sınıflandır ve güvenli remediation öner.**
+
+---
+
+# 11. FRONTEND / UI / UX SWARM
+
+Frontend'i test et.
+
+Kontrol:
+
+* broken interactions
+* console errors
+* network errors
+* loading states
+* empty states
+* error states
+* responsive behavior
+* mobile
+* desktop
+* accessibility
+* visual consistency
+* layout overflow
+* broken links
+* race conditions
+* state synchronization
+
+UI yalnızca “güzel” değil:
+
+> **functional + reliable + performant + accessible**
+
+olmalı.
+
+---
+
+# 12. INTEGRATION SWARM
+
+Tüm external/internal integration'ları tespit et.
+
+Örneğin:
+
+`API → SERVICE → DATABASE → THIRD PARTY → RESPONSE`
+
+Her entegrasyon için:
+
+* timeout
+* retry
+* fallback
+* authentication
+* rate limit
+* schema mismatch
+* version mismatch
+* network failure
+* dependency outage
+
+test et.
+
+---
+
+# 13. RELIABILITY / CHAOS TESTING
+
+Kontrollü failure injection uygula.
+
+Test senaryoları:
+
+* database unavailable
+* API unavailable
+* agent unavailable
+* slow API
+* malformed response
+* timeout
+* network interruption
+* partial failure
+* corrupted state
+* missing configuration
+
+Ölç:
+
+`MTTR`
+`Failure Recovery`
+`Data Integrity`
+`Graceful Degradation`
+
+---
+
+# 14. OBSERVABILITY AUDIT
+
+Sistem gerçekten gözlemlenebilir mi?
+
+Kontrol:
+
+* structured logs
+* error logs
+* metrics
+* tracing
+* correlation IDs
+* request IDs
+* agent IDs
+* task IDs
+* performance metrics
+* health checks
+* alerts
+
+Şu soruyu cevapla:
+
+> “Sistem bozulduğunda neden bozulduğunu 5 dakika içinde anlayabilir miyiz?”
+
+Cevap hayırsa observability gap oluştur.
+
+---
+
+# 15. TEST COVERAGE AUDIT
+
+Mevcut testleri keşfet.
+
+Analiz et:
+
+* unit tests
+* integration tests
+* E2E tests
+* regression tests
+* smoke tests
+* load tests
+* security tests
+
+Coverage yalnızca yüzde olarak raporlanmasın.
+
+Önemli olan:
+
+> **Critical Path Coverage**
+
+olsun.
+
+---
+
+# 16. BUG DISCOVERY ENGINE
+
+Her bug'ı şu formatta sınıflandır:
+
+### P0 — CRITICAL
+
+Sistemi kullanılmaz hale getiriyor.
+
+### P1 — HIGH
+
+Kritik fonksiyonu ciddi şekilde bozuyor.
+
+### P2 — MEDIUM
+
+Önemli fakat workaround mevcut.
+
+### P3 — LOW
+
+Küçük problem.
+
+### P4 — COSMETIC
+
+Görsel / minor improvement.
+
+Her bug:
+
+`ID`
+`SEVERITY`
+`COMPONENT`
+`REPRODUCTION`
+`EXPECTED`
+`ACTUAL`
+`ROOT CAUSE`
+`IMPACT`
+`RECOMMENDED FIX`
+
+formatında raporlansın.
+
+---
+
+# 17. ROOT CAUSE ANALYSIS
+
+Aynı semptomdan kaynaklanan 20 bug varsa 20 ayrı problem gibi raporlama.
+
+Önce:
+
+`SYMPTOM CLUSTER`
+
+oluştur.
+
+Ardından:
+
+`ROOT CAUSE`
+
+bul.
+
+Örneğin:
+
+10 farklı API hatası
+
+↓
+
+aynı timeout configuration
+
+↓
+
+tek root cause.
+
+---
+
+# 18. EFFICIENCY OPTIMIZATION ENGINE
+
+Sistemin:
+
+* gereksiz kodlarını
+* gereksiz agent çağrılarını
+* gereksiz API çağrılarını
+* gereksiz DB sorgularını
+* gereksiz computation'ları
+* gereksiz retry'ları
+* gereksiz serialization'ları
+* gereksiz state mutation'larını
+
+tespit et.
+
+Her öneriyi:
+
+`COST → BENEFIT → COMPLEXITY → RISK → PRIORITY`
+
+ile değerlendir.
+
+---
+
+# 19. SELF-HEALING ANALYSIS
+
+Sistemin hangi hataları otomatik olarak çözebileceğini belirle.
+
+Öner:
+
+* automatic retry
+* exponential backoff
+* circuit breaker
+* fallback
+* health recovery
+* dead-letter queue
+* cache invalidation
+* automatic rollback
+* agent reassignment
+* task checkpointing
+
+Ancak:
+
+**Otomatik düzeltme hiçbir zaman veri kaybı veya güvenlik riski yaratmamalı.**
+
+---
+
+# 20. REDUNDANCY ANALYSIS
+
+Sistemde aynı işi yapan:
+
+* agent
+* function
+* service
+* API
+* query
+* workflow
+
+var mı?
+
+Bul.
+
+Sonra:
+
+`DUPLICATE → WHY EXISTS → CAN MERGE? → RECOMMENDATION`
+
+raporla.
+
+---
+
+# 21. ARCHITECTURE EVOLUTION
+
+Mevcut sistem ile ideal sistem arasında fark analizi yap.
+
+### CURRENT ARCHITECTURE
+
+↓
+
+### BOTTLENECKS
+
+↓
+
+### TARGET ARCHITECTURE
+
+↓
+
+### MIGRATION PATH
+
+Önerileri:
+
+* Quick Wins
+* Medium-Term
+* Strategic
+* Architectural
+
+olarak ayır.
+
+---
+
+# 22. AUTONOMOUS TEST LOOP
+
+İlk test turundan sonra durma.
+
+Şu döngüyü uygula:
+
+`DISCOVER
+→ TEST
+→ FIND BUG
+→ ROOT CAUSE
+→ FIX PROPOSAL
+→ RETEST
+→ REGRESSION
+→ REASSESS`
+
+Bir hata düzeltme önerisinin başka bir sistemi bozma ihtimalini de analiz et.
+
+---
+
+# 23. AGENT CROSS-VALIDATION
+
+Kritik bulguları mümkünse birden fazla bağımsız agent ile doğrula.
+
+Eğer:
+
+Agent A → Bug bulundu
+
+Agent B → Bug doğrulandı
+
+Agent C → Root cause farklı
+
+ise:
+
+**CONFLICT RESOLUTION**
+
+başlat.
+
+Final rapora yalnızca güven seviyesi belirlenmiş bulguları koy.
+
+---
+
+# 24. FALSE POSITIVE FILTER
+
+Her bulgu otomatik olarak bug kabul edilmesin.
+
+Her bulgu için:
+
+`CONFIRMED`
+`PROBABLE`
+`POSSIBLE`
+`UNVERIFIED`
+
+durumu ata.
+
+False-positive oranını minimize et.
+
+---
+
+# 25. SYSTEM HEALTH SCORE
+
+Sonunda aşağıdaki skorları üret:
+
+```text
+FUNCTIONALITY       /100
+RELIABILITY         /100
+PERFORMANCE         /100
+SECURITY            /100
+SCALABILITY         /100
+CODE QUALITY        /100
+ARCHITECTURE        /100
+DATABASE            /100
+API                 /100
+FRONTEND            /100
+OBSERVABILITY       /100
+TEST COVERAGE       /100
+AGENT ORCHESTRATION /100
+SWARM EFFICIENCY    /100
+```
+
+Sonra:
+
+### GLOBAL SYSTEM HEALTH SCORE
+
+hesapla.
+
+Skorun nasıl hesaplandığını açıkça belirt.
+
+---
+
+# 26. CRITICAL PATH MAP
+
+Sistemin en kritik workflow'larını belirle.
+
+Örneğin:
+
+`USER
+ ↓
+FRONTEND
+ ↓
+API
+ ↓
+ORCHESTRATOR
+ ↓
+AGENT SWARM
+ ↓
+SERVICE
+ ↓
+DATABASE
+ ↓
+RESPONSE
+ ↓
+USER`
+
+Her node için:
+
+* dependency
+* failure probability
+* latency
+* criticality
+* recovery strategy
+
+belirle.
+
+---
+
+# 27. PRIORITY MATRIX
+
+Sonuçları:
+
+### 🔴 FIX NOW
+
+Sistemi ciddi şekilde etkileyen problemler.
+
+### 🟠 FIX NEXT
+
+Performans / güvenilirlik problemleri.
+
+### 🟡 OPTIMIZE
+
+Verimlilik geliştirmeleri.
+
+### 🟢 POLISH
+
+UX / maintainability / cosmetic iyileştirmeler.
+
+olarak grupla.
+
+---
+
+# 28. FINAL EXECUTIVE REPORT
+
+Raporun sonunda mutlaka şu bölümler olsun:
+
+## EXECUTIVE SUMMARY
+
+Sistemin genel durumu.
+
+## TOP 10 CRITICAL FINDINGS
+
+En önemli 10 problem.
+
+## TOP 10 PERFORMANCE BOTTLENECKS
+
+En büyük darboğazlar.
+
+## TOP 10 ARCHITECTURAL IMPROVEMENTS
+
+En yüksek değer sağlayacak mimari geliştirmeler.
+
+## TOP 10 SECURITY RISKS
+
+En önemli güvenlik riskleri.
+
+## TOP 10 QUICK WINS
+
+En düşük efor / en yüksek fayda geliştirmeleri.
+
+## TECHNICAL DEBT MAP
+
+Biriken teknik borç.
+
+## AGENT/SWARM HEALTH
+
+Multi-agent sisteminin sağlık raporu.
+
+## SYSTEM SCORECARD
+
+Tüm skorlar.
+
+## PRIORITIZED ROADMAP
+
+`0–24 HOURS`
+`1–7 DAYS`
+`1–4 WEEKS`
+`1–3 MONTHS`
+
+---
+
+# 29. ABSOLUTE RULES
+
+1. Hiçbir şeyi çalışıyor varsayma.
+2. Hiçbir şeyi bozuk varsayma.
+3. Kanıt olmadan bug yazma.
+4. Kodun varlığını functionality kanıtı kabul etme.
+5. Kritik bulguları çapraz doğrula.
+6. False-positive üretimini minimize et.
+7. Aynı root cause'u tekrar tekrar raporlama.
+8. Performansı ölçmeden “optimize edildi” deme.
+9. Güvenliği yalnızca checklist ile değerlendirme.
+10. Agent sayısını artırmayı otomatik olarak daha iyi kabul etme.
+11. Gereksiz agent orchestration overhead'ini tespit et.
+12. Her önerinin maliyet/fayda analizini yap.
+13. Regression riskini değerlendir.
+14. Data integrity'yi her şeyin üzerinde tut.
+15. Sistem davranışını gerçek workflow üzerinden doğrula.
+16. Kritik bilinmeyenleri `UNKNOWN / NOT VERIFIED` olarak işaretle.
+17. Eksik testleri ayrıca raporla.
+18. Sistemin kendisini test eden test mekanizmasının güvenilirliğini de test et.
+19. Mümkün olan her yerde otomasyon kullan.
+20. Nihai hedef sadece bug bulmak değil:
+
+> **DAHA GÜVENİLİR + DAHA HIZLI + DAHA GÜVENLİ + DAHA ÖLÇÜLEBİLİR + DAHA ÖLÇEKLENEBİLİR + DAHA VERİMLİ BİR SİSTEM TASARLAMAKTIR.**
+
+---
+
+# 🏁 FINAL COMMAND
+
+Şimdi sistemi baştan sona keşfet.
+
+Tüm repository'yi ve mevcut mimariyi analiz et.
+
+Gerekli multi-agent audit ordusunu oluştur.
+
+Agent'ları uzmanlıklarına göre görevlendir.
+
+Testleri paralel ve kontrollü şekilde yürüt.
+
+Bulguları çapraz doğrula.
+
+Root-cause analysis gerçekleştir.
+
+Bug, vulnerability, bottleneck, redundancy, technical debt ve architectural weakness'leri çıkar.
+
+Ardından sistemin:
+
+**NE ÇALIŞIYOR?
+NE ÇALIŞMIYOR?
+NEDEN ÇALIŞMIYOR?
+NEYİ KAÇIRIYORUZ?
+NERESİ YAVAŞ?
+NERESİ GÜVENSİZ?
+NERESİ GEREKSİZ KARMAŞIK?
+NERESİ ÖLÇEKLENEMEZ?
+NERESİ OPTİMİZE EDİLEBİLİR?
+NE NASIL GELİŞTİRİLMELİ?**
+
+sorularının tamamına cevap ver.
+
+Sonuçları kanıta dayalı, önceliklendirilmiş ve uygulanabilir şekilde raporla.
+
+**TEST ET → DOĞRULA → SINIFLANDIR → KÖK NEDENİ BUL → OPTİMİZE ET → REGRESSION TEST → TEKRAR DEĞERLENDİR.**
+
+### FINAL OUTPUT:
+
+`ULTRA SYSTEM AUDIT REPORT`
+
+ve
+
+`PRIORITIZED ENGINEERING ROADMAP`
+
+üret.
+
+--------------------------------------------------------------------------------
+İSTEM #37 | Tarih (UTC): 2026-09-01T05:05:50Z
+--------------------------------------------------------------------------------
+DEVAM
+
+--------------------------------------------------------------------------------
+İSTEM #38 | Tarih (UTC): 2026-09-06T08:24:23Z
+--------------------------------------------------------------------------------
+Eee, bizim oradaki sahibinden çekme mantığıyla mesela sahibinden, eee, bir, eee, ilan, eee, URL'si atacağım. Onu işte tüm görsellerini ve açıklamasını çekip, eee, Yiğit Narin işte benim iletişim bilgilerimin olduğu bir, eee, sunum dosyasına çeviren bir özellik de ekle. Bu, eee, bizim hani portal var ya şey portalı, orada portal gibi Nexa OS'e dön diye bir yer var ya. Onun içine böyle bir şey ekle. URL at ve sunum dosyası oluştur, eee, diye bir bölüm olsun. Bunun çalışma mantığı da zaten bizim halihazırdaki çekme mantığımız olacak ve onu, eee, bir de şey ekleyeceksin. Güzel bir görselleri ekleyeceksin. Eee, ondan sonra işte bunun sunum dosyalarını ekle, yani işte açıklamalarını ekleyeceksin. Benim iletişim bilgilerim olacak. Yiğit Narin Gayrimenkul ve Yatırım Danışmanınız. Eee, bir de işte şey, eee, orada benim görselimi koyacaksın. Sunum dosyasını bu şekilde verilen URL'den otomatik oluşturulacak. Yani kodları detaylı incele. Bunun nasıl yapılacağını zaten kodların içinde anlarsın. Ekleyeceğin burada yani görsellik olarak ve benim görselimi ekleyeceksin. Yani bir, eee, PDF dosya oluşturucu ve bunun paylaşma linkini de oluştur, eee, paylaşabileyim ben sanal şekilde. Onu da ekleyelim lütfen.
+
+--------------------------------------------------------------------------------
+İSTEM #39 | Tarih (UTC): 2026-09-06T08:43:27Z
+--------------------------------------------------------------------------------
+site da style da çok büyük sorun var render olmuyor static html gibi çıkıyor kontrol et ve düzelt
+
+--------------------------------------------------------------------------------
+İSTEM #40 | Tarih (UTC): 2026-09-06T08:46:51Z
+--------------------------------------------------------------------------------
+devam ety
+
+--------------------------------------------------------------------------------
+İSTEM #41 | Tarih (UTC): 2026-09-06T09:01:52Z
+--------------------------------------------------------------------------------
+[Eklenen Görsel(ler)]: C:/Users/USER/.gemini/antigravity/brain/33ef4218-6306-4942-903c-ff39b131f817/.user_uploaded/media_1788685311315.png
+
+❌ Bağlantı hatası: Unexpected token '<', "<!doctype "... is not valid JSON
+
+--------------------------------------------------------------------------------
+İSTEM #42 | Tarih (UTC): 2026-09-06T09:03:29Z
+--------------------------------------------------------------------------------
+operasyon  & istatistik dashboard da tüm hepsi 0 da n başlasın ben arttırarak gideyim bu şekilde olsun
+
+--------------------------------------------------------------------------------
+İSTEM #43 | Tarih (UTC): 2026-09-06T09:35:15Z
+--------------------------------------------------------------------------------
+sahibinden scraper mantığı ile çalışacak url scrape ordan o mantık ile çalışacak önce bunu hallet sonra crm imiz mobile e full uyumlu olacak bunu hallet lütfen eksiksiz biçimde . cb scraper mantığı değil sahibinden scraper mantığı bizim koıdlarımızda var ordan bakabilirsin
+
+--------------------------------------------------------------------------------
+İSTEM #44 | Tarih (UTC): 2026-09-06T09:40:00Z
+--------------------------------------------------------------------------------
+bu konuşmadaki verdiğim tüm istemleri masaüstüne txt ye oluştr ve aynı zamanda githuba da push et bu txt
