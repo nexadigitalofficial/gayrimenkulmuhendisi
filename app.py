@@ -14039,12 +14039,12 @@ def _save_listing_dashboards(data):
             raise
 
 DEFAULT_PLATFORMS = [
-    {"platform": "SAHIBINDEN", "logo": "🟡", "views": 1450, "favorites": 48, "messages": 12, "calls": 9, "influence": 9, "score": 2100},
-    {"platform": "HEPSIEMLAK", "logo": "🔴", "views": 980, "favorites": 29, "messages": 7, "calls": 5, "influence": 8, "score": 1450},
-    {"platform": "EMLAKJET", "logo": "🟣", "views": 620, "favorites": 18, "messages": 4, "calls": 3, "influence": 7, "score": 980},
-    {"platform": "COLDWELL BANKER", "logo": "🔵", "views": 840, "favorites": 35, "messages": 11, "calls": 8, "influence": 9, "score": 1620},
-    {"platform": "BRANDA / AFİŞ", "logo": "🟠", "views": 450, "favorites": 12, "messages": 8, "calls": 14, "influence": 8, "score": 1150},
-    {"platform": "SOSYAL MEDYA & AD", "logo": "🟢", "views": 2300, "favorites": 64, "messages": 19, "calls": 11, "influence": 9, "score": 3200}
+    {"platform": "SAHIBINDEN", "logo": "🟡", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0},
+    {"platform": "HEPSIEMLAK", "logo": "🔴", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0},
+    {"platform": "EMLAKJET", "logo": "🟣", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0},
+    {"platform": "COLDWELL BANKER", "logo": "🔵", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0},
+    {"platform": "BRANDA / AFİŞ", "logo": "🟠", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0},
+    {"platform": "SOSYAL MEDYA & AD", "logo": "🟢", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0}
 ]
 
 @app.route("/api/portfolio/listing/<path:ref_id>/dashboard", methods=["GET"])
@@ -14097,7 +14097,7 @@ def save_portfolio_platform_stats(ref_id):
             f = _to_safe_int(st.get("favorites"), 0)
             m = _to_safe_int(st.get("messages"), 0)
             c = _to_safe_int(st.get("calls"), 0)
-            inf = _to_safe_int(st.get("influence"), 5)
+            inf = _to_safe_int(st.get("influence"), 0)
             # Weighted formula
             score = (v * 1) + (f * 5) + (m * 15) + (c * 25) + (inf * 20)
             st["score"] = score

@@ -5,62 +5,62 @@
       {
         "platform": "SAHIBINDEN",
         "logo": "🟡",
-        "views": 1450,
-        "favorites": 48,
-        "messages": 12,
-        "calls": 9,
-        "influence": 9,
-        "score": 2100
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "HEPSIEMLAK",
         "logo": "🔴",
-        "views": 980,
-        "favorites": 29,
-        "messages": 7,
-        "calls": 5,
-        "influence": 8,
-        "score": 1450
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "EMLAKJET",
         "logo": "🟣",
-        "views": 620,
-        "favorites": 18,
-        "messages": 4,
-        "calls": 3,
-        "influence": 7,
-        "score": 980
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "COLDWELL BANKER",
         "logo": "🔵",
-        "views": 840,
-        "favorites": 35,
-        "messages": 11,
-        "calls": 8,
-        "influence": 9,
-        "score": 1620
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "BRANDA / AFİŞ",
         "logo": "🟠",
-        "views": 450,
-        "favorites": 12,
-        "messages": 8,
-        "calls": 14,
-        "influence": 8,
-        "score": 1150
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "SOSYAL MEDYA & AD",
         "logo": "🟢",
-        "views": 2300,
-        "favorites": 64,
-        "messages": 19,
-        "calls": 11,
-        "influence": 9,
-        "score": 3200
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       }
     ],
     "buyers": [
@@ -397,62 +397,62 @@
       {
         "platform": "SAHIBINDEN",
         "logo": "🟡",
-        "views": 1450,
-        "favorites": 48,
-        "messages": 12,
-        "calls": 9,
-        "influence": 9,
-        "score": 2100
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "HEPSIEMLAK",
         "logo": "🔴",
-        "views": 980,
-        "favorites": 29,
-        "messages": 7,
-        "calls": 5,
-        "influence": 8,
-        "score": 1450
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "EMLAKJET",
         "logo": "🟣",
-        "views": 620,
-        "favorites": 18,
-        "messages": 4,
-        "calls": 3,
-        "influence": 7,
-        "score": 980
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "COLDWELL BANKER",
         "logo": "🔵",
-        "views": 840,
-        "favorites": 35,
-        "messages": 11,
-        "calls": 8,
-        "influence": 9,
-        "score": 1620
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "BRANDA / AFİŞ",
         "logo": "🟠",
-        "views": 450,
-        "favorites": 12,
-        "messages": 8,
-        "calls": 14,
-        "influence": 8,
-        "score": 1150
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "SOSYAL MEDYA & AD",
         "logo": "🟢",
-        "views": 2300,
-        "favorites": 64,
-        "messages": 19,
-        "calls": 11,
-        "influence": 9,
-        "score": 3200
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       }
     ],
     "buyers": [],
@@ -482,6 +482,50 @@
       }
     ],
     "buyers": [
+      {
+        "id": "b_1788686171_250",
+        "refId": "swarm_test_1",
+        "name": "Kaan Demir",
+        "phone": "05321112233",
+        "offer": "16.250.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Swarm test alıcısı",
+        "listingTitle": "Çankaya Lüks Daire",
+        "createdAt": "06.09.2026 12:16"
+      },
+      {
+        "id": "b_1788685939_889",
+        "refId": "swarm_test_1",
+        "name": "Kaan Demir",
+        "phone": "05321112233",
+        "offer": "16.250.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Swarm test alıcısı",
+        "listingTitle": "Çankaya Lüks Daire",
+        "createdAt": "06.09.2026 12:12"
+      },
+      {
+        "id": "b_1788684533_585",
+        "refId": "swarm_test_1",
+        "name": "Kaan Demir",
+        "phone": "05321112233",
+        "offer": "16.250.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Swarm test alıcısı",
+        "listingTitle": "Çankaya Lüks Daire",
+        "createdAt": "06.09.2026 11:48"
+      },
+      {
+        "id": "b_1788239453_450",
+        "refId": "swarm_test_1",
+        "name": "Kaan Demir",
+        "phone": "05321112233",
+        "offer": "16.250.000 TL",
+        "stage": "Teklif Verildi",
+        "note": "Swarm test alıcısı",
+        "listingTitle": "Çankaya Lüks Daire",
+        "createdAt": "01.09.2026 08:10"
+      },
       {
         "id": "b_1788239284_876",
         "refId": "swarm_test_1",
@@ -517,6 +561,70 @@
       }
     ],
     "timeline": [
+      {
+        "id": "t_1788686171",
+        "type": "note",
+        "title": "Swarm Test İncelemesi",
+        "note": "Tüm sistemler aktif ve sağlıklı.",
+        "date": "06.09.2026 12:16",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788686171",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Kaan Demir",
+        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
+        "date": "06.09.2026 12:16",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788685939",
+        "type": "note",
+        "title": "Swarm Test İncelemesi",
+        "note": "Tüm sistemler aktif ve sağlıklı.",
+        "date": "06.09.2026 12:12",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788685939",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Kaan Demir",
+        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
+        "date": "06.09.2026 12:12",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788684533",
+        "type": "note",
+        "title": "Swarm Test İncelemesi",
+        "note": "Tüm sistemler aktif ve sağlıklı.",
+        "date": "06.09.2026 11:48",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788684533",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Kaan Demir",
+        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
+        "date": "06.09.2026 11:48",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788239453",
+        "type": "note",
+        "title": "Swarm Test İncelemesi",
+        "note": "Tüm sistemler aktif ve sağlıklı.",
+        "date": "01.09.2026 08:10",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1788239453",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Kaan Demir",
+        "note": "Teklif: 16.250.000 TL | Aşama: Teklif Verildi",
+        "date": "01.09.2026 08:10",
+        "author": "Yiğit Narin"
+      },
       {
         "id": "t_1788239285",
         "type": "note",
@@ -574,7 +682,7 @@
         "author": "Yiğit Narin"
       }
     ],
-    "updatedAt": "2026-09-01T08:08:04.988896"
+    "updatedAt": "2026-09-06T12:16:11.935485"
   },
   "../../../../etc/passwd": {
     "refId": "../../../../etc/passwd",
@@ -582,62 +690,62 @@
       {
         "platform": "SAHIBINDEN",
         "logo": "🟡",
-        "views": 1450,
-        "favorites": 48,
-        "messages": 12,
-        "calls": 9,
-        "influence": 9,
-        "score": 2100
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "HEPSIEMLAK",
         "logo": "🔴",
-        "views": 980,
-        "favorites": 29,
-        "messages": 7,
-        "calls": 5,
-        "influence": 8,
-        "score": 1450
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "EMLAKJET",
         "logo": "🟣",
-        "views": 620,
-        "favorites": 18,
-        "messages": 4,
-        "calls": 3,
-        "influence": 7,
-        "score": 980
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "COLDWELL BANKER",
         "logo": "🔵",
-        "views": 840,
-        "favorites": 35,
-        "messages": 11,
-        "calls": 8,
-        "influence": 9,
-        "score": 1620
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "BRANDA / AFİŞ",
         "logo": "🟠",
-        "views": 450,
-        "favorites": 12,
-        "messages": 8,
-        "calls": 14,
-        "influence": 8,
-        "score": 1150
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "SOSYAL MEDYA & AD",
         "logo": "🟢",
-        "views": 2300,
-        "favorites": 64,
-        "messages": 19,
-        "calls": 11,
-        "influence": 9,
-        "score": 3200
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       }
     ],
     "buyers": [],
@@ -658,62 +766,62 @@
       {
         "platform": "SAHIBINDEN",
         "logo": "🟡",
-        "views": 1450,
-        "favorites": 48,
-        "messages": 12,
-        "calls": 9,
-        "influence": 9,
-        "score": 2100
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "HEPSIEMLAK",
         "logo": "🔴",
-        "views": 980,
-        "favorites": 29,
-        "messages": 7,
-        "calls": 5,
-        "influence": 8,
-        "score": 1450
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "EMLAKJET",
         "logo": "🟣",
-        "views": 620,
-        "favorites": 18,
-        "messages": 4,
-        "calls": 3,
-        "influence": 7,
-        "score": 980
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "COLDWELL BANKER",
         "logo": "🔵",
-        "views": 840,
-        "favorites": 35,
-        "messages": 11,
-        "calls": 8,
-        "influence": 9,
-        "score": 1620
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "BRANDA / AFİŞ",
         "logo": "🟠",
-        "views": 450,
-        "favorites": 12,
-        "messages": 8,
-        "calls": 14,
-        "influence": 8,
-        "score": 1150
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "SOSYAL MEDYA & AD",
         "logo": "🟢",
-        "views": 2300,
-        "favorites": 64,
-        "messages": 19,
-        "calls": 11,
-        "influence": 9,
-        "score": 3200
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       }
     ],
     "buyers": [],
@@ -734,62 +842,62 @@
       {
         "platform": "SAHIBINDEN",
         "logo": "🟡",
-        "views": 1450,
-        "favorites": 48,
-        "messages": 12,
-        "calls": 9,
-        "influence": 9,
-        "score": 2100
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "HEPSIEMLAK",
         "logo": "🔴",
-        "views": 980,
-        "favorites": 29,
-        "messages": 7,
-        "calls": 5,
-        "influence": 8,
-        "score": 1450
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "EMLAKJET",
         "logo": "🟣",
-        "views": 620,
-        "favorites": 18,
-        "messages": 4,
-        "calls": 3,
-        "influence": 7,
-        "score": 980
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "COLDWELL BANKER",
         "logo": "🔵",
-        "views": 840,
-        "favorites": 35,
-        "messages": 11,
-        "calls": 8,
-        "influence": 9,
-        "score": 1620
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "BRANDA / AFİŞ",
         "logo": "🟠",
-        "views": 450,
-        "favorites": 12,
-        "messages": 8,
-        "calls": 14,
-        "influence": 8,
-        "score": 1150
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "SOSYAL MEDYA & AD",
         "logo": "🟢",
-        "views": 2300,
-        "favorites": 64,
-        "messages": 19,
-        "calls": 11,
-        "influence": 9,
-        "score": 3200
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       }
     ],
     "buyers": [],
@@ -808,13 +916,13 @@
     "refId": "sec_test_unit",
     "platform_stats": [
       {
-        "calls": "1000000000000000000000000000000000000",
-        "favorites": null,
-        "influence": "invalid",
-        "messages": -999,
+        "calls": 0,
+        "favorites": 0,
+        "influence": 0,
+        "messages": 0,
         "platform": "SAHIBINDEN",
-        "views": "not_a_number",
-        "score": 25000000000000001060515934350449034715
+        "views": 0,
+        "score": 0
       }
     ],
     "buyers": [
@@ -892,62 +1000,62 @@
       {
         "platform": "SAHIBINDEN",
         "logo": "🟡",
-        "views": 1450,
-        "favorites": 48,
-        "messages": 12,
-        "calls": 9,
-        "influence": 9,
-        "score": 2100
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "HEPSIEMLAK",
         "logo": "🔴",
-        "views": 980,
-        "favorites": 29,
-        "messages": 7,
-        "calls": 5,
-        "influence": 8,
-        "score": 1450
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "EMLAKJET",
         "logo": "🟣",
-        "views": 620,
-        "favorites": 18,
-        "messages": 4,
-        "calls": 3,
-        "influence": 7,
-        "score": 980
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "COLDWELL BANKER",
         "logo": "🔵",
-        "views": 840,
-        "favorites": 35,
-        "messages": 11,
-        "calls": 8,
-        "influence": 9,
-        "score": 1620
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "BRANDA / AFİŞ",
         "logo": "🟠",
-        "views": 450,
-        "favorites": 12,
-        "messages": 8,
-        "calls": 14,
-        "influence": 8,
-        "score": 1150
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "SOSYAL MEDYA & AD",
         "logo": "🟢",
-        "views": 2300,
-        "favorites": 64,
-        "messages": 19,
-        "calls": 11,
-        "influence": 9,
-        "score": 3200
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       }
     ],
     "buyers": [],
@@ -968,62 +1076,62 @@
       {
         "platform": "SAHIBINDEN",
         "logo": "🟡",
-        "views": 1450,
-        "favorites": 48,
-        "messages": 12,
-        "calls": 9,
-        "influence": 9,
-        "score": 2100
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "HEPSIEMLAK",
         "logo": "🔴",
-        "views": 980,
-        "favorites": 29,
-        "messages": 7,
-        "calls": 5,
-        "influence": 8,
-        "score": 1450
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "EMLAKJET",
         "logo": "🟣",
-        "views": 620,
-        "favorites": 18,
-        "messages": 4,
-        "calls": 3,
-        "influence": 7,
-        "score": 980
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "COLDWELL BANKER",
         "logo": "🔵",
-        "views": 840,
-        "favorites": 35,
-        "messages": 11,
-        "calls": 8,
-        "influence": 9,
-        "score": 1620
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "BRANDA / AFİŞ",
         "logo": "🟠",
-        "views": 450,
-        "favorites": 12,
-        "messages": 8,
-        "calls": 14,
-        "influence": 8,
-        "score": 1150
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       },
       {
         "platform": "SOSYAL MEDYA & AD",
         "logo": "🟢",
-        "views": 2300,
-        "favorites": 64,
-        "messages": 19,
-        "calls": 11,
-        "influence": 9,
-        "score": 3200
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
       }
     ],
     "buyers": [

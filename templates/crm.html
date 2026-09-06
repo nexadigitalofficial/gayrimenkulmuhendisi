@@ -3844,53 +3844,76 @@
                                                     </h3>
                                                     <p class="text-xs text-gray-400 mt-0.5">Masaüstündeki Emlak_Platform_Karsilastirmasi.xlsx matrisi üzerinden anlık veri girişi yapın ve istatistikleri kaydedin.</p>
                                                 </div>
-                                                <button @click="saveListingPlatformStats" :disabled="listingStatsSaving" class="btn px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-2" style="background:linear-gradient(135deg, #d4af37, #b8941f); color:#000;">
-                                                    <i :class="['fas', listingStatsSaving ? 'fa-spinner fa-spin' : 'fa-save']"></i>
-                                                    {{ listingStatsSaving ? 'Kaydediliyor...' : 'İstatistikleri Kaydet' }}
-                                                </button>
-                                            </div>
+                                                 <div class="flex items-center gap-2">
+                                                     <button @click="resetListingPlatformStatsToZero" type="button" class="btn px-3 py-2 text-xs font-semibold rounded-xl flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition-all">
+                                                         <i class="fas fa-undo text-gray-400"></i> Tümünü Sıfırla (0)
+                                                     </button>
+                                                     <button @click="saveListingPlatformStats" :disabled="listingStatsSaving" class="btn px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-2" style="background:linear-gradient(135deg, #d4af37, #b8941f); color:#000;">
+                                                         <i :class="['fas', listingStatsSaving ? 'fa-spinner fa-spin' : 'fa-save']"></i>
+                                                         {{ listingStatsSaving ? 'Kaydediliyor...' : 'İstatistikleri Kaydet' }}
+                                                     </button>
+                                                 </div>
+                                             </div>
 
-                                            <div class="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02]">
-                                                <table class="w-full text-left text-xs border-collapse">
-                                                    <thead>
-                                                        <tr class="border-b border-white/10 bg-white/[0.04] text-gray-400 font-semibold uppercase tracking-wider text-[10px]">
-                                                            <th class="py-3 px-4">Platform</th>
-                                                            <th class="py-3 px-3">Görüntülenme</th>
-                                                            <th class="py-3 px-3">Favori</th>
-                                                            <th class="py-3 px-3">Mesaj</th>
-                                                            <th class="py-3 px-3">Aranma</th>
-                                                            <th class="py-3 px-3">Etki Çevresi (1-10)</th>
-                                                            <th class="py-3 px-4 text-right">Toplam Skor</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="divide-y divide-white/5">
-                                                        <tr v-for="(p, pi) in listingPlatformStats" :key="pi" class="hover:bg-white/[0.03] transition-colors">
-                                                            <td class="py-2.5 px-4 font-bold text-white flex items-center gap-2">
-                                                                <span>{{ p.logo }}</span> {{ p.platform }}
-                                                            </td>
-                                                            <td class="py-2 px-3">
-                                                                <input type="number" v-model.number="p.views" min="0" class="w-24 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-white text-xs font-mono focus:border-amber-400 focus:outline-none">
-                                                            </td>
-                                                            <td class="py-2 px-3">
-                                                                <input type="number" v-model.number="p.favorites" min="0" class="w-20 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-amber-300 text-xs font-mono focus:border-amber-400 focus:outline-none">
-                                                            </td>
-                                                            <td class="py-2 px-3">
-                                                                <input type="number" v-model.number="p.messages" min="0" class="w-20 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-emerald-400 text-xs font-mono focus:border-amber-400 focus:outline-none">
-                                                            </td>
-                                                            <td class="py-2 px-3">
-                                                                <input type="number" v-model.number="p.calls" min="0" class="w-20 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10 text-blue-400 text-xs font-mono focus:border-amber-400 focus:outline-none">
-                                                            </td>
-                                                            <td class="py-2 px-3">
-                                                                <div class="flex items-center gap-2">
-                                                                    <input type="range" v-model.number="p.influence" min="1" max="10" class="w-20 accent-amber-400">
-                                                                    <span class="text-xs font-bold text-amber-300 w-4">{{ p.influence }}</span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="py-2.5 px-4 text-right font-mono font-bold text-sm text-amber-300">
-                                                                {{ ((Number(p.views)||0)*1 + (Number(p.favorites)||0)*5 + (Number(p.messages)||0)*15 + (Number(p.calls)||0)*25 + (Number(p.influence)||5)*20).toLocaleString('tr-TR') }}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
+                                             <div class="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02]">
+                                                 <table class="w-full text-left text-xs border-collapse">
+                                                     <thead>
+                                                         <tr class="border-b border-white/10 bg-white/[0.04] text-gray-400 font-semibold uppercase tracking-wider text-[10px]">
+                                                             <th class="py-3 px-4">Platform</th>
+                                                             <th class="py-3 px-3">Görüntülenme</th>
+                                                             <th class="py-3 px-3">Favori</th>
+                                                             <th class="py-3 px-3">Mesaj</th>
+                                                             <th class="py-3 px-3">Aranma</th>
+                                                             <th class="py-3 px-3">Etki Çevresi (0-10)</th>
+                                                             <th class="py-3 px-4 text-right">Toplam Skor</th>
+                                                         </tr>
+                                                     </thead>
+                                                     <tbody class="divide-y divide-white/5">
+                                                         <tr v-for="(p, pi) in listingPlatformStats" :key="pi" class="hover:bg-white/[0.03] transition-colors">
+                                                             <td class="py-2.5 px-4 font-bold text-white flex items-center gap-2">
+                                                                 <span>{{ p.logo }}</span> {{ p.platform }}
+                                                             </td>
+                                                             <td class="py-2 px-3">
+                                                                 <div class="flex items-center gap-1">
+                                                                     <button type="button" @click="p.views = Math.max(0, (Number(p.views)||0) - 10)" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">-</button>
+                                                                     <input type="number" v-model.number="p.views" min="0" class="w-16 px-1.5 py-1 rounded-lg bg-black/40 border border-white/10 text-white text-xs font-mono text-center focus:border-amber-400 focus:outline-none">
+                                                                     <button type="button" @click="p.views = (Number(p.views)||0) + 10" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">+</button>
+                                                                 </div>
+                                                             </td>
+                                                             <td class="py-2 px-3">
+                                                                 <div class="flex items-center gap-1">
+                                                                     <button type="button" @click="p.favorites = Math.max(0, (Number(p.favorites)||0) - 1)" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">-</button>
+                                                                     <input type="number" v-model.number="p.favorites" min="0" class="w-12 px-1.5 py-1 rounded-lg bg-black/40 border border-white/10 text-amber-300 text-xs font-mono text-center focus:border-amber-400 focus:outline-none">
+                                                                     <button type="button" @click="p.favorites = (Number(p.favorites)||0) + 1" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">+</button>
+                                                                 </div>
+                                                             </td>
+                                                             <td class="py-2 px-3">
+                                                                 <div class="flex items-center gap-1">
+                                                                     <button type="button" @click="p.messages = Math.max(0, (Number(p.messages)||0) - 1)" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">-</button>
+                                                                     <input type="number" v-model.number="p.messages" min="0" class="w-12 px-1.5 py-1 rounded-lg bg-black/40 border border-white/10 text-emerald-400 text-xs font-mono text-center focus:border-amber-400 focus:outline-none">
+                                                                     <button type="button" @click="p.messages = (Number(p.messages)||0) + 1" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">+</button>
+                                                                 </div>
+                                                             </td>
+                                                             <td class="py-2 px-3">
+                                                                 <div class="flex items-center gap-1">
+                                                                     <button type="button" @click="p.calls = Math.max(0, (Number(p.calls)||0) - 1)" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">-</button>
+                                                                     <input type="number" v-model.number="p.calls" min="0" class="w-12 px-1.5 py-1 rounded-lg bg-black/40 border border-white/10 text-blue-400 text-xs font-mono text-center focus:border-amber-400 focus:outline-none">
+                                                                     <button type="button" @click="p.calls = (Number(p.calls)||0) + 1" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">+</button>
+                                                                 </div>
+                                                             </td>
+                                                             <td class="py-2 px-3">
+                                                                 <div class="flex items-center gap-1.5">
+                                                                     <button type="button" @click="p.influence = Math.max(0, (Number(p.influence)||0) - 1)" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">-</button>
+                                                                     <input type="range" v-model.number="p.influence" min="0" max="10" class="w-16 accent-amber-400">
+                                                                     <button type="button" @click="p.influence = Math.min(10, (Number(p.influence)||0) + 1)" class="w-6 h-6 rounded bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center text-xs font-bold transition-all">+</button>
+                                                                     <span class="text-xs font-bold text-amber-300 w-4 text-center">{{ p.influence || 0 }}</span>
+                                                                 </div>
+                                                             </td>
+                                                             <td class="py-2.5 px-4 text-right font-mono font-bold text-sm text-amber-300">
+                                                                 {{ ((Number(p.views)||0)*1 + (Number(p.favorites)||0)*5 + (Number(p.messages)||0)*15 + (Number(p.calls)||0)*25 + (Number(p.influence)||0)*20).toLocaleString('tr-TR') }}
+                                                             </td>
+                                                         </tr>
+                                                     </tbody>
                                                 </table>
                                             </div>
 
@@ -4316,12 +4339,12 @@
             const activeListingTab      = Vue.ref('matrix'); // 'matrix', 'chat', 'buyers', 'timeline', 'media'
             const currentListingObj     = Vue.ref({});
             const listingPlatformStats  = Vue.ref([
-                { platform: 'SAHIBINDEN', logo: '🟡', views: 1450, favorites: 48, messages: 12, calls: 9, influence: 9, score: 2100 },
-                { platform: 'HEPSIEMLAK', logo: '🔴', views: 980, favorites: 29, messages: 7, calls: 5, influence: 8, score: 1450 },
-                { platform: 'EMLAKJET', logo: '🟣', views: 620, favorites: 18, messages: 4, calls: 3, influence: 7, score: 980 },
-                { platform: 'COLDWELL BANKER', logo: '🔵', views: 840, favorites: 35, messages: 11, calls: 8, influence: 9, score: 1620 },
-                { platform: 'BRANDA / AFİŞ', logo: '🟠', views: 450, favorites: 12, messages: 8, calls: 14, influence: 8, score: 1150 },
-                { platform: 'SOSYAL MEDYA & AD', logo: '🟢', views: 2300, favorites: 64, messages: 19, calls: 11, influence: 9, score: 3200 }
+                { platform: 'SAHIBINDEN', logo: '🟡', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
+                { platform: 'HEPSIEMLAK', logo: '🔴', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
+                { platform: 'EMLAKJET', logo: '🟣', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
+                { platform: 'COLDWELL BANKER', logo: '🔵', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
+                { platform: 'BRANDA / AFİŞ', logo: '🟠', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
+                { platform: 'SOSYAL MEDYA & AD', logo: '🟢', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 }
             ]);
             const listingBuyers         = Vue.ref([]);
             const listingTimeline       = Vue.ref([]);
@@ -4344,7 +4367,9 @@
                 return listingPlatformStats.value.reduce((acc, p) => acc + (Number(p.messages) || 0) + (Number(p.calls) || 0), 0);
             });
             const topPerformingPlatform = Vue.computed(() => {
-                if (!listingPlatformStats.value.length) return 'SAHIBINDEN';
+                if (!listingPlatformStats.value.length) return '—';
+                const hasScore = listingPlatformStats.value.some(p => (Number(p.views) || 0) > 0 || (Number(p.favorites) || 0) > 0 || (Number(p.score) || 0) > 0);
+                if (!hasScore) return 'Başlangıç (0)';
                 const sorted = [...listingPlatformStats.value].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
                 return sorted[0]?.platform || 'SAHIBINDEN';
             });
@@ -6348,6 +6373,21 @@ ${comments}`;
                 }
             };
 
+            const resetListingPlatformStatsToZero = () => {
+                listingPlatformStats.value.forEach(p => {
+                    p.views = 0;
+                    p.favorites = 0;
+                    p.messages = 0;
+                    p.calls = 0;
+                    p.influence = 0;
+                    p.score = 0;
+                });
+                if (toast && toast.value) {
+                    toast.value = { show: true, message: 'Tüm platform metrikleri 0 olarak sıfırlandı. Artırıp kaydet butonuna basabilirsiniz.', icon: 'check-circle' };
+                    setTimeout(() => { toast.value.show = false; }, 3500);
+                }
+            };
+
             const addListingBuyer = async () => {
                 if (!listingNewBuyer.value.name.trim() || !listingNewBuyer.value.phone.trim()) return;
                 listingBuyerAdding.value = true;
@@ -6868,7 +6908,7 @@ ${comments}`;
                 listingTimeline, listingStatsSaving, listingNewBuyer, listingBuyerAdding,
                 listingTimelineNote, listingTimelineAdding, listingChatMessages, listingChatInput,
                 listingChatLoading, totalListingViews, totalListingFavorites, totalListingLeads,
-                topPerformingPlatform, loadListingDashboardData, saveListingPlatformStats,
+                topPerformingPlatform, loadListingDashboardData, saveListingPlatformStats, resetListingPlatformStatsToZero,
                 addListingBuyer, addListingTimelineNote, sendListingChat,
 
                 openPortfoyPanel, openListingPortfoy, openLeadPortfoy,
