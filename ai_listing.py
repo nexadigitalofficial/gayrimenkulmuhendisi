@@ -497,16 +497,14 @@ async def _scrape_via_pagespeed_async(url: str) -> dict:
                 print("    ⚠ Buton bulunamadı, Enter ile gönderiliyor...")
                 await page.locator("input[name='url']").press("Enter")
 
-            print(f"    ✓ Analiz başlatıldı → bekleniyor ({wait_sec}s)")
-            for i in range(wait_sec):
+            max_wait = min(wait_sec, 20)
+            print(f"    ✓ Analiz başlatıldı → dinamik bekleniyor (max {max_wait}s)")
+            for i in range(max_wait):
                 await page.wait_for_timeout(1000)
-                if (i + 1) % 10 == 0:
-                    print(f"    ⏳ {wait_sec - i - 1}s kaldı")
-
-            try:
-                await page.wait_for_url("**/analysis/**", timeout=20000)
-            except Exception:
-                pass
+                if "/analysis/" in page.url:
+                    await page.wait_for_timeout(2500)
+                    print(f"    ✓ PageSpeed analizi tamamlandı ({i+1}s)")
+                    break
 
             raw_html = await page.content()
         finally:
@@ -676,26 +674,25 @@ def _scrape_via_slug_fallback(url: str) -> dict:
 def _scrape_via_pagespeed(url: str) -> dict:
     """
     Sahibinden Scraper Ana Mantığı (3 Kademeli Dayanıklı Altyapı):
-    1. Kademe: Playwright headless PageSpeed ile tam render ve yüksek çözünürlüklü fotoğraflar.
-    2. Kademe: Google PageSpeed Insights REST API ile cloud render (Playwright yoksa veya takılırsa).
-    3. Kademe: Akıllı URL Slug ve ID analiz fallback'i (PDF üretimini asla kırmaz).
+    1. Kademe: Google PageSpeed REST API (3-5 sn, ultra hızlı)
     """
+    try:
+        res_psi = _scrape_via_psi_api(url)
+        if res_psi and res_psi.get("ok") and (res_psi.get("images") or res_psi.get("title")):
+            return res_psi
+        print("    ⚠ PSI API yetersiz veri döndü, Playwright deneniyor...")
+    except Exception as e:
+        print(f"    ✗ PSI API hatası: {e}, Playwright deneniyor...")
+
+    # 2. Kademe: Playwright (async) PageSpeed
     if _PLAYWRIGHT:
         try:
             res = asyncio.run(_scrape_via_pagespeed_async(url))
             if res and res.get("ok"):
                 return res
-            print(f"    ⚠ Playwright ok: False döndü: {res.get('error', '')}, PSI API deneniyor...")
+            print(f"    ⚠ Playwright ok: False döndü: {res.get('error', '')}, Slug fallback deneniyor...")
         except Exception as e:
-            print(f"    ✗ Playwright hatası: {e}, PSI API fallback devreye giriyor...")
-
-    # 2. Kademe: Google PageSpeed REST API
-    try:
-        res_psi = _scrape_via_psi_api(url)
-        if res_psi and res_psi.get("ok") and (res_psi.get("images") or res_psi.get("title")):
-            return res_psi
-    except Exception as e:
-        print(f"    ✗ PSI API hatası: {e}")
+            print(f"    ✗ Playwright hatası: {e}, Slug fallback deneniyor...")
 
     # 3. Kademe: Güvenli Slug Fallback (Her zaman ok: True döner)
     return _scrape_via_slug_fallback(url)

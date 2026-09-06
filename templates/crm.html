@@ -4568,7 +4568,15 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ url: targetUrl })
                     });
-                    const data = await res.json();
+                    const text = await res.text();
+                    let data = null;
+                    try {
+                        data = JSON.parse(text);
+                    } catch (parseErr) {
+                        console.error("Non-JSON response from /api/listing-pdf:", text);
+                        throw new Error(`Sunucu yanıtı geçersiz (HTTP ${res.status}): Lütfen bağlantınızı ve ilan URL'sini kontrol edin.`);
+                    }
+
                     if (data && data.ok) {
                         urlPdfResult.value = data;
                         showToast("Lüks Sunum PDF'i başarıyla üretildi!", "fas fa-check-circle text-green-400");
