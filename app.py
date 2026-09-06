@@ -14743,17 +14743,20 @@ def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
 
     spec_rows = []
     pairs = [
-        ("Brüt m²",  _s("brut_m2", "area", "m2", "Brüt m²")),
-        ("Net m²",   _s("net_m2",  "Net m²")),
-        ("Oda",      _s("oda_sayisi", "rooms", "Oda Sayısı")),
-        ("Kat",      _s("bulundugu_kat", "floor", "Bulunduğu Kat")),
-        ("Bina Yaşı",_s("bina_yasi", "age", "Bina Yaşı")),
-        ("Isıtma",   _s("isitma", "Isıtma")),
-        ("Banyo",    _s("banyo_sayisi", "Banyo Sayısı")),
-        ("Asansör",  _s("asansor", "Asansör")),
-        ("Otopark",  _s("otopark", "Otopark")),
-        ("Eşyalı",   _s("esyali", "Eşyalı")),
-        ("Site",     _s("site_icerisinde", "Site İçerisinde")),
+        ("Brüt m²",  _s("brut_m2", "gross_m2", "m² (brüt)", "Brüt m²", "area", "m2")),
+        ("Net m²",   _s("net_m2", "m² (net)", "Net m²")),
+        ("Oda",      _s("oda_sayisi", "rooms", "oda sayısı", "Oda Sayısı", "Oda")),
+        ("Kat",      _s("bulundugu_kat", "floor", "bulunduğu kat", "Bulunduğu Kat", "Kat")),
+        ("Bina Yaşı",_s("bina_yasi", "building_age", "age", "bina yaşı", "Bina Yaşı")),
+        ("Isıtma",   _s("isitma", "heating", "ısıtma", "Isıtma")),
+        ("Banyo",    _s("banyo_sayisi", "bathrooms", "banyo sayısı", "Banyo Sayısı")),
+        ("Asansör",  _s("asansor", "elevator", "asansör", "Asansör")),
+        ("Otopark",  _s("otopark", "parking", "otopark", "Otopark")),
+        ("Balkon",   _s("balkon", "balcony", "balkon", "Balkon")),
+        ("Eşyalı",   _s("esyali", "furnished", "eşyalı", "Eşyalı")),
+        ("Site",     _s("site_icerisinde", "complex_name", "site adı", "Site İçerisinde")),
+        ("Aidat",    _s("aidat", "dues", "aidat (tl)", "Aidat")),
+        ("Fiyat/m²", _s("price_m2", "fiyat_m2", "Birim Fiyat")),
         ("Tapu",     _s("tapu_durumu", "Tapu Durumu")),
     ]
     # Sadece değeri olan satırları al
