@@ -14047,16 +14047,7 @@ SADECE JSON döndür:
 
 
 
-# ==========================================
-# MAIN SERVER RUNNER
-# ==========================================
 
-if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--cli":
-        sys.argv.pop(1)
-        main()
-    else:
-        run_server()
 
 
 # ================================================================
@@ -15132,4 +15123,17 @@ def share_pdf(pdf_id: str):
         as_attachment=dl,
         download_name="Yigit_Narin_Ilan_Sunumu.pdf",
     )
+
+
+# ==========================================
+# MAIN SERVER RUNNER
+# ==========================================
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--cli":
+        sys.argv.pop(1)
+        main()
+    else:
+        run_server()
+
 
