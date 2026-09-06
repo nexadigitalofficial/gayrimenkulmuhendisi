@@ -151,10 +151,14 @@ except Exception:
     _sentence_transformers_available = False
 
 try:
-    import google.generativeai as genai
+    from google import genai
     _genai_available = True
 except Exception:
-    _genai_available = False
+    try:
+        import google.generativeai as genai
+        _genai_available = True
+    except Exception:
+        _genai_available = False
 
 # Flask extensions
 try:

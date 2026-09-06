@@ -41,3 +41,5 @@ static/projeler/
 *.tmp
 *.bak
 *~
+static/generated_pdfs/
+
