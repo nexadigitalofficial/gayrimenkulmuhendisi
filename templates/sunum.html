@@ -2242,35 +2242,35 @@
             overflow-x: auto;
             overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
-            background: rgba(246, 248, 255, 0.96);
-            border-bottom: 1px solid rgba(94, 92, 230, 0.12);
+            background: #070c18;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
             scrollbar-width: none;
         }
         .chat-suggestion-chips::-webkit-scrollbar { display: none; }
         .chat-chip {
             flex: 0 0 auto;
             min-width: 0;
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(94, 92, 230, 0.22);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 99px;
-            padding: 0.32rem 0.85rem;
+            padding: 0.35rem 0.85rem;
             font-size: 11.5px;
             font-weight: 600;
-            color: #2A2D45;
+            color: #e2e8f0;
             cursor: pointer;
             white-space: nowrap;
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            transition: transform .2s cubic-bezier(.34, 1.56, .64, 1), background .2s ease, color .2s ease, box-shadow .2s ease;
-            box-shadow: 0 1px 4px rgba(31, 38, 135, 0.06);
+            transition: all .2s ease;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
         }
         .chat-chip:hover {
             transform: translateY(-1px);
-            background: linear-gradient(135deg, #0071E3, #5E5CE6);
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(94, 92, 230, 0.3);
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            color: #000000;
+            border-color: #f4e4a6;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
 
         /* Aurora blob'ları + mesaj alanı */
@@ -2283,19 +2283,19 @@
             flex-direction: column;
             gap: 1rem;
             position: relative;
-            background: linear-gradient(180deg, rgba(246, 247, 252, 0.9), rgba(240, 242, 255, 0.92));
+            background: linear-gradient(180deg, #090e1a 0%, #0d1527 100%);
             scrollbar-width: thin;
-            scrollbar-color: rgba(94, 92, 230, 0.4) transparent;
+            scrollbar-color: rgba(212, 175, 55, 0.4) transparent;
         }
         .chat-messages::-webkit-scrollbar { width: 6px; }
         .chat-messages::-webkit-scrollbar-track { background: transparent; }
         .chat-messages::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #0071E3, #5E5CE6);
+            background: linear-gradient(180deg, #d4af37, #b8941f);
             border-radius: 99px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #5E5CE6, #AF52DE);
+            background: linear-gradient(180deg, #f4e4a6, #d4af37);
         }
         .chat-messages::before,
         .chat-messages::after {
@@ -2305,17 +2305,17 @@
             height: 240px;
             border-radius: 50%;
             filter: blur(70px);
-            opacity: 0.5;
+            opacity: 0.3;
             pointer-events: none;
             animation: aurora-float 14s ease-in-out infinite alternate;
         }
         .chat-messages::before {
-            background: radial-gradient(circle, rgba(0, 113, 227, 0.35), transparent 70%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.25), transparent 70%);
             top: -60px;
             left: -80px;
         }
         .chat-messages::after {
-            background: radial-gradient(circle, rgba(94, 92, 230, 0.3), transparent 70%);
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.2), transparent 70%);
             bottom: -60px;
             right: -80px;
             animation-delay: -7s;
@@ -2349,19 +2349,19 @@
         .message img { border-radius: 12px; }
 
         .message.bot {
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--text-primary);
+            background: rgba(15, 23, 42, 0.95);
+            color: #f8fafc;
             align-self: flex-start;
             border-bottom-left-radius: 4px;
-            border: 1px solid rgba(94, 92, 230, 0.16);
-            box-shadow: 0 4px 18px rgba(31, 38, 135, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
 
         .message.user {
             background: linear-gradient(135deg, #0071E3, #5E5CE6);
-            color: var(--white);
+            color: #ffffff;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
             box-shadow: 0 6px 20px rgba(94, 92, 230, 0.35);
@@ -2370,8 +2370,8 @@
         .chat-input-area {
             flex-shrink: 0;
             padding: 0.65rem 0.85rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-top: 1px solid rgba(94, 92, 230, 0.12);
+            background: #090e1a;
+            border-top: 1px solid rgba(212, 175, 55, 0.18);
             display: flex;
             gap: 0.5rem;
         }
@@ -2379,19 +2379,23 @@
         .chat-input {
             flex: 1;
             padding: 0.65rem 1rem;
-            border: 1px solid rgba(94, 92, 230, 0.22);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 980px;
             font-family: var(--font-primary);
             font-size: 13.5px;
             outline: none;
-            background: rgba(245, 247, 255, 0.85);
+            background: rgba(15, 23, 42, 0.9);
+            color: #f8fafc;
             transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        .chat-input::placeholder {
+            color: #94a3b8;
         }
 
         .chat-input:focus {
-            border-color: #5E5CE6;
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(94, 92, 230, 0.14);
+            border-color: #d4af37;
+            background: #0b1120;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
         }
 
         .chat-send {
@@ -9604,20 +9608,20 @@
                     botHtml += `<div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">`;
                     data.projects.forEach(p => {
                         botHtml += `
-                            <div style="background:#fff; border-radius:12px; padding:10px 12px; border:1px solid rgba(0,113,227,0.18); box-shadow:0 4px 15px rgba(0,0,0,0.06); color:#1c1c1e;">
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                                    <strong style="font-size:14px; color:var(--text-primary);">${escapeHtml(p.title)}</strong>
-                                    <span style="background:var(--accent); color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">%${escapeHtml(p.match_percent)} Uyumlu</span>
+                            <div style="background:rgba(9, 14, 26, 0.95); border-radius:12px; padding:12px 14px; border:1px solid rgba(212, 175, 55, 0.35); box-shadow:0 4px 18px rgba(0,0,0,0.4); color:#f8fafc;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                    <strong style="font-size:14.5px; color:#ffffff; font-weight:700;">${escapeHtml(p.title)}</strong>
+                                    <span style="background:linear-gradient(135deg, #d4af37, #f59e0b); color:#000000; font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:10px;">%${escapeHtml(p.match_percent)} Uyumlu</span>
                                 </div>
-                                <div style="font-size:11px; color:#666; margin-bottom:4px;"><i class="fa-solid fa-location-dot" style="color:var(--accent);"></i> ${escapeHtml(p.region)} • <strong style="color:var(--accent);">${escapeHtml(p.price_display)}</strong></div>
-                                <div style="font-size:11px; background:rgba(0,113,227,0.06); padding:4px 8px; border-radius:8px; margin-bottom:8px; color:#333;">💡 ${escapeHtml(p.rationale)}</div>
-                                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                <div style="font-size:12px; color:#94a3b8; margin-bottom:6px;"><i class="fa-solid fa-location-dot" style="color:#d4af37;"></i> ${escapeHtml(p.region)} • <strong style="color:#38bdf8;">${escapeHtml(p.price_display)}</strong></div>
+                                <div style="font-size:12px; background:rgba(212, 175, 55, 0.12); border-left:3px solid #d4af37; padding:6px 10px; border-radius:6px; margin-bottom:10px; color:#e2e8f0; line-height:1.4;">💡 ${escapeHtml(p.rationale)}</div>
+                                <div style="display:flex; flex-wrap:wrap; gap:6px;">
                                     ${p.is_portfolio ? `
-                                        <a class="btn btn-primary btn-sm" style="font-size:10px; padding:4px 8px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;" target="_blank" href="https://wa.me/905324514008?text=${encodeURIComponent('Merhaba Yiğit Bey, ' + p.title + ' ilanı hakkında bilgi almak istiyorum.')}"><i class="fa-brands fa-whatsapp"></i> Bilgi Al</a>
+                                        <a class="btn btn-primary btn-sm" style="font-size:11px; padding:5px 10px; text-decoration:none; display:inline-flex; align-items:center; gap:5px; background:linear-gradient(135deg, #d4af37, #b8941f); color:#000000; font-weight:700; border-radius:8px;" target="_blank" href="https://wa.me/905324514008?text=${encodeURIComponent('Merhaba Yiğit Bey, ' + p.title + ' ilanı hakkında bilgi almak istiyorum.')}"><i class="fa-brands fa-whatsapp"></i> Bilgi Al</a>
                                     ` : `
-                                        <button class="btn btn-primary btn-sm" style="font-size:10px; padding:4px 8px;" onclick="event.stopPropagation(); playProjectVideo('${p.id}')"><i class="fa-solid fa-play"></i> Tanıtım</button>
-                                        <button class="btn btn-outline btn-sm" style="font-size:10px; padding:4px 8px; background:rgba(0,113,227,0.08); color:var(--accent);" onclick="event.stopPropagation(); openProjectReport('${p.id}')"><i class="fa-solid fa-brain"></i> Zeka Raporu</button>
-                                        <button class="btn btn-outline btn-sm" style="font-size:10px; padding:4px 8px;" onclick="event.stopPropagation(); openPdfPreview('${p.id}')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+                                        <button class="btn btn-primary btn-sm" style="font-size:11px; padding:5px 10px; background:linear-gradient(135deg, #d4af37, #b8941f); color:#000000; font-weight:700; border:none; border-radius:8px; cursor:pointer;" onclick="event.stopPropagation(); playProjectVideo('${p.id}')"><i class="fa-solid fa-play"></i> Tanıtım</button>
+                                        <button class="btn btn-outline btn-sm" style="font-size:11px; padding:5px 10px; background:rgba(212, 175, 55, 0.15); color:#d4af37; border:1px solid rgba(212, 175, 55, 0.4); border-radius:8px; cursor:pointer;" onclick="event.stopPropagation(); openProjectReport('${p.id}')"><i class="fa-solid fa-brain"></i> Zeka Raporu</button>
+                                        <button class="btn btn-outline btn-sm" style="font-size:11px; padding:5px 10px; background:rgba(56, 189, 248, 0.15); color:#38bdf8; border:1px solid rgba(56, 189, 248, 0.4); border-radius:8px; cursor:pointer;" onclick="event.stopPropagation(); openPdfPreview('${p.id}')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
                                     `}
                                 </div>
                             </div>
@@ -11191,26 +11195,26 @@
                 <div class="apt-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Adınız Soyadınız *</label>
-                        <input type="text" id="aptName" required placeholder="Adınız Soyadınız" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="text" id="aptName" required placeholder="Adınız Soyadınız" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Telefon Numaranız *</label>
-                        <input type="tel" id="aptPhone" required placeholder="05XX XXX XX XX" oninput="formatTRPhone(this)" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="tel" id="aptPhone" required placeholder="05XX XXX XX XX" oninput="formatTRPhone(this)" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                 </div>
                 <div class="apt-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">E-posta (Opsiyonel)</label>
-                        <input type="email" id="aptEmail" placeholder="ornek@mail.com" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="email" id="aptEmail" placeholder="ornek@mail.com" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Tercih Edilen Gün/Saat</label>
-                        <input type="text" id="aptDateTime" placeholder="Örn: Cumartesi 14:00" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="text" id="aptDateTime" placeholder="Örn: Cumartesi 14:00" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                 </div>
                 <div>
                     <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Özel Notunuz</label>
-                    <textarea id="aptNotes" rows="2" placeholder="Ödeme planı, yerinde inceleme veya sunum talebi..." style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; resize:none;"></textarea>
+                    <textarea id="aptNotes" rows="2" placeholder="Ödeme planı, yerinde inceleme veya sunum talebi..." style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; resize:none; background:#ffffff !important; color:#0f172a !important;"></textarea>
                 </div>
                 <div id="aptStatusMsg" style="display:none; font-size:13px; padding:10px; border-radius:10px; text-align:center;"></div>
                 

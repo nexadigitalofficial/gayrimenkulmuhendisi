@@ -94,6 +94,15 @@ def test_buyer_profile_creation():
     return profile
 
 
+try:
+    import pytest
+    @pytest.fixture
+    def profile():
+        return test_buyer_profile_creation()
+except Exception:
+    pass
+
+
 def test_listing_match_creation(profile):
     """Test: İlan-alıcı eşleşmesi oluşturma."""
     print_section("Test 3: Listing Match Creation")
@@ -281,6 +290,8 @@ def test_vector_similarity():
     except ImportError:
         print("⚠️  sentence-transformers yüklü değil — test atlanıyor")
         print("   Kurulum: pip install sentence-transformers")
+    except Exception as e:
+        print(f"⚠️  sentence-transformers model yüklenemedi (ağ/çevrimdışı): {e}")
 
 
 def test_firestore_serialization():

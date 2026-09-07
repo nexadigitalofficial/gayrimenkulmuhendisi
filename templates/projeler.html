@@ -79,6 +79,14 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        input, textarea, select {
+            color: #0f172a;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+            opacity: 1 !important;
+        }
+
         /* iOS otomatik zoom'u engelle: input <16px focus'ta sayfayı büyütür */
         input, textarea, select {
             font-size: 16px !important;
@@ -1572,28 +1580,32 @@
         .message img { border-radius: 12px; }
 
         .message.bot {
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--text-primary);
+            background: #ffffff !important;
+            color: #0f172a !important;
             align-self: flex-start;
             border-bottom-left-radius: 4px;
-            border: 1px solid rgba(94, 92, 230, 0.16);
+            border: 1px solid rgba(94, 92, 230, 0.22);
             box-shadow: 0 4px 18px rgba(31, 38, 135, 0.08);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        }
+        .message.bot p, .message.bot li {
+            color: #0f172a;
         }
 
         .message.user {
-            background: linear-gradient(135deg, #0071E3, #5E5CE6);
-            color: var(--white);
+            background: linear-gradient(135deg, #0071E3, #5E5CE6) !important;
+            color: #ffffff !important;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
             box-shadow: 0 6px 20px rgba(94, 92, 230, 0.35);
         }
+        .message.user *, .message.user p, .message.user span, .message.user div, .message.user li, .message.user strong {
+            color: #ffffff !important;
+        }
 
         .chat-input-area {
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.92);
-            border-top: 1px solid rgba(94, 92, 230, 0.12);
+            background: #ffffff;
+            border-top: 1px solid rgba(94, 92, 230, 0.15);
             display: flex;
             gap: 0.6rem;
         }
@@ -1601,19 +1613,43 @@
         .chat-input {
             flex: 1;
             padding: 0.8rem 1.2rem;
-            border: 1px solid rgba(94, 92, 230, 0.22);
+            border: 1.5px solid rgba(94, 92, 230, 0.3);
             border-radius: 980px;
             font-family: var(--font-primary);
             font-size: 14px;
             outline: none;
-            background: rgba(245, 247, 255, 0.85);
+            background: #ffffff !important;
+            color: #0f172a !important;
             transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        .chat-input::placeholder {
+            color: #64748b !important;
+            opacity: 1 !important;
         }
 
         .chat-input:focus {
             border-color: #5E5CE6;
-            background: #fff;
+            background: #ffffff !important;
+            color: #0f172a !important;
             box-shadow: 0 0 0 4px rgba(94, 92, 230, 0.14);
+        }
+
+        .chat-lead-input {
+            flex: 1;
+            min-width: 0;
+            padding: 0.55rem 0.8rem;
+            border: 1.5px solid rgba(94, 92, 230, 0.3);
+            border-radius: 980px;
+            font-family: var(--font-primary);
+            font-size: 13px;
+            outline: none;
+            background: #ffffff !important;
+            color: #0f172a !important;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        .chat-lead-input::placeholder {
+            color: #64748b !important;
+            opacity: 1 !important;
         }
 
         .chat-send {
@@ -6373,21 +6409,21 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
                     botHtml += `<div style="margin-top:12px; display:flex; flex-direction:column; gap:10px;">`;
                     data.projects.forEach(p => {
                         botHtml += `
-                            <div style="background:#fff; border-radius:12px; padding:10px 12px; border:1px solid rgba(0,113,227,0.18); box-shadow:0 4px 15px rgba(0,0,0,0.06); color:#1c1c1e;">
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                                    <strong style="font-size:14px; color:var(--text-primary);">${escapeHtml(p.title)}</strong>
-                                    <span style="background:var(--accent); color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">%${escapeHtml(p.match_percent)} Uyumlu</span>
+                            <div style="background:#f8fafc; border-radius:12px; padding:12px 14px; border:1px solid rgba(0,113,227,0.2); box-shadow:0 4px 15px rgba(0,0,0,0.06); color:#0f172a;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                    <strong style="font-size:14px; color:#0f172a; font-weight:700;">${escapeHtml(p.title)}</strong>
+                                    <span style="background:var(--accent, #0071e3); color:#ffffff; font-size:10px; font-weight:800; padding:2px 8px; border-radius:10px;">%${escapeHtml(p.match_percent)} Uyumlu</span>
                                 </div>
-                                <div style="font-size:11px; color:#666; margin-bottom:4px;"><i class="fa-solid fa-location-dot" style="color:var(--accent);"></i> ${escapeHtml(p.region)} • <strong style="color:var(--accent);">${escapeHtml(p.price_display)}</strong></div>
-                                <div style="font-size:11px; background:rgba(0,113,227,0.06); padding:4px 8px; border-radius:8px; margin-bottom:8px; color:#333;">💡 ${escapeHtml(p.rationale)}</div>
-                                <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                                <div style="font-size:12px; color:#475569; margin-bottom:6px;"><i class="fa-solid fa-location-dot" style="color:#0071e3;"></i> ${escapeHtml(p.region)} • <strong style="color:#0284c7;">${escapeHtml(p.price_display)}</strong></div>
+                                <div style="font-size:11.5px; background:rgba(0,113,227,0.08); border-left:3px solid #0071e3; padding:6px 10px; border-radius:6px; margin-bottom:10px; color:#1e293b; line-height:1.4;">💡 ${escapeHtml(p.rationale)}</div>
+                                <div style="display:flex; flex-wrap:wrap; gap:6px;">
                                     ${p.is_portfolio ? `
-                                        <a class="btn btn-primary btn-sm" style="font-size:10px; padding:4px 8px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;" target="_blank" href="https://wa.me/905324514008?text=${encodeURIComponent('Merhaba Yiğit Bey, ' + p.title + ' ilanı hakkında bilgi almak istiyorum.')}"><i class="fa-brands fa-whatsapp"></i> Bilgi Al</a>
+                                        <a class="btn btn-primary btn-sm" style="font-size:11px; padding:5px 10px; text-decoration:none; display:inline-flex; align-items:center; gap:5px; background:#25D366; color:#ffffff; font-weight:700; border-radius:8px;" target="_blank" href="https://wa.me/905324514008?text=${encodeURIComponent('Merhaba Yiğit Bey, ' + p.title + ' ilanı hakkında bilgi almak istiyorum.')}"><i class="fa-brands fa-whatsapp"></i> Bilgi Al</a>
                                     ` : `
-                                        <button class="btn btn-primary btn-sm" style="font-size:10px; padding:4px 8px;" onclick="event.stopPropagation(); openVideoModal('${p.id}')"><i class="fa-solid fa-play"></i> Tanıtım</button>
-                                        <button class="btn btn-outline btn-sm" style="font-size:10px; padding:4px 8px; background:rgba(255,215,0,0.1); color:#D97706; border-color:rgba(255,215,0,0.3);" onclick="event.stopPropagation(); embedSlideshowOnSiteCard('${p.id}')"><i class="fa-solid fa-images"></i> Slayt</button>
-                                        <button class="btn btn-outline btn-sm" style="font-size:10px; padding:4px 8px;" onclick="event.stopPropagation(); openPdfPreview('${p.id}')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-                                        <button class="btn btn-outline btn-sm" style="font-size:10px; padding:4px 8px; background:rgba(0,113,227,0.08); color:var(--accent);" onclick="event.stopPropagation(); openProjectReport('${p.id}')"><i class="fa-solid fa-brain"></i> Detay</button>
+                                        <button class="btn btn-primary btn-sm" style="font-size:11px; padding:5px 10px; background:#0071E3; color:#ffffff; font-weight:700; border:none; border-radius:8px; cursor:pointer;" onclick="event.stopPropagation(); openVideoModal('${p.id}')"><i class="fa-solid fa-play"></i> Tanıtım</button>
+                                        <button class="btn btn-outline btn-sm" style="font-size:11px; padding:5px 10px; background:rgba(255,215,0,0.15); color:#b45309; border:1px solid rgba(217,119,6,0.35); border-radius:8px; cursor:pointer;" onclick="event.stopPropagation(); embedSlideshowOnSiteCard('${p.id}')"><i class="fa-solid fa-images"></i> Slayt</button>
+                                        <button class="btn btn-outline btn-sm" style="font-size:11px; padding:5px 10px; background:rgba(0,113,227,0.08); color:#0071E3; border:1px solid rgba(0,113,227,0.25); border-radius:8px; cursor:pointer;" onclick="event.stopPropagation(); openPdfPreview('${p.id}')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+                                        <button class="btn btn-outline btn-sm" style="font-size:11px; padding:5px 10px; background:rgba(94,92,230,0.1); color:#5E5CE6; border:1px solid rgba(94,92,230,0.25); border-radius:8px; cursor:pointer;" onclick="event.stopPropagation(); openProjectReport('${p.id}')"><i class="fa-solid fa-brain"></i> Detay</button>
                                     `}
                                 </div>
                             </div>
@@ -7384,26 +7420,26 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
                 <div class="apt-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Adınız Soyadınız *</label>
-                        <input type="text" id="aptName" required placeholder="Adınız Soyadınız" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="text" id="aptName" required placeholder="Adınız Soyadınız" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Telefon Numaranız *</label>
-                        <input type="tel" id="aptPhone" required placeholder="05XX XXX XX XX" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="tel" id="aptPhone" required placeholder="05XX XXX XX XX" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                 </div>
                 <div class="apt-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">E-posta (Opsiyonel)</label>
-                        <input type="email" id="aptEmail" placeholder="ornek@mail.com" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="email" id="aptEmail" placeholder="ornek@mail.com" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                     <div>
                         <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Tercih Edilen Gün/Saat</label>
-                        <input type="text" id="aptDateTime" placeholder="Örn: Cumartesi 14:00" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px;">
+                        <input type="text" id="aptDateTime" placeholder="Örn: Cumartesi 14:00" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; background:#ffffff !important; color:#0f172a !important;">
                     </div>
                 </div>
                 <div>
                     <label style="font-size:13px; font-weight:600; color:var(--text-primary); display:block; margin-bottom:4px;">Özel Notunuz</label>
-                    <textarea id="aptNotes" rows="2" placeholder="Ödeme planı, yerinde inceleme veya sunum talebi..." style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; resize:none;"></textarea>
+                    <textarea id="aptNotes" rows="2" placeholder="Ödeme planı, yerinde inceleme veya sunum talebi..." style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(0,0,0,0.15); font-size:16px; resize:none; background:#ffffff !important; color:#0f172a !important;"></textarea>
                 </div>
                 <div id="aptStatusMsg" style="display:none; font-size:13px; padding:10px; border-radius:10px; text-align:center;"></div>
                 

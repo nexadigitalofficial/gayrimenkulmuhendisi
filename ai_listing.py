@@ -769,17 +769,15 @@ def _scrape_via_slug_fallback(url: str) -> dict:
     title_str = " ".join(dedup) if dedup else (" ".join(clean_words) if clean_words else (f"Sahibinden Portföy İlanı #{listing_id}" if listing_id else "Gayrimenkul Portföy İlanı"))
 
     specs = {}
-    if listing_id:
-        specs["İlan No"] = listing_id
     if loc_str:
         specs["Konum"] = loc_str
     if prop_type:
         specs["Emlak Türü"] = prop_type
     if status:
         specs["İşlem"] = status
-    specs["Danışman"] = "Yiğit Narin"
+    specs["Danışman"] = "Yiğit Narin (Coldwell Banker CB VIP)"
 
-    desc = f"İlan No: {listing_id or 'Belirtilmedi'} — {loc_str} bölgesindeki bu portföy için yer gösterimi, ekspertiz ve yatırım danışmanlığı: Gayrimenkul Danışmanınız Yiğit Narin (+90 532 451 40 08)."
+    desc = f"{title_str} — {loc_str} lokasyonunda yer alan bu seçkin gayrimenkul portföyü; mimari özellikleri, kullanım avantajları ve yüksek yatırım potansiyeliyle öne çıkmaktadır. Portföyün yer gösterimi, değerleme analizi ve satın alma süreçleri hakkında detaylı bilgi almak için Gayrimenkul ve Yatırım Danışmanınız Yiğit Narin ile iletişime geçebilirsiniz."
 
     return {
         "ok": True,

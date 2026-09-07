@@ -284,23 +284,33 @@
         }
         .chat-bubble-user {
             align-self: flex-end;
-            background: linear-gradient(135deg,#6366f1,#8b5cf6);
-            color: #fff;
+            background: linear-gradient(135deg,#6366f1,#8b5cf6) !important;
+            color: #ffffff !important;
             border-bottom-right-radius: 4px;
             box-shadow: 0 4px 14px rgba(99,102,241,0.3);
         }
+        .chat-bubble-user *, .chat-bubble-user p, .chat-bubble-user span, .chat-bubble-user div {
+            color: #ffffff !important;
+        }
         .chat-bubble-ai {
             align-self: flex-start;
-            background: rgba(30,41,59,0.7);
-            border: 1px solid rgba(99,102,241,0.2);
-            color: #e2e8f0;
+            background: #1e293b !important;
+            border: 1px solid rgba(99,102,241,0.3);
+            color: #f8fafc !important;
             border-bottom-left-radius: 4px;
+        }
+        .chat-bubble-ai *, .chat-bubble-ai p, .chat-bubble-ai span, .chat-bubble-ai div {
+            color: #f8fafc !important;
+        }
+        .chat-bubble-ai strong {
+            color: #818cf8 !important;
+            font-weight: 700;
         }
         .chat-bubble-system {
             align-self: center;
-            background: rgba(99,102,241,0.07);
-            border: 1px solid rgba(99,102,241,0.15);
-            color: #64748b;
+            background: rgba(99,102,241,0.12);
+            border: 1px solid rgba(99,102,241,0.25);
+            color: #94a3b8 !important;
             font-size: 0.72rem;
             border-radius: 999px;
             padding: 0.3rem 0.9rem;
@@ -328,16 +338,24 @@
             display: flex;
             gap: 0.5rem;
             padding: 0.6rem;
-            border-top: 1px solid rgba(255,255,255,0.07);
-            background: rgba(10,14,26,0.5);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: #0f172a !important;
         }
         .chat-input-row textarea {
             border-radius: 12px;
             padding: 0.6rem 0.9rem;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             resize: none;
             min-height: 42px;
             max-height: 100px;
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid rgba(255,255,255,0.15);
+            outline: none;
+        }
+        .chat-input-row textarea::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1 !important;
         }
         .chat-send-btn {
             width: 42px; height: 42px;

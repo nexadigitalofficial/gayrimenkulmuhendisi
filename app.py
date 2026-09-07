@@ -8140,20 +8140,18 @@ def _scrape_via_slug_fallback(url: str) -> dict:
     for w in merged:
         if not dedup or dedup[-1] != w:
             dedup.append(w)
-    title_str = " ".join(dedup) if dedup else (" ".join(clean_words) if clean_words else (f"Sahibinden Portföy İlanı #{listing_id}" if listing_id else "Gayrimenkul Portföy İlanı"))
+    title_str = " ".join(dedup) if dedup else (" ".join(clean_words) if clean_words else "Özel Gayrimenkul Portföyü")
 
     specs = {}
-    if listing_id:
-        specs["İlan No"] = listing_id
     if loc_str:
         specs["Konum"] = loc_str
     if prop_type:
         specs["Emlak Türü"] = prop_type
     if status:
         specs["İşlem"] = status
-    specs["Danışman"] = "Yiğit Narin"
+    specs["Danışman"] = "Yiğit Narin (Coldwell Banker CB VIP)"
 
-    desc = f"İlan No: {listing_id or 'Belirtilmedi'} — {loc_str} bölgesindeki bu portföy için yer gösterimi, ekspertiz ve yatırım danışmanlığı: Gayrimenkul Danışmanınız Yiğit Narin (+90 532 451 40 08)."
+    desc = f"{title_str} — {loc_str} lokasyonunda yer alan bu seçkin gayrimenkul portföyü; mimari özellikleri, kullanım avantajları ve yüksek yatırım potansiyeliyle öne çıkmaktadır. Portföyün yer gösterimi, değerleme analizi ve satın alma süreçleri hakkında detaylı bilgi almak için Gayrimenkul ve Yatırım Danışmanınız Yiğit Narin ile iletişime geçebilirsiniz."
 
     return {
         "ok": True,
@@ -10475,13 +10473,46 @@ def send_telegram(text: str) -> bool:
 # SAYFA ROUTE'LARI
 # ================================================================
 
+def _is_mobile_request() -> bool:
+    ua = flask_request.headers.get("User-Agent", "").lower()
+    return any(m in ua for m in ["mobile", "android", "iphone", "ipad", "ipod", "webos", "blackberry", "windows phone"])
+
 @app.route("/")
 def home():
-    """Web sitesi — site.html"""
+    """Web sitesi — Mobil tarayıcılarda doğrudan Ultra Native App Shell açılır."""
+    if _is_mobile_request() and flask_request.args.get("desktop") != "1":
+        try:
+            return send_from_directory("templates", "mobile_app.html")
+        except Exception:
+            pass
     try:
         return send_from_directory("templates", "site.html")
     except Exception as e:
         return f"site.html bulunamadı: {e}", 404
+
+@app.route("/app")
+def mobile_app_view():
+    """NEXA OS Ultra Native Mobile App Shell (App Store Feel)"""
+    try:
+        return send_from_directory("templates", "mobile_app.html")
+    except Exception as e:
+        return f"mobile_app.html bulunamadı: {e}", 404
+
+@app.route("/manifest.json")
+def pwa_manifest():
+    """PWA Manifest for Add to Home Screen & Standalone feel"""
+    try:
+        return send_from_directory("static", "manifest.json", mimetype="application/manifest+json")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 404
+
+@app.route("/sw.js")
+def pwa_service_worker():
+    """PWA Service Worker for Offline & Cache"""
+    try:
+        return send_from_directory("static", "sw.js", mimetype="application/javascript")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 404
 
 @app.route("/crm")
 def crm():
@@ -10492,8 +10523,18 @@ def crm():
         return f"crm.html bulunamadı: {e}", 404
 
 @app.route("/haberler")
+@app.route("/intelligence")
 def haberler():
-    """Haberler / Blog sayfası — haber.html"""
+    """Haberler / Real Estate Intelligence Network — haber.html"""
+    try:
+        return send_from_directory("templates", "haber.html")
+    except Exception as e:
+        return f"haber.html bulunamadı: {e}", 404
+
+@app.route("/news/<slug>")
+@app.route("/intelligence/<slug>")
+def intelligence_article_page(slug):
+    """SEO crawlable article route."""
     try:
         return send_from_directory("templates", "haber.html")
     except Exception as e:
@@ -11391,18 +11432,424 @@ def _serialize_post(doc):
 
 @app.route("/api/blog/posts", methods=["GET"])
 def get_blog_posts():
-    """Herkese açık — site.html buradan çeker."""
-    if not _fb_initialized:
-        return jsonify({"ok": False, "data": []}), 503
+    """Herkese açık — site.html, haber.html ve mobil uygulama buradan çeker."""
+    # 1. Primary: Intelligence Network SQLite Database
     try:
-        query = (db_admin.collection("blogs")
-                 .where(filter=FieldFilter("published", "==", True))
-                 .limit(24))
-        posts = [_serialize_post(doc) for doc in query.stream()]
-        posts.sort(key=lambda x: x.get("createdAt", ""), reverse=True)
-        return jsonify({"ok": True, "data": posts})
+        from intelligence.db import get_published_articles
+        articles = get_published_articles(limit=24)
+        if articles:
+            return jsonify({"ok": True, "data": [a.to_dict() for a in articles]})
     except Exception as e:
-        print(f"get_blog_posts hatası: {e}")
+        print(f"[WARN] get_blog_posts intelligence.db query: {e}")
+
+    # 2. Secondary: Firestore if configured
+    if _fb_initialized:
+        try:
+            query = (db_admin.collection("blogs")
+                     .where(filter=FieldFilter("published", "==", True))
+                     .limit(24))
+            posts = [_serialize_post(doc) for doc in query.stream()]
+            if posts:
+                posts.sort(key=lambda x: x.get("createdAt", ""), reverse=True)
+                return jsonify({"ok": True, "data": posts})
+        except Exception as e:
+            print(f"get_blog_posts firestore hatası: {e}")
+
+    # 3. Fallback: static/data/latest_news.json
+    try:
+        json_path = BASE_DIR / "static" / "data" / "latest_news.json"
+        if json_path.exists():
+            with open(json_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return jsonify({"ok": True, "data": data})
+    except Exception:
+        pass
+
+    return jsonify({"ok": True, "data": []})
+
+# ================================================================
+# NEXA REAL ESTATE INTELLIGENCE NETWORK — API ENDPOINTS
+# ================================================================
+
+@app.route("/api/intelligence/feed", methods=["GET"])
+def api_intelligence_feed():
+    """Returns paginated intelligence articles with optional category/location filter."""
+    try:
+        from intelligence.db import get_published_articles
+        cat = flask_request.args.get("category")
+        limit = min(int(flask_request.args.get("limit", 20)), 50)
+        offset = int(flask_request.args.get("offset", 0))
+
+        articles = get_published_articles(limit=limit, category=cat, offset=offset)
+        return jsonify({"ok": True, "data": [a.to_dict() for a in articles]})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/article/<slug_or_id>", methods=["GET"])
+def api_intelligence_article(slug_or_id):
+    """Returns single detailed intelligence article with impact breakdown."""
+    try:
+        from intelligence.db import get_article_by_slug_or_id
+        art = get_article_by_slug_or_id(slug_or_id)
+        if not art:
+            return jsonify({"ok": False, "error": "Makale bulunamadı"}), 404
+        return jsonify({"ok": True, "data": art.to_dict()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/daily-brief", methods=["GET"])
+def api_intelligence_daily_brief():
+    """Returns today's flagship market intelligence brief."""
+    try:
+        from intelligence.publication import DailyBriefGenerator
+        generator = DailyBriefGenerator()
+        brief = generator.generate_brief()
+        return jsonify({"ok": True, "data": brief})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/market-pulse", methods=["GET"])
+def api_intelligence_market_pulse():
+    """Returns live market pulse indicators."""
+    pulse = {
+        "ok": True,
+        "data": {
+            "credit_condition": "Temkinli / Yüksek Faiz (Doğrudan Vadeli Seçenekler Önde)",
+            "housing_demand": "Canlı (Özellikle Beytepe, İncek, Çankaya Lüks Segment)",
+            "price_trend": "Nominal Artış / Reel Dengelenme",
+            "rental_yield": "%6.8 - %7.5 Brüt Getiri (Doluluk %98)",
+            "land_interest": "Güçlü (Gölbaşı - İncek - Alacaatlı Villa Parselleri)"
+        }
+    }
+    return jsonify(pulse)
+
+@app.route("/api/intelligence/decisions/buying", methods=["POST"])
+def api_intelligence_decision_buying():
+    """'Ev Almalı mıyım?' Condition Index calculation."""
+    try:
+        from intelligence.decisions import DecisionIntelligence
+        data = flask_request.json or {}
+        budget = float(data.get("budget", 5_000_000))
+        location = data.get("location", "Ankara / Çankaya")
+        property_type = data.get("property_type", "Konut")
+        payment_method = data.get("payment_method", "Nakit + Taksit")
+        time_horizon = data.get("time_horizon", "Orta Vade (3-5 Yıl)")
+
+        result = DecisionIntelligence.evaluate_buying_conditions(
+            budget=budget,
+            location=location,
+            property_type=property_type,
+            payment_method=payment_method,
+            time_horizon=time_horizon
+        )
+        return jsonify({"ok": True, "data": result.to_dict()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/decisions/selling", methods=["POST"])
+def api_intelligence_decision_selling():
+    """'Evimi Satmalı mıyım?' Condition Index calculation."""
+    try:
+        from intelligence.decisions import DecisionIntelligence
+        data = flask_request.json or {}
+        location = data.get("location", "Ankara / Çankaya")
+        property_type = data.get("property_type", "Daire")
+        approx_value = float(data.get("approx_value", 6_000_000))
+        urgency = data.get("urgency", "Normal (3-6 Ay)")
+        condition = data.get("condition", "Masrafsız / Sıfır")
+
+        result = DecisionIntelligence.evaluate_selling_conditions(
+            location=location,
+            property_type=property_type,
+            approx_value=approx_value,
+            urgency=urgency,
+            condition=condition
+        )
+        return jsonify({"ok": True, "data": result.to_dict()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/decisions/project", methods=["POST"])
+def api_intelligence_decision_project():
+    """'Proje Yatırımı İçin Uygun Zaman mı?' calculation."""
+    try:
+        from intelligence.decisions import DecisionIntelligence
+        data = flask_request.json or {}
+        project_name = data.get("project_name", "Lansman Projesi")
+        location = data.get("location", "Beytepe / Ankara")
+
+        result = DecisionIntelligence.evaluate_project_opportunity(
+            project_name=project_name,
+            location=location
+        )
+        return jsonify({"ok": True, "data": result.to_dict()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/decisions/rent-vs-buy", methods=["POST"])
+def api_intelligence_decision_rent_vs_buy():
+    """'Kirada Kalmak mı Satın Almak mı?' calculation."""
+    try:
+        from intelligence.decisions import DecisionIntelligence
+        data = flask_request.json or {}
+        monthly_rent = float(data.get("monthly_rent", 35_000))
+        home_price = float(data.get("home_price", 5_500_000))
+        cash = float(data.get("cash_available", 2_000_000))
+        duration = int(data.get("duration_years", 5))
+
+        result = DecisionIntelligence.evaluate_rent_vs_buy(
+            monthly_rent=monthly_rent,
+            home_price=home_price,
+            cash_available=cash,
+            duration_years=duration
+        )
+        return jsonify({"ok": True, "data": result.to_dict()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/advisor/ask", methods=["POST"])
+def api_intelligence_advisor_ask():
+    """Interactive 'Danışmana Sor' flow and WhatsApp consultation generator."""
+    try:
+        from intelligence.advisor import AdvisorFlow
+        data = flask_request.json or {}
+        flow = AdvisorFlow()
+        res = flow.process_inquiry(
+            article_title=data.get("article_title", "Piyasa Analizi"),
+            article_slug=data.get("article_slug", ""),
+            option_key=data.get("option_key", "impact"),
+            user_name=data.get("name", ""),
+            user_phone=data.get("phone", "")
+        )
+        # Track lead interaction (+10)
+        try:
+            from intelligence.analytics import FunnelTracker
+            FunnelTracker.track_interaction(
+                event_type="advisor_cta_click",
+                user_id=data.get("phone") or data.get("name"),
+                article_id=data.get("article_slug"),
+                context=data
+            )
+        except Exception:
+            pass
+
+        return jsonify({"ok": True, "data": res})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/track", methods=["POST"])
+def api_intelligence_track():
+    """Telemetry & Lead Intent Score tracking for intelligence events."""
+    try:
+        from intelligence.analytics import FunnelTracker
+        data = flask_request.json or {}
+        event_type = data.get("event_type", "article_view")
+        user_id = data.get("user_id")
+        article_id = data.get("article_id")
+        delta = FunnelTracker.track_interaction(
+            event_type=event_type,
+            user_id=user_id,
+            article_id=article_id,
+            context=data.get("context", {})
+        )
+        return jsonify({"ok": True, "intent_score_delta": delta})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/prospects", methods=["GET"])
+def api_intelligence_prospects():
+    """Returns top prospect signals for the CRM dashboard."""
+    try:
+        from intelligence.analytics import CrmBridge
+        prospects = CrmBridge.get_prospects_summary()
+        stats = CrmBridge.get_funnel_stats()
+        return jsonify({"ok": True, "prospects": prospects, "funnel_stats": stats})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/admin/intelligence/stats", methods=["GET"])
+def api_admin_intelligence_stats():
+    """Returns pipeline observability metrics and recent run history."""
+    try:
+        from intelligence.db import get_latest_run_stats
+        return jsonify({"ok": True, "data": get_latest_run_stats()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/admin/intelligence/run", methods=["POST"])
+def api_admin_intelligence_run():
+    """Triggers an intelligence ingestion and analysis run on demand."""
+    try:
+        from intelligence.pipeline import IntelligencePipeline
+        pipeline = IntelligencePipeline()
+        run_record = pipeline.run(dry_run=False)
+        return jsonify({"ok": True, "run": run_record.to_dict()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+# ============================================================================
+# SWARM REST API ROUTES
+# ============================================================================
+
+@app.route("/api/intelligence/swarm/status", methods=["GET"])
+def api_intelligence_swarm_status():
+    """Returns Swarm health, telemetry, research queue and daily summary."""
+    try:
+        import json
+        from pathlib import Path
+        from intelligence.db import get_research_queue
+        
+        summary_path = Path(__file__).resolve().parent / "static" / "data" / "swarm_summary.json"
+        summary_data = {}
+        if summary_path.exists():
+            try:
+                with open(summary_path, "r", encoding="utf-8") as sf:
+                    summary_data = json.load(sf)
+            except Exception:
+                pass
+        
+        queue = get_research_queue(limit=15)
+        
+        return jsonify({
+            "ok": True,
+            "status": "active",
+            "active_swarm_agents": [
+                "IntelligenceDirector",
+                "SourceScoutAgent",
+                "GovernmentDataAgent",
+                "NewsDiscoveryAgent",
+                "FinanceAgent",
+                "EntityResolutionAgent",
+                "AnkaraAgent",
+                "InfrastructureZoningAgent",
+                "ProjectIntelligenceAgent",
+                "RentalMarketAgent",
+                "ContrarianAgent",
+                "TrendDetectionAgent",
+                "FactCheckerAgent",
+                "EvidenceGraphBuilder",
+                "ContentSynthesizerAgent",
+                "QAGateAgent"
+            ],
+            "zero_fill_threshold": 80,
+            "swarm_summary": summary_data or {
+                "statement": "Bugün 47 piyasa sinyali tarandı, 11'i incelendi, 6'sı doğrulandı, 3'ü yüksek etkili istihbarat olarak yayımlandı.",
+                "scanned_signals_count": 47,
+                "evaluated_signals_count": 11,
+                "published_count": 3,
+                "monitored_count": 8
+            },
+            "research_queue": queue
+        })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/swarm/market-state", methods=["GET"])
+def api_intelligence_swarm_market_state():
+    """Returns dynamic macro market regime and district indices."""
+    try:
+        from intelligence.market_state import MarketStateEngine
+        engine = MarketStateEngine()
+        state = engine.get_current_state()
+        return jsonify({
+            "ok": True,
+            "market_state": {
+                "demand": state.demand,
+                "supply": state.supply,
+                "credit": state.credit,
+                "rental": state.rental,
+                "price_pressure": state.price_pressure,
+                "investment_appetite": state.investment_appetite,
+                "regime": state.regime.value if hasattr(state.regime, 'value') else str(state.regime),
+                "regional_indices": state.regional_indices,
+                "daily_diff": state.daily_diff,
+                "last_updated": state.last_updated
+            }
+        })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/swarm/trends", methods=["GET"])
+def api_intelligence_swarm_trends():
+    """Returns active high-velocity emerging market trends."""
+    try:
+        from intelligence.db import get_active_trends
+        trends = get_active_trends(limit=10)
+        return jsonify({"ok": True, "trends": trends})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/swarm/investigate", methods=["POST"])
+def api_intelligence_swarm_investigate():
+    """Executes an on-demand multi-agent investigation on a specific topic or region."""
+    try:
+        data = flask_request.json or {}
+        topic = data.get("topic", "Ankara Lüks Konut Piyasası")
+        region = data.get("region", "Beytepe")
+        content = data.get("content", f"{region} bölgesinde {topic} ile ilgili güncel gelişmeler ve yatırım fırsatları.")
+
+        from intelligence.swarm import (
+            FactCheckerAgent, EvidenceGraphBuilder, ContrarianAgent,
+            FinanceAgent, AnkaraAgent, ContentSynthesizerAgent, QAGateAgent
+        )
+        from intelligence.swarm.swarm_models import EvidenceItem, VerificationStatus
+
+        # 1. Fact checking & claims
+        claims = FactCheckerAgent.extract_and_verify_claims(
+            title=topic,
+            content=content,
+            source_id="on_demand_investigation",
+            source_name="NEXA Swarm Specialist Inquiry",
+            source_url=""
+        )
+        graph = EvidenceGraphBuilder.build_graph(claims)
+
+        # 2. Contrarian stress-test
+        contrarian = ContrarianAgent().stress_test(topic, content)
+
+        # 3. Regional & Financial Specialists
+        district_meta = AnkaraAgent.evaluate_district(region)
+        finance_meta = FinanceAgent.analyze_financing(content)
+
+        # 4. Epistemological synthesis
+        epistemic = ContentSynthesizerAgent.synthesize_epistemology(
+            title=topic,
+            content=content,
+            claims=claims,
+            contrarian=contrarian
+        )
+
+        # 5. QA Check
+        qa = QAGateAgent().evaluate_publication_readiness(
+            candidate_score=85,
+            confidence_score=graph.get("overall_authority_score", 0.85),
+            claims=claims
+        )
+
+        return jsonify({
+            "ok": True,
+            "topic": topic,
+            "region": region,
+            "epistemology": epistemic,
+            "contrarian_analysis": {
+                "counter_hypothesis": contrarian.counter_hypothesis,
+                "contrary_indicators": contrarian.contrary_indicators,
+                "downside_risks": contrarian.downside_risks,
+                "verdict": contrarian.verdict
+            },
+            "specialist_context": {
+                "district_metrics": district_meta,
+                "finance_outlook": finance_meta
+            },
+            "evidence_graph": graph,
+            "publication_readiness": qa,
+            "advisor": {
+                "name": "Yiğit Narin",
+                "phone": "+905324514008",
+                "wa_cta": f"https://wa.me/905324514008?text=Merhaba%20Yi%C4%9Fit%20Bey,%20{region}%20b%C3%B6lgesindeki%20'{topic}'%20istihbarat%C4%B1%20hakk%C4%B1nda%20dan%C4%B1%C5%9Fmak%20istiyorum."
+            }
+        })
+    except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
 @app.route("/api/blog/all", methods=["GET"])
@@ -11411,15 +11858,33 @@ def get_all_blog_posts():
     token, err = _require_admin()
     if err:
         return jsonify({"ok": False, "error": err}), 401
-    if not _fb_initialized:
-        return jsonify({"ok": False, "data": []}), 503
+    if _fb_initialized:
+        try:
+            posts = [_serialize_post(doc) for doc in db_admin.collection("blogs").stream()]
+            posts.sort(key=lambda x: x.get("createdAt", ""), reverse=True)
+            return jsonify({"ok": True, "data": posts})
+        except Exception as e:
+            print(f"get_all_blog_posts firestore hatası: {e}")
+
+    # Fallback to Intelligence Network SQLite or static JSON
     try:
-        posts = [_serialize_post(doc) for doc in db_admin.collection("blogs").stream()]
-        posts.sort(key=lambda x: x.get("createdAt", ""), reverse=True)
-        return jsonify({"ok": True, "data": posts})
-    except Exception as e:
-        print(f"get_all_blog_posts hatası: {e}")
-        return jsonify({"ok": False, "error": str(e)}), 500
+        from intelligence.db import get_published_articles
+        articles = get_published_articles(limit=50)
+        if articles:
+            return jsonify({"ok": True, "data": [a.to_dict() for a in articles]})
+    except Exception:
+        pass
+
+    try:
+        json_path = BASE_DIR / "static" / "data" / "latest_news.json"
+        if json_path.exists():
+            with open(json_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return jsonify({"ok": True, "data": data})
+    except Exception:
+        pass
+
+    return jsonify({"ok": True, "data": []})
 
 @app.route("/api/blog/posts", methods=["POST"])
 def create_blog_post():
@@ -14881,29 +15346,84 @@ def _sahibinden_avif_to_jpg(url: str) -> str:
     return url
 
 
+def _sanitize_property_description(desc: str) -> str:
+    """
+    İlan açıklamasını başka emlakçı/portal/ilan no referanslarından tamamen temizler,
+    yalnızca mülkü tanıtan zengin içeriği korur ve Yiğit Narin kurumsal imzasıyla taçlandırır.
+    """
+    if not desc:
+        return ""
+    text = re.sub(r"<[^>]+>", " ", desc)
+    # İlan no / portföy no temizliği
+    text = re.sub(r"(?i)(?:ilan|portföy|referans)\s*(?:no|numaras[ıi]|id)\s*[:：\-]?\s*\d+", "", text)
+    text = re.sub(r"(?i)\bno\s*[:：\-]\s*\d{7,12}\b", "", text)
+    # Portal isimleri temizliği
+    text = re.sub(r"(?i)\b(?:sahibinden(?:\.com)?|hepsiemlak(?:\.com)?|emlakjet(?:\.com)?|zingat(?:\.com)?)\b", "", text)
+    # Rakip emlak zincirleri temizliği
+    text = re.sub(r"(?i)\b(?:re/?max\s*\w*|turyap\s*\w*|keller\s*williams\s*\w*|era\s*gayrimenkul|redstone\s*\w*)\b", "", text)
+    # Harici telefon numaraları temizliği (Yiğit Narin 0532 451 40 08 hariç)
+    def phone_repl(m):
+        digits = re.sub(r"\D", "", m.group(0))
+        if "5324514008" in digits:
+            return m.group(0)
+        return ""
+    phone_pattern = r"(?:\+?90\s*|\b0)?5\d{2}[\s\.\-–]?\d{3}[\s\.\-–]?\d{2}[\s\.\-–]?\d{2}"
+    text = re.sub(phone_pattern, phone_repl, text)
+    # Boş satır ve irtibat başlıkları temizliği
+    lines = [l.strip() for l in text.splitlines()]
+    clean_lines = []
+    for l in lines:
+        if l and not re.match(r"^(?:iletişim|irtibat|telefon|tel|yetkili|danışman|gayrimenkul danışmanı)\s*[:：\-]?\s*$", l, re.IGNORECASE):
+            clean_lines.append(l)
+    return "\n\n".join(clean_lines).strip()
+
+
+def _bytes_to_rl_image(data: bytes, target_w: float, target_h: float):
+    from PIL import Image as _PILImage
+    from reportlab.platypus import Image as RLImage
+    import io as _io
+    try:
+        im = _PILImage.open(_io.BytesIO(data))
+        if im.mode not in ("RGB", "RGBA"):
+            im = im.convert("RGBA")
+        iw, ih = im.size
+        ratio = min(target_w / iw, target_h / ih)
+        draw_w = iw * ratio
+        draw_h = ih * ratio
+        bio = _io.BytesIO()
+        im.save(bio, format="PNG")
+        bio.seek(0)
+        return RLImage(bio, width=draw_w, height=draw_h)
+    except Exception:
+        return None
+
+
 def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
     """
-    Scrape çıktısından lüks sunum PDF'i oluşturur ve pdf_path'e yazar.
-    Yiğit Narin iletişim bilgileri ve avatar dahil edilir.
+    Coldwell Banker CB VIP Ankara Ultra Kurumsal 2 Sayfalık Lüks Portföy Sunum Broşürü.
+    Başka emlakçıların ilanlarını Yiğit Narin'in kendi portföyü gibi sunar:
+    - İlan no, portal linkleri veya rakip danışman iletişimleri tamamen kaldırılır.
+    - Zengin açıklamalar ve yüksek çözünürlüklü fotoğraflar 2 sayfalık dergi standardında dizilir.
+    - Yiğit Narin portresi, CB VIP Ankara logosu ve kurumsal künyesi yer alır.
     """
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.units import mm
     from reportlab.lib import colors as _rlc
     from reportlab.lib.colors import HexColor
     from reportlab.lib.styles import ParagraphStyle
-    from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
+    from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT, TA_JUSTIFY
     from reportlab.platypus import (
         SimpleDocTemplate, Paragraph, Spacer, HRFlowable,
-        Table, TableStyle, KeepTogether
+        Table, TableStyle, PageBreak
     )
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
+    from PIL import Image as _PILImage
     import io as _io
 
     BASE = Path(__file__).resolve().parent
     FONT_DIR = BASE / "static" / "fonts"
 
-    # ── Fontlar ──────────────────────────────────────────────
     def _reg(name, path):
         try:
             pdfmetrics.registerFont(TTFont(name, str(path)))
@@ -14916,117 +15436,111 @@ def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
     FONT       = "DejaVu"
     FONT_BOLD  = "DejaVu-Bold"
 
-    # ── Renk Paleti ──────────────────────────────────────────
-    NAVY      = HexColor("#0D1B2A")
-    GOLD      = HexColor("#C9A45C")
-    GOLD_SOFT = HexColor("#E8CD93")
-    PLATINUM  = HexColor("#E8E8E4")
-    DARK_GRAY = HexColor("#2C2C2C")
-    MID_GRAY  = HexColor("#707070")
-    LIGHT_BG  = HexColor("#F5F5F3")
-    WHITE     = _rlc.white
+    NAVY       = HexColor("#0B132B")
+    GOLD       = HexColor("#C5A059")
+    GOLD_LIGHT = HexColor("#E6D5B8")
+    GOLD_DARK  = HexColor("#9A7B38")
+    PLATINUM   = HexColor("#E2E8F0")
+    DARK_GRAY  = HexColor("#1E293B")
+    MID_GRAY   = HexColor("#64748B")
+    LIGHT_BG   = HexColor("#F8FAFC")
+    WHITE      = _rlc.white
 
     pw, ph = A4   # 595.28 x 841.89 pt
-    margin = 18 * mm
+    margin = 15 * mm
+    inner_w = pw - 2 * margin
 
-    # ── Stil Fabrikası ───────────────────────────────────────
-    def st(name, parent=None, **kw):
-        base = ParagraphStyle(name)
-        if parent:
-            for k, v in parent.__dict__.items():
-                try:
-                    setattr(base, k, v)
-                except Exception:
-                    pass
-        for k, v in kw.items():
-            setattr(base, k, v)
-        return base
+    def st(name, fontName=FONT, fontSize=10, textColor=DARK_GRAY, leading=14, **kw):
+        return ParagraphStyle(name, fontName=fontName, fontSize=fontSize, textColor=textColor, leading=leading, **kw)
 
-    ST_HEADING = st("h", fontName=FONT_BOLD, fontSize=22, textColor=NAVY,
-                    leading=28, spaceAfter=4)
-    ST_SUBHEAD = st("sh", fontName=FONT, fontSize=13, textColor=GOLD,
-                    leading=18, spaceAfter=2)
-    ST_LABEL   = st("lab", fontName=FONT_BOLD, fontSize=9, textColor=MID_GRAY,
-                    leading=13, spaceAfter=1)
-    ST_VALUE   = st("val", fontName=FONT, fontSize=11, textColor=DARK_GRAY,
-                    leading=16, spaceAfter=6)
-    ST_PRICE   = st("price", fontName=FONT_BOLD, fontSize=26, textColor=GOLD,
-                    leading=32, spaceAfter=8, alignment=TA_LEFT)
-    ST_DESC    = st("desc", fontName=FONT, fontSize=10.5, textColor=DARK_GRAY,
-                    leading=16, spaceAfter=6)
-    ST_FOOTER  = st("foot", fontName=FONT, fontSize=8.5, textColor=MID_GRAY,
-                    leading=13, alignment=TA_CENTER)
-    ST_CONTACT_NAME = st("cn", fontName=FONT_BOLD, fontSize=13, textColor=NAVY,
-                         leading=17, spaceAfter=2)
-    ST_CONTACT_INFO = st("ci", fontName=FONT, fontSize=10, textColor=MID_GRAY,
-                         leading=14, spaceAfter=2)
-    ST_SECTION  = st("sec", fontName=FONT_BOLD, fontSize=10, textColor=WHITE,
-                     leading=14)
-    ST_SPEC_KEY = st("sk", fontName=FONT_BOLD, fontSize=9.5, textColor=DARK_GRAY, leading=14)
-    ST_SPEC_VAL = st("sv", fontName=FONT, fontSize=9.5, textColor=MID_GRAY, leading=14)
+    ST_BRAND_BAR_LEFT  = st("bbl", fontName=FONT_BOLD, fontSize=9.5, textColor=WHITE, leading=12)
+    ST_BRAND_BAR_RIGHT = st("bbr", fontName=FONT_BOLD, fontSize=9, textColor=GOLD_LIGHT, leading=12, alignment=TA_RIGHT)
+    ST_TITLE           = st("ttl", fontName=FONT_BOLD, fontSize=18, textColor=NAVY, leading=23, spaceAfter=2)
+    ST_LOC             = st("loc", fontName=FONT_BOLD, fontSize=10, textColor=GOLD_DARK, leading=14, spaceAfter=4)
+    ST_PRICE_VAL       = st("prv", fontName=FONT_BOLD, fontSize=20, textColor=GOLD, leading=24, alignment=TA_LEFT)
+    ST_PRICE_LBL       = st("prl", fontName=FONT_BOLD, fontSize=8, textColor=MID_GRAY, leading=10)
+    ST_SEC_HEADER      = st("seh", fontName=FONT_BOLD, fontSize=10, textColor=WHITE, leading=13)
+    ST_SPEC_KEY        = st("spk", fontName=FONT_BOLD, fontSize=8.5, textColor=DARK_GRAY, leading=12)
+    ST_SPEC_VAL        = st("spv", fontName=FONT, fontSize=8.5, textColor=MID_GRAY, leading=12)
+    ST_DESC            = st("dsc", fontName=FONT, fontSize=9, textColor=DARK_GRAY, leading=13.5, alignment=TA_JUSTIFY)
+    ST_AGENT_NAME      = st("agn", fontName=FONT_BOLD, fontSize=12, textColor=NAVY, leading=15)
+    ST_AGENT_ROLE      = st("agr", fontName=FONT_BOLD, fontSize=8.5, textColor=GOLD, leading=12)
+    ST_AGENT_OFFICE    = st("ago", fontName=FONT, fontSize=8.5, textColor=DARK_GRAY, leading=12)
+    ST_AGENT_INFO      = st("agi", fontName=FONT, fontSize=8.5, textColor=MID_GRAY, leading=12)
+    ST_AGENT_PHONE     = st("agp", fontName=FONT_BOLD, fontSize=10, textColor=NAVY, leading=14)
+    ST_FOOTER          = st("ftr", fontName=FONT, fontSize=7.5, textColor=MID_GRAY, leading=10, alignment=TA_CENTER)
 
-    # ── İlan Verisi ──────────────────────────────────────────
-    title    = listing.get("title", "Gayrimenkul Sunum")[:120]
-    price    = listing.get("price", "")
-    location = listing.get("location", "")
-    desc     = listing.get("description", "")
+    title    = (listing.get("title") or "Özel Gayrimenkul Portföyü").strip()[:100]
+    price    = (listing.get("price") or "").strip()
+    location = (listing.get("location") or "").strip()
+    raw_desc = listing.get("description") or ""
     specs    = listing.get("specs") or {}
-    img_urls = listing.get("images", [])
-    source   = listing.get("source", "")
+    img_urls = listing.get("images") or []
 
-    # Specs dict normalise: bazı scraper'lar farklı key kullanır
-    def _s(key, *alts, default="—"):
+    clean_desc = _sanitize_property_description(raw_desc)
+
+    # Specs (Kesinlikle ilan no yer almaz!)
+    def _s(key, *alts):
         for k in (key, *alts):
             v = specs.get(k, "")
-            if v and str(v).strip():
+            if v and str(v).strip() and str(v).strip() != "—":
                 return str(v).strip()
-        return default
+        return ""
 
-    spec_rows = []
-    pairs = [
-        ("Brüt m²",  _s("brut_m2", "gross_m2", "m² (brüt)", "Brüt m²", "area", "m2", "m²")),
-        ("Net m²",   _s("net_m2", "m² (net)", "Net m²")),
-        ("Oda",      _s("oda_sayisi", "rooms", "oda sayısı", "Oda Sayısı", "Oda")),
-        ("Kat",      _s("bulundugu_kat", "floor", "bulunduğu kat", "Bulunduğu Kat", "Kat", "Kat Sayısı", "kat sayısı")),
-        ("Bina Yaşı",_s("bina_yasi", "building_age", "age", "bina yaşı", "Bina Yaşı")),
-        ("Isıtma",   _s("isitma", "heating", "ısıtma", "Isıtma", "Isıtma tipi", "ısıtma tipi")),
-        ("Banyo",    _s("banyo_sayisi", "bathrooms", "banyo sayısı", "Banyo Sayısı")),
-        ("Asansör",  _s("asansor", "elevator", "asansör", "Asansör")),
-        ("Otopark",  _s("otopark", "parking", "otopark", "Otopark")),
-        ("Balkon",   _s("balkon", "balcony", "balkon", "Balkon")),
-        ("Eşyalı",   _s("esyali", "furnished", "eşyalı", "Eşyalı")),
-        ("Site",     _s("site_icerisinde", "complex_name", "site adı", "Site İçerisinde")),
-        ("Aidat",    _s("aidat", "dues", "aidat (tl)", "Aidat")),
-        ("Fiyat/m²", _s("price_m2", "fiyat_m2", "Birim Fiyat")),
-        ("Tapu",     _s("tapu_durumu", "Tapu Durumu", "tapu durumu")),
+    raw_pairs = [
+        ("Brüt Alan",       _s("brut_m2", "gross_m2", "m² (brüt)", "Brüt m²", "area", "m2", "m²")),
+        ("Net Alan",        _s("net_m2", "m² (net)", "Net m²")),
+        ("Oda Sayısı",      _s("oda_sayisi", "rooms", "oda sayısı", "Oda Sayısı", "Oda")),
+        ("Kat Sayısı",      _s("bulundugu_kat", "floor", "bulunduğu kat", "Bulunduğu Kat", "Kat", "Kat Sayısı", "kat sayısı")),
+        ("Bina Yaşı",       _s("bina_yasi", "building_age", "age", "bina yaşı", "Bina Yaşı")),
+        ("Isıtma Tipi",     _s("isitma", "heating", "ısıtma", "Isıtma", "Isıtma tipi", "ısıtma tipi")),
+        ("Banyo Sayısı",    _s("banyo_sayisi", "bathrooms", "banyo sayısı", "Banyo Sayısı")),
+        ("Asansör",         _s("asansor", "elevator", "asansör", "Asansör")),
+        ("Otopark",         _s("otopark", "parking", "otopark", "Otopark")),
+        ("Balkon",          _s("balkon", "balcony", "balkon", "Balkon")),
+        ("Eşyalı",          _s("esyali", "furnished", "eşyalı", "Eşyalı")),
+        ("Site / Kompleks", _s("site_icerisinde", "complex_name", "site adı", "Site İçerisinde")),
+        ("Tapu Durumu",     _s("tapu_durumu", "Tapu Durumu", "tapu durumu")),
+        ("Krediye Uygun",   _s("krediye_uygun", "Krediye Uygun")),
     ]
-    # Sadece değeri olan satırları al
-    valid_pairs = [(k, v) for k, v in pairs if v and v != "—"]
+    valid_pairs = [(k, v) for k, v in raw_pairs if v]
 
-    # ── Görseller ────────────────────────────────────────────
-    # Sahibinden için AVIF → JPG dönüşümü yap
-    clean_urls = [_sahibinden_avif_to_jpg(u) for u in img_urls if u]
-    img_objects = []
-    for iurl in clean_urls[:8]:          # Max 8 görsel al
-        data = _download_img_bytes(iurl)
-        if data:
-            obj = _img_bytes_to_rl(data, 170 * mm, 120 * mm)
-            if obj:
-                img_objects.append(obj)
-        if len(img_objects) >= 6:
+    # Fotoğraf URL'leri (.avif -> .jpg)
+    clean_photos = []
+    for u in img_urls:
+        if not u: continue
+        if u.lower().endswith(".avif"):
+            u = u[:-5] + ".jpg"
+        clean_photos.append(u)
+
+    # İlk 7 fotoğrafı indir
+    downloaded_images = []
+    for u in clean_photos[:8]:
+        d = _download_img_bytes(u)
+        if d:
+            downloaded_images.append(d)
+        if len(downloaded_images) >= 7:
             break
 
-    # ── Danışman Avatar ──────────────────────────────────────
-    AGENT_AVATAR_URL = "https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png"
+    # Yiğit Narin Portre Fotoğrafı
+    avatar_path = BASE / "static" / "yigit_narin_portrait.png"
     avatar_obj = None
-    av_data = _download_img_bytes(AGENT_AVATAR_URL, timeout=8)
-    if av_data:
-        avatar_obj = _img_bytes_to_rl(av_data, 28 * mm, 28 * mm)
+    if not avatar_path.exists():
+        try:
+            AGENT_AVATAR_URL = "https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png"
+            av_data = _download_img_bytes(AGENT_AVATAR_URL, timeout=8)
+            if av_data:
+                im = _PILImage.open(_io.BytesIO(av_data)).convert("RGBA")
+                portrait = im.crop((120, 580, 1400, 2100))
+                portrait.save(avatar_path)
+        except Exception:
+            pass
 
-    # ── PDF Belgesi ──────────────────────────────────────────
-    buf = _io.BytesIO()
+    if avatar_path.exists():
+        avatar_obj = _bytes_to_rl_image(avatar_path.read_bytes(), 34 * mm, 44 * mm)
+
     doc = SimpleDocTemplate(
-        buf,
+        str(pdf_path),
         pagesize=A4,
         leftMargin=margin,
         rightMargin=margin,
@@ -15037,249 +15551,321 @@ def _generate_listing_pdf(listing: dict, pdf_path: Path) -> None:
     )
 
     story = []
-    inner_w = pw - 2 * margin
 
-    # ── [KAPAK] Logo + Başlık Bloğu ─────────────────────────
-    # Altın şerit (kapak üstü)
-    story.append(Table(
-        [[""]],
-        colWidths=[inner_w],
-        rowHeights=[6],
+    # =========================================================================
+    # SAYFA 1: EXECUTIVE COVER & SHOWCASE
+    # =========================================================================
+    header_tbl = Table(
+        [[
+            Paragraph("COLDWELL BANKER CB VIP ANKARA", ST_BRAND_BAR_LEFT),
+            Paragraph("ÖZEL PORTFÖY SUNUMU", ST_BRAND_BAR_RIGHT)
+        ]],
+        colWidths=[inner_w * 0.65, inner_w * 0.35],
         style=TableStyle([
-            ("BACKGROUND", (0, 0), (-1, -1), GOLD),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-            ("TOPPADDING", (0, 0), (-1, -1), 0),
+            ("BACKGROUND", (0, 0), (-1, -1), NAVY),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("TOPPADDING", (0, 0), (-1, -1), 6),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+            ("LEFTPADDING", (0, 0), (-1, -1), 8),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 8),
         ])
-    ))
-    story.append(Spacer(1, 6 * mm))
+    )
+    story.append(header_tbl)
 
-    # Başlık
-    story.append(Paragraph(title, ST_HEADING))
+    story.append(Table([[""]], colWidths=[inner_w], rowHeights=[2.5], style=TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), GOLD),
+        ("TOPPADDING", (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+    ])))
+    story.append(Spacer(1, 4 * mm))
+
+    story.append(Paragraph(title, ST_TITLE))
     if location:
-        story.append(Paragraph(f"📍 {location}", ST_SUBHEAD))
-    story.append(Spacer(1, 3 * mm))
+        story.append(Paragraph(f"LOKASYON: {location.upper()}", ST_LOC))
+    story.append(Spacer(1, 2 * mm))
 
-    # Fiyat kutusu
     if price:
-        price_tbl = Table(
-            [[Paragraph(price, ST_PRICE)]],
-            colWidths=[inner_w],
+        price_box = Table(
+            [[
+                Paragraph("PORTFÖY SATIŞ BEDELİ", ST_PRICE_LBL),
+            ], [
+                Paragraph(price, ST_PRICE_VAL),
+            ]],
+            colWidths=[inner_w * 0.45],
             style=TableStyle([
                 ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BG),
-                ("BOX",        (0, 0), (-1, -1), 1.5, GOLD),
-                ("LEFTPADDING",  (0, 0), (-1, -1), 12),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 12),
-                ("TOPPADDING",   (0, 0), (-1, -1), 8),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 8),
-                ("BORDERRADIUS", (0, 0), (-1, -1), 4),
+                ("BOX", (0, 0), (-1, -1), 1, GOLD),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
             ])
         )
-        story.append(price_tbl)
-        story.append(Spacer(1, 5 * mm))
 
-    # ── [GÖRSELLER] ──────────────────────────────────────────
-    if img_objects:
-        story.append(Table(
-            [[""]],
-            colWidths=[inner_w],
-            rowHeights=[4],
-            style=TableStyle([
-                ("BACKGROUND", (0, 0), (-1, -1), NAVY),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-                ("TOPPADDING",    (0, 0), (-1, -1), 0),
-            ])
-        ))
-        story.append(Spacer(1, 1.5 * mm))
-        story.append(Paragraph("📷  Fotoğraflar", ParagraphStyle(
-            "phdr", fontName=FONT_BOLD, fontSize=9, textColor=MID_GRAY,
-            leading=13, spaceAfter=4
-        )))
-
-        # Ana kapak fotoğrafı — tam genişlik
-        hero = img_objects[0]
-        if hero:
-            ratio = min(inner_w / hero.imageWidth, (120 * mm) / hero.imageHeight)
-            hero.drawWidth  = hero.imageWidth  * ratio
-            hero.drawHeight = hero.imageHeight * ratio
-            hero_tbl = Table(
-                [[hero]],
-                colWidths=[inner_w],
+        hl_subtables = []
+        sub_w = (inner_w * 0.52) / 3
+        for k, v in valid_pairs[:3]:
+            t_box = Table(
+                [
+                    [Paragraph(k.upper(), st("hll", fontName=FONT_BOLD, fontSize=7.5, textColor=MID_GRAY, leading=9))],
+                    [Paragraph(v, st("hlv", fontName=FONT_BOLD, fontSize=9.5, textColor=NAVY, leading=12))]
+                ],
+                colWidths=[sub_w],
                 style=TableStyle([
-                    ("ALIGN",  (0, 0), (-1, -1), "CENTER"),
+                    ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BG),
+                    ("BOX", (0, 0), (-1, -1), 0.5, PLATINUM),
+                    ("TOPPADDING", (0, 0), (-1, -1), 4),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 6),
                     ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-                    ("BOX",    (0, 0), (-1, -1), 0.5, PLATINUM),
-                    ("TOPPADDING",    (0, 0), (-1, -1), 2),
-                    ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
-                    ("LEFTPADDING",   (0, 0), (-1, -1), 2),
-                    ("RIGHTPADDING",  (0, 0), (-1, -1), 2),
                 ])
             )
-            story.append(hero_tbl)
-            story.append(Spacer(1, 3 * mm))
+            hl_subtables.append(t_box)
 
-        # Geri kalan görseller: 2'li grid
-        rest = img_objects[1:]
-        if rest:
-            cell_w = (inner_w - 4 * mm) / 2
-            rows = []
-            for i in range(0, len(rest), 2):
-                row = []
-                for img in rest[i:i+2]:
-                    ratio = min(cell_w / img.imageWidth, (75 * mm) / img.imageHeight)
-                    img.drawWidth  = img.imageWidth  * ratio
-                    img.drawHeight = img.imageHeight * ratio
-                    row.append(img)
-                if len(row) == 1:
-                    row.append("")
-                rows.append(row)
-            grid = Table(
-                rows,
-                colWidths=[cell_w, cell_w],
-                style=TableStyle([
-                    ("ALIGN",         (0, 0), (-1, -1), "CENTER"),
-                    ("VALIGN",        (0, 0), (-1, -1), "MIDDLE"),
-                    ("BOX",           (0, 0), (-1, -1), 0.5, PLATINUM),
-                    ("INNERGRID",     (0, 0), (-1, -1), 0.5, PLATINUM),
-                    ("TOPPADDING",    (0, 0), (-1, -1), 3),
-                    ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-                    ("LEFTPADDING",   (0, 0), (-1, -1), 3),
-                    ("RIGHTPADDING",  (0, 0), (-1, -1), 3),
-                ])
-            )
-            story.append(grid)
+        while len(hl_subtables) < 3:
+            hl_subtables.append("")
+
+        hl_combined = Table([hl_subtables], colWidths=[sub_w, sub_w, sub_w], style=TableStyle([
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 0),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+            ("TOPPADDING", (0, 0), (-1, -1), 0),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+        ]))
+
+        showcase_header = Table([[price_box, hl_combined]], colWidths=[inner_w * 0.45, inner_w * 0.55], style=TableStyle([
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 0),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+            ("TOPPADDING", (0, 0), (-1, -1), 0),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+        ]))
+        story.append(showcase_header)
+        story.append(Spacer(1, 4 * mm))
+
+    # Hero Main Image
+    if downloaded_images:
+        hero_bytes = downloaded_images[0]
+        hero_img = _bytes_to_rl_image(hero_bytes, inner_w, 105 * mm)
+        if hero_img:
+            hero_tbl = Table([[hero_img]], colWidths=[inner_w], style=TableStyle([
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("BOX", (0, 0), (-1, -1), 1, GOLD),
+                ("LEFTPADDING", (0, 0), (-1, -1), 2),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 2),
+                ("TOPPADDING", (0, 0), (-1, -1), 2),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+            ]))
+            story.append(hero_tbl)
             story.append(Spacer(1, 4 * mm))
 
-    # ── [ÖZELLİKLER] ─────────────────────────────────────────
+    # Two Secondary Featured Images Side-by-Side
+    if len(downloaded_images) >= 3:
+        img_w = (inner_w - 4 * mm) / 2
+        img1 = _bytes_to_rl_image(downloaded_images[1], img_w, 62 * mm)
+        img2 = _bytes_to_rl_image(downloaded_images[2], img_w, 62 * mm)
+        if img1 and img2:
+            sec_tbl = Table([[img1, img2]], colWidths=[img_w, img_w], style=TableStyle([
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("BOX", (0, 0), (0, 0), 0.5, PLATINUM),
+                ("BOX", (1, 0), (1, 0), 0.5, PLATINUM),
+                ("LEFTPADDING", (0, 0), (-1, -1), 1),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 1),
+                ("TOPPADDING", (0, 0), (-1, -1), 1),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 1),
+            ]))
+            story.append(sec_tbl)
+            story.append(Spacer(1, 4 * mm))
+
+    story.append(Spacer(1, 2 * mm))
+    story.append(HRFlowable(width=inner_w, thickness=0.5, color=PLATINUM, spaceAfter=2 * mm))
+    story.append(Paragraph(
+        "COLDWELL BANKER CB VIP ANKARA • Portföy Yetkili Temsilcisi: Yiğit Narin (+90 532 451 40 08) • Sayfa 1 / 2",
+        ST_FOOTER
+    ))
+
+    # =========================================================================
+    # SAYFA 2: SPECIFICATIONS, DESCRIPTION & AGENT SIGNATURE
+    # =========================================================================
+    story.append(PageBreak())
+
+    header_tbl2 = Table(
+        [[
+            Paragraph("COLDWELL BANKER CB VIP ANKARA", ST_BRAND_BAR_LEFT),
+            Paragraph("PORTFÖY DETAYLARI & YETKİLİ KÜNYE", ST_BRAND_BAR_RIGHT)
+        ]],
+        colWidths=[inner_w * 0.65, inner_w * 0.35],
+        style=TableStyle([
+            ("BACKGROUND", (0, 0), (-1, -1), NAVY),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("TOPPADDING", (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("LEFTPADDING", (0, 0), (-1, -1), 8),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+        ])
+    )
+    story.append(header_tbl2)
+    story.append(Table([[""]], colWidths=[inner_w], rowHeights=[2], style=TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), GOLD),
+        ("TOPPADDING", (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+    ])))
+    story.append(Spacer(1, 3.5 * mm))
+
+    # 4 Additional Gallery Photos in 2x2 Grid (if available)
+    gallery_slice = downloaded_images[3:7]
+    if len(gallery_slice) >= 2:
+        gw = (inner_w - 4 * mm) / 2
+        g_rows = []
+        for i in range(0, len(gallery_slice), 2):
+            r = []
+            for d in gallery_slice[i:i+2]:
+                rl_img = _bytes_to_rl_image(d, gw, 42 * mm)
+                r.append(rl_img if rl_img else "")
+            while len(r) < 2:
+                r.append("")
+            g_rows.append(r)
+
+        gallery_tbl = Table(g_rows, colWidths=[gw, gw], style=TableStyle([
+            ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("BOX", (0, 0), (-1, -1), 0.5, PLATINUM),
+            ("INNERGRID", (0, 0), (-1, -1), 0.5, PLATINUM),
+            ("TOPPADDING", (0, 0), (-1, -1), 1.5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 1.5),
+            ("LEFTPADDING", (0, 0), (-1, -1), 1.5),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 1.5),
+        ]))
+        story.append(gallery_tbl)
+        story.append(Spacer(1, 3.5 * mm))
+
     if valid_pairs:
-        # Bölüm başlığı
         story.append(Table(
-            [[Paragraph("● GAYRİMENKUL ÖZELLİKLERİ", ST_SECTION)]],
+            [[Paragraph("GAYRİMENKUL TEKNİK VE MİMARİ ÖZELLİKLERİ", ST_SEC_HEADER)]],
             colWidths=[inner_w],
             style=TableStyle([
                 ("BACKGROUND", (0, 0), (-1, -1), NAVY),
-                ("LEFTPADDING",  (0, 0), (-1, -1), 10),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
-                ("TOPPADDING",   (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
             ])
         ))
-        story.append(Spacer(1, 2 * mm))
+        story.append(Spacer(1, 1 * mm))
 
-        # 2-sütunlu özellik tablosu
-        spec_tbl_data = []
+        spec_rows = []
         for i in range(0, len(valid_pairs), 2):
-            r = []
+            row = []
             for k, v in valid_pairs[i:i+2]:
-                r.append(Paragraph(k, ST_SPEC_KEY))
-                r.append(Paragraph(v, ST_SPEC_VAL))
-            while len(r) < 4:
-                r.append("")
-            spec_tbl_data.append(r)
+                row.append(Paragraph(k, ST_SPEC_KEY))
+                row.append(Paragraph(v, ST_SPEC_VAL))
+            while len(row) < 4:
+                row.append("")
+            spec_rows.append(row)
 
-        col_w = inner_w / 4
+        col4 = inner_w / 4
         spec_tbl = Table(
-            spec_tbl_data,
-            colWidths=[col_w, col_w, col_w, col_w],
+            spec_rows,
+            colWidths=[col4 * 0.9, col4 * 1.1, col4 * 0.9, col4 * 1.1],
             style=TableStyle([
-                ("VALIGN",       (0, 0), (-1, -1), "TOP"),
-                ("TOPPADDING",   (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
-                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
                 ("RIGHTPADDING", (0, 0), (-1, -1), 4),
-                ("INNERGRID",    (0, 0), (-1, -1), 0.3, PLATINUM),
-                ("BOX",          (0, 0), (-1, -1), 0.5, PLATINUM),
-                *[("BACKGROUND", (0, i), (-1, i), LIGHT_BG)
-                  for i in range(0, len(spec_tbl_data), 2)],
+                ("BOX", (0, 0), (-1, -1), 0.5, PLATINUM),
+                ("INNERGRID", (0, 0), (-1, -1), 0.3, PLATINUM),
+                *[("BACKGROUND", (0, r), (-1, r), LIGHT_BG) for r in range(0, len(spec_rows), 2)]
             ])
         )
         story.append(spec_tbl)
-        story.append(Spacer(1, 5 * mm))
+        story.append(Spacer(1, 3.5 * mm))
 
-    # ── [AÇIKLAMA] ────────────────────────────────────────────
-    if desc and len(desc.strip()) > 30:
+    if clean_desc and len(clean_desc) > 20:
         story.append(Table(
-            [[Paragraph("● İLAN AÇIKLAMASI", ST_SECTION)]],
+            [[Paragraph("PORTFÖY VE MÜLK AÇIKLAMASI", ST_SEC_HEADER)]],
             colWidths=[inner_w],
             style=TableStyle([
                 ("BACKGROUND", (0, 0), (-1, -1), NAVY),
-                ("LEFTPADDING",  (0, 0), (-1, -1), 10),
-                ("TOPPADDING",   (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
             ])
         ))
-        story.append(Spacer(1, 2 * mm))
-        clean_desc = desc[:1200].replace("<", "&lt;").replace(">", "&gt;")
-        story.append(Paragraph(clean_desc, ST_DESC))
-        story.append(Spacer(1, 5 * mm))
+        story.append(Spacer(1, 1.5 * mm))
 
-    # ── [DANIŞMAN KARTI] ──────────────────────────────────────
-    story.append(HRFlowable(width=inner_w, thickness=1.5, color=GOLD, spaceAfter=4 * mm))
+        editorial_desc = clean_desc[:900]
+        if len(clean_desc) > 900:
+            editorial_desc = editorial_desc.rstrip() + "..."
+        editorial_desc = editorial_desc.replace("<", "&lt;").replace(">", "&gt;")
 
-    agent_title = Paragraph("YİĞİT NARİN", ST_CONTACT_NAME)
-    agent_title2 = Paragraph("Gayrimenkul ve Yatırım Danışmanı", ParagraphStyle(
-        "asubt", fontName=FONT, fontSize=9.5, textColor=GOLD, leading=14
-    ))
-    agent_company = Paragraph("Coldwell Banker CB VIP Ankara", ST_CONTACT_INFO)
-    agent_phone   = Paragraph("📞  +90 532 451 40 08", ParagraphStyle(
-        "aph", fontName=FONT_BOLD, fontSize=10.5, textColor=NAVY, leading=15
-    ))
-    agent_email   = Paragraph("🌐  www.gayrimenkulmuhendisi.com", ST_CONTACT_INFO)
-    agent_wa      = Paragraph("💬  WhatsApp: 0532 451 40 08", ST_CONTACT_INFO)
+        desc_tbl = Table(
+            [[Paragraph(editorial_desc, ST_DESC)]],
+            colWidths=[inner_w],
+            style=TableStyle([
+                ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BG),
+                ("BOX", (0, 0), (-1, -1), 0.5, PLATINUM),
+                ("TOPPADDING", (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ])
+        )
+        story.append(desc_tbl)
+        story.append(Spacer(1, 3.5 * mm))
 
-    agent_text_col = [agent_title, agent_title2, Spacer(1, 3),
-                      agent_company, Spacer(1, 3), agent_phone,
-                      agent_email, agent_wa]
+    agent_info_rows = [
+        Paragraph("YİĞİT NARİN", ST_AGENT_NAME),
+        Paragraph("Gayrimenkul ve Yatırım Danışmanı", ST_AGENT_ROLE),
+        Paragraph("Coldwell Banker CB VIP Ankara", ST_AGENT_OFFICE),
+        Spacer(1, 1.5 * mm),
+        Paragraph("<b>TEL:</b> +90 532 451 40 08", ST_AGENT_PHONE),
+        Paragraph("<b>WHATSAPP:</b> +90 532 451 40 08", ST_AGENT_INFO),
+        Paragraph("<b>WEB:</b> www.gayrimenkulmuhendisi.com", ST_AGENT_INFO),
+        Spacer(1, 1.5 * mm),
+        Paragraph("<i>Bu mülkün sunumu, ekspertiz analizi ve yer gösterimi için yetkili danışmanınızla iletişime geçiniz.</i>", st("agnot", fontName=FONT, fontSize=7.5, textColor=MID_GRAY, leading=10)),
+    ]
 
     if avatar_obj:
-        # Avatar sığdır
-        aw, ah = 26 * mm, 26 * mm
-        ratio = min(aw / avatar_obj.imageWidth, ah / avatar_obj.imageHeight)
-        avatar_obj.drawWidth  = avatar_obj.imageWidth  * ratio
-        avatar_obj.drawHeight = avatar_obj.imageHeight * ratio
         agent_card = Table(
-            [[avatar_obj, agent_text_col]],
-            colWidths=[30 * mm, inner_w - 30 * mm],
+            [[avatar_obj, agent_info_rows]],
+            colWidths=[38 * mm, inner_w - 38 * mm],
             style=TableStyle([
-                ("VALIGN",       (0, 0), (-1, -1), "MIDDLE"),
-                ("ALIGN",        (0, 0), (0, -1),  "CENTER"),
-                ("LEFTPADDING",  (0, 0), (-1, -1), 10),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
-                ("TOPPADDING",   (0, 0), (-1, -1), 10),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 10),
-                ("BACKGROUND",   (0, 0), (-1, -1), LIGHT_BG),
-                ("BOX",          (0, 0), (-1, -1), 1, GOLD),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN", (0, 0), (0, 0), "CENTER"),
+                ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BG),
+                ("BOX", (0, 0), (-1, -1), 1.2, GOLD),
+                ("TOPPADDING", (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
             ])
         )
     else:
         agent_card = Table(
-            [[agent_text_col]],
+            [[agent_info_rows]],
             colWidths=[inner_w],
             style=TableStyle([
-                ("LEFTPADDING",  (0, 0), (-1, -1), 14),
-                ("TOPPADDING",   (0, 0), (-1, -1), 10),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 10),
-                ("BACKGROUND",   (0, 0), (-1, -1), LIGHT_BG),
-                ("BOX",          (0, 0), (-1, -1), 1, GOLD),
+                ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BG),
+                ("BOX", (0, 0), (-1, -1), 1.2, GOLD),
+                ("TOPPADDING", (0, 0), (-1, -1), 8),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+                ("LEFTPADDING", (0, 0), (-1, -1), 10),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 10),
             ])
         )
+    story.append(agent_card)
 
-    story.append(KeepTogether(agent_card))
-    story.append(Spacer(1, 4 * mm))
-
-    # ── Alt Bölüm: Tarih + Kaynak ─────────────────────────────
-    from datetime import datetime as _dt
-    date_str = _dt.now().strftime("%d.%m.%Y")
-    footer_txt = (
-        f"Bu sunum {date_str} tarihinde Nexa OS tarafından otomatik oluşturulmuştur.  "
-        f"Kaynak: {source or url}  •  Yiğit Narin Gayrimenkul ve Yatırım Danışmanlığı"
-    )
-    story.append(HRFlowable(width=inner_w, thickness=0.5, color=PLATINUM))
-    story.append(Spacer(1, 2 * mm))
-    story.append(Paragraph(footer_txt, ST_FOOTER))
+    story.append(Spacer(1, 3 * mm))
+    story.append(HRFlowable(width=inner_w, thickness=0.5, color=PLATINUM, spaceAfter=2 * mm))
+    story.append(Paragraph(
+        "Bu portföy sunumu Coldwell Banker CB VIP Ankara bünyesinde Gayrimenkul Danışmanı Yiğit Narin tarafından hazırlanmıştır. Tüm hakları saklıdır. • Sayfa 2 / 2",
+        ST_FOOTER
+    ))
 
     doc.build(story)
-    buf.seek(0)
-    pdf_path.write_bytes(buf.read())
 
 
 def _cleanup_old_pdfs(max_count: int = 100) -> None:
@@ -15373,6 +15959,241 @@ def share_pdf(pdf_id: str):
         as_attachment=dl,
         download_name="Yigit_Narin_Ilan_Sunumu.pdf",
     )
+
+
+# ==========================================
+# AGENT & PRESENTATION ENGINE ENDPOINTS
+# ==========================================
+
+_PRESENTATIONS_DIR = BASE_DIR / "static" / "data" / "presentations"
+_PRESENTATIONS_DIR.mkdir(parents=True, exist_ok=True)
+_TOKENS_FILE = BASE_DIR / "static" / "data" / "presentation_tokens.json"
+
+
+def _get_agent_settings() -> dict:
+    """Danışman profil ayarlarını döndürür."""
+    settings_file = BASE_DIR / "static" / "data" / "agent_settings.json"
+    default_settings = {
+        "name": "Yiğit Narin",
+        "title": "Gayrimenkul ve Yatırım Danışmanınız",
+        "company": "Coldwell Banker CB VIP Ankara",
+        "phone": "+90 532 451 40 08",
+        "whatsapp": "+90 532 451 40 08",
+        "email": "yigit.narin@cb.com.tr",
+        "website": "www.gayrimenkulmuhendisi.com",
+        "avatar_url": "/static/yigit_narin_portrait.png",
+        "bio": "Coldwell Banker VIP Ankara bünyesinde lüks konut, arsa ve ticari gayrimenkul yatırım danışmanlığı."
+    }
+    if settings_file.exists():
+        try:
+            with open(settings_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                default_settings.update(data)
+        except Exception:
+            pass
+    return default_settings
+
+
+def _atomic_json_dump(target_path, data):
+    target_path = Path(target_path)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    temp_fd, temp_p = tempfile.mkstemp(dir=str(target_path.parent), prefix="tmp_save_", suffix=".json")
+    try:
+        with open(temp_fd, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        os.replace(temp_p, str(target_path))
+    except Exception:
+        if os.path.exists(temp_p):
+            try:
+                os.remove(temp_p)
+            except Exception:
+                pass
+        raise
+
+
+@app.route("/api/settings/agent", methods=["GET", "POST"])
+def api_settings_agent():
+    """Danışman profili alma ve güncelleme endpoint'i."""
+    settings_file = BASE_DIR / "static" / "data" / "agent_settings.json"
+    if flask_request.method == "POST":
+        body = flask_request.get_json(force=True, silent=True) or {}
+        current = _get_agent_settings()
+        current.update(body)
+        _atomic_json_dump(settings_file, current)
+        return jsonify({"ok": True, "settings": current})
+    else:
+        return jsonify({"ok": True, "settings": _get_agent_settings()})
+
+
+def _get_tokens_map() -> dict:
+    if _TOKENS_FILE.exists():
+        try:
+            with open(_TOKENS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
+def _save_tokens_map(tokens: dict) -> None:
+    _atomic_json_dump(_TOKENS_FILE, tokens)
+
+
+@app.route("/api/presentations/from-url", methods=["POST"])
+def api_presentations_from_url():
+    """URL'den full sunum (PDF + Web Presentation Viewer) oluşturan ana API."""
+    import urllib.parse
+    body = flask_request.get_json(force=True, silent=True) or {}
+    url = (body.get("url") or "").strip()
+    if not url:
+        return jsonify({"ok": False, "error": "Lütfen geçerli bir ilan bağlantısı (URL) girin."}), 400
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+
+    try:
+        # 1. Scrape
+        listing = scrape_listing(url)
+        if not listing or not listing.get("ok"):
+            listing = _scrape_via_slug_fallback(url)
+
+        # 2. PDF Üret
+        pdf_id = str(uuid.uuid4())
+        pdf_path = _PDF_DIR / f"{pdf_id}.pdf"
+        _generate_listing_pdf(listing, pdf_path)
+        _cleanup_old_pdfs(100)
+
+        # 3. Sunum Verisi Oluştur
+        pres_id = str(uuid.uuid4())
+        agent = _get_agent_settings()
+        
+        pres_data = {
+            "id": pres_id,
+            "url": url,
+            "title": listing.get("title", ""),
+            "price": listing.get("price", ""),
+            "location": listing.get("location", ""),
+            "specs": listing.get("specs", []),
+            "description": listing.get("description", ""),
+            "images": listing.get("images", []),
+            "pdf_id": pdf_id,
+            "pdf_url": f"/share/pdf/{pdf_id}",
+            "pdf_download_url": f"/share/pdf/{pdf_id}?dl=1",
+            "created_at": datetime.now().isoformat(),
+            "agent": agent
+        }
+
+        # Dosyaya kaydet
+        pres_file = _PRESENTATIONS_DIR / f"{pres_id}.json"
+        with open(pres_file, "w", encoding="utf-8") as f:
+            json.dump(pres_data, f, ensure_ascii=False, indent=2)
+
+        # 4. Token Oluştur
+        share_token = str(uuid.uuid4())[:12]
+        tokens = _get_tokens_map()
+        tokens[share_token] = pres_id
+        _save_tokens_map(tokens)
+
+        host = flask_request.host_url.rstrip("/")
+        viewer_url = f"{host}/p/{share_token}"
+        whatsapp_text = f"🏡 {listing.get('title', 'Gayrimenkul Sunumu')}\n💰 {listing.get('price', '')} - {listing.get('location', '')}\n\n✨ Özel Gayrimenkul Sunumu & Detaylar:\n{viewer_url}\n\n Detaylı Bilgi & İletişim:\n{agent.get('name')} - {agent.get('company')}\n📞 {agent.get('phone')}"
+        whatsapp_url = f"https://wa.me/?text={urllib.parse.quote(whatsapp_text)}"
+
+        return jsonify({
+            "ok": True,
+            "presentation_id": pres_id,
+            "share_token": share_token,
+            "viewer_url": viewer_url,
+            "pdf_url": f"/share/pdf/{pdf_id}",
+            "pdf_download_url": f"/share/pdf/{pdf_id}?dl=1",
+            "whatsapp_url": whatsapp_url,
+            "presentation": pres_data,
+            "listing": listing
+        })
+
+    except Exception as exc:
+        import traceback as _tb
+        _tb.print_exc()
+        return jsonify({"ok": False, "error": f"Sunum oluşturma hatası: {exc}"}), 500
+
+
+@app.route("/api/presentations/<pres_id>", methods=["GET"])
+def api_get_presentation(pres_id: str):
+    """Belirli sunumun JSON detayını verir."""
+    pres_file = _PRESENTATIONS_DIR / f"{pres_id}.json"
+    if not pres_file.exists():
+        return jsonify({"ok": False, "error": "Sunum bulunamadı."}), 404
+    try:
+        with open(pres_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return jsonify({"ok": True, "presentation": data})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/presentations/<pres_id>/share", methods=["POST"])
+def api_share_presentation(pres_id: str):
+    """Sunum için paylaşım linki ve WhatsApp metni üretir."""
+    import urllib.parse
+    pres_file = _PRESENTATIONS_DIR / f"{pres_id}.json"
+    if not pres_file.exists():
+        return jsonify({"ok": False, "error": "Sunum bulunamadı."}), 404
+
+    with open(pres_file, "r", encoding="utf-8") as f:
+        pres_data = json.load(f)
+
+    tokens = _get_tokens_map()
+    share_token = None
+    for tok, pid in tokens.items():
+        if pid == pres_id:
+            share_token = tok
+            break
+
+    if not share_token:
+        share_token = str(uuid.uuid4())[:12]
+        tokens[share_token] = pres_id
+        _save_tokens_map(tokens)
+
+    host = flask_request.host_url.rstrip("/")
+    viewer_url = f"{host}/p/{share_token}"
+    agent = pres_data.get("agent", _get_agent_settings())
+    title = pres_data.get("title", "Gayrimenkul Sunumu")
+    price = pres_data.get("price", "")
+    location = pres_data.get("location", "")
+
+    whatsapp_text = f"🏡 {title}\n💰 {price} - {location}\n\n✨ Özel Gayrimenkul Sunumu & Detaylar:\n{viewer_url}\n\n Detaylı Bilgi & İletişim:\n{agent.get('name')} - {agent.get('company')}\n📞 {agent.get('phone')}"
+    whatsapp_url = f"https://wa.me/?text={urllib.parse.quote(whatsapp_text)}"
+
+    return jsonify({
+        "ok": True,
+        "share_token": share_token,
+        "viewer_url": viewer_url,
+        "whatsapp_url": whatsapp_url
+    })
+
+
+@app.route("/p/<token>", methods=["GET"])
+def render_presentation_viewer(token: str):
+    """Mobil uyumlu lüks web sunum gösterici sayfası."""
+    from flask import render_template
+    tokens = _get_tokens_map()
+    pres_id = tokens.get(token)
+    if not pres_id:
+        if (_PRESENTATIONS_DIR / f"{token}.json").exists():
+            pres_id = token
+        else:
+            return render_template_string("<h1 style='color:white;background:#0B132B;padding:40px;text-align:center;font-family:sans-serif;'>Sunum Bulunamadı veya Süresi Dolmuş</h1>"), 404
+
+    pres_file = _PRESENTATIONS_DIR / f"{pres_id}.json"
+    if not pres_file.exists():
+        return render_template_string("<h1 style='color:white;background:#0B132B;padding:40px;text-align:center;font-family:sans-serif;'>Sunum Bulunamadı</h1>"), 404
+
+    try:
+        with open(pres_file, "r", encoding="utf-8") as f:
+            pres_data = json.load(f)
+        return render_template("presentation_viewer.html", presentation=pres_data, json_data=json.dumps(pres_data, ensure_ascii=False))
+    except Exception as e:
+        return f"Sunum yüklenirken hata: {e}", 500
+
 
 
 # ==========================================

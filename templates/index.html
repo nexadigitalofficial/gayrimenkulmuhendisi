@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>NEXA.OS — Unified PropTech Command Center</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#050608">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpolygon points=%2716,2 30,16 16,30 2,16%27 fill=%27%23c9a45c%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,12 +29,13 @@
   --text-1:#b9b8b4;
   --text-2:#71716d;
 }
-*{box-sizing:border-box;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;background:
     radial-gradient(ellipse 1000px 500px at 15% -10%, rgba(201,164,92,.06), transparent 60%),
     radial-gradient(ellipse 900px 500px at 100% 0%, rgba(61,220,132,.04), transparent 55%),
     var(--bg-0);
-  color:var(--text-0); font-family:'Inter',system-ui,sans-serif; min-height:100vh;}
+  color:var(--text-0); font-family:'Inter',system-ui,sans-serif; min-height:100vh;
+  touch-action:manipulation; overscroll-behavior-y:contain;}
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
 .serif{font-family:'Playfair Display',Georgia,serif;}
 
@@ -74,6 +79,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .urlrow input[type=text], .urlrow select{flex:1;min-width:240px;background:var(--bg-2);border:1px solid var(--line);
   color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;
   transition:border-color .2s ease, box-shadow .2s ease;}
+input::placeholder, textarea::placeholder { color: #8a8d93 !important; opacity: 1 !important; }
 .urlrow input[type=text]:focus, .urlrow select:focus{outline:none;border-color:var(--gold-dim);
   box-shadow:0 0 0 3px rgba(201,164,92,.12);}
 .btn{border:none;border-radius:10px;padding:14px 24px;font-size:13.5px;font-weight:600;
@@ -458,6 +464,20 @@ footer b{color:var(--gold-soft);}
                   text-decoration:none;box-shadow:0 8px 24px -8px rgba(201,164,92,.5);">
           👁 PDF'i Tarayıcıda Aç
         </a>
+        <a id="pdfWebBtn" href="#" target="_blank"
+           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
+                  background:linear-gradient(135deg,#00b4db,#0083b0);
+                  color:#ffffff;border-radius:10px;font-weight:700;font-size:13.5px;
+                  text-decoration:none;box-shadow:0 8px 24px -8px rgba(0,180,219,.4);">
+          📱 Mobil Web Sunum Deck
+        </a>
+        <a id="pdfWaBtn" href="#" target="_blank"
+           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
+                  background:#25D366;color:#ffffff;border-radius:10px;
+                  font-weight:700;font-size:13.5px;text-decoration:none;
+                  box-shadow:0 8px 24px -8px rgba(37,211,102,.4);">
+          💬 WhatsApp'ta Paylaş
+        </a>
         <a id="pdfDownloadBtn" href="#" download="Yigit_Narin_Ilan_Sunumu.pdf"
            style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
                   background:var(--bg-2);color:var(--gold-soft);border-radius:10px;
@@ -470,7 +490,7 @@ footer b{color:var(--gold-soft);}
                        background:var(--bg-2);color:var(--text-1);border-radius:10px;
                        font-weight:600;font-size:13.5px;cursor:pointer;
                        border:1px solid var(--line);">
-          🔗 Paylaşım Linkini Kopyala
+          🔗 Kopyala (Web Link)
         </button>
         <button onclick="generatePdf()"
                 style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
@@ -901,7 +921,7 @@ async function generatePdf() {
   }, 1000);
 
   try {
-    const resp = await fetch('/api/listing-pdf', {
+    const resp = await fetch('/api/presentations/from-url', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })
@@ -928,23 +948,28 @@ async function generatePdf() {
 
     _pdfStep(2, true);
     _pdfStep(3, false);
-    _pdfStatus('📥 Görseller indirildi ve lüks PDF derlendi…');
+    _pdfStatus('📥 Görseller indirildi, PDF & Lüks Web Deck derlendi…');
 
     _pdfStep(4, true);
-    _pdfStatus(`🎉 Sunum PDF başarıyla hazırlandı! (${elapsedSec}s) Aşağıdan görüntüleyebilir veya paylaşabilirsiniz.`);
+    _pdfStatus(`🎉 Sunum başarıyla hazırlandı! (${elapsedSec}s) Aşağıdan PDF indirebilir, Web Sunumunu açabilir veya WhatsApp'ta paylaşabilirsiniz.`);
 
     // Sonuç paneli doldur
-    const shareUrl  = window.location.origin + data.share_url;
-    const dlUrl     = window.location.origin + data.download_url;
-    _currentPdfShareUrl = shareUrl;
+    const pdfUrl    = data.pdf_url.startsWith('http') ? data.pdf_url : window.location.origin + data.pdf_url;
+    const dlUrl     = data.pdf_download_url.startsWith('http') ? data.pdf_download_url : window.location.origin + data.pdf_download_url;
+    const viewerUrl = data.viewer_url || (window.location.origin + '/p/' + data.share_token);
+    const waUrl     = data.whatsapp_url || `https://wa.me/?text=${encodeURIComponent(viewerUrl)}`;
+    
+    _currentPdfShareUrl = viewerUrl;
 
     // Link kutusu
     document.getElementById('pdfShareBox').innerHTML =
-      '🔗 ' + shareUrl;
+      '📱 Web Sunum Deck: <a href="' + viewerUrl + '" target="_blank" style="color:var(--gold);text-decoration:underline;">' + viewerUrl + '</a>';
 
     // Buton linkleri
-    document.getElementById('pdfOpenBtn').href     = shareUrl;
+    document.getElementById('pdfOpenBtn').href     = pdfUrl;
     document.getElementById('pdfDownloadBtn').href = dlUrl;
+    if (document.getElementById('pdfWebBtn')) document.getElementById('pdfWebBtn').href = viewerUrl;
+    if (document.getElementById('pdfWaBtn')) document.getElementById('pdfWaBtn').href  = waUrl;
 
     // İlan önizleme kartı
     const preview = document.getElementById('pdfListingPreview');
@@ -959,12 +984,12 @@ async function generatePdf() {
         <div style="font-size:14px;font-weight:700;color:var(--text-0);margin-bottom:4px;">${esc(li.title || '—')}</div>
         ${li.price ? `<div style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:4px;">${esc(li.price)}</div>` : ''}
         ${li.location ? `<div style="font-size:12px;color:var(--text-2);">📍 ${esc(li.location)}</div>` : ''}
-        <div style="font-size:11px;color:var(--text-2);margin-top:4px;">Kaynak: ${esc(li.source || 'bilinmiyor')}</div>
+        <div style="font-size:11px;color:var(--text-2);margin-top:4px;">Danışman: Yiğit Narin (Coldwell Banker VIP Ankara)</div>
       </div>
     `;
 
     // PDF iframe önizleme
-    document.getElementById('pdfPreviewFrame').src = shareUrl;
+    document.getElementById('pdfPreviewFrame').src = pdfUrl;
     document.getElementById('pdfResultPanel').style.display = 'block';
 
     // Scroll into view
