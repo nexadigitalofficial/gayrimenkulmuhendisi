@@ -1974,6 +1974,290 @@
             .contact-container { flex-direction: column; gap: 2rem; }
         }
 
+        /* ─── ULTRA-CORPORATE MODAL HEADER & MEDIA ARCHITECTURE ─── */
+        .video-modal-header {
+            padding: 1rem 1.4rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: #222225;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .video-header-row-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+        }
+        .video-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1 1 auto;
+            overflow: hidden;
+        }
+        .video-header-icon {
+            color: #4285F4;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .video-modal-title {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+            letter-spacing: -0.2px;
+        }
+        .video-modal-close-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .video-modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.24);
+            transform: scale(1.05);
+        }
+        .video-header-row-sub {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            width: 100%;
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .video-badges-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+        .video-drive-badge {
+            background: rgba(66, 133, 244, 0.18);
+            color: #6BA5FF;
+            border: 1px solid rgba(66, 133, 244, 0.35);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        .video-corp-tag {
+            background: rgba(255, 215, 0, 0.12);
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        .video-actions-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .video-drive-open-btn {
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 5px 12px;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .video-drive-open-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.45);
+            color: #fff;
+        }
+        .video-player-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            min-height: 220px;
+            max-height: calc(82vh - 130px);
+            background: #000;
+            overflow: hidden;
+        }
+        .video-player-container video,
+        .video-player-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: contain;
+            background: #000;
+        }
+        .video-modal-footer {
+            padding: 0.85rem 1.4rem;
+            background: #202022;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+            box-sizing: border-box;
+        }
+        .video-desc-text {
+            margin: 0;
+            color: #a1a1a6;
+            font-size: 13.5px;
+            font-weight: 500;
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+        .video-source-switch {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        /* PDF MODAL HEADER & CONTROLS */
+        .pdf-modal-header {
+            padding: 0.85rem 1.4rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            background: #f8f9fa;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .pdf-header-row-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+        }
+        .pdf-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1 1 auto;
+            overflow: hidden;
+        }
+        .pdf-header-icon {
+            color: #FF3B30;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .pdf-modal-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+        }
+        .pdf-modal-close-btn {
+            background: rgba(0, 0, 0, 0.06);
+            border: none;
+            color: var(--text-primary);
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+        .pdf-modal-close-btn:hover {
+            background: rgba(0, 0, 0, 0.12);
+        }
+        .pdf-header-row-sub {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            width: 100%;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .pdf-corp-tag {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .pdf-actions-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .pdf-action-btn {
+            font-size: 11.5px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: #fff;
+            color: var(--text-primary);
+            border-radius: 8px;
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .pdf-action-btn:hover {
+            background: #f0f0f3;
+        }
+        .pdf-btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .pdf-btn-primary:hover {
+            background: #0060c4;
+            color: #fff;
+        }
+
         @media (max-width: 768px) {
             .navbar { padding: 1rem; }
             .nav-links, .nav-social-actions { display: none; }
@@ -2016,25 +2300,88 @@
             .hero-about-grid { display: grid; }
             .hero-banner-section { padding-top: calc(6.5rem + env(safe-area-inset-top, 0px)); }
             .results-grid { grid-template-columns: 1fr !important; }
-            .card.project-card { flex: 0 0 calc(100vw - 40px); min-width: 0 !important; max-width: none !important; }
-            .card-actions { flex-wrap: wrap !important; }
-            .card-actions .btn { white-space: normal !important; flex: 1 1 auto; min-height: 40px; padding: 8px 10px !important; font-size: 12px !important; }
-            .card-footer .btn { min-height: 40px; }
-            .modal-close { width: 44px !important; height: 44px !important; font-size: 20px !important; }
+            .carousel-track { 
+                touch-action: pan-x; 
+                overscroll-behavior-x: contain; 
+                padding: 10px 14px 20px 14px !important; 
+                gap: 12px !important; 
+                scroll-snap-type: x mandatory; 
+                -webkit-overflow-scrolling: touch; 
+            }
+            .carousel-track .card.project-card { 
+                flex: 0 0 280px !important; 
+                width: 280px !important; 
+                min-width: 280px !important; 
+                max-width: 280px !important; 
+                scroll-snap-align: start; 
+                border-radius: 18px !important;
+                box-shadow: 0 4px 18px rgba(0,0,0,0.06) !important;
+            }
+            .results-grid .card.project-card { 
+                width: 100% !important; 
+                min-width: 0 !important; 
+                max-width: 100% !important; 
+                flex: 1 1 100% !important; 
+                border-radius: 18px !important;
+            }
+            .card.project-card .card-img-wrapper { 
+                height: 155px !important; 
+                min-height: 155px !important; 
+            }
+            .card.project-card .card-content { 
+                padding: 0.85rem 0.95rem !important; 
+            }
+            .card.project-card .card-title { 
+                font-size: 15px !important; 
+                line-height: 1.25 !important; 
+                margin-bottom: 2px !important; 
+            }
+            .card.project-card .card-developer { 
+                font-size: 11px !important; 
+                margin-bottom: 2px !important; 
+            }
+            .card.project-card .card-location { 
+                font-size: 11.5px !important; 
+                margin-bottom: 6px !important; 
+            }
+            .card.project-card .card-tags { 
+                margin-bottom: 8px !important; 
+                gap: 4px !important; 
+            }
+            .card.project-card .card-tags .tag { 
+                font-size: 10.5px !important; 
+                padding: 2px 7px !important; 
+            }
+            .card.project-card .card-price-prominent { 
+                font-size: 16.5px !important; 
+                font-weight: 800 !important; 
+            }
+            .card.project-card .card-price-down { 
+                font-size: 11px !important; 
+            }
+            .card.project-card .card-footer { 
+                padding-top: 8px !important; 
+                gap: 6px !important; 
+                margin-top: auto !important; 
+            }
+            .card-actions { flex-wrap: wrap !important; gap: 4px !important; margin-bottom: 4px !important; }
+            .card-actions .btn { white-space: normal !important; flex: 1 1 auto; min-height: 32px !important; padding: 5px 8px !important; font-size: 11px !important; border-radius: 8px !important; }
+            .card-footer .btn { min-height: 34px !important; font-size: 11.5px !important; padding: 6px 8px !important; border-radius: 8px !important; }
+            .card.project-card .video-play-overlay { width: 38px !important; height: 38px !important; font-size: 14px !important; bottom: 8px !important; right: 8px !important; }
+            .modal-close { width: 38px !important; height: 38px !important; font-size: 16px !important; }
             .chat-chip { font-size: 13px !important; min-height: 40px; padding: 8px 14px !important; }
             .mindmap-hint { font-size: 13px !important; }
             .location-auto-badge { font-size: 13px !important; }
             .filter-label { font-size: 13px !important; }
-            .tag, .badge { font-size: 12px !important; }
+            .tag, .badge { font-size: 11.5px !important; }
             .appointment-grid-2 { grid-template-columns: 1fr !important; }
             .chat-input { font-size: 16px !important; }
             .chat-lead-input { font-size: 16px !important; }
             .about-modal-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important; }
             .chat-messages, .modal-content, .chat-window, #appointmentForm, #reportModalBody { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
-            .carousel-track { touch-action: pan-y pinch-zoom !important; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
-            #videoModal .modal-container { max-width: 95vw !important; max-height: 85vh !important; max-height: 85dvh !important; }
-            #videoModal .modal-container #videoPlayerContainer { max-height: calc(85vh - 130px) !important; max-height: calc(85dvh - 130px) !important; padding-top: 0 !important; height: auto !important; aspect-ratio: 16 / 9; }
-            #pdfModal .modal-container { height: 90vh !important; height: 90dvh !important; }
+            #videoModal .modal-container { max-width: 96vw !important; max-height: 88vh !important; border-radius: 18px !important; }
+            #videoModal .video-player-container { max-height: calc(82vh - 120px) !important; aspect-ratio: 16 / 9; }
+            #pdfModal .modal-container { max-width: 96vw !important; height: 90dvh !important; border-radius: 18px !important; }
         }
 
         @media (max-width: 480px) {
@@ -2701,11 +3048,24 @@
         @media (max-width: 560px) {
             .apt-grid-2 { grid-template-columns: 1fr !important; gap: 0.75rem !important; }
             .apt-btns-grid { grid-template-columns: 1fr !important; gap: 8px !important; }
-            .modal-overlay { padding: 0.75rem !important; }
-            .modal-container { border-radius: 18px !important; max-height: 90dvh !important; }
+            .modal-overlay { padding: 8px !important; }
+            .modal-container { border-radius: 16px !important; max-height: 92dvh !important; }
             #appointmentForm { padding: 1.25rem 1rem !important; }
             #aboutModal .modal-container, #reportModal .modal-container { max-height: 88dvh !important; }
             #reportModalBody { padding: 1.25rem 1rem !important; }
+            .video-modal-header { padding: 0.65rem 0.85rem !important; }
+            .video-modal-title { font-size: 14px !important; }
+            .video-drive-badge { font-size: 10.5px !important; padding: 2px 7px !important; }
+            .video-corp-tag { display: none !important; }
+            .video-drive-open-btn { font-size: 11px !important; padding: 4px 9px !important; min-height: 28px !important; }
+            .video-modal-close-btn { width: 32px !important; height: 32px !important; min-width: 32px !important; font-size: 14px !important; }
+            .video-modal-footer { padding: 0.65rem 0.85rem !important; }
+            .video-desc-text { font-size: 12px !important; }
+            .pdf-modal-header { padding: 0.65rem 0.85rem !important; }
+            .pdf-modal-title { font-size: 14px !important; }
+            .pdf-corp-tag { display: none !important; }
+            .pdf-action-btn { font-size: 11px !important; padding: 4px 8px !important; min-height: 28px !important; }
+            .pdf-modal-close-btn { width: 32px !important; height: 32px !important; min-width: 32px !important; font-size: 14px !important; }
         }
 
         @media (max-width: 480px) {
@@ -2721,13 +3081,10 @@
             .hero-banner-actions { flex-direction: column !important; align-items: stretch !important; gap: 0.75rem !important; }
             .budget-btn { font-size: 12px !important; padding: 8px 12px !important; min-height: 42px; }
             .about-compact-card { margin: 1.5rem auto 1.25rem !important; padding: 1.25rem 1rem !important; }
-            .carousel-track > .card.project-card { min-width: 0 !important; width: calc(100vw - 32px) !important; max-width: 360px !important; flex: 0 0 calc(100vw - 32px) !important; }
-            .results-grid .card.project-card { width: 100% !important; max-width: 100% !important; flex: 1 1 100% !important; }
-            .logo { gap: 0.5rem !important; }
-            .logo span { font-size: 14px !important; }
-            .nav-logo-media { width: 36px !important; height: 24px !important; }
-            .card-price-prominent { font-size: 19px !important; }
-            .card-footer .btn { font-size: 12px !important; padding: 8px !important; min-height: 40px; }
+            .carousel-track .card.project-card { flex: 0 0 265px !important; width: 265px !important; min-width: 265px !important; max-width: 265px !important; }
+            .card.project-card .card-img-wrapper { height: 148px !important; min-height: 148px !important; }
+            .card-price-prominent { font-size: 16px !important; }
+            .card-footer .btn { font-size: 11px !important; padding: 6px 8px !important; min-height: 32px !important; }
             .why-me-grid > div { padding: 1rem !important; }
             .footer-col { padding: 1rem !important; }
             .contact-form-card input, .contact-form-card textarea { font-size: 16px !important; }
@@ -2735,10 +3092,8 @@
             .filter-step-card > div:first-child { flex-wrap: wrap; gap: 0.5rem !important; }
             .location-auto-badge { margin-left: 0 !important; }
             .step-num { width: 26px !important; height: 26px !important; font-size: 13px !important; }
-            #videoModal .modal-container { max-height: 82vh !important; border-radius: 18px !important; }
-            #videoModal #videoPlayerContainer { max-height: calc(82vh - 110px) !important; }
-            #videoModal .modal-container > div:first-child { padding: 0.75rem 1rem !important; }
-            #videoModal .modal-container > div:last-child { padding: 0.75rem 1rem !important; }
+            #videoModal .modal-container { max-height: 84vh !important; border-radius: 16px !important; }
+            #videoModal .video-player-container { max-height: calc(84vh - 110px) !important; }
         }
 
         @media (max-width: 360px) {
@@ -2746,8 +3101,9 @@
             .section-title { font-size: 21px !important; }
             .hero-banner-title { font-size: 21px !important; }
             .budget-btn { padding: 6px 10px !important; font-size: 11.5px !important; min-height: 40px; }
+            .carousel-track .card.project-card { flex: 0 0 245px !important; width: 245px !important; min-width: 245px !important; max-width: 245px !important; }
+            .card.project-card .card-img-wrapper { height: 138px !important; min-height: 138px !important; }
             .card-actions { gap: 4px !important; }
-            .card.project-card { width: calc(100vw - 24px) !important; flex: 0 0 calc(100vw - 24px) !important; }
             .card-title { font-size: 15px !important; }
             .segmented-control { width: 100% !important; height: 46px !important; }
             .segment-btn { font-size: 13px !important; }
@@ -5534,8 +5890,8 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
                     const waUrl = `https://wa.me/905324514008?text=${encodeURIComponent(waMsg)}`;
 
                     const html = `
-                        <div class="card project-card" id="site-card-${item.id}" onclick="openProjectReport('${item.id}')" style="cursor:pointer; display:flex; flex-direction:column; min-width:min(340px, 88vw); max-width:360px; ${isBudgetMatch ? 'border: 2px solid var(--accent); box-shadow: 0 12px 36px rgba(0,113,227,0.18);' : ''}">
-                            <div class="card-img-wrapper" id="site-card-img-${item.id}" data-preview-id="${item.id}">
+                        <div class="card project-card" id="site-card-${item.id}" onclick="handleCardClick('${item.id}')" style="cursor:pointer; display:flex; flex-direction:column; ${isBudgetMatch ? 'border: 2px solid var(--accent); box-shadow: 0 12px 36px rgba(0,113,227,0.18);' : ''}">
+                            <div class="card-img-wrapper" id="site-card-img-${item.id}" data-preview-id="${item.id}" onclick="handleCardClick('${item.id}')">
                                 <img src="${imgSrc}" alt="${safeName}" loading="lazy" class="project-card-img" onerror="this.src='/static/img/placeholder.jpg'">
                                 <span class="badge sale" style="position:absolute; top:12px; left:12px; background:${isBudgetMatch ? '#34C759' : 'var(--accent)'}; color:#fff; font-weight:700; font-size:11px; padding:4px 10px; border-radius:20px;">${isBudgetMatch ? '⭐ BÜTÇENİZE UYGUN' : 'LANSMAN PROJESİ'}</span>
                                 ${hasVideo ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playProjectVideo('${item.id}')" title="Tanıtım Videosunu Oynat"><i class="fa-solid fa-play"></i></div>` : ''}
@@ -6119,8 +6475,8 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
                     const pdfBtn = `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openPdfPreview('${item.id}')" style="font-size:12px; padding:6px 10px;"><i class="fa-solid fa-file-pdf"></i> Sunum</button>`;
 
                     const cardHtml = `
-                        <div class="card project-card" onclick="openProjectReport('${item.id}')" style="display:flex; flex-direction:column; background:#fff; border-radius:24px; overflow:hidden; border:1px solid rgba(0,0,0,0.06); box-shadow:0 4px 20px rgba(0,0,0,0.05); transition:all 0.3s ease;">
-                            <div class="card-img-wrapper" id="site-card-img-${item.id}" data-preview-id="${item.id}">
+                        <div class="card project-card" onclick="handleCardClick('${item.id}')" style="cursor:pointer; display:flex; flex-direction:column; background:#fff; border-radius:22px; overflow:hidden; border:1px solid rgba(0,0,0,0.06); box-shadow:0 4px 20px rgba(0,0,0,0.05); transition:all 0.3s ease;">
+                            <div class="card-img-wrapper" id="site-card-img-${item.id}" data-preview-id="${item.id}" onclick="handleCardClick('${item.id}')">
                                 <img src="${imgSrc}" alt="${safeName}" loading="lazy" class="project-card-img" onerror="this.src='/static/img/placeholder.jpg'">
                                 <span class="badge sale" style="position:absolute; top:12px; left:12px; background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; letter-spacing:0.5px;">PROJE</span>
                                 <span style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); color:#FFD700; font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;"><i class="fa-solid fa-star"></i> AI Skoru: ${aiScore}</span>
@@ -6696,6 +7052,19 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
                 });
             }
             return p || null;
+        }
+
+        // ─── SMART CARD CLICK DISPATCHER (VIDEO / PDF / REPORT) ─────────────
+        function handleCardClick(projectId) {
+            const p = findProjectFlexible(projectId);
+            if (!p) return;
+            if (p.has_video || p.drive_video_preview || p.drive_vid_id || p.tanitim_cloud_url || (p.videos && p.videos.length > 0)) {
+                playProjectVideo(projectId);
+            } else if (p.has_presentation || p.presentation || p.drive_pdf_preview || p.drive_pdf_id || (p.presentations && p.presentations.length > 0)) {
+                openPdfPreview(projectId);
+            } else {
+                openProjectReport(projectId);
+            }
         }
 
         // ─── GOOGLE DRIVE PREVIEW & STREAM VIDEO PLAYER ──────────────────────
@@ -7478,38 +7847,56 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
 
 
     <!-- VIDEO MODAL (GOOGLE DRIVE PREVIEW & STREAM PLAYER) -->
-    <div class="modal-overlay" id="videoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1.5rem;">
-        <div class="modal-container" style="background:#1c1c1e; color:#fff; width:100%; max-width:940px; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,0.15); box-shadow:0 25px 60px rgba(0,0,0,0.6); display:flex; flex-direction:column;">
-            <div style="display:flex; align-items:center; justify-content:space-between; padding:1.25rem 1.5rem; border-bottom:1px solid rgba(255,255,255,0.1); background:#242426;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <h3 id="videoTitle" style="margin:0; font-size:18px; font-weight:700; color:#fff;">Proje Tanıtım Filmi</h3>
-                    <span id="videoDriveBadge" style="background:rgba(66,133,244,0.18); color:#6BA5FF; border:1px solid rgba(66,133,244,0.35); font-size:11px; font-weight:700; padding:3px 10px; border-radius:12px; display:inline-flex; align-items:center; gap:5px;"><i class="fa-brands fa-google-drive"></i> Drive Önizleme</span>
+    <div class="modal-overlay" id="videoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1rem;">
+        <div class="modal-container" style="background:#1c1c1e; color:#fff; width:100%; max-width:940px; border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,0.15); box-shadow:0 25px 60px rgba(0,0,0,0.6); display:flex; flex-direction:column;">
+            <div class="video-modal-header">
+                <div class="video-header-row-top">
+                    <div class="video-title-wrap">
+                        <span class="video-header-icon"><i class="fa-solid fa-circle-play"></i></span>
+                        <h3 id="videoTitle" class="video-modal-title">Proje Tanıtım Filmi</h3>
+                    </div>
+                    <button onclick="closeModal('videoModal')" aria-label="Kapat" class="video-modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <a id="videoDriveOpenBtn" href="#" target="_blank" class="btn btn-outline btn-sm" style="font-size:12px; padding:6px 12px; color:#fff; border-color:rgba(255,255,255,0.25); background:rgba(255,255,255,0.06); min-height:40px; display:inline-flex; align-items:center;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Drive'da Aç</a>
-                    <button onclick="closeModal('videoModal')" aria-label="Kapat" style="background:rgba(255,255,255,0.12); border:none; color:#fff; width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:18px; display:inline-flex; align-items:center; justify-content:center;"><i class="fa-solid fa-xmark"></i></button>
+                <div class="video-header-row-sub">
+                    <div class="video-badges-wrap">
+                        <span id="videoDriveBadge" class="video-drive-badge"><i class="fa-brands fa-google-drive"></i> Drive Önizleme</span>
+                        <span class="video-corp-tag"><i class="fa-solid fa-shield-halved"></i> CB VIP Onaylı</span>
+                    </div>
+                    <div class="video-actions-wrap">
+                        <a id="videoDriveOpenBtn" href="#" target="_blank" class="video-drive-open-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Drive'da Aç</a>
+                    </div>
                 </div>
             </div>
-            <div id="videoPlayerContainer" style="position:relative; width:100%; padding-top:56.25%; background:#000;">
-                <video id="projectVideo" controls autoplay playsinline webkit-playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; display:none;"></video>
-                <iframe id="projectDriveIframe" src="" allow="autoplay; encrypted-media" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
+            <div id="videoPlayerContainer" class="video-player-container">
+                <video id="projectVideo" controls autoplay playsinline webkit-playsinline style="display:none;"></video>
+                <iframe id="projectDriveIframe" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
             </div>
-            <div style="padding:1rem 1.5rem; background:#242426; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08);">
-                <p id="videoDesc" style="margin:0; color:#a1a1a6; font-size:14px; font-weight:500;"></p>
-                <div id="videoSourceSwitch" style="display:flex; gap:8px;"></div>
+            <div class="video-modal-footer">
+                <p id="videoDesc" class="video-desc-text"></p>
+                <div id="videoSourceSwitch" class="video-source-switch"></div>
             </div>
         </div>
     </div>
 
     <!-- PDF SUNUM MODAL -->
-    <div class="modal-overlay" id="pdfModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1.5rem;">
+    <div class="modal-overlay" id="pdfModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1rem;">
         <div class="modal-container" style="background:#fff; width:100%; max-width:1000px; height:90vh; border-radius:20px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 25px 60px rgba(0,0,0,0.4);">
-            <div style="display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem; border-bottom:1px solid rgba(0,0,0,0.08); background:#f8f9fa;">
-                <h3 id="pdfModalTitle" style="margin:0; font-size:17px; font-weight:700; color:var(--text-primary);">Proje Sunum Dosyası</h3>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <a id="pdfOpenTabBtn" href="#" target="_blank" class="btn btn-outline btn-sm" style="font-size:13px; padding:6px 12px; min-height:40px; display:inline-flex; align-items:center;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Yeni Sekmede Aç</a>
-                    <a id="pdfDownloadBtn" href="#" target="_blank" class="btn btn-primary btn-sm" style="font-size:13px; padding:6px 12px; min-height:40px; display:inline-flex; align-items:center;"><i class="fa-solid fa-download"></i> İndir</a>
-                    <button onclick="closeModal('pdfModal')" aria-label="Kapat" style="background:rgba(0,0,0,0.06); border:none; color:var(--text-primary); width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:18px; display:inline-flex; align-items:center; justify-content:center;"><i class="fa-solid fa-xmark"></i></button>
+            <div class="pdf-modal-header">
+                <div class="pdf-header-row-top">
+                    <div class="pdf-title-wrap">
+                        <span class="pdf-header-icon"><i class="fa-solid fa-file-pdf"></i></span>
+                        <h3 id="pdfModalTitle" class="pdf-modal-title">Proje Sunum Dosyası</h3>
+                    </div>
+                    <button onclick="closeModal('pdfModal')" aria-label="Kapat" class="pdf-modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="pdf-header-row-sub">
+                    <div class="pdf-badges-wrap">
+                        <span class="pdf-corp-tag"><i class="fa-solid fa-certificate"></i> Coldwell Banker VIP</span>
+                    </div>
+                    <div class="pdf-actions-wrap">
+                        <a id="pdfOpenTabBtn" href="#" target="_blank" class="pdf-action-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Yeni Sekmede Aç</a>
+                        <a id="pdfDownloadBtn" href="#" target="_blank" class="pdf-action-btn pdf-btn-primary"><i class="fa-solid fa-download"></i> İndir</a>
+                    </div>
                 </div>
             </div>
             <div id="pdfViewerContainer" style="width:100%; height:100%; background:#f5f5f7; overflow:hidden;"></div>
@@ -7517,23 +7904,37 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
     </div>
 
     <!-- ZEKA RAPORU MODAL -->
-    <div class="modal-overlay" id="reportModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1.5rem;">
+    <div class="modal-overlay" id="reportModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1rem;">
         <div class="modal-container" style="background:#fff; width:100%; max-width:850px; max-height:85vh; border-radius:20px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 25px 60px rgba(0,0,0,0.3);">
-            <div style="display:flex; align-items:center; justify-content:space-between; padding:1.25rem 1.5rem; border-bottom:1px solid rgba(0,0,0,0.08); background:linear-gradient(135deg, rgba(0,113,227,0.05), rgba(94,92,230,0.05));">
-                <h3 id="reportProjectTitle" style="margin:0; font-size:18px; font-weight:700; color:var(--text-primary);"><i class="fa-solid fa-brain" style="color:var(--accent);"></i> Nexa AI Zeka Raporu</h3>
-                <button onclick="closeModal('reportModal')" aria-label="Kapat" style="background:rgba(0,0,0,0.06); border:none; color:var(--text-primary); width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:18px; display:inline-flex; align-items:center; justify-content:center;"><i class="fa-solid fa-xmark"></i></button>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:1.1rem 1.4rem; border-bottom:1px solid rgba(0,0,0,0.08); background:linear-gradient(135deg, rgba(0,113,227,0.05), rgba(94,92,230,0.05));">
+                <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1 1 auto; overflow:hidden;">
+                    <i class="fa-solid fa-brain" style="color:var(--accent); font-size:17px; flex-shrink:0;"></i>
+                    <h3 id="reportProjectTitle" style="margin:0; font-size:16px; font-weight:700; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Nexa AI Zeka Raporu</h3>
+                </div>
+                <button onclick="closeModal('reportModal')" aria-label="Kapat" style="background:rgba(0,0,0,0.06); border:none; color:var(--text-primary); width:36px; height:36px; min-width:36px; border-radius:50%; cursor:pointer; font-size:16px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="reportModalBody" style="padding:2rem; overflow-y:auto; font-size:15px; line-height:1.7; color:var(--text-primary);">
+            <div id="reportModalBody" style="padding:1.5rem; overflow-y:auto; font-size:14.5px; line-height:1.7; color:var(--text-primary);">
                 <!-- Dynamic Markdown Intelligence Report Content -->
             </div>
-            <div id="reportModalFooter" style="display:none; align-items:center; justify-content:space-between; gap:10px; padding:1rem 1.5rem; border-top:1px solid rgba(0,0,0,0.08); background:#FAFAFC;">
-                <div style="font-size:13px; color:var(--text-secondary);"><i class="fa-solid fa-circle-info" style="color:var(--accent);"></i> Sorularınız için anlık destek alın</div>
-                <div style="display:flex; gap:10px;">
-                    <a id="reportWaBtn" href="https://wa.me/905324514008" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;font-size:13px;font-weight:700;padding:9px 14px;border-radius:10px;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i> WhatsApp'tan Yaz</a>
-                    <a id="reportTelBtn" href="tel:+905324514008" style="display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:9px 14px;border-radius:10px;text-decoration:none;"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
+            <div id="reportModalFooter" style="display:none; align-items:center; justify-content:space-between; gap:10px; padding:0.85rem 1.25rem; border-top:1px solid rgba(0,0,0,0.08); background:#FAFAFC; flex-wrap:wrap;">
+                <div style="font-size:12.5px; color:var(--text-secondary);"><i class="fa-solid fa-circle-info" style="color:var(--accent);"></i> Sorularınız için anlık destek alın</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <a id="reportWaBtn" href="https://wa.me/905324514008" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i> WhatsApp'tan Yaz</a>
+                    <a id="reportTelBtn" href="tel:+905324514008" style="display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:8px;text-decoration:none;"><i class="fa-solid fa-phone"></i> Hemen Ara</a>
                 </div>
             </div>
         </div>
     </div>
+
+<script>
+// Click backdrop to close modals
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeModal(overlay.id);
+        }
+    });
+});
+</script>
 </body>
 </html>
