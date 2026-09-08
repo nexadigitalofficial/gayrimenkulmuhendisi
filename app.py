@@ -10906,8 +10906,8 @@ def nexa_stream_video(project_id):
         return "Project not found", 404
 
     target_dir = _NEXA_PROJELER_ROOT / (project.get("folder_name") or project.get("title") or "")
-    _PRIORITY_WORDS_1 = ("tanitim", "tanıtım", "intro", "main", "ana")
-    _PRIORITY_WORDS_2 = ("slayt", "slideshow", "slaytlar")
+    _PRIORITY_WORDS_1 = ("tanitim", "tanıtım", "intro", "main", "ana", "lansman", "animasyon", "promosyon", "promo")
+    _PRIORITY_WORDS_2 = ("slayt", "slideshow", "slaytlar", "sunum")
 
     def _mp4_priority(f: Path):
         name = f.stem.lower()
@@ -10924,8 +10924,39 @@ def nexa_stream_video(project_id):
     if real_mp4 is None and mp4_files:
         real_mp4 = mp4_files[0]
     if not real_mp4 or not real_mp4.exists():
+        drive_url = project.get("drive_video_preview") or project.get("tanitim_cloud_url") or ""
+        if drive_url.startswith("http"):
+            m = re.search(r"/file/d/([\w-]{15,})", drive_url)
+            if m:
+                return redirect(f"https://drive.usercontent.google.com/download?id={m.group(1)}&export=media&confirm=t")
+            return redirect(drive_url)
         return "Video file not found", 404
     return _nexa_stream_file_response(real_mp4, "video/mp4")
+
+
+@app.route("/stream/pdf/<project_id>")
+def nexa_stream_pdf(project_id):
+    """Projenin tanıtım PDF'ini yerelden veya Google Drive üzerinden servis eder."""
+    projects = _nexa_load_projects()
+    project = next((p for p in projects if str(p.get("id")) == str(project_id) or str(p.get("db_id")) == str(project_id)), None)
+    if not project:
+        return "Project not found", 404
+    pre = project.get("presentations") or []
+    rel = (pre[0].get("path") or pre[0].get("filename") or "") if pre else ""
+    if rel:
+        base = _NEXA_PROJELER_ROOT.resolve()
+        target = (base / rel).resolve()
+        if target.exists() and target.is_file() and target.suffix.lower() == ".pdf":
+            resp = send_file(str(target), mimetype="application/pdf")
+            resp.headers["Cache-Control"] = "public, max-age=604800"
+            return resp
+    drive_pdf = project.get("drive_pdf_preview") or project.get("sunum_cloud_url") or ""
+    if drive_pdf.startswith("http"):
+        m = re.search(r"/file/d/([\w-]{15,})", drive_pdf)
+        if m:
+            return redirect(f"https://drive.google.com/file/d/{m.group(1)}/view")
+        return redirect(drive_pdf)
+    return "PDF bulunamadı", 404
 
 # ================================================================
 # API — İLAN SCRAPER
@@ -13820,9 +13851,10 @@ def api_ai_save_to_crm():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
+@app.route("/site")
 @app.route("/sunum")
 def sunum_page():
-    """Proje Sunumu sayfası."""
+    """Proje ve Lansman Sunum Portalı sayfası."""
     try:
         return send_from_directory("templates", "sunum.html")
     except Exception as e:
