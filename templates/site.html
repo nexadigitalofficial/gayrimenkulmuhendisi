@@ -3194,6 +3194,635 @@
       }
     }
 
+  
+    /* ═══════════════════════════════════════════════════════════════════════════
+       ULTRA-LUXURY SHOWCASE & MOBILE EXPERIENCE ENVIRONMENT CSS
+       ═══════════════════════════════════════════════════════════════════════════ */
+    /* ─── STICKY SECTION NAVIGATOR (APP EXPERIENCE) ─── */
+    .mobile-section-nav {
+      position: sticky;
+      top: 60px;
+      z-index: 998;
+      background: rgba(7, 13, 24, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 8px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+    .section-nav-track {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .section-nav-track::-webkit-scrollbar { display: none; }
+    .sec-nav-pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--gray-light);
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      scroll-snap-align: center;
+    }
+    .sec-nav-pill i {
+      font-size: 11px;
+      color: var(--gold);
+    }
+    .sec-nav-pill.active, .sec-nav-pill:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.06));
+      border-color: var(--gold);
+      color: var(--gold-light);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+    }
+
+    /* ─── SEGMENTED CONTROL ─── */
+    .nxc-segmented-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem auto 2.5rem;
+    }
+    .nxc-segmented-control {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 999px;
+      padding: 4px;
+      max-width: 580px;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .nxc-segment-pill {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: calc(50% - 4px);
+      height: calc(100% - 8px);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.08));
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+    }
+    .nxc-segment-btn {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--gray-light);
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 12px 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+      min-height: 44px;
+      text-align: center;
+    }
+    .nxc-segment-btn.active {
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    /* ─── CAROUSEL HEADER & NAVIGATION ─── */
+    .carousel-nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding: 0 4px;
+    }
+    .carousel-header-info {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .carousel-count-text {
+      font-size: 14px;
+      color: var(--gray-light);
+      font-weight: 600;
+    }
+    .carousel-progress-track {
+      width: 100px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .carousel-progress-bar {
+      width: 10%;
+      height: 100%;
+      background: var(--gold);
+      border-radius: 4px;
+      transform-origin: left center;
+      transition: width 0.2s ease-out;
+    }
+    .carousel-nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .gold-nav-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      background: rgba(19, 34, 56, 0.85);
+      border: 1.5px solid var(--gold);
+      color: var(--gold-light);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+    .gold-nav-btn:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      transform: scale(1.08);
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+    }
+
+    /* ─── CAROUSEL VIEWPORT & TRACK ─── */
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      margin: 0 -4px;
+      padding: 8px 4px 20px 4px;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 22px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+      padding-bottom: 8px;
+    }
+    .carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+    .carousel-track.grabbing {
+      cursor: grabbing;
+      scroll-snap-type: none !important;
+      scroll-behavior: auto !important;
+    }
+
+    /* ─── CARD DIMENSIONS & LUXURY STYLING ─── */
+    .carousel-track .nxc-card,
+    .carousel-track .project-card {
+      flex: 0 0 360px;
+      width: 360px;
+      min-width: 360px;
+      max-width: 360px;
+      scroll-snap-align: start;
+      background: rgba(19, 34, 56, 0.78) !important;
+      border: 1px solid rgba(212, 175, 55, 0.22) !important;
+      border-radius: 20px !important;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .carousel-track .nxc-card:hover,
+    .carousel-track .project-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: var(--gold) !important;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 24px rgba(212, 175, 55, 0.25) !important;
+    }
+    .carousel-track .card-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 205px;
+      overflow: hidden;
+      border-radius: 20px 20px 0 0;
+      background: #000;
+    }
+    .carousel-track .card-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .carousel-track .card-img-wrapper:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Video Play Overlay */
+    .video-play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(7, 13, 24, 0.8);
+      border: 2px solid var(--gold);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(6px);
+      z-index: 3;
+    }
+    .video-play-overlay:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      transform: translate(-50%, -50%) scale(1.12);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    }
+
+    /* ─── EXPANDABLE ROI TABLE DRAWER ─── */
+    .roi-table-expand-wrapper {
+      max-height: 480px;
+      overflow: hidden;
+      position: relative;
+      transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .roi-table-expand-wrapper.expanded {
+      max-height: 2000px;
+    }
+    .roi-table-expand-wrapper:not(.expanded)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 90px;
+      background: linear-gradient(to bottom, transparent, rgba(7, 13, 24, 0.95));
+      pointer-events: none;
+    }
+    .roi-expand-btn {
+      background: rgba(19, 34, 56, 0.9);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .roi-expand-btn:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      transform: translateY(-2px);
+    }
+
+    /* ─── MODAL HEADERS (OVERFLOW-PROOF 2-ROW ARCHITECTURE) ─── */
+    .video-modal-header, .pdf-modal-header {
+      padding: 1.1rem 1.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(7, 13, 24, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .video-header-row-top, .pdf-header-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .video-title-wrap, .pdf-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+    .video-modal-title, .pdf-modal-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 82%;
+    }
+    .video-modal-close-btn, .pdf-modal-close-btn {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .video-modal-close-btn:hover, .pdf-modal-close-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+    .video-header-row-sub, .pdf-header-row-sub {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .video-drive-badge, .video-corp-tag, .pdf-corp-tag {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .video-drive-badge { background: rgba(255,187,0,0.15); color: #FFBB00; border: 1px solid rgba(255,187,0,0.3); }
+    .video-corp-tag, .pdf-corp-tag { background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid rgba(212,175,55,0.3); }
+    .video-drive-open-btn, .pdf-action-btn {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      background: rgba(212,175,55,0.08);
+      transition: all 0.2s;
+    }
+    .video-drive-open-btn:hover, .pdf-action-btn:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+    }
+    .pdf-btn-primary {
+      background: var(--gold);
+      color: var(--deep-navy);
+    }
+    .video-player-container {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+    }
+    .video-player-container video, .video-player-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-modal-footer {
+      padding: 0.85rem 1.4rem;
+      background: rgba(7, 13, 24, 0.95);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .video-desc-text {
+      font-size: 13px;
+      color: var(--gray-light);
+      margin: 0;
+    }
+
+    /* ─── IOS STYLE MOBILE QUICK ACTION BOTTOM SHEET ─── */
+    .mobile-action-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100000;
+      display: none;
+      align-items: flex-end;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-action-sheet-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .mobile-action-sheet {
+      background: #0f1a2e;
+      border-top: 1.5px solid var(--gold);
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 12px 18px 24px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mobile-action-sheet-overlay.active .mobile-action-sheet {
+      transform: translateY(0);
+    }
+    .action-sheet-handle {
+      width: 44px;
+      height: 5px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 999px;
+      margin: 0 auto 14px;
+    }
+    .action-sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .action-sheet-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .action-sheet-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .action-sheet-item:hover, .action-sheet-item:active {
+      background: rgba(212,175,55,0.1);
+      border-color: var(--gold);
+    }
+    .sheet-item-icon {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .sheet-item-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .sheet-item-text strong {
+      font-size: 14px;
+      color: #fff;
+      font-weight: 700;
+    }
+    .sheet-item-text span {
+      font-size: 12px;
+      color: var(--gray-light);
+    }
+    .sheet-item-arrow {
+      color: var(--gray-light);
+      font-size: 13px;
+    }
+
+    /* ─── RESPONSIVE BREAKPOINTS (MOBILE RAIL ARCHITECTURE) ─── */
+    @media (max-width: 768px) {
+      .mobile-section-nav {
+        display: block !important;
+      }
+      .nxc-segmented-control {
+        max-width: 100%;
+      }
+      .nxc-segment-btn {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      .carousel-header-info .carousel-progress-track {
+        display: none;
+      }
+      .carousel-track {
+        padding: 8px 12px 18px 12px !important;
+        gap: 14px !important;
+      }
+      .carousel-track .nxc-card,
+      .carousel-track .project-card {
+        flex: 0 0 280px !important;
+        width: 280px !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+        border-radius: 18px !important;
+      }
+      .carousel-track .card-img-wrapper {
+        height: 155px !important;
+        min-height: 155px !important;
+      }
+      .carousel-track .card-title {
+        font-size: 15px !important;
+        line-height: 1.25 !important;
+      }
+
+      /* Transform stacked vertical grids into horizontal swipable rails */
+      #services .cards-grid {
+        display: flex !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 14px !important;
+        padding-bottom: 14px !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      #services .cards-grid .card {
+        flex: 0 0 280px !important;
+        width: 280px !important;
+        min-width: 280px !important;
+        scroll-snap-align: start !important;
+      }
+      .awards-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+      }
+      #videoGallerySection > .container > div:last-child {
+        display: flex !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 14px !important;
+        padding-bottom: 12px !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      #videoGallerySection .video-card {
+        flex: 0 0 290px !important;
+        width: 290px !important;
+        min-width: 290px !important;
+        scroll-snap-align: start !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .carousel-track .nxc-card,
+      .carousel-track .project-card {
+        flex: 0 0 265px !important;
+        width: 265px !important;
+        min-width: 265px !important;
+        max-width: 265px !important;
+      }
+      .carousel-track .card-img-wrapper {
+        height: 148px !important;
+        min-height: 148px !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .carousel-track .nxc-card,
+      .carousel-track .project-card {
+        flex: 0 0 245px !important;
+        width: 245px !important;
+        min-width: 245px !important;
+        max-width: 245px !important;
+      }
+      .carousel-track .card-img-wrapper {
+        height: 138px !important;
+        min-height: 138px !important;
+      }
+    }
+  
   </style>
 
   <!-- ══ DEĞERLEME RAPOR MODAL ══════════════════════════════════════════════ -->
@@ -3498,7 +4127,7 @@
       </div>
 
       <div class="preloader-compliance">
-        <i class="fas fa-shield-alt"></i> TTBS YETKİ BELGESİ NO: 0601234 • RESMİ LİSANSLI GAYRİMENKUL PORTALI
+        <i class="fas fa-shield-alt"></i> T.C. TİCARET BAKANLIĞI TAŞINMAZ TİCARETİ YETKİ NO: 0602339 • COLDWELL BANKER CB VIP ANKARA
       </div>
     </div>
   </div>
@@ -3547,6 +4176,20 @@
     <div class="trust-item"><i class="fas fa-star"></i> PropTech Danışman</div>
   </div>
 
+  <!-- ── MOBILE STICKY APP SECTION NAVIGATOR BAR (APP EXPERIENCE) ── -->
+  <nav class="mobile-section-nav" id="mobileSectionNav" aria-label="Mobil Bölüm Navigasyonu">
+    <div class="section-nav-track" id="sectionNavTrack">
+      <a href="#portfolio" class="sec-nav-pill active" data-target="portfolio"><i class="fas fa-crown"></i> <span>Projeler & Portföy</span></a>
+      <a href="#roiMatrixSection" class="sec-nav-pill" data-target="roiMatrixSection"><i class="fas fa-chart-line"></i> <span>ROI Analizi</span></a>
+      <a href="#services" class="sec-nav-pill" data-target="services"><i class="fas fa-compass"></i> <span>Hizmetler</span></a>
+      <a href="#marketDashboardSection" class="sec-nav-pill" data-target="marketDashboardSection"><i class="fas fa-chart-bar"></i> <span>Canlı Endeks</span></a>
+      <a href="#harita" class="sec-nav-pill" data-target="harita"><i class="fas fa-map-marked-alt"></i> <span>Harita</span></a>
+      <a href="#haberlerSection" class="sec-nav-pill" data-target="haberlerSection"><i class="fas fa-newspaper"></i> <span>İstihbarat</span></a>
+      <a href="#videoGallerySection" class="sec-nav-pill" data-target="videoGallerySection"><i class="fas fa-film"></i> <span>Videolar</span></a>
+      <a href="#contact" class="sec-nav-pill" data-target="contact"><i class="fas fa-calculator"></i> <span>AI Değerleme</span></a>
+    </div>
+  </nav>
+
   <!-- Hero Section -->
   <section class="hero" id="home">
     <video autoplay loop muted playsinline poster="/static/images/hero_bg.jpg" class="hero-video">
@@ -3579,152 +4222,152 @@
   <!-- ============================================================
        ULTRA PRO PORTFOLIO SECTION
   ============================================================ -->
-  <section class="section" id="portfolio" style="padding-top: 80px;">
+  <section class="section showcase-luxury-section" id="portfolio" style="padding-top: 80px;">
     <div class="container">
 
       <!-- Section Header -->
-      <div class="section-header">
-        <span class="section-label">Portföy</span>
-        <h2 class="section-title">Ankara'da Seçkin Gayrimenkuller</h2>
+      <div class="section-header text-center" style="margin-bottom: 2rem;">
+        <span class="section-label">✦ SEÇKİN GAYRİMENKUL EKOSİSTEMİ</span>
+        <h2 class="section-title" id="showcaseSectionTitle">Öne Çıkan Projeler & Portföyler</h2>
         <p class="section-subtitle">
-          Şehir manzaralı, metro ve otobüs hatlarına yakın prestijli lokasyonlarda, AI destekli ROI analizi ile özenle seçilmiş portföyümüz
+          İster lansmana özel 31 prestij projesini, ister Coldwell Banker VIP onaylı seçkin portföy ilanlarını yatay akışta inceleyin.
         </p>
-        <a href="/ilanlar" class="btn btn-primary" style="margin-top:28px;display:inline-flex;align-items:center;gap:10px;padding:16px 36px;">
-          <i class="fas fa-th-list"></i>
-          <span>Tüm İlanları Gör</span>
-        </a>
-      </div>
 
-      <!-- ── ULTRA-LUXURY AUTO-SLIDING FEATURED SHOWCASE ── -->
-      <div class="featured-showcase-wrap" id="featuredShowcaseWrap" style="display: none;">
-        <div class="featured-showcase-header">
-          <div class="featured-badge-pill">
-            <i class="fas fa-crown"></i>
-            <span>✦ VİTRİN · ÖNE ÇIKAN PRESTİJLİ PORTFÖYLER</span>
-          </div>
-          <div class="featured-nav-controls">
-            <button class="feat-nav-btn" id="featPrevBtn" aria-label="Önceki İlan"><i class="fas fa-chevron-left"></i></button>
-            <div class="feat-dots-indicator" id="featDots"></div>
-            <button class="feat-nav-btn" id="featNextBtn" aria-label="Sonraki İlan"><i class="fas fa-chevron-right"></i></button>
-          </div>
-        </div>
-        <div class="featured-slider-viewport" id="featuredViewport">
-          <div class="featured-slider-track" id="featuredTrack"></div>
-        </div>
-      </div>
-
-      <!-- ── ULTRA PRO FILTER PANEL ── -->
-      <div class="filter-section" id="filterPanel">
-
-        <!-- Top row: title + type tabs -->
-        <div class="filter-top-row">
-          <div class="filter-title">
-            <i class="fas fa-sliders-h"></i>
-            <span>Portföy Filtrele</span>
-          </div>
-          <!-- Type pill tabs -->
-          <div class="filter-type-tabs">
-            <button class="filter-tab active" data-type="" id="tab-all">Tümü</button>
-            <button class="filter-tab" data-type="Satılık" id="tab-satilik">Satılık</button>
-            <button class="filter-tab" data-type="Kiralık" id="tab-kiralik">Kiralık</button>
-          </div>
-          <!-- View toggle -->
-          <div class="view-toggle">
-            <button class="view-btn active" id="viewGrid" title="Grid görünümü">
-              <i class="fas fa-th"></i>
+        <!-- Segmented Control (Apple-style Sliding Pill with Gold Accent) -->
+        <div class="nxc-segmented-wrapper">
+          <div class="nxc-segmented-control" role="tablist">
+            <div class="nxc-segment-pill" id="segmentPill"></div>
+            <button class="nxc-segment-btn active" id="tabBtnProjects" role="tab" aria-selected="true" onclick="switchShowcaseTab('projects')">
+              <i class="fas fa-crown" style="color: var(--gold);"></i>
+              <span>Devam Eden Prestij Projeleri (31 Proje)</span>
             </button>
-            <button class="view-btn" id="viewList" title="Liste görünümü">
-              <i class="fas fa-list"></i>
+            <button class="nxc-segment-btn" id="tabBtnPortfolio" role="tab" aria-selected="false" onclick="switchShowcaseTab('portfolio')">
+              <i class="fas fa-home"></i>
+              <span>Portföy İlanları</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 1: PRESTIGE DEVELOPER PROJECTS CAROUSEL (DEFAULT) ── -->
+      <div class="showcase-tab-view active" id="projectsView">
+        <div class="carousel-nav-header">
+          <div class="carousel-header-info">
+            <span class="carousel-count-text" id="projectsCountText">Devam Eden & Teslime Hazır 31 Prestij Projesi</span>
+            <div class="carousel-progress-track">
+              <div class="carousel-progress-bar" id="projectsProgressBar"></div>
+            </div>
+          </div>
+          <div class="carousel-nav-buttons">
+            <button class="gold-nav-btn" onclick="scrollCarousel('projects-carousel', -1)" aria-label="Önceki Proje">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="gold-nav-btn" onclick="scrollCarousel('projects-carousel', 1)" aria-label="Sonraki Proje">
+              <i class="fas fa-chevron-right"></i>
             </button>
           </div>
         </div>
 
-        <!-- Sort row -->
-        <div class="filter-sort-row">
-          <span style="font-size:13px;color:rgba(255,255,255,0.4);font-weight:600;">
-            <i class="fas fa-sort-amount-down" style="margin-right:6px;color:var(--gold);"></i>Sırala:
-          </span>
-          <select class="filter-sort-select" id="sortSelect">
-            <option value="default">Varsayılan</option>
-            <option value="price_asc">Fiyat: Düşükten Yükseğe</option>
-            <option value="price_desc">Fiyat: Yüksekten Düşüğe</option>
-            <option value="area_desc">Alan: Büyükten Küçüğe</option>
-          </select>
-        </div>
-
-        <!-- Filters grid -->
-        <div class="filter-grid">
-          <div class="filter-item">
-            <label class="filter-label" for="filterLocation"><i class="fas fa-map-marker-alt" style="margin-right:4px;"></i>Lokasyon / Semt</label>
-            <select class="filter-select" id="filterLocation" aria-label="Lokasyon Seçin">
-              <option value="">Tüm Ankara</option>
-              <option value="Çankaya">Çankaya</option>
-              <option value="İncek">İncek</option>
-              <option value="Ümitköy">Ümitköy / Çayyolu</option>
-              <option value="GOP">Gaziosmanpaşa (GOP)</option>
-              <option value="Yenimahalle">Yenimahalle / Batıkent</option>
-            </select>
+        <div class="carousel-container" id="projects-carousel">
+          <div class="carousel-track" id="projects-track">
+            <!-- Loading Skeletons -->
+            <div class="nxc-card skeleton-card"><div class="nxc-skeleton-img"></div><div class="nxc-skeleton-body"><div class="nxc-skeleton-line" style="width:70%"></div><div class="nxc-skeleton-line" style="width:40%"></div></div></div>
+            <div class="nxc-card skeleton-card"><div class="nxc-skeleton-img"></div><div class="nxc-skeleton-body"><div class="nxc-skeleton-line" style="width:70%"></div><div class="nxc-skeleton-line" style="width:40%"></div></div></div>
+            <div class="nxc-card skeleton-card"><div class="nxc-skeleton-img"></div><div class="nxc-skeleton-body"><div class="nxc-skeleton-line" style="width:70%"></div><div class="nxc-skeleton-line" style="width:40%"></div></div></div>
           </div>
-          <div class="filter-item">
-            <label class="filter-label"><i class="fas fa-home" style="margin-right:4px;"></i>Oda Sayısı</label>
-            <select class="filter-select" id="filterRooms">
-              <option value="">Tüm Odalar</option>
-              <option value="1+0">1+0 Stüdyo</option>
-              <option value="1+1">1+1</option>
-              <option value="2+1">2+1</option>
-              <option value="3+1">3+1</option>
-              <option value="4+1">4+1</option>
-              <option value="5+1">5+1 ve üzeri</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label class="filter-label"><i class="fas fa-coins" style="margin-right:4px;"></i>Min. Fiyat</label>
-            <input type="number" class="filter-input" id="filterMinPrice" placeholder="0 ₺">
-          </div>
-          <div class="filter-item">
-            <label class="filter-label"><i class="fas fa-coins" style="margin-right:4px;"></i>Maks. Fiyat</label>
-            <input type="number" class="filter-input" id="filterMaxPrice" placeholder="Limitsiz">
-          </div>
-          <div class="filter-item">
-            <label class="filter-label"><i class="fas fa-ruler-combined" style="margin-right:4px;"></i>Min. m²</label>
-            <input type="number" class="filter-input" id="filterMinArea" placeholder="0 m²">
-          </div>
-          <div class="filter-item">
-            <label class="filter-label"><i class="fas fa-ruler-combined" style="margin-right:4px;"></i>Maks. m²</label>
-            <input type="number" class="filter-input" id="filterMaxArea" placeholder="Limitsiz">
-          </div>
-        </div>
-
-        <!-- Buttons -->
-        <div class="filter-buttons">
-          <button class="filter-apply-btn" id="applyFilters">
-            <i class="fas fa-search"></i>
-            <span>Filtrele</span>
-          </button>
-          <button class="filter-clear-btn" id="clearFilters">
-            <i class="fas fa-times"></i>
-            <span>Temizle</span>
-          </button>
-        </div>
-
-        <!-- Active filter chips -->
-        <div class="filter-chips" id="filterChips"></div>
-      </div>
-
-      <!-- ── RESULTS TOOLBAR ── -->
-      <div class="portfolio-toolbar" id="portfolioToolbar" style="display:none;">
-        <div class="portfolio-count">
-          <strong id="portfolioCountNum">0</strong>
-          <span id="portfolioCountLabel"> ilan listeleniyor</span>
-        </div>
-        <div id="portfolioStatus" class="status loading" style="margin:0;">
-          <i class="fas fa-circle-notch fa-spin"></i>
-          <span>Portföy yükleniyor...</span>
         </div>
       </div>
 
-      <!-- ── GRID ── -->
-      <div class="cards-grid portfolio-grid-view" id="portfolioGrid"></div>
+      <!-- ── TAB 2: PORTFOLIO LISTINGS CAROUSEL ── -->
+      <div class="showcase-tab-view" id="portfolioView" style="display: none;">
+        
+        <!-- Filter Controls Toggle -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:10px;">
+          <button class="btn btn-outline btn-sm" onclick="togglePortfolioFilters()" style="border-color:rgba(212,175,55,0.3); color:var(--gold-light); font-size:12px; padding:6px 14px;">
+            <i class="fas fa-sliders-h"></i> Filtreleri Göster / Gizle
+          </button>
+          <div style="font-size:13px; color:var(--gray-light);">
+            <i class="fas fa-check-circle" style="color:var(--gold); margin-right:4px;"></i> Doğrulanmış CB VIP Portföyü
+          </div>
+        </div>
+
+        <!-- Filter Panel -->
+        <div class="filter-section" id="filterPanel" style="display:none; margin-bottom:1.5rem;">
+          <div class="filter-top-row">
+            <div class="filter-title"><i class="fas fa-sliders-h"></i><span>Portföy Filtrele</span></div>
+            <div class="filter-type-tabs">
+              <button class="filter-tab active" data-type="" id="tab-all">Tümü</button>
+              <button class="filter-tab" data-type="Satılık" id="tab-satilik">Satılık</button>
+              <button class="filter-tab" data-type="Kiralık" id="tab-kiralik">Kiralık</button>
+            </div>
+          </div>
+          <div class="filter-grid">
+            <div class="filter-item">
+              <label class="filter-label"><i class="fas fa-map-marker-alt"></i> Lokasyon</label>
+              <select class="filter-select" id="filterLocation">
+                <option value="">Tüm Ankara</option>
+                <option value="Çankaya">Çankaya</option>
+                <option value="İncek">İncek</option>
+                <option value="Ümitköy">Ümitköy / Çayyolu</option>
+                <option value="GOP">Gaziosmanpaşa (GOP)</option>
+                <option value="Yenimahalle">Yenimahalle / Batıkent</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <label class="filter-label"><i class="fas fa-home"></i> Oda</label>
+              <select class="filter-select" id="filterRooms">
+                <option value="">Tüm Odalar</option>
+                <option value="1+1">1+1</option>
+                <option value="2+1">2+1</option>
+                <option value="3+1">3+1</option>
+                <option value="4+1">4+1 ve üzeri</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <label class="filter-label"><i class="fas fa-coins"></i> Min. Fiyat</label>
+              <input type="number" class="filter-input" id="filterMinPrice" placeholder="0 ₺">
+            </div>
+            <div class="filter-item">
+              <label class="filter-label"><i class="fas fa-coins"></i> Maks. Fiyat</label>
+              <input type="number" class="filter-input" id="filterMaxPrice" placeholder="Limitsiz">
+            </div>
+          </div>
+          <div class="filter-buttons" style="margin-top:10px;">
+            <button class="filter-apply-btn" id="applyFilters"><i class="fas fa-search"></i> Filtrele</button>
+            <button class="filter-clear-btn" id="clearFilters"><i class="fas fa-times"></i> Temizle</button>
+          </div>
+        </div>
+
+        <div class="carousel-nav-header">
+          <div class="carousel-header-info">
+            <span class="carousel-count-text" id="portfolioCountText">Coldwell Banker VIP Portföy İlanları</span>
+            <div class="carousel-progress-track">
+              <div class="carousel-progress-bar" id="portfolioProgressBar"></div>
+            </div>
+          </div>
+          <div class="carousel-nav-buttons">
+            <button class="gold-nav-btn" onclick="scrollCarousel('portfolio-carousel', -1)" aria-label="Önceki İlan">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="gold-nav-btn" onclick="scrollCarousel('portfolio-carousel', 1)" aria-label="Sonraki İlan">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="carousel-container" id="portfolio-carousel">
+          <div class="carousel-track" id="portfolio-track">
+            <!-- Listings will be loaded here -->
+          </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 2rem;">
+          <a href="/ilanlar" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 30px; border: 1.5px solid var(--gold); color: var(--gold-light); font-weight: 700;">
+            <i class="fas fa-th-list"></i>
+            <span>Tüm Portföy İlanlarını Sayfada Gör →</span>
+          </a>
+        </div>
+      </div>
 
     </div>
   </section>
@@ -3743,7 +4386,8 @@
       </div>
 
       <div style="overflow-x: auto; background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); border-radius: 24px; box-shadow: var(--shadow-lg);">
-        <table style="width: 100%; border-collapse: collapse; min-width: 800px; font-family: 'Raleway', sans-serif;">
+        <div class="roi-table-expand-wrapper" id="roiTableWrapper">
+        <table style="width: 100%; border-collapse: collapse; min-width: 800px; font-family: 'Inter', sans-serif;">
           <thead>
             <tr style="border-bottom: 2px solid rgba(212,175,55,0.3); text-align: left; color: var(--gold-light); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">
               <th style="padding: 24px 20px;">Bölge / Semt</th>
@@ -3797,6 +4441,12 @@
             </tr>
           </tbody>
         </table>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top:1.25rem;">
+        <button class="roi-expand-btn" id="roiExpandBtn" onclick="toggleRoiTable()">
+          <i class="fas fa-chevron-down"></i> <span>Tüm Ankara Bölgelerini Gör (12 Semt)</span>
+        </button>
       </div>
 
       <!-- ── INTERACTIVE PROPTECH ROI CALCULATOR WIDGET ── -->
@@ -4894,7 +5544,7 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px;">
         
         <!-- Video 1 -->
-        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://www.youtube.com/embed/dQw4w9WgXcQ', 'Çankaya Modern Luxury Penthouse Tanıtım Filmi')">
+        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://drive.google.com/file/d/1hlrWaCAZQv6pVLtuMdBiR1XWa9b4IY20/preview', 'Çankaya VIP Üniversite Tanıtım Filmi')">
           <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Çankaya Modern Luxury" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s;">
           <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, transparent 80%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; z-index: 2;">
             <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--white); margin-bottom: 6px;">Çankaya Luxury Penthouse</h3>
@@ -4906,7 +5556,7 @@
         </div>
 
         <!-- Video 2 -->
-        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://www.youtube.com/embed/dQw4w9WgXcQ', 'İncek Modern Villa Yaşam Filmi')">
+        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://drive.google.com/file/d/1vwu4lkmufMALIRhUT7lV30X_j7bb9lMz/preview', 'İncek WM Prime Yaşam Filmi')">
           <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="İncek Modern Villa" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s;">
           <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, transparent 80%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; z-index: 2;">
             <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--white); margin-bottom: 6px;">İncek Detached Smart Villa</h3>
@@ -4918,7 +5568,7 @@
         </div>
 
         <!-- Video 3 -->
-        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://www.youtube.com/embed/dQw4w9WgXcQ', 'Bilkent Rezidans Yaşam Analizi')">
+        <div class="video-card" style="position: relative; border-radius: 24px; overflow: hidden; height: 260px; box-shadow: var(--shadow-lg); border: 1px solid rgba(212,175,55,0.15); cursor: pointer;" onclick="openTheaterMode('https://drive.google.com/file/d/1HwwTGgSVLEshambTcvwpWVXe7CekXLga/preview', 'Bilkent & Çayyolu S-Point Prime Analizi')">
           <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Bilkent Rezidans" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s;">
           <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, transparent 80%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; z-index: 2;">
             <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--white); margin-bottom: 6px;">Bilkent Prime Residence</h3>
@@ -8156,10 +8806,7 @@ ${src.length ? `
       <i class="fas fa-newspaper"></i>
       <span>İstihbarat</span>
     </a>
-    <a href="#roiCalculatorWidget" class="dock-item" id="dockValuation" aria-label="AI Değerleme & ROI">
-      <i class="fas fa-calculator"></i>
-      <span>Değerleme</span>
-    </a>
+    <a href="javascript:void(0)" onclick="openActionSheet()" class="dock-item" id="dockTools" aria-label="VIP İşlemler Menüsü"><i class="fas fa-th-large"></i><span>İşlemler</span></a>
   </div>
 
   <script>
@@ -8199,7 +8846,572 @@ ${src.length ? `
 
     window.addEventListener('scroll', updateDockActive, { passive: true });
   })();
-  </script>
+  
+    // ═══════════════════════════════════════════════════════════════════════════
+    // SHOWCASE DUAL-CAROUSEL & MOBILE EXPERIENCE LOGIC
+    // ═══════════════════════════════════════════════════════════════════════════
+    let projectsData = [];
+    let portfolioData = [];
+    let activeShowcaseTab = 'projects';
+
+    // Fetch and Initialize Showcase
+    async function loadShowcaseData() {
+      try {
+        const [projRes, listRes] = await Promise.allSettled([
+          fetch('/api/projects').then(r => r.json()),
+          fetch('/api/listings').then(r => r.json())
+        ]);
+
+        if (projRes.status === 'fulfilled' && projRes.value.success && Array.isArray(projRes.value.data)) {
+          projectsData = projRes.value.data;
+        } else {
+          const fallback = await fetch('/static/data/projects_map.json');
+          projectsData = await fallback.json();
+        }
+
+        if (listRes.status === 'fulfilled' && listRes.value.success && Array.isArray(listRes.value.data)) {
+          portfolioData = listRes.value.data;
+          allListings = portfolioData;
+        }
+
+        renderProjectsCarousel();
+        renderPortfolioCarousel();
+
+        initTouchSwipe('projects-carousel');
+        initTouchSwipe('portfolio-carousel');
+        initProgressSync('projects-carousel', 'projectsProgressBar');
+        initProgressSync('portfolio-carousel', 'portfolioProgressBar');
+
+      } catch (err) {
+        console.error('Error in loadShowcaseData:', err);
+      }
+    }
+
+    // Switch between Projects and Portfolio tabs
+    function switchShowcaseTab(tab) {
+      activeShowcaseTab = tab;
+      const pill = document.getElementById('segmentPill');
+      const btnProj = document.getElementById('tabBtnProjects');
+      const btnPort = document.getElementById('tabBtnPortfolio');
+      const viewProj = document.getElementById('projectsView');
+      const viewPort = document.getElementById('portfolioView');
+
+      if (!pill || !btnProj || !btnPort || !viewProj || !viewPort) return;
+
+      if (tab === 'projects') {
+        pill.style.transform = 'translateX(0)';
+        btnProj.classList.add('active');
+        btnPort.classList.remove('active');
+        btnProj.setAttribute('aria-selected', 'true');
+        btnPort.setAttribute('aria-selected', 'false');
+        viewPort.style.display = 'none';
+        viewProj.style.display = 'block';
+      } else {
+        pill.style.transform = 'translateX(100%)';
+        btnProj.classList.remove('active');
+        btnPort.classList.add('active');
+        btnProj.setAttribute('aria-selected', 'false');
+        btnPort.setAttribute('aria-selected', 'true');
+        viewProj.style.display = 'none';
+        viewPort.style.display = 'block';
+      }
+    }
+
+    // Render Projects Carousel (31 Major Development Projects)
+    function renderProjectsCarousel() {
+      const track = document.getElementById('projects-track');
+      if (!track) return;
+      track.innerHTML = '';
+
+      if (!projectsData || !projectsData.length) {
+        track.innerHTML = '<div style="color:var(--gray-light);padding:40px;text-align:center;width:100%;">Lansman projeleri yükleniyor...</div>';
+        return;
+      }
+
+      const countEl = document.getElementById('projectsCountText');
+      if (countEl) countEl.textContent = `Devam Eden & Teslime Hazır ${projectsData.length} Prestij Projesi`;
+
+      projectsData.forEach(p => {
+        const imgSrc = p.thumbnail || '/static/img/placeholder.jpg';
+        const title = escapeHtml(p.title || p.name || 'Prestij Projesi');
+        const loc = escapeHtml(p.location || (p.ilce ? p.ilce + ', ' + p.il : 'Ankara'));
+        const price = escapeHtml(p.price_display || 'Fiyat Sorunuz');
+        const down = p.down_payment ? `Peşinat: ${escapeHtml(p.down_payment)}` : '';
+        const roomInfo = escapeHtml(p.room_info || '');
+        const hasVid = Boolean(p.has_video || p.drive_video_preview || p.tanitim_cloud_url || p.drive_vid_id);
+        const hasPdf = Boolean(p.has_presentation || p.drive_pdf_preview || p.presentation);
+
+        const waMsg = encodeURIComponent(`Merhaba Yiğit Bey, "${title}" projesi hakkında bilgi almak ve randevu oluşturmak istiyorum.\nLokasyon: ${loc}\nFiyat: ${price}`);
+        const waUrl = `https://wa.me/905324514008?text=${waMsg}`;
+
+        const card = document.createElement('div');
+        card.className = 'nxc-card project-card';
+        card.id = `site-prj-${p.id}`;
+        card.onclick = () => handleProjectCardClick(p.id);
+        card.style.cursor = 'pointer';
+
+        card.innerHTML = `
+          <div class="card-img-wrapper" id="site-card-img-${p.id}">
+            <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
+            <span class="nxc-badge" style="position:absolute; top:12px; left:12px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:11px; padding:4px 10px; border-radius:20px;">
+              ✦ LANSMAN PROJESİ
+            </span>
+            ${hasVid ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" title="Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>` : ''}
+          </div>
+
+          <div class="nxc-body" style="padding:1.2rem; display:flex; flex-direction:column; flex-grow:1;">
+            <h3 class="card-title" style="font-family:'Playfair Display',serif; font-size:17px; font-weight:700; margin-bottom:4px; color:var(--cream);">${title}</h3>
+            <div style="font-size:12px; color:var(--gold-light); margin-bottom:4px;"><i class="fas fa-building"></i> Coldwell Banker VIP Temsilciliği</div>
+            <div style="font-size:12.5px; color:var(--gray-light); margin-bottom:8px;"><i class="fas fa-map-marker-alt"></i> ${loc}</div>
+            ${roomInfo ? `<div style="margin-bottom:10px;"><span class="nxc-spec" style="background:rgba(212,175,55,0.1); color:var(--gold-light); padding:3px 8px; border-radius:6px; font-size:11.5px;">${roomInfo}</span></div>` : ''}
+
+            <div style="margin-top:auto; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08);">
+              <div style="margin-bottom:8px;">
+                <div style="font-size:17px; font-weight:700; color:var(--gold);">${price}</div>
+                ${down ? `<div style="font-size:11.5px; color:var(--cream-dark);"><i class="fas fa-credit-card"></i> ${down}</div>` : ''}
+              </div>
+
+              <!-- Media & Actions Row -->
+              <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                ${hasVid ? `<button class="btn btn-sm" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" style="background:var(--gold); color:var(--deep-navy); font-size:11px; padding:5px 9px; font-weight:700;"><i class="fas fa-play"></i> Tanıtım</button>` : ''}
+                ${hasPdf ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" style="border-color:rgba(212,175,55,0.4); color:var(--gold-light); font-size:11px; padding:5px 9px;"><i class="fas fa-file-pdf"></i> Sunum</button>` : ''}
+              </div>
+
+              <!-- Conversion Row -->
+              <div style="display:grid; grid-template-columns: 1fr 1fr 38px; gap:6px;">
+                <a href="${waUrl}" target="_blank" onclick="event.stopPropagation()" class="btn btn-sm" style="background:rgba(37,211,102,0.15); color:#25D366; border:1px solid rgba(37,211,102,0.3); font-size:11.5px; justify-content:center; padding:6px;">
+                  <i class="fab fa-whatsapp"></i> WA
+                </a>
+                <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openAppointmentModal('${p.id}', '${title}')" style="font-size:11.5px; justify-content:center; padding:6px;">
+                  <i class="fas fa-calendar-check"></i> Randevu
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); shareProject('${p.id}', '${title}', '${price}', '${loc}')" title="Paylaş" style="padding:0; justify-content:center;">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        track.appendChild(card);
+      });
+    }
+
+    // Render Portfolio Listings Carousel
+    function renderPortfolioCarousel() {
+      const track = document.getElementById('portfolio-track');
+      if (!track) return;
+      track.innerHTML = '';
+
+      const list = portfolioData.length ? portfolioData : (allListings.length ? allListings : []);
+      if (!list.length) {
+        track.innerHTML = '<div style="color:var(--gray-light);padding:40px;text-align:center;width:100%;">İlanlar yükleniyor...</div>';
+        return;
+      }
+
+      const countEl = document.getElementById('portfolioCountText');
+      if (countEl) countEl.textContent = `Coldwell Banker VIP Portföyü (${list.length} İlan)`;
+
+      list.forEach(listing => {
+        const card = createListingCard(listing, false);
+        track.appendChild(card);
+      });
+    }
+
+    // Smart Project Card Click Dispatcher
+    function handleProjectCardClick(projectId) {
+      const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
+      if (!p) return;
+      if (p.has_video || p.drive_video_preview || p.tanitim_cloud_url || p.drive_vid_id) {
+        playProjectVideo(projectId);
+      } else if (p.has_presentation || p.drive_pdf_preview || p.presentation) {
+        openPdfPreview(projectId);
+      } else {
+        openAppointmentModal(projectId, p.title || p.name);
+      }
+    }
+
+    // Video Player Modal Controller
+    function playProjectVideo(projectId) {
+      const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
+      if (!p) return;
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('siteProjectIframe');
+      const video = document.getElementById('siteProjectVideo');
+      const driveBtn = document.getElementById('videoDriveOpenBtn');
+      const titleEl = document.getElementById('videoTitle');
+      const descEl = document.getElementById('videoDesc');
+
+      if (titleEl) titleEl.textContent = `${p.title || p.name} — Tanıtım Filmi`;
+      if (descEl) descEl.textContent = `${p.location || 'Ankara'} • ${p.price_display || ''}`;
+
+      const driveUrl = p.drive_video_preview || (p.drive_vid_id ? `https://drive.google.com/file/d/${p.drive_vid_id}/preview` : null);
+      const streamUrl = p.tanitim_cloud_url || `/stream/video/${p.id}`;
+
+      if (driveUrl) {
+        iframe.src = driveUrl;
+        iframe.style.display = 'block';
+        video.style.display = 'none';
+        if (driveBtn) {
+          driveBtn.href = driveUrl.replace('/preview', '/view');
+          driveBtn.style.display = 'inline-flex';
+        }
+      } else {
+        video.src = streamUrl;
+        video.style.display = 'block';
+        iframe.style.display = 'none';
+        if (driveBtn) driveBtn.style.display = 'none';
+        video.play().catch(() => {});
+      }
+
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // PDF Preview Modal Controller
+    function openPdfPreview(projectId) {
+      const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
+      if (!p) return;
+      const modal = document.getElementById('pdfModal');
+      const container = document.getElementById('pdfViewerContainer');
+      const openTab = document.getElementById('pdfOpenTabBtn');
+      const downloadBtn = document.getElementById('pdfDownloadBtn');
+      const titleEl = document.getElementById('pdfModalTitle');
+
+      if (titleEl) titleEl.textContent = `${p.title || p.name} — Sunum Dosyası`;
+
+      const pdfUrl = p.drive_pdf_preview || p.presentation || (p.presentations && p.presentations.length ? '/' + p.presentations[0].path : null);
+      if (pdfUrl) {
+        container.innerHTML = `<iframe src="${pdfUrl}" style="width:100%; height:100%; border:none;"></iframe>`;
+        if (openTab) openTab.href = pdfUrl;
+        if (downloadBtn) downloadBtn.href = pdfUrl;
+      }
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // VIP Appointment Modal Controller
+    function openAppointmentModal(id, name) {
+      document.getElementById('siteAptProjectId').value = id || '';
+      document.getElementById('siteAptProjectName').value = name || 'VIP Proje Danışmanlığı';
+      document.getElementById('appointmentModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSiteModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (!modal) return;
+      if (modalId === 'videoModal') {
+        const video = document.getElementById('siteProjectVideo');
+        const iframe = document.getElementById('siteProjectIframe');
+        if (video) { video.pause(); video.src = ''; }
+        if (iframe) { iframe.src = ''; }
+      }
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Submit Site Appointment Form
+    async function submitSiteAppointment(e) {
+      e.preventDefault();
+      const pId = document.getElementById('siteAptProjectId').value;
+      const pName = document.getElementById('siteAptProjectName').value;
+      const name = document.getElementById('siteAptName').value.trim();
+      const phone = document.getElementById('siteAptPhone').value.trim();
+      const time = document.getElementById('siteAptDateTime').value.trim();
+
+      if (!name || !phone) {
+        alert('Lütfen adınızı ve telefon numaranızı girin.');
+        return;
+      }
+
+      try {
+        await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            phone: phone,
+            project: pName,
+            project_id: pId,
+            preferred_time: time,
+            source: 'site_showcase_modal'
+          })
+        });
+      } catch(err) {}
+
+      alert(`Teşekkür ederiz Sn. ${name}. Randevu talebiniz alındı, en kısa sürede iletişime geçeceğiz.`);
+      closeSiteModal('appointmentModal');
+    }
+
+    function sendDirectWhatsAppFromSiteModal() {
+      const pName = document.getElementById('siteAptProjectName').value;
+      const name = document.getElementById('siteAptName').value.trim();
+      const time = document.getElementById('siteAptDateTime').value.trim();
+      const msg = encodeURIComponent(`Merhaba Yiğit Bey, Sn. ${name || 'Müşteri'} olarak "${pName}" projesi için randevu oluşturmak istiyorum. Tercih edilen zaman: ${time || 'En kısa sürede'}`);
+      window.open(`https://wa.me/905324514008?text=${msg}`, '_blank');
+    }
+
+    // Carousel Horizontal Scrolling
+    function scrollCarousel(carouselId, direction) {
+      const track = document.querySelector(`#${carouselId} .carousel-track`);
+      if (!track) return;
+      const card = track.querySelector('.nxc-card, .project-card, .card');
+      const cardWidth = card ? card.offsetWidth + 22 : 340;
+      track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
+    }
+
+    // Touch and Drag Kinematics
+    function initTouchSwipe(carouselId) {
+      const track = document.querySelector(`#${carouselId} .carousel-track`);
+      if (!track) return;
+      let isDown = false, startX, scrollLeft;
+
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        track.classList.add('grabbing');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
+      const stopDrag = () => { isDown = false; track.classList.remove('grabbing'); };
+      track.addEventListener('mouseleave', stopDrag);
+      track.addEventListener('mouseup', stopDrag);
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        track.scrollLeft = scrollLeft - walk;
+      });
+    }
+
+    // Synchronize Progress Bar
+    function initProgressSync(carouselId, progressBarId) {
+      const track = document.querySelector(`#${carouselId} .carousel-track`);
+      const bar = document.getElementById(progressBarId);
+      if (!track || !bar) return;
+
+      track.addEventListener('scroll', () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        const pct = maxScroll > 0 ? (track.scrollLeft / maxScroll) * 100 : 0;
+        bar.style.width = Math.max(8, Math.min(100, pct)) + '%';
+      }, { passive: true });
+    }
+
+    // ROI Table Expand/Collapse on Mobile
+    function toggleRoiTable() {
+      const wrapper = document.getElementById('roiTableWrapper');
+      const btn = document.getElementById('roiExpandBtn');
+      if (!wrapper || !btn) return;
+      wrapper.classList.toggle('expanded');
+      if (wrapper.classList.contains('expanded')) {
+        btn.innerHTML = '<i class="fas fa-chevron-up"></i> <span>Daha Az Göster (Daralt)</span>';
+      } else {
+        btn.innerHTML = '<i class="fas fa-chevron-down"></i> <span>Tüm Ankara Bölgelerini Gör (12 Semt)</span>';
+      }
+    }
+
+    // Toggle Portfolio Filter Panel
+    function togglePortfolioFilters() {
+      const panel = document.getElementById('filterPanel');
+      if (!panel) return;
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Quick Action Sheet (iOS Bottom Sheet)
+    function openActionSheet() {
+      const overlay = document.getElementById('mobileActionSheetOverlay');
+      if (overlay) overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeActionSheet() {
+      const overlay = document.getElementById('mobileActionSheetOverlay');
+      if (overlay) overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Mobile Section Navigator Scrollspy
+    (function() {
+      const navTrack = document.getElementById('sectionNavTrack');
+      if (!navTrack) return;
+      const pills = navTrack.querySelectorAll('.sec-nav-pill');
+
+      window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY + 140;
+        pills.forEach(pill => {
+          const targetId = pill.getAttribute('data-target');
+          const section = document.getElementById(targetId);
+          if (section) {
+            const top = section.offsetTop;
+            const height = section.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) {
+              pills.forEach(p => p.classList.remove('active'));
+              pill.classList.add('active');
+              // Auto scroll pill into view
+              const pLeft = pill.offsetLeft;
+              const pWidth = pill.offsetWidth;
+              const tScroll = navTrack.scrollLeft;
+              const tWidth = navTrack.clientWidth;
+              if (pLeft < tScroll || (pLeft + pWidth) > (tScroll + tWidth)) {
+                navTrack.scrollTo({ left: pLeft - 20, behavior: 'smooth' });
+              }
+            }
+          }
+        });
+      }, { passive: true });
+    })();
+
+    // Initialize Showcase Data on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadShowcaseData();
+    });
+    
+</script>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       CORPORATE MODALS (VIDEO, PDF SUNUM, VIP RANDEVU & QUICK ACTION SHEET)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- VIDEO MODAL (GOOGLE DRIVE PREVIEW & STREAM PLAYER) -->
+  <div class="modal-overlay" id="videoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1rem;">
+    <div class="modal-container" style="background:#132238; color:#fff; width:100%; max-width:940px; border-radius:20px; overflow:hidden; border:1px solid rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(0,0,0,0.8); display:flex; flex-direction:column;">
+      <div class="video-modal-header">
+        <div class="video-header-row-top">
+          <div class="video-title-wrap">
+            <span class="video-header-icon" style="color:var(--gold); font-size:18px;"><i class="fas fa-play-circle"></i></span>
+            <h3 id="videoTitle" class="video-modal-title">Proje Tanıtım Filmi</h3>
+          </div>
+          <button onclick="closeSiteModal('videoModal')" aria-label="Kapat" class="video-modal-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="video-header-row-sub">
+          <div class="video-badges-wrap">
+            <span id="videoDriveBadge" class="video-drive-badge"><i class="fab fa-google-drive"></i> Drive Önizleme</span>
+            <span class="video-corp-tag"><i class="fas fa-shield-alt"></i> CB VIP Onaylı</span>
+          </div>
+          <div class="video-actions-wrap">
+            <a id="videoDriveOpenBtn" href="#" target="_blank" class="video-drive-open-btn"><i class="fas fa-external-link-alt"></i> Drive'da Aç</a>
+          </div>
+        </div>
+      </div>
+      <div id="videoPlayerContainer" class="video-player-container">
+        <video id="siteProjectVideo" controls playsinline webkit-playsinline style="display:none; width:100%; height:100%;"></video>
+        <iframe id="siteProjectIframe" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
+      </div>
+      <div class="video-modal-footer">
+        <p id="videoDesc" class="video-desc-text"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PDF SUNUM MODAL -->
+  <div class="modal-overlay" id="pdfModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1rem;">
+    <div class="modal-container" style="background:#132238; color:#fff; width:100%; max-width:1000px; height:90vh; border-radius:20px; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(0,0,0,0.5);">
+      <div class="pdf-modal-header">
+        <div class="pdf-header-row-top">
+          <div class="pdf-title-wrap">
+            <span class="pdf-header-icon" style="color:var(--gold); font-size:18px;"><i class="fas fa-file-pdf"></i></span>
+            <h3 id="pdfModalTitle" class="pdf-modal-title">Proje Sunum Dosyası</h3>
+          </div>
+          <button onclick="closeSiteModal('pdfModal')" aria-label="Kapat" class="pdf-modal-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="pdf-header-row-sub">
+          <div class="pdf-badges-wrap">
+            <span class="pdf-corp-tag"><i class="fas fa-certificate"></i> Coldwell Banker VIP</span>
+          </div>
+          <div class="pdf-actions-wrap">
+            <a id="pdfOpenTabBtn" href="#" target="_blank" class="pdf-action-btn"><i class="fas fa-external-link-alt"></i> Yeni Sekmede Aç</a>
+            <a id="pdfDownloadBtn" href="#" target="_blank" class="pdf-action-btn pdf-btn-primary"><i class="fas fa-download"></i> İndir</a>
+          </div>
+        </div>
+      </div>
+      <div id="pdfViewerContainer" style="width:100%; height:100%; background:#070d18; overflow:hidden;"></div>
+    </div>
+  </div>
+
+  <!-- VIP RANDEVU & GÖSTERİM TALEP MODALI -->
+  <div class="modal-overlay" id="appointmentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1.5rem;">
+    <div class="modal-container" style="background:#132238; color:#fff; width:100%; max-width:540px; border-radius:24px; overflow:hidden; border:1px solid rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(0,0,0,0.8);">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:1.25rem 1.5rem; border-bottom:1px solid rgba(255,255,255,0.1);">
+        <h3 style="margin:0; font-size:18px; font-weight:700; color:var(--gold-light); display:flex; align-items:center; gap:8px;">
+          <i class="fas fa-calendar-check" style="color:var(--gold);"></i> Özel Gösterim & Danışmanlık Randevusu
+        </h3>
+        <button onclick="closeSiteModal('appointmentModal')" style="background:rgba(255,255,255,0.1); border:none; color:#fff; width:36px; height:36px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="siteAppointmentForm" onsubmit="submitSiteAppointment(event)" style="padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+        <input type="hidden" id="siteAptProjectId">
+        <div>
+          <label style="font-size:12px; color:var(--gray-light); display:block; margin-bottom:4px; font-weight:600;">Seçilen Mülk / Proje</label>
+          <input type="text" id="siteAptProjectName" readonly style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(212,175,55,0.25); background:#070d18; color:var(--gold-light); font-weight:700; font-size:14px;">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label style="font-size:12px; color:var(--gray-light); display:block; margin-bottom:4px; font-weight:600;">Adınız Soyadınız *</label>
+            <input type="text" id="siteAptName" required placeholder="Adınız Soyadınız" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:#0f1a2e; color:#fff; font-size:14px;">
+          </div>
+          <div>
+            <label style="font-size:12px; color:var(--gray-light); display:block; margin-bottom:4px; font-weight:600;">Telefon Numaranız *</label>
+            <input type="tel" id="siteAptPhone" required placeholder="05XX XXX XX XX" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:#0f1a2e; color:#fff; font-size:14px;">
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12px; color:var(--gray-light); display:block; margin-bottom:4px; font-weight:600;">Tercih Edilen Gün / Saat</label>
+          <input type="text" id="siteAptDateTime" placeholder="Örn: Hafta Sonu 14:00" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.15); background:#0f1a2e; color:#fff; font-size:14px;">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:0.5rem;">
+          <button type="button" onclick="sendDirectWhatsAppFromSiteModal()" class="btn btn-outline" style="background:rgba(37,211,102,0.15); color:#25D366; border:1px solid rgba(37,211,102,0.35); padding:12px; font-weight:700; justify-content:center; font-size:13px;">
+            <i class="fab fa-whatsapp"></i> WhatsApp ile İlet
+          </button>
+          <button type="submit" class="btn btn-primary" style="padding:12px; font-weight:700; justify-content:center; font-size:13px;">
+            <i class="fas fa-check"></i> Randevuyu Kaydet
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── MOBILE QUICK ACTION HUB (IOS BOTTOM SHEET) ── -->
+  <div class="mobile-action-sheet-overlay" id="mobileActionSheetOverlay" onclick="closeActionSheet()">
+    <div class="mobile-action-sheet" id="mobileActionSheet" onclick="event.stopPropagation()">
+      <div class="action-sheet-handle"></div>
+      <div class="action-sheet-header">
+        <h3 style="font-family:'Playfair Display',serif; font-size:18px; color:var(--gold-light); margin:0;">VIP Yatırım & Hızlı İşlem Menüsü</h3>
+        <button onclick="closeActionSheet()" style="background:rgba(255,255,255,0.1); border:none; color:#fff; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="action-sheet-grid">
+        <a href="#contact" onclick="closeActionSheet()" class="action-sheet-item">
+          <div class="sheet-item-icon" style="background:rgba(212,175,55,0.15); color:var(--gold);"><i class="fas fa-calculator"></i></div>
+          <div class="sheet-item-text">
+            <strong>AI Değerleme Raporu</strong>
+            <span>Sahibinden & piyasa emsal analizi</span>
+          </div>
+          <i class="fas fa-chevron-right sheet-item-arrow"></i>
+        </a>
+        <a href="#roiMatrixSection" onclick="closeActionSheet()" class="action-sheet-item">
+          <div class="sheet-item-icon" style="background:rgba(56,189,248,0.15); color:#38bdf8;"><i class="fas fa-chart-pie"></i></div>
+          <div class="sheet-item-text">
+            <strong>Ankara ROI Matrisi</strong>
+            <span>Semt bazlı kira çarpanı & getiri</span>
+          </div>
+          <i class="fas fa-chevron-right sheet-item-arrow"></i>
+        </a>
+        <a href="#harita" onclick="closeActionSheet()" class="action-sheet-item">
+          <div class="sheet-item-icon" style="background:rgba(34,197,94,0.15); color:#22c55e;"><i class="fas fa-map-marked-alt"></i></div>
+          <div class="sheet-item-text">
+            <strong>İlanları Haritada Gör</strong>
+            <span>Filtreli interaktif Ankara haritası</span>
+          </div>
+          <i class="fas fa-chevron-right sheet-item-arrow"></i>
+        </a>
+        <a href="https://wa.me/905324514008?text=Merhaba%20Yi%C4%9Fit%20Bey,%20VIP%20portf%C3%B6y%20ve%20yat%C4%B1r%C4%B1m%20dan%C4%B1%C5%9Fmanl%C4%B1%C4%9F%C4%B1%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" class="action-sheet-item highlight-wa">
+          <div class="sheet-item-icon" style="background:#25D366; color:#fff;"><i class="fab fa-whatsapp"></i></div>
+          <div class="sheet-item-text">
+            <strong>Doğrudan Danışmana Ulaş</strong>
+            <span>Yiğit Narin • VIP WhatsApp Hattı</span>
+          </div>
+          <i class="fas fa-chevron-right sheet-item-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

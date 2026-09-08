@@ -10856,7 +10856,7 @@ def api_nexa_project_report(project_id):
         f"• Bölge: {loc}\n"
         f"• Fiyat: {price_display}\n"
         f"• Daire Tipleri: {room_info}\n"
-        f"• Geliştirici: Coldwell Banker CB VIP Ankara\n\n"
+        f"• Münhasır Satış & Pazarlama: Coldwell Banker CB VIP Ankara\n\n"
     )
     if summary:
         report += f"💡 NEXA AI PROJE ÖZETİ\n{summary}\n\n"
