@@ -741,17 +741,19 @@
       gap: 28px;
     }
 
-    /* Listing Card */
+    /* Listing Card (Dark Luxury & High-Contrast Styling) */
     .nxc-card {
-      background: var(--white);
-      border-radius: 20px;
+      background: linear-gradient(180deg, #111e33 0%, #0a1424 100%) !important;
+      border-radius: 18px !important;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(10,22,40,0.07);
-      transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-      border: 1px solid rgba(10,22,40,0.05);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
       animation: fadeInUp 0.7s ease-out backwards;
       position: relative;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
     }
     .nxc-card:nth-child(1) { animation-delay: 0.0s; }
     .nxc-card:nth-child(2) { animation-delay: 0.07s; }
@@ -764,9 +766,9 @@
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 20px;
+      border-radius: 18px;
       border: 1.5px solid transparent;
-      background: linear-gradient(135deg, rgba(212,175,55,0.35), rgba(212,175,55,0)) border-box;
+      background: linear-gradient(135deg, rgba(212,175,55,0.45), rgba(212,175,55,0)) border-box;
       -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: destination-out;
       mask-composite: exclude;
@@ -778,8 +780,9 @@
     .nxc-card:hover::before { opacity: 1; }
 
     .nxc-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 24px 60px rgba(10,22,40,0.16), 0 0 0 1px rgba(212,175,55,0.12);
+      transform: translateY(-6px);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.25) !important;
+      border-color: var(--gold) !important;
     }
 
     /* FEATURED: first card spans 2 cols */
@@ -790,24 +793,25 @@
     }
     .nxc-card.nxc-featured .nxc-img {
       height: 100%;
-      min-height: 340px;
+      min-height: 280px;
     }
 
     /* Image area */
     .nxc-img {
       position: relative;
-      height: 270px;
+      height: 210px;
       overflow: hidden;
       flex-shrink: 0;
+      background: #000;
     }
     .nxc-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       display: block;
     }
-    .nxc-card:hover .nxc-img img { transform: scale(1.08); }
+    .nxc-card:hover .nxc-img img { transform: scale(1.06); }
 
     /* Image overlay gradient */
     .nxc-img::after {
@@ -816,8 +820,9 @@
       inset: 0;
       background: linear-gradient(
         to bottom,
+        rgba(7, 13, 24, 0.2) 0%,
         transparent 40%,
-        rgba(10,22,40,0.72) 100%
+        rgba(7, 13, 24, 0.85) 100%
       );
       pointer-events: none;
     }
@@ -825,63 +830,73 @@
     /* Badge */
     .nxc-badge {
       position: absolute;
-      top: 16px;
-      left: 16px;
+      top: 12px;
+      left: 12px;
       z-index: 5;
-      padding: 6px 16px;
+      padding: 4px 12px;
       border-radius: 50px;
+      font-family: 'Outfit', sans-serif !important;
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
     }
     .nxc-badge-satilik {
-      background: rgba(212,175,55,0.92);
-      color: var(--deep-navy);
+      background: rgba(212,175,55,0.95);
+      color: var(--deep-navy) !important;
+      border: 1px solid rgba(255,255,255,0.4);
     }
     .nxc-badge-kiralik {
-      background: rgba(16,185,129,0.9);
-      color: #fff;
+      background: rgba(16,185,129,0.95);
+      color: #fff !important;
+      border: 1px solid rgba(255,255,255,0.3);
     }
 
     /* Price */
     .nxc-price {
       position: absolute;
-      bottom: 16px;
-      left: 16px;
+      bottom: 12px;
+      left: 12px;
       z-index: 5;
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gold-light);
-      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-      line-height: 1;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 17px !important;
+      font-weight: 800 !important;
+      color: #fef08a !important;
+      background: rgba(7, 13, 24, 0.82) !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      border-radius: 8px !important;
+      padding: 4px 10px !important;
+      backdrop-filter: blur(6px) !important;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7) !important;
+      line-height: 1.1;
     }
-    .nxc-featured .nxc-price { font-size: 26px; }
+    .nxc-featured .nxc-price { font-size: 20px !important; }
 
     /* Card body */
     .nxc-body {
-      padding: 24px 24px 20px;
+      padding: 16px 18px 18px;
       display: flex;
       flex-direction: column;
-      gap: 0;
+      flex-grow: 1;
     }
 
     .nxc-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--navy);
-      line-height: 1.35;
-      margin-bottom: 8px;
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      color: #ffffff !important;
+      line-height: 1.3 !important;
+      margin-bottom: 6px !important;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6) !important;
     }
     .nxc-featured .nxc-title {
-      font-size: 22px;
+      font-size: 20px !important;
       -webkit-line-clamp: 3;
     }
 
@@ -889,106 +904,110 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      color: var(--gray-light);
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 14px;
-      letter-spacing: 0.3px;
+      color: #cbd5e1 !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      margin-bottom: 10px !important;
+      letter-spacing: 0.2px;
     }
-    .nxc-loc i { color: var(--gold); font-size: 11px; }
+    .nxc-loc i { color: var(--gold) !important; font-size: 11px; }
 
     /* Spec pills */
     .nxc-specs {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 18px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(10,22,40,0.06);
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
     }
     .nxc-spec {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 5px 12px;
-      background: rgba(10,22,40,0.04);
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--navy);
-      border: 1px solid rgba(10,22,40,0.06);
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-radius: 6px !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
       transition: all 0.2s;
     }
-    .nxc-spec i { color: var(--gold); font-size: 11px; }
+    .nxc-spec i { color: var(--gold) !important; font-size: 10px; }
     .nxc-card:hover .nxc-spec {
-      background: rgba(212,175,55,0.07);
-      border-color: rgba(212,175,55,0.2);
+      background: rgba(212,175,55,0.14) !important;
+      border-color: rgba(212,175,55,0.45) !important;
+      color: #ffffff !important;
     }
 
     /* Action buttons */
     .nxc-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 8px;
+      margin-top: auto;
     }
     .nxc-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 10px 0;
-      border-radius: 10px;
-      font-size: 12px;
+      padding: 8px 0;
+      border-radius: 8px;
+      font-size: 11.5px;
       font-weight: 700;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
       text-decoration: none;
       transition: all 0.25s;
-      border: 1.5px solid transparent;
+      border: 1px solid transparent;
       cursor: pointer;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Outfit', sans-serif !important;
     }
     .nxc-btn-wa {
-      background: rgba(37,211,102,0.08);
-      color: #1da851;
-      border-color: rgba(37,211,102,0.25);
+      background: rgba(37,211,102,0.2) !important;
+      color: #4ade80 !important;
+      border-color: rgba(74,222,128,0.4) !important;
     }
     .nxc-btn-wa:hover {
-      background: #25d366;
-      color: #fff;
-      border-color: #25d366;
+      background: #25d366 !important;
+      color: #070d18 !important;
+      border-color: #25d366 !important;
       box-shadow: 0 4px 14px rgba(37,211,102,0.35);
     }
     .nxc-btn-tel {
-      background: rgba(212,175,55,0.08);
-      color: var(--gold-dark);
-      border-color: rgba(212,175,55,0.25);
+      background: rgba(212,175,55,0.18) !important;
+      color: #fde047 !important;
+      border-color: rgba(253,224,71,0.38) !important;
     }
     .nxc-btn-tel:hover {
-      background: var(--gold);
-      color: var(--deep-navy);
-      border-color: var(--gold);
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
+      border-color: var(--gold) !important;
       box-shadow: 0 4px 14px rgba(212,175,55,0.4);
     }
 
     /* Incele CTA */
     .nxc-incele {
       width: 100%;
-      padding: 12px;
-      background: var(--deep-navy);
-      color: var(--gold-light);
-      border: none;
-      border-radius: 12px;
-      font-family: 'Raleway', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      padding: 9px 12px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.1) 100%) !important;
+      color: #fef08a !important;
+      border: 1px solid rgba(212, 175, 55, 0.45) !important;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: all 0.3s;
+      gap: 6px;
+      transition: all 0.25s;
       position: relative;
       overflow: hidden;
     }
@@ -996,18 +1015,19 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, transparent 100%);
+      background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, transparent 100%);
       opacity: 0;
       transition: opacity 0.3s;
     }
     .nxc-incele:hover {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--deep-navy) 100%);
-      transform: none;
-      box-shadow: 0 6px 20px rgba(10,22,40,0.3);
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
     }
     .nxc-incele:hover::before { opacity: 1; }
-    .nxc-incele i { transition: transform 0.3s; }
-    .nxc-incele:hover i { transform: translateX(4px); }
+    .nxc-incele i { transition: transform 0.25s; }
+    .nxc-incele:hover i { transform: translateX(3px); }
 
     /* ── LIST VIEW ── */
     .portfolio-list-view {
@@ -3401,41 +3421,49 @@
     /* ─── CARD DIMENSIONS & LUXURY STYLING ─── */
     .carousel-track .nxc-card,
     .carousel-track .project-card {
-      flex: 0 0 360px;
-      width: 360px;
-      min-width: 360px;
-      max-width: 360px;
+      flex: 0 0 340px;
+      width: 340px;
+      min-width: 340px;
+      max-width: 340px;
       scroll-snap-align: start;
-      background: rgba(19, 34, 56, 0.78) !important;
-      border: 1px solid rgba(212, 175, 55, 0.22) !important;
-      border-radius: 20px !important;
+      background: linear-gradient(180deg, #111e33 0%, #0a1424 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      border-radius: 18px !important;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.4) !important;
+      box-shadow: 0 10px 32px rgba(0,0,0,0.5) !important;
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      overflow: hidden;
     }
     .carousel-track .nxc-card:hover,
     .carousel-track .project-card:hover {
-      transform: translateY(-6px) scale(1.01);
+      transform: translateY(-5px) scale(1.01);
       border-color: var(--gold) !important;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 24px rgba(212, 175, 55, 0.25) !important;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.65), 0 0 24px rgba(212, 175, 55, 0.28) !important;
     }
-    .carousel-track .card-img-wrapper {
+    .carousel-track .card-img-wrapper,
+    .carousel-track .nxc-img {
       position: relative;
       width: 100%;
-      height: 205px;
+      height: 180px;
+      min-height: 180px;
+      max-height: 180px;
       overflow: hidden;
-      border-radius: 20px 20px 0 0;
+      border-radius: 18px 18px 0 0;
       background: #000;
+      flex-shrink: 0;
     }
-    .carousel-track .card-img-wrapper img {
+    .carousel-track .card-img-wrapper img,
+    .carousel-track .nxc-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.4s ease;
+      display: block;
     }
-    .carousel-track .card-img-wrapper:hover img {
-      transform: scale(1.06);
+    .carousel-track .card-img-wrapper:hover img,
+    .carousel-track .nxc-img:hover img {
+      transform: scale(1.05);
     }
 
     /* Video Play Overlay */
@@ -3444,26 +3472,159 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 52px;
-      height: 52px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
-      background: rgba(7, 13, 24, 0.8);
+      background: rgba(7, 13, 24, 0.85);
       border: 2px solid var(--gold);
-      color: var(--gold-light);
+      color: #fde047;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 18px;
       cursor: pointer;
       transition: all 0.3s ease;
       backdrop-filter: blur(6px);
       z-index: 3;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
     }
     .video-play-overlay:hover {
       background: var(--gold);
       color: var(--deep-navy);
-      transform: translate(-50%, -50%) scale(1.12);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      transform: translate(-50%, -50%) scale(1.1);
+      box-shadow: 0 0 22px rgba(212, 175, 55, 0.6);
+    }
+
+    /* ─── CARD TYPOGRAPHY & HIGH-CONTRAST VISIBILITY RULES ─── */
+    .carousel-track .card-title,
+    .carousel-track .nxc-title {
+      font-family: 'Playfair Display', Georgia, serif !important;
+      color: #ffffff !important;
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      line-height: 1.3 !important;
+      margin-bottom: 4px !important;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6) !important;
+      letter-spacing: -0.01em !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+    }
+    .carousel-track .card-corp-badge {
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      color: #fde047 !important;
+      margin-bottom: 3px !important;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .carousel-track .nxc-loc,
+    .carousel-track .project-card-loc {
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      color: #cbd5e1 !important;
+      margin-bottom: 8px !important;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .carousel-track .nxc-loc i,
+    .carousel-track .project-card-loc i {
+      color: var(--gold) !important;
+    }
+    .carousel-track .nxc-specs {
+      display: flex !important;
+      gap: 6px !important;
+      flex-wrap: wrap !important;
+      margin-bottom: 12px !important;
+      padding-bottom: 10px !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+    }
+    .carousel-track .nxc-spec,
+    .carousel-track .project-spec {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      padding: 3px 8px !important;
+      border-radius: 6px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+    }
+    .carousel-track .nxc-price,
+    .carousel-track .project-price {
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 17px !important;
+      font-weight: 800 !important;
+      color: #fef08a !important;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7) !important;
+      line-height: 1.2 !important;
+    }
+    .carousel-track .project-downpayment {
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      color: #e2e8f0 !important;
+      margin-top: 2px !important;
+    }
+    .carousel-track .nxc-actions {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 6px !important;
+      margin-bottom: 6px !important;
+    }
+    .carousel-track .nxc-btn,
+    .carousel-track .btn-sm {
+      font-family: 'Outfit', sans-serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.02em !important;
+      border-radius: 8px !important;
+    }
+    .carousel-track .nxc-btn-wa {
+      background: rgba(37, 211, 102, 0.2) !important;
+      color: #4ade80 !important;
+      border: 1px solid rgba(74, 222, 128, 0.4) !important;
+    }
+    .carousel-track .nxc-btn-wa:hover {
+      background: #25d366 !important;
+      color: #070d18 !important;
+    }
+    .carousel-track .nxc-btn-tel {
+      background: rgba(212, 175, 55, 0.18) !important;
+      color: #fde047 !important;
+      border: 1px solid rgba(253, 224, 71, 0.38) !important;
+    }
+    .carousel-track .nxc-btn-tel:hover {
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
+    }
+    .carousel-track .nxc-incele {
+      width: 100% !important;
+      padding: 9px 12px !important;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.1) 100%) !important;
+      color: #fef08a !important;
+      border: 1px solid rgba(212, 175, 55, 0.45) !important;
+      border-radius: 10px !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 12.5px !important;
+      font-weight: 800 !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      transition: all 0.25s !important;
+      margin-top: 6px !important;
+    }
+    .carousel-track .nxc-incele:hover {
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4) !important;
     }
 
     /* ─── EXPANDABLE ROI TABLE DRAWER ─── */
@@ -3507,14 +3668,32 @@
       transform: translateY(-2px);
     }
 
-    /* ─── MODAL HEADERS (OVERFLOW-PROOF 2-ROW ARCHITECTURE) ─── */
-    .video-modal-header, .pdf-modal-header {
-      padding: 1.1rem 1.4rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      background: rgba(7, 13, 24, 0.95);
+    /* ─── VIDEO MODAL: OVERFLOW-PROOF & AUTO-ORIENTATION ADAPTIVE ─── */
+    #videoModal .modal-container {
+      max-width: 880px;
+      max-height: 92vh;
+      width: 100%;
+      background: #0b1526;
+      border-radius: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      overflow: hidden;
+      margin: auto;
+      transition: max-width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    #videoModal .modal-container.is-vertical-video {
+      max-width: min(380px, 86vw);
+    }
+    .video-modal-header, .pdf-modal-header {
+      padding: 0.9rem 1.3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(7, 13, 24, 0.98);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
     }
     .video-header-row-top, .pdf-header-row-top {
       display: flex;
@@ -3531,23 +3710,24 @@
     }
     .video-modal-title, .pdf-modal-title {
       margin: 0;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: #fff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 82%;
+      font-family: 'Playfair Display', serif;
     }
     .video-modal-close-btn, .pdf-modal-close-btn {
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
       border-radius: 50%;
       background: rgba(255,255,255,0.1);
       border: none;
       color: #fff;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -3556,6 +3736,7 @@
     }
     .video-modal-close-btn:hover, .pdf-modal-close-btn:hover {
       background: rgba(255,255,255,0.25);
+      color: #fde047;
     }
     .video-header-row-sub, .pdf-header-row-sub {
       display: flex;
@@ -3566,29 +3747,31 @@
       gap: 8px;
     }
     .video-drive-badge, .video-corp-tag, .pdf-corp-tag {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 6px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      font-family: 'Outfit', sans-serif;
     }
     .video-drive-badge { background: rgba(255,187,0,0.15); color: #FFBB00; border: 1px solid rgba(255,187,0,0.3); }
     .video-corp-tag, .pdf-corp-tag { background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid rgba(212,175,55,0.3); }
     .video-drive-open-btn, .pdf-action-btn {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 6px;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       color: var(--gold-light);
       border: 1px solid var(--gold);
       background: rgba(212,175,55,0.08);
       transition: all 0.2s;
+      font-family: 'Outfit', sans-serif;
     }
     .video-drive-open-btn:hover, .pdf-action-btn:hover {
       background: var(--gold);
@@ -3598,29 +3781,50 @@
       background: var(--gold);
       color: var(--deep-navy);
     }
+
+    /* Auto-adaptive Video Viewport */
     .video-player-container {
       position: relative;
       width: 100%;
-      padding-top: 56.25%;
       background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      max-height: calc(88vh - 90px);
+      transition: all 0.3s ease;
     }
-    .video-player-container video, .video-player-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .video-player-container.ratio-horizontal,
+    .video-player-container:not(.ratio-vertical) {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+    }
+    .video-player-container.ratio-vertical {
+      aspect-ratio: 9 / 16;
+      max-height: calc(80vh - 85px);
+      width: auto;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+    .video-player-container video,
+    .video-player-container iframe {
       width: 100%;
       height: 100%;
+      object-fit: contain !important;
       border: none;
+      background: #000;
     }
     .video-modal-footer {
-      padding: 0.85rem 1.4rem;
-      background: rgba(7, 13, 24, 0.95);
+      padding: 0.65rem 1.3rem;
+      background: rgba(7, 13, 24, 0.98);
       border-top: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
     }
     .video-desc-text {
-      font-size: 13px;
-      color: var(--gray-light);
+      font-size: 12.5px;
+      color: #cbd5e1;
       margin: 0;
+      font-family: 'Outfit', sans-serif;
     }
 
     /* ─── IOS STYLE MOBILE QUICK ACTION BOTTOM SHEET ─── */
@@ -3648,78 +3852,72 @@
       max-height: 80vh;
       overflow-y: auto;
       padding: 12px 18px 24px;
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
       transform: translateY(100%);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .mobile-action-sheet-overlay.active .mobile-action-sheet {
       transform: translateY(0);
     }
-    .action-sheet-handle {
+    .sheet-handle-bar {
       width: 44px;
-      height: 5px;
+      height: 4px;
       background: rgba(255,255,255,0.25);
-      border-radius: 999px;
+      border-radius: 2px;
       margin: 0 auto 14px;
     }
-    .action-sheet-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .action-sheet-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .action-sheet-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 12px 16px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-    .action-sheet-item:hover, .action-sheet-item:active {
-      background: rgba(212,175,55,0.1);
-      border-color: var(--gold);
-    }
-    .sheet-item-icon {
-      width: 42px;
-      height: 42px;
-      min-width: 42px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-    .sheet-item-text {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .sheet-item-text strong {
-      font-size: 14px;
-      color: #fff;
+    .sheet-title {
+      font-size: 16px;
       font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 14px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
     }
-    .sheet-item-text span {
-      font-size: 12px;
-      color: var(--gray-light);
+    .sheet-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
     }
-    .sheet-item-arrow {
+    .sheet-action-item {
+      background: rgba(19, 34, 56, 0.9);
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 14px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .sheet-action-item i {
+      font-size: 20px;
+      color: var(--gold);
+    }
+    .sheet-action-item:active {
+      transform: scale(0.96);
+      border-color: var(--gold);
+      background: rgba(212,175,55,0.15);
+    }
+    .sheet-close-btn {
+      width: 100%;
+      padding: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
       color: var(--gray-light);
-      font-size: 13px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
     }
 
-    /* ─── RESPONSIVE BREAKPOINTS (MOBILE RAIL ARCHITECTURE) ─── */
+    /* ─── RESPONSIVE BREAKPOINTS (MOBILE RAIL & COMPACT Y-AXIS CARDS) ─── */
     @media (max-width: 768px) {
       .mobile-section-nav {
         display: block !important;
@@ -3728,31 +3926,193 @@
         max-width: 100%;
       }
       .nxc-segment-btn {
-        font-size: 12px;
-        padding: 8px 10px;
+        font-size: 11.5px;
+        padding: 7px 9px;
       }
       .carousel-header-info .carousel-progress-track {
         display: none;
       }
       .carousel-track {
-        padding: 8px 12px 18px 12px !important;
-        gap: 14px !important;
+        padding: 6px 10px 14px 10px !important;
+        gap: 12px !important;
       }
+
+      /* COMPACT Y-AXIS CARD SIZING (SLIM & ERGONOMIC FOR BOTH CAROUSEL & GRID) */
+      .cards-grid .nxc-card,
+      .portfolio-grid-view .nxc-card {
+        border-radius: 16px !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.55) !important;
+      }
+      .cards-grid .nxc-card .nxc-img,
+      .portfolio-grid-view .nxc-card .nxc-img {
+        height: 125px !important;
+        min-height: 125px !important;
+        max-height: 125px !important;
+        border-radius: 16px 16px 0 0 !important;
+      }
+      .cards-grid .nxc-card .nxc-body,
+      .portfolio-grid-view .nxc-card .nxc-body {
+        padding: 9px 11px 11px 11px !important;
+      }
+      .cards-grid .nxc-card .nxc-title,
+      .portfolio-grid-view .nxc-card .nxc-title {
+        font-size: 13.5px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 2px !important;
+      }
+      .cards-grid .nxc-card .nxc-loc,
+      .portfolio-grid-view .nxc-card .nxc-loc {
+        font-size: 10.5px !important;
+        margin-bottom: 4px !important;
+      }
+      .cards-grid .nxc-card .nxc-specs,
+      .portfolio-grid-view .nxc-card .nxc-specs {
+        margin-bottom: 6px !important;
+        padding-bottom: 6px !important;
+        gap: 4px !important;
+      }
+      .cards-grid .nxc-card .nxc-spec,
+      .portfolio-grid-view .nxc-card .nxc-spec {
+        font-size: 9.5px !important;
+        padding: 2px 6px !important;
+      }
+      .cards-grid .nxc-card .nxc-price,
+      .portfolio-grid-view .nxc-card .nxc-price {
+        font-size: 13px !important;
+        bottom: 8px !important;
+        left: 8px !important;
+        padding: 2px 6px !important;
+      }
+      .cards-grid .nxc-card .nxc-badge,
+      .portfolio-grid-view .nxc-card .nxc-badge {
+        top: 8px !important;
+        left: 8px !important;
+        font-size: 9.5px !important;
+        padding: 2px 7px !important;
+      }
+      .cards-grid .nxc-card .nxc-btn,
+      .portfolio-grid-view .nxc-card .nxc-btn {
+        font-size: 10px !important;
+        padding: 4px 6px !important;
+        min-height: 26px !important;
+      }
+      .cards-grid .nxc-card .nxc-incele,
+      .portfolio-grid-view .nxc-card .nxc-incele {
+        font-size: 11px !important;
+        padding: 6px !important;
+        min-height: 28px !important;
+        margin-top: 3px !important;
+      }
+
+      /* COMPACT Y-AXIS CARD SIZING (SLIM & ERGONOMIC) */
       .carousel-track .nxc-card,
       .carousel-track .project-card {
-        flex: 0 0 280px !important;
-        width: 280px !important;
-        min-width: 280px !important;
-        max-width: 280px !important;
-        border-radius: 18px !important;
+        flex: 0 0 255px !important;
+        width: 255px !important;
+        min-width: 255px !important;
+        max-width: 255px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.55) !important;
       }
-      .carousel-track .card-img-wrapper {
-        height: 155px !important;
-        min-height: 155px !important;
+      .carousel-track .card-img-wrapper,
+      .carousel-track .nxc-img {
+        height: 120px !important;
+        min-height: 120px !important;
+        max-height: 120px !important;
+        border-radius: 16px 16px 0 0 !important;
       }
-      .carousel-track .card-title {
-        font-size: 15px !important;
+      .carousel-track .nxc-body {
+        padding: 9px 11px 11px 11px !important;
+      }
+      .carousel-track .card-title,
+      .carousel-track .nxc-title {
+        font-size: 13.5px !important;
         line-height: 1.25 !important;
+        margin-bottom: 2px !important;
+        max-height: 2.5em !important;
+        -webkit-line-clamp: 2 !important;
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+      }
+      .carousel-track .card-corp-badge {
+        font-size: 10px !important;
+        margin-bottom: 2px !important;
+      }
+      .carousel-track .nxc-loc,
+      .carousel-track .project-card-loc {
+        font-size: 10.5px !important;
+        margin-bottom: 4px !important;
+      }
+      .carousel-track .nxc-specs {
+        margin-bottom: 6px !important;
+        padding-bottom: 6px !important;
+        gap: 4px !important;
+      }
+      .carousel-track .nxc-spec,
+      .carousel-track .project-spec {
+        font-size: 9.5px !important;
+        padding: 2px 6px !important;
+      }
+      .carousel-track .nxc-price,
+      .carousel-track .project-price {
+        font-size: 14.5px !important;
+        margin-bottom: 2px !important;
+      }
+      .carousel-track .project-downpayment {
+        font-size: 10px !important;
+        margin-bottom: 4px !important;
+      }
+      .carousel-track .nxc-btn,
+      .carousel-track .btn-sm {
+        font-size: 10px !important;
+        padding: 4px 6px !important;
+        min-height: 26px !important;
+      }
+      .carousel-track .nxc-incele {
+        font-size: 11px !important;
+        padding: 6px !important;
+        min-height: 28px !important;
+        margin-top: 4px !important;
+      }
+      .video-play-overlay {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 15px !important;
+      }
+
+      /* Mobile Video Modal: Compact 1-row header, zero overflow */
+      #videoModal {
+        padding: 6px !important;
+      }
+      #videoModal .modal-container {
+        max-height: 94vh !important;
+        border-radius: 14px !important;
+      }
+      .video-modal-header {
+        padding: 8px 12px !important;
+      }
+      .video-modal-title {
+        font-size: 13px !important;
+        max-width: 70vw !important;
+      }
+      .video-modal-close-btn {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        font-size: 13px !important;
+      }
+      .video-header-row-sub {
+        display: none !important;
+      }
+      .video-modal-footer {
+        padding: 5px 10px !important;
+      }
+      .video-desc-text {
+        font-size: 11px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
       }
 
       /* Transform stacked vertical grids into horizontal swipable rails */
@@ -3760,37 +4120,37 @@
         display: flex !important;
         overflow-x: auto !important;
         scroll-snap-type: x mandatory !important;
-        gap: 14px !important;
-        padding-bottom: 14px !important;
+        gap: 12px !important;
+        padding-bottom: 12px !important;
         -webkit-overflow-scrolling: touch !important;
       }
       #services .cards-grid .card {
-        flex: 0 0 280px !important;
-        width: 280px !important;
-        min-width: 280px !important;
+        flex: 0 0 255px !important;
+        width: 255px !important;
+        min-width: 255px !important;
         scroll-snap-align: start !important;
       }
       .awards-grid {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 12px !important;
+        gap: 10px !important;
       }
       .stats-grid {
         grid-template-columns: 1fr 1fr !important;
-        gap: 12px !important;
+        gap: 10px !important;
       }
       #videoGallerySection > .container > div:last-child {
         display: flex !important;
         overflow-x: auto !important;
         scroll-snap-type: x mandatory !important;
-        gap: 14px !important;
-        padding-bottom: 12px !important;
+        gap: 12px !important;
+        padding-bottom: 10px !important;
         -webkit-overflow-scrolling: touch !important;
       }
       #videoGallerySection .video-card {
-        flex: 0 0 290px !important;
-        width: 290px !important;
-        min-width: 290px !important;
+        flex: 0 0 260px !important;
+        width: 260px !important;
+        min-width: 260px !important;
         scroll-snap-align: start !important;
       }
     }
@@ -3798,28 +4158,32 @@
     @media (max-width: 480px) {
       .carousel-track .nxc-card,
       .carousel-track .project-card {
-        flex: 0 0 265px !important;
-        width: 265px !important;
-        min-width: 265px !important;
-        max-width: 265px !important;
+        flex: 0 0 238px !important;
+        width: 238px !important;
+        min-width: 238px !important;
+        max-width: 238px !important;
       }
-      .carousel-track .card-img-wrapper {
-        height: 148px !important;
-        min-height: 148px !important;
+      .carousel-track .card-img-wrapper,
+      .carousel-track .nxc-img {
+        height: 112px !important;
+        min-height: 112px !important;
+        max-height: 112px !important;
       }
     }
 
     @media (max-width: 360px) {
       .carousel-track .nxc-card,
       .carousel-track .project-card {
-        flex: 0 0 245px !important;
-        width: 245px !important;
-        min-width: 245px !important;
-        max-width: 245px !important;
+        flex: 0 0 220px !important;
+        width: 220px !important;
+        min-width: 220px !important;
+        max-width: 220px !important;
       }
-      .carousel-track .card-img-wrapper {
-        height: 138px !important;
-        min-height: 138px !important;
+      .carousel-track .card-img-wrapper,
+      .carousel-track .nxc-img {
+        height: 102px !important;
+        min-height: 102px !important;
+        max-height: 102px !important;
       }
     }
   
@@ -8953,36 +9317,36 @@ ${src.length ? `
         card.innerHTML = `
           <div class="card-img-wrapper" id="site-card-img-${p.id}">
             <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
-            <span class="nxc-badge" style="position:absolute; top:12px; left:12px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:11px; padding:4px 10px; border-radius:20px;">
+            <span class="nxc-badge" style="position:absolute; top:10px; left:10px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:10px; padding:3px 9px; border-radius:20px; font-family:'Outfit',sans-serif;">
               ✦ LANSMAN PROJESİ
             </span>
             ${hasVid ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" title="Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>` : ''}
           </div>
 
-          <div class="nxc-body" style="padding:1.2rem; display:flex; flex-direction:column; flex-grow:1;">
-            <h3 class="card-title" style="font-family:'Playfair Display',serif; font-size:17px; font-weight:700; margin-bottom:4px; color:var(--cream);">${title}</h3>
-            <div style="font-size:12px; color:var(--gold-light); margin-bottom:4px;"><i class="fas fa-building"></i> Coldwell Banker VIP Temsilciliği</div>
-            <div style="font-size:12.5px; color:var(--gray-light); margin-bottom:8px;"><i class="fas fa-map-marker-alt"></i> ${loc}</div>
-            ${roomInfo ? `<div style="margin-bottom:10px;"><span class="nxc-spec" style="background:rgba(212,175,55,0.1); color:var(--gold-light); padding:3px 8px; border-radius:6px; font-size:11.5px;">${roomInfo}</span></div>` : ''}
+          <div class="nxc-body" style="display:flex; flex-direction:column; flex-grow:1;">
+            <h3 class="card-title">${title}</h3>
+            <div class="card-corp-badge"><i class="fas fa-building" style="color:var(--gold);"></i> Coldwell Banker VIP Temsilciliği</div>
+            <div class="project-card-loc"><i class="fas fa-map-marker-alt"></i> ${loc}</div>
+            ${roomInfo ? `<div style="margin-bottom:8px;"><span class="nxc-spec project-spec">${roomInfo}</span></div>` : ''}
 
-            <div style="margin-top:auto; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08);">
-              <div style="margin-bottom:8px;">
-                <div style="font-size:17px; font-weight:700; color:var(--gold);">${price}</div>
-                ${down ? `<div style="font-size:11.5px; color:var(--cream-dark);"><i class="fas fa-credit-card"></i> ${down}</div>` : ''}
+            <div style="margin-top:auto; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);">
+              <div style="margin-bottom:6px;">
+                <div class="project-price">${price}</div>
+                ${down ? `<div class="project-downpayment"><i class="fas fa-credit-card"></i> ${down}</div>` : ''}
               </div>
 
               <!-- Media & Actions Row -->
-              <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
-                ${hasVid ? `<button class="btn btn-sm" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" style="background:var(--gold); color:var(--deep-navy); font-size:11px; padding:5px 9px; font-weight:700;"><i class="fas fa-play"></i> Tanıtım</button>` : ''}
-                ${hasPdf ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" style="border-color:rgba(212,175,55,0.4); color:var(--gold-light); font-size:11px; padding:5px 9px;"><i class="fas fa-file-pdf"></i> Sunum</button>` : ''}
+              <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
+                ${hasVid ? `<button class="btn btn-sm" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" style="background:var(--gold); color:var(--deep-navy);"><i class="fas fa-play"></i> Tanıtım</button>` : ''}
+                ${hasPdf ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" style="border-color:rgba(212,175,55,0.4); color:var(--gold-light);"><i class="fas fa-file-pdf"></i> Sunum</button>` : ''}
               </div>
 
               <!-- Conversion Row -->
-              <div style="display:grid; grid-template-columns: 1fr 1fr 38px; gap:6px;">
-                <a href="${waUrl}" target="_blank" onclick="event.stopPropagation()" class="btn btn-sm" style="background:rgba(37,211,102,0.15); color:#25D366; border:1px solid rgba(37,211,102,0.3); font-size:11.5px; justify-content:center; padding:6px;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr 34px; gap:5px;">
+                <a href="${waUrl}" target="_blank" onclick="event.stopPropagation()" class="btn btn-sm" style="background:rgba(37,211,102,0.18); color:#4ade80; border:1px solid rgba(37,211,102,0.35); justify-content:center;">
                   <i class="fab fa-whatsapp"></i> WA
                 </a>
-                <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openAppointmentModal('${p.id}', '${title}')" style="font-size:11.5px; justify-content:center; padding:6px;">
+                <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openAppointmentModal('${p.id}', '${title}')" style="justify-content:center;">
                   <i class="fas fa-calendar-check"></i> Randevu
                 </button>
                 <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); shareProject('${p.id}', '${title}', '${price}', '${loc}')" title="Paylaş" style="padding:0; justify-content:center;">
@@ -9030,7 +9394,23 @@ ${src.length ? `
       }
     }
 
-    // Video Player Modal Controller
+    // Auto-adaptive Video Orientation Helper
+    function setVideoOrientation(isVertical) {
+      const modalContainer = document.querySelector('#videoModal .modal-container');
+      const playerContainer = document.getElementById('videoPlayerContainer');
+      if (!playerContainer) return;
+      if (isVertical) {
+        playerContainer.classList.remove('ratio-horizontal');
+        playerContainer.classList.add('ratio-vertical');
+        if (modalContainer) modalContainer.classList.add('is-vertical-video');
+      } else {
+        playerContainer.classList.remove('ratio-vertical');
+        playerContainer.classList.add('ratio-horizontal');
+        if (modalContainer) modalContainer.classList.remove('is-vertical-video');
+      }
+    }
+
+    // Video Player Modal Controller with Dynamic Orientation Adaptation
     function playProjectVideo(projectId) {
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
@@ -9047,6 +9427,15 @@ ${src.length ? `
       const driveUrl = p.drive_video_preview || (p.drive_vid_id ? `https://drive.google.com/file/d/${p.drive_vid_id}/preview` : null);
       const streamUrl = p.tanitim_cloud_url || `/stream/video/${p.id}`;
 
+      // Check vertical hint from project data or URL
+      const isKnownVertical = Boolean(
+        p.is_vertical || p.orientation === 'vertical' || 
+        (p.aspect_ratio && p.aspect_ratio < 1) ||
+        (streamUrl && (streamUrl.toLowerCase().includes('short') || streamUrl.toLowerCase().includes('reel') || streamUrl.toLowerCase().includes('dikey'))) ||
+        (driveUrl && (driveUrl.toLowerCase().includes('short') || driveUrl.toLowerCase().includes('reel') || driveUrl.toLowerCase().includes('dikey')))
+      );
+      setVideoOrientation(isKnownVertical);
+
       if (driveUrl) {
         iframe.src = driveUrl;
         iframe.style.display = 'block';
@@ -9060,11 +9449,52 @@ ${src.length ? `
         video.style.display = 'block';
         iframe.style.display = 'none';
         if (driveBtn) driveBtn.style.display = 'none';
+
+        // Auto-detect HTML5 video orientation upon metadata load
+        video.onloadedmetadata = function() {
+          if (video.videoHeight && video.videoWidth) {
+            const isVert = video.videoHeight > video.videoWidth;
+            setVideoOrientation(isVert);
+          }
+        };
+
         video.play().catch(() => {});
       }
 
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+    }
+
+    // Inline Card Video Player (Optional card-level play without overflow)
+    function playVideoOnSiteCard(id, videoUrl) {
+      const p = projectsData.find(x => String(x.id) === String(id) || String(x.db_id) === String(id));
+      const imgSrc = p ? (p.thumbnail || '/static/img/placeholder.jpg') : '/static/img/placeholder.jpg';
+      const wrapper = document.getElementById(`site-card-img-${id}`);
+      if (wrapper) {
+        wrapper.innerHTML = `
+          <div style="position:relative; width:100%; height:100%; background:#000; overflow:hidden;">
+            <button onclick="event.stopPropagation(); resetSiteCardMedia('${id}', '${imgSrc}')" style="position:absolute; top:6px; right:6px; z-index:20; background:rgba(0,0,0,0.85); color:#fde047; border:1px solid rgba(212,175,55,0.4); padding:3px 8px; border-radius:12px; font-size:10px; font-weight:700; cursor:pointer; backdrop-filter:blur(4px); display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-times"></i> Kapat</button>
+            <video controls autoplay playsinline webkit-playsinline muted style="width:100%; height:100%; object-fit:contain; background:#000; display:block;">
+              <source src="${videoUrl}" type="video/mp4">
+            </video>
+          </div>
+        `;
+      }
+    }
+
+    function resetSiteCardMedia(id, imgSrc) {
+      const p = projectsData.find(x => String(x.id) === String(id) || String(x.db_id) === String(id));
+      const title = p ? (p.title || p.name) : 'Prestij Projesi';
+      const wrapper = document.getElementById(`site-card-img-${id}`);
+      if (wrapper) {
+        wrapper.innerHTML = `
+          <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
+          <span class="nxc-badge" style="position:absolute; top:10px; left:10px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:10px; padding:3px 9px; border-radius:20px; font-family:'Outfit',sans-serif;">
+            ✦ LANSMAN PROJESİ
+          </span>
+          <div class="video-play-overlay" onclick="event.stopPropagation(); playProjectVideo('${id}')" title="Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>
+        `;
+      }
     }
 
     // PDF Preview Modal Controller
@@ -9105,6 +9535,7 @@ ${src.length ? `
         const iframe = document.getElementById('siteProjectIframe');
         if (video) { video.pause(); video.src = ''; }
         if (iframe) { iframe.src = ''; }
+        setVideoOrientation(false); // Reset to default horizontal
       }
       modal.style.display = 'none';
       document.body.style.overflow = '';
