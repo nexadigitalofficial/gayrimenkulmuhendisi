@@ -10479,12 +10479,7 @@ def _is_mobile_request() -> bool:
 
 @app.route("/")
 def home():
-    """Web sitesi — Mobil tarayıcılarda doğrudan Ultra Native App Shell açılır."""
-    if _is_mobile_request() and flask_request.args.get("desktop") != "1":
-        try:
-            return send_from_directory("templates", "mobile_app.html")
-        except Exception:
-            pass
+    """Web sitesi — Hem masaüstü hem mobilde orijinal site.html servis edilir (mobil uygulama kabuğu & PWA dock ile)."""
     try:
         return send_from_directory("templates", "site.html")
     except Exception as e:

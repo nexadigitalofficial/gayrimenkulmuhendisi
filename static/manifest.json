@@ -1,8 +1,8 @@
 {
   "name": "Gayrimenkul Mühendisi | Yiğit Narin CB VIP",
-  "short_name": "NEXA OS",
-  "description": "Lüks Gayrimenkul & AI Değerleme Platformu",
-  "start_url": "/app",
+  "short_name": "Yiğit Narin",
+  "description": "Ankara Gayrimenkul, Portföy & AI Piyasa İstihbarat Platformu",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#070D18",
