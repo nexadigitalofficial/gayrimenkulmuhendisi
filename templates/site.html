@@ -3445,9 +3445,10 @@
     .carousel-track .nxc-img {
       position: relative;
       width: 100%;
-      height: 180px;
-      min-height: 180px;
-      max-height: 180px;
+      height: 191px;
+      min-height: 191px;
+      max-height: 191px;
+      aspect-ratio: 16 / 9;
       overflow: hidden;
       border-radius: 18px 18px 0 0;
       background: #000;
@@ -3669,162 +3670,195 @@
     }
 
     /* ─── VIDEO MODAL: OVERFLOW-PROOF & AUTO-ORIENTATION ADAPTIVE ─── */
-    #videoModal .modal-container {
-      max-width: 880px;
-      max-height: 92vh;
-      width: 100%;
-      background: #0b1526;
-      border-radius: 18px;
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      margin: auto;
-      transition: max-width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    #videoModal {
+      box-sizing: border-box !important;
     }
-    #videoModal .modal-container.is-vertical-video {
-      max-width: min(380px, 86vw);
+    #videoModal .modal-container,
+    #videoModalContainer {
+      background: #0b1526 !important;
+      color: #fff !important;
+      width: 100% !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      margin: auto !important;
+      max-height: min(92vh, 850px) !important;
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
-    .video-modal-header, .pdf-modal-header {
-      padding: 0.9rem 1.3rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      background: rgba(7, 13, 24, 0.98);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex-shrink: 0;
+    #videoModal .modal-container:not(.is-vertical-video),
+    #videoModalContainer:not(.is-vertical-video) {
+      max-width: min(880px, 94vw) !important;
     }
-    .video-header-row-top, .pdf-header-row-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
+    #videoModal .modal-container.is-vertical-video,
+    #videoModalContainer.is-vertical-video {
+      max-width: min(420px, 92vw) !important;
     }
-    .video-title-wrap, .pdf-title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-      flex: 1 1 auto;
+    .video-modal-header {
+      padding: 0.8rem 1.2rem !important;
+      border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+      background: #070d18 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 6px !important;
+      flex-shrink: 0 !important;
     }
-    .video-modal-title, .pdf-modal-title {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 82%;
-      font-family: 'Playfair Display', serif;
+    .video-header-row-top {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
     }
-    .video-modal-close-btn, .pdf-modal-close-btn {
-      width: 34px;
-      height: 34px;
-      min-width: 34px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      border: none;
-      color: #fff;
-      font-size: 15px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
+    .video-title-wrap {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      min-width: 0 !important;
+      flex: 1 1 auto !important;
     }
-    .video-modal-close-btn:hover, .pdf-modal-close-btn:hover {
-      background: rgba(255,255,255,0.25);
-      color: #fde047;
+    .video-modal-title {
+      margin: 0 !important;
+      font-size: 15.5px !important;
+      font-weight: 700 !important;
+      color: #fff !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 82% !important;
+      font-family: 'Playfair Display', serif !important;
     }
-    .video-header-row-sub, .pdf-header-row-sub {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      flex-wrap: wrap;
-      gap: 8px;
+    .video-modal-close-btn {
+      width: 34px !important;
+      height: 34px !important;
+      min-width: 34px !important;
+      border-radius: 50% !important;
+      background: rgba(255,255,255,0.1) !important;
+      border: none !important;
+      color: #fff !important;
+      font-size: 15px !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.2s !important;
     }
-    .video-drive-badge, .video-corp-tag, .pdf-corp-tag {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: 'Outfit', sans-serif;
+    .video-modal-close-btn:hover {
+      background: rgba(255,255,255,0.25) !important;
+      color: #fde047 !important;
     }
-    .video-drive-badge { background: rgba(255,187,0,0.15); color: #FFBB00; border: 1px solid rgba(255,187,0,0.3); }
-    .video-corp-tag, .pdf-corp-tag { background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid rgba(212,175,55,0.3); }
-    .video-drive-open-btn, .pdf-action-btn {
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      color: var(--gold-light);
-      border: 1px solid var(--gold);
-      background: rgba(212,175,55,0.08);
-      transition: all 0.2s;
-      font-family: 'Outfit', sans-serif;
+    .video-header-row-sub {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      flex-wrap: wrap !important;
+      gap: 8px !important;
     }
-    .video-drive-open-btn:hover, .pdf-action-btn:hover {
-      background: var(--gold);
-      color: var(--deep-navy);
+    .video-drive-badge, .video-corp-tag {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      padding: 3px 9px !important;
+      border-radius: 6px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      font-family: 'Outfit', sans-serif !important;
     }
-    .pdf-btn-primary {
-      background: var(--gold);
-      color: var(--deep-navy);
+    .video-drive-badge { background: rgba(255,187,0,0.15) !important; color: #FFBB00 !important; border: 1px solid rgba(255,187,0,0.3) !important; }
+    .video-corp-tag { background: rgba(212,175,55,0.15) !important; color: var(--gold-light) !important; border: 1px solid rgba(212,175,55,0.3) !important; }
+    .video-drive-open-btn {
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      padding: 4px 10px !important;
+      border-radius: 6px !important;
+      text-decoration: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      color: var(--gold-light) !important;
+      border: 1px solid var(--gold) !important;
+      background: rgba(212,175,55,0.08) !important;
+      transition: all 0.2s !important;
+      font-family: 'Outfit', sans-serif !important;
+    }
+    .video-drive-open-btn:hover {
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
     }
 
-    /* Auto-adaptive Video Viewport */
+    /* Auto-adaptive Video Viewport Container */
     .video-player-container {
-      position: relative;
-      width: 100%;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      max-height: calc(88vh - 90px);
-      transition: all 0.3s ease;
+      position: relative !important;
+      width: 100% !important;
+      background: #000 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      flex: 1 1 auto !important;
+      min-height: 200px !important;
+      max-height: calc(84vh - 90px) !important;
+      transition: all 0.3s ease !important;
     }
     .video-player-container.ratio-horizontal,
     .video-player-container:not(.ratio-vertical) {
-      aspect-ratio: 16 / 9;
-      width: 100%;
+      aspect-ratio: 16 / 9 !important;
+      width: 100% !important;
+      max-width: 100% !important;
     }
     .video-player-container.ratio-vertical {
-      aspect-ratio: 9 / 16;
-      max-height: calc(80vh - 85px);
-      width: auto;
-      margin: 0 auto;
-      border-radius: 10px;
+      aspect-ratio: 9 / 16 !important;
+      height: min(68vh, 540px) !important;
+      width: auto !important;
+      max-width: 100% !important;
+      align-self: center !important;
+      margin: 0 auto !important;
+      border-radius: 8px !important;
     }
     .video-player-container video,
     .video-player-container iframe {
-      width: 100%;
-      height: 100%;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
       object-fit: contain !important;
-      border: none;
-      background: #000;
+      border: none !important;
+      background: #000 !important;
+      display: block !important;
     }
     .video-modal-footer {
-      padding: 0.65rem 1.3rem;
-      background: rgba(7, 13, 24, 0.98);
-      border-top: 1px solid rgba(255,255,255,0.08);
-      flex-shrink: 0;
+      padding: 0.6rem 1.2rem !important;
+      background: #070d18 !important;
+      border-top: 1px solid rgba(255,255,255,0.08) !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 10px !important;
     }
     .video-desc-text {
-      font-size: 12.5px;
-      color: #cbd5e1;
-      margin: 0;
-      font-family: 'Outfit', sans-serif;
+      font-size: 12px !important;
+      color: #cbd5e1 !important;
+      margin: 0 !important;
+      font-family: 'Outfit', sans-serif !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+    .video-switch-btn {
+      font-size: 10.5px !important;
+      padding: 3px 8px !important;
+      border-radius: 6px !important;
+      border: 1px solid rgba(212,175,55,0.3) !important;
+      background: rgba(212,175,55,0.1) !important;
+      color: var(--gold-light) !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      white-space: nowrap !important;
     }
 
     /* ─── IOS STYLE MOBILE QUICK ACTION BOTTOM SHEET ─── */
@@ -4016,10 +4050,12 @@
       }
       .carousel-track .card-img-wrapper,
       .carousel-track .nxc-img {
-        height: 120px !important;
-        min-height: 120px !important;
-        max-height: 120px !important;
+        height: 144px !important;
+        min-height: 144px !important;
+        max-height: 144px !important;
+        aspect-ratio: 16 / 9 !important;
         border-radius: 16px 16px 0 0 !important;
+        background: #000 !important;
       }
       .carousel-track .nxc-body {
         padding: 9px 11px 11px 11px !important;
@@ -4165,9 +4201,10 @@
       }
       .carousel-track .card-img-wrapper,
       .carousel-track .nxc-img {
-        height: 112px !important;
-        min-height: 112px !important;
-        max-height: 112px !important;
+        height: 134px !important;
+        min-height: 134px !important;
+        max-height: 134px !important;
+        aspect-ratio: 16 / 9 !important;
       }
     }
 
@@ -4181,9 +4218,10 @@
       }
       .carousel-track .card-img-wrapper,
       .carousel-track .nxc-img {
-        height: 102px !important;
-        min-height: 102px !important;
-        max-height: 102px !important;
+        height: 124px !important;
+        min-height: 124px !important;
+        max-height: 124px !important;
+        aspect-ratio: 16 / 9 !important;
       }
     }
   
@@ -9396,7 +9434,7 @@ ${src.length ? `
 
     // Auto-adaptive Video Orientation Helper
     function setVideoOrientation(isVertical) {
-      const modalContainer = document.querySelector('#videoModal .modal-container');
+      const modalContainer = document.getElementById('videoModalContainer') || document.querySelector('#videoModal .modal-container');
       const playerContainer = document.getElementById('videoPlayerContainer');
       if (!playerContainer) return;
       if (isVertical) {
@@ -9410,7 +9448,7 @@ ${src.length ? `
       }
     }
 
-    // Video Player Modal Controller with Dynamic Orientation Adaptation
+    // Video Player Modal Controller with Dynamic Orientation & Stream Priority
     function playProjectVideo(projectId) {
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
@@ -9418,6 +9456,7 @@ ${src.length ? `
       const iframe = document.getElementById('siteProjectIframe');
       const video = document.getElementById('siteProjectVideo');
       const driveBtn = document.getElementById('videoDriveOpenBtn');
+      const driveBadge = document.getElementById('videoDriveBadge');
       const titleEl = document.getElementById('videoTitle');
       const descEl = document.getElementById('videoDesc');
 
@@ -9427,45 +9466,59 @@ ${src.length ? `
       const driveUrl = p.drive_video_preview || (p.drive_vid_id ? `https://drive.google.com/file/d/${p.drive_vid_id}/preview` : null);
       const streamUrl = p.tanitim_cloud_url || `/stream/video/${p.id}`;
 
-      // Check vertical hint from project data or URL
+      // Known vertical detection from metadata
       const isKnownVertical = Boolean(
         p.is_vertical || p.orientation === 'vertical' || 
-        (p.aspect_ratio && p.aspect_ratio < 1) ||
+        (p.video_aspect_ratio && p.video_aspect_ratio < 1) ||
         (streamUrl && (streamUrl.toLowerCase().includes('short') || streamUrl.toLowerCase().includes('reel') || streamUrl.toLowerCase().includes('dikey'))) ||
         (driveUrl && (driveUrl.toLowerCase().includes('short') || driveUrl.toLowerCase().includes('reel') || driveUrl.toLowerCase().includes('dikey')))
       );
       setVideoOrientation(isKnownVertical);
 
-      if (driveUrl) {
-        iframe.src = driveUrl;
-        iframe.style.display = 'block';
-        video.style.display = 'none';
-        if (driveBtn) {
+      // On mobile or when direct stream is available, use native HTML5 video for zero letterboxing & native fullscreen
+      // Direct stream has 100% accurate metadata and native aspect-ratio
+      video.src = streamUrl;
+      video.style.display = 'block';
+      iframe.src = '';
+      iframe.style.display = 'none';
+
+      if (driveBtn) {
+        if (driveUrl) {
           driveBtn.href = driveUrl.replace('/preview', '/view');
           driveBtn.style.display = 'inline-flex';
+        } else {
+          driveBtn.style.display = 'none';
         }
-      } else {
-        video.src = streamUrl;
-        video.style.display = 'block';
-        iframe.style.display = 'none';
-        if (driveBtn) driveBtn.style.display = 'none';
-
-        // Auto-detect HTML5 video orientation upon metadata load
-        video.onloadedmetadata = function() {
-          if (video.videoHeight && video.videoWidth) {
-            const isVert = video.videoHeight > video.videoWidth;
-            setVideoOrientation(isVert);
-          }
-        };
-
-        video.play().catch(() => {});
       }
+      if (driveBadge) {
+        driveBadge.style.display = driveUrl ? 'inline-flex' : 'none';
+      }
+
+      // Auto-detect HTML5 video orientation upon metadata load
+      video.onloadedmetadata = function() {
+        if (video.videoHeight && video.videoWidth) {
+          const isVert = video.videoHeight > video.videoWidth;
+          setVideoOrientation(isVert);
+        }
+      };
+
+      // Error fallback: If stream fails to load, fallback to driveUrl if available
+      video.onerror = function() {
+        if (driveUrl) {
+          console.warn('[Video] Direct stream failed, falling back to Drive preview:', driveUrl);
+          video.style.display = 'none';
+          iframe.src = driveUrl;
+          iframe.style.display = 'block';
+        }
+      };
+
+      video.load();
+      video.play().catch(() => {});
 
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
 
-    // Inline Card Video Player (Optional card-level play without overflow)
     function playVideoOnSiteCard(id, videoUrl) {
       const p = projectsData.find(x => String(x.id) === String(id) || String(x.db_id) === String(id));
       const imgSrc = p ? (p.thumbnail || '/static/img/placeholder.jpg') : '/static/img/placeholder.jpg';
@@ -9703,8 +9756,8 @@ ${src.length ? `
        CORPORATE MODALS (VIDEO, PDF SUNUM, VIP RANDEVU & QUICK ACTION SHEET)
        ═══════════════════════════════════════════════════════════════════════════ -->
   <!-- VIDEO MODAL (GOOGLE DRIVE PREVIEW & STREAM PLAYER) -->
-  <div class="modal-overlay" id="videoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1rem;">
-    <div class="modal-container" style="background:#132238; color:#fff; width:100%; max-width:940px; border-radius:20px; overflow:hidden; border:1px solid rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(0,0,0,0.8); display:flex; flex-direction:column;">
+  <div class="modal-overlay" id="videoModal" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:rgba(0,0,0,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:10px; box-sizing:border-box; overflow-y:auto;">
+    <div class="modal-container" id="videoModalContainer">
       <div class="video-modal-header">
         <div class="video-header-row-top">
           <div class="video-title-wrap">

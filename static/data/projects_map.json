@@ -52,7 +52,10 @@
       "down_payment": "825.000 TL",
       "region": "Çubuk, Ankara"
     },
-    "location_full": "Ankara / Çubuk / Esenboğa"
+    "location_full": "Ankara / Çubuk / Esenboğa",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-31",
@@ -109,7 +112,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_31.jpg",
     "name": "WM - PRIME",
     "drive_vid_id": "1vwu4lkmufMALIRhUT7lV30X_j7bb9lMz",
-    "drive_pdf_id": "1-K7eg6_cS7cLBDIeFrYe9zLlalSZognd"
+    "drive_pdf_id": "1-K7eg6_cS7cLBDIeFrYe9zLlalSZognd",
+    "is_vertical": true,
+    "orientation": "vertical",
+    "video_aspect_ratio": 0.5625
   },
   {
     "id": "cbvip-prj-19",
@@ -161,7 +167,10 @@
       "region": "Çubuk, Ankara"
     },
     "location_full": "Ankara / Çubuk / Esenboğa",
-    "youtube_video_preview": "https://www.youtube.com/embed/1hRMQ0s505o"
+    "youtube_video_preview": "https://www.youtube.com/embed/1hRMQ0s505o",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-11",
@@ -212,7 +221,10 @@
       "down_payment": "995.000 TL",
       "region": "Pursaklar, Ankara"
     },
-    "location_full": "Ankara / Pursaklar / Saray"
+    "location_full": "Ankara / Pursaklar / Saray",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-25",
@@ -270,7 +282,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_25.jpg",
     "name": "VIP AKADEMİ 2",
     "drive_vid_id": "1RqRKBg3_VkAbQ_0t5uFrNYeZjMbkGpqZ",
-    "drive_pdf_id": "1tuBqLJr_yEdHKDzPR5AWhUCaUNAt4Hj1"
+    "drive_pdf_id": "1tuBqLJr_yEdHKDzPR5AWhUCaUNAt4Hj1",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-6",
@@ -320,7 +335,10 @@
       "price_display": "2.100.000 - 3.200.000 TL",
       "down_payment": "1.050.000 TL",
       "region": "Etimesgut, Ankara"
-    }
+    },
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-17",
@@ -371,7 +389,10 @@
       "down_payment": "1.600.000 TL",
       "region": "Etimesgut, Ankara"
     },
-    "location_full": "Ankara / Etimesgut / Bağlıca"
+    "location_full": "Ankara / Etimesgut / Bağlıca",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-27",
@@ -460,7 +481,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_27.jpg",
     "name": "VIP YAŞAMKENT - GÖKDEMİR STAR",
     "drive_vid_id": "1r5uSsbWNzgV3hRtrtRon9n7TbLD7C_bE",
-    "drive_pdf_id": "1HTUX7e_3d7b105ItUSRZs4xYaIi6Fy9o"
+    "drive_pdf_id": "1HTUX7e_3d7b105ItUSRZs4xYaIi6Fy9o",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-14",
@@ -512,7 +536,10 @@
       "region": "Sincan, Ankara"
     },
     "location_full": "Ankara / Sincan / Yenikent",
-    "youtube_video_preview": "https://www.youtube.com/embed/fqAsovIA0Zw"
+    "youtube_video_preview": "https://www.youtube.com/embed/fqAsovIA0Zw",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-8",
@@ -564,7 +591,10 @@
       "region": "Yenimahalle, Ankara"
     },
     "location_full": "Ankara / Yenimahalle / Batıkent",
-    "youtube_video_preview": "https://www.youtube.com/embed/hjy0Itbeu6o"
+    "youtube_video_preview": "https://www.youtube.com/embed/hjy0Itbeu6o",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-24",
@@ -609,7 +639,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_24.jpg",
     "name": "VIP AKADEMİ",
     "drive_vid_id": "1RqRKBg3_VkAbQ_0t5uFrNYeZjMbkGpqZ",
-    "drive_pdf_id": "1tuBqLJr_yEdHKDzPR5AWhUCaUNAt4Hj1"
+    "drive_pdf_id": "1tuBqLJr_yEdHKDzPR5AWhUCaUNAt4Hj1",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-7",
@@ -661,7 +694,10 @@
       "region": "Yenimahalle, Ankara"
     },
     "location_full": "Ankara / Yenimahalle / Çakırlar",
-    "youtube_video_preview": "https://www.youtube.com/embed/K_AKC7GZWrM"
+    "youtube_video_preview": "https://www.youtube.com/embed/K_AKC7GZWrM",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-18",
@@ -713,7 +749,10 @@
       "region": "Pursaklar, Ankara"
     },
     "location_full": "Ankara / Pursaklar / Saray",
-    "youtube_video_preview": "https://www.youtube.com/embed/flQaMH4kXsI"
+    "youtube_video_preview": "https://www.youtube.com/embed/flQaMH4kXsI",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-12",
@@ -764,7 +803,10 @@
       "down_payment": "1.475.000 TL",
       "region": "Etimesgut, Ankara"
     },
-    "location_full": "Ankara / Etimesgut / Eryaman"
+    "location_full": "Ankara / Etimesgut / Eryaman",
+    "is_vertical": true,
+    "orientation": "vertical",
+    "video_aspect_ratio": 0.5625
   },
   {
     "id": "cbvip-prj-4",
@@ -814,7 +856,10 @@
       "price_display": "3.000.000 - 4.000.000 TL",
       "down_payment": "1.500.000 TL",
       "region": "Etimesgut, Ankara"
-    }
+    },
+    "is_vertical": true,
+    "orientation": "vertical",
+    "video_aspect_ratio": 0.5625
   },
   {
     "id": "cbvip-prj-2",
@@ -865,7 +910,10 @@
       "down_payment": "1.520.000 TL",
       "region": "Pursaklar, Ankara"
     },
-    "location_full": "Ankara / Pursaklar / Saray"
+    "location_full": "Ankara / Pursaklar / Saray",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-9",
@@ -916,7 +964,10 @@
       "down_payment": "1.700.000 TL",
       "region": "Etimesgut, Ankara"
     },
-    "location_full": "Ankara / Etimesgut / Yaşamkent"
+    "location_full": "Ankara / Etimesgut / Yaşamkent",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-21",
@@ -968,7 +1019,10 @@
       "region": "Yenimahalle, Ankara"
     },
     "location_full": "Ankara / Yenimahalle / Batı Sitesi",
-    "youtube_video_preview": "https://www.youtube.com/embed/djhCGHVf1tY"
+    "youtube_video_preview": "https://www.youtube.com/embed/djhCGHVf1tY",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-5",
@@ -1019,7 +1073,10 @@
       "down_payment": "1.950.000 TL",
       "region": "Gölbaşı, Ankara"
     },
-    "location_full": "Ankara / Gölbaşı / Kızılcaşar"
+    "location_full": "Ankara / Gölbaşı / Kızılcaşar",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-26",
@@ -1080,7 +1137,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_26.jpg",
     "name": "VIP MARIN",
     "drive_vid_id": "1RZdEArVbG6kXgf9qQ52aK3EuQGP-3LkH",
-    "drive_pdf_id": "1t-cjErsg9FZj9MfDnL5CKwDJ4NlqbNeR"
+    "drive_pdf_id": "1t-cjErsg9FZj9MfDnL5CKwDJ4NlqbNeR",
+    "is_vertical": true,
+    "orientation": "vertical",
+    "video_aspect_ratio": 0.5625
   },
   {
     "id": "cbvip-prj-22",
@@ -1132,7 +1192,10 @@
       "region": "Pursaklar, Ankara"
     },
     "location_full": "Ankara / Pursaklar / Protokol Yolu",
-    "youtube_video_preview": "https://www.youtube.com/embed/3Wz8oA2Vqq8"
+    "youtube_video_preview": "https://www.youtube.com/embed/3Wz8oA2Vqq8",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-10",
@@ -1183,7 +1246,10 @@
       "down_payment": "1.100.000 TL",
       "region": "Etimesgut, Ankara"
     },
-    "location_full": "Ankara / Etimesgut / Bağlıca"
+    "location_full": "Ankara / Etimesgut / Bağlıca",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-13",
@@ -1229,7 +1295,10 @@
       "region": "Gölbaşı, Ankara"
     },
     "location_full": "Ankara / Gölbaşı / İncek",
-    "youtube_video_preview": "https://www.youtube.com/embed/OePeKu0cC1Y"
+    "youtube_video_preview": "https://www.youtube.com/embed/OePeKu0cC1Y",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-15",
@@ -1281,7 +1350,10 @@
       "region": "Çankaya, Ankara"
     },
     "location_full": "Ankara / Çankaya / Dikmen Vadi",
-    "youtube_video_preview": "https://www.youtube.com/embed/p2ckzkVGFTo"
+    "youtube_video_preview": "https://www.youtube.com/embed/p2ckzkVGFTo",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-1",
@@ -1333,7 +1405,10 @@
       "region": "Çankaya, Ankara"
     },
     "location_full": "Ankara / Çankaya / Beytepe",
-    "youtube_video_preview": "https://www.youtube.com/embed/AT-dOFemnrA"
+    "youtube_video_preview": "https://www.youtube.com/embed/AT-dOFemnrA",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-16",
@@ -1385,7 +1460,10 @@
       "region": "Çankaya, Ankara"
     },
     "location_full": "Ankara / Çankaya / Beytepe",
-    "youtube_video_preview": "https://www.youtube.com/embed/qs5W66I2SXM"
+    "youtube_video_preview": "https://www.youtube.com/embed/qs5W66I2SXM",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-3",
@@ -1436,7 +1514,10 @@
       "down_payment": "7.250.000 TL",
       "region": "Bodrum, Muğla"
     },
-    "location_full": "Muğla / Bodrum / Yalıkavak"
+    "location_full": "Muğla / Bodrum / Yalıkavak",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-23",
@@ -1493,7 +1574,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_23.jpg",
     "name": "VIP ÇAKIRLAR",
     "drive_vid_id": "1i02ORUax8WR4A8Vx2o1fybqHL6m0IjJ5",
-    "drive_pdf_id": "1gVTmjfGHv_mfndOiV3qz5M4R9OXWzjz-"
+    "drive_pdf_id": "1gVTmjfGHv_mfndOiV3qz5M4R9OXWzjz-",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-28",
@@ -1535,7 +1619,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_28.jpg",
     "name": "VIP YENİKENT",
     "drive_vid_id": "1rfAEkE60pOiZJDwkC2wMRWj9GjZyMRuj",
-    "drive_pdf_id": "1tzxIqQNxrLAPltJ9wI7a2hMhXZLR1fZk"
+    "drive_pdf_id": "1tzxIqQNxrLAPltJ9wI7a2hMhXZLR1fZk",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   },
   {
     "id": "cbvip-prj-29",
@@ -1577,7 +1664,10 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_29.jpg",
     "name": "VERDE MONA",
     "drive_vid_id": "1z3nHFFQ_qc1UVg4zasuiH_SlEbmopwqX",
-    "drive_pdf_id": "1Ic8xJB63gtZUV-ETeNhUtrPucJQQoxf2"
+    "drive_pdf_id": "1Ic8xJB63gtZUV-ETeNhUtrPucJQQoxf2",
+    "is_vertical": true,
+    "orientation": "vertical",
+    "video_aspect_ratio": 0.5625
   },
   {
     "id": "cbvip-prj-30",
@@ -1622,6 +1712,9 @@
     "thumbnail": "/static/img/video_thumbs/video_thumb_30.jpg",
     "name": "VIVA - START BRAVO",
     "drive_vid_id": "13MMF9djhtMrwz9S1BsBP730pTJUi4jh3",
-    "drive_pdf_id": "1npKjchogxjvwCKX4FarmxXyA87fSMq9Y"
+    "drive_pdf_id": "1npKjchogxjvwCKX4FarmxXyA87fSMq9Y",
+    "is_vertical": false,
+    "orientation": "horizontal",
+    "video_aspect_ratio": 1.7778
   }
 ]

@@ -695,7 +695,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain !important;
             object-position: center;
             z-index: 2;
             background: #000;
@@ -1834,6 +1834,62 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             min-width: 44px;
             min-height: 44px;
+        }
+
+                /* Video Modal Auto-Adaptive Orientation */
+        #videoModal .modal-container {
+            max-height: min(92vh, 850px) !important;
+            background: #0b1526 !important;
+            border-radius: 20px !important;
+            overflow: hidden !important;
+            border: 1px solid rgba(212, 175, 55, 0.35) !important;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            margin: auto !important;
+            transition: max-width 0.35s ease !important;
+        }
+        #videoModal .modal-container:not(.is-vertical-video) {
+            max-width: min(880px, 94vw) !important;
+        }
+        #videoModal .modal-container.is-vertical-video {
+            max-width: min(420px, 92vw) !important;
+        }
+        #videoModal .video-player-container {
+            position: relative !important;
+            width: 100% !important;
+            background: #000 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: hidden !important;
+            flex: 1 1 auto !important;
+            min-height: 200px !important;
+            max-height: calc(84vh - 90px) !important;
+        }
+        #videoModal .video-player-container.ratio-horizontal,
+        #videoModal .video-player-container:not(.ratio-vertical) {
+            aspect-ratio: 16 / 9 !important;
+            width: 100% !important;
+        }
+        #videoModal .video-player-container.ratio-vertical {
+            aspect-ratio: 9 / 16 !important;
+            height: min(68vh, 540px) !important;
+            width: auto !important;
+            max-width: 100% !important;
+            align-self: center !important;
+            margin: 0 auto !important;
+        }
+        #videoModal .video-player-container video,
+        #videoModal .video-player-container iframe {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+            background: #000 !important;
+            border: none !important;
+            display: block !important;
         }
 
         /* Video Modal */
@@ -6700,6 +6756,21 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
         }
 
         // ─── GOOGLE DRIVE PREVIEW & STREAM VIDEO PLAYER ──────────────────────
+        function setVideoOrientation(isVertical) {
+            const modalContainer = document.querySelector('#videoModal .modal-container');
+            const playerContainer = document.getElementById('videoPlayerContainer');
+            if (!playerContainer) return;
+            if (isVertical) {
+                playerContainer.classList.remove('ratio-horizontal');
+                playerContainer.classList.add('ratio-vertical');
+                if (modalContainer) modalContainer.classList.add('is-vertical-video');
+            } else {
+                playerContainer.classList.remove('ratio-vertical');
+                playerContainer.classList.add('ratio-horizontal');
+                if (modalContainer) modalContainer.classList.remove('is-vertical-video');
+            }
+        }
+
         function playProjectVideo(projectId) {
             if (typeof track === 'function') track('click', {project: String(projectId), target: 'video'});
             const p = findProjectFlexible(projectId);
@@ -6722,6 +6793,12 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
             const projName = p.title || p.name || 'Proje';
 
             if (title) title.innerText = `${projName} — Tanıtım Filmi`;
+            const isKnownVertical = Boolean(
+                p.is_vertical || p.orientation === 'vertical' ||
+                (p.video_aspect_ratio && p.video_aspect_ratio < 1) ||
+                (streamUrl && (streamUrl.toLowerCase().includes('short') || streamUrl.toLowerCase().includes('reel') || streamUrl.toLowerCase().includes('dikey')))
+            );
+            setVideoOrientation(isKnownVertical);
             if (desc) desc.innerText = `${p.location || 'Ankara'} • Fiyat: ${p.price_display || 'Danışınız'}`;
 
             if (driveUrl && (driveUrl.includes('drive.google.com') || driveUrl.includes('youtube.com'))) {
@@ -6757,7 +6834,12 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
                     video.src = streamUrl;
                     video.style.display = 'block';
                     video.load();
-                    video.play().catch(() => {});
+                    video.onloadedmetadata = function() {
+                if (video.videoHeight && video.videoWidth) {
+                    setVideoOrientation(video.videoHeight > video.videoWidth);
+                }
+            };
+            video.play().catch(() => {});
                 }
                 if (driveBadge) driveBadge.style.display = 'none';
                 if (driveOpenBtn) {
