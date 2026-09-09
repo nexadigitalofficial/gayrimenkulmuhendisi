@@ -3220,6 +3220,7 @@
        ═══════════════════════════════════════════════════════════════════════════ */
     /* ─── STICKY SECTION NAVIGATOR (APP EXPERIENCE) ─── */
     .mobile-section-nav {
+      display: none !important;
       position: sticky;
       top: 60px;
       z-index: 998;
@@ -4150,6 +4151,9 @@
     @media (max-width: 768px) {
       .mobile-section-nav {
         display: block !important;
+        position: sticky !important;
+        top: calc(54px + env(safe-area-inset-top, 0px)) !important;
+        z-index: 998 !important;
       }
       .nxc-segmented-control {
         max-width: 100%;
@@ -4853,20 +4857,6 @@
     <div class="trust-item"><i class="fas fa-star"></i> PropTech Danışman</div>
   </div>
 
-  <!-- ── MOBILE STICKY APP SECTION NAVIGATOR BAR (APP EXPERIENCE) ── -->
-  <nav class="mobile-section-nav" id="mobileSectionNav" aria-label="Mobil Bölüm Navigasyonu">
-    <div class="section-nav-track" id="sectionNavTrack">
-      <a href="#portfolio" class="sec-nav-pill active" data-target="portfolio"><i class="fas fa-crown"></i> <span>Projeler & Portföy</span></a>
-      <a href="#roiMatrixSection" class="sec-nav-pill" data-target="roiMatrixSection"><i class="fas fa-chart-line"></i> <span>ROI Analizi</span></a>
-      <a href="#services" class="sec-nav-pill" data-target="services"><i class="fas fa-compass"></i> <span>Hizmetler</span></a>
-      <a href="#marketDashboardSection" class="sec-nav-pill" data-target="marketDashboardSection"><i class="fas fa-chart-bar"></i> <span>Canlı Endeks</span></a>
-      <a href="#harita" class="sec-nav-pill" data-target="harita"><i class="fas fa-map-marked-alt"></i> <span>Harita</span></a>
-      <a href="#haberlerSection" class="sec-nav-pill" data-target="haberlerSection"><i class="fas fa-newspaper"></i> <span>İstihbarat</span></a>
-      <a href="#videoGallerySection" class="sec-nav-pill" data-target="videoGallerySection"><i class="fas fa-film"></i> <span>Videolar</span></a>
-      <a href="#contact" class="sec-nav-pill" data-target="contact"><i class="fas fa-calculator"></i> <span>AI Değerleme</span></a>
-    </div>
-  </nav>
-
   <!-- Hero Section -->
   <section class="hero" id="home">
     <video autoplay loop muted playsinline poster="/static/images/hero_bg.jpg" class="hero-video">
@@ -4895,6 +4885,19 @@
     </div>
   </section>
 
+  <!-- ── MOBILE STICKY APP SECTION NAVIGATOR BAR (APP EXPERIENCE) ── -->
+  <nav class="mobile-section-nav" id="mobileSectionNav" aria-label="Mobil Bölüm Navigasyonu">
+    <div class="section-nav-track" id="sectionNavTrack">
+      <a href="#portfolio" class="sec-nav-pill active" data-target="portfolio"><i class="fas fa-crown"></i> <span>Projeler & Portföy</span></a>
+      <a href="#roiMatrixSection" class="sec-nav-pill" data-target="roiMatrixSection"><i class="fas fa-chart-line"></i> <span>ROI Analizi</span></a>
+      <a href="#services" class="sec-nav-pill" data-target="services"><i class="fas fa-compass"></i> <span>Hizmetler</span></a>
+      <a href="#marketDashboardSection" class="sec-nav-pill" data-target="marketDashboardSection"><i class="fas fa-chart-bar"></i> <span>Canlı Endeks</span></a>
+      <a href="#harita" class="sec-nav-pill" data-target="harita"><i class="fas fa-map-marked-alt"></i> <span>Harita</span></a>
+      <a href="#haberlerSection" class="sec-nav-pill" data-target="haberlerSection"><i class="fas fa-newspaper"></i> <span>İstihbarat</span></a>
+      <a href="#videoGallerySection" class="sec-nav-pill" data-target="videoGallerySection"><i class="fas fa-film"></i> <span>Videolar</span></a>
+      <a href="#contact" class="sec-nav-pill" data-target="contact"><i class="fas fa-calculator"></i> <span>AI Değerleme</span></a>
+    </div>
+  </nav>
 
   <!-- ============================================================
        ULTRA PRO PORTFOLIO SECTION
