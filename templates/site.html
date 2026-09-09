@@ -3819,6 +3819,9 @@
     }
     .video-player-container video,
     .video-player-container iframe {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
       width: 100% !important;
       height: 100% !important;
       max-width: 100% !important;
@@ -7505,6 +7508,21 @@
       blogAutoInterval = setInterval(() => {
         goToSlide((currentSlide + 1) % total);
       }, 5000);
+
+      // Native touch swipe gestures
+      let touchStartX = 0;
+      let touchEndX = 0;
+      blogSliderContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      blogSliderContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) goToSlide((currentSlide + 1) % total);
+          else goToSlide((currentSlide - 1 + total) % total);
+        }
+      }, { passive: true });
     }
 
     // Blog API'den yükle, başarısız olursa fallback kullan
@@ -8207,62 +8225,64 @@
   </script>
 
   <!-- ============================================================
-       BLOG DETAIL MODAL
+       BLOG DETAIL MODAL (OBSIDIAN LUXURY TERMINAL)
        ============================================================ -->
   <div id="blogModal" style="
     display:none; position:fixed; inset:0; z-index:9000;
-    background:rgba(10,22,40,.75); backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
+    background:rgba(5,10,18,.82); backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
     align-items:flex-start; justify-content:center;
     padding:40px 20px; overflow-y:auto;
   ">
     <div style="
-      background:#ffffff; border-radius:24px;
+      background:linear-gradient(145deg, #070d18 0%, #0c1524 100%);
+      border:1px solid rgba(212,175,55,.25); border-radius:24px;
       width:100%; max-width:760px;
-      box-shadow:0 30px 80px rgba(0,0,0,.3);
+      box-shadow:0 30px 90px rgba(0,0,0,.85), 0 0 35px rgba(212,175,55,.1);
       overflow:hidden; position:relative;
-      animation:blogModalIn .3s ease;
+      animation:blogModalIn .3s cubic-bezier(0.16, 1, 0.3, 1);
     ">
       <!-- Kapak Görseli -->
       <div id="blogModalImg" style="
         width:100%; height:320px; overflow:hidden;
-        background:#f0ece1; position:relative;
+        background:#070d18; position:relative;
       ">
         <img id="blogModalCoverImg" src="" alt="" style="
           width:100%; height:100%; object-fit:cover;
           display:block;
         ">
+        <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(7,13,24,0.1) 40%, rgba(7,13,24,0.95) 100%); pointer-events:none;"></div>
         <!-- Kapat butonu -->
         <button onclick="closeBlogModal()" style="
           position:absolute; top:16px; right:16px;
           width:40px; height:40px; border-radius:50%;
-          background:rgba(0,0,0,.45); border:none;
-          color:#fff; font-size:18px; cursor:pointer;
+          background:rgba(7,13,24,.75); border:1px solid rgba(212,175,55,.3);
+          color:#f6e6b4; font-size:16px; cursor:pointer;
           display:flex; align-items:center; justify-content:center;
-          transition:background .2s; backdrop-filter:blur(6px);
-        " onmouseover="this.style.background='rgba(0,0,0,.7)'"
-           onmouseout="this.style.background='rgba(0,0,0,.45)'">
+          transition:all .2s; backdrop-filter:blur(8px);
+        " onmouseover="this.style.background='rgba(212,175,55,.2)'; this.style.borderColor='#d4af37'"
+           onmouseout="this.style.background='rgba(7,13,24,.75)'; this.style.borderColor='rgba(212,175,55,.3)'">
           <i class="fas fa-times"></i>
         </button>
       </div>
 
       <!-- İçerik -->
-      <div style="padding:36px 40px 44px;">
+      <div style="padding:32px 36px 40px;">
         <!-- Meta -->
         <div style="display:flex; align-items:center; gap:14px; margin-bottom:18px; flex-wrap:wrap;">
           <span id="blogModalCategory" style="
-            background:rgba(212,175,55,.12); color:#b8941f;
-            border:1px solid rgba(212,175,55,.3);
+            background:rgba(212,175,55,.15); color:#e8c97a;
+            border:1px solid rgba(212,175,55,.35);
             padding:5px 14px; border-radius:20px;
             font-size:12px; font-weight:700; letter-spacing:.05em;
             text-transform:uppercase;
           "></span>
           <span id="blogModalDate" style="
-            color:#6e6e73; font-size:13px;
+            color:#94a3b8; font-size:13px;
             display:flex; align-items:center; gap:5px;
           "></span>
           <span id="blogModalReadTime" style="
-            color:#6e6e73; font-size:13px;
+            color:#94a3b8; font-size:13px;
             display:flex; align-items:center; gap:5px;
           "></span>
         </div>
@@ -8270,57 +8290,59 @@
         <!-- Başlık -->
         <h2 id="blogModalTitle" style="
           font-family:'Playfair Display',serif;
-          font-size:clamp(22px,4vw,34px);
-          font-weight:700; color:#0a1628;
-          line-height:1.2; margin-bottom:18px;
-          letter-spacing:-.5px;
+          font-size:clamp(22px,4vw,32px);
+          font-weight:700; color:#f6e6b4;
+          line-height:1.25; margin-bottom:18px;
+          letter-spacing:-.3px;
         "></h2>
 
         <!-- Özet (summary) -->
         <p id="blogModalSummary" style="
-          font-size:17px; color:#4a5568;
-          line-height:1.75; margin-bottom:28px;
+          font-size:16px; color:#cbd5e1;
+          line-height:1.75; margin-bottom:24px;
           border-left:3px solid #d4af37;
-          padding-left:18px;
+          background:rgba(212,175,55,.05);
+          padding:14px 18px; border-radius:0 8px 8px 0;
           font-style:italic;
         "></p>
 
         <!-- Tam İçerik -->
         <div id="blogModalContent" style="
-          font-size:16px; color:#1d1d1f;
-          line-height:1.8;
+          font-size:15.5px; color:#e2e8f0;
+          line-height:1.85;
           white-space:pre-line;
         "></div>
 
         <!-- 4 Katmanlı Epistemolojik İstihbarat Kutusu -->
-        <div id="blogModalEpistemic" style="display:none;"></div>
+        <div id="blogModalEpistemic" style="display:none; margin-top:20px;"></div>
 
         <!-- CTA -->
-        <div style="margin-top:32px; padding-top:24px; border-top:1px solid rgba(0,0,0,.08); display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <div style="margin-top:32px; padding-top:24px; border-top:1px solid rgba(255,255,255,.08); display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
           <a id="blogModalFeedBtn" href="/haberler" style="
             display:inline-flex; align-items:center; gap:8px;
-            padding:13px 24px; background:linear-gradient(135deg, #0a1628, #1a2f50); color:#d4af37;
-            border:1px solid rgba(212,175,55,0.4); border-radius:50px; font-size:14px; font-weight:700;
-            text-decoration:none; transition:transform .2s, box-shadow .2s;
-            box-shadow:0 4px 15px rgba(10,22,40,0.2);
-          " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-            <i class="fas fa-satellite-dish"></i> NEXA İstihbarat Feedinde Aç
+            padding:12px 22px; background:linear-gradient(135deg, rgba(212,175,55,.2), rgba(212,175,55,.08)); color:#f6e6b4;
+            border:1px solid rgba(212,175,55,0.4); border-radius:50px; font-size:13.5px; font-weight:700;
+            text-decoration:none; transition:all .2s;
+            box-shadow:0 4px 15px rgba(0,0,0,0.3);
+          " onmouseover="this.style.background='rgba(212,175,55,.3)'; this.style.transform='translateY(-2px)'" 
+             onmouseout="this.style.background='linear-gradient(135deg, rgba(212,175,55,.2), rgba(212,175,55,.08))'; this.style.transform='none'">
+            <i class="fas fa-satellite-dish" style="color:var(--gold);"></i> NEXA İstihbarat Feedinde Aç
           </a>
           <a id="blogModalWaBtn" href="https://wa.me/905324514008" target="_blank" style="
             display:inline-flex; align-items:center; gap:8px;
-            padding:13px 24px; background:#25D366; color:#fff;
-            border-radius:50px; font-size:14px; font-weight:700;
+            padding:12px 22px; background:#25D366; color:#fff;
+            border-radius:50px; font-size:13.5px; font-weight:700;
             text-decoration:none; transition:opacity .2s;
           " onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-            <i class="fab fa-whatsapp" style="font-size:18px;"></i> Yiğit Narin'e Danış
+            <i class="fab fa-whatsapp" style="font-size:17px;"></i> Yiğit Narin'e Danış
           </a>
           <button onclick="closeBlogModal()" style="
-            padding:13px 24px; background:transparent;
-            border:1.5px solid rgba(0,0,0,.15); border-radius:50px;
-            font-size:14px; font-weight:600; color:#4a5568;
-            cursor:pointer; transition:border-color .2s; margin-left:auto;
-          " onmouseover="this.style.borderColor='rgba(0,0,0,.35)'"
-             onmouseout="this.style.borderColor='rgba(0,0,0,.15)'">
+            padding:11px 22px; background:transparent;
+            border:1px solid rgba(255,255,255,.15); border-radius:50px;
+            font-size:13.5px; font-weight:600; color:#94a3b8;
+            cursor:pointer; transition:all .2s; margin-left:auto;
+          " onmouseover="this.style.borderColor='rgba(212,175,55,.4)'; this.style.color='#f6e6b4'"
+             onmouseout="this.style.borderColor='rgba(255,255,255,.15)'; this.style.color='#94a3b8'">
             Kapat
           </button>
         </div>
@@ -9341,7 +9363,7 @@ ${src.length ? `
         const down = p.down_payment ? `Peşinat: ${escapeHtml(p.down_payment)}` : '';
         const roomInfo = escapeHtml(p.room_info || '');
         const hasVid = Boolean(p.has_video || p.drive_video_preview || p.tanitim_cloud_url || p.drive_vid_id);
-        const hasPdf = Boolean(p.has_presentation || p.drive_pdf_preview || p.presentation);
+        const hasPdf = Boolean(p.has_presentation || p.drive_pdf_preview || p.presentation || (p.presentations && p.presentations.length));
 
         const waMsg = encodeURIComponent(`Merhaba Yiğit Bey, "${title}" projesi hakkında bilgi almak ve randevu oluşturmak istiyorum.\nLokasyon: ${loc}\nFiyat: ${price}`);
         const waUrl = `https://wa.me/905324514008?text=${waMsg}`;
@@ -9453,17 +9475,17 @@ ${src.length ? `
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
       const modal = document.getElementById('videoModal');
-      const iframe = document.getElementById('siteProjectIframe');
-      const video = document.getElementById('siteProjectVideo');
+      const playerContainer = document.getElementById('videoPlayerContainer');
       const driveBtn = document.getElementById('videoDriveOpenBtn');
       const driveBadge = document.getElementById('videoDriveBadge');
       const titleEl = document.getElementById('videoTitle');
       const descEl = document.getElementById('videoDesc');
 
-      if (titleEl) titleEl.textContent = `${p.title || p.name} — Tanıtım Filmi`;
+      const title = p.title || p.name || 'Prestij Projesi';
+      if (titleEl) titleEl.textContent = `${title} — Tanıtım Filmi`;
       if (descEl) descEl.textContent = `${p.location || 'Ankara'} • ${p.price_display || ''}`;
 
-      const driveUrl = p.drive_video_preview || (p.drive_vid_id ? `https://drive.google.com/file/d/${p.drive_vid_id}/preview` : null);
+      const driveUrl = p.drive_video_preview || (p.drive_vid_id ? `https://drive.google.com/file/d/${p.drive_vid_id}/preview` : null) || p.youtube_video_preview;
       const streamUrl = p.tanitim_cloud_url || `/stream/video/${p.id}`;
 
       // Known vertical detection from metadata
@@ -9475,45 +9497,66 @@ ${src.length ? `
       );
       setVideoOrientation(isKnownVertical);
 
-      // On mobile or when direct stream is available, use native HTML5 video for zero letterboxing & native fullscreen
-      // Direct stream has 100% accurate metadata and native aspect-ratio
-      video.src = streamUrl;
-      video.style.display = 'block';
-      iframe.src = '';
-      iframe.style.display = 'none';
-
       if (driveBtn) {
         if (driveUrl) {
-          driveBtn.href = driveUrl.replace('/preview', '/view');
+          driveBtn.href = driveUrl.includes('youtube.com') ? driveUrl.replace('/embed/', '/watch?v=') : driveUrl.replace('/preview', '/view');
           driveBtn.style.display = 'inline-flex';
         } else {
-          driveBtn.style.display = 'none';
+          driveBtn.href = streamUrl;
+          driveBtn.style.display = 'inline-flex';
         }
       }
       if (driveBadge) {
         driveBadge.style.display = driveUrl ? 'inline-flex' : 'none';
       }
 
-      // Auto-detect HTML5 video orientation upon metadata load
-      video.onloadedmetadata = function() {
-        if (video.videoHeight && video.videoWidth) {
-          const isVert = video.videoHeight > video.videoWidth;
-          setVideoOrientation(isVert);
+      // CRITICAL: Clean out container first to ensure ZERO possibility of dual/split-screen players
+      playerContainer.innerHTML = '';
+
+      // Direct Stream (Native HTML5 video) with automatic iframe fallback
+      const videoEl = document.createElement('video');
+      videoEl.id = 'siteProjectVideo';
+      videoEl.controls = true;
+      videoEl.autoplay = true;
+      videoEl.playsInline = true;
+      videoEl.setAttribute('webkit-playsinline', '');
+      videoEl.style.cssText = 'width:100%; height:100%; object-fit:contain; background:#000; display:block; border:none;';
+      videoEl.src = streamUrl;
+
+      videoEl.onloadedmetadata = function() {
+        if (videoEl.videoHeight && videoEl.videoWidth) {
+          setVideoOrientation(videoEl.videoHeight > videoEl.videoWidth);
         }
       };
 
-      // Error fallback: If stream fails to load, fallback to driveUrl if available
-      video.onerror = function() {
+      videoEl.onerror = function() {
+        console.warn('[Video] Direct stream unavailable, mounting Drive/iframe fallback:', driveUrl);
+        playerContainer.innerHTML = '';
         if (driveUrl) {
-          console.warn('[Video] Direct stream failed, falling back to Drive preview:', driveUrl);
-          video.style.display = 'none';
-          iframe.src = driveUrl;
-          iframe.style.display = 'block';
+          const iframeEl = document.createElement('iframe');
+          iframeEl.id = 'siteProjectIframe';
+          iframeEl.src = driveUrl;
+          iframeEl.allow = 'autoplay; encrypted-media; fullscreen';
+          iframeEl.allowFullscreen = true;
+          iframeEl.style.cssText = 'width:100%; height:100%; border:none; background:#000; display:block;';
+          playerContainer.appendChild(iframeEl);
+        } else {
+          playerContainer.innerHTML = `
+            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:50px 20px; color:#fff; text-align:center; width:100%;">
+              <i class="fas fa-play-circle" style="font-size:42px; color:var(--gold); margin-bottom:14px; opacity:0.85;"></i>
+              <h4 style="font-family:'Playfair Display',serif; font-size:18px; margin-bottom:8px; color:var(--gold-light);">Tanıtım Videosu Hazırlanıyor</h4>
+              <p style="color:rgba(255,255,255,0.7); font-size:13px; max-width:380px; margin-bottom:16px;">Bu prestij projesinin video prodüksiyonu hazırlanmaktadır. Detaylı sunum ve özel danışmanlık için randevu alabilirsiniz.</p>
+              <button onclick="closeSiteModal('videoModal'); openAppointmentModal('${p.id}', '${escapeHtml(title)}')" class="btn btn-primary btn-sm">
+                <i class="fas fa-calendar-check"></i> VIP Bilgi & Randevu
+              </button>
+            </div>
+          `;
         }
       };
 
-      video.load();
-      video.play().catch(() => {});
+      playerContainer.appendChild(videoEl);
+      videoEl.load();
+      videoEl.play().catch(() => {});
 
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
@@ -9550,7 +9593,7 @@ ${src.length ? `
       }
     }
 
-    // PDF Preview Modal Controller
+    // PDF Preview Modal Controller - Direct high-speed local stream with Drive fallback
     function openPdfPreview(projectId) {
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
@@ -9560,14 +9603,26 @@ ${src.length ? `
       const downloadBtn = document.getElementById('pdfDownloadBtn');
       const titleEl = document.getElementById('pdfModalTitle');
 
-      if (titleEl) titleEl.textContent = `${p.title || p.name} — Sunum Dosyası`;
+      const title = p.title || p.name || 'Prestij Projesi';
+      if (titleEl) titleEl.textContent = `${title} — Sunum Dosyası`;
 
-      const pdfUrl = p.drive_pdf_preview || p.presentation || (p.presentations && p.presentations.length ? '/' + p.presentations[0].path : null);
-      if (pdfUrl) {
-        container.innerHTML = `<iframe src="${pdfUrl}" style="width:100%; height:100%; border:none;"></iframe>`;
-        if (openTab) openTab.href = pdfUrl;
-        if (downloadBtn) downloadBtn.href = pdfUrl;
+      // Fast, zero-CORS local endpoint
+      const streamPdfUrl = `/stream/pdf/${encodeURIComponent(p.id)}`;
+
+      container.innerHTML = `
+        <iframe id="sitePdfIframe" src="${streamPdfUrl}" style="width:100%; height:100%; border:none; background:#070d18;" allowfullscreen></iframe>
+      `;
+
+      if (openTab) {
+        openTab.href = streamPdfUrl;
+        openTab.target = '_blank';
       }
+      if (downloadBtn) {
+        downloadBtn.href = streamPdfUrl;
+        downloadBtn.target = '_blank';
+        downloadBtn.setAttribute('download', `${title} - Sunum.pdf`);
+      }
+
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
@@ -9584,11 +9639,17 @@ ${src.length ? `
       const modal = document.getElementById(modalId);
       if (!modal) return;
       if (modalId === 'videoModal') {
-        const video = document.getElementById('siteProjectVideo');
-        const iframe = document.getElementById('siteProjectIframe');
-        if (video) { video.pause(); video.src = ''; }
-        if (iframe) { iframe.src = ''; }
+        const playerContainer = document.getElementById('videoPlayerContainer');
+        if (playerContainer) {
+          playerContainer.innerHTML = '';
+        }
         setVideoOrientation(false); // Reset to default horizontal
+      }
+      if (modalId === 'pdfModal') {
+        const pdfContainer = document.getElementById('pdfViewerContainer');
+        if (pdfContainer) {
+          pdfContainer.innerHTML = '';
+        }
       }
       modal.style.display = 'none';
       document.body.style.overflow = '';
@@ -9776,10 +9837,7 @@ ${src.length ? `
           </div>
         </div>
       </div>
-      <div id="videoPlayerContainer" class="video-player-container">
-        <video id="siteProjectVideo" controls playsinline webkit-playsinline style="display:none; width:100%; height:100%;"></video>
-        <iframe id="siteProjectIframe" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>
-      </div>
+      <div id="videoPlayerContainer" class="video-player-container"></div>
       <div class="video-modal-footer">
         <p id="videoDesc" class="video-desc-text"></p>
       </div>

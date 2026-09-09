@@ -10906,6 +10906,16 @@ def nexa_stream_video(project_id):
         return "Project not found", 404
 
     target_dir = _NEXA_PROJELER_ROOT / (project.get("folder_name") or project.get("title") or "")
+    if not target_dir.exists() or not target_dir.is_dir():
+        folder_kw = (project.get("folder_name") or "").lower()
+        title_kw = (project.get("title") or "").lower()
+        for d in _NEXA_PROJELER_ROOT.iterdir():
+            if d.is_dir():
+                d_name = d.name.lower()
+                if (folder_kw and (folder_kw in d_name or d_name in folder_kw)) or (title_kw and (title_kw in d_name or d_name in title_kw)):
+                    target_dir = d
+                    break
+
     _PRIORITY_WORDS_1 = ("tanitim", "tanıtım", "intro", "main", "ana", "lansman", "animasyon", "promosyon", "promo")
     _PRIORITY_WORDS_2 = ("slayt", "slideshow", "slaytlar", "sunum")
 
@@ -10941,20 +10951,47 @@ def nexa_stream_pdf(project_id):
     project = next((p for p in projects if str(p.get("id")) == str(project_id) or str(p.get("db_id")) == str(project_id)), None)
     if not project:
         return "Project not found", 404
+
+    candidates = []
     pre = project.get("presentations") or []
-    rel = (pre[0].get("path") or pre[0].get("filename") or "") if pre else ""
-    if rel:
-        base = _NEXA_PROJELER_ROOT.resolve()
-        target = (base / rel).resolve()
-        if target.exists() and target.is_file() and target.suffix.lower() == ".pdf":
-            resp = send_file(str(target), mimetype="application/pdf")
+    for item in pre:
+        r = item.get("path") or item.get("filename") or ""
+        if r:
+            if r.lower().startswith("projeler/") or r.lower().startswith("projeler\\"):
+                candidates.append(_NEXA_PROJELER_ROOT / r[9:])
+            candidates.append(_NEXA_PROJELER_ROOT / r)
+            candidates.append(BASE_DIR / "static" / r)
+
+    folder = project.get("folder_name") or project.get("title") or ""
+    fdir = _NEXA_PROJELER_ROOT / folder
+    if not fdir.exists() or not fdir.is_dir():
+        folder_kw = folder.lower()
+        title_kw = (project.get("title") or "").lower()
+        for d in _NEXA_PROJELER_ROOT.iterdir():
+            if d.is_dir():
+                d_name = d.name.lower()
+                if (folder_kw and (folder_kw in d_name or d_name in folder_kw)) or (title_kw and (title_kw in d_name or d_name in title_kw)):
+                    fdir = d
+                    break
+
+    if fdir.exists() and fdir.is_dir():
+        pdfs = list(fdir.glob("*.pdf"))
+        sunums = [p for p in pdfs if "sunum" in p.name.lower()]
+        candidates.extend(sunums)
+        candidates.extend(pdfs)
+
+    for c in candidates:
+        if c.exists() and c.is_file() and c.suffix.lower() == ".pdf":
+            resp = send_file(str(c.resolve()), mimetype="application/pdf")
             resp.headers["Cache-Control"] = "public, max-age=604800"
+            resp.headers["Content-Disposition"] = f'inline; filename="{c.name}"'
             return resp
+
     drive_pdf = project.get("drive_pdf_preview") or project.get("sunum_cloud_url") or ""
     if drive_pdf.startswith("http"):
         m = re.search(r"/file/d/([\w-]{15,})", drive_pdf)
         if m:
-            return redirect(f"https://drive.google.com/file/d/{m.group(1)}/view")
+            return redirect(f"https://drive.google.com/file/d/{m.group(1)}/preview")
         return redirect(drive_pdf)
     return "PDF bulunamadı", 404
 
@@ -11503,8 +11540,14 @@ def api_intelligence_feed():
     try:
         from intelligence.db import get_published_articles
         cat = flask_request.args.get("category")
-        limit = min(int(flask_request.args.get("limit", 20)), 50)
-        offset = int(flask_request.args.get("offset", 0))
+        try:
+            limit = max(1, min(int(flask_request.args.get("limit", 20)), 100))
+        except (ValueError, TypeError):
+            limit = 20
+        try:
+            offset = max(0, int(flask_request.args.get("offset", 0)))
+        except (ValueError, TypeError):
+            offset = 0
 
         articles = get_published_articles(limit=limit, category=cat, offset=offset)
         return jsonify({"ok": True, "data": [a.to_dict() for a in articles]})
@@ -11551,84 +11594,44 @@ def api_intelligence_market_pulse():
 
 @app.route("/api/intelligence/decisions/buying", methods=["POST"])
 def api_intelligence_decision_buying():
-    """'Ev Almalı mıyım?' Condition Index calculation."""
+    """'Ev Almalı mıyım?' Condition Index calculation with bilingual parameter normalization."""
     try:
         from intelligence.decisions import DecisionIntelligence
         data = flask_request.json or {}
-        budget = float(data.get("budget", 5_000_000))
-        location = data.get("location", "Ankara / Çankaya")
-        property_type = data.get("property_type", "Konut")
-        payment_method = data.get("payment_method", "Nakit + Taksit")
-        time_horizon = data.get("time_horizon", "Orta Vade (3-5 Yıl)")
-
-        result = DecisionIntelligence.evaluate_buying_conditions(
-            budget=budget,
-            location=location,
-            property_type=property_type,
-            payment_method=payment_method,
-            time_horizon=time_horizon
-        )
+        result = DecisionIntelligence.evaluate_buying_conditions(**data)
         return jsonify({"ok": True, "data": result.to_dict()})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
 @app.route("/api/intelligence/decisions/selling", methods=["POST"])
 def api_intelligence_decision_selling():
-    """'Evimi Satmalı mıyım?' Condition Index calculation."""
+    """'Evimi Satmalı mıyım?' Condition Index calculation with bilingual parameter normalization."""
     try:
         from intelligence.decisions import DecisionIntelligence
         data = flask_request.json or {}
-        location = data.get("location", "Ankara / Çankaya")
-        property_type = data.get("property_type", "Daire")
-        approx_value = float(data.get("approx_value", 6_000_000))
-        urgency = data.get("urgency", "Normal (3-6 Ay)")
-        condition = data.get("condition", "Masrafsız / Sıfır")
-
-        result = DecisionIntelligence.evaluate_selling_conditions(
-            location=location,
-            property_type=property_type,
-            approx_value=approx_value,
-            urgency=urgency,
-            condition=condition
-        )
+        result = DecisionIntelligence.evaluate_selling_conditions(**data)
         return jsonify({"ok": True, "data": result.to_dict()})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
 @app.route("/api/intelligence/decisions/project", methods=["POST"])
 def api_intelligence_decision_project():
-    """'Proje Yatırımı İçin Uygun Zaman mı?' calculation."""
+    """'Proje Yatırımı İçin Uygun Zaman mı?' calculation with bilingual parameter normalization."""
     try:
         from intelligence.decisions import DecisionIntelligence
         data = flask_request.json or {}
-        project_name = data.get("project_name", "Lansman Projesi")
-        location = data.get("location", "Beytepe / Ankara")
-
-        result = DecisionIntelligence.evaluate_project_opportunity(
-            project_name=project_name,
-            location=location
-        )
+        result = DecisionIntelligence.evaluate_project_opportunity(**data)
         return jsonify({"ok": True, "data": result.to_dict()})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
 @app.route("/api/intelligence/decisions/rent-vs-buy", methods=["POST"])
 def api_intelligence_decision_rent_vs_buy():
-    """'Kirada Kalmak mı Satın Almak mı?' calculation."""
+    """'Kirada Kalmak mı Satın Almak mı?' calculation with bilingual parameter normalization."""
     try:
         from intelligence.decisions import DecisionIntelligence
         data = flask_request.json or {}
-        monthly_rent = float(data.get("monthly_rent", 35_000))
-        home_price = float(data.get("home_price", 5_500_000))
-        cash = float(data.get("cash_available", 2_000_000))
-        duration = int(data.get("duration_years", 5))
-
-        result = DecisionIntelligence.evaluate_rent_vs_buy(
-            monthly_rent=monthly_rent,
-            home_price=home_price,
-            cash_available=cash,
-            duration_years=duration
-        )
+        result = DecisionIntelligence.evaluate_rent_vs_buy(**data)
         return jsonify({"ok": True, "data": result.to_dict()})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
@@ -11670,7 +11673,7 @@ def api_intelligence_track():
         from intelligence.analytics import FunnelTracker
         data = flask_request.json or {}
         event_type = data.get("event_type", "article_view")
-        user_id = data.get("user_id")
+        user_id = data.get("user_id") or data.get("client_id")
         article_id = data.get("article_id")
         delta = FunnelTracker.track_interaction(
             event_type=event_type,
@@ -11704,12 +11707,25 @@ def api_admin_intelligence_stats():
 
 @app.route("/api/admin/intelligence/run", methods=["POST"])
 def api_admin_intelligence_run():
-    """Triggers an intelligence ingestion and analysis run on demand."""
+    """Triggers an intelligence ingestion and analysis run on demand with async support."""
     try:
+        import threading
         from intelligence.pipeline import IntelligencePipeline
+        data = flask_request.json or {}
+        is_async = data.get("async", True)
         pipeline = IntelligencePipeline()
-        run_record = pipeline.run(dry_run=False)
-        return jsonify({"ok": True, "run": run_record.to_dict()})
+
+        if is_async:
+            thread = threading.Thread(target=pipeline.run, kwargs={"dry_run": False}, daemon=True)
+            thread.start()
+            return jsonify({
+                "ok": True,
+                "status": "started",
+                "message": "İstihbarat döngüsü arka planda asenkron başlatıldı."
+            }), 202
+        else:
+            run_record = pipeline.run(dry_run=False)
+            return jsonify({"ok": True, "run": run_record.to_dict()})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
@@ -11875,6 +11891,27 @@ def api_intelligence_swarm_investigate():
                 "wa_cta": f"https://wa.me/905324514008?text=Merhaba%20Yi%C4%9Fit%20Bey,%20{region}%20b%C3%B6lgesindeki%20'{topic}'%20istihbarat%C4%B1%20hakk%C4%B1nda%20dan%C4%B1%C5%9Fmak%20istiyorum."
             }
         })
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/autonomic/status", methods=["GET"])
+def api_intelligence_autonomic_status():
+    """Returns real-time health, self-healing status, and vitality metrics of the Living System."""
+    try:
+        from intelligence.autonomic_daemon import get_supervisor
+        sup = get_supervisor()
+        return jsonify({"ok": True, "data": sup.get_status_report()})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/intelligence/autonomic/pulse", methods=["POST"])
+def api_intelligence_autonomic_pulse():
+    """Triggers an on-demand metacontrol pulse (database cleanup, task recovery, market sensing)."""
+    try:
+        from intelligence.autonomic_daemon import get_supervisor
+        sup = get_supervisor()
+        report = sup.pulse()
+        return jsonify({"ok": True, "data": report})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
