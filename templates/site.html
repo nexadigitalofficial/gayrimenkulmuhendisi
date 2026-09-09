@@ -4043,6 +4043,282 @@
       background: #fde047 !important;
     }
 
+    /* ═══════════════════════════════════════════════════════════════════════
+       CINEMATIC VISION ENGINEERING & WOW STYLING SYSTEM
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Analog 35mm Film Grain Overlay */
+    .cinematic-grain-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 99998;
+      opacity: 0.032;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Ambilight Dynamic Backdrop Glow */
+    .cinematic-ambient-aura {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 120%;
+      height: 120%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, var(--aura-color, rgba(212,175,55,0.18)) 0%, rgba(7,13,24,0) 70%);
+      filter: blur(55px);
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 0;
+      transition: background 0.8s ease, transform 1s ease;
+      animation: ambientAuraPulse 7s ease-in-out infinite alternate;
+    }
+    @keyframes ambientAuraPulse {
+      0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.5; }
+      100% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.85; }
+    }
+
+    /* Liquid Gold Holographic Border */
+    .liquid-gold-border {
+      border: 1px solid transparent !important;
+      background: linear-gradient(135deg, #070d18, #0e182a) padding-box,
+                  linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(212,175,55,0.85) 40%, rgba(180,130,20,0.3) 70%, rgba(253,224,71,0.7) 100%) border-box !important;
+      box-shadow: 0 16px 45px rgba(0,0,0,0.85), 0 0 25px rgba(212,175,55,0.25) !important;
+    }
+
+    /* Sound Toggle Pill Button */
+    .sound-toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(7, 13, 24, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: #fde047;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+    .sound-toggle-pill:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      border-color: #fde047;
+      transform: scale(1.05);
+      box-shadow: 0 0 14px rgba(212,175,55,0.5);
+    }
+    .sound-toggle-pill.sound-muted {
+      color: #94a3b8;
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    /* ALEX™ Real-Time Telemetry Ticker */
+    .alex-telemetry-strip {
+      width: 100%;
+      background: linear-gradient(90deg, #050b14, #0b1526 50%, #050b14);
+      border-top: 1px solid rgba(212,175,55,0.22);
+      border-bottom: 1px solid rgba(212,175,55,0.22);
+      padding: 7px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 10;
+      font-family: 'Outfit', sans-serif;
+    }
+    .alex-telemetry-inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 28px;
+      animation: alexMarquee 35s linear infinite;
+    }
+    .alex-telemetry-inner:hover {
+      animation-play-state: paused;
+    }
+    @keyframes alexMarquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .alex-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #e2e8f0;
+      letter-spacing: 0.02em;
+    }
+    .alex-badge-gold {
+      background: rgba(212,175,55,0.15);
+      color: #fde047;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9.5px;
+      border: 1px solid rgba(212,175,55,0.35);
+    }
+    .alex-up { color: #4ade80; }
+    .alex-bullet { color: var(--gold); opacity: 0.6; }
+
+    /* Ankara Skywalk Stories (Reels Mode) Modal */
+    #skywalkStoriesModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      z-index: 9999999;
+      overflow: hidden;
+      flex-direction: column;
+    }
+    .skywalk-story-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      overflow: hidden;
+    }
+    .skywalk-video-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .skywalk-video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .skywalk-top-progress {
+      position: absolute;
+      top: calc(env(safe-area-inset-top, 10px) + 8px);
+      left: 12px;
+      right: 12px;
+      display: flex;
+      gap: 4px;
+      z-index: 50;
+    }
+    .skywalk-progress-bar {
+      height: 3px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+      flex: 1;
+      overflow: hidden;
+    }
+    .skywalk-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #fde047;
+      transition: width 0.1s linear;
+    }
+    .skywalk-overlay-header {
+      position: absolute;
+      top: calc(env(safe-area-inset-top, 10px) + 20px);
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .skywalk-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: auto;
+    }
+    .skywalk-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      object-fit: cover;
+    }
+    .skywalk-overlay-bottom {
+      position: absolute;
+      bottom: calc(env(safe-area-inset-bottom, 15px) + 12px);
+      left: 14px;
+      right: 14px;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0) 100%);
+      padding-top: 40px;
+    }
+
+    /* Holographic VIP Invitation Pass Modal */
+    #vipHolographicCardModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 9999999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+    .holographic-pass-card {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      background: linear-gradient(145deg, #091222 0%, #11203b 50%, #060c18 100%);
+      border: 1.5px solid rgba(212,175,55,0.7);
+      border-radius: 22px;
+      padding: 24px;
+      color: #fff;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.9), 0 0 35px rgba(212,175,55,0.35);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    .holographic-foil-layer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 20%, rgba(253,224,71,0.15) 36%, rgba(212,175,55,0.3) 45%, rgba(147,197,253,0.2) 55%, transparent 70%);
+      opacity: 0.8;
+      pointer-events: none;
+      mix-blend-mode: color-dodge;
+      animation: holographicShimmer 5s ease-in-out infinite alternate;
+    }
+    @keyframes holographicShimmer {
+      0% { transform: translate(-30%, -30%) rotate(0deg); }
+      100% { transform: translate(30%, 30%) rotate(25deg); }
+    }
+
+    /* 3D Sun Path & Daylight Modal */
+    #sunPathModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9999999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
     /* ─── IOS STYLE MOBILE QUICK ACTION BOTTOM SHEET ─── */
     .mobile-action-sheet-overlay {
       position: fixed;
@@ -4632,8 +4908,10 @@
     #val-overlay { align-items:flex-end; padding:0; }
   }
   </style>
-</head>
 <body>
+  <!-- Analog 35mm Cinematic Film Grain Texture -->
+  <div class="cinematic-grain-overlay"></div>
+
   <!-- Top Announcement Bar -->
   <div class="top-bar" id="topBar">
     <div class="top-bar-inner">
@@ -4877,10 +5155,34 @@
 
 
   <!-- ============================================================
+       ALEX™ REAL-TIME LUXURY MARKET TELEMETRY STRIP
+  ============================================================ -->
+  <div class="alex-telemetry-strip" id="alexTelemetryStrip">
+    <div class="alex-telemetry-inner">
+      <span class="alex-item"><span class="alex-badge-gold">ALEX™ CANLI PİYASA</span> Ankara Lüks Gayrimenkul Endeksi</span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> BEYTEPE M² ORT: 74.250 ₺ <span class="alex-up">+%3.1 ▲</span></span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> İNCEK VİLLA AMORTİSMAN: 13.8 YIL <span class="alex-up">Alım Sinyali</span></span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> ÇAYYOLU & ÜMİTKÖY DOLULUK: %96.4</span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> BİLKENT & ÇUKURAMBAR YİELD: %9.2 Yıllık Getiri</span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> TCMB REEL GETİRİ: <span class="alex-up">Lüks Segment Güçlü</span></span>
+      <!-- Seamless loop duplicate -->
+      <span class="alex-item"><span class="alex-badge-gold">ALEX™ CANLI PİYASA</span> Ankara Lüks Gayrimenkul Endeksi</span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> BEYTEPE M² ORT: 74.250 ₺ <span class="alex-up">+%3.1 ▲</span></span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> İNCEK VİLLA AMORTİSMAN: 13.8 YIL <span class="alex-up">Alım Sinyali</span></span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> ÇAYYOLU & ÜMİTKÖY DOLULUK: %96.4</span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> BİLKENT & ÇUKURAMBAR YİELD: %9.2 Yıllık Getiri</span>
+      <span class="alex-item"><span class="alex-bullet">✦</span> TCMB REEL GETİRİ: <span class="alex-up">Lüks Segment Güçlü</span></span>
+    </div>
+  </div>
+
+  <!-- ============================================================
        ULTRA PRO PORTFOLIO SECTION
   ============================================================ -->
-  <section class="section showcase-luxury-section" id="portfolio" style="padding-top: 80px;">
-    <div class="container">
+  <section class="section showcase-luxury-section" id="portfolio" style="padding-top: 60px; position:relative;">
+    <!-- Ambilight Dynamic Backdrop Glow -->
+    <div class="cinematic-ambient-aura" id="cinematicBackdropAura"></div>
+
+    <div class="container" style="position:relative; z-index:2;">
 
       <!-- Section Header -->
       <div class="section-header text-center" style="margin-bottom: 2rem;">
@@ -4903,6 +5205,22 @@
               <span>Portföy İlanları</span>
             </button>
           </div>
+        </div>
+
+        <!-- Cinematic Quick Action Toolbar -->
+        <div style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:14px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-sm" onclick="openSkywalkStories()" style="background:linear-gradient(135deg, rgba(212,175,55,0.25) 0%, rgba(212,175,55,0.08) 100%); border:1px solid var(--gold); color:#fde047; font-weight:700; border-radius:20px; padding:6px 14px; font-size:11.5px; display:inline-flex; align-items:center; gap:6px; box-shadow:0 4px 15px rgba(212,175,55,0.25); cursor:pointer;">
+            <i class="fas fa-play-circle" style="color:#ef4444; font-size:13px;"></i>
+            <span>✦ Ankara Skywalk (4K Drone Stories)</span>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="openSunPathModal()" style="border-color:rgba(212,175,55,0.45); color:var(--gold-light); font-weight:700; border-radius:20px; padding:6px 14px; font-size:11.5px; display:inline-flex; align-items:center; gap:6px; background:rgba(7,13,24,0.7); cursor:pointer;">
+            <i class="fas fa-sun" style="color:#f59e0b; font-size:13px;"></i>
+            <span>3D Güneş & Işık Simülatörü</span>
+          </button>
+          <button type="button" class="sound-toggle-pill sound-muted" id="headerSoundToggleBtn" onclick="toggleGlobalSound()" title="Sinematik Ses Efektlerini Aç/Kapat" style="border-radius:20px; padding:5px 12px; font-size:11px;">
+            <i class="fas fa-volume-mute" id="headerSoundIcon"></i>
+            <span id="headerSoundText">Lüks Ses</span>
+          </button>
         </div>
       </div>
 
@@ -7953,10 +8271,10 @@
 
           <!-- Contact Buttons -->
           <div class="nxc-actions">
-            <a href="https://wa.me/905324514008?text=${waMsg}" class="nxc-btn nxc-btn-wa" target="_blank">
+            <a href="https://wa.me/905324514008?text=${waMsg}" class="nxc-btn nxc-btn-wa" target="_blank" onclick="if(window.NexaAudio) window.NexaAudio.playSoftClick()">
               <i class="fab fa-whatsapp"></i> WhatsApp
             </a>
-            <a href="tel:+905324514008" class="nxc-btn nxc-btn-tel">
+            <a href="tel:+905324514008" class="nxc-btn nxc-btn-tel" onclick="if(window.NexaAudio) window.NexaAudio.playSoftClick()">
               <i class="fas fa-phone"></i> Ara
             </a>
           </div>
@@ -9530,6 +9848,570 @@ ${src.length ? `
     window.addEventListener('scroll', updateDockActive, { passive: true });
   })();
   
+
+    // ===========================================================================
+    // CINEMATIC LUXURY VISION ENGINE (6-PILLAR PROPTECH ARCHITECTURE)
+    // ===========================================================================
+
+    // -- PILLAR 3: PROCEDURAL LUXURY ACOUSTICS & HAPTICS (ZERO NETWORK LAG) --
+    class LuxuryAudioFeedback {
+      constructor() {
+        this.ctx = null;
+        this.muted = localStorage.getItem('nexa_sound_muted') === 'true' || localStorage.getItem('nexa_sound_muted') === null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+          } catch(e) {
+            console.warn('AudioContext not supported');
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playSoftClick() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.04);
+          gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.04);
+        } catch(e) {}
+      }
+
+      playCardSnap() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.06);
+          gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.06);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.06);
+        } catch(e) {}
+      }
+
+      playGoldChime() {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          // Primary chime
+          const osc1 = this.ctx.createOscillator();
+          const gain1 = this.ctx.createGain();
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(880, now); // A5
+          osc1.frequency.exponentialRampToValueAtTime(1760, now + 0.12);
+          gain1.gain.setValueAtTime(0.06, now);
+          gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          osc1.connect(gain1);
+          gain1.connect(this.ctx.destination);
+          osc1.start(now);
+          osc1.stop(now + 0.18);
+
+          // Harmonic shimmer
+          const osc2 = this.ctx.createOscillator();
+          const gain2 = this.ctx.createGain();
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(1318.5, now + 0.03); // E6
+          gain2.gain.setValueAtTime(0.04, now + 0.03);
+          gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          osc2.connect(gain2);
+          gain2.connect(this.ctx.destination);
+          osc2.start(now + 0.03);
+          osc2.stop(now + 0.22);
+        } catch(e) {}
+      }
+
+      triggerHaptic(pattern) {
+        if ('vibrate' in navigator) {
+          try { navigator.vibrate(pattern); } catch(e) {}
+        }
+      }
+
+      toggleMute() {
+        this.muted = !this.muted;
+        localStorage.setItem('nexa_sound_muted', this.muted ? 'true' : 'false');
+        if (!this.muted) {
+          this.init();
+          this.playGoldChime();
+          this.triggerHaptic([15, 30, 20]);
+        }
+        this.updatePillUI();
+        return this.muted;
+      }
+
+      updatePillUI() {
+        const btn = document.getElementById('headerSoundToggleBtn');
+        const icon = document.getElementById('headerSoundIcon');
+        const txt = document.getElementById('headerSoundText');
+        const skywalkBtn = document.getElementById('skywalkMuteBtn');
+        const skywalkIcon = document.getElementById('skywalkMuteIcon');
+
+        if (btn && icon) {
+          if (this.muted) {
+            btn.classList.add('sound-muted');
+            icon.className = 'fas fa-volume-mute';
+            if (txt) txt.textContent = 'Ses Kapalı';
+          } else {
+            btn.classList.remove('sound-muted');
+            icon.className = 'fas fa-volume-up';
+            if (txt) txt.textContent = 'Lüks Ses Açık';
+          }
+        }
+        if (skywalkBtn && skywalkIcon) {
+          if (this.muted) {
+            skywalkBtn.classList.add('sound-muted');
+            skywalkIcon.className = 'fas fa-volume-mute';
+          } else {
+            skywalkBtn.classList.remove('sound-muted');
+            skywalkIcon.className = 'fas fa-volume-up';
+          }
+        }
+      }
+    }
+
+    window.NexaAudio = new LuxuryAudioFeedback();
+
+    function toggleGlobalSound() {
+      window.NexaAudio.toggleMute();
+    }
+
+    // -- PILLAR 2: GYROSCOPIC 3D PARALLAX & TILT ENGINE --
+    let isGyroInitialized = false;
+    function initGyroscopicParallax() {
+      if (isGyroInitialized) return;
+      if (!window.DeviceOrientationEvent) return;
+
+      let ticking = false;
+      window.addEventListener('deviceorientation', function(e) {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            const tiltX = Math.max(-12, Math.min(12, (e.gamma || 0) / 2.5));
+            const tiltY = Math.max(-12, Math.min(12, ((e.beta || 0) - 45) / 3));
+
+            const cards = document.querySelectorAll('.nxc-card.is-video-expanded, .holographic-pass-card');
+            cards.forEach(function(card) {
+              card.style.transform = `perspective(1000px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+            });
+
+            const foil = document.querySelector('.holographic-foil-layer');
+            if (foil) {
+              const bgPosX = 50 + (tiltX * 2);
+              const bgPosY = 50 + (tiltY * 2);
+              foil.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`;
+            }
+
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      isGyroInitialized = true;
+    }
+
+    // -- PILLAR 1: DYNAMIC AMBILIGHT BREATHING AURA --
+    function updateAmbilightAura(palette) {
+      const aura = document.getElementById('cinematicBackdropAura');
+      if (!aura) return;
+      if (palette === 'gold') {
+        aura.style.background = 'radial-gradient(ellipse at 50% 30%, rgba(212, 175, 55, 0.22) 0%, rgba(180, 130, 20, 0.08) 50%, transparent 80%)';
+      } else if (palette === 'blue') {
+        aura.style.background = 'radial-gradient(ellipse at 50% 30%, rgba(56, 189, 248, 0.2) 0%, rgba(30, 58, 138, 0.1) 50%, transparent 80%)';
+      } else if (palette === 'emerald') {
+        aura.style.background = 'radial-gradient(ellipse at 50% 30%, rgba(16, 185, 129, 0.2) 0%, rgba(6, 78, 59, 0.1) 50%, transparent 80%)';
+      } else {
+        aura.style.background = 'radial-gradient(ellipse at 50% 30%, rgba(212, 175, 55, 0.18) 0%, rgba(14, 24, 42, 0.4) 60%, transparent 80%)';
+      }
+    }
+
+    // -- PILLAR 2: ANKARA SKYWALK (4K DRONE REELS STORIES) CONTROLLER --
+    let skywalkStoriesList = [];
+    let skywalkCurrentIdx = 0;
+    let skywalkProgressInterval = null;
+    let skywalkStoryDuration = 12000; // 12s per story
+
+    function getSkywalkVideoUrl(project) {
+      if (!project) return '';
+      if (project.tanitim_cloud_url && (project.tanitim_cloud_url.includes('.mp4') || project.tanitim_cloud_url.includes('blob') || project.tanitim_cloud_url.includes('cdn'))) {
+        return project.tanitim_cloud_url;
+      }
+      if (project.drive_vid_id) {
+        return `https://drive.google.com/file/d/${project.drive_vid_id}/preview`;
+      }
+      if (project.video_url) {
+        return project.video_url;
+      }
+      return '';
+    }
+
+    function openSkywalkStories(startIndex = 0) {
+      skywalkStoriesList = projectsData.filter(p => p.has_video || p.drive_vid_id || p.tanitim_cloud_url || (p.prestige_score && p.prestige_score >= 80));
+      if (skywalkStoriesList.length === 0) {
+        skywalkStoriesList = projectsData.slice(0, 8);
+      }
+      if (skywalkStoriesList.length === 0) {
+        alert('Henüz video hikayesi yüklenmiş proje bulunmuyor.');
+        return;
+      }
+
+      skywalkCurrentIdx = Math.min(Math.max(0, startIndex), skywalkStoriesList.length - 1);
+
+      const progContainer = document.getElementById('skywalkProgressBars');
+      if (progContainer) {
+        progContainer.innerHTML = '';
+        skywalkStoriesList.forEach((_, i) => {
+          const seg = document.createElement('div');
+          seg.className = 'skywalk-progress-seg';
+          seg.id = `skywalkSeg_${i}`;
+          seg.innerHTML = `<div class="skywalk-progress-fill" id="skywalkFill_${i}"></div>`;
+          progContainer.appendChild(seg);
+        });
+      }
+
+      const modal = document.getElementById('skywalkStoriesModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      window.NexaAudio.playGoldChime();
+      window.NexaAudio.triggerHaptic([12, 35, 18]);
+      loadSkywalkStory(skywalkCurrentIdx);
+    }
+
+    function loadSkywalkStory(index) {
+      if (index < 0 || index >= skywalkStoriesList.length) return;
+      skywalkCurrentIdx = index;
+      const proj = skywalkStoriesList[index];
+
+      const titleEl = document.getElementById('skywalkProjectTitle');
+      const locEl = document.getElementById('skywalkProjectLoc');
+      const priceEl = document.getElementById('skywalkPriceDisplay');
+      const specsEl = document.getElementById('skywalkSpecsDisplay');
+      const waBtn = document.getElementById('skywalkWaBtn');
+
+      if (titleEl) titleEl.textContent = proj.name || 'Prestij Kulesi';
+      if (locEl) locEl.textContent = `${proj.district || 'Ankara'} • Rakım: ${proj.altitude || '1085m'}`;
+      if (priceEl) priceEl.textContent = proj.fiyat_araligi || proj.price || 'Özel Fiyat Portföyü';
+      if (specsEl) specsEl.textContent = `${proj.unit_types || 'Penthouse & Rezidans'} • ${proj.delivery_date || 'Teslim: Hemen'}`;
+
+      if (waBtn) {
+        const msg = encodeURIComponent(`Merhaba Yiğit Bey, Ankara Skywalk drone hikayelerinde izlediğim "${proj.name || 'Proje'}" hakkında VIP özel sunum ve fiyat detaylarını almak istiyorum.`);
+        waBtn.href = `https://wa.me/905324514008?text=${msg}`;
+      }
+
+      const wrapper = document.getElementById('skywalkVideoWrapper');
+      if (wrapper) {
+        wrapper.innerHTML = '';
+        const vUrl = getSkywalkVideoUrl(proj);
+
+        if (vUrl && vUrl.includes('drive.google.com')) {
+          const iframe = document.createElement('iframe');
+          iframe.src = vUrl;
+          iframe.allow = 'autoplay; fullscreen';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.border = 'none';
+          iframe.style.objectFit = 'cover';
+          wrapper.appendChild(iframe);
+        } else if (vUrl) {
+          const video = document.createElement('video');
+          video.id = 'skywalkVideoPlayer';
+          video.src = vUrl;
+          video.autoplay = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.muted = window.NexaAudio.muted;
+          video.setAttribute('webkit-playsinline', 'true');
+          video.style.width = '100%';
+          video.style.height = '100%';
+          video.style.objectFit = 'cover';
+          wrapper.appendChild(video);
+          video.play().catch(e => console.log('Autoplay blocked:', e));
+        } else {
+          const img = document.createElement('img');
+          img.src = proj.banner_image || proj.image_url || '/static/projeler/default.jpg';
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          img.style.animation = 'scaleUpStory 12s infinite alternate ease-in-out';
+          wrapper.appendChild(img);
+        }
+      }
+
+      skywalkStoriesList.forEach((_, i) => {
+        const fill = document.getElementById(`skywalkFill_${i}`);
+        if (!fill) return;
+        if (i < index) {
+          fill.style.width = '100%';
+          fill.style.transition = 'none';
+        } else if (i === index) {
+          fill.style.width = '0%';
+          fill.style.transition = 'none';
+          setTimeout(() => {
+            fill.style.transition = `width ${skywalkStoryDuration}ms linear`;
+            fill.style.width = '100%';
+          }, 50);
+        } else {
+          fill.style.width = '0%';
+          fill.style.transition = 'none';
+        }
+      });
+
+      clearTimeout(skywalkProgressInterval);
+      skywalkProgressInterval = setTimeout(() => {
+        nextSkywalkStory();
+      }, skywalkStoryDuration);
+    }
+
+    function nextSkywalkStory() {
+      window.NexaAudio.playSoftClick();
+      window.NexaAudio.triggerHaptic([8]);
+      if (skywalkCurrentIdx < skywalkStoriesList.length - 1) {
+        loadSkywalkStory(skywalkCurrentIdx + 1);
+      } else {
+        closeSkywalkStories();
+      }
+    }
+
+    function prevSkywalkStory() {
+      window.NexaAudio.playSoftClick();
+      window.NexaAudio.triggerHaptic([8]);
+      if (skywalkCurrentIdx > 0) {
+        loadSkywalkStory(skywalkCurrentIdx - 1);
+      } else {
+        loadSkywalkStory(0);
+      }
+    }
+
+    function closeSkywalkStories() {
+      clearTimeout(skywalkProgressInterval);
+      const modal = document.getElementById('skywalkStoriesModal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+      const wrapper = document.getElementById('skywalkVideoWrapper');
+      if (wrapper) wrapper.innerHTML = '';
+      window.NexaAudio.playSoftClick();
+    }
+
+    function toggleSkywalkMute() {
+      const isMuted = window.NexaAudio.toggleMute();
+      const vid = document.getElementById('skywalkVideoPlayer');
+      if (vid) vid.muted = isMuted;
+    }
+
+    function handleSkywalkTap(e) {
+      if (e.target.closest('.skywalk-overlay-header') || e.target.closest('.skywalk-overlay-bottom') || e.target.closest('button') || e.target.closest('a')) {
+        return;
+      }
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      if (clickX < width * 0.35) {
+        prevSkywalkStory();
+      } else {
+        nextSkywalkStory();
+      }
+    }
+
+    function openAppointmentFromSkywalk() {
+      const proj = skywalkStoriesList[skywalkCurrentIdx];
+      closeSkywalkStories();
+      if (proj) {
+        openAppointmentModal(proj.id || proj.slug || '', proj.name || 'Özel Skywalk Projesi');
+      } else {
+        openAppointmentModal('', 'Özel Skywalk Projesi');
+      }
+    }
+
+    // -- PILLAR 6: HOLOGRAPHIC VIP INVITATION PASS CONTROLLER --
+    function openVipHolographicPass(name, phone, projectName, preferredTime) {
+      const modal = document.getElementById('vipHolographicCardModal');
+      if (!modal) return;
+
+      const refNo = `CB-VIP-${Math.floor(1000 + Math.random() * 9000)}`;
+      const cleanName = name || 'Değerli Misafirimiz';
+      const cleanProject = projectName || 'Prestij Konut Koleksiyonu';
+      const cleanTime = preferredTime || 'En Kısa Sürede / Öncelikli';
+
+      const ownerEl = document.getElementById('vipCardOwnerName');
+      const prjEl = document.getElementById('vipCardProjectName');
+      const refEl = document.getElementById('vipCardRefNo');
+      const dateEl = document.getElementById('vipCardDateTime');
+
+      if (ownerEl) ownerEl.textContent = `Sayın ${cleanName}`;
+      if (prjEl) prjEl.textContent = cleanProject;
+      if (refEl) refEl.textContent = refNo;
+      if (dateEl) dateEl.textContent = cleanTime;
+
+      const waBtn = document.getElementById('vipCardWaShareBtn');
+      if (waBtn) {
+        const msg = encodeURIComponent(`Merhaba Yiğit Bey, ${refNo} numaralı Özel Gösterim Protokolü ile Sn. ${cleanName} adına "${cleanProject}" için randevu oluşturdum. Görüşme saati: ${cleanTime}`);
+        waBtn.href = `https://wa.me/905324514008?text=${msg}`;
+      }
+
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+
+      window.NexaAudio.playGoldChime();
+      window.NexaAudio.triggerHaptic([15, 40, 15, 40, 30]);
+
+      const card = document.getElementById('holographicPassCard');
+      if (card) {
+        card.onmousemove = function(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const rotX = ((y / rect.height) - 0.5) * -20;
+          const rotY = ((x / rect.width) - 0.5) * 20;
+          card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+        };
+        card.onmouseleave = function() {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        };
+      }
+    }
+
+    function saveVipCardToDevice() {
+      window.NexaAudio.playGoldChime();
+      window.NexaAudio.triggerHaptic([20, 50, 20]);
+      const ref = document.getElementById('vipCardRefNo') ? document.getElementById('vipCardRefNo').textContent : 'CB-VIP';
+      const name = document.getElementById('vipCardOwnerName') ? document.getElementById('vipCardOwnerName').textContent : 'Misafir';
+      const proj = document.getElementById('vipCardProjectName') ? document.getElementById('vipCardProjectName').textContent : 'Portföy';
+      const time = document.getElementById('vipCardDateTime') ? document.getElementById('vipCardDateTime').textContent : 'En Kısa Sürede';
+
+      const textSummary = `COLDWELL BANKER VIP ANKARA
+ÖZEL GÖSTERİM PROTOKOLÜ
+---------------------------
+Protokol No: ${ref}
+Misafir: ${name}
+Mülk: ${proj}
+Tarih: ${time}
+Danışman: Yiğit Narin Bizzat
+İletişim: +90 532 451 40 08`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textSummary).then(() => {
+          alert('✦ VIP Protokol Kartı Bilgileriniz Panoya Kopyalandı!
+Randevu gününde danışmanımıza bu protokol numarasını iletiniz.');
+        }).catch(() => {
+          alert(`✦ VIP PROTOKOL BİLGİLERİNİZ:
+${textSummary}`);
+        });
+      } else {
+        alert(`✦ VIP PROTOKOL BİLGİLERİNİZ:
+${textSummary}`);
+      }
+    }
+
+    // -- PILLAR 4: 3D GÜNEŞ & IŞIK SİMÜLATÖRÜ CONTROLLER --
+    const sunImpactData = {
+      morning: {
+        title: '✦ Sabah Güneşi & Aydınlık Salon',
+        desc: 'Güneydoğu ve Doğu cepheli rezidanslar sabah 07:30\'dan itibaren doğal güneş ışığını doğrudan salona, mutfağa ve kahvaltı terasına alır. Enerji verimliliği en üst düzeydedir.',
+        sky: 'linear-gradient(180deg, #1e1b4b 0%, #ea580c 100%)',
+        sunColor: '#f97316',
+        shadow: '0 0 35px #f97316, 0 0 65px #f97316'
+      },
+      noon: {
+        title: '◈ Zirve Doğal Işık & Panoramik Ankara',
+        desc: 'Öğle saatlerinde dikey açıdan gelen ışık, yüksek tavanlı ferah hacimlerde gölgesiz homojen aydınlanma sağlar. 360° Ankara silüeti ve vadi manzarası en canlı kontrastına ulaşır.',
+        sky: 'linear-gradient(180deg, #0284c7 0%, #38bdf8 100%)',
+        sunColor: '#fde047',
+        shadow: '0 0 45px #fde047, 0 0 80px #fde047'
+      },
+      golden: {
+        title: '✦ Golden Hour & Mogan Vadisi Gün Batımı',
+        desc: 'Batı ve Güneybatı cepheleri gün batımına doğru Ankara vadilerine altın sarısı ve kehribar tonlarını yansıtır. Akşam teras davetleri için mimari açıdan kusursuz atmosfer sağlar.',
+        sky: 'linear-gradient(180deg, #1e293b 0%, #d97706 100%)',
+        sunColor: '#ea580c',
+        shadow: '0 0 40px #ea580c, 0 0 70px #ea580c'
+      },
+      dusk: {
+        title: '◈ Alacakaranlık & Şehir Işıkları',
+        desc: 'Güneşin ufuk çizgisinde kaybolmasıyla birlikte rezidans cephe aydınlatmaları ve Ankara\'nın gece silüeti ön plana çıkar. Prestij kulelerinde akşam huzuru başlar.',
+        sky: 'linear-gradient(180deg, #090d16 0%, #7c2d12 100%)',
+        sunColor: '#b91c1c',
+        shadow: '0 0 25px #b91c1c, 0 0 50px #b91c1c'
+      }
+    };
+
+    function openSunPathModal() {
+      const modal = document.getElementById('sunPathModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+      updateSunPathSimulation(9);
+      window.NexaAudio.playSoftClick();
+    }
+
+    function updateSunPathSimulation(hourVal) {
+      const hour = parseFloat(hourVal);
+      const orb = document.getElementById('sunOrb');
+      const sky = document.getElementById('sunSkyDisplay');
+      const timeLabel = document.getElementById('sunTimeLabel');
+      const azLabel = document.getElementById('sunAzimuthLabel');
+      const impTitle = document.getElementById('sunImpactTitle');
+      const impDesc = document.getElementById('sunImpactDesc');
+
+      if (!orb || !sky) return;
+
+      const pct = (hour - 7) / (20 - 7);
+      const leftPos = 5 + (pct * 83);
+      const normMid = (hour - 13.5) / 6.5;
+      const topPos = 20 + (Math.pow(normMid, 2) * 65);
+
+      orb.style.left = `${leftPos}%`;
+      orb.style.top = `${topPos}px`;
+
+      const azimuthDeg = Math.round(90 + (pct * 190));
+      let phase = 'noon';
+      if (hour < 11) phase = 'morning';
+      else if (hour >= 11 && hour <= 15.5) phase = 'noon';
+      else if (hour > 15.5 && hour <= 18.5) phase = 'golden';
+      else phase = 'dusk';
+
+      const data = sunImpactData[phase];
+      sky.style.background = data.sky;
+      orb.style.background = data.sunColor;
+      orb.style.boxShadow = data.shadow;
+
+      const formattedHour = Math.floor(hour).toString().padStart(2, '0') + ':' + (hour % 1 !== 0 ? '30' : '00');
+      if (timeLabel) timeLabel.innerHTML = `<i class="fas fa-clock"></i> Saat: ${formattedHour} (${data.title.replace(/[✦◈]/g, '').trim()})`;
+      if (azLabel) azLabel.textContent = `Açı: ${azimuthDeg}° | İrtifa: ${Math.round(75 - Math.abs(normMid * 50))}°`;
+      if (impTitle) impTitle.textContent = data.title;
+      if (impDesc) impDesc.textContent = data.desc;
+
+      window.NexaAudio.triggerHaptic([4]);
+    }
+
     // ═══════════════════════════════════════════════════════════════════════════
     // SHOWCASE DUAL-CAROUSEL & MOBILE EXPERIENCE LOGIC
     // ═══════════════════════════════════════════════════════════════════════════
@@ -9564,6 +10446,8 @@ ${src.length ? `
         initTouchSwipe('portfolio-carousel');
         initProgressSync('projects-carousel', 'projectsProgressBar');
         initProgressSync('portfolio-carousel', 'portfolioProgressBar');
+        initGyroscopicParallax();
+        if (window.NexaAudio) window.NexaAudio.updatePillUI();
 
       } catch (err) {
         console.error('Error in loadShowcaseData:', err);
@@ -9572,6 +10456,10 @@ ${src.length ? `
 
     // Switch between Projects and Portfolio tabs
     function switchShowcaseTab(tab) {
+      if (window.NexaAudio) {
+        window.NexaAudio.playCardSnap();
+        window.NexaAudio.triggerHaptic([10]);
+      }
       activeShowcaseTab = tab;
       const pill = document.getElementById('segmentPill');
       const btnProj = document.getElementById('tabBtnProjects');
@@ -9637,7 +10525,7 @@ ${src.length ? `
           <div class="card-img-wrapper" id="site-card-img-${p.id}">
             <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
             <span class="nxc-badge" style="position:absolute; top:10px; left:10px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:10px; padding:3px 9px; border-radius:20px; font-family:'Outfit',sans-serif;">
-              ✦ LANSMAN PROJESİ
+              ✦ PRESTİJ KOLEKSİYONU
             </span>
             ${hasPdf ? `<div class="card-badge-pdf" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" title="Sunum Dosyasını (PDF) Görüntüle"><i class="fas fa-file-pdf"></i> SUNUM PDF</div>` : ''}
             ${hasVid ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playVideoInCard('${p.id}')" title="Kartı Büyüt ve Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>` : ''}
@@ -9657,8 +10545,8 @@ ${src.length ? `
 
               <!-- Media & Actions Row -->
               <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
-                ${hasVid ? `<button class="btn btn-sm" onclick="event.stopPropagation(); playVideoInCard('${p.id}')" style="background:var(--gold); color:var(--deep-navy); font-weight:700; font-size:11px; padding:4px 8px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-play"></i> Tanıtım İzle</button>` : ''}
-                ${hasPdf ? `<button class="btn btn-sm" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" style="background:rgba(212,175,55,0.16); border:1px solid rgba(212,175,55,0.6); color:#fde047; font-weight:700; font-size:11px; padding:4px 8px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-file-pdf" style="color:#ef4444;"></i> Sunum İncele</button>` : ''}
+                ${hasVid ? `<button class="btn btn-sm" onclick="event.stopPropagation(); playVideoInCard('${p.id}')" style="background:var(--gold); color:var(--deep-navy); font-weight:700; font-size:11px; padding:4px 8px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-play"></i> Sinematik Tur</button>` : ''}
+                ${hasPdf ? `<button class="btn btn-sm" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" style="background:rgba(212,175,55,0.16); border:1px solid rgba(212,175,55,0.6); color:#fde047; font-weight:700; font-size:11px; padding:4px 8px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-file-pdf" style="color:#ef4444;"></i> Yatırım Brifingi (PDF)</button>` : ''}
               </div>
 
               <!-- Conversion Row -->
@@ -9667,7 +10555,7 @@ ${src.length ? `
                   <i class="fab fa-whatsapp"></i> WA
                 </a>
                 <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); openAppointmentModal('${p.id}', '${title}')" style="justify-content:center;">
-                  <i class="fas fa-calendar-check"></i> Randevu
+                  <i class="fas fa-calendar-check"></i> VIP Protokol
                 </button>
                 <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); shareProject('${p.id}', '${title}', '${price}', '${loc}')" title="Paylaş" style="padding:0; justify-content:center;">
                   <i class="fas fa-share-alt"></i>
@@ -9732,6 +10620,10 @@ ${src.length ? `
 
     // Video Player Modal Controller with Dynamic Orientation & Stream Priority
     function playProjectVideo(projectId) {
+      if (window.NexaAudio) {
+        window.NexaAudio.playCardSnap();
+        window.NexaAudio.triggerHaptic([12, 30, 15]);
+      }
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
       const modal = document.getElementById('videoModal');
@@ -9826,6 +10718,11 @@ ${src.length ? `
     // IN-CARD EXPANDABLE VIDEO CONTROLLER ("video açınca card büyüsün")
     // ═══════════════════════════════════════════════════════════════════════════
     function playVideoInCard(projectId) {
+      if (window.NexaAudio) {
+        window.NexaAudio.playCardSnap();
+        window.NexaAudio.triggerHaptic([12, 40, 18]);
+      }
+      updateAmbilightAura('gold');
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
 
@@ -9935,6 +10832,11 @@ ${src.length ? `
         try { videoEl.pause(); videoEl.src = ''; } catch(e) {}
       }
 
+      if (window.NexaAudio) {
+        window.NexaAudio.playSoftClick();
+        window.NexaAudio.triggerHaptic([8]);
+      }
+      updateAmbilightAura('default');
       cardEl.classList.remove('is-video-expanded');
       cardEl.classList.remove('is-vertical-card');
 
@@ -9946,7 +10848,7 @@ ${src.length ? `
       wrapper.innerHTML = `
         <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
         <span class="nxc-badge" style="position:absolute; top:10px; left:10px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:10px; padding:3px 9px; border-radius:20px; font-family:'Outfit',sans-serif;">
-          ✦ LANSMAN PROJESİ
+          ✦ PRESTİJ KOLEKSİYONU
         </span>
         ${hasPdf ? `<div class="card-badge-pdf" onclick="event.stopPropagation(); openPdfPreview('${projectId}')" title="Sunum Dosyasını (PDF) Görüntüle"><i class="fas fa-file-pdf"></i> SUNUM PDF</div>` : ''}
         ${hasVid ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playVideoInCard('${projectId}')" title="Kartı Büyüt ve Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>` : ''}
@@ -9959,6 +10861,10 @@ ${src.length ? `
 
     // PDF Preview Modal Controller - Direct high-speed local stream with Drive fallback & mobile toolbar
     function openPdfPreview(projectId) {
+      if (window.NexaAudio) {
+        window.NexaAudio.playGoldChime();
+        window.NexaAudio.triggerHaptic([15, 30, 15]);
+      }
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
       const modal = document.getElementById('pdfModal');
@@ -10011,6 +10917,9 @@ ${src.length ? `
 
     // VIP Appointment Modal Controller
     function openAppointmentModal(id, name) {
+      if (window.NexaAudio) {
+        window.NexaAudio.playSoftClick();
+      }
       document.getElementById('siteAptProjectId').value = id || '';
       document.getElementById('siteAptProjectName').value = name || 'VIP Proje Danışmanlığı';
       document.getElementById('appointmentModal').style.display = 'flex';
@@ -10020,6 +10929,11 @@ ${src.length ? `
     function closeSiteModal(modalId) {
       const modal = document.getElementById(modalId);
       if (!modal) return;
+      if (window.NexaAudio) window.NexaAudio.playSoftClick();
+      if (modalId === 'skywalkStoriesModal') {
+        closeSkywalkStories();
+        return;
+      }
       if (modalId === 'videoModal') {
         const playerContainer = document.getElementById('videoPlayerContainer');
         if (playerContainer) {
@@ -10066,8 +10980,8 @@ ${src.length ? `
         });
       } catch(err) {}
 
-      alert(`Teşekkür ederiz Sn. ${name}. Randevu talebiniz alındı, en kısa sürede iletişime geçeceğiz.`);
       closeSiteModal('appointmentModal');
+      openVipHolographicPass(name, phone, pName, time);
     }
 
     function sendDirectWhatsAppFromSiteModal() {
@@ -10080,6 +10994,10 @@ ${src.length ? `
 
     // Carousel Horizontal Scrolling
     function scrollCarousel(carouselId, direction) {
+      if (window.NexaAudio) {
+        window.NexaAudio.playSoftClick();
+        window.NexaAudio.triggerHaptic([6]);
+      }
       const track = document.querySelector(`#${carouselId} .carousel-track`);
       if (!track) return;
       const card = track.querySelector('.nxc-card, .project-card, .card');
@@ -10334,6 +11252,193 @@ ${src.length ? `
           <i class="fas fa-chevron-right sheet-item-arrow"></i>
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       ANKARA SKYWALK (4K DRONE REELS STORIES) MODAL
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="skywalkStoriesModal">
+    <!-- Top Progress Indicators -->
+    <div class="skywalk-top-progress" id="skywalkProgressBars"></div>
+
+    <!-- Header Overlay -->
+    <div class="skywalk-overlay-header">
+      <div class="skywalk-header-info">
+        <img src="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png" alt="Yiğit Narin" class="skywalk-avatar">
+        <div>
+          <div style="font-size:13px; font-weight:800; color:#fff; display:flex; align-items:center; gap:6px;">
+            <span id="skywalkProjectTitle">Prestij Kulesi</span>
+            <span style="background:var(--gold); color:var(--deep-navy); font-size:9.5px; font-weight:800; padding:1px 6px; border-radius:10px;">4K DRONE</span>
+          </div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.75);" id="skywalkProjectLoc">Ankara, Beytepe</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; pointer-events:auto;">
+        <button type="button" onclick="toggleSkywalkMute()" id="skywalkMuteBtn" class="sound-toggle-pill" style="padding:4px 8px; font-size:10.5px;">
+          <i class="fas fa-volume-up" id="skywalkMuteIcon"></i>
+        </button>
+        <button type="button" onclick="closeSkywalkStories()" aria-label="Kapat" style="background:rgba(255,255,255,0.15); border:none; color:#fff; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(6px); font-size:15px;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Story Main Player Container -->
+    <div class="skywalk-story-container" id="skywalkStoryContainer" onclick="handleSkywalkTap(event)">
+      <div class="skywalk-video-wrapper" id="skywalkVideoWrapper">
+        <video id="skywalkVideoPlayer" playsinline webkit-playsinline autoplay loop></video>
+      </div>
+    </div>
+
+    <!-- Bottom Controls & Conversion Bar -->
+    <div class="skywalk-overlay-bottom">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+        <div>
+          <div style="font-size:18px; font-weight:800; color:var(--gold-light); font-family:'Playfair Display',serif;" id="skywalkPriceDisplay">Fiyat Sorunuz</div>
+          <div style="font-size:11.5px; color:#cbd5e1;" id="skywalkSpecsDisplay">4+1 • Panoramik Manzara • Akıllı Rezidans</div>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button type="button" onclick="prevSkywalkStory()" aria-label="Önceki" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(6px);">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button type="button" onclick="nextSkywalkStory()" aria-label="Sonraki" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:#fff; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(6px);">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+        <a id="skywalkWaBtn" href="#" target="_blank" class="btn btn-sm" style="background:rgba(37,211,102,0.9); color:#fff; border-radius:12px; font-weight:700; padding:10px; justify-content:center; font-size:12.5px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+          <i class="fab fa-whatsapp"></i> Özel VIP Bilgi
+        </a>
+        <button type="button" id="skywalkAptBtn" onclick="openAppointmentFromSkywalk()" class="btn btn-primary btn-sm" style="border-radius:12px; font-weight:700; padding:10px; justify-content:center; font-size:12.5px;">
+          <i class="fas fa-calendar-check"></i> Özel Gösterim
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       HOLOGRAPHIC VIP INVITATION PASS MODAL (WOW CONVERSION ENGINE)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="vipHolographicCardModal">
+    <div class="holographic-pass-card" id="holographicPassCard">
+      <div class="holographic-foil-layer"></div>
+      
+      <!-- Card Header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; position:relative; z-index:2;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:36px; height:36px; border-radius:10px; background:rgba(212,175,55,0.18); border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; color:var(--gold);">
+            <i class="fas fa-shield-alt" style="font-size:18px;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:800; letter-spacing:0.08em; color:var(--gold-light); text-transform:uppercase;">COLDWELL BANKER VIP</div>
+            <div style="font-size:14px; font-weight:700; font-family:'Playfair Display',serif;">Özel Gösterim Protokolü</div>
+          </div>
+        </div>
+        <button type="button" onclick="closeSiteModal('vipHolographicCardModal')" aria-label="Kapat" style="background:rgba(255,255,255,0.1); border:none; color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Card Body Information -->
+      <div style="position:relative; z-index:2; margin-bottom:18px; border-top:1px solid rgba(212,175,55,0.25); border-bottom:1px solid rgba(212,175,55,0.25); padding:14px 0;">
+        <div style="font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:3px;">Protokol Sahibi</div>
+        <div style="font-size:18px; font-weight:800; color:#fff; font-family:'Playfair Display',serif; margin-bottom:10px;" id="vipCardOwnerName">Sayın Misafirimiz</div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:12px;">
+          <div>
+            <span style="color:#94a3b8; display:block; font-size:10.5px;">Mülk / Proje</span>
+            <strong style="color:var(--gold-light);" id="vipCardProjectName">Prestij Projesi</strong>
+          </div>
+          <div>
+            <span style="color:#94a3b8; display:block; font-size:10.5px;">Protokol Ref No</span>
+            <strong style="font-family:'Courier New',monospace; color:#fde047;" id="vipCardRefNo">CB-VIP-9842</strong>
+          </div>
+          <div>
+            <span style="color:#94a3b8; display:block; font-size:10.5px;">Danışman</span>
+            <strong style="color:#fff;">Yiğit Narin Bizzat</strong>
+          </div>
+          <div>
+            <span style="color:#94a3b8; display:block; font-size:10.5px;">Tarih & Zaman</span>
+            <strong style="color:#fff;" id="vipCardDateTime">En Kısa Sürede</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Holographic QR & Verification Badge -->
+      <div style="display:flex; align-items:center; justify-content:space-between; position:relative; z-index:2; margin-bottom:16px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:48px; height:48px; background:#fff; border-radius:8px; padding:4px; display:flex; align-items:center; justify-content:center;">
+            <i class="fas fa-qrcode" style="font-size:38px; color:#070d18;"></i>
+          </div>
+          <div style="font-size:11px; line-height:1.35; color:#cbd5e1;">
+            <div style="color:#4ade80; font-weight:700;"><i class="fas fa-check-circle"></i> Protokol Onaylandı</div>
+            <div>VIP Giriş & Vale Hizmeti Dahildir</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <span style="background:rgba(212,175,55,0.15); border:1px solid rgba(212,175,55,0.4); color:#fde047; font-size:10px; font-weight:800; padding:4px 8px; border-radius:8px;">
+            ✦ VIP ACCESS
+          </span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; position:relative; z-index:2;">
+        <a id="vipCardWaShareBtn" href="#" target="_blank" class="btn btn-sm" style="background:#25D366; color:#fff; font-weight:700; border-radius:10px; font-size:12px; padding:9px; justify-content:center; text-decoration:none; display:inline-flex; align-items:center; gap:5px;">
+          <i class="fab fa-whatsapp"></i> Danışmana İlet
+        </a>
+        <button type="button" onclick="saveVipCardToDevice()" class="btn btn-outline btn-sm" style="border-color:rgba(212,175,55,0.5); color:var(--gold-light); font-weight:700; border-radius:10px; font-size:12px; padding:9px; justify-content:center; display:inline-flex; align-items:center; gap:5px; background:rgba(7,13,24,0.7);">
+          <i class="fas fa-download"></i> Karta Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       3D GÜNEŞ & IŞIK SİMÜLATÖRÜ MODALI (THEATRICAL SUN-PATH ENGINE)
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div id="sunPathModal">
+    <div class="modal-container" style="background:#0f1a2e; color:#fff; width:100%; max-width:480px; border-radius:22px; padding:22px; border:1px solid rgba(212,175,55,0.4); box-shadow:0 25px 70px rgba(0,0,0,0.9);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="color:#f59e0b; font-size:20px;"><i class="fas fa-sun"></i></span>
+          <h3 style="margin:0; font-size:17px; font-family:'Playfair Display',serif; color:var(--gold-light);">3D Güneş & Işık Simülatörü</h3>
+        </div>
+        <button type="button" onclick="closeSiteModal('sunPathModal')" aria-label="Kapat" style="background:rgba(255,255,255,0.1); border:none; color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <!-- Interactive Sky Visualizer -->
+      <div id="sunSkyDisplay" style="height:140px; border-radius:14px; background:linear-gradient(180deg, #070d18 0%, #172554 100%); position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.1); margin-bottom:16px; transition:background 0.5s ease;">
+        <div id="sunOrb" style="position:absolute; width:44px; height:44px; border-radius:50%; background:#f59e0b; box-shadow:0 0 35px #f59e0b, 0 0 60px #f59e0b; top:40px; left:20%; transition:all 0.3s ease;"></div>
+        <div style="position:absolute; bottom:8px; left:12px; right:12px; display:flex; justify-content:space-between; font-size:11px; color:#cbd5e1; z-index:2;">
+          <span id="sunTimeLabel"><i class="fas fa-clock"></i> Saat: 09:00 (Sabah Güneşi)</span>
+          <span id="sunAzimuthLabel">Açı: 115° GD</span>
+        </div>
+      </div>
+
+      <!-- Slider Control -->
+      <div style="margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:6px;">
+          <span>07:00 (Doğuş)</span>
+          <span style="color:var(--gold-light); font-weight:700;">Günün Saatini Kaydırın</span>
+          <span>20:00 (Batış)</span>
+        </div>
+        <input type="range" id="sunTimeRange" min="7" max="20" value="9" step="0.5" oninput="updateSunPathSimulation(this.value)" style="width:100%; accent-color:var(--gold); cursor:pointer;">
+      </div>
+
+      <!-- Real Estate Impact Metrics -->
+      <div style="background:#070d18; border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.08); font-size:12px; line-height:1.6; margin-bottom:16px;">
+        <div style="color:var(--gold-light); font-weight:700; margin-bottom:4px;" id="sunImpactTitle">Sabah Güneşi & Aydınlık Salon</div>
+        <div style="color:#94a3b8;" id="sunImpactDesc">Güneydoğu cepheli penthouse daireler sabah 07:30'dan itibaren doğal güneş ışığını doğrudan salona ve teras kahvaltı alanına alır.</div>
+      </div>
+
+      <button type="button" onclick="closeSiteModal('sunPathModal'); openAppointmentModal('', 'Güneş Açısı & Cephe İncelemesi')" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; padding:10px; font-weight:700;">
+        <i class="fas fa-calendar-check"></i> Cephe ve Manzara İçin Randevu Al
+      </button>
     </div>
   </div>
 
