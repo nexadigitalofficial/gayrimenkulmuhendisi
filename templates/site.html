@@ -3441,6 +3441,35 @@
       border-color: var(--gold) !important;
       box-shadow: 0 18px 45px rgba(0,0,0,0.65), 0 0 24px rgba(212, 175, 55, 0.28) !important;
     }
+
+    /* ─── IN-CARD EXPANDABLE VIDEO KINEMATICS (RESPONSIVE GROW) ─── */
+    .carousel-track .nxc-card.is-video-expanded,
+    .carousel-track .project-card.is-video-expanded {
+      flex: 0 0 min(90vw, 620px) !important;
+      width: min(90vw, 620px) !important;
+      min-width: min(90vw, 620px) !important;
+      max-width: min(90vw, 620px) !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.92), 0 0 35px rgba(212, 175, 55, 0.45) !important;
+      z-index: 25 !important;
+      transform: scale(1.01) !important;
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .carousel-track .nxc-card.is-video-expanded .card-img-wrapper {
+      height: auto !important;
+      min-height: 240px !important;
+      max-height: min(72vh, 440px) !important;
+      aspect-ratio: 16 / 9 !important;
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .carousel-track .nxc-card.is-video-expanded.is-vertical-card .card-img-wrapper {
+      aspect-ratio: 9 / 16 !important;
+      height: min(74vh, 540px) !important;
+      max-height: min(74vh, 540px) !important;
+      width: auto !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+    }
     .carousel-track .card-img-wrapper,
     .carousel-track .nxc-img {
       position: relative;
@@ -3494,6 +3523,45 @@
       color: var(--deep-navy);
       transform: translate(-50%, -50%) scale(1.1);
       box-shadow: 0 0 22px rgba(212, 175, 55, 0.6);
+    }
+
+    /* Floating PDF Sunum Badge on Cards */
+    .card-badge-pdf {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(7, 13, 24, 0.90);
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      color: #fde047;
+      font-weight: 800;
+      font-size: 10px;
+      padding: 3.5px 8.5px;
+      border-radius: 20px;
+      font-family: 'Outfit', sans-serif;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.7);
+      transition: all 0.25s ease;
+      letter-spacing: 0.02em;
+    }
+    .card-badge-pdf:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      border-color: #fde047;
+      transform: scale(1.06);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.6);
+    }
+    .card-badge-pdf i {
+      color: #ef4444;
+      font-size: 11px;
+    }
+    .card-badge-pdf:hover i {
+      color: var(--deep-navy);
     }
 
     /* ─── CARD TYPOGRAPHY & HIGH-CONTRAST VISIBILITY RULES ─── */
@@ -3864,6 +3932,117 @@
       white-space: nowrap !important;
     }
 
+    /* ─── PDF SUNUM MODAL STYLING ─── */
+    .pdf-modal-header {
+      padding: 0.8rem 1.2rem !important;
+      border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+      background: #070d18 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 6px !important;
+      flex-shrink: 0 !important;
+    }
+    .pdf-header-row-top {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+    }
+    .pdf-title-wrap {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      min-width: 0 !important;
+      flex: 1 1 auto !important;
+    }
+    .pdf-modal-title {
+      margin: 0 !important;
+      font-size: 15.5px !important;
+      font-weight: 700 !important;
+      color: #fff !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      max-width: 82% !important;
+      font-family: 'Playfair Display', serif !important;
+    }
+    .pdf-modal-close-btn {
+      width: 34px !important;
+      height: 34px !important;
+      min-width: 34px !important;
+      border-radius: 50% !important;
+      background: rgba(255,255,255,0.1) !important;
+      border: none !important;
+      color: #fff !important;
+      font-size: 15px !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.2s !important;
+    }
+    .pdf-modal-close-btn:hover {
+      background: rgba(255,255,255,0.25) !important;
+      color: #fde047 !important;
+    }
+    .pdf-header-row-sub {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      flex-wrap: wrap !important;
+      gap: 8px !important;
+    }
+    .pdf-badges-wrap {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+    .pdf-corp-tag {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      padding: 3px 9px !important;
+      border-radius: 6px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      font-family: 'Outfit', sans-serif !important;
+      background: rgba(212,175,55,0.15) !important;
+      color: var(--gold-light) !important;
+      border: 1px solid rgba(212,175,55,0.3) !important;
+    }
+    .pdf-actions-wrap {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+    .pdf-action-btn {
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      padding: 4px 10px !important;
+      border-radius: 6px !important;
+      text-decoration: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      color: var(--gold-light) !important;
+      border: 1px solid var(--gold) !important;
+      background: rgba(212,175,55,0.08) !important;
+      transition: all 0.2s !important;
+      font-family: 'Outfit', sans-serif !important;
+    }
+    .pdf-action-btn:hover {
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
+    }
+    .pdf-action-btn.pdf-btn-primary {
+      background: var(--gold) !important;
+      color: var(--deep-navy) !important;
+    }
+    .pdf-action-btn.pdf-btn-primary:hover {
+      background: #fde047 !important;
+    }
+
     /* ─── IOS STYLE MOBILE QUICK ACTION BOTTOM SHEET ─── */
     .mobile-action-sheet-overlay {
       position: fixed;
@@ -4120,29 +4299,69 @@
         font-size: 15px !important;
       }
 
-      /* Mobile Video Modal: Compact 1-row header, zero overflow */
-      #videoModal {
-        padding: 6px !important;
+      /* Mobile Video Modal: Compact header, full responsive viewport */
+      #videoModal,
+      #pdfModal {
+        padding: 0 !important;
       }
-      #videoModal .modal-container {
-        max-height: 94vh !important;
-        border-radius: 14px !important;
+      #videoModal .modal-container,
+      #pdfModal .modal-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        margin: 0 !important;
       }
-      .video-modal-header {
+      .video-modal-header,
+      .pdf-modal-header {
         padding: 8px 12px !important;
       }
-      .video-modal-title {
+      .video-modal-title,
+      .pdf-modal-title {
         font-size: 13px !important;
         max-width: 70vw !important;
       }
-      .video-modal-close-btn {
-        width: 30px !important;
-        height: 30px !important;
-        min-width: 30px !important;
-        font-size: 13px !important;
+      .video-modal-close-btn,
+      .pdf-modal-close-btn {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        font-size: 14px !important;
       }
-      .video-header-row-sub {
+      .video-header-row-sub,
+      .pdf-header-row-sub {
         display: none !important;
+      }
+      .video-player-container {
+        flex: 1 1 auto !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        height: 100% !important;
+        max-height: calc(100vh - 80px) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #000 !important;
+        overflow: hidden !important;
+      }
+      .video-player-container.ratio-horizontal,
+      .video-player-container:not(.ratio-vertical) {
+        width: 100% !important;
+        max-width: 100vw !important;
+        aspect-ratio: 16 / 9 !important;
+        height: auto !important;
+        max-height: calc(100vh - 80px) !important;
+        margin: auto !important;
+      }
+      .video-player-container.ratio-vertical {
+        aspect-ratio: 9 / 16 !important;
+        width: auto !important;
+        max-width: 100vw !important;
+        height: min(calc(100vh - 80px), calc(100vw * 16 / 9)) !important;
+        max-height: calc(100vh - 80px) !important;
+        margin: auto !important;
       }
       .video-modal-footer {
         padding: 5px 10px !important;
@@ -4152,6 +4371,25 @@
         white-space: nowrap !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
+      }
+
+      /* In-card video expansion on mobile */
+      .carousel-track .nxc-card.is-video-expanded,
+      .carousel-track .project-card.is-video-expanded {
+        flex: 0 0 calc(100vw - 28px) !important;
+        width: calc(100vw - 28px) !important;
+        min-width: calc(100vw - 28px) !important;
+        max-width: calc(100vw - 28px) !important;
+      }
+      .carousel-track .nxc-card.is-video-expanded .card-img-wrapper {
+        height: auto !important;
+        min-height: 200px !important;
+        max-height: min(65vh, 380px) !important;
+      }
+      .carousel-track .nxc-card.is-video-expanded.is-vertical-card .card-img-wrapper {
+        aspect-ratio: 9 / 16 !important;
+        height: min(72vh, 520px) !important;
+        max-height: min(72vh, 520px) !important;
       }
 
       /* Transform stacked vertical grids into horizontal swipable rails */
@@ -4195,36 +4433,50 @@
     }
 
     @media (max-width: 480px) {
-      .carousel-track .nxc-card,
-      .carousel-track .project-card {
+      .carousel-track .nxc-card:not(.is-video-expanded),
+      .carousel-track .project-card:not(.is-video-expanded) {
         flex: 0 0 238px !important;
         width: 238px !important;
         min-width: 238px !important;
         max-width: 238px !important;
       }
-      .carousel-track .card-img-wrapper,
+      .carousel-track .nxc-card:not(.is-video-expanded) .card-img-wrapper,
       .carousel-track .nxc-img {
         height: 134px !important;
         min-height: 134px !important;
         max-height: 134px !important;
         aspect-ratio: 16 / 9 !important;
       }
+      .carousel-track .nxc-card.is-video-expanded,
+      .carousel-track .project-card.is-video-expanded {
+        flex: 0 0 calc(100vw - 20px) !important;
+        width: calc(100vw - 20px) !important;
+        min-width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+      }
     }
 
     @media (max-width: 360px) {
-      .carousel-track .nxc-card,
-      .carousel-track .project-card {
+      .carousel-track .nxc-card:not(.is-video-expanded),
+      .carousel-track .project-card:not(.is-video-expanded) {
         flex: 0 0 220px !important;
         width: 220px !important;
         min-width: 220px !important;
         max-width: 220px !important;
       }
-      .carousel-track .card-img-wrapper,
+      .carousel-track .nxc-card:not(.is-video-expanded) .card-img-wrapper,
       .carousel-track .nxc-img {
         height: 124px !important;
         min-height: 124px !important;
         max-height: 124px !important;
         aspect-ratio: 16 / 9 !important;
+      }
+      .carousel-track .nxc-card.is-video-expanded,
+      .carousel-track .project-card.is-video-expanded {
+        flex: 0 0 calc(100vw - 16px) !important;
+        width: calc(100vw - 16px) !important;
+        min-width: calc(100vw - 16px) !important;
+        max-width: calc(100vw - 16px) !important;
       }
     }
   
@@ -7709,13 +7961,20 @@
             </a>
           </div>
 
-          <!-- Incele CTA -->
-          <button class="nxc-incele"
-            data-url="${link}"
-            onclick="nexaInceleCard(this)">
-            <span>İlanı İncele</span>
-            <i class="fas fa-arrow-right"></i>
-          </button>
+          <!-- Incele & Sunum CTA Row -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:8px;">
+            <button class="nxc-incele" style="margin:0; width:100%; justify-content:center; padding:7px 10px;"
+              data-url="${link}"
+              onclick="nexaInceleCard(this)">
+              <span>İlanı İncele</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="btn btn-outline btn-sm" style="margin:0; width:100%; justify-content:center; padding:7px 8px; border:1px solid rgba(212,175,55,0.45); background:rgba(212,175,55,0.12); color:#fde047; font-weight:700; border-radius:10px; font-size:11.5px; display:inline-flex; align-items:center; gap:5px;"
+              onclick="event.stopPropagation(); openAppointmentModal('', '${title} - Portföy Sunumu')">
+              <i class="fas fa-file-pdf" style="color:#ef4444;"></i>
+              <span>Sunum Dosyası</span>
+            </button>
+          </div>
         </div>
       `;
 
@@ -9380,7 +9639,8 @@ ${src.length ? `
             <span class="nxc-badge" style="position:absolute; top:10px; left:10px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:10px; padding:3px 9px; border-radius:20px; font-family:'Outfit',sans-serif;">
               ✦ LANSMAN PROJESİ
             </span>
-            ${hasVid ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" title="Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>` : ''}
+            ${hasPdf ? `<div class="card-badge-pdf" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" title="Sunum Dosyasını (PDF) Görüntüle"><i class="fas fa-file-pdf"></i> SUNUM PDF</div>` : ''}
+            ${hasVid ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playVideoInCard('${p.id}')" title="Kartı Büyüt ve Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>` : ''}
           </div>
 
           <div class="nxc-body" style="display:flex; flex-direction:column; flex-grow:1;">
@@ -9397,8 +9657,8 @@ ${src.length ? `
 
               <!-- Media & Actions Row -->
               <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
-                ${hasVid ? `<button class="btn btn-sm" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" style="background:var(--gold); color:var(--deep-navy);"><i class="fas fa-play"></i> Tanıtım</button>` : ''}
-                ${hasPdf ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" style="border-color:rgba(212,175,55,0.4); color:var(--gold-light);"><i class="fas fa-file-pdf"></i> Sunum</button>` : ''}
+                ${hasVid ? `<button class="btn btn-sm" onclick="event.stopPropagation(); playVideoInCard('${p.id}')" style="background:var(--gold); color:var(--deep-navy); font-weight:700; font-size:11px; padding:4px 8px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-play"></i> Tanıtım İzle</button>` : ''}
+                ${hasPdf ? `<button class="btn btn-sm" onclick="event.stopPropagation(); openPdfPreview('${p.id}')" style="background:rgba(212,175,55,0.16); border:1px solid rgba(212,175,55,0.6); color:#fde047; font-weight:700; font-size:11px; padding:4px 8px; display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-file-pdf" style="color:#ef4444;"></i> Sunum İncele</button>` : ''}
               </div>
 
               <!-- Conversion Row -->
@@ -9446,7 +9706,7 @@ ${src.length ? `
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
       if (p.has_video || p.drive_video_preview || p.tanitim_cloud_url || p.drive_vid_id) {
-        playProjectVideo(projectId);
+        playVideoInCard(projectId);
       } else if (p.has_presentation || p.drive_pdf_preview || p.presentation) {
         openPdfPreview(projectId);
       } else {
@@ -9562,38 +9822,142 @@ ${src.length ? `
       document.body.style.overflow = 'hidden';
     }
 
-    function playVideoOnSiteCard(id, videoUrl) {
-      const p = projectsData.find(x => String(x.id) === String(id) || String(x.db_id) === String(id));
-      const imgSrc = p ? (p.thumbnail || '/static/img/placeholder.jpg') : '/static/img/placeholder.jpg';
-      const wrapper = document.getElementById(`site-card-img-${id}`);
-      if (wrapper) {
-        wrapper.innerHTML = `
-          <div style="position:relative; width:100%; height:100%; background:#000; overflow:hidden;">
-            <button onclick="event.stopPropagation(); resetSiteCardMedia('${id}', '${imgSrc}')" style="position:absolute; top:6px; right:6px; z-index:20; background:rgba(0,0,0,0.85); color:#fde047; border:1px solid rgba(212,175,55,0.4); padding:3px 8px; border-radius:12px; font-size:10px; font-weight:700; cursor:pointer; backdrop-filter:blur(4px); display:inline-flex; align-items:center; gap:4px;"><i class="fas fa-times"></i> Kapat</button>
-            <video controls autoplay playsinline webkit-playsinline muted style="width:100%; height:100%; object-fit:contain; background:#000; display:block;">
-              <source src="${videoUrl}" type="video/mp4">
-            </video>
+    // ═══════════════════════════════════════════════════════════════════════════
+    // IN-CARD EXPANDABLE VIDEO CONTROLLER ("video açınca card büyüsün")
+    // ═══════════════════════════════════════════════════════════════════════════
+    function playVideoInCard(projectId) {
+      const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
+      if (!p) return;
+
+      const cardEl = document.getElementById(`site-prj-${p.id}`);
+      const wrapper = document.getElementById(`site-card-img-${p.id}`);
+      if (!cardEl || !wrapper) {
+        // Fallback to fullscreen modal if card DOM element not found
+        playProjectVideo(projectId);
+        return;
+      }
+
+      // Close any other currently expanded card
+      document.querySelectorAll('.carousel-track .nxc-card.is-video-expanded').forEach(c => {
+        if (c.id !== `site-prj-${p.id}`) {
+          const otherId = c.id.replace('site-prj-', '');
+          collapseCardMedia(otherId);
+        }
+      });
+
+      const driveUrl = p.drive_video_preview || (p.drive_vid_id ? `https://drive.google.com/file/d/${p.drive_vid_id}/preview` : null) || p.youtube_video_preview;
+      const streamUrl = p.tanitim_cloud_url || `/stream/video/${encodeURIComponent(p.id)}`;
+
+      // Detect vertical video
+      const isKnownVertical = Boolean(
+        p.is_vertical || p.orientation === 'vertical' || 
+        (p.video_aspect_ratio && p.video_aspect_ratio < 1) ||
+        (streamUrl && (streamUrl.toLowerCase().includes('short') || streamUrl.toLowerCase().includes('reel') || streamUrl.toLowerCase().includes('dikey'))) ||
+        (driveUrl && (driveUrl.toLowerCase().includes('short') || driveUrl.toLowerCase().includes('reel') || driveUrl.toLowerCase().includes('dikey')))
+      );
+
+      // Expand card to responsive wide width
+      cardEl.classList.add('is-video-expanded');
+      if (isKnownVertical) {
+        cardEl.classList.add('is-vertical-card');
+      }
+
+      // Smooth scroll into viewport center
+      setTimeout(() => {
+        try {
+          cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } catch(e) {}
+      }, 50);
+
+      const title = p.title || p.name || 'Prestij Projesi';
+
+      wrapper.innerHTML = `
+        <div class="card-video-active-container" style="position:relative; width:100%; height:100%; background:#000; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <!-- Floating Action Bar -->
+          <div style="position:absolute; top:8px; left:8px; right:8px; z-index:30; display:flex; justify-content:space-between; align-items:center; pointer-events:none;">
+            <span style="pointer-events:auto; background:rgba(7,13,24,0.88); color:#fde047; border:1px solid rgba(212,175,55,0.45); padding:3px 8px; border-radius:12px; font-size:10px; font-weight:700; backdrop-filter:blur(6px); display:inline-flex; align-items:center; gap:5px; max-width:55%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              <i class="fas fa-play-circle" style="color:var(--gold);"></i> ${escapeHtml(title)}
+            </span>
+            <div style="display:flex; gap:6px; pointer-events:auto;">
+              <button type="button" onclick="event.stopPropagation(); playProjectVideo('${p.id}')" title="Tam Ekran / Sinema Modu" style="background:rgba(7,13,24,0.92); color:#fde047; border:1px solid rgba(212,175,55,0.55); padding:4px 9px; border-radius:12px; font-size:11px; font-weight:700; cursor:pointer; backdrop-filter:blur(6px); display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 8px rgba(0,0,0,0.5);">
+                <i class="fas fa-expand"></i> Tam Ekran
+              </button>
+              <button type="button" onclick="event.stopPropagation(); collapseCardMedia('${p.id}')" title="Kartı Küçült ve Kapat" style="background:rgba(220,38,38,0.92); color:#fff; border:1px solid rgba(255,255,255,0.3); padding:4px 9px; border-radius:12px; font-size:11px; font-weight:700; cursor:pointer; backdrop-filter:blur(6px); display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 8px rgba(0,0,0,0.5);">
+                <i class="fas fa-compress-alt"></i> Küçült
+              </button>
+            </div>
           </div>
-        `;
+
+          <!-- HTML5 Video Element with Stream & Fallback -->
+          <video id="card-video-${p.id}" controls autoplay playsinline webkit-playsinline style="width:100%; height:100%; object-fit:contain; background:#000; display:block;">
+            <source src="${streamUrl}" type="video/mp4">
+          </video>
+        </div>
+      `;
+
+      const videoEl = wrapper.querySelector('video');
+      if (videoEl) {
+        videoEl.onloadedmetadata = function() {
+          if (videoEl.videoHeight && videoEl.videoWidth && videoEl.videoHeight > videoEl.videoWidth) {
+            cardEl.classList.add('is-vertical-card');
+          }
+        };
+        videoEl.onerror = function() {
+          if (driveUrl) {
+            console.warn('[CardVideo] Direct stream error, falling back to drive iframe for:', p.id);
+            const activeCont = wrapper.querySelector('.card-video-active-container');
+            if (activeCont) {
+              const oldVid = activeCont.querySelector('video');
+              if (oldVid) oldVid.remove();
+              const iframe = document.createElement('iframe');
+              iframe.src = driveUrl;
+              iframe.allow = 'autoplay; encrypted-media; fullscreen';
+              iframe.allowFullscreen = true;
+              iframe.style.cssText = 'width:100%; height:100%; border:none; background:#000; display:block;';
+              activeCont.appendChild(iframe);
+            }
+          }
+        };
+        videoEl.load();
+        videoEl.play().catch(() => {});
       }
     }
 
-    function resetSiteCardMedia(id, imgSrc) {
-      const p = projectsData.find(x => String(x.id) === String(id) || String(x.db_id) === String(id));
-      const title = p ? (p.title || p.name) : 'Prestij Projesi';
-      const wrapper = document.getElementById(`site-card-img-${id}`);
-      if (wrapper) {
-        wrapper.innerHTML = `
-          <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
-          <span class="nxc-badge" style="position:absolute; top:10px; left:10px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:10px; padding:3px 9px; border-radius:20px; font-family:'Outfit',sans-serif;">
-            ✦ LANSMAN PROJESİ
-          </span>
-          <div class="video-play-overlay" onclick="event.stopPropagation(); playProjectVideo('${id}')" title="Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>
-        `;
+    // Collapse Expanded Card back to compact carousel size
+    function collapseCardMedia(projectId) {
+      const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
+      const cardEl = document.getElementById(`site-prj-${projectId}`);
+      const wrapper = document.getElementById(`site-card-img-${projectId}`);
+      if (!cardEl || !wrapper) return;
+
+      const videoEl = wrapper.querySelector('video');
+      if (videoEl) {
+        try { videoEl.pause(); videoEl.src = ''; } catch(e) {}
       }
+
+      cardEl.classList.remove('is-video-expanded');
+      cardEl.classList.remove('is-vertical-card');
+
+      const imgSrc = p ? (p.thumbnail || '/static/img/placeholder.jpg') : '/static/img/placeholder.jpg';
+      const title = escapeHtml(p ? (p.title || p.name || 'Prestij Projesi') : 'Prestij Projesi');
+      const hasVid = p ? Boolean(p.has_video || p.drive_video_preview || p.tanitim_cloud_url || p.drive_vid_id) : false;
+      const hasPdf = p ? Boolean(p.has_presentation || p.drive_pdf_preview || p.presentation || (p.presentations && p.presentations.length)) : false;
+
+      wrapper.innerHTML = `
+        <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
+        <span class="nxc-badge" style="position:absolute; top:10px; left:10px; background:var(--gold); color:var(--deep-navy); font-weight:800; font-size:10px; padding:3px 9px; border-radius:20px; font-family:'Outfit',sans-serif;">
+          ✦ LANSMAN PROJESİ
+        </span>
+        ${hasPdf ? `<div class="card-badge-pdf" onclick="event.stopPropagation(); openPdfPreview('${projectId}')" title="Sunum Dosyasını (PDF) Görüntüle"><i class="fas fa-file-pdf"></i> SUNUM PDF</div>` : ''}
+        ${hasVid ? `<div class="video-play-overlay" onclick="event.stopPropagation(); playVideoInCard('${projectId}')" title="Kartı Büyüt ve Tanıtım Filmini Oynat"><i class="fas fa-play"></i></div>` : ''}
+      `;
     }
 
-    // PDF Preview Modal Controller - Direct high-speed local stream with Drive fallback
+    // Backward-compatibility aliases
+    const playVideoOnSiteCard = playVideoInCard;
+    const resetSiteCardMedia = collapseCardMedia;
+
+    // PDF Preview Modal Controller - Direct high-speed local stream with Drive fallback & mobile toolbar
     function openPdfPreview(projectId) {
       const p = projectsData.find(x => String(x.id) === String(projectId) || String(x.db_id) === String(projectId));
       if (!p) return;
@@ -9606,11 +9970,29 @@ ${src.length ? `
       const title = p.title || p.name || 'Prestij Projesi';
       if (titleEl) titleEl.textContent = `${title} — Sunum Dosyası`;
 
-      // Fast, zero-CORS local endpoint
+      const drivePdfUrl = p.drive_pdf_preview || (p.drive_pdf_id ? `https://drive.google.com/file/d/${p.drive_pdf_id}/preview` : null);
       const streamPdfUrl = `/stream/pdf/${encodeURIComponent(p.id)}`;
+      const embedUrl = drivePdfUrl || streamPdfUrl;
 
       container.innerHTML = `
-        <iframe id="sitePdfIframe" src="${streamPdfUrl}" style="width:100%; height:100%; border:none; background:#070d18;" allowfullscreen></iframe>
+        <div style="background:#0b1320; padding:10px 14px; border-bottom:1px solid rgba(212,175,55,0.25); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; z-index:10; position:relative;">
+          <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1 1 auto;">
+            <span style="color:#ef4444; font-size:16px;"><i class="fas fa-file-pdf"></i></span>
+            <span style="font-size:13px; font-weight:700; color:var(--gold-light); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(title)}</span>
+            <span style="background:rgba(212,175,55,0.15); color:var(--gold); font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px; border:1px solid rgba(212,175,55,0.3);">CB VIP SUNUM</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+            <a href="${streamPdfUrl}" target="_blank" class="btn btn-sm" style="background:var(--gold); color:var(--deep-navy); font-weight:700; font-size:11.5px; padding:5px 12px; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(0,0,0,0.4);">
+              <i class="fas fa-external-link-alt"></i> Tam Ekranda Oku
+            </a>
+            <a href="${streamPdfUrl}" download="${encodeURIComponent(title)} - Sunum.pdf" target="_blank" class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; font-size:11.5px; padding:5px 10px; border-radius:8px; text-decoration:none; display:inline-flex; align-items:center; gap:5px; border:1px solid rgba(255,255,255,0.2);">
+              <i class="fas fa-download"></i> İndir
+            </a>
+          </div>
+        </div>
+        <div style="width:100%; height:calc(100% - 46px); background:#070d18; position:relative;">
+          <iframe id="sitePdfIframe" src="${embedUrl}" style="width:100%; height:100%; border:none; background:#070d18; display:block;" allowfullscreen></iframe>
+        </div>
       `;
 
       if (openTab) {
@@ -9846,7 +10228,7 @@ ${src.length ? `
 
   <!-- PDF SUNUM MODAL -->
   <div class="modal-overlay" id="pdfModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); z-index:999999 !important; pointer-events:auto !important; align-items:center; justify-content:center; padding:1rem;">
-    <div class="modal-container" style="background:#132238; color:#fff; width:100%; max-width:1000px; height:90vh; border-radius:20px; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(0,0,0,0.5);">
+    <div class="modal-container" id="pdfModalContainer" style="background:#132238; color:#fff; width:100%; max-width:1000px; height:90vh; border-radius:20px; overflow:hidden; display:flex; flex-direction:column; border:1px solid rgba(212,175,55,0.3); box-shadow:0 25px 60px rgba(0,0,0,0.5);">
       <div class="pdf-modal-header">
         <div class="pdf-header-row-top">
           <div class="pdf-title-wrap">
