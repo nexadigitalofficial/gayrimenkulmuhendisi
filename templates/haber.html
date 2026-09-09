@@ -1352,6 +1352,106 @@
       margin-bottom: 6px;
     }
 
+    /* ── TACTILE LUXURY SLIDERS ── */
+    .slider-field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .slider-header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .slider-header-info .val-display {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 3px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .luxury-range-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 7px;
+      border-radius: 4px;
+      background: linear-gradient(to right, #10b981 0%, var(--gold) 60%, #38bdf8 100%);
+      outline: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .luxury-range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid #070d18;
+      box-shadow: 0 0 12px var(--gold-glow);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .luxury-range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.22);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.6);
+    }
+
+    .luxury-range-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid #070d18;
+      box-shadow: 0 0 12px var(--gold-glow);
+      cursor: pointer;
+    }
+
+    /* ── LIVE SVG GAUGE METER ── */
+    .gauge-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 18px 0;
+      position: relative;
+    }
+
+    .gauge-svg {
+      width: 240px;
+      height: 130px;
+      overflow: visible;
+    }
+
+    .gauge-score-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      fill: #ffffff;
+      text-anchor: middle;
+    }
+
+    .gauge-label-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      fill: #94a3b8;
+      letter-spacing: 1.5px;
+      text-anchor: middle;
+      text-transform: uppercase;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       body { padding-top: 100px; }
@@ -1359,10 +1459,87 @@
       .hub-hero h1 { font-size: 26px; }
       .brief-grid { grid-template-columns: 1fr; }
       .decision-hub-wrapper { grid-template-columns: 1fr; }
-      .decision-nav { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px; }
+      .decision-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding-bottom: 12px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .decision-nav-btn {
+        flex-shrink: 0;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
       .form-group-row { grid-template-columns: 1fr; }
       .intel-grid { grid-template-columns: 1fr; }
       .impact-bars-container { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 92px;
+      }
+      .market-ticker-wrapper {
+        padding: 6px 0;
+      }
+      .header-nav {
+        top: 31px;
+        padding: 8px 16px;
+      }
+      .brand-block img {
+        width: 32px;
+        height: 32px;
+      }
+      .brand-title {
+        font-size: 13px;
+      }
+      .btn-portal-back {
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+      .filter-chips {
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        mask-image: linear-gradient(to right, black 85%, transparent 100%);
+      }
+      .chip-btn {
+        padding: 6px 13px;
+        font-size: 12px;
+      }
+      /* Native Bottom Sheet for Mobile Reading Modal */
+      .modal-overlay {
+        align-items: flex-end !important;
+        padding: 0 !important;
+      }
+      .modal-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 24px 24px 0 0 !important;
+        max-height: 92vh !important;
+        margin: 0 !important;
+        animation: slideUpBottom 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .modal-card::before {
+        content: '';
+        display: block;
+        width: 46px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.28);
+        border-radius: 3px;
+        margin: 10px auto 4px auto;
+      }
+      .modal-body-content {
+        padding: 20px 16px 36px 16px !important;
+      }
+      .modal-hero-img {
+        height: 180px !important;
+      }
+      @keyframes slideUpBottom {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+      }
     }
   </style>
 </head>
@@ -1622,12 +1799,14 @@
           <!-- SUB-FORM 1: BUYING -->
           <div id="engine-buying" class="engine-form">
             <h3 style="color:var(--gold);font-size:20px;margin-bottom:14px;"><i class="fas fa-home"></i> Konut Satın Alma Karar Değerlendirmesi</h3>
-            <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px;">Mevcut faiz oranları, bölgesel prim trendleri ve bütçenize göre anlık AI alım uygunluk analizi.</p>
-            
             <div class="form-group-row">
               <div class="form-group">
-                <label>Hedef Bütçe (TL)</label>
-                <input type="number" id="buyBudget" value="6500000" placeholder="Örn: 6500000">
+                <div class="slider-header-info">
+                  <label>Hedef Bütçe</label>
+                  <span class="val-display" id="buyBudgetValue">6.500.000 TL</span>
+                </div>
+                <input type="number" id="buyBudget" value="6500000" style="display:none;">
+                <input type="range" id="buyBudgetSlider" class="luxury-range-slider" min="3000000" max="40000000" step="500000" value="6500000" oninput="syncBudgetSlider(this.value)">
               </div>
               <div class="form-group">
                 <label>Finansman Yöntemi</label>
@@ -1672,8 +1851,12 @@
 
             <div class="form-group-row">
               <div class="form-group">
-                <label>Tahmini Piyasa Değeri (TL)</label>
-                <input type="number" id="sellValue" value="8000000" placeholder="Örn: 8000000">
+                <div class="slider-header-info">
+                  <label>Tahmini Piyasa Değeri</label>
+                  <span class="val-display" id="sellValueValue">8.000.000 TL</span>
+                </div>
+                <input type="number" id="sellValue" value="8000000" style="display:none;">
+                <input type="range" id="sellValueSlider" class="luxury-range-slider" min="3000000" max="50000000" step="500000" value="8000000" oninput="syncSellSlider(this.value)">
               </div>
               <div class="form-group">
                 <label>Mülk Yaşı</label>
@@ -1761,12 +1944,20 @@
 
             <div class="form-group-row">
               <div class="form-group">
-                <label>Mevcut / Hedef Aylık Kira (TL)</label>
-                <input type="number" id="rvbRent" value="35000" placeholder="Örn: 35000">
+                <div class="slider-header-info">
+                  <label>Mevcut Aylık Kira</label>
+                  <span class="val-display" id="rvbRentValue">35.000 TL</span>
+                </div>
+                <input type="number" id="rvbRent" value="35000" style="display:none;">
+                <input type="range" id="rvbRentSlider" class="luxury-range-slider" min="15000" max="150000" step="2500" value="35000" oninput="syncRentSlider(this.value)">
               </div>
               <div class="form-group">
-                <label>Hedef Emsal Satın Alma Fiyatı (TL)</label>
-                <input type="number" id="rvbPrice" value="7000000" placeholder="Örn: 7000000">
+                <div class="slider-header-info">
+                  <label>Emsal Satın Alma Fiyatı</label>
+                  <span class="val-display" id="rvbPriceValue">7.000.000 TL</span>
+                </div>
+                <input type="number" id="rvbPrice" value="7000000" style="display:none;">
+                <input type="range" id="rvbPriceSlider" class="luxury-range-slider" min="3000000" max="40000000" step="500000" value="7000000" oninput="syncPriceSlider(this.value)">
               </div>
             </div>
 
@@ -1786,14 +1977,37 @@
             </button>
           </div>
 
-          <!-- DYNAMIC RESULT CONTAINER -->
+          <!-- DYNAMIC RESULT CONTAINER WITH LIVE SVG GAUGE -->
           <div id="decisionResultBox" class="decision-result-box">
             <div class="result-badge-row">
               <div>
-                <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">Değerlendirme Sonucu</span>
-                <h4 id="resConditionTitle" style="font-size:20px;color:var(--cream);margin-top:2px;">-</h4>
+                <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Değerlendirme Sonucu</span>
+                <h4 id="resConditionTitle" style="font-size:22px;color:var(--cream);margin-top:2px;">-</h4>
               </div>
               <div id="resBadge" class="result-badge badge-strong">GÜÇLÜ KOŞULLAR</div>
+            </div>
+
+            <!-- LIVE SVG GAUGE METER -->
+            <div class="gauge-wrapper" id="decisionGaugeWrapper">
+              <svg class="gauge-svg" viewBox="0 0 200 120">
+                <defs>
+                  <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ef4444" />
+                    <stop offset="35%" stop-color="#f59e0b" />
+                    <stop offset="70%" stop-color="#d4af37" />
+                    <stop offset="100%" stop-color="#10b981" />
+                  </linearGradient>
+                </defs>
+                <path d="M 25 100 A 75 75 0 0 1 175 100" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="14" stroke-linecap="round"/>
+                <path id="gaugeArc" d="M 25 100 A 75 75 0 0 1 175 100" fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="235.6" stroke-dashoffset="60" style="transition: stroke-dashoffset 1s ease;"/>
+                <g id="gaugeNeedleGroup" style="transform-origin: 100px 100px; transform: rotate(40deg); transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                  <line x1="100" y1="100" x2="100" y2="35" stroke="#f6e6b4" stroke-width="3.5" stroke-linecap="round"/>
+                  <circle cx="100" cy="100" r="7" fill="#d4af37"/>
+                  <circle cx="100" cy="100" r="3" fill="#070d18"/>
+                </g>
+                <text id="gaugeScoreText" x="100" y="88" class="gauge-score-text">7.4</text>
+                <text id="gaugeScoreSub" x="100" y="108" class="gauge-label-text">ENDİKS / 10</text>
+              </svg>
             </div>
             <p id="resConsultationPrompt" style="font-size:14px;color:var(--cream);margin-bottom:16px;line-height:1.6;"></p>
             
@@ -2026,6 +2240,7 @@
     // ── STATE MANAGEMENT ──
     let articles = [];
     let dailyBrief = null;
+    let allProjects = [];
     let currentCategory = 'Tümü';
     let currentSearch = '';
     let selectedAdvisorTopic = 'Alım Fırsatları';
@@ -2045,8 +2260,20 @@
       fetchDailyBrief();
       fetchFeedArticles();
       fetchSwarmTelemetry();
+      fetchProjects();
       trackLead('hub_page_view');
     });
+
+    async function fetchProjects() {
+      try {
+        const res = await fetch('/static/data/projects_map.json');
+        if (res.ok) {
+          allProjects = await res.json();
+        }
+      } catch (err) {
+        console.warn('Projects map fetch warning:', err);
+      }
+    }
 
     // ── SWARM TELEMETRY FETCHER ──
     async function fetchSwarmTelemetry() {
@@ -2091,11 +2318,13 @@
     }
 
     // ── TAB NAVIGATION ──
-    function switchTab(tabId) {
+    function switchTab(tabId, el) {
       document.querySelectorAll('.hub-tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
 
-      event.currentTarget.classList.add('active');
+      const trigger = el || (typeof event !== 'undefined' && event ? event.currentTarget : null) || 
+                      Array.from(document.querySelectorAll('.hub-tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+      if (trigger && trigger.classList) trigger.classList.add('active');
       const target = document.getElementById(tabId);
       if (target) target.classList.add('active');
       
@@ -2296,19 +2525,96 @@
       renderFeed();
     }
 
-    function togglePref(tag) {
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function formatTL(val) {
+      const num = Number(val) || 0;
+      return num.toLocaleString('tr-TR') + ' TL';
+    }
+
+    function syncBudgetSlider(val) {
+      const el = document.getElementById('buyBudget');
+      if (el) el.value = val;
+      const disp = document.getElementById('buyBudgetValue');
+      if (disp) disp.textContent = formatTL(val);
+    }
+
+    function syncSellSlider(val) {
+      const el = document.getElementById('sellValue');
+      if (el) el.value = val;
+      const disp = document.getElementById('sellValueValue');
+      if (disp) disp.textContent = formatTL(val);
+    }
+
+    function syncRentSlider(val) {
+      const el = document.getElementById('rvbRent');
+      if (el) el.value = val;
+      const disp = document.getElementById('rvbRentValue');
+      if (disp) disp.textContent = formatTL(val);
+    }
+
+    function syncPriceSlider(val) {
+      const el = document.getElementById('rvbPrice');
+      if (el) el.value = val;
+      const disp = document.getElementById('rvbPriceValue');
+      if (disp) disp.textContent = formatTL(val);
+    }
+
+    function updateGauge(score, maxScore = 10) {
+      const numScore = Number(score) || 0;
+      const max = maxScore > 10 ? 100 : 10;
+      const pct = Math.max(0, Math.min(1, numScore / max));
+      
+      const maxDash = 235.6; // pi * 75
+      const offset = maxDash * (1 - pct);
+      const arc = document.getElementById('gaugeArc');
+      if (arc) {
+        arc.style.strokeDashoffset = offset.toFixed(1);
+      }
+      
+      const needle = document.getElementById('gaugeNeedleGroup');
+      if (needle) {
+        // -90deg is 0, +90deg is 100%
+        const deg = -90 + (pct * 180);
+        needle.style.transform = `rotate(${deg.toFixed(1)}deg)`;
+      }
+      
+      const text = document.getElementById('gaugeScoreText');
+      if (text) {
+        text.textContent = max === 100 ? Math.round(numScore) : numScore.toFixed(1);
+      }
+      
+      const sub = document.getElementById('gaugeScoreSub');
+      if (sub) {
+        sub.textContent = max === 100 ? 'PUAN / 100' : 'ENDEKS / 10';
+      }
+    }
+
+    function togglePref(tag, el) {
       const idx = clientPrefs.indexOf(tag);
       if (idx > -1) clientPrefs.splice(idx, 1);
       else clientPrefs.push(tag);
       
-      event.currentTarget.classList.toggle('active');
+      const target = el || (typeof event !== 'undefined' && event ? event.currentTarget : null);
+      if (target && target.classList) {
+        target.classList.toggle('active');
+      }
       renderPersonalFeed();
     }
 
     // ── DECISION ENGINES ──
-    function switchDecisionEngine(engine) {
+    function switchDecisionEngine(engine, el) {
       document.querySelectorAll('.decision-nav-btn').forEach(btn => btn.classList.remove('active'));
-      event.currentTarget.classList.add('active');
+      const trigger = el || (typeof event !== 'undefined' && event ? event.currentTarget : null);
+      if (trigger && trigger.classList) trigger.classList.add('active');
 
       document.querySelectorAll('.engine-form').forEach(form => form.style.display = 'none');
       const target = document.getElementById(`engine-${engine}`);
@@ -2328,14 +2634,14 @@
 
       if (engineType === 'buying') {
         payload = {
-          budget_tl: parseFloat(document.getElementById('buyBudget').value) || 5000000,
+          budget_tl: parseFloat(document.getElementById('buyBudget').value) || 6500000,
           financing_type: document.getElementById('buyFinancing').value,
           district: document.getElementById('buyDistrict').value,
           purpose: document.getElementById('buyPurpose').value
         };
       } else if (engineType === 'selling') {
         payload = {
-          estimated_value_tl: parseFloat(document.getElementById('sellValue').value) || 7000000,
+          estimated_value_tl: parseFloat(document.getElementById('sellValue').value) || 8000000,
           property_age: document.getElementById('sellAge').value,
           district: document.getElementById('sellDistrict').value,
           reason: document.getElementById('sellReason').value
@@ -2367,14 +2673,18 @@
         if (data && data.data) {
           const d = data.data;
           document.getElementById('resConditionTitle').textContent = d.condition || 'Değerlendirme Tamamlandı';
-          document.getElementById('resConsultationPrompt').textContent = d.advisor_consultation_prompt || '';
+          document.getElementById('resConsultationPrompt').textContent = d.advisor_consultation_prompt || d.summary || '';
+
+          // Animate Live SVG Gauge Meter
+          const rawScore = d.score ?? 7.5;
+          updateGauge(rawScore, rawScore > 10 ? 100 : 10);
 
           const badge = document.getElementById('resBadge');
           const cond = (d.condition || '').toLowerCase();
-          if (cond.includes('strong') || cond.includes('güçlü') || cond.includes('satın al')) {
+          if (cond.includes('strong') || cond.includes('güçlü') || cond.includes('satın al') || cond.includes('high opportunity')) {
             badge.className = 'result-badge badge-strong';
             badge.textContent = 'GÜÇLÜ FIRSAT';
-          } else if (cond.includes('caution') || cond.includes('temkinli') || cond.includes('bekle')) {
+          } else if (cond.includes('caution') || cond.includes('temkinli') || cond.includes('bekle') || cond.includes('selective')) {
             badge.className = 'result-badge badge-caution';
             badge.textContent = 'TEMKİNLİ YAKLAŞIM';
           } else {
@@ -2384,20 +2694,26 @@
 
           const factorsContainer = document.getElementById('resFactors');
           if (d.factors && d.factors.length > 0) {
-            factorsContainer.innerHTML = d.factors.map(f => `
-              <div class="factor-item">
-                <strong><i class="fas fa-check-circle" style="color:var(--gold);"></i> ${f.driver || 'Faktör'}</strong>
-                <span style="color:var(--text-muted);">${f.detail || ''}</span>
-              </div>
-            `).join('');
+            factorsContainer.innerHTML = d.factors.map(f => {
+              const title = escapeHtml(f.factor || f.driver || 'Piyasa Faktörü');
+              const impact = f.impact ? `<span style="color:var(--gold-light);font-size:12px;margin-left:4px;">(${escapeHtml(f.impact)})</span>` : '';
+              const detail = escapeHtml(f.detail || '');
+              return `
+                <div class="factor-item">
+                  <strong><i class="fas fa-check-circle" style="color:var(--gold);"></i> ${title} ${impact}</strong>
+                  <span style="color:var(--text-muted);">${detail}</span>
+                </div>
+              `;
+            }).join('');
           } else {
             factorsContainer.innerHTML = '';
           }
 
-          const waText = encodeURIComponent(`Merhaba Yiğit Bey, Karar Merkezinde ${engineType} analizi yaptım. Sonuç: "${d.condition}". Detaylı değerlendirme için görüşmek istiyorum.`);
+          const defaultPrompt = `Merhaba Yiğit Bey, Karar Merkezinde ${engineType} analizi yaptım. Sonuç: "${d.condition}". Detaylı değerlendirme için görüşmek istiyorum.`;
+          const waText = encodeURIComponent(d.advisor_consultation_prompt || defaultPrompt);
           document.getElementById('resWaBtn').href = `https://wa.me/905324514008?text=${waText}`;
 
-          trackLead('decision_tool_run', { engine: engineType, result: d.condition });
+          trackLead('decision_tool_run', { engine: engineType, result: d.condition, score: d.score });
         }
       } catch (err) {
         console.error('Decision run error:', err);
@@ -2502,20 +2818,47 @@
         `;
       }
 
-      // Connected Projects
+      // Connected Projects (Dynamically matched from allProjects or fallback)
       const projBox = document.getElementById('modalConnectedProjects');
-      projBox.innerHTML = `
-        <a href="/projeler" class="connected-project-card">
-          <h5>Beytepe Palas Rezidans</h5>
-          <span style="font-size:12px;color:var(--text-muted);">Beytepe • 4+1 Lüks Daireler</span>
-          <span style="font-size:13px;color:var(--gold);font-weight:700;margin-top:6px;">18.500.000 TL'den başlayan</span>
-        </a>
-        <a href="/projeler" class="connected-project-card">
-          <h5>İncek Loft & Hill Villaları</h5>
-          <span style="font-size:12px;color:var(--text-muted);">İncek • Müstakil Parselli</span>
-          <span style="font-size:13px;color:var(--gold);font-weight:700;margin-top:6px;">26.000.000 TL</span>
-        </a>
-      `;
+      if (projBox) {
+        let matching = [];
+        const artText = ((a.title || '') + ' ' + (a.summary || '') + ' ' + (a.category || '')).toLowerCase();
+        
+        if (allProjects && allProjects.length > 0) {
+          matching = allProjects.filter(p => {
+            const loc = (p.location || p.ilce || p.location_full || '').toLowerCase();
+            const name = (p.name || p.title || '').toLowerCase();
+            return (loc && artText.includes(loc)) || (name && artText.includes(name));
+          });
+          
+          if (matching.length === 0) {
+            matching = allProjects.slice(0, 3);
+          } else {
+            matching = matching.slice(0, 3);
+          }
+          
+          projBox.innerHTML = matching.map(p => `
+            <a href="/projeler" class="connected-project-card">
+              <h5>${escapeHtml(p.name || p.title || 'Prestij Projesi')}</h5>
+              <span style="font-size:12px;color:var(--text-muted);">${escapeHtml(p.location || p.ilce || 'Ankara Prime')} • ${escapeHtml(p.room_info || 'Lüks Konut')}</span>
+              <span style="font-size:13px;color:var(--gold);font-weight:700;margin-top:6px;">${escapeHtml(p.price_display || 'Fiyat Teklifi Alın')}</span>
+            </a>
+          `).join('');
+        } else {
+          projBox.innerHTML = `
+            <a href="/projeler" class="connected-project-card">
+              <h5>Beytepe Palas Rezidans</h5>
+              <span style="font-size:12px;color:var(--text-muted);">Beytepe • 4+1 Lüks Daireler</span>
+              <span style="font-size:13px;color:var(--gold);font-weight:700;margin-top:6px;">18.500.000 TL'den başlayan</span>
+            </a>
+            <a href="/projeler" class="connected-project-card">
+              <h5>İncek Loft &amp; Hill Villaları</h5>
+              <span style="font-size:12px;color:var(--text-muted);">İncek • Müstakil Parselli</span>
+              <span style="font-size:13px;color:var(--gold);font-weight:700;margin-top:6px;">26.000.000 TL</span>
+            </a>
+          `;
+        }
+      }
 
       updateModalWaLink();
 

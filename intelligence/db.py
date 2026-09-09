@@ -25,6 +25,8 @@ DATA_DIR = BASE_DIR / "data"
 DB_PATH = DATA_DIR / "intelligence.db"
 
 _db_lock = threading.Lock()
+_init_lock = threading.Lock()
+_db_initialized = False
 
 
 def get_db_connection() -> sqlite3.Connection:
@@ -33,14 +35,21 @@ def get_db_connection() -> sqlite3.Connection:
     conn = sqlite3.connect(str(DB_PATH), timeout=30.0, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode = WAL;")
+    conn.execute("PRAGMA busy_timeout = 10000;")
     conn.execute("PRAGMA foreign_keys = ON;")
     conn.execute("PRAGMA synchronous = NORMAL;")
     return conn
 
 
-def init_db():
-    """Initializes schema, migrations, and indexes."""
+def init_db(force: bool = False):
+    """Initializes schema, migrations, and indexes once with zero-overhead on repeated calls."""
+    global _db_initialized
+    if _db_initialized and not force:
+        return
+
     with _db_lock:
+        if _db_initialized and not force:
+            return
         conn = get_db_connection()
         try:
             with conn:
@@ -278,6 +287,7 @@ def init_db():
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_research_queue_status ON research_queue(status, priority DESC);")
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_market_state_history_time ON market_state_history(timestamp DESC);")
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_emerging_trends_active ON emerging_trends(is_active, velocity DESC);")
+                _db_initialized = True
 
         finally:
             conn.close()

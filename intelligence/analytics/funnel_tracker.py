@@ -8,13 +8,15 @@ from intelligence.db import log_crm_intelligence_event
 
 
 INTENT_SCORE_MAP = {
-    "article_view": 1,
-    "related_article_click": 2,
-    "property_link_click": 4,
-    "decision_tool_run": 5,
-    "advisor_cta_click": 10,
-    "whatsapp_click": 15,
-    "appointment_click": 25
+    "article_view": 5,
+    "filter_change": 10,
+    "related_article_click": 8,
+    "property_link_click": 25,
+    "decision_tool_run": 20,
+    "advisor_cta_click": 35,
+    "whatsapp_click": 50,
+    "whatsapp_inquiry": 50,
+    "appointment_click": 50
 }
 
 

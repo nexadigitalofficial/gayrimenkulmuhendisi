@@ -36,7 +36,16 @@ KRİTİK GÜVENLİK VE ETİK KURALLAR:
   "opportunities": ["Değerlendirilebilecek somut fırsat 1", "Fırsat 2"],
   "time_horizon": "Kısa Vade (1-3 Ay) | Orta Vade (3-6 Ay) | Uzun Vade (1-2 Yıl)",
   "target_audience": "BUYER | SELLER | INVESTOR | GENERAL",
-  "advisor_headline": "Danışmana sorma çağrısı başlığı (örneğin: 'Beytepe Portföyünüzün Bu Karardan Nasıl Etkilendiğini Öğrenin')"
+  "advisor_headline": "Danışmana sorma çağrısı başlığı (örneğin: 'Beytepe Portföyünüzün Bu Karardan Nasıl Etkilendiğini Öğrenin')",
+  "what_we_know": "Doğrulanmış resmi veriler, istatistikler veya mevzuat kararları (TCMB, TÜİK, Resmi Gazete).",
+  "what_we_infer": "Algoritmik piyasa çıkarımları, fiyat ve getiri projeksiyonları.",
+  "what_we_suspect": "Piyasa öncü sinyalleri, erken hareketler ve teyit aşamasındaki dinamikler.",
+  "what_we_dont_know": "Henüz belirsiz olan değişkenler veya veri boşlukları.",
+  "contrarian_view": {
+    "headline": "Piyasa konsensusunun aksi senaryo / Karşıt hipotez",
+    "risk_analysis": "Olası aşağı yönlü stres faktörleri ve maliyet baskıları",
+    "mitigation": "Yatırımcının kendini korumak için alması gereken somut önlem"
+  }
 }
 """
 
@@ -108,5 +117,14 @@ class AiIntelligenceEngine:
             "opportunities": ["Değer artış potansiyeli yüksek gelişim koridorları", "Özel lansman ödeme planları"],
             "time_horizon": "Orta Vade (3-6 Ay)",
             "target_audience": "INVESTOR" if "kira" in text or "yatırım" in text else "BUYER",
-            "advisor_headline": f"Bu Gelişmenin Yatırım Kararınıza Etkisini Yiğit Narin ile Değerlendirin"
+            "advisor_headline": f"Bu Gelişmenin Yatırım Kararınıza Etkisini Yiğit Narin ile Değerlendirin",
+            "what_we_know": f"{title}. Resmi makro göstergeler ve piyasa raporları incelenmiştir.",
+            "what_we_infer": "Mevcut finansman ve maliyet eğilimleri, nitelikli konutlarda reel sermaye korumasını desteklemektedir.",
+            "what_we_suspect": "Bölgesel arz-talep dengelenmesinin önümüzdeki 6 ayda seçkin lokasyonlarda prim hızını artıracağı öngörülmektedir.",
+            "what_we_dont_know": "Olası yeni kredi düzenlemelerinin zamanlaması ve kapsamı.",
+            "contrarian_view": {
+                "headline": "Kısa vadeli likidite sıkılaşması senaryosu",
+                "risk_analysis": "Yüksek mevduat faizlerinin alıcıların karar alma süresini 2-3 ay uzatabilme riski.",
+                "mitigation": "Peşin alım iskontosu veya esnek geliştirici taksiti sunan projeler tercih edilmelidir."
+            }
         }
