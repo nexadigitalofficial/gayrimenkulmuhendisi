@@ -55,7 +55,9 @@
     "location_full": "Ankara / Çubuk / Esenboğa",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "sales_highlights": "Garantili öğrenci/akademisyen kiralama talebi, yerden ısıtma, 3lü ankastre.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-31",
@@ -115,7 +117,10 @@
     "drive_pdf_id": "1-K7eg6_cS7cLBDIeFrYe9zLlalSZognd",
     "is_vertical": true,
     "orientation": "vertical",
-    "video_aspect_ratio": 0.5625
+    "video_aspect_ratio": 0.5625,
+    "description": "Konut yapı kooperatifi güvencesi, 30 ay sabit taksit, tramvay durağı 3 dk.",
+    "sales_highlights": "Konut yapı kooperatifi güvencesi, 30 ay sabit taksit, tramvay durağı 3 dk.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-19",
@@ -170,7 +175,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/1hRMQ0s505o",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Yıldırım Beyazıt Üniversitesi yerleşkesine komşu, 18 ayda teslim garantisi.",
+    "sales_highlights": "Yıldırım Beyazıt Üniversitesi yerleşkesine komşu, 18 ayda teslim garantisi.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-11",
@@ -224,7 +232,10 @@
     "location_full": "Ankara / Pursaklar / Saray",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Tek blokta 149 seçkin daire, peşinatsız 18 ay taksit veya %50 peşinat seçeneği.",
+    "sales_highlights": "Tek blokta 149 seçkin daire, peşinatsız 18 ay taksit veya %50 peşinat seçeneği.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-25",
@@ -285,7 +296,10 @@
     "drive_pdf_id": "1tuBqLJr_yEdHKDzPR5AWhUCaUNAt4Hj1",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "260 Dairelik yatay mimari, %10 peşin indirimi, 10 ay vade farksız taksit.",
+    "sales_highlights": "260 Dairelik yatay mimari, %10 peşin indirimi, 10 ay vade farksız taksit.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-6",
@@ -338,7 +352,10 @@
     },
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "208 Dairelik butik konsept, 15 ay faizsiz ödeme kolaylığı, merkezi konum.",
+    "sales_highlights": "208 Dairelik butik konsept, 15 ay faizsiz ödeme kolaylığı, merkezi konum.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-17",
@@ -392,7 +409,10 @@
     "location_full": "Ankara / Etimesgut / Bağlıca",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "1232 Konutluk yaşam vadisi, 8-14. kat arası avantajlı daire seçenekleri.",
+    "sales_highlights": "1232 Konutluk yaşam vadisi, 8-14. kat arası avantajlı daire seçenekleri.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-27",
@@ -484,7 +504,10 @@
     "drive_pdf_id": "1HTUX7e_3d7b105ItUSRZs4xYaIi6Fy9o",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "1232 Konutluk yaşam vadisi, 8-14. kat arası avantajlı daire seçenekleri.",
+    "sales_highlights": "1232 Konutluk yaşam vadisi, 8-14. kat arası avantajlı daire seçenekleri.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-14",
@@ -539,7 +562,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/fqAsovIA0Zw",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Batıkent metrosuna yakın, modern iç donanım, ferah peyzaj.",
+    "sales_highlights": "Batıkent metrosuna yakın, modern iç donanım, ferah peyzaj.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-8",
@@ -594,7 +620,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/hjy0Itbeu6o",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Çankaya Üniversitesine yürüme mesafesinde, %10 nakit peşin indirimi, tapu devir güvencesi.",
+    "sales_highlights": "Çankaya Üniversitesine yürüme mesafesinde, %10 nakit peşin indirimi, tapu devir güvencesi.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-24",
@@ -642,7 +671,10 @@
     "drive_pdf_id": "1tuBqLJr_yEdHKDzPR5AWhUCaUNAt4Hj1",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "260 Dairelik yatay mimari, %10 peşin indirimi, 10 ay vade farksız taksit.",
+    "sales_highlights": "260 Dairelik yatay mimari, %10 peşin indirimi, 10 ay vade farksız taksit.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-7",
@@ -697,7 +729,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/K_AKC7GZWrM",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Çakırlar kavşağı yakınında, metroya kolay erişimli seçkin kule.",
+    "sales_highlights": "Çakırlar kavşağı yakınında, metroya kolay erişimli seçkin kule.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-18",
@@ -752,7 +787,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/flQaMH4kXsI",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Havalimanına 5 dakika mesafede, yüksek kira getirili yatırım projesi.",
+    "sales_highlights": "Havalimanına 5 dakika mesafede, yüksek kira getirili yatırım projesi.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-12",
@@ -806,7 +844,10 @@
     "location_full": "Ankara / Etimesgut / Eryaman",
     "is_vertical": true,
     "orientation": "vertical",
-    "video_aspect_ratio": 0.5625
+    "video_aspect_ratio": 0.5625,
+    "description": "A Blok 15 kat, B ve C Blok 14 kat, 36 ay uzun vadeli taksit, cadde dükkanları.",
+    "sales_highlights": "A Blok 15 kat, B ve C Blok 14 kat, 36 ay uzun vadeli taksit, cadde dükkanları.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-4",
@@ -859,7 +900,10 @@
     },
     "is_vertical": true,
     "orientation": "vertical",
-    "video_aspect_ratio": 0.5625
+    "video_aspect_ratio": 0.5625,
+    "description": "5 Blok mega proje, takas ve kaparo seçenekleri, geniş peyzaj alanları.",
+    "sales_highlights": "5 Blok mega proje, takas ve kaparo seçenekleri, geniş peyzaj alanları.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-2",
@@ -913,7 +957,10 @@
     "location_full": "Ankara / Pursaklar / Saray",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "1050 Konut, 150 Ofis, 70.000 m² AVM ve Cadde Mağazaları, sosyal tesisler.",
+    "sales_highlights": "1050 Konut, 150 Ofis, 70.000 m² AVM ve Cadde Mağazaları, sosyal tesisler.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-9",
@@ -967,7 +1014,10 @@
     "location_full": "Ankara / Etimesgut / Yaşamkent",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Güneş enerjisi (GES) ile sıfır aidat hedefi, kapalı yüzme havuzu, fitness.",
+    "sales_highlights": "Güneş enerjisi (GES) ile sıfır aidat hedefi, kapalı yüzme havuzu, fitness.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-21",
@@ -1022,7 +1072,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/djhCGHVf1tY",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Pursaklar Saray kavşağında ikiz kule mimarisi, panoramik Ankara manzarası.",
+    "sales_highlights": "Pursaklar Saray kavşağında ikiz kule mimarisi, panoramik Ankara manzarası.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-5",
@@ -1076,7 +1129,10 @@
     "location_full": "Ankara / Gölbaşı / Kızılcaşar",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "6 Blok 25 katlı kuleler, A dan F ye blok bazlı bağımsız fiyatlandırma, 20 ay taksit.",
+    "sales_highlights": "6 Blok 25 katlı kuleler, A dan F ye blok bazlı bağımsız fiyatlandırma, 20 ay taksit.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-26",
@@ -1140,7 +1196,10 @@
     "drive_pdf_id": "1t-cjErsg9FZj9MfDnL5CKwDJ4NlqbNeR",
     "is_vertical": true,
     "orientation": "vertical",
-    "video_aspect_ratio": 0.5625
+    "video_aspect_ratio": 0.5625,
+    "description": "İncekum plajına 5 dk, açık/kapalı havuzlar, Türk hamamı, sauna, deniz manzaralı.",
+    "sales_highlights": "İncekum plajına 5 dk, açık/kapalı havuzlar, Türk hamamı, sauna, deniz manzaralı.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-22",
@@ -1195,7 +1254,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/3Wz8oA2Vqq8",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Protokol yolu cepheli, ticari dükkanlar ve yüksek standartlı konutlar.",
+    "sales_highlights": "Protokol yolu cepheli, ticari dükkanlar ve yüksek standartlı konutlar.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-10",
@@ -1249,7 +1311,10 @@
     "location_full": "Ankara / Etimesgut / Bağlıca",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Metro ve Onkoloji Hastanesi yanında, yüksek kira çarpanlı premium kule.",
+    "sales_highlights": "Metro ve Onkoloji Hastanesi yanında, yüksek kira çarpanlı premium kule.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-13",
@@ -1298,7 +1363,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/OePeKu0cC1Y",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "İncekin kalbinde, geniş teras ve müstakil bahçe kullanımına sahip lüks daireler.",
+    "sales_highlights": "İncekin kalbinde, geniş teras ve müstakil bahçe kullanımına sahip lüks daireler.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-15",
@@ -1353,7 +1421,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/p2ckzkVGFTo",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Dikmen Vadisine bakan eşsiz manzara, akıllı ev otomasyonu, lüks lobi.",
+    "sales_highlights": "Dikmen Vadisine bakan eşsiz manzara, akıllı ev otomasyonu, lüks lobi.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-1",
@@ -1408,7 +1479,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/AT-dOFemnrA",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "12 Blok, 84.000 m² yeşil alan, her daireye 2 kapalı otopark, lüks rezidans.",
+    "sales_highlights": "12 Blok, 84.000 m² yeşil alan, her daireye 2 kapalı otopark, lüks rezidans.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-16",
@@ -1463,7 +1537,10 @@
     "youtube_video_preview": "https://www.youtube.com/embed/qs5W66I2SXM",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Beytepe bulvarı üzerinde, geniş balkonlar, yerden ısıtma ve kapalı otopark.",
+    "sales_highlights": "Beytepe bulvarı üzerinde, geniş balkonlar, yerden ısıtma ve kapalı otopark.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-3",
@@ -1517,7 +1594,10 @@
     "location_full": "Muğla / Bodrum / Yalıkavak",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Marina ve deniz manzaralı, müstakil bahçeli lüks villalar ve seçkin rezidanslar.",
+    "sales_highlights": "Marina ve deniz manzaralı, müstakil bahçeli lüks villalar ve seçkin rezidanslar.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-23",
@@ -1577,7 +1657,10 @@
     "drive_pdf_id": "1gVTmjfGHv_mfndOiV3qz5M4R9OXWzjz-",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Çakırlar kavşağı yakınında, metroya kolay erişimli seçkin kule.",
+    "sales_highlights": "Çakırlar kavşağı yakınında, metroya kolay erişimli seçkin kule.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-28",
@@ -1622,7 +1705,10 @@
     "drive_pdf_id": "1tzxIqQNxrLAPltJ9wI7a2hMhXZLR1fZk",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Sincan Yenikent merkezde, modern mimari ve esnek taksit seçenekleri.",
+    "sales_highlights": "Sincan Yenikent merkezde, modern mimari ve esnek taksit seçenekleri.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-29",
@@ -1667,7 +1753,10 @@
     "drive_pdf_id": "1Ic8xJB63gtZUV-ETeNhUtrPucJQQoxf2",
     "is_vertical": true,
     "orientation": "vertical",
-    "video_aspect_ratio": 0.5625
+    "video_aspect_ratio": 0.5625,
+    "description": "Geniş daire tipleri, ferah kat planları, peyzaj ve çocuk oyun alanları.",
+    "sales_highlights": "Geniş daire tipleri, ferah kat planları, peyzaj ve çocuk oyun alanları.",
+    "thumb_exists": true
   },
   {
     "id": "cbvip-prj-30",
@@ -1715,6 +1804,9 @@
     "drive_pdf_id": "1npKjchogxjvwCKX4FarmxXyA87fSMq9Y",
     "is_vertical": false,
     "orientation": "horizontal",
-    "video_aspect_ratio": 1.7778
+    "video_aspect_ratio": 1.7778,
+    "description": "Protokol yolu üzerinde, havalimanı ve üniversite aksı arasında yüksek primli.",
+    "sales_highlights": "Protokol yolu üzerinde, havalimanı ve üniversite aksı arasında yüksek primli.",
+    "thumb_exists": true
   }
 ]
