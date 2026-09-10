@@ -59,10 +59,10 @@
     }
   },
   "daily_diff": {
-    "demand": 5.6,
+    "demand": 0.0,
     "supply": 0.0,
     "price_pressure": 0.0,
     "investment_appetite": 0.0
   },
-  "last_updated": "2026-09-07T18:25:54.945418+00:00"
+  "last_updated": "2026-09-10T06:00:21.023351+00:00"
 }
