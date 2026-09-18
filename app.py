@@ -10485,6 +10485,7 @@ def _is_mobile_request() -> bool:
     return any(m in ua for m in ["mobile", "android", "iphone", "ipad", "ipod", "webos", "blackberry", "windows phone"])
 
 @app.route("/")
+@app.route("/site")
 def home():
     """Web sitesi — Hem masaüstü hem mobilde orijinal site.html servis edilir (mobil uygulama kabuğu & PWA dock ile)."""
     try:
@@ -14087,7 +14088,6 @@ def api_ai_save_to_crm():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
-@app.route("/site")
 @app.route("/sunum")
 def sunum_page():
     """Proje ve Lansman Sunum Portalı sayfası."""
