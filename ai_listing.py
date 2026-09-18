@@ -1582,13 +1582,20 @@ DOLDURMA KURALLARI:
                 district = _clean_str(data.get("district"))
 
                 # listing_type normalize
-                if listing_type and listing_type not in ("Satılık", "Kiralık"):
-                    if "kira" in listing_type.lower():
+                if not listing_type:
+                    t_norm = (listing_title or "").replace("İ", "i").replace("I", "ı").replace("Î", "i").lower()
+                    if any(w in t_norm for w in ["kiralık", "kiralik", "kira", "kiralama"]):
                         listing_type = "Kiralık"
-                    elif "satı" in listing_type.lower():
+                    elif any(w in t_norm for w in ["satılık", "satilik", "satış", "satis"]):
+                        listing_type = "Satılık"
+                elif listing_type not in ("Satılık", "Kiralık"):
+                    lt_norm = listing_type.replace("İ", "i").replace("I", "ı").replace("Î", "i").lower()
+                    if any(w in lt_norm for w in ["kiralık", "kiralik", "kira", "kiralama"]):
+                        listing_type = "Kiralık"
+                    elif any(w in lt_norm for w in ["satılık", "satilik", "satış", "satis"]):
                         listing_type = "Satılık"
                     else:
-                        listing_type = None
+                        listing_type = "Satılık"
 
                 # category normalize
                 valid_cats = ("fsbo", "portfolio", "client", "project")

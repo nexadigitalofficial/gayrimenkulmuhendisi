@@ -1834,12 +1834,15 @@
                         <div style="width:100%; height:200px; background-size:cover; background-position:center;" :style="{ backgroundImage: 'url(' + lst.img + ')' }"></div>
                         <div style="padding: 16px; flex: 1; display:flex; flex-direction:column;">
                             <div class="flex justify-between items-start mb-2">
-                                <span style="background:var(--gold); color:#000; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:bold;">{{lst.type}}</span>
+                                <span :style="lst.type === 'Kiralık' ? 'background:rgba(16,185,129,0.2); color:#10b981; border:1px solid rgba(16,185,129,0.4);' : 'background:var(--gold); color:#000;'" style="padding:2px 8px; border-radius:4px; font-size:10px; font-weight:bold;">{{lst.type}}</span>
                                 <span style="font-weight:bold; color:var(--text-primary);">{{lst.price}}</span>
                             </div>
                             <h3 style="font-size:14px; font-weight:600; margin-bottom:8px; line-height:1.4;">{{lst.title}}</h3>
                             <div style="font-size:12px; color:var(--text-tertiary); margin-bottom:12px;"><i class="fas fa-map-marker-alt"></i> {{lst.loc}}</div>
                             <div style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
+                                                                <button @click.stop="openPersonaIntelligenceModal(lst)" class="btn" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.4); padding:9px 14px; border-radius:10px; font-weight:700; font-size:12px; cursor:pointer; margin-bottom:2px;">
+                                    <i class="fas fa-bullseye text-sm"></i> 🎯 Kimler İçin Uygun? (AI Swarm)
+                                </button>
                                 <button @click.stop="openListingPortfoy(lst)" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color:#000000; font-weight:800; border:none; padding:11px 16px; border-radius:12px; box-shadow:0 6px 20px rgba(212,175,55,0.35); cursor:pointer; font-size:12px; letter-spacing:0.3px;">
                                     <i class="fas fa-chart-pie text-sm"></i> 📊 Operasyon &amp; İstatistik Dashboard
                                 </button>
@@ -7241,7 +7244,7 @@ ${comments}`;
                 topPerformingPlatform, loadListingDashboardData, saveListingPlatformStats, resetListingPlatformStatsToZero,
                 addListingBuyer, addListingTimelineNote, sendListingChat,
 
-                openPortfoyPanel, openListingPortfoy, openLeadPortfoy,
+                openPortfoyPanel, openListingPortfoy, openLeadPortfoy, openPersonaIntelligenceModal: (lst) => window.openPersonaIntelligenceModal && window.openPersonaIntelligenceModal(lst),
                 portfoyMedia, portfoyMediaUploading, portfoyMediaDragOver, portfoySelectedStage,
                 portfoyNotes, portfoyNoteText, portfoyReports,
                 portfoyReportLoading, portfoyReportProgress, portfoyReportResult, portfoyReportError,
@@ -7635,5 +7638,889 @@ ${comments}`;
     }
   }
 </script>
-</body>
-</html>
+
+<style>
+.nxc-persona-btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+    .nxc-persona-btn-satilik {
+      background: linear-gradient(135deg, rgba(212,175,55,0.16) 0%, rgba(184,148,31,0.28) 100%);
+      color: #fde047;
+      border: 1px solid rgba(212,175,55,0.45);
+      box-shadow: 0 4px 14px rgba(212,175,55,0.15);
+    }
+    .nxc-persona-btn-satilik:hover {
+      background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+      color: #070d18;
+      border-color: #d4af37;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(212,175,55,0.35);
+    }
+    .nxc-persona-btn-kiralik {
+      background: linear-gradient(135deg, rgba(16,185,129,0.16) 0%, rgba(5,150,105,0.28) 100%);
+      color: #34d399;
+      border: 1px solid rgba(16,185,129,0.45);
+      box-shadow: 0 4px 14px rgba(16,185,129,0.15);
+    }
+    .nxc-persona-btn-kiralik:hover {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border-color: #10b981;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(16,185,129,0.35);
+    }
+
+    #nxp-persona-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 100050;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #nxp-persona-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+    .nxp-persona-box {
+      max-width: 880px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 30px 80px -20px rgba(0,0,0,0.95);
+      scrollbar-width: thin;
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: 'Outfit', sans-serif;
+    }
+    #nxp-persona-overlay.open .nxp-persona-box {
+      transform: translateY(0) scale(1);
+    }
+
+    /* THEME: SATILIK (GOLD) */
+    .nxp-theme-gold {
+      background: #080d1a radial-gradient(ellipse at top, rgba(212,175,55,0.14) 0%, rgba(8,13,26,0) 65%);
+      border: 1px solid rgba(212,175,55,0.35);
+      box-shadow: 0 0 50px rgba(212,175,55,0.15), 0 30px 80px -20px rgba(0,0,0,0.95);
+    }
+    .nxp-theme-gold .nxp-p-radar-dot { background: #d4af37; box-shadow: 0 0 10px #d4af37; }
+    .nxp-theme-gold .nxp-p-badge-tx { background: rgba(212,175,55,0.95); color: #070d18; }
+    .nxp-theme-gold .nxp-p-price-val { color: #fde047; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
+    .nxp-theme-gold .nxp-p-verdict-box { border-left: 4px solid #d4af37; background: rgba(212,175,55,0.06); }
+    .nxp-theme-gold .nxp-p-verdict-header { color: #fde047; }
+    .nxp-theme-gold .nxp-p-score-badge { background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #070d18; }
+    .nxp-theme-gold .nxp-p-sec-title i { color: #d4af37; }
+
+    /* THEME: KIRALIK (EMERALD) */
+    .nxp-theme-emerald {
+      background: #061118 radial-gradient(ellipse at top, rgba(16,185,129,0.15) 0%, rgba(6,17,24,0) 65%);
+      border: 1px solid rgba(16,185,129,0.4);
+      box-shadow: 0 0 50px rgba(16,185,129,0.18), 0 30px 80px -20px rgba(0,0,0,0.95);
+    }
+    .nxp-theme-emerald .nxp-p-radar-dot { background: #10b981; box-shadow: 0 0 10px #10b981; }
+    .nxp-theme-emerald .nxp-p-badge-tx { background: rgba(16,185,129,0.95); color: #ffffff; }
+    .nxp-theme-emerald .nxp-p-price-val { color: #34d399; text-shadow: 0 0 20px rgba(16,185,129,0.4); }
+    .nxp-theme-emerald .nxp-p-verdict-box { border-left: 4px solid #10b981; background: rgba(16,185,129,0.06); }
+    .nxp-theme-emerald .nxp-p-verdict-header { color: #34d399; }
+    .nxp-theme-emerald .nxp-p-score-badge { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; }
+    .nxp-theme-emerald .nxp-p-sec-title i { color: #10b981; }
+
+    /* INNER MODAL COMPONENTS */
+    .nxp-p-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      background: rgba(8,13,26,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+    .nxp-p-swarm-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+    }
+    .nxp-p-radar-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+      animation: nxpRadarPulse 1.8s infinite;
+    }
+    @keyframes nxpRadarPulse {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      50% { transform: scale(1.45); opacity: 0.45; }
+      100% { transform: scale(0.95); opacity: 0.9; }
+    }
+    .nxp-p-close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .nxp-p-close-btn:hover {
+      background: rgba(255,255,255,0.18);
+      transform: scale(1.05);
+    }
+    .nxp-p-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .nxp-p-hero {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 16px;
+      border-radius: 16px;
+    }
+    .nxp-p-thumb-wrap {
+      width: 100px;
+      height: 80px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .nxp-p-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .nxp-p-hero-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .nxp-p-badges {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nxp-p-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .nxp-p-badge-subtle {
+      background: rgba(255,255,255,0.08);
+      color: #e2e8f0;
+    }
+    .nxp-p-badge-outline {
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #94a3b8;
+    }
+    .nxp-p-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nxp-p-loc-row {
+      font-size: 12px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nxp-p-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .nxp-p-price-val {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .nxp-p-verdict-box {
+      padding: 16px 20px;
+      border-radius: 12px;
+    }
+    .nxp-p-verdict-header {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .nxp-p-verdict-text {
+      font-size: 13.5px;
+      color: #e2e8f0;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .nxp-p-sec-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .nxp-p-personas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .nxp-p-persona-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .nxp-p-persona-card:hover {
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.18);
+    }
+    .nxp-p-persona-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nxp-p-p-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #ffffff;
+    }
+    .nxp-p-score-badge {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .nxp-p-p-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+    .nxp-p-p-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin: 0;
+      flex: 1;
+    }
+    .nxp-p-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .nxp-p-pillar-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .nxp-p-pillar-head {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nxp-p-pillar-body {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    .nxp-p-pill-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(255,255,255,0.07);
+    }
+    .nxp-p-pill-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .nxp-p-pill-lbl {
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .nxp-p-pill-desc {
+      color: #94a3b8;
+    }
+    .nxp-p-anti-tag {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #fca5a5;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nxp-p-usp-tag {
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      color: #6ee7b7;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nxp-p-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .nxp-p-advisor-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nxp-p-advisor-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #c9a84c;
+      color: #0c0c11;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+    .nxp-p-footer-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .nxp-p-btn-wa {
+      background: #25D366;
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+      transition: background 0.2s;
+    }
+    .nxp-p-btn-wa:hover {
+      background: #1ebc59;
+    }
+    .nxp-p-btn-close {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #cbd5e1;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nxp-p-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      gap: 14px;
+      color: #ffffff;
+      text-align: center;
+    }
+    .nxp-p-spinner {
+      width: 42px;
+      height: 42px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: #d4af37;
+      border-radius: 50%;
+      animation: nxpSpin 0.8s linear infinite;
+    }
+    .nxp-theme-emerald .nxp-p-spinner {
+      border-top-color: #10b981;
+    }
+
+    .nxp-persona-vip-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(16,185,129,0.15) 100%);
+      border: 1px solid rgba(212,175,55,0.4);
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.25s;
+    }
+    .nxp-persona-vip-btn:hover {
+      background: linear-gradient(135deg, rgba(212,175,55,0.3) 0%, rgba(16,185,129,0.3) 100%);
+      transform: translateY(-1px);
+    }
+    .nxp-persona-pulse-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 12px #10b981;
+      animation: nxpRadarPulse 1.5s infinite;
+    }
+
+    @media (max-width: 768px) {
+      .nxp-p-personas-grid { grid-template-columns: 1fr; }
+      .nxp-p-pillars-grid { grid-template-columns: 1fr; }
+      .nxp-p-hero { flex-direction: column; align-items: flex-start; }
+      .nxp-p-footer { flex-direction: column; align-items: stretch; }
+      .nxp-p-footer-actions { flex-direction: column; }
+    }
+</style>
+
+<!-- ══ NEXA AI SWARM PERSONA INTELLIGENCE MODAL ═══════════════════════════ -->
+  <div id="nxp-persona-overlay" role="dialog" aria-modal="true" aria-label="Kimler İçin Uygun - AI Swarm Raporu">
+    <div class="nxp-persona-box nxp-theme-gold" id="nxp-persona-box">
+      
+      <!-- Topbar -->
+      <div class="nxp-p-topbar">
+        <div class="nxp-p-swarm-tag">
+          <span class="nxp-p-radar-dot"></span>
+          <span id="nxp-p-swarm-engine-label">NEXA AI SWARM · KİMLER İÇİN UYGUN?</span>
+        </div>
+        <button class="nxp-p-close-btn" onclick="closePersonaModal()" aria-label="Kapat" type="button">✕</button>
+      </div>
+
+      <!-- Loader State -->
+      <div class="nxp-p-loader" id="nxp-p-loader" style="display:none;">
+        <div class="nxp-p-spinner"></div>
+        <div style="font-weight:700; font-size:15px; letter-spacing:0.5px;">NEXA AI Swarm Ordusu Analiz Ediyor…</div>
+        <div style="font-size:12px; color:#94a3b8; max-width:400px;">Demografik Ajan, Finansal Getiri Ajanı, Lokasyon Ajanı ve Dürüst Denetçi verileri sentezliyor.</div>
+      </div>
+
+      <!-- Modal Body Content -->
+      <div class="nxp-p-content" id="nxp-p-content">
+        
+        <!-- Hero Listing Meta -->
+        <div class="nxp-p-hero">
+          <div class="nxp-p-thumb-wrap">
+            <img id="nxp-p-hero-img" src="" alt="Portföy Görseli" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80'">
+          </div>
+          <div class="nxp-p-hero-meta">
+            <div class="nxp-p-badges">
+              <span class="nxp-p-badge nxp-p-badge-tx" id="nxp-p-badge-tx">SATILIK</span>
+              <span class="nxp-p-badge nxp-p-badge-subtle" id="nxp-p-badge-rooms">4+1</span>
+              <span class="nxp-p-badge nxp-p-badge-subtle" id="nxp-p-badge-area">220 m²</span>
+              <span class="nxp-p-badge nxp-p-badge-outline" id="nxp-p-badge-type">Konut</span>
+            </div>
+            <h2 class="nxp-p-title" id="nxp-p-title">Portföy Başlığı</h2>
+            <div class="nxp-p-loc-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span id="nxp-p-loc">Çankaya, Ankara</span>
+            </div>
+            <div class="nxp-p-price-row">
+              <span style="font-size:11px; text-transform:uppercase; color:#94a3b8; letter-spacing:0.5px;">Portföy Değeri:</span>
+              <span class="nxp-p-price-val" id="nxp-p-price">12.500.000 ₺</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Swarm Executive Verdict Glass Box -->
+        <div class="nxp-p-verdict-box" id="nxp-p-verdict-box">
+          <div class="nxp-p-verdict-header">
+            <i class="fas fa-brain"></i>
+            <span>AI Swarm Konsensus &amp; Stratejik Değerlendirme</span>
+          </div>
+          <p class="nxp-p-verdict-text" id="nxp-p-verdict-text">
+            Yükleniyor...
+          </p>
+        </div>
+
+        <!-- Top 3 Personas Section -->
+        <div>
+          <div class="nxp-p-sec-title">
+            <i class="fas fa-bullseye"></i>
+            <span>Öncelikli Hedef Kitle &amp; Eşleşme Skorları</span>
+          </div>
+          <div class="nxp-p-personas-grid" id="nxp-p-personas-grid">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+
+        <!-- 4 Pillars Swarm Intelligence Matrix -->
+        <div>
+          <div class="nxp-p-sec-title">
+            <i class="fas fa-network-wired"></i>
+            <span>4 Ajanlı Swarm Analiz Matrisi</span>
+          </div>
+          <div class="nxp-p-pillars-grid">
+            
+            <!-- Pillar 1: Demographic Scout -->
+            <div class="nxp-p-pillar-card">
+              <div class="nxp-p-pillar-head">
+                <i class="fas fa-users" style="color:#60a5fa;"></i>
+                <span>Demografik &amp; Yaşam Ölçeği</span>
+              </div>
+              <div class="nxp-p-pillar-body" id="nxp-p-pillar-demo">
+                <!-- Injected -->
+              </div>
+            </div>
+
+            <!-- Pillar 2: Financial Yield -->
+            <div class="nxp-p-pillar-card">
+              <div class="nxp-p-pillar-head">
+                <i class="fas fa-chart-line" style="color:#34d399;"></i>
+                <span>Finansal Getiri &amp; Maliyet Dinamiği</span>
+              </div>
+              <div class="nxp-p-pillar-body" id="nxp-p-pillar-finance">
+                <!-- Injected -->
+              </div>
+            </div>
+
+            <!-- Pillar 3: Location Dynamics -->
+            <div class="nxp-p-pillar-card">
+              <div class="nxp-p-pillar-head">
+                <i class="fas fa-compass" style="color:#f59e0b;"></i>
+                <span>Lokasyon &amp; Mikro-Pazar Avantajı</span>
+              </div>
+              <div class="nxp-p-pillar-body" id="nxp-p-pillar-loc">
+                <!-- Injected -->
+              </div>
+            </div>
+
+            <!-- Pillar 4: Honest Advisory Auditor -->
+            <div class="nxp-p-pillar-card">
+              <div class="nxp-p-pillar-head">
+                <i class="fas fa-shield-alt" style="color:#f87171;"></i>
+                <span>Dürüst Filtre &amp; Anti-Persona Uyarısı</span>
+              </div>
+              <div class="nxp-p-pillar-body" id="nxp-p-pillar-auditor">
+                <!-- Injected -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Footer CTA & Dispatch -->
+        <div class="nxp-p-footer">
+          <div class="nxp-p-advisor-info">
+            <div class="nxp-p-advisor-avatar">YN</div>
+            <div>
+              <div style="font-size:13px; font-weight:700; color:#ffffff;">Yiğit Narin</div>
+              <div style="font-size:11px; color:#94a3b8;">Coldwell Banker VIP Gayrimenkul Mühendisi</div>
+            </div>
+          </div>
+          <div class="nxp-p-footer-actions">
+            <a class="nxp-p-btn-wa" id="nxp-p-wa-btn" href="#" target="_blank" rel="noopener">
+              <i class="fab fa-whatsapp" style="font-size:16px;"></i>
+              <span>Bu Portföyü Danışmanla Değerlendir</span>
+            </a>
+            <button class="nxp-p-btn-close" onclick="closePersonaModal()" type="button">Kapat</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+<script>
+// ── NEXA Persona Intelligence Swarm Controller ────────────────────────
+  (function () {
+    'use strict';
+
+    function renderPersonaIntelligence(data) {
+      if (!data) return;
+      if (data.data) data = data.data;
+      if (data.ok === false) return;
+      try {
+
+      // 1. Executive Verdict
+      var verdictEl = document.getElementById('nxp-p-verdict-text');
+      if (verdictEl) verdictEl.textContent = data.executive_summary || '';
+
+      // 2. Top 3 Personas
+      var personasGrid = document.getElementById('nxp-p-personas-grid');
+      if (personasGrid && Array.isArray(data.top_personas)) {
+        personasGrid.innerHTML = data.top_personas.map(function(p) {
+          return '<div class="nxp-p-persona-card">' +
+            '<div class="nxp-p-persona-card-header">' +
+              '<div class="nxp-p-p-icon"><i class="fas ' + (p.icon || 'fa-user-check') + '"></i></div>' +
+              '<div class="nxp-p-score-badge">%' + p.score + ' Uyum</div>' +
+            '</div>' +
+            '<div class="nxp-p-p-title">' + (p.title || '') + '</div>' +
+            '<p class="nxp-p-p-desc">' + (p.suitability || '') + '</p>' +
+          '</div>';
+        }).join('');
+      }
+
+      // 3. Pillar 1: Demographic Scout
+      var pDemo = document.getElementById('nxp-p-pillar-demo');
+      if (pDemo) {
+        pDemo.innerHTML =
+          '<div class="nxp-p-pill-item"><span class="nxp-p-pill-lbl">Hedef Kategori:</span><span class="nxp-p-pill-desc">' + (data.primary_category || '—') + '</span></div>' +
+          '<div class="nxp-p-pill-item"><span class="nxp-p-pill-lbl">Yaşam Ölçeği:</span><span class="nxp-p-pill-desc">' + (data.ideal_scale || '—') + '</span></div>' +
+          '<div class="nxp-p-pill-item"><span class="nxp-p-pill-lbl">Kapasite Notu:</span><span class="nxp-p-pill-desc">' + (data.capacity_detail || '—') + '</span></div>';
+      }
+
+      // 4. Pillar 2: Financial Yield
+      var pFin = document.getElementById('nxp-p-pillar-finance');
+      if (pFin && data.financial_analysis) {
+        var metricsHtml = (data.financial_analysis.financial_metrics || []).map(function(m) {
+          return '<div class="nxp-p-pill-item"><span class="nxp-p-pill-lbl">' + m.label + ': ' + m.value + '</span><span class="nxp-p-pill-desc">' + m.desc + '</span></div>';
+        }).join('');
+        var verdictHtml = '<div style="margin-top:6px; font-size:11px; color:#cbd5e1; font-style:italic;">💡 ' + (data.financial_analysis.investor_verdict || '') + '</div>';
+        pFin.innerHTML = metricsHtml + verdictHtml;
+      }
+
+      // 5. Pillar 3: Location Dynamics
+      var pLoc = document.getElementById('nxp-p-pillar-loc');
+      if (pLoc && data.location_analysis) {
+        var badgeHtml = '<div style="margin-bottom:8px;"><span class="nxp-p-badge nxp-p-badge-subtle" style="color:#fde047; font-size:11px;">📍 ' + (data.location_analysis.region_badge || data.location_analysis.district) + '</span></div>';
+        var microHtml = (data.location_analysis.micro_features || []).map(function(f) {
+          return '<div class="nxp-p-pill-item"><span class="nxp-p-pill-lbl">• ' + f.title + ':</span><span class="nxp-p-pill-desc">' + f.desc + '</span></div>';
+        }).join('');
+        pLoc.innerHTML = badgeHtml + microHtml;
+      }
+
+      // 6. Pillar 4: Honest Advisory Auditor
+      var pAud = document.getElementById('nxp-p-pillar-auditor');
+      if (pAud && data.auditor_analysis) {
+        var uspTags = (data.auditor_analysis.key_usps || []).map(function(u) {
+          return '<div class="nxp-p-usp-tag"><i class="fas fa-check-circle"></i> <span>' + u + '</span></div>';
+        }).join('');
+        var antiTags = (data.auditor_analysis.anti_personas || []).map(function(a) {
+          return '<div class="nxp-p-anti-tag"><i class="fas fa-exclamation-triangle"></i> <span>Uygun Değil: ' + a + '</span></div>';
+        }).join('');
+        var noteHtml = '<div style="margin-top:8px; font-size:10.5px; color:#94a3b8; font-style:italic;">' + (data.auditor_analysis.advisory_honesty_note || '') + '</div>';
+        pAud.innerHTML = uspTags + antiTags + noteHtml;
+      }
+
+      // 7. WhatsApp CTA Message
+      var waBtn = document.getElementById('nxp-p-wa-btn');
+      if (waBtn) {
+        var pTitle = (data.listing_ref && data.listing_ref.title) ? data.listing_ref.title : '';
+        var waMsg = 'Merhaba Yiğit Bey, Coldwell Banker "' + pTitle + '" portföyünüzün NEXA AI Swarm "Kimler İçin Uygun" analizini inceledim. Detaylı görüşmek ve randevu planlamak istiyorum.';
+        waBtn.href = 'https://wa.me/905324514008?text=' + encodeURIComponent(waMsg);
+      }
+      } catch(err) {
+        console.error('[renderPersonaIntelligence] Caught internal error:', err);
+      }
+    }
+
+    window.openPersonaIntelligenceModal = function(trigger) {
+      var overlay = document.getElementById('nxp-persona-overlay');
+      var box = document.getElementById('nxp-persona-box');
+      var loader = document.getElementById('nxp-p-loader');
+      var content = document.getElementById('nxp-p-content');
+      if (!overlay || !box) return;
+
+      var title = '', price = '', loc = '', type = 'Satılık', rooms = '', area = '', prop = 'Konut', url = '', img = '';
+
+      if (trigger && trigger.dataset) {
+        title = trigger.dataset.title || '';
+        price = trigger.dataset.price || '';
+        loc = trigger.dataset.loc || '';
+        type = trigger.dataset.type || '';
+        rooms = trigger.dataset.rooms || '';
+        area = trigger.dataset.area || '';
+        prop = trigger.dataset.prop || '';
+        url = trigger.dataset.url || '';
+        img = trigger.dataset.img || '';
+      } else if (trigger && typeof trigger === 'object') {
+        title = trigger.title || '';
+        price = trigger.price || '';
+        loc = trigger.location || trigger.loc || '';
+        type = trigger.status || trigger.type || 'Satılık';
+        rooms = trigger.rooms || '';
+        area = trigger.sqm || trigger.area || '';
+        prop = trigger.type || trigger.property_type || 'Konut';
+        url = trigger.url || trigger.link || '';
+        img = (trigger.images && trigger.images[0]) || trigger.img || trigger.image || '';
+      }
+
+      // Determine Satılık vs Kiralık
+      var isRental = (type && (type.toLowerCase().includes('kira') || type.toLowerCase().includes('kiralık'))) ||
+                     (title && (title.toLowerCase().includes('kiralık') || title.toLowerCase().includes('kiralik')));
+
+      // Reset & Apply Theme
+      box.classList.remove('nxp-theme-gold', 'nxp-theme-emerald');
+      if (isRental) {
+        box.classList.add('nxp-theme-emerald');
+      } else {
+        box.classList.add('nxp-theme-gold');
+      }
+
+      // Set initial skeleton info
+      var heroImg = document.getElementById('nxp-p-hero-img');
+      if (heroImg) heroImg.src = img || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80';
+      var badgeTx = document.getElementById('nxp-p-badge-tx');
+      if (badgeTx) badgeTx.textContent = isRental ? 'KİRALIK' : 'SATILIK';
+      var badgeRooms = document.getElementById('nxp-p-badge-rooms');
+      if (badgeRooms) badgeRooms.textContent = rooms || '—';
+      var badgeArea = document.getElementById('nxp-p-badge-area');
+      if (badgeArea) badgeArea.textContent = area ? (area.includes('m') ? area : area + ' m²') : '—';
+      var badgeType = document.getElementById('nxp-p-badge-type');
+      if (badgeType) badgeType.textContent = prop || 'Konut';
+      var titleEl = document.getElementById('nxp-p-title');
+      if (titleEl) titleEl.textContent = title || 'Coldwell Banker Portföyü';
+      var locEl = document.getElementById('nxp-p-loc');
+      if (locEl) locEl.textContent = loc || 'Ankara';
+      var priceEl = document.getElementById('nxp-p-price');
+      if (priceEl) priceEl.textContent = price || 'Fiyat sorunuz';
+
+      // Open Modal
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      box.scrollTop = 0;
+
+      // Show loader
+      if (loader) loader.style.display = 'flex';
+      if (content) content.style.display = 'none';
+
+      var apiUrl = '/api/portfolio/persona-intelligence?url=' + encodeURIComponent(url) +
+                   '&title=' + encodeURIComponent(title) +
+                   '&type=' + encodeURIComponent(isRental ? 'Kiralık' : 'Satılık') +
+                   '&price=' + encodeURIComponent(price) +
+                   '&loc=' + encodeURIComponent(loc) +
+                   '&rooms=' + encodeURIComponent(rooms) +
+                   '&area=' + encodeURIComponent(area) +
+                   '&property_type=' + encodeURIComponent(prop) +
+                   '&img=' + encodeURIComponent(img);
+
+      fetch(apiUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (loader) loader.style.display = 'none';
+          if (content) content.style.display = 'flex';
+          var intel = (res && res.data) ? res.data : res;
+          renderPersonaIntelligence(intel);
+        })
+        .catch(function(err) {
+          if (loader) loader.style.display = 'none';
+          if (content) content.style.display = 'flex';
+          console.error('[PersonaIntelligence] Fetch error:', err);
+        });
+    };
+
+    window.closePersonaModal = function() {
+      var overlay = document.getElementById('nxp-persona-overlay');
+      if (overlay) overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+
+    window.openPersonaFromPreview = function() {
+      if (window._currentPreviewData) {
+        window.openPersonaIntelligenceModal(window._currentPreviewData);
+      } else {
+        var title = document.getElementById('nxp-m-title') ? document.getElementById('nxp-m-title').textContent : '';
+        var price = document.getElementById('nxp-m-price') ? document.getElementById('nxp-m-price').textContent : '';
+        var loc = document.getElementById('nxp-m-loc-text') ? document.getElementById('nxp-m-loc-text').textContent : '';
+        var tag = document.getElementById('nxp-m-tag') ? document.getElementById('nxp-m-tag').textContent : '';
+        window.openPersonaIntelligenceModal({
+          title: title,
+          price: price,
+          location: loc,
+          status: tag.includes('Kiralık') ? 'Kiralık' : 'Satılık'
+        });
+      }
+    };
+
+    var overlay = document.getElementById('nxp-persona-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) window.closePersonaModal();
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var ov = document.getElementById('nxp-persona-overlay');
+        if (ov && ov.classList.contains('open')) window.closePersonaModal();
+      }
+    });
+  })();
+

@@ -9068,13 +9068,20 @@ DOLDURMA KURALLARI:
                 district = _clean_str(data.get("district"))
 
                 # listing_type normalize
-                if listing_type and listing_type not in ("Satılık", "Kiralık"):
-                    if "kira" in listing_type.lower():
+                if not listing_type:
+                    t_norm = (listing_title or "").replace("İ", "i").replace("I", "ı").replace("Î", "i").lower()
+                    if any(w in t_norm for w in ["kiralık", "kiralik", "kira", "kiralama"]):
                         listing_type = "Kiralık"
-                    elif "satı" in listing_type.lower():
+                    elif any(w in t_norm for w in ["satılık", "satilik", "satış", "satis"]):
+                        listing_type = "Satılık"
+                elif listing_type not in ("Satılık", "Kiralık"):
+                    lt_norm = listing_type.replace("İ", "i").replace("I", "ı").replace("Î", "i").lower()
+                    if any(w in lt_norm for w in ["kiralık", "kiralik", "kira", "kiralama"]):
+                        listing_type = "Kiralık"
+                    elif any(w in lt_norm for w in ["satılık", "satilik", "satış", "satis"]):
                         listing_type = "Satılık"
                     else:
-                        listing_type = None
+                        listing_type = "Satılık"
 
                 # category normalize
                 valid_cats = ("fsbo", "portfolio", "client", "project")
@@ -11213,6 +11220,66 @@ HEADERS = {
 def clean_text(element) -> str:
     return element.get_text(strip=True) if element else ""
 
+def detect_listing_transaction_type(link: str = "", title: str = "", card_soup=None, default: str = "Satılık") -> str:
+    """
+    İlanın Satılık veya Kiralık olduğunu 100% doğrulukla tespit eder.
+    1. URL içindeki -kiralik/ veya /kiralik belirteçleri (cb.com.tr'de kesin belirteç)
+    2. Türkçe karakter normalize edilmiş başlık (İ -> i, I -> ı)
+    3. Kart / HTML içerisindeki rozet ve metinler
+    4. Fiyat içindeki /ay veya aylık ibareleri
+    """
+    link_l = (link or "").lower()
+    if "/kiralik" in link_l or "-kiralik" in link_l or "kiralik" in link_l:
+        return "Kiralık"
+    if "/satilik" in link_l or "-satilik" in link_l or "satilik" in link_l:
+        return "Satılık"
+
+    t_norm = (title or "").replace("İ", "i").replace("I", "ı").replace("Î", "i").lower()
+    if any(w in t_norm for w in ["kiralık", "kiralik", "kira", "kiralama", "devren kiralık", "devren kira"]):
+        return "Kiralık"
+    if any(w in t_norm for w in ["satılık", "satilik", "satış", "satis", "devren satılık"]):
+        return "Satılık"
+
+    if card_soup:
+        c_text = " ".join(card_soup.stripped_strings).replace("İ", "i").replace("I", "ı").lower()
+        if any(w in c_text for w in ["kiralık", "kiralik", "kiralama"]):
+            return "Kiralık"
+        if any(w in c_text for w in ["satılık", "satilik"]):
+            return "Satılık"
+
+    return default
+
+def detect_listing_property_type(link: str = "", title: str = "", card_soup=None) -> str:
+    """
+    İlanın gayrimenkul türünü tespit eder (Ofis, Daire, Villa, Tarla/Arsa vb.).
+    """
+    link_l = (link or "").lower().rstrip("/")
+    parts = [p for p in link_l.split("/") if p]
+    slug = parts[-2] if len(parts) >= 2 else ""
+
+    mapping = {
+        "ofis": "Ofis",
+        "daire": "Daire",
+        "villa": "Villa",
+        "tarla": "Arsa / Tarla",
+        "arsa": "Arsa",
+        "komple-site": "Rezidans / Daire",
+        "koy": "Köy Evi / Arsa",
+        "dukkan": "Dükkan / Mağaza",
+        "isyeri": "İş Yeri",
+        "bina": "Bina",
+        "rezidans": "Rezidans",
+    }
+    if slug in mapping:
+        return mapping[slug]
+
+    t_norm = (title or "").replace("İ", "i").replace("I", "ı").lower()
+    for k, v in mapping.items():
+        if k in t_norm:
+            return v
+
+    return "Konut"
+
 def fetch_real_estate_data() -> list:
     print(f"📡 İstek gönderiliyor: {TARGET_URL}")
     try:
@@ -11274,11 +11341,22 @@ def fetch_real_estate_data() -> list:
                 else:
                     lat, lng = get_listing_coords(title, loc)
 
+                tx_type = detect_listing_transaction_type(link, title, card)
+                prop_type = detect_listing_property_type(link, title, card)
+
+                formatted_price = price
+                if tx_type == "Kiralık" and price and "/ay" not in price and "ay" not in price.lower():
+                    formatted_price = f"{price} / ay"
+
                 listings.append({
                     "id": hashlib.md5(link.encode("utf-8")).hexdigest()[:12],
-                    "title": title, "price": price, "loc": loc,
+                    "title": title, "price": formatted_price, "raw_price": price, "loc": loc,
                     "img": img_url, "link": link, "rooms": rooms, "area": area,
-                    "type": "Kiralık" if "Kiralık" in title else "Satılık",
+                    "type": tx_type,
+                    "status": tx_type,
+                    "transaction_type": tx_type,
+                    "property_type": prop_type,
+                    "category": prop_type,
                     "lat": lat, "lng": lng,
                 })
             except Exception as e:
@@ -12026,12 +12104,63 @@ def delete_blog_post(post_id):
 _listings_cache = {"data": [], "ts": 0}
 _listings_lock = threading.Lock()
 
+# ── Portföy AI Persona Swarm İstihbarat Önbelleği ─────────────────────────────
+_PORTFOLIO_PERSONA_FILE = BASE_DIR / "static" / "data" / "portfolio_persona_intelligence.json"
+_persona_intel_lock = threading.RLock()
+
+def _load_portfolio_persona_intel() -> dict:
+    with _persona_intel_lock:
+        if _PORTFOLIO_PERSONA_FILE.exists():
+            try:
+                with open(_PORTFOLIO_PERSONA_FILE, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        return {}
+
+def _save_portfolio_persona_intel(data: dict):
+    with _persona_intel_lock:
+        try:
+            _PORTFOLIO_PERSONA_FILE.parent.mkdir(parents=True, exist_ok=True)
+            temp_fd, temp_path = tempfile.mkstemp(dir=str(_PORTFOLIO_PERSONA_FILE.parent), prefix="persona_", suffix=".tmp")
+            with open(temp_fd, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            os.replace(temp_path, str(_PORTFOLIO_PERSONA_FILE))
+        except Exception as e:
+            print(f"⚠️ Persona intel save hatası: {e}")
+
 def _refresh_listings_bg():
     def _run():
         data = fetch_real_estate_data()
-        with _listings_lock:
-            _listings_cache["data"] = data
-            _listings_cache["ts"]   = time.time()
+        if data:
+            with _listings_lock:
+                _listings_cache["data"] = data
+                _listings_cache["ts"]   = time.time()
+            try:
+                cache_file = BASE_DIR / "static" / "data" / "cached_cb_listings.json"
+                cache_file.parent.mkdir(parents=True, exist_ok=True)
+                with open(cache_file, "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+            except Exception as e:
+                print(f"⚠️ Listings disk cache hatası: {e}")
+
+            # 🤖 Otomatik AI Persona Swarm Analizini Çalıştır
+            try:
+                from intelligence.swarm.persona_swarm import PersonaSwarmSynthesizer
+                synthesizer = PersonaSwarmSynthesizer()
+                existing_intel = _load_portfolio_persona_intel()
+                updated = False
+                for item in data:
+                    key = item.get("link") or item.get("url") or item.get("title")
+                    if key and key not in existing_intel:
+                        intel = synthesizer.generate_intelligence(item)
+                        existing_intel[key] = intel
+                        updated = True
+                if updated:
+                    _save_portfolio_persona_intel(existing_intel)
+                    print(f"🤖 AI Persona Swarm: {len(existing_intel)} portföy analiz edildi ve önbelleğe alındı.")
+            except Exception as e:
+                print(f"⚠️ AI Persona Swarm otomatik analiz hatası: {e}")
     threading.Thread(target=_run, daemon=True).start()
 
 @app.route("/api/listings", methods=["GET"])
@@ -12039,6 +12168,17 @@ def get_listings():
     now = time.time()
     if now - _listings_cache["ts"] < 300 and _listings_cache["data"]:
         return jsonify({"success": True, "data": _listings_cache["data"]})
+    if not _listings_cache["data"]:
+        try:
+            cache_file = BASE_DIR / "static" / "data" / "cached_cb_listings.json"
+            if cache_file.exists():
+                with open(cache_file, "r", encoding="utf-8") as f:
+                    disk_data = json.load(f)
+                if disk_data:
+                    with _listings_lock:
+                        _listings_cache["data"] = disk_data
+        except Exception:
+            pass
     _refresh_listings_bg()
     return jsonify({"success": True, "data": _listings_cache["data"]})
 
@@ -12101,13 +12241,8 @@ def listing_preview():
             location = " / ".join(clean_text(e) for e in [r_el, s_el] if e and clean_text(e))
 
         # ── İlan tipi / durumu ──────────────────────────────────────────────
-        url_l = cb_url.lower()
-        status = "Kiralık" if "kiralik" in url_l else "Satılık"
-        path_parts = cb_url.rstrip("/").split("/")
-        prop_type = path_parts[-2].replace("-", " ").title() if len(path_parts) >= 2 else "—"
-        badge = soup.select_one(".price-box .badge")
-        if badge:
-            status = clean_text(badge)
+        status = detect_listing_transaction_type(cb_url, title, soup)
+        prop_type = detect_listing_property_type(cb_url, title, soup)
 
         # ── Görseller — a.py scrape_detail() mantığı ────────────────────────
         images = []
@@ -12115,7 +12250,7 @@ def listing_preview():
 
         def _add_img(src):
             src = src.strip()
-            if not src or "placeholder" in src or "icon" in src.lower():
+            if not src or "placeholder" in src or "icon" in src.lower() or "defaultstock" in src.lower():
                 return
             if src.startswith("/"):
                 src = BASE + src
@@ -12123,11 +12258,10 @@ def listing_preview():
             # CB formatı: _410X261.jpg → _1000X664.jpg
             import re as _rx
             src_hires = _rx.sub(r'_\d+X\d+(\.[a-z]+)$', r'_1000X664\1', src, flags=_rx.IGNORECASE)
-            # Görsel zaten listede mi? Dosya adını karşılaştır
-            fname = src_hires.split("/")[-1].split("_")[0]
-            if fname in seen_srcs:
+            norm_key = src_hires.split("?")[0].lower()
+            if norm_key in seen_srcs:
                 return
-            seen_srcs.add(fname)
+            seen_srcs.add(norm_key)
             images.append(src_hires)
 
         # 1) Bilinen slider seçicileri (öncelik sırasıyla)
@@ -12252,9 +12386,9 @@ def listing_preview():
 
         # ── Danışman ────────────────────────────────────────────────────────
         agent = {
-            "name":   "Erdoğan Işık",
-            "img":    "https://media.cb.com.tr/OfficeUserImages/3830/ERDOgAN-IsIK_HTKB8N5P81_75X75.jpg",
-            "office": "CB Çizgi",
+            "name":   "Yiğit Narin",
+            "img":    "https://media.cb.com.tr/OfficeUserImages/470/YIGIT-NARIN.jpg",
+            "office": "CB VIP",
         }
 
         a_link = soup.select_one("a[href*='/danismanlar/']")
@@ -12295,6 +12429,71 @@ def listing_preview():
 
     except Exception as e:
         print(f"❌ listing/preview hatası: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+# ── Portföy AI Persona Swarm İstihbarat Endpoint'i ───────────────────────────
+@app.route("/api/portfolio/persona-intelligence", methods=["GET", "POST"])
+def api_portfolio_persona_intelligence():
+    """
+    Seçilen portföy için 'Kimler İçin Uygun?' AI Swarm analizini döner.
+    Query: ?url=... veya ?title=...
+    POST: { "listing": {...} }
+    """
+    try:
+        from intelligence.swarm.persona_swarm import PersonaSwarmSynthesizer
+        synthesizer = PersonaSwarmSynthesizer()
+
+        url_param = flask_request.args.get("url", "").strip()
+        title_param = flask_request.args.get("title", "").strip()
+        payload = flask_request.get_json(silent=True) or {}
+        listing_input = payload.get("listing") or {}
+
+        existing_intel = _load_portfolio_persona_intel()
+
+        # Önbellekte var mı?
+        target_key = url_param or title_param or listing_input.get("link") or listing_input.get("url") or listing_input.get("title")
+        if target_key and target_key in existing_intel:
+            return jsonify({"ok": True, "data": existing_intel[target_key], "cached": True})
+
+        # Listeden ilanı tespit et
+        found_listing = None
+        if not listing_input:
+            listings = _listings_cache["data"]
+            if not listings:
+                try:
+                    cache_file = BASE_DIR / "static" / "data" / "cached_cb_listings.json"
+                    if cache_file.exists():
+                        with open(cache_file, "r", encoding="utf-8") as f:
+                            listings = json.load(f)
+                except Exception:
+                    listings = []
+            for item in listings:
+                i_link = item.get("link") or item.get("url") or ""
+                i_title = item.get("title") or ""
+                if (url_param and (i_link == url_param or url_param in i_link)) or \
+                   (title_param and (title_param.lower() in i_title.lower() or i_title.lower() in title_param.lower())):
+                    found_listing = item
+                    break
+
+        target_listing = listing_input or found_listing or {
+            "title": title_param or "Portföy Analizi",
+            "url": url_param,
+            "type": "Satılık",
+            "price": "Fiyat Sorunuz",
+            "loc": "Ankara"
+        }
+
+        intel = synthesizer.generate_intelligence(target_listing)
+
+        # Önbelleğe kaydet
+        if target_key:
+            existing_intel[target_key] = intel
+            _save_portfolio_persona_intel(existing_intel)
+
+        return jsonify({"ok": True, "data": intel, "cached": False})
+
+    except Exception as e:
+        print(f"❌ api_portfolio_persona_intelligence hatası: {e}")
         return jsonify({"ok": False, "error": str(e)}), 500
 
 # ================================================================

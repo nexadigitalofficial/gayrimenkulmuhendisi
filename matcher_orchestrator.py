@@ -176,7 +176,12 @@ class MatcherOrchestrator:
                     property_type=listing.get('type', None),
                     district=listing.get('district', None),
                     features=[],  # Not available in scraper
-                    transaction_type='satılık',  # CB.com.tr only has satılık
+                    transaction_type=(
+                        'kiralık' if any(
+                            w in f"{listing.get('transaction_type', '')} {listing.get('type', '')} {listing.get('status', '')} {listing.get('title', '')} {listing.get('url', '')}".replace('İ', 'i').replace('I', 'ı').lower()
+                            for w in ['kiralık', 'kiralik', 'kira', 'rent']
+                        ) else 'satılık'
+                    ),
                     confidence=0.9,  # High confidence (structured data)
                     source='cb_scraper',
                 )

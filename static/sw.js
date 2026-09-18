@@ -1,5 +1,5 @@
 // NEXA OS Native App Service Worker
-const CACHE_NAME = 'nexa-native-v1';
+const CACHE_NAME = 'nexa-native-v2';
 const ASSETS = [
   '/',
   '/manifest.json',

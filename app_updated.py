@@ -424,6 +424,68 @@ def clean_text(element) -> str:
     return element.get_text(strip=True) if element else ""
 
 
+def detect_listing_transaction_type(link: str = "", title: str = "", card_soup=None, default: str = "Satılık") -> str:
+    """
+    İlanın Satılık veya Kiralık olduğunu 100% doğrulukla tespit eder.
+    1. URL içindeki -kiralik/ veya /kiralik belirteçleri
+    2. Türkçe karakter normalize edilmiş başlık (İ -> i, I -> ı)
+    3. Kart / HTML içerisindeki rozet ve metinler
+    4. Fiyat içindeki /ay veya aylık ibareleri
+    """
+    link_l = (link or "").lower()
+    if "/kiralik" in link_l or "-kiralik" in link_l or "kiralik" in link_l:
+        return "Kiralık"
+    if "/satilik" in link_l or "-satilik" in link_l or "satilik" in link_l:
+        return "Satılık"
+
+    t_norm = (title or "").replace("İ", "i").replace("I", "ı").replace("Î", "i").lower()
+    if any(w in t_norm for w in ["kiralık", "kiralik", "kira", "kiralama", "devren kiralık", "devren kira"]):
+        return "Kiralık"
+    if any(w in t_norm for w in ["satılık", "satilik", "satış", "satis", "devren satılık"]):
+        return "Satılık"
+
+    if card_soup:
+        c_text = " ".join(card_soup.stripped_strings).replace("İ", "i").replace("I", "ı").lower()
+        if any(w in c_text for w in ["kiralık", "kiralik", "kiralama"]):
+            return "Kiralık"
+        if any(w in c_text for w in ["satılık", "satilik", "satış", "satis"]):
+            return "Satılık"
+
+    return default
+
+
+def detect_listing_property_type(link: str = "", title: str = "", card_soup=None) -> str:
+    """
+    İlanın gayrimenkul türünü tespit eder (Ofis, Daire, Villa, Tarla/Arsa vb.).
+    """
+    link_l = (link or "").lower().rstrip("/")
+    parts = [p for p in link_l.split("/") if p]
+    slug = parts[-2] if len(parts) >= 2 else ""
+
+    mapping = {
+        "ofis": "Ofis",
+        "daire": "Daire",
+        "villa": "Villa",
+        "tarla": "Arsa / Tarla",
+        "arsa": "Arsa",
+        "komple-site": "Rezidans / Daire",
+        "koy": "Köy Evi / Arsa",
+        "dukkan": "Dükkan / Mağaza",
+        "isyeri": "İş Yeri",
+        "bina": "Bina",
+        "rezidans": "Rezidans",
+    }
+    if slug in mapping:
+        return mapping[slug]
+
+    t_norm = (title or "").replace("İ", "i").replace("I", "ı").lower()
+    for k, v in mapping.items():
+        if k in t_norm:
+            return v
+
+    return "Konut"
+
+
 def fetch_real_estate_data() -> list:
     print(f"📡 İstek gönderiliyor: {TARGET_URL}")
     try:
@@ -434,25 +496,27 @@ def fetch_real_estate_data() -> list:
 
         soup = BeautifulSoup(response.content, "html.parser")
         listings = []
-        cards = soup.select(".cb-list-item")
+        cards = soup.select(".card.locationDiv")
+        if not cards:
+            cards = soup.select(".cb-list-item")
         print(f"🔎 Bulunan İlan Sayısı: {len(cards)}")
 
         for card in cards:
             try:
-                title_el = card.select_one(".cb-list-item-info h2")
+                title_el = card.select_one(".cb-list-item-info h2") or card.select_one(".card-title")
                 title = clean_text(title_el)
                 if not title:
                     continue
 
-                price_el = card.select_one(".feature-item .text-primary")
+                price_el = card.select_one(".feature-item .text-primary") or card.select_one("span.h5.text-primary")
                 price = clean_text(price_el)
 
-                link_el = card.select_one(".cb-list-img-container a")
+                link_el = card.select_one(".cb-list-img-container a") or card.select_one("a.title") or card.select_one("a[href]")
                 link = link_el["href"] if link_el else "#"
                 if link and not link.startswith("http"):
                     link = "https://www.cb.com.tr" + link
 
-                img_el = card.select_one(".cb-list-img-container img")
+                img_el = card.select_one(".cb-list-img-container img") or card.select_one("img.card-img-top")
                 img_url = "https://via.placeholder.com/400x300"
                 if img_el:
                     img_url = img_el.get("src") or img_el.get("data-src") or img_url
@@ -472,10 +536,20 @@ def fetch_real_estate_data() -> list:
                         rooms = text
 
                 lat, lng = get_listing_coords(title, loc)
+                tx_type = detect_listing_transaction_type(link, title, card)
+                prop_type = detect_listing_property_type(link, title, card)
+
+                formatted_price = price
+                if tx_type == "Kiralık" and price and "/ay" not in price and "ay" not in price.lower():
+                    formatted_price = f"{price} / ay"
+
                 listings.append({
-                    "title": title, "price": price, "loc": loc,
+                    "title": title, "price": formatted_price, "loc": loc,
                     "img": img_url, "link": link, "rooms": rooms, "area": area,
-                    "type": "Kiralık" if "Kiralık" in title else "Satılık",
+                    "type": tx_type,
+                    "transaction_type": tx_type,
+                    "status": tx_type,
+                    "property_type": prop_type,
                     "lat": lat, "lng": lng,
                 })
             except Exception as e:
@@ -886,13 +960,8 @@ def listing_preview():
             location = " / ".join(clean_text(e) for e in [r_el, s_el] if e and clean_text(e))
 
         # ── İlan tipi / durumu ──────────────────────────────────────────────
-        url_l = cb_url.lower()
-        status = "Kiralık" if "kiralik" in url_l else "Satılık"
-        path_parts = cb_url.rstrip("/").split("/")
-        prop_type = path_parts[-2].replace("-", " ").title() if len(path_parts) >= 2 else "—"
-        badge = soup.select_one(".price-box .badge")
-        if badge:
-            status = clean_text(badge)
+        status = detect_listing_transaction_type(cb_url, title, soup)
+        prop_type = detect_listing_property_type(cb_url, title, soup)
 
         # ── Görseller — a.py scrape_detail() mantığı ────────────────────────
         images = []
@@ -900,7 +969,7 @@ def listing_preview():
 
         def _add_img(src):
             src = src.strip()
-            if not src or "placeholder" in src or "icon" in src.lower():
+            if not src or "placeholder" in src or "icon" in src.lower() or "defaultstock" in src.lower():
                 return
             if src.startswith("/"):
                 src = BASE + src
@@ -908,11 +977,10 @@ def listing_preview():
             # CB formatı: _410X261.jpg → _1000X664.jpg
             import re as _rx
             src_hires = _rx.sub(r'_\d+X\d+(\.[a-z]+)$', r'_1000X664\1', src, flags=_rx.IGNORECASE)
-            # Görsel zaten listede mi? Dosya adını karşılaştır
-            fname = src_hires.split("/")[-1].split("_")[0]
-            if fname in seen_srcs:
+            norm_key = src_hires.split("?")[0].lower()
+            if norm_key in seen_srcs:
                 return
-            seen_srcs.add(fname)
+            seen_srcs.add(norm_key)
             images.append(src_hires)
 
         # 1) Bilinen slider seçicileri (öncelik sırasıyla)

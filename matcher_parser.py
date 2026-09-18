@@ -686,7 +686,12 @@ def parse_scraper_json(json_data: Dict) -> List[PortfoyRecord]:
             portfoy_id=f"scraper_{listing.get('id', 'unknown')}",
             title=listing.get('title', ''),
             property_type=_parse_property_type(listing.get('type', '')),
-            transaction_type=TransactionType.SATILIK,  # Scraper'dan gelen her zaman satılık
+            transaction_type=(
+                TransactionType.KIRALIK if any(
+                    w in f"{listing.get('transaction_type', '')} {listing.get('type', '')} {listing.get('status', '')} {listing.get('title', '')} {listing.get('url', '')}".replace('İ', 'i').replace('I', 'ı').lower()
+                    for w in ['kiralık', 'kiralik', 'kira', 'rent']
+                ) else TransactionType.SATILIK
+            ),
             city=listing.get('city', 'ANKARA'),
             district=listing.get('district', ''),
             neighborhood=listing.get('neighborhood', ''),

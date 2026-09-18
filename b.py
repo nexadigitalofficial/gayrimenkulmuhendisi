@@ -1384,7 +1384,7 @@ def run_full_system(whatsapp_file: Optional[str] = None):
                         portfoy_id=f"cb_scraper_{listing.get('id', 'unknown')}",
                         title=listing.get('title', ''),
                         property_type=_detect_property_type(listing.get('type', '')),
-                        transaction_type=TransactionType.SATILIK,
+                        transaction_type=_detect_transaction_type(listing),
                         city=listing.get('city', 'ANKARA'),
                         district=listing.get('district', ''),
                         neighborhood=listing.get('neighborhood', ''),
@@ -1474,6 +1474,13 @@ def _detect_property_type(type_str: str) -> PropertyType:
         return PropertyType.ARSA
     else:
         return PropertyType.UNKNOWN
+
+def _detect_transaction_type(listing: dict) -> TransactionType:
+    """İşlem türünü algıla (Kiralık vs Satılık)"""
+    trans_text = f"{listing.get('transaction_type', '')} {listing.get('type', '')} {listing.get('status', '')} {listing.get('title', '')} {listing.get('url', '')}".replace('İ', 'i').replace('I', 'ı').replace('Î', 'i').lower()
+    if any(w in trans_text for w in ['kiralık', 'kiralik', 'kira', 'rent']):
+        return TransactionType.KIRALIK
+    return TransactionType.SATILIK
 
 def _parse_area(area_str: str) -> Optional[float]:
     """Alanı parse et"""

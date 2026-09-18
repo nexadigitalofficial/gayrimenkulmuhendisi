@@ -47,6 +47,8 @@ from intelligence.swarm.synthesizer import (
     QAGateAgent
 )
 
+from intelligence.swarm.persona_swarm import PersonaSwarmSynthesizer
+
 from intelligence.swarm.director import IntelligenceDirector
 
 __all__ = [
@@ -75,5 +77,6 @@ __all__ = [
     "EvidenceGraphBuilder",
     "ContentSynthesizerAgent",
     "QAGateAgent",
-    "IntelligenceDirector"
+    "IntelligenceDirector",
+    "PersonaSwarmSynthesizer"
 ]
