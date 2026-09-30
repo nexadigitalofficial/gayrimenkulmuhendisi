@@ -1,0 +1,10 @@
+{
+  "host": "0.0.0.0",
+  "port": 5000,
+  "cb_listings_url": "https://www.cb.com.tr/ilanlar?officeid=470&officeuserid=23339",
+  "log_dir": "logs",
+  "telemetry_file": "logs/telemetry.jsonl",
+  "chat_rate_limit_per_min": 20,
+  "assistant_display_name": "Nexa AI",
+  "drive_folder_url": "https://drive.google.com/drive/folders/1wl6IORLksewhrWqpCOfjFNgjlC_rAhZT"
+}

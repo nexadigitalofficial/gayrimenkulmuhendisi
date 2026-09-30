@@ -371,7 +371,8 @@ def test_article_epistemology_persistence_and_sync(client):
           "selection_reason": "Ankara Prime Lokasyon"
         },
         locations=[RegionEntity(name="Beytepe")],
-        topics=[TopicEntity(name="Konut")]
+        topics=[TopicEntity(name="Konut")],
+        created_at="2099-01-01T00:00:00+00:00"
     )
 
     # 1. Save and retrieve

@@ -25,6 +25,9 @@ jobs/
 *.jsonl
 logs/
 3/logs/
+nexa_database.db
+watch_state.json
+
 
 # Runtime caches
 nexa_embedding_cache.json
@@ -36,6 +39,7 @@ nexa_embedding_cache.json
 # Heavy local assets (kept local, not deployed)
 static/img/pdf_previews/
 static/projeler/
+projeler/
 
 # Temp files
 *.tmp

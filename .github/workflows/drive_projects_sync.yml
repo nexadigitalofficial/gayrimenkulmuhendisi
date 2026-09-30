@@ -36,11 +36,10 @@ jobs:
           print('Scanning Google Drive for CB VIP Ankara project decks...')
           try:
               import nexa_drive_puller
-              # Run single-pass sync
-              if os.path.exists('nexa_drive_puller.py'):
-                  print('nexa_drive_puller executed successfully.')
+              count = nexa_drive_puller.pull_once()
+              print(f'Drive sync pass completed successfully: {count} files updated.')
           except Exception as e:
-              print(f'Drive sync pass completed: {e}')
+              print(f'Drive sync pass encountered error: {e}')
           "
 
       - name: Commit and Push Updated Project Decks

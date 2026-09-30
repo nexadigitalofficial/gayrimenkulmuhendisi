@@ -1,8 +1,8 @@
 {
-  "statement": "Bugün 7 piyasa sinyali tarandı, 7 sinyal analiz edildi, 4 doğrulanmış yüksek etkili piyasa istihbaratı yayımlandı.",
-  "scanned_signals_count": 7,
-  "evaluated_signals_count": 7,
-  "published_count": 4,
-  "monitored_count": 3,
-  "last_updated": "2026-09-10T06:00:21.046406+00:00"
+  "statement": "Bugün 73 piyasa sinyali tarandı, 73 sinyal analiz edildi, 5 doğrulanmış yüksek etkili piyasa istihbaratı yayımlandı.",
+  "scanned_signals_count": 73,
+  "evaluated_signals_count": 73,
+  "published_count": 5,
+  "monitored_count": 68,
+  "last_updated": "2026-09-19T11:47:49.970256+00:00"
 }

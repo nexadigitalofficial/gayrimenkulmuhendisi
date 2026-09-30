@@ -1,0 +1,106 @@
+name: NEXA Database & RAG Sync
+
+on:
+  schedule:
+    - cron: '0 2 * * *'      # Her gün 02:00 UTC (TRT 05:00) tam otonom çalışır
+  workflow_dispatch:         # Manuel tetikleme (isteğe bağlı)
+  push:
+    paths:
+      - 'scripts/ci_sync.py'
+      - 'scripts/nexa_sales_miner.py'
+      - '.github/workflows/update_db.yml'
+
+env:
+  PYTHON_VERSION: '3.11'
+  PIP_CACHE_DIR: ~/.cache/pip
+
+permissions:
+  contents: write   # git commit + push için gerekli
+
+jobs:
+  sync:
+    name: CB Sync + Data Import + Self-Healing + AI Summaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      # 1. Repository'yi checkout et
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Python kur
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
+
+      # 3. Sistem bağımlılıkları (sqlite3, build tools)
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq sqlite3 libsqlite3-dev gcc g++ 2>/dev/null | tail -5
+
+      # 4. Python bağımlılıkları
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel -q
+          pip install -r requirements.txt -q 2>&1 | tail -10
+
+      # 5. Ortam değişkenlerini ayarla (GitHub Secrets'tan)
+      - name: Configure environment
+        run: |
+          echo "GEMINI_API_KEYS=${{ secrets.GEMINI_API_KEYS }}" >> $GITHUB_ENV
+          echo "NEXA_ADMIN_PIN=${{ secrets.NEXA_ADMIN_PIN }}" >> $GITHUB_ENV 2>/dev/null || true
+
+      # 6. CI Sync çalıştır
+      - name: Run CI Sync Pipeline
+        id: ci_sync
+        run: |
+          python scripts/ci_sync.py
+        env:
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          NEXA_ADMIN_PIN: ${{ secrets.NEXA_ADMIN_PIN }}
+
+      # 7. Değişiklik var mı kontrol et
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git status --short
+          fi
+
+      # 8. Commit + Push (sadece değişiklik varsa)
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "ci: auto-sync DB + JSON + summaries ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+          git push origin HEAD:${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 9. Sonuç özeti
+      - name: Summary
+        run: |
+          echo "## NEXA CI Sync — ${{ steps.ci_sync.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tarih:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.changes.outputs.changed }}" = "true" ]; then
+            echo "**Durum:** Değişiklikler commit edildi" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Durum:** Veri zaten güncel, commit gerekmedi" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -346,6 +346,7 @@ def save_article(article: IntelligenceArticle) -> bool:
                     why_this_news_json = excluded.why_this_news_json,
                     quality_score = excluded.quality_score,
                     confidence_score = excluded.confidence_score,
+                    created_at = CASE WHEN excluded.created_at IS NOT NULL AND excluded.created_at != '' THEN excluded.created_at ELSE news_articles.created_at END,
                     updated_at = excluded.updated_at;
                 """, (
                     article.id,

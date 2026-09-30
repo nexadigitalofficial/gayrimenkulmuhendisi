@@ -1406,7 +1406,7 @@ def generate_valuation_report(
 # AI Listing Analysis & Scraping
 # ======================================================================
 
-from __future__ import annotations
+# from __future__ import annotations
 
 import base64
 import html as html_mod

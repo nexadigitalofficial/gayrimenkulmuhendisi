@@ -107,7 +107,7 @@ def list_folder(fid, depth=0, seen=None):
 def pull_once():
     """Drive klasöründeki dosyaları projeler/'e indirir; değişen varsa True."""
     cfg = get_config()
-    url = cfg.get(FOLDER_URL_KEY, "")
+    url = cfg.get(FOLDER_URL_KEY, "") or os.environ.get("DRIVE_FOLDER_URL", "") or "https://drive.google.com/drive/folders/1wl6IORLksewhrWqpCOfjFNgjlC_rAhZT"
     fid = folder_id_from_url(url)
     if not fid:
         logger.info("drive_folder_url tanimli degil - Drive cekimi atlandi")
@@ -130,13 +130,37 @@ def pull_once():
         local_dir.mkdir(parents=True, exist_ok=True)
         items = top.get("children", [])
         for it in items:
+            if it["kind"] == "folder":
+                # Alt klasörlerden (örn. DIŞ CEPHE GÖRSELLERİ, PLANLAR) görselleri ve ek belgeleri çek
+                sub_items = it.get("children", [])
+                for sub_it in sub_items:
+                    if sub_it.get("kind") != "file":
+                        continue
+                    sname = sub_it["name"]
+                    if not sname.lower().endswith((".pdf", ".mp4", ".xlsx", ".xls", ".csv", ".docx", ".doc", ".txt", ".md", ".jpg", ".jpeg", ".png", ".webp")):
+                        continue
+                    skey = f"{top['name']}/{sname}"
+                    dst = local_dir / sname
+                    if state.get(skey) == sub_it["id"] and dst.exists():
+                        continue
+                    try:
+                        size = download_file(sub_it["id"], dst)
+                        if size > 0:
+                            state[skey] = sub_it["id"]
+                            downloaded += 1
+                            logger.info("Drive alt klasör -> %s (%s KB)", skey, size // 1024)
+                            STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=1), encoding="utf-8")
+                    except Exception as e:
+                        logger.warning("alt klasör indirme hatasi %s: %s", sname, e)
+                continue
+
             if it["kind"] != "file":
                 continue
             name = it["name"]
-            if not name.lower().endswith((".pdf", ".mp4", ".xlsx", ".xls", ".csv", ".docx", ".doc", ".txt", ".md")):
+            if not name.lower().endswith((".pdf", ".mp4", ".xlsx", ".xls", ".csv", ".docx", ".doc", ".txt", ".md", ".jpg", ".jpeg", ".png", ".webp")):
                 continue
             key = f"{top['name']}/{name}"
-            if state.get(key) == it["id"]:
+            if state.get(key) == it["id"] and (local_dir / name).exists():
                 continue
             dst = local_dir / name
             try:
@@ -211,7 +235,11 @@ def _refresh_drive_previews():
                 c['drive_pdf_preview'] = f"https://drive.google.com/file/d/{pdf}/preview"
                 changed += 1
         if changed:
-            map_path.write_text(_json.dumps(cards, ensure_ascii=False, indent=1), encoding="utf-8")
+            content_str = _json.dumps(cards, ensure_ascii=False, indent=1)
+            map_path.write_text(content_str, encoding="utf-8")
+            alt_path = SITE_DIR / "projects_map.json"
+            if alt_path != map_path:
+                alt_path.write_text(content_str, encoding="utf-8")
             logger.info("kart Drive onizlemeleri guncellendi: %s alan", changed)
     except Exception as e:
         logger.warning("drive preview yenileme hatasi: %s", e)

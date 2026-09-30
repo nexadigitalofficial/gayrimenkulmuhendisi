@@ -2800,9 +2800,9 @@
       color: #ffffff;
       line-height: 1.35;
       margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .nxp-p-loc-row {
       font-size: 12px;
@@ -3089,9 +3089,56 @@
     @media (max-width: 768px) {
       .nxp-p-personas-grid { grid-template-columns: 1fr; }
       .nxp-p-pillars-grid { grid-template-columns: 1fr; }
-      .nxp-p-hero { flex-direction: column; align-items: flex-start; }
-      .nxp-p-footer { flex-direction: column; align-items: stretch; }
-      .nxp-p-footer-actions { flex-direction: column; }
+      .nxp-p-hero {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        padding: 14px !important;
+      }
+      .nxp-p-thumb-wrap {
+        width: 100% !important;
+        height: 160px !important;
+        max-height: 180px !important;
+      }
+      .nxp-p-hero-meta {
+        width: 100% !important;
+        min-width: 0 !important;
+        gap: 6px !important;
+      }
+      .nxp-p-title {
+        font-size: 15px !important;
+        line-height: 1.38 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+      }
+      .nxp-p-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+      .nxp-p-footer-actions { flex-direction: column; width: 100%; gap: 8px; }
+      .nxp-p-btn-wa, .nxp-p-btn-close { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      #nxp-persona-overlay { padding: 8px !important; }
+      .nxp-persona-box {
+        border-radius: 16px !important;
+        max-height: 95vh !important;
+      }
+      .nxp-p-topbar { padding: 12px 14px !important; }
+      .nxp-p-content { padding: 12px !important; gap: 14px !important; }
+      .nxp-p-hero { padding: 10px !important; gap: 10px !important; }
+      .nxp-p-thumb-wrap { height: 140px !important; }
+      .nxp-p-title {
+        font-size: 14.5px !important;
+        line-height: 1.35 !important;
+      }
+      .nxp-p-price-val { font-size: 16px !important; }
+      .nxp-p-badges { gap: 4px !important; }
+      .nxp-p-badge { font-size: 9.5px !important; padding: 2px 7px !important; }
+      .nxp-p-verdict-box { padding: 12px 14px !important; }
+      .nxp-p-verdict-text { font-size: 12.5px !important; line-height: 1.5 !important; }
+      .nxp-p-persona-card { padding: 12px !important; }
+      .nxp-p-pillar-card { padding: 12px !important; }
+      .nxp-p-action-btn { width: 100% !important; justify-content: center !important; }
     }
 </style>
 

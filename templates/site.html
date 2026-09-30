@@ -351,6 +351,293 @@
       100% { transform: translate(-50%, -50%) scale(1.15); }
     }
 
+    /* ── Hero Daily Rotating Showcase Badge ── */
+    .hero-showcase-badge {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      z-index: 15;
+      background: rgba(7, 13, 24, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 16px;
+      padding: 14px 18px;
+      max-width: 380px;
+      width: calc(100% - 80px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.18);
+      color: #fff;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: fadeInRight 1s ease-out;
+    }
+
+    .hero-showcase-badge:hover {
+      border-color: rgba(212, 175, 55, 0.85);
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.75), 0 0 35px rgba(212, 175, 55, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .hero-showcase-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .hero-showcase-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.15);
+      padding: 3px 9px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .hero-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+      animation: pulseShowcase 2s infinite;
+    }
+
+    @keyframes pulseShowcase {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-showcase-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-nav-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.8);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .hero-nav-btn:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      border-color: var(--gold);
+    }
+
+    .hero-showcase-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin: 2px 0 3px 0;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hero-showcase-tagline {
+      font-size: 11px;
+      color: var(--gold-light);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .hero-showcase-hook {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.35;
+      margin: 0 0 10px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .hero-showcase-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ── 7-Day Story Progress Bars ── */
+    .hero-story-bars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+      width: 100%;
+    }
+
+    .hero-story-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 2px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .hero-story-bar:hover {
+      background: rgba(212, 175, 55, 0.5);
+      height: 4px;
+    }
+
+    .hero-story-bar .bar-fill {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .hero-story-bar.active .bar-fill {
+      width: 100%;
+      box-shadow: 0 0 8px var(--gold);
+    }
+
+    /* ── Sound Toggle & Animated Equalizer ── */
+    .hero-sound-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: var(--gold-light);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-sound-toggle-btn:hover {
+      background: rgba(212, 175, 55, 0.18);
+      border-color: var(--gold);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .sound-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 11px;
+    }
+
+    .sound-bar {
+      width: 2px;
+      background: var(--gold);
+      border-radius: 1px;
+      height: 3px;
+      transition: height 0.2s ease;
+    }
+
+    .sound-bars.active .sound-bar:nth-child(1) { animation: soundWaveAnim 0.7s ease-in-out infinite alternate; }
+    .sound-bars.active .sound-bar:nth-child(2) { animation: soundWaveAnim 0.5s ease-in-out infinite 0.15s alternate; }
+    .sound-bars.active .sound-bar:nth-child(3) { animation: soundWaveAnim 0.8s ease-in-out infinite 0.3s alternate; }
+
+    @keyframes soundWaveAnim {
+      0% { height: 2px; }
+      100% { height: 11px; }
+    }
+
+    /* ── Luxury Live Market Ticker ── */
+    .luxury-live-ticker {
+      background: rgba(4, 9, 18, 0.94);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      color: #e2e8f0;
+      font-size: 11.5px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      z-index: 40;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      white-space: nowrap;
+      animation: tickerScroll 42s linear infinite;
+      padding-left: 100%;
+    }
+
+    .luxury-live-ticker:hover .ticker-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes tickerScroll {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-100%, 0, 0); }
+    }
+
+    .ticker-tag {
+      background: var(--gold);
+      color: var(--deep-navy);
+      font-weight: 800;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ticker-item strong {
+      color: var(--gold-light);
+    }
+
+    .ticker-sep {
+      color: rgba(212, 175, 55, 0.45);
+      font-size: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-showcase-badge {
+        bottom: 75px;
+        right: 15px;
+        left: 15px;
+        width: auto;
+        max-width: none;
+        padding: 10px 14px;
+        border-radius: 12px;
+      }
+      .hero-showcase-title {
+        font-size: 14px;
+      }
+      .hero-showcase-hook {
+        display: none;
+      }
+    }
+
     .hero-content {
       position: relative;
       z-index: 10;
@@ -3805,9 +4092,14 @@
       font-size: 15.5px !important;
       font-weight: 700 !important;
       color: #fff !important;
-      white-space: nowrap !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+      line-height: 1.3 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
       overflow: hidden !important;
-      text-overflow: ellipsis !important;
       max-width: 82% !important;
       font-family: 'Playfair Display', serif !important;
     }
@@ -3974,9 +4266,14 @@
       font-size: 15.5px !important;
       font-weight: 700 !important;
       color: #fff !important;
-      white-space: nowrap !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+      line-height: 1.3 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
       overflow: hidden !important;
-      text-overflow: ellipsis !important;
       max-width: 82% !important;
       font-family: 'Playfair Display', serif !important;
     }
@@ -4849,19 +5146,73 @@
   <!-- Mobil menü karartma overlay -->
   <div class="nav-overlay" id="navOverlay"></div>
 
-  <div class="trust-bar" id="trustBar" style="display:none;">
-    <div class="trust-item"><i class="fas fa-award"></i> Coldwell Banker CB VIP Ankara</div>
-    <div class="trust-item"><i class="fas fa-home"></i> Aktif Portföy</div>
-    <div class="trust-item"><i class="fas fa-robot"></i> AI Destekli Değerleme</div>
-    <div class="trust-item"><i class="fas fa-users"></i> Mutlu Müşteriler</div>
-    <div class="trust-item"><i class="fas fa-star"></i> PropTech Danışman</div>
+  <!-- Ultra-Luxury Live Market Intelligence Ticker (Bloomberg / PropTech HUD) -->
+  <div class="luxury-live-ticker" id="luxuryLiveTicker">
+    <div class="ticker-track">
+      <span class="ticker-tag">⚡ ANKARA VIP PİYASA NABZI</span>
+      <span class="ticker-item"><i class="fas fa-chart-line" style="color:var(--gold);"></i> <strong>Lüks Konut Değer Endeksi:</strong> +%18.4 Yıllık Reel Prim</span>
+      <span class="ticker-sep">◈</span>
+      <span class="ticker-item"><i class="fas fa-key" style="color:var(--gold);"></i> <strong>Beytepe & Çayyolu ROI:</strong> 13.8 Yıl Ortalama Amortisman (Güçlü Alım Sinyali)</span>
+      <span class="ticker-sep">◈</span>
+      <span class="ticker-item"><i class="fas fa-gem" style="color:var(--gold);"></i> <strong>İncek Müstakil Villa Talebi:</strong> Son 6 Ayın En Yüksek Seviyesinde</span>
+      <span class="ticker-sep">◈</span>
+      <span class="ticker-item"><i class="fas fa-building" style="color:var(--gold);"></i> <strong>31 Devam Eden Prestij Projesi:</strong> Lansman Fiyat Avantajları Canlı</span>
+      <span class="ticker-sep">◈</span>
+      <span class="ticker-item"><i class="fas fa-robot" style="color:var(--gold);"></i> <strong>Yapay Zeka Değerleme:</strong> 10 Saniyede Anlık Emsal Analizi</span>
+      <span class="ticker-sep">◈</span>
+      <span class="ticker-item"><i class="fas fa-shield-alt" style="color:var(--gold);"></i> <strong>Coldwell Banker VIP Güvencesi:</strong> Yiğit Narin Portföy Yönetimi</span>
+    </div>
   </div>
 
   <!-- Hero Section -->
   <section class="hero" id="home">
-    <video autoplay loop muted playsinline poster="/static/images/hero_bg.jpg" class="hero-video">
-      <source src="https://cdn.pixabay.com/video/2021/05/24/75133-554743224_large.mp4" type="video/mp4">
+    <video autoplay loop muted playsinline poster="/static/images/hero_bg.jpg" class="hero-video" id="heroVideoElement">
+      <source id="heroVideoSource" src="/static/videos/hero/hero_day_0_ankaport.mp4" type="video/mp4">
     </video>
+
+    <!-- 7-Day Autonomous Rotating Showcase Badge -->
+    <div class="hero-showcase-badge" id="heroShowcaseBadge">
+      <!-- 7-Day Story Progress Bars -->
+      <div class="hero-story-bars" id="heroStoryBars">
+        <div class="hero-story-bar" id="storyBar0" onclick="applyHeroShowcase(0)" title="Pazartesi: ANKAPORT SARAY"><span class="bar-fill"></span></div>
+        <div class="hero-story-bar" id="storyBar1" onclick="applyHeroShowcase(1)" title="Salı: S POINT VIP SARAY"><span class="bar-fill"></span></div>
+        <div class="hero-story-bar" id="storyBar2" onclick="applyHeroShowcase(2)" title="Çarşamba: NARÇİN RONYA CITY"><span class="bar-fill"></span></div>
+        <div class="hero-story-bar" id="storyBar3" onclick="applyHeroShowcase(3)" title="Perşembe: GRANDE YAŞAMKENT"><span class="bar-fill"></span></div>
+        <div class="hero-story-bar" id="storyBar4" onclick="applyHeroShowcase(4)" title="Cuma: GÖKDEMİR İMZA"><span class="bar-fill"></span></div>
+        <div class="hero-story-bar" id="storyBar5" onclick="applyHeroShowcase(5)" title="Cumartesi: EVART YALIKAVAK"><span class="bar-fill"></span></div>
+        <div class="hero-story-bar" id="storyBar6" onclick="applyHeroShowcase(6)" title="Pazar: IDEA START BRAVO"><span class="bar-fill"></span></div>
+      </div>
+
+      <div class="hero-showcase-top">
+        <span class="hero-showcase-pill" id="heroShowcaseDayPill">
+          <span class="hero-pulse-dot"></span> GÜNÜN VİTRİNİ • PAZARTESİ
+        </span>
+        <div class="hero-showcase-nav">
+          <button type="button" class="hero-nav-btn" onclick="switchHeroShowcase(-1)" title="Önceki Günün Projesi">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button type="button" class="hero-nav-btn" onclick="switchHeroShowcase(1)" title="Sonraki Günün Projesi">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="hero-showcase-tagline" id="heroShowcaseTagline">Ankara'nın Yeni Sanayi & Ticaret Üssü</div>
+      <h4 class="hero-showcase-title" id="heroShowcaseTitle">ANKAPORT SARAY</h4>
+      <p class="hero-showcase-hook" id="heroShowcaseHook">Kazan-Saray aksında lojistik & üretimde yüksek kira çarpanı ve lansman avantajı.</p>
+      <div class="hero-showcase-actions">
+        <button type="button" onclick="openCurrentHeroShowcaseModal()" class="btn btn-sm" style="background:var(--gold); color:var(--deep-navy); font-weight:700; font-size:11px; padding:6px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:5px; box-shadow:0 4px 12px rgba(212,175,55,0.35);">
+          <i class="fas fa-play"></i> Detaylı İzle
+        </button>
+        <button type="button" class="hero-sound-toggle-btn" id="heroSoundBtn" onclick="toggleHeroSound()" title="Arka Plan Sesini Aç/Kapat">
+          <i class="fas fa-volume-mute" id="heroSoundIcon"></i>
+          <span class="sound-bars" id="heroSoundBars"><span class="sound-bar"></span><span class="sound-bar"></span><span class="sound-bar"></span></span>
+          <span id="heroSoundLabel">Sesi Aç</span>
+        </button>
+        <a href="#projeler" class="btn btn-sm" style="background:rgba(255,255,255,0.08); color:#fff; font-size:11px; padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); display:inline-flex; align-items:center; gap:5px;">
+          <i class="fas fa-th-large"></i> 31 Proje
+        </a>
+      </div>
+    </div>
     <div class="hero-content">
       <div class="hero-badge">Coldwell Banker CB VIP Ankara</div>
       <h1>Ankara'da<br/>Akıllı Yatırım</h1>
@@ -7062,8 +7413,8 @@
         // Sol panel güncelle
         const sidebarItems = document.getElementById('mapSidebarItems');
         const sidebarCount = document.getElementById('mapSidebarCount');
-        sidebarCount.textContent = `${listings.length} aktif ilan`;
-        sidebarItems.innerHTML = listings.map((l, i) => buildSidebarItem(l, i)).join('');
+        if (sidebarCount) sidebarCount.textContent = `${listings.length} aktif ilan`;
+        if (sidebarItems) sidebarItems.innerHTML = listings.map((l, i) => buildSidebarItem(l, i)).join('');
 
         // Marker ve popup oluştur
         const markers = [];
@@ -7435,22 +7786,28 @@
     const mapTrigger = document.getElementById('mapTrigger');
     const mapClose = document.getElementById('mapClose');
 
-    mapTrigger.addEventListener('click', () => {
-      mapModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
+    if (mapTrigger && mapModal) {
+      mapTrigger.addEventListener('click', () => {
+        mapModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    }
 
-    mapClose.addEventListener('click', () => {
-      mapModal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    });
-
-    mapModal.addEventListener('click', (e) => {
-      if (e.target === mapModal) {
+    if (mapClose && mapModal) {
+      mapClose.addEventListener('click', () => {
         mapModal.classList.remove('active');
         document.body.style.overflow = 'auto';
-      }
-    });
+      });
+    }
+
+    if (mapModal) {
+      mapModal.addEventListener('click', (e) => {
+        if (e.target === mapModal) {
+          mapModal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
 
     // ============================================================
     // BLOG SLIDER — Dynamic (API)
@@ -7898,15 +8255,17 @@
       const status = document.getElementById('portfolioStatus');
       const grid = document.getElementById('portfolioGrid');
       
-      grid.innerHTML = '';
-      // Show skeleton loading
-      const skeletonCount = 6;
-      for (let s=0; s<skeletonCount; s++) {
-        const sk = document.createElement('div');
-        sk.className = 'nxc-skeleton';
-        sk.style.animationDelay = (s*0.07)+'s';
-        sk.innerHTML = '<div class="nxc-skeleton-img"></div><div class="nxc-skeleton-body"><div class="nxc-skeleton-line" style="width:70%"></div><div class="nxc-skeleton-line" style="width:45%"></div><div class="nxc-skeleton-line" style="width:90%;height:10px;"></div></div>';
-        grid.appendChild(sk);
+      if (grid) {
+        grid.innerHTML = '';
+        // Show skeleton loading
+        const skeletonCount = 6;
+        for (let s=0; s<skeletonCount; s++) {
+          const sk = document.createElement('div');
+          sk.className = 'nxc-skeleton';
+          sk.style.animationDelay = (s*0.07)+'s';
+          sk.innerHTML = '<div class="nxc-skeleton-img"></div><div class="nxc-skeleton-body"><div class="nxc-skeleton-line" style="width:70%"></div><div class="nxc-skeleton-line" style="width:45%"></div><div class="nxc-skeleton-line" style="width:90%;height:10px;"></div></div>';
+          grid.appendChild(sk);
+        }
       }
 
       try {
@@ -7922,13 +8281,13 @@
         const statusEl = document.getElementById('portfolioStatus');
         if (statusEl) { statusEl.className = 'status success'; statusEl.innerHTML = '<i class="fas fa-check"></i><span>Canlı portföy yüklendi</span>'; }
 
-        displayListings(allListings);
+        if (grid) displayListings(allListings);
 
       } catch (error) {
         console.warn('API error, loading demo data:', error);
         const statusEl = document.getElementById('portfolioStatus');
         if (statusEl) { statusEl.className = 'status error'; statusEl.innerHTML = '<i class="fas fa-info-circle"></i><span>Demo veriler gösteriliyor</span>'; }
-        loadDemoPortfolio(null, grid);
+        if (grid) loadDemoPortfolio(null, grid);
       }
     }
 
@@ -8306,6 +8665,7 @@
 
     function displayListings(listings) {
       const grid = document.getElementById('portfolioGrid');
+      if (!grid) return;
       const toolbar = document.getElementById('portfolioToolbar');
       const countNum = document.getElementById('portfolioCountNum');
       const countLabel = document.getElementById('portfolioCountLabel');
@@ -8313,7 +8673,7 @@
       grid.innerHTML = '';
 
       // Update toolbar
-      toolbar.style.display = 'flex';
+      if (toolbar) toolbar.style.display = 'flex';
       if (countNum) countNum.textContent = listings.length;
       if (countLabel) countLabel.textContent = listings.length === 1 ? ' ilan listeleniyor' : ' ilan listeleniyor';
 
@@ -8364,18 +8724,24 @@
     };
 
     // ── View Toggle ──────────────────────────────────────────────
-    document.getElementById('viewGrid').addEventListener('click', function() {
-      currentView = 'grid';
-      this.classList.add('active');
-      document.getElementById('viewList').classList.remove('active');
-      displayListings(allListings.filter ? allListings : (window._filteredListings || allListings));
-    });
-    document.getElementById('viewList').addEventListener('click', function() {
-      currentView = 'list';
-      this.classList.add('active');
-      document.getElementById('viewGrid').classList.remove('active');
-      displayListings(window._filteredListings || allListings);
-    });
+    const vg = document.getElementById('viewGrid');
+    const vl = document.getElementById('viewList');
+    if (vg) {
+      vg.addEventListener('click', function() {
+        currentView = 'grid';
+        this.classList.add('active');
+        if (vl) vl.classList.remove('active');
+        displayListings(allListings.filter ? allListings : (window._filteredListings || allListings));
+      });
+    }
+    if (vl) {
+      vl.addEventListener('click', function() {
+        currentView = 'list';
+        this.classList.add('active');
+        if (vg) vg.classList.remove('active');
+        displayListings(window._filteredListings || allListings);
+      });
+    }
 
     // ── Sort ──────────────────────────────────────────────────────
     const sortSelect = document.getElementById('sortSelect');
@@ -8439,16 +8805,23 @@
       }`);
     }
 
-    document.getElementById('applyFilters').addEventListener('click', () => {
-      applyFilters();
-      renderFilterChips();
-    });
-    document.getElementById('clearFilters').addEventListener('click', () => {
-      clearFilters();
-      renderFilterChips();
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('tab-all').classList.add('active');
-    });
+    const applyFiltersBtn = document.getElementById('applyFilters');
+    if (applyFiltersBtn) {
+      applyFiltersBtn.addEventListener('click', () => {
+        applyFilters();
+        renderFilterChips();
+      });
+    }
+    const clearFiltersBtn = document.getElementById('clearFilters');
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener('click', () => {
+        clearFilters();
+        renderFilterChips();
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        const tabAll = document.getElementById('tab-all');
+        if (tabAll) tabAll.classList.add('active');
+      });
+    }
 
     // Load Portfolio
     loadPortfolio();
@@ -8547,7 +8920,7 @@
         width:100%; height:320px; overflow:hidden;
         background:#070d18; position:relative;
       ">
-        <img id="blogModalCoverImg" src="" alt="" style="
+        <img id="blogModalCoverImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="" style="
           width:100%; height:100%; object-fit:cover;
           display:block;
         ">
@@ -9028,9 +9401,9 @@
       color: #ffffff;
       line-height: 1.35;
       margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .nxp-p-loc-row {
       font-size: 12px;
@@ -9317,9 +9690,56 @@
     @media (max-width: 768px) {
       .nxp-p-personas-grid { grid-template-columns: 1fr; }
       .nxp-p-pillars-grid { grid-template-columns: 1fr; }
-      .nxp-p-hero { flex-direction: column; align-items: flex-start; }
-      .nxp-p-footer { flex-direction: column; align-items: stretch; }
-      .nxp-p-footer-actions { flex-direction: column; }
+      .nxp-p-hero {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        padding: 14px !important;
+      }
+      .nxp-p-thumb-wrap {
+        width: 100% !important;
+        height: 160px !important;
+        max-height: 180px !important;
+      }
+      .nxp-p-hero-meta {
+        width: 100% !important;
+        min-width: 0 !important;
+        gap: 6px !important;
+      }
+      .nxp-p-title {
+        font-size: 15px !important;
+        line-height: 1.38 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+      }
+      .nxp-p-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+      .nxp-p-footer-actions { flex-direction: column; width: 100%; gap: 8px; }
+      .nxp-p-btn-wa, .nxp-p-btn-close { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      #nxp-persona-overlay { padding: 8px !important; }
+      .nxp-persona-box {
+        border-radius: 16px !important;
+        max-height: 95vh !important;
+      }
+      .nxp-p-topbar { padding: 12px 14px !important; }
+      .nxp-p-content { padding: 12px !important; gap: 14px !important; }
+      .nxp-p-hero { padding: 10px !important; gap: 10px !important; }
+      .nxp-p-thumb-wrap { height: 140px !important; }
+      .nxp-p-title {
+        font-size: 14.5px !important;
+        line-height: 1.35 !important;
+      }
+      .nxp-p-price-val { font-size: 16px !important; }
+      .nxp-p-badges { gap: 4px !important; }
+      .nxp-p-badge { font-size: 9.5px !important; padding: 2px 7px !important; }
+      .nxp-p-verdict-box { padding: 12px 14px !important; }
+      .nxp-p-verdict-text { font-size: 12.5px !important; line-height: 1.5 !important; }
+      .nxp-p-persona-card { padding: 12px !important; }
+      .nxp-p-pillar-card { padding: 12px !important; }
+      .nxp-p-action-btn { width: 100% !important; justify-content: center !important; }
     }
   </style>
 
@@ -9454,7 +9874,7 @@
         <!-- Hero Listing Meta -->
         <div class="nxp-p-hero">
           <div class="nxp-p-thumb-wrap">
-            <img id="nxp-p-hero-img" src="" alt="Portföy Görseli" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80'">
+            <img id="nxp-p-hero-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Portföy Görseli" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80'">
           </div>
           <div class="nxp-p-hero-meta">
             <div class="nxp-p-badges">
@@ -10268,6 +10688,192 @@ ${src.length ? `
       }
     });
 
+    // ═══════════════════════════════════════════════════════════════════════════
+    // 7-DAY DYNAMIC HERO SHOWCASE ROTATOR ENGINE (7 Gün 7 Prestij Projesi)
+    // ═══════════════════════════════════════════════════════════════════════════
+    const HERO_DAILY_SHOWCASES = [
+      {
+        dayIndex: 0,
+        dayName: 'Pazartesi',
+        theme: 'Lansman & Sanayi Üssü',
+        title: 'ANKAPORT SARAY',
+        projectId: 'cbvip-prj-2',
+        tagline: "Ankara'nın Yeni Sanayi & Ticaret Üssü",
+        hook: 'Kazan-Saray aksında lojistik & üretimde yüksek kira çarpanı ve lansman avantajı.',
+        videoSrc: '/static/videos/hero/hero_day_0_ankaport.mp4',
+        drivePreview: 'https://drive.google.com/file/d/1WSDKDp9hXnwXxImAtrwNdZo0LsB61L0A/preview'
+      },
+      {
+        dayIndex: 1,
+        dayName: 'Salı',
+        theme: 'Kule Rezidans & Karma Yaşam',
+        title: 'S POINT VIP SARAY',
+        projectId: 'cbvip-prj-11',
+        tagline: 'Modern Mimari & Yüksek Şerefiye',
+        hook: 'Konsept ticari & rezidans karması ile geleceğin yatırım vizyonunu keşfedin.',
+        videoSrc: '/static/videos/hero/hero_day_1_spoint.mp4',
+        drivePreview: 'https://drive.google.com/file/d/1HwwTGgSVLEshambTcvwpWVXe7CekXLga/preview'
+      },
+      {
+        dayIndex: 2,
+        dayName: 'Çarşamba',
+        theme: 'Batı Aksı Büyüme & Yaşam Kompleksi',
+        title: 'NARÇİN RONYA CITY 1',
+        projectId: 'cbvip-prj-9',
+        tagline: "Batı Aksının En Hızlı Değerlenen Kompleksi",
+        hook: 'VIP West lokasyonunda lansman fiyat avantajı ve yüksek prim potansiyeli.',
+        videoSrc: '/static/videos/hero/hero_day_2_narcin.mp4',
+        drivePreview: 'https://drive.google.com/file/d/1YGJil7_XiRzlQJcsd73wbUlHjuVzNLV1/preview'
+      },
+      {
+        dayIndex: 3,
+        dayName: 'Perşembe',
+        theme: 'Aile Odaklı Premium Yaşam & Peyzaj',
+        title: 'GRANDE YAŞAMKENT',
+        projectId: 'cbvip-prj-4',
+        tagline: "Yaşamkent'te Butik & Müstakil Konfor",
+        hook: 'Geniş metrekareler, panoramik peyzaj ve elit site konsepti ile güvenli yaşam.',
+        videoSrc: '/static/videos/hero/hero_day_3_grande.mp4',
+        drivePreview: 'https://drive.google.com/file/d/17f7c0FXX4ePVU3zDftVyfEVOeTt3gzHq/preview'
+      },
+      {
+        dayIndex: 4,
+        dayName: 'Cuma',
+        theme: 'Kurumsal Mülk & Ticari Yatırım',
+        title: 'GÖKDEMİR İMZA',
+        projectId: 'cbvip-prj-5',
+        tagline: 'Prestijli İş ve Ticaret Merkezinde Değer',
+        hook: 'Yüksek tabela değeri, geniş otopark ve kurumsal kiracılı getiri fırsatı.',
+        videoSrc: '/static/videos/hero/hero_day_4_gokdemir.mp4',
+        drivePreview: 'https://drive.google.com/file/d/16iFY9JN-SeUg5crmo2cH11Ud8lfTYj4L/preview'
+      },
+      {
+        dayIndex: 5,
+        dayName: 'Cumartesi',
+        theme: 'Ultra Lüks Villa & Ege Yaşamı',
+        title: 'EVART YALIKAVAK',
+        projectId: 'cbvip-prj-3',
+        tagline: "Bodrum Yalıkavak'ta Sonsuz Ege Manzarası",
+        hook: 'Özel havuz, müstakil bahçe ve dünya standartlarında mimari ile ayrıcalıklı yaşam.',
+        videoSrc: '/static/videos/hero/hero_day_5_evart.mp4',
+        drivePreview: 'https://drive.google.com/file/d/1fRBaX0FQB-Eb_HMSoCV0CHV4bN55xhtH/preview'
+      },
+      {
+        dayIndex: 6,
+        dayName: 'Pazar',
+        theme: 'Vizyon & İnovatif Girişim Vadisi',
+        title: 'IDEA - START BRAVO',
+        projectId: 'cbvip-prj-6',
+        tagline: 'İnovatif Ofis & Ticari Yaşam Alanı',
+        hook: 'Start-up ve büyüme odaklı şirketler için modüler akıllı ofis ve ticari ünite mimarisi.',
+        videoSrc: '/static/videos/hero/hero_day_6_idea.mp4',
+        drivePreview: 'https://drive.google.com/file/d/1pfUSNVqjdX8rHI0Qv6s3rPBc6F0BkO-G/preview'
+      }
+    ];
+
+    let currentShowcaseDayIndex = 0;
+
+    function applyHeroShowcase(idx) {
+      if (idx < 0) idx = HERO_DAILY_SHOWCASES.length - 1;
+      if (idx >= HERO_DAILY_SHOWCASES.length) idx = 0;
+      currentShowcaseDayIndex = idx;
+      const item = HERO_DAILY_SHOWCASES[idx];
+
+      const dayPill = document.getElementById('heroShowcaseDayPill');
+      const titleEl = document.getElementById('heroShowcaseTitle');
+      const taglineEl = document.getElementById('heroShowcaseTagline');
+      const hookEl = document.getElementById('heroShowcaseHook');
+      const videoEl = document.getElementById('heroVideoElement');
+      const videoSrc = document.getElementById('heroVideoSource');
+
+      // Sync 7-Day Story Progress Bars
+      for (let i = 0; i < 7; i++) {
+        const bar = document.getElementById(`storyBar${i}`);
+        if (bar) {
+          if (i === idx) bar.classList.add('active');
+          else bar.classList.remove('active');
+        }
+      }
+
+      if (dayPill) dayPill.innerHTML = `<span class="hero-pulse-dot"></span> GÜNÜN VİTRİNİ • ${item.dayName.toUpperCase()}`;
+      if (titleEl) titleEl.textContent = item.title;
+      if (taglineEl) taglineEl.textContent = item.tagline;
+      if (hookEl) hookEl.textContent = item.hook;
+
+      if (videoEl && videoSrc) {
+        const decodedCurrentSrc = decodeURIComponent(videoSrc.src || '');
+        if (!decodedCurrentSrc.endsWith(item.videoSrc)) {
+          const isCurrentlyMuted = videoEl.muted;
+          videoSrc.src = item.videoSrc;
+          videoEl.load();
+          videoEl.muted = isCurrentlyMuted;
+          videoEl.play().catch(() => {});
+        }
+      }
+    }
+
+    function switchHeroShowcase(delta) {
+      applyHeroShowcase(currentShowcaseDayIndex + delta);
+    }
+
+    function toggleHeroSound() {
+      const video = document.getElementById('heroVideoElement');
+      const label = document.getElementById('heroSoundLabel');
+      const bars = document.getElementById('heroSoundBars');
+      const icon = document.getElementById('heroSoundIcon');
+      if (!video) return;
+      video.muted = !video.muted;
+      if (video.muted) {
+        if (label) label.textContent = 'Sesi Aç';
+        if (bars) bars.classList.remove('active');
+        if (icon) icon.className = 'fas fa-volume-mute';
+      } else {
+        if (label) label.textContent = 'Sinematik Ses';
+        if (bars) bars.classList.add('active');
+        if (icon) icon.className = 'fas fa-volume-up';
+        video.play().catch(() => {});
+      }
+    }
+
+    function openCurrentHeroShowcaseModal() {
+      const item = HERO_DAILY_SHOWCASES[currentShowcaseDayIndex];
+      if (!item) return;
+      if (typeof playProjectVideo === 'function') {
+        const found = (typeof projectsData !== 'undefined' && Array.isArray(projectsData)) ? projectsData.find(x => String(x.id) === String(item.projectId) || String(x.db_id) === String(item.projectId)) : null;
+        if (found) {
+          playProjectVideo(item.projectId);
+          return;
+        }
+      }
+      const modal = document.getElementById('videoModal');
+      const modalTitle = document.getElementById('videoModalTitle');
+      const playerContainer = document.getElementById('videoPlayerContainer');
+      if (modal && playerContainer) {
+        if (modalTitle) modalTitle.textContent = `${item.title} — Tanıtım Filmi`;
+        playerContainer.innerHTML = `
+          <video controls autoplay playsinline style="width:100%; height:100%; object-fit:contain; background:#000;">
+            <source src="${item.videoSrc}" type="video/mp4">
+          </video>
+        `;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        return;
+      }
+      window.location.hash = '#projeler';
+    }
+
+    function initHeroDailyShowcase() {
+      const jsDay = new Date().getDay();
+      const todayIndex = (jsDay === 0) ? 6 : (jsDay - 1);
+      applyHeroShowcase(todayIndex);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHeroDailyShowcase);
+    } else {
+      initHeroDailyShowcase();
+    }
+
     // ── Video Gallery Theater-Mode ──
     const theaterModal = document.getElementById('theaterModal');
     const theaterIframe = document.getElementById('theaterIframe');
@@ -10500,23 +11106,47 @@ ${src.length ? `
     let portfolioData = [];
     let activeShowcaseTab = 'projects';
 
-    // Fetch and Initialize Showcase
+    // Fetch and Initialize Showcase (suzannegit compatible multi-layer extraction)
     async function loadShowcaseData() {
       try {
         const [projRes, listRes] = await Promise.allSettled([
-          fetch('/api/projects').then(r => r.json()),
-          fetch('/api/listings').then(r => r.json())
+          fetch('/api/projects').then(r => r.ok ? r.json() : Promise.reject(r.status)),
+          fetch('/api/listings').then(r => r.ok ? r.json() : Promise.reject(r.status))
         ]);
 
-        if (projRes.status === 'fulfilled' && projRes.value.success && Array.isArray(projRes.value.data)) {
-          projectsData = projRes.value.data;
+        if (projRes.status === 'fulfilled' && projRes.value) {
+          const pVal = projRes.value;
+          if (pVal.success && Array.isArray(pVal.data)) {
+            projectsData = pVal.data;
+          } else if (Array.isArray(pVal)) {
+            projectsData = pVal;
+          } else if (pVal.projects && Array.isArray(pVal.projects)) {
+            projectsData = pVal.projects;
+          } else {
+            const fallback = await fetch('/static/data/projects_map.json');
+            projectsData = await fallback.json();
+          }
         } else {
-          const fallback = await fetch('/static/data/projects_map.json');
-          projectsData = await fallback.json();
+          try {
+            const fallback = await fetch('/static/data/projects_map.json');
+            projectsData = await fallback.json();
+          } catch(e) {
+            console.warn('Projects fallback failed:', e);
+            projectsData = [];
+          }
         }
 
-        if (listRes.status === 'fulfilled' && listRes.value.success && Array.isArray(listRes.value.data)) {
-          portfolioData = listRes.value.data;
+        if (listRes.status === 'fulfilled' && listRes.value) {
+          const lVal = listRes.value;
+          if (lVal.success && Array.isArray(lVal.data)) {
+            portfolioData = lVal.data;
+          } else if (Array.isArray(lVal)) {
+            portfolioData = lVal;
+          } else if (lVal.listings && Array.isArray(lVal.listings)) {
+            portfolioData = lVal.listings;
+          } else {
+            portfolioData = [];
+          }
           allListings = portfolioData;
         }
 

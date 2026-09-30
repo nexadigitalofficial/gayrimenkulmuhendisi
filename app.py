@@ -124,7 +124,7 @@ from io import BytesIO
 from dotenv import load_dotenv
 load_dotenv()
 
-from flask import Flask, jsonify, send_file, request as flask_request, render_template_string
+from flask import Flask, jsonify, send_file, request as flask_request, render_template_string, redirect
 from flask_cors import CORS
 
 # Firebase
@@ -200,7 +200,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-from flask import Flask, jsonify, render_template, request, send_from_directory
+from flask import Flask, jsonify, render_template, request, send_from_directory, redirect
 
 try:
     from bs4 import BeautifulSoup
@@ -10454,6 +10454,28 @@ def bootstrap_app():
     # Günlük AI Haber Ajanı threadini başlat
     threading.Thread(target=run_blog_agent_periodically, daemon=True).start()
     
+    # Otonom Google Drive Proje Senkronizasyonunu başlat (30 dk aralık)
+    def _run_drive_sync_bg():
+        try:
+            import nexa_drive_puller
+            time.sleep(15)
+            nexa_drive_puller.drive_loop(interval=1800)
+        except Exception as e:
+            logger.warning(f"Drive puller background hatası: {e}")
+
+    threading.Thread(target=_run_drive_sync_bg, daemon=True, name="drive-sync").start()
+
+    # Otonom Proje Dosya İzleyici (Watchdog) başlat
+    def _run_watchdog_bg():
+        try:
+            import nexa_watchdog
+            time.sleep(10)
+            nexa_watchdog.watchdog_loop(interval=120)
+        except Exception as e:
+            logger.warning(f"Watchdog background hatası: {e}")
+
+    threading.Thread(target=_run_watchdog_bg, daemon=True, name="watchdog").start()
+    
     _bootstrap_done = True
     
     print("\n" + "="*70)
@@ -10525,6 +10547,7 @@ def crm():
     except Exception as e:
         return f"crm.html bulunamadı: {e}", 404
 
+@app.route("/haber")
 @app.route("/haberler")
 @app.route("/intelligence")
 def haberler():
@@ -10569,6 +10592,7 @@ except Exception:
     _NEXA_IMPORT_OK = False
 
 _NEXA_PROJELER_ROOT = BASE_DIR / "static" / "projeler"
+_NEXA_PROJELER_ROOT.mkdir(parents=True, exist_ok=True)
 _NEXA_PROJECTS_MAP = BASE_DIR / "static" / "data" / "projects_map.json"
 _NEXA_LOG_DIR = BASE_DIR / "logs"
 _NEXA_LOG_DIR.mkdir(exist_ok=True)
@@ -10634,19 +10658,81 @@ def _nexa_stream_file_response(path: Path, mimetype: str):
     return resp
 
 
-def _nexa_load_projects():
-    if _NEXA_PROJECTS_MAP.exists():
-        with open(_NEXA_PROJECTS_MAP, "r", encoding="utf-8") as f:
-            return json.load(f)
+_NEXA_DISPLAY_ORDER_FILE = BASE_DIR / "static" / "data" / "display_order.json"
+
+def _nexa_get_saved_display_order():
+    if _NEXA_DISPLAY_ORDER_FILE.exists():
+        try:
+            with open(_NEXA_DISPLAY_ORDER_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return []
     return []
+
+def _nexa_load_projects(include_hidden=False):
+    if not _NEXA_PROJECTS_MAP.exists():
+        return []
+    try:
+        with open(_NEXA_PROJECTS_MAP, "r", encoding="utf-8") as f:
+            projects = json.load(f)
+    except Exception:
+        return []
+
+    saved_orders = _nexa_get_saved_display_order()
+    order_map = {str(item.get("id")): item for item in saved_orders if isinstance(item, dict)}
+
+    for p in projects:
+        p_id = str(p.get("id"))
+        if p_id in order_map:
+            meta = order_map[p_id]
+            p["rank"] = meta.get("rank", 999)
+            p["is_pinned"] = meta.get("is_pinned", False)
+            p["is_hidden"] = meta.get("is_hidden", False)
+        else:
+            p["rank"] = 999
+            p["is_pinned"] = False
+            p["is_hidden"] = False
+
+    # Sort: Pinned first, then by rank, then original order
+    projects.sort(key=lambda x: (
+        0 if x.get("is_pinned") else 1,
+        x.get("rank", 999)
+    ))
+
+    if not include_hidden:
+        projects = [p for p in projects if not p.get("is_hidden")]
+
+    return projects
 
 
 @app.route("/api/projects", methods=["GET"])
 def api_projects_nexa():
-    data = _nexa_load_projects()
+    data = _nexa_load_projects(include_hidden=False)
     if data:
-        return jsonify({"success": True, "data": data})
+        resp = jsonify({"success": True, "data": data})
+        resp.headers["Cache-Control"] = "public, max-age=300"
+        return resp
     return jsonify({"success": False, "message": "projects_map.json bulunamadı"}), 404
+
+
+@app.route("/api/admin/sync-projects", methods=["POST", "GET"])
+def api_admin_sync_projects():
+    """Google Drive projelerini manuel veya otonom tetikleyerek senkronize eder."""
+    try:
+        import nexa_drive_puller
+        import nexa_watchdog
+        count = nexa_drive_puller.pull_once()
+        docs, chunks, msg = nexa_watchdog.ingest_changed()
+        nexa_drive_puller._refresh_drive_previews()
+        return jsonify({
+            "success": True,
+            "downloaded": count,
+            "docs_indexed": docs,
+            "chunks_added": chunks,
+            "message": f"Drive ve Watchdog senkronizasyonu tamamlandı. {count} dosya güncellendi. {msg}"
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/api/nexa-ai-chat", methods=["POST"])
@@ -10914,15 +11000,18 @@ def nexa_stream_video(project_id):
         return "Project not found", 404
 
     target_dir = _NEXA_PROJELER_ROOT / (project.get("folder_name") or project.get("title") or "")
-    if not target_dir.exists() or not target_dir.is_dir():
+    if _NEXA_PROJELER_ROOT.exists() and (not target_dir.exists() or not target_dir.is_dir()):
         folder_kw = (project.get("folder_name") or "").lower()
         title_kw = (project.get("title") or "").lower()
-        for d in _NEXA_PROJELER_ROOT.iterdir():
-            if d.is_dir():
-                d_name = d.name.lower()
-                if (folder_kw and (folder_kw in d_name or d_name in folder_kw)) or (title_kw and (title_kw in d_name or d_name in title_kw)):
-                    target_dir = d
-                    break
+        try:
+            for d in _NEXA_PROJELER_ROOT.iterdir():
+                if d.is_dir():
+                    d_name = d.name.lower()
+                    if (folder_kw and (folder_kw in d_name or d_name in folder_kw)) or (title_kw and (title_kw in d_name or d_name in title_kw)):
+                        target_dir = d
+                        break
+        except Exception:
+            pass
 
     _PRIORITY_WORDS_1 = ("tanitim", "tanıtım", "intro", "main", "ana", "lansman", "animasyon", "promosyon", "promo")
     _PRIORITY_WORDS_2 = ("slayt", "slideshow", "slaytlar", "sunum")
@@ -10937,16 +11026,23 @@ def nexa_stream_video(project_id):
                 return (1, i, -f.stat().st_size)
         return (2, 0, -f.stat().st_size)
 
-    mp4_files = sorted(target_dir.glob("*.mp4"), key=_mp4_priority) if target_dir.exists() else []
+    mp4_files = sorted(target_dir.glob("*.mp4"), key=_mp4_priority) if (target_dir.exists() and target_dir.is_dir()) else []
     real_mp4 = next((f for f in mp4_files if f.stat().st_size > 500 * 1024), None)
     if real_mp4 is None and mp4_files:
         real_mp4 = mp4_files[0]
     if not real_mp4 or not real_mp4.exists():
-        drive_url = project.get("drive_video_preview") or project.get("tanitim_cloud_url") or ""
+        # Robust Cloud Fallback (Google Drive Preview / Stream)
+        drive_url = project.get("drive_video_preview") or ""
+        if not drive_url and project.get("drive_vid_id"):
+            drive_url = f"https://drive.google.com/file/d/{project['drive_vid_id']}/preview"
+        if not drive_url:
+            cloud_u = project.get("tanitim_cloud_url") or ""
+            if cloud_u.startswith("http"):
+                drive_url = cloud_u
         if drive_url.startswith("http"):
             m = re.search(r"/file/d/([\w-]{15,})", drive_url)
             if m:
-                return redirect(f"https://drive.usercontent.google.com/download?id={m.group(1)}&export=media&confirm=t")
+                return redirect(f"https://drive.google.com/file/d/{m.group(1)}/preview")
             return redirect(drive_url)
         return "Video file not found", 404
     return _nexa_stream_file_response(real_mp4, "video/mp4")
@@ -10972,15 +11068,18 @@ def nexa_stream_pdf(project_id):
 
     folder = project.get("folder_name") or project.get("title") or ""
     fdir = _NEXA_PROJELER_ROOT / folder
-    if not fdir.exists() or not fdir.is_dir():
+    if _NEXA_PROJELER_ROOT.exists() and (not fdir.exists() or not fdir.is_dir()):
         folder_kw = folder.lower()
         title_kw = (project.get("title") or "").lower()
-        for d in _NEXA_PROJELER_ROOT.iterdir():
-            if d.is_dir():
-                d_name = d.name.lower()
-                if (folder_kw and (folder_kw in d_name or d_name in folder_kw)) or (title_kw and (title_kw in d_name or d_name in title_kw)):
-                    fdir = d
-                    break
+        try:
+            for d in _NEXA_PROJELER_ROOT.iterdir():
+                if d.is_dir():
+                    d_name = d.name.lower()
+                    if (folder_kw and (folder_kw in d_name or d_name in folder_kw)) or (title_kw and (title_kw in d_name or d_name in title_kw)):
+                        fdir = d
+                        break
+        except Exception:
+            pass
 
     if fdir.exists() and fdir.is_dir():
         pdfs = list(fdir.glob("*.pdf"))
@@ -10995,7 +11094,13 @@ def nexa_stream_pdf(project_id):
             resp.headers["Content-Disposition"] = f'inline; filename="{c.name}"'
             return resp
 
-    drive_pdf = project.get("drive_pdf_preview") or project.get("sunum_cloud_url") or ""
+    drive_pdf = project.get("drive_pdf_preview") or ""
+    if not drive_pdf and project.get("drive_pdf_id"):
+        drive_pdf = f"https://drive.google.com/file/d/{project['drive_pdf_id']}/preview"
+    if not drive_pdf:
+        sunum_u = project.get("sunum_cloud_url") or ""
+        if sunum_u.startswith("http"):
+            drive_pdf = sunum_u
     if drive_pdf.startswith("http"):
         m = re.search(r"/file/d/([\w-]{15,})", drive_pdf)
         if m:
@@ -11577,8 +11682,13 @@ def get_blog_posts():
     """Herkese açık — site.html, haber.html ve mobil uygulama buradan çeker."""
     # 1. Primary: Intelligence Network SQLite Database
     try:
+        try:
+            limit_param = int(flask_request.args.get("limit", 50))
+        except Exception:
+            limit_param = 50
+        limit = min(max(limit_param, 1), 100)
         from intelligence.db import get_published_articles
-        articles = get_published_articles(limit=24)
+        articles = get_published_articles(limit=limit)
         if articles:
             return jsonify({"ok": True, "data": [a.to_dict() for a in articles]})
     except Exception as e:
@@ -12475,6 +12585,33 @@ def api_portfolio_persona_intelligence():
                    (title_param and (title_param.lower() in i_title.lower() or i_title.lower() in title_param.lower())):
                     found_listing = item
                     break
+
+            # Eğer ilanda bulunamadıysa 35 Drive projesi arasında ara
+            if not found_listing:
+                try:
+                    p_file = BASE_DIR / "projects_map.json"
+                    if p_file.exists():
+                        with open(p_file, "r", encoding="utf-8") as pf:
+                            projs = json.load(pf)
+                        for p in projs:
+                            p_title = p.get("title") or p.get("name") or ""
+                            p_id = str(p.get("id") or "")
+                            if (title_param and (title_param.lower() in p_title.lower() or p_title.lower() in title_param.lower())) or \
+                               (url_param and (p_id == url_param or url_param in p.get("tanitim_cloud_url", ""))):
+                                found_listing = {
+                                    "title": p_title,
+                                    "property_type": p.get("category", "Markalı Konut Projesi"),
+                                    "type": "Satılık",
+                                    "price": p.get("price_display") or p.get("price") or "Lansman Fiyatı",
+                                    "loc": p.get("location") or "Ankara",
+                                    "rooms": p.get("room_info") or "",
+                                    "area": f"{p.get('down_payment', '')} / {p.get('installment_terms', '')}",
+                                    "link": f"/projeler?id={p.get('id')}",
+                                    "img": p.get("thumbnail") or p.get("image") or ""
+                                }
+                                break
+                except Exception:
+                    pass
 
         target_listing = listing_input or found_listing or {
             "title": title_param or "Portföy Analizi",
@@ -15023,10 +15160,50 @@ SADECE JSON döndür:
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
+# ================================================================
+# NEXA CRM — OTONOM SOSYAL MEDYA & İÇERİK PLANLAYICI (SOCIAL AUTOPILOT)
+# ================================================================
 
+@app.route("/api/crm/social-planner/weekly", methods=["GET"])
+def api_crm_social_planner_weekly():
+    """
+    Haftanın 7 günlük stratejik paylaşım planını, bugünün gününü ve
+    35 Drive projesi ile canlı CB VIP portföyünü dinamik eşleyerek döndürür.
+    """
+    try:
+        import nexa_social_autopilot
+        plan = nexa_social_autopilot.get_weekly_social_plan()
+        return jsonify(plan)
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
+@app.route("/api/crm/social-planner/generate-post", methods=["POST"])
+def api_crm_social_planner_generate_post():
+    """
+    Seçilen portföy veya proje için Instagram, Reels, LinkedIn ve WhatsApp
+    içerik paketini (hook, CTA ve kritik özelliklerle) tam otonom üretir.
+    """
+    try:
+        import nexa_social_autopilot
+        data = flask_request.json or {}
+        item_id = data.get("item_id")
+        item_type = data.get("item_type", "project")
+        day_name = data.get("day_name")
+        theme = data.get("theme")
+        hook = data.get("hook")
+        cta = data.get("cta")
 
-
+        res = nexa_social_autopilot.generate_social_post_package(
+            item_id=item_id,
+            item_type=item_type,
+            day_name=day_name,
+            theme=theme,
+            hook=hook,
+            cta=cta
+        )
+        return jsonify({"success": True, "data": res})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 # ================================================================
 # NEXA AI PROJE SUNUM & RAG ASİSTANI ENDPOINTS

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/bqHDW5Y/Gemini-Generated-mage-6zpnsj6zpnsj6zpn.png">
+    <link rel="icon" type="image/png" href="/static/yigit_narin_portrait.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nexa CRM Pro - Süreç Yönetimi</title>
@@ -1591,7 +1591,7 @@
         <div class="auth-box fade-in">
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4 overflow-hidden">
-                    <a href="https://ibb.co/bqHDW5Y"><img src="https://i.ibb.co/bqHDW5Y/Gemini-Generated-mage-6zpnsj6zpnsj6zpn.png" alt="Gemini-Generated-mage-6zpnsj6zpnsj6zpn" border="0" style="width:100%;height:100%;object-fit:cover;"></a>
+                    <a href="https://ibb.co/bqHDW5Y"><img src="/static/yigit_narin_portrait.png" alt="Gemini-Generated-mage-6zpnsj6zpnsj6zpn" border="0" style="width:100%;height:100%;object-fit:cover;"></a>
                 </div>
                 <h1 class="text-3xl font-bold mb-2">Nexa CRM Pro</h1>
                 <p class="text-gray-400">Akıllı Süreç Yönetim Sistemi</p>
@@ -1666,7 +1666,7 @@
         <aside class="sidebar">
             <div class="sidebar-logo">
                 <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0;">
-                    <a href="https://ibb.co/bqHDW5Y"><img src="https://i.ibb.co/bqHDW5Y/Gemini-Generated-mage-6zpnsj6zpnsj6zpn.png" alt="Nexa" style="width:100%;height:100%;object-fit:cover;"></a>
+                    <a href="https://ibb.co/bqHDW5Y"><img src="/static/yigit_narin_portrait.png" alt="Nexa" style="width:100%;height:100%;object-fit:cover;"></a>
                 </div>
                 <div>
                     <h1>Nexa CRM</h1>
@@ -1716,6 +1716,10 @@
                 <button @click="activeView = 'my_listings'; loadMyListings();" :class="{ active: activeView === 'my_listings' }" class="sidebar-item" style="color: var(--gold);">
                     <i class="fas fa-crown" style="width:16px"></i> İlanlarım
                 </button>
+                <button @click="activeView = 'social_autopilot'; loadSocialPlanner();" :class="{ active: activeView === 'social_autopilot' }" class="sidebar-item" style="color: #38bdf8; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25); margin-top: 4px;">
+                    <i class="fas fa-calendar-alt" style="width:16px; color:#38bdf8;"></i> Sosyal Autopilot
+                    <span class="sidebar-item-badge" style="background:#0284c7; color:#fff; font-size:10px;">AI</span>
+                </button>
                 <button @click="showUrlPdfModal = true" class="sidebar-item" style="color: #f59e0b; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); margin-top: 4px;">
                     <i class="fas fa-magic" style="width:16px; color:#f59e0b;"></i> URL'den PDF Üret
                 </button>
@@ -1738,7 +1742,7 @@
                 </button>
                 <div class="sidebar-user" style="margin-top:8px;">
                     <div class="sidebar-user-avatar">
-                        <img src="https://i.ibb.co/bqHDW5Y/Gemini-Generated-mage-6zpnsj6zpnsj6zpn.png" style="width:100%;height:100%;object-fit:cover;">
+                        <img src="/static/yigit_narin_portrait.png" style="width:100%;height:100%;object-fit:cover;">
                     </div>
                     <div class="sidebar-user-email">{{ user.email }}</div>
                 </div>
@@ -1756,6 +1760,7 @@
                     <span v-else-if="activeView === 'leads'">Leadler</span>
                     <span v-else-if="activeView === 'analytics'">Analitik</span>
                     <span v-else-if="activeView === 'my_listings'">Portföy İlanlarım</span>
+                    <span v-else-if="activeView === 'social_autopilot'">Sosyal Medya Autopilot & İçerik Stüdyosu</span>
                     <span v-else-if="activeView === 'buyer'">Alıcı Paneli</span>
                 </span>
                 <div class="header-metric-strip">
@@ -1792,6 +1797,9 @@
                         </button>
                         <button @click="activeView = 'my_listings'; loadMyListings(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: var(--gold)">
                             <i class="fas fa-crown" style="color: var(--gold)"></i><span>Portföy İlanlarım</span>
+                        </button>
+                        <button @click="activeView = 'social_autopilot'; loadSocialPlanner(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: #38bdf8; font-weight:600;">
+                            <i class="fas fa-calendar-alt" style="color: #38bdf8"></i><span>Sosyal Autopilot</span>
                         </button>
                         <button @click="activeView = 'buyer'; showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm">
                             <i class="fas fa-user-check" style="color: #a855f7"></i><span>Alıcı Paneli</span>
@@ -1855,8 +1863,239 @@
                 </div>
             </div>
 
+            <!-- ═══════════════════ SOSYAL MEDYA AUTOPILOT (7 GÜNLÜK YAYIN PLANI) ═══════════════════ -->
+            <div v-if="activeView === 'social_autopilot'" class="space-y-6">
+                <!-- Header Card -->
+                <div class="glass-strong rounded-2xl p-6 border border-cyan-500/20" style="background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(8,16,32,0.95));">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 uppercase tracking-wider">
+                                    <i class="fas fa-robot mr-1"></i> %100 Otonom Pazarlama Motoru
+                                </span>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                    <i class="fas fa-fire mr-1"></i> 35 Proje & Canlı Portföy Entegre
+                                </span>
+                            </div>
+                            <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                                <i class="fas fa-calendar-alt text-cyan-400"></i>
+                                Sosyal Medya Autopilot & İçerik Stüdyosu
+                            </h2>
+                            <p class="text-sm text-gray-300 mt-1 max-w-3xl leading-relaxed">
+                                Coldwell Banker VIP Ankara portföyleri ve 35 Drive lansman projesi; haftanın günlerine, yatırım psikolojisine ve peak paylaşım saatlerine göre dinamik olarak planlanır. Tıkladığınız an çok kanallı post, reels senaryosu ve B2B metni sıfır manuel çabayla üretilir.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 shrink-0">
+                            <button @click="loadSocialPlanner" class="btn btn-secondary px-4 py-2.5 rounded-xl border border-white/10 hover:border-cyan-400/50 flex items-center gap-2 text-xs" :disabled="socialLoading">
+                                <i class="fas" :class="socialLoading ? 'fa-spinner fa-spin' : 'fa-sync-alt'"></i>
+                                <span>{{ socialLoading ? 'Yenileniyor...' : 'Planı Güncelle' }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hızlı İstatistik Şeridi -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-white/10">
+                        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+                            <div class="text-[11px] text-gray-400 font-medium">Haftalık Strateji</div>
+                            <div class="text-sm font-bold text-cyan-300 mt-0.5">7 Gün / 7 Yatırım Teması</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+                            <div class="text-[11px] text-gray-400 font-medium">Envanter Kapsamı</div>
+                            <div class="text-sm font-bold text-amber-400 mt-0.5">35 Proje + 11 Portföy (%100)</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+                            <div class="text-[11px] text-gray-400 font-medium">Döngüsel Rotasyon</div>
+                            <div class="text-sm font-bold text-emerald-400 mt-0.5">{{ socialInventoryStats ? socialInventoryStats.rotation_cycle : 'Haftalık Akıllı Döngü' }}</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+                            <div class="text-[11px] text-gray-400 font-medium">Otonom Durumu</div>
+                            <div class="text-sm font-bold text-purple-400 mt-0.5"><i class="fas fa-check-circle text-xs mr-1"></i>Canlı &amp; Aktif</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7 Günlük Takvim Grid'i -->
+                <div v-if="socialLoading && socialWeeklySchedule.length === 0" class="text-center py-16 text-gray-400">
+                    <i class="fas fa-circle-notch fa-spin text-3xl text-cyan-400 mb-3"></i>
+                    <p class="text-sm">Haftalık otonom paylaşım planı veritabanından derleniyor...</p>
+                </div>
+
+                <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                    <div v-for="day in socialWeeklySchedule" :key="day.day_index" 
+                         class="rounded-2xl p-5 transition-all flex flex-col justify-between relative overflow-hidden"
+                         :class="day.is_today ? 'glass-strong border-2 border-amber-400/80 shadow-2xl' : 'glass border border-white/10 hover:border-white/20'"
+                         :style="day.is_today ? 'background: linear-gradient(180deg, rgba(212,175,55,0.08) 0%, rgba(14,24,48,0.95) 100%);' : 'background: rgba(15,23,42,0.6);'">
+                        
+                        <!-- Today Badge -->
+                        <div v-if="day.is_today" class="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-400 text-slate-950 shadow-md">
+                            <span class="w-1.5 h-1.5 rounded-full bg-slate-950 animate-ping"></span>
+                            BUGÜN
+                        </div>
+
+                        <div>
+                            <!-- Gün Başlığı & Tema -->
+                            <div class="mb-3">
+                                <div class="text-xs font-extrabold uppercase tracking-wider" :class="day.is_today ? 'text-amber-400' : 'text-cyan-400'">
+                                    {{ day.day_name }}
+                                </div>
+                                <h3 class="text-base font-bold text-white mt-0.5 leading-snug">{{ day.theme }}</h3>
+                                <div class="text-xs text-gray-400 mt-1 flex items-center gap-1.5">
+                                    <i class="fas fa-clock text-amber-400/80 text-[11px]"></i>
+                                    <span>{{ day.peak_hours }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Format & Kanallar -->
+                            <div class="p-2.5 rounded-xl bg-black/30 border border-white/5 mb-3 text-xs">
+                                <div class="text-[11px] text-gray-400 font-semibold mb-1 flex items-center gap-1">
+                                    <i class="fas fa-layer-group text-purple-400"></i> Format: <span class="text-gray-200">{{ day.format }}</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 flex-wrap mt-1.5">
+                                    <span v-for="(ch, cidx) in day.channels" :key="cidx" class="px-2 py-0.5 rounded text-[10px] font-medium bg-white/10 text-gray-300">
+                                        {{ ch }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Algoritmik Hook -->
+                            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs mb-4">
+                                <div class="font-bold text-[10px] uppercase text-amber-400/90 mb-1 flex items-center gap-1">
+                                    <i class="fas fa-bolt"></i> Algoritmik Kanca (Hook)
+                                </div>
+                                <p class="italic leading-relaxed">"{{ day.hook }}"</p>
+                            </div>
+
+                            <!-- Eşleşen Portföyler & Projeler -->
+                            <div class="space-y-2 mb-4">
+                                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
+                                    <span>Öne Çıkan Portföyler</span>
+                                    <span class="text-[10px] text-cyan-400 font-normal">Tek tıkla üret</span>
+                                </div>
+                                <div v-for="item in day.items" :key="item.id" 
+                                     @click="openPostStudio(item, day)"
+                                     class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/15 border border-white/10 hover:border-cyan-400/40 transition-all cursor-pointer flex items-center gap-2.5 group">
+                                    <img :src="item.thumbnail" class="w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0 group-hover:scale-105 transition-transform" />
+                                    <div class="min-w-0 flex-1">
+                                        <div class="flex items-center gap-1 mb-0.5">
+                                            <span class="text-[9px] font-bold px-1 rounded" :class="item.type === 'project' ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'">
+                                                {{ item.badge }}
+                                            </span>
+                                            <span class="text-[11px] font-bold text-cyan-300 truncate">{{ item.price }}</span>
+                                        </div>
+                                        <h4 class="text-xs font-bold text-white truncate group-hover:text-cyan-300">{{ item.title }}</h4>
+                                        <div class="flex items-center justify-between gap-1.5 mt-1">
+                                            <p class="text-[10px] text-gray-400 truncate">{{ item.location }}</p>
+                                            <button v-if="item.top_persona" @click.stop="openPersonaModal(item)" class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 font-bold shrink-0 flex items-center gap-1 transition-colors" title="Kimler İçin Uygun? (AI Persona Raporu)">
+                                                <i class="fas fa-user-check text-[9px]"></i> %{{ item.persona_score }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-magic text-xs text-gray-400 group-hover:text-cyan-300 transition-colors"></i>
+                                </div>
+
+                                <!-- Tüm Tematik Havuzu Göster / Gizle Butonu -->
+                                <div v-if="day.thematic_pool && day.thematic_pool.length > 2" class="pt-1">
+                                    <button @click="expandedThematicDay = (expandedThematicDay === day.day_index ? null : day.day_index)"
+                                            class="w-full py-1.5 px-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-[11px] text-gray-300 hover:text-cyan-300 flex items-center justify-between transition-colors">
+                                        <span><i class="fas fa-layer-group text-cyan-400 mr-1.5"></i>Tüm Havuz ({{ day.thematic_pool.length }} Portföy)</span>
+                                        <i class="fas text-[10px]" :class="expandedThematicDay === day.day_index ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                    </button>
+
+                                    <!-- Genişletilmiş Havuz Listesi -->
+                                    <div v-if="expandedThematicDay === day.day_index" class="mt-2 space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                                        <div v-for="poolItem in day.thematic_pool" :key="'pool-'+poolItem.id"
+                                             @click="openPostStudio(poolItem, day)"
+                                             class="p-2 rounded-lg bg-black/40 hover:bg-cyan-500/20 border border-white/5 hover:border-cyan-400/30 transition-all cursor-pointer flex items-center gap-2">
+                                            <img :src="poolItem.thumbnail" class="w-8 h-8 rounded object-cover border border-white/10 shrink-0" />
+                                            <div class="min-w-0 flex-1">
+                                                <div class="text-[11px] font-bold text-white truncate hover:text-cyan-300">{{ poolItem.title }}</div>
+                                                <div class="flex items-center justify-between gap-1">
+                                                    <span class="text-[10px] text-cyan-300 truncate">{{ poolItem.price }}</span>
+                                                    <button v-if="poolItem.top_persona" @click.stop="openPersonaModal(poolItem)" class="text-[8.5px] px-1 rounded bg-purple-500/20 text-purple-300 font-bold shrink-0 hover:bg-purple-500/40" title="Persona Raporu">
+                                                        %{{ poolItem.persona_score }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-bolt text-[10px] text-amber-400 shrink-0"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card CTA / Action -->
+                        <div class="pt-3 border-t border-white/10 mt-auto">
+                            <button v-if="day.items && day.items.length" 
+                                    @click="openPostStudio(day.items[0], day)"
+                                    class="w-full btn py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all"
+                                    :class="day.is_today ? 'bg-amber-400 text-slate-950 hover:bg-amber-300' : 'bg-white/10 hover:bg-cyan-500/20 text-white hover:text-cyan-300 border border-white/10 hover:border-cyan-500/30'">
+                                <i class="fas fa-bolt"></i>
+                                <span>İçerik Stüdyosunu Aç</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ═══════════════════ DASHBOARD ═══════════════════ -->
             <div v-if="activeView === 'dashboard'" class="space-y-6">
+
+                <!-- ── OTONOM SOSYAL MEDYA: BUGÜNÜN PAYLAŞIM PLANI ── -->
+                <div v-if="todayPlan" class="glass-strong rounded-2xl p-6 border border-cyan-500/30 relative overflow-hidden" style="background: linear-gradient(135deg, rgba(14,28,54,0.95), rgba(8,16,32,0.98)); box-shadow: 0 8px 32px rgba(2,132,199,0.15);">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">
+                                    <i class="fas fa-satellite-dish fa-spin mr-1"></i> BUGÜNÜN YAYINI: {{ todayPlan.day_name }}
+                                </span>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/10 text-gray-300">
+                                    <i class="fas fa-clock text-amber-400 mr-1"></i> Peak: {{ todayPlan.peak_hours }}
+                                </span>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                    <i class="fas fa-bullhorn mr-1"></i> {{ todayPlan.theme }}
+                                </span>
+                            </div>
+                            <h2 class="text-xl font-bold text-white mt-1 flex items-center gap-2">
+                                <i class="fas fa-bolt text-amber-400"></i> {{ todayPlan.hook }}
+                            </h2>
+                            <p class="text-xs text-gray-400">
+                                <i class="fas fa-crosshairs text-cyan-400 mr-1"></i> Hedef Kitle: {{ todayPlan.target_audience }}
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 shrink-0">
+                            <button @click="activeView = 'social_autopilot'; loadSocialPlanner();" class="btn btn-secondary text-xs px-4 py-2.5 rounded-xl border border-white/10 hover:border-cyan-400/50">
+                                <i class="fas fa-calendar-week mr-1"></i> 7 Günlük Plan
+                            </button>
+                            <button v-if="todayPlan.items && todayPlan.items.length" @click="openPostStudio(todayPlan.items[0], todayPlan)" class="btn btn-primary text-xs px-5 py-2.5 rounded-xl font-bold text-slate-950 flex items-center gap-2" style="background: linear-gradient(135deg, #38bdf8, #0284c7); box-shadow: 0 4px 15px rgba(2,132,199,0.35);">
+                                <i class="fas fa-magic"></i> Bugünün Postunu Üret
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Eşleşen Portföyler & Projeler Önizleme Şeridi -->
+                    <div v-if="todayPlan.items && todayPlan.items.length" class="mt-4 pt-4 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div v-for="(item, idx) in todayPlan.items" :key="item.id || idx" 
+                             @click="openPostStudio(item, todayPlan)"
+                             class="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-cyan-500/10 border border-white/5 hover:border-cyan-500/30 transition-all cursor-pointer group">
+                            <img :src="item.thumbnail" class="w-14 h-14 rounded-lg object-cover border border-white/10 shrink-0 group-hover:scale-105 transition-transform" />
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center gap-1.5 mb-0.5">
+                                    <span class="text-[10px] font-bold px-1.5 py-0.5 rounded" :class="item.type === 'project' ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'">
+                                        {{ item.badge }}
+                                    </span>
+                                    <span class="text-xs font-bold text-cyan-400 truncate">{{ item.price }}</span>
+                                </div>
+                                <h4 class="text-xs font-bold text-white truncate group-hover:text-cyan-300">{{ item.title }}</h4>
+                                <p class="text-[11px] text-gray-400 truncate"><i class="fas fa-map-marker-alt text-amber-400/70 mr-1"></i>{{ item.location }}</p>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <span class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- STATS -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="stat-card rounded-2xl p-6">
@@ -3426,6 +3665,236 @@
                     </div>
                 </div>
             </div>
+        <!-- ═══════════════════ SOSYAL MEDYA OTONOM İÇERİK STÜDYOSU MODALI ═══════════════════ -->
+        <transition>
+            <div v-if="showSocialStudioModal" class="modal-backdrop flex items-center justify-center p-4" style="z-index: 9999;" @click.self="showSocialStudioModal = false">
+                <div class="modal-content glass-strong rounded-2xl p-6 shadow-2xl border border-cyan-500/30 flex flex-col" style="max-width: 820px; width: 95%; max-height: 90vh; overflow-y: auto;" @click.stop>
+                    
+                    <!-- Header -->
+                    <div class="flex items-start justify-between border-b border-white/10 pb-4 mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl shadow-md shrink-0">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">
+                                        {{ socialStudioDay ? socialStudioDay.day_name : 'Günün Planı' }}
+                                    </span>
+                                    <span v-if="socialStudioItem" class="px-2 py-0.5 rounded text-[10px] font-bold" :class="socialStudioItem.type === 'project' ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'">
+                                        {{ socialStudioItem.type === 'project' ? 'Prestij Projesi' : 'CB VIP Portföy' }}
+                                    </span>
+                                </div>
+                                <h3 class="font-bold text-white text-lg mt-0.5">{{ socialStudioItem ? socialStudioItem.title : 'İçerik Stüdyosu' }}</h3>
+                                <p class="text-xs text-gray-400">
+                                    <span class="text-cyan-400 font-bold mr-2">{{ socialStudioItem ? socialStudioItem.price : '' }}</span>
+                                    <i class="fas fa-map-marker-alt text-amber-400/80 mr-1"></i>{{ socialStudioItem ? socialStudioItem.location : '' }}
+                                </p>
+                            </div>
+                        </div>
+                        <button @click="showSocialStudioModal = false" class="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div v-if="socialStudioLoading" class="py-16 text-center text-gray-400">
+                        <i class="fas fa-spinner fa-spin text-3xl text-cyan-400 mb-3"></i>
+                        <h4 class="text-sm font-bold text-white">Yapay Zeka & Kopya Yazarı Motoru Çalışıyor</h4>
+                        <p class="text-xs text-gray-400 mt-1">İlanın kritik finansal ve mimari parametreleri çıkarılıyor, 4 kanallı içerik paketi üretiliyor...</p>
+                    </div>
+
+                    <!-- Ready Content -->
+                    <div v-else-if="socialStudioResult" class="space-y-4">
+                        
+                        <!-- Kritik Parametreler Şeridi -->
+                        <div v-if="socialStudioResult.critical_specs" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3 rounded-xl bg-black/40 border border-white/10 text-xs">
+                            <div>
+                                <span class="text-[10px] text-gray-400 block font-medium">Fiyat / Değer</span>
+                                <span class="font-bold text-cyan-300 truncate block">{{ socialStudioResult.critical_specs.price }}</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 block font-medium">Peşinat / Giriş</span>
+                                <span class="font-bold text-amber-300 truncate block">{{ socialStudioResult.critical_specs.down_payment }}</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 block font-medium">Ödeme / Vade</span>
+                                <span class="font-bold text-emerald-300 truncate block">{{ socialStudioResult.critical_specs.installment }}</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 block font-medium">Durum / Teslim</span>
+                                <span class="font-bold text-purple-300 truncate block">{{ socialStudioResult.critical_specs.delivery }}</span>
+                            </div>
+                        </div>
+
+                        <!-- 4 Kanallı Format Sekmeleri -->
+                        <div class="flex items-center gap-1.5 border-b border-white/10 pb-2 overflow-x-auto">
+                            <button @click="socialStudioActiveTab = 'instagram'" 
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap"
+                                    :class="socialStudioActiveTab === 'instagram' ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                                <i class="fab fa-instagram"></i> Instagram / Facebook
+                            </button>
+                            <button @click="socialStudioActiveTab = 'reels'" 
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap"
+                                    :class="socialStudioActiveTab === 'reels' ? 'bg-cyan-500 text-slate-950 font-black shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                                <i class="fas fa-video"></i> Reels &amp; Shorts Senaryosu
+                            </button>
+                            <button @click="socialStudioActiveTab = 'linkedin'" 
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap"
+                                    :class="socialStudioActiveTab === 'linkedin' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                                <i class="fab fa-linkedin"></i> LinkedIn B2B Analiz
+                            </button>
+                            <button @click="socialStudioActiveTab = 'whatsapp'" 
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap"
+                                    :class="socialStudioActiveTab === 'whatsapp' ? 'bg-emerald-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                                <i class="fab fa-whatsapp"></i> WhatsApp Durum &amp; DM
+                            </button>
+                            <button @click="socialStudioActiveTab = 'persona'" 
+                                    class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap"
+                                    :class="socialStudioActiveTab === 'persona' ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                                <i class="fas fa-users"></i> Kimler İçin Uygun?
+                            </button>
+                        </div>
+
+                        <!-- Tab 1: Instagram Post -->
+                        <div v-if="socialStudioActiveTab === 'instagram'" class="space-y-3">
+                            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200">
+                                <span class="font-bold text-amber-400 block mb-0.5">Algoritmik Başlık / Hook:</span>
+                                {{ socialStudioResult.instagram ? socialStudioResult.instagram.hook : '' }}
+                            </div>
+                            <div class="relative">
+                                <textarea readonly rows="9" class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="socialStudioResult.instagram ? socialStudioResult.instagram.caption : ''"></textarea>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 text-[11px] text-cyan-400/90 font-mono">
+                                {{ socialStudioResult.instagram ? socialStudioResult.instagram.hashtags : '' }}
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Reels / Shorts Senaryosu -->
+                        <div v-else-if="socialStudioActiveTab === 'reels'" class="space-y-3">
+                            <div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-200">
+                                <span class="font-bold text-cyan-400 block mb-0.5">Reels Kancası (İlk 3 Saniye):</span>
+                                {{ socialStudioResult.reels ? socialStudioResult.reels.hook : '' }}
+                            </div>
+                            <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                                <div v-for="(step, sidx) in (socialStudioResult.reels ? socialStudioResult.reels.script_steps : [])" :key="sidx"
+                                     class="p-3 rounded-xl bg-black/40 border border-white/10 text-xs">
+                                    <div class="flex items-center justify-between text-[11px] font-bold text-cyan-400 mb-1">
+                                        <span>Sahne {{ sidx + 1 }} ({{ step.scene }})</span>
+                                        <span class="text-gray-400 font-normal"><i class="fas fa-camera mr-1"></i>{{ step.visual }}</span>
+                                    </div>
+                                    <div class="text-white font-medium pl-2 border-l-2 border-amber-400/80 mt-1.5">
+                                        "{{ step.voiceover }}"
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3: LinkedIn B2B -->
+                        <div v-else-if="socialStudioActiveTab === 'linkedin'" class="space-y-3">
+                            <div class="text-xs font-bold text-blue-400">
+                                {{ socialStudioResult.linkedin ? socialStudioResult.linkedin.headline : '' }}
+                            </div>
+                            <textarea readonly rows="10" class="w-full bg-black/50 border border-white/10 rounded-xl p-3.5 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="socialStudioResult.linkedin ? socialStudioResult.linkedin.post_body : ''"></textarea>
+                        </div>
+
+                        <!-- Tab 4: WhatsApp Broadcast -->
+                        <div v-else-if="socialStudioActiveTab === 'whatsapp'" class="space-y-3">
+                            <div>
+                                <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">WhatsApp Durum (Story) Metni:</label>
+                                <textarea readonly rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="socialStudioResult.whatsapp ? socialStudioResult.whatsapp.status_text : ''"></textarea>
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">VIP Yatırımcı Listesi DM Mesajı:</label>
+                                <textarea readonly rows="6" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="socialStudioResult.whatsapp ? socialStudioResult.whatsapp.broadcast_msg : ''"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Tab 5: AI Persona Swarm Raporu -->
+                        <div v-else-if="socialStudioActiveTab === 'persona'" class="space-y-4">
+                            <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-500/30 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+                                        <i class="fas fa-robot text-purple-400"></i> NEXA AI Persona Swarm (4 Ajan İstihbaratı)
+                                    </h4>
+                                    <button @click="openPersonaModal(socialStudioItem)" class="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-bold transition-all flex items-center gap-1.5 shadow-md">
+                                        <i class="fas fa-external-link-alt"></i> Tam Detaylı Modalı Aç
+                                    </button>
+                                </div>
+                                <p v-if="socialStudioResult.persona_report && socialStudioResult.persona_report.executive_summary" class="text-xs text-gray-200 leading-relaxed italic bg-black/30 p-3 rounded-lg border border-white/5">
+                                    "{{ socialStudioResult.persona_report.executive_summary }}"
+                                </p>
+
+                                <!-- Top Personas Grid -->
+                                <div v-if="socialStudioResult.persona_report && socialStudioResult.persona_report.top_personas" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                                    <div v-for="(p, pidx) in socialStudioResult.persona_report.top_personas.slice(0, 2)" :key="pidx" class="p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                                        <div class="flex items-center justify-between gap-2 mb-1">
+                                            <span class="text-xs font-bold text-white truncate flex items-center gap-1.5">
+                                                <i class="fas fa-user-check text-purple-400"></i> {{ p.title }}
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-300 font-mono">
+                                                %{{ p.score }}
+                                            </span>
+                                        </div>
+                                        <p class="text-[11px] text-gray-400 leading-relaxed">{{ p.suitability }}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Anti-Persona Warning Box -->
+                                <div v-if="socialStudioResult.persona_report && socialStudioResult.persona_report.anti_personas && socialStudioResult.persona_report.anti_personas.length" class="p-3 rounded-xl bg-red-950/20 border border-red-500/30">
+                                    <h5 class="text-[11px] font-bold text-red-300 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                                        <i class="fas fa-exclamation-triangle text-red-400"></i> Dürüst Danışman Filtresi (Kimler İçin Uygun Değil?)
+                                    </h5>
+                                    <ul class="text-xs text-red-200/90 space-y-1 pl-4 list-disc">
+                                        <li v-for="(ap, apidx) in socialStudioResult.persona_report.anti_personas" :key="apidx">
+                                            {{ ap }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 pt-4 mt-4">
+                        <div class="flex items-center gap-2">
+                            <span v-if="socialCopyToast" class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold animate-bounce flex items-center gap-1.5">
+                                <i class="fas fa-check"></i> Metin Panoya Kopyalandı!
+                            </span>
+                            <span v-else-if="socialStudioResult" class="text-[11px] text-gray-400">
+                                Motor: <strong class="text-cyan-400">{{ socialStudioResult.source }}</strong>
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                            <button v-if="socialStudioResult" 
+                                    @click="openPostStudio(socialStudioItem, socialStudioDay)"
+                                    class="btn btn-secondary text-xs px-3.5 py-2 rounded-xl border border-white/10 hover:border-cyan-400/50" :disabled="socialStudioLoading">
+                                <i class="fas fa-redo-alt mr-1"></i> Yeniden Üret
+                            </button>
+                            
+                            <button v-if="socialStudioResult && socialStudioActiveTab === 'whatsapp'"
+                                    @click="window.open('https://wa.me/?text=' + encodeURIComponent(socialStudioResult.whatsapp.broadcast_msg || socialStudioResult.whatsapp.status_text), '_blank')"
+                                    class="btn text-xs px-4 py-2 rounded-xl font-bold text-white flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 shadow-md">
+                                <i class="fab fa-whatsapp"></i> WhatsApp'ta Aç
+                            </button>
+
+                            <button v-if="socialStudioResult" 
+                                    @click="copySocialContent(
+                                        socialStudioActiveTab === 'instagram' ? (socialStudioResult.instagram.caption + '\n\n' + socialStudioResult.instagram.hashtags) :
+                                        socialStudioActiveTab === 'reels' ? socialStudioResult.reels.script_steps.map(s => s.scene + ': ' + s.voiceover).join('\n') :
+                                        socialStudioActiveTab === 'linkedin' ? socialStudioResult.linkedin.post_body :
+                                        socialStudioActiveTab === 'persona' ? (socialStudioResult.persona_report ? socialStudioResult.persona_report.executive_summary : '') :
+                                        (socialStudioResult.whatsapp.broadcast_msg || socialStudioResult.whatsapp.status_text)
+                                    )"
+                                    class="btn btn-primary text-xs px-4 py-2 rounded-xl font-bold text-slate-950 flex items-center gap-1.5" style="background: linear-gradient(135deg, #38bdf8, #0284c7); box-shadow: 0 4px 15px rgba(2,132,199,0.35);">
+                                <i class="fas fa-copy"></i> Metni Kopyala
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </transition>
 
         <!-- ═══════════════════ URL'DEN SUNUM PDF MODALI ═══════════════════ -->
@@ -4566,6 +5035,110 @@
             const showMenu = ref(false);
             const showContactModal = ref(false);
             const editingContact = ref({});
+
+            // ── OTONOM SOSYAL MEDYA & İÇERİK PLANI (SOCIAL AUTOPILOT) ──
+            const socialWeeklySchedule = ref([]);
+            const todayPlan = ref(null);
+            const socialInventoryStats = ref(null);
+            const expandedThematicDay = ref(null);
+            const socialLoading = ref(false);
+            const showSocialStudioModal = ref(false);
+            const socialStudioItem = ref(null);
+            const socialStudioDay = ref(null);
+            const socialStudioLoading = ref(false);
+            const socialStudioActiveTab = ref('instagram');
+            const socialStudioResult = ref(null);
+            const socialCopyToast = ref(false);
+
+            const loadSocialPlanner = async () => {
+                socialLoading.value = true;
+                try {
+                    const res = await fetch('/api/crm/social-planner/weekly');
+                    const json = await res.json();
+                    if (json.success) {
+                        socialWeeklySchedule.value = json.weekly_schedule || [];
+                        todayPlan.value = json.today_plan || null;
+                        socialInventoryStats.value = json.inventory_stats || null;
+                    }
+                } catch (e) {
+                    console.error("Social planner fetch error:", e);
+                } finally {
+                    socialLoading.value = false;
+                }
+            };
+
+            const openPostStudio = async (item, day) => {
+                socialStudioItem.value = item;
+                socialStudioDay.value = day;
+                socialStudioActiveTab.value = 'instagram';
+                showSocialStudioModal.value = true;
+                socialStudioLoading.value = true;
+                socialStudioResult.value = null;
+
+                try {
+                    const res = await fetch('/api/crm/social-planner/generate-post', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            item_id: item.id,
+                            item_type: item.type || 'project',
+                            day_name: day ? day.day_name : '',
+                            theme: day ? day.theme : '',
+                            hook: item.hook || (day ? day.hook : ''),
+                            cta: item.cta || (day ? day.cta : '')
+                        })
+                    });
+                    const json = await res.json();
+                    if (json.success && json.data) {
+                        socialStudioResult.value = json.data;
+                    }
+                } catch (e) {
+                    console.error("Post generation error:", e);
+                } finally {
+                    socialStudioLoading.value = false;
+                }
+            };
+
+            const copySocialContent = (text) => {
+                if (!text) return;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        socialCopyToast.value = true;
+                        setTimeout(() => { socialCopyToast.value = false; }, 2500);
+                    }).catch(() => {
+                        _fallbackCopy(text);
+                    });
+                } else {
+                    _fallbackCopy(text);
+                }
+            };
+
+            const _fallbackCopy = (text) => {
+                const el = document.createElement('textarea');
+                el.value = text;
+                document.body.appendChild(el);
+                el.select();
+                try { document.execCommand('copy'); } catch(e) {}
+                document.body.removeChild(el);
+                socialCopyToast.value = true;
+                setTimeout(() => { socialCopyToast.value = false; }, 2500);
+            };
+
+            const openPersonaModal = (item) => {
+                if (!item) return;
+                if (window.openPersonaIntelligenceModal) {
+                    window.openPersonaIntelligenceModal({
+                        title: item.title,
+                        price: item.price,
+                        location: item.location || item.loc,
+                        type: item.type === 'project' ? 'Satılık' : (item.title && item.title.toLowerCase().includes('kiralık') ? 'Kiralık' : 'Satılık'),
+                        rooms: item.room_info || item.rooms,
+                        area: item.area || '',
+                        url: item.link || item.url || (item.id ? `/projeler?id=${item.id}` : ''),
+                        img: item.thumbnail || item.img
+                    });
+                }
+            };
 
             // ── URL'DEN SUNUM PDF ÜRETİCİ ──
             const showUrlPdfModal = ref(false);
@@ -6239,6 +6812,13 @@
 
             // ── LIFECYCLE ─────────────────────────────────────────
             onMounted(() => {
+                loadSocialPlanner();
+                if (window.location.search.includes('demo=1') || window.location.search.includes('mode=preview')) {
+                    user.value = { email: 'yigit.narin@coldwellbanker.vip', displayName: 'Yiğit Narin', uid: 'demo_yigit' };
+                    uiLoading.value = false;
+                    loadData();
+                    return;
+                }
                 auth.onAuthStateChanged(async (u) => {
                     user.value = u;
                     uiLoading.value = false;
@@ -7191,6 +7771,8 @@ ${comments}`;
                 user, uiLoading, authMode, authLoading, authError, email, password, displayName,
                 activeView, currentPipeline, contacts, myListings, loadMyListings, searchQuery, showMenu, showContactModal,
                 showUrlPdfModal, urlPdfInput, urlPdfLoading, urlPdfError, urlPdfResult, generateUrlPdf, getWhatsAppShareUrl,
+                socialWeeklySchedule, todayPlan, socialInventoryStats, expandedThematicDay, socialLoading, showSocialStudioModal, socialStudioItem, socialStudioDay,
+                socialStudioLoading, socialStudioActiveTab, socialStudioResult, socialCopyToast, loadSocialPlanner, openPostStudio, copySocialContent, openPersonaModal,
                 editingContact, saving, toast, draggedContact,
                 leadPanelTab,
                 leadTab, leadSearch, leadSourceFilter, webLeads, newWebLeadCount,
@@ -7865,9 +8447,9 @@ ${comments}`;
       color: #ffffff;
       line-height: 1.35;
       margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .nxp-p-loc-row {
       font-size: 12px;
@@ -8154,9 +8736,56 @@ ${comments}`;
     @media (max-width: 768px) {
       .nxp-p-personas-grid { grid-template-columns: 1fr; }
       .nxp-p-pillars-grid { grid-template-columns: 1fr; }
-      .nxp-p-hero { flex-direction: column; align-items: flex-start; }
-      .nxp-p-footer { flex-direction: column; align-items: stretch; }
-      .nxp-p-footer-actions { flex-direction: column; }
+      .nxp-p-hero {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        padding: 14px !important;
+      }
+      .nxp-p-thumb-wrap {
+        width: 100% !important;
+        height: 160px !important;
+        max-height: 180px !important;
+      }
+      .nxp-p-hero-meta {
+        width: 100% !important;
+        min-width: 0 !important;
+        gap: 6px !important;
+      }
+      .nxp-p-title {
+        font-size: 15px !important;
+        line-height: 1.38 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+      }
+      .nxp-p-footer { flex-direction: column; align-items: stretch; gap: 12px; }
+      .nxp-p-footer-actions { flex-direction: column; width: 100%; gap: 8px; }
+      .nxp-p-btn-wa, .nxp-p-btn-close { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      #nxp-persona-overlay { padding: 8px !important; }
+      .nxp-persona-box {
+        border-radius: 16px !important;
+        max-height: 95vh !important;
+      }
+      .nxp-p-topbar { padding: 12px 14px !important; }
+      .nxp-p-content { padding: 12px !important; gap: 14px !important; }
+      .nxp-p-hero { padding: 10px !important; gap: 10px !important; }
+      .nxp-p-thumb-wrap { height: 140px !important; }
+      .nxp-p-title {
+        font-size: 14.5px !important;
+        line-height: 1.35 !important;
+      }
+      .nxp-p-price-val { font-size: 16px !important; }
+      .nxp-p-badges { gap: 4px !important; }
+      .nxp-p-badge { font-size: 9.5px !important; padding: 2px 7px !important; }
+      .nxp-p-verdict-box { padding: 12px 14px !important; }
+      .nxp-p-verdict-text { font-size: 12.5px !important; line-height: 1.5 !important; }
+      .nxp-p-persona-card { padding: 12px !important; }
+      .nxp-p-pillar-card { padding: 12px !important; }
+      .nxp-p-action-btn { width: 100% !important; justify-content: center !important; }
     }
 </style>
 
