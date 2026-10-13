@@ -1723,6 +1723,10 @@
                 <button @click="showUrlPdfModal = true" class="sidebar-item" style="color: #f59e0b; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); margin-top: 4px;">
                     <i class="fas fa-magic" style="width:16px; color:#f59e0b;"></i> URL'den PDF Üret
                 </button>
+                <button @click="openNexaScoutModal()" class="sidebar-item" style="color: #38bdf8; background: linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(59,130,246,0.12) 100%); border: 1px solid rgba(56,189,248,0.35); margin-top: 4px;">
+                    <i class="fas fa-satellite-dish" style="width:16px; color:#38bdf8;"></i> NexaScout Alıcı Bul
+                    <span class="sidebar-item-badge" style="background:#0284c7; color:#fff; font-size:10px;">FAZ 2</span>
+                </button>
 
             </nav>
 
@@ -1795,6 +1799,9 @@
                         <button @click="showUrlPdfModal = true; showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: #f59e0b; font-weight:600;">
                             <i class="fas fa-file-pdf" style="color: #f59e0b"></i><span>URL'den Sunum PDF</span>
                         </button>
+                        <button @click="openNexaScoutModal(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: #38bdf8; font-weight:600;">
+                            <i class="fas fa-satellite-dish" style="color: #38bdf8"></i><span>NexaScout Alıcı Radarı</span>
+                        </button>
                         <button @click="activeView = 'my_listings'; loadMyListings(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: var(--gold)">
                             <i class="fas fa-crown" style="color: var(--gold)"></i><span>Portföy İlanlarım</span>
                         </button>
@@ -1848,7 +1855,10 @@
                             <h3 style="font-size:14px; font-weight:600; margin-bottom:8px; line-height:1.4;">{{lst.title}}</h3>
                             <div style="font-size:12px; color:var(--text-tertiary); margin-bottom:12px;"><i class="fas fa-map-marker-alt"></i> {{lst.loc}}</div>
                             <div style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
-                                                                <button @click.stop="openPersonaIntelligenceModal(lst)" class="btn" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.4); padding:9px 14px; border-radius:10px; font-weight:700; font-size:12px; cursor:pointer; margin-bottom:2px;">
+                                <button @click.stop="openNexaScoutModal(lst)" class="btn" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: linear-gradient(135deg, rgba(6,182,212,0.2) 0%, rgba(14,165,233,0.3) 100%); color: #38bdf8; border: 1px solid rgba(56,189,248,0.5); padding:10px 14px; border-radius:10px; font-weight:800; font-size:12px; cursor:pointer; box-shadow:0 4px 14px rgba(6,182,212,0.2); margin-bottom:2px;">
+                                    <i class="fas fa-satellite-dish text-cyan-400"></i> 🛰️ NexaScout Alıcı Bul & Analiz
+                                </button>
+                                <button @click.stop="openPersonaIntelligenceModal(lst)" class="btn" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.4); padding:9px 14px; border-radius:10px; font-weight:700; font-size:12px; cursor:pointer; margin-bottom:2px;">
                                     <i class="fas fa-bullseye text-sm"></i> 🎯 Kimler İçin Uygun? (AI Swarm)
                                 </button>
                                 <button @click.stop="openListingPortfoy(lst)" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color:#000000; font-weight:800; border:none; padding:11px 16px; border-radius:12px; box-shadow:0 6px 20px rgba(212,175,55,0.35); cursor:pointer; font-size:12px; letter-spacing:0.3px;">
@@ -3665,6 +3675,7 @@
                     </div>
                 </div>
             </div>
+        </transition>
         <!-- ═══════════════════ SOSYAL MEDYA OTONOM İÇERİK STÜDYOSU MODALI ═══════════════════ -->
         <transition>
             <div v-if="showSocialStudioModal" class="modal-backdrop flex items-center justify-center p-4" style="z-index: 9999;" @click.self="showSocialStudioModal = false">
@@ -3976,6 +3987,284 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- ═══════════════════ NEXASCOUT ALICI RADARI & STRATEJİ MODALI (FAZ 2) ═══════════════════ -->
+        <transition>
+            <div v-if="showNexaScoutModal" class="modal-backdrop flex items-center justify-center p-3 sm:p-5" style="z-index: 10000;" @click.self="showNexaScoutModal = false">
+                <div class="modal-content glass-strong rounded-2xl p-4 sm:p-6 shadow-2xl border border-cyan-500/40" style="max-width: 980px; width: 95%; max-height: 90vh; overflow-y: auto; background: radial-gradient(circle at top right, rgba(6,182,212,0.12), rgba(15,23,42,0.96) 65%);" @click.stop>
+                    
+                    <!-- Header -->
+                    <div class="flex items-start justify-between border-b border-white/10 pb-4 mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl shadow-lg border border-cyan-500/30">
+                                <i class="fas fa-satellite-dish"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-extrabold text-white text-base sm:text-lg tracking-wide">NexaScout Otonom Alıcı Radarı</h3>
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 uppercase">FAZ 2</span>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-0.5">Multi-Modal Vision • İmar &amp; Hukuk Deşifresi • 8 Sektör PropFit Matrisi • Word Dosyası (.docx)</p>
+                            </div>
+                        </div>
+                        <button @click="showNexaScoutModal = false" class="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+
+                    <!-- Input Section -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1.5 flex items-center justify-between">
+                                <span><i class="fas fa-link text-cyan-400 mr-1.5"></i>Portföy Web Adresi (Sahibinden veya Coldwell Banker URL)</span>
+                                <span class="text-[11px] text-gray-400 font-normal">Tek Link ile Uçtan Uca Otonom Süreç</span>
+                            </label>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input v-model="nexaScoutUrl" type="url" placeholder="https://www.sahibinden.com/ilan/... veya https://www.cb.com.tr/ilan/..." class="flex-1 bg-black/50 border border-cyan-500/30 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400 transition" :disabled="nexaScoutLoading" @keyup.enter="runNexaScoutPipeline">
+                                <button @click="runNexaScoutPipeline" class="btn justify-center" style="background: linear-gradient(135deg, #06b6d4, #0284c7); color: #ffffff; font-weight: 800; padding: 10px 22px; border-radius: 11px; box-shadow: 0 4px 18px rgba(6,182,212,0.35); border: none; cursor: pointer;" :disabled="nexaScoutLoading || !nexaScoutUrl.trim()">
+                                    <i class="fas" :class="nexaScoutLoading ? 'fa-spinner fa-spin' : 'fa-rocket'"></i>
+                                    <span class="ml-1.5">{{ nexaScoutLoading ? 'Radarda Aranıyor...' : 'Alıcıları Bul &amp; Analiz Et' }}</span>
+                                </button>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-gray-400 mt-2">
+                                <span class="flex items-center gap-1.5"><i class="fas fa-shield-alt text-cyan-400"></i> Bot koruması aşma &amp; AVIF görsel dönüştürme aktif</span>
+                                <span class="text-cyan-400/90 font-mono">Yiğit Narin CB VIP Marka Entegreli</span>
+                            </div>
+                        </div>
+
+                        <!-- Error alert -->
+                        <div v-if="nexaScoutError" class="p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+                            <i class="fas fa-exclamation-triangle text-base flex-shrink-0 text-red-400"></i>
+                            <span>{{ nexaScoutError }}</span>
+                        </div>
+
+                        <!-- Loading indicator & Live Agent Pipeline -->
+                        <div v-if="nexaScoutLoading" class="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/30 space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-7 h-7 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin flex-shrink-0"></div>
+                                <div>
+                                    <p class="font-bold text-cyan-200 text-sm">NexaScout Otonom Ajan Ekibi Devrede...</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">İlan verileri çekiliyor, fotoğraflar AI Vision ile taranıyor ve 8 kurumsal sektörle eşleştiriliyor.</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-[11px]">
+                                <div class="p-2 rounded-lg bg-black/40 border flex items-center gap-1.5" :class="nexaScoutProgressStep >= 1 ? 'border-cyan-500 text-cyan-300' : 'border-white/10 text-gray-500'">
+                                    <i class="fas" :class="nexaScoutProgressStep >= 1 ? 'fa-check-circle text-cyan-400' : 'fa-circle-notch fa-spin'"></i>
+                                    <span>1. Scraper &amp; Foto</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-black/40 border flex items-center gap-1.5" :class="nexaScoutProgressStep >= 2 ? 'border-cyan-500 text-cyan-300' : 'border-white/10 text-gray-500'">
+                                    <i class="fas" :class="nexaScoutProgressStep >= 2 ? 'fa-check-circle text-cyan-400' : 'fa-circle'"></i>
+                                    <span>2. Vision Agent</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-black/40 border flex items-center gap-1.5" :class="nexaScoutProgressStep >= 3 ? 'border-cyan-500 text-cyan-300' : 'border-white/10 text-gray-500'">
+                                    <i class="fas" :class="nexaScoutProgressStep >= 3 ? 'fa-check-circle text-cyan-400' : 'fa-circle'"></i>
+                                    <span>3. İmar &amp; PropFit</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-black/40 border flex items-center gap-1.5" :class="nexaScoutProgressStep >= 4 ? 'border-cyan-500 text-cyan-300' : 'border-white/10 text-gray-500'">
+                                    <i class="fas" :class="nexaScoutProgressStep >= 4 ? 'fa-check-circle text-cyan-400' : 'fa-circle'"></i>
+                                    <span>4. Word &amp; Pitch</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RESULT CONTAINER -->
+                        <div v-if="nexaScoutResult" class="space-y-5 pt-2">
+                            
+                            <!-- 1. Property DNA Header Card -->
+                            <div class="p-4 rounded-xl bg-gradient-to-r from-cyan-950/50 to-slate-900 border border-cyan-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold uppercase tracking-wider border border-cyan-500/30">{{ nexaScoutResult.asset_class }}</span>
+                                        <span class="text-xs text-gray-400"><i class="fas fa-map-marker-alt text-red-400 mr-1"></i>{{ nexaScoutResult.location }}</span>
+                                    </div>
+                                    <h4 class="font-extrabold text-white text-base leading-snug">{{ nexaScoutResult.title }}</h4>
+                                    <div class="flex flex-wrap items-center gap-3 text-xs text-gray-300 pt-1">
+                                        <span class="text-amber-400 font-bold font-mono text-sm"><i class="fas fa-tag mr-1"></i>{{ nexaScoutResult.price }}</span>
+                                        <span>•</span>
+                                        <span><i class="fas fa-ruler-combined text-cyan-400 mr-1"></i>{{ nexaScoutResult.kapali_m2 }}</span>
+                                        <span>•</span>
+                                        <span><i class="fas fa-building text-blue-400 mr-1"></i>{{ nexaScoutResult.vision_analysis?.overall_condition || 'Yüksek Kondisyon' }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row gap-2 shrink-0">
+                                    <a v-if="nexaScoutResult.docx_url" :href="nexaScoutResult.docx_url" download class="btn justify-center text-xs py-2.5 px-4 font-bold" style="background: linear-gradient(135deg, #1d4ed8, #2563eb); color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(37,99,235,0.35);">
+                                        <i class="fas fa-file-word mr-1.5"></i> Word Dosyasını İndir (.docx)
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- 2. Strategic Advantages & Vision Analysis -->
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <!-- Advantages -->
+                                <div class="p-4 rounded-xl bg-black/40 border border-white/10 space-y-2.5">
+                                    <div class="text-xs font-bold text-amber-400 flex items-center gap-1.5 uppercase tracking-wider">
+                                        <i class="fas fa-key"></i> Mülkün Haksız Avantajları &amp; Alıcı Kozları
+                                    </div>
+                                    <ul class="space-y-1.5 text-xs text-gray-200">
+                                        <li v-for="(adv, aidx) in nexaScoutResult.advantages" :key="aidx" class="flex items-start gap-2">
+                                            <i class="fas fa-check-circle text-emerald-400 mt-0.5 shrink-0"></i>
+                                            <span>{{ adv }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Vision Condition -->
+                                <div class="p-4 rounded-xl bg-black/40 border border-white/10 space-y-2.5">
+                                    <div class="text-xs font-bold text-cyan-400 flex items-center gap-1.5 uppercase tracking-wider">
+                                        <i class="fas fa-camera"></i> Multimodal Mimari &amp; Görsel Analitik
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2 text-xs">
+                                        <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/5">
+                                            <span class="text-gray-400 text-[10px] block">Kondisyon Skoru</span>
+                                            <span class="text-white font-bold font-mono text-sm">{{ nexaScoutResult.vision_analysis?.condition_score || 9 }}/10</span>
+                                        </div>
+                                        <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/5">
+                                            <span class="text-gray-400 text-[10px] block">Tabela Görünürlüğü</span>
+                                            <span class="text-emerald-300 font-bold text-xs">{{ nexaScoutResult.vision_analysis?.signage_potential || 'Maksimum' }}</span>
+                                        </div>
+                                        <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/5">
+                                            <span class="text-gray-400 text-[10px] block">Ticari Kullanım Uygunluğu</span>
+                                            <span class="text-cyan-300 font-bold text-xs">{{ nexaScoutResult.vision_analysis?.commercial_suitability || 'Tam Uygun' }}</span>
+                                        </div>
+                                        <div class="p-2.5 rounded-lg bg-white/[0.03] border border-white/5">
+                                            <span class="text-gray-400 text-[10px] block">Doğal Aydınlatma &amp; Cephe</span>
+                                            <span class="text-amber-300 font-bold text-xs">{{ nexaScoutResult.vision_analysis?.natural_light || 'Geniş Pencereli' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. PropFit 8-Sector Institutional Buyer Radar -->
+                            <div class="p-4 rounded-xl bg-black/40 border border-white/10 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                        <i class="fas fa-bullseye text-red-400"></i> Öncelikli 8 Kurumsal Alıcı Grubu &amp; PropFit Skorları
+                                    </div>
+                                    <span class="text-[11px] text-gray-400">Karar Verici Hedeflemesi</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div v-for="(sec, sidx) in nexaScoutResult.matched_sectors" :key="sidx" class="p-3 rounded-lg bg-slate-900/80 border border-white/10 space-y-2 hover:border-cyan-500/40 transition">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-bold text-white text-xs">{{ sec.ad }}</span>
+                                            <span class="px-2 py-0.5 rounded text-[11px] font-black font-mono" :style="sec.propfit_score >= 85 ? 'background:rgba(239,68,68,0.2);color:#f87171;border:1px solid rgba(239,68,68,0.4);' : 'background:rgba(6,182,212,0.2);color:#38bdf8;border:1px solid rgba(6,182,212,0.4);'">
+                                                %{ sec.propfit_score }
+                                            </span>
+                                        </div>
+                                        <!-- Progress bar -->
+                                        <div class="w-full bg-gray-800 rounded-full h-1.5 overflow-hidden">
+                                            <div class="h-full rounded-full transition-all duration-500" :style="{ width: sec.propfit_score + '%', background: sec.propfit_score >= 85 ? 'linear-gradient(90deg, #f59e0b, #ef4444)' : 'linear-gradient(90deg, #06b6d4, #3b82f6)' }"></div>
+                                        </div>
+                                        <p class="text-[11px] text-gray-300 leading-relaxed">{{ sec.neden }}</p>
+                                        <div class="text-[10px] text-cyan-400 font-semibold flex items-center gap-1 pt-1 border-t border-white/5">
+                                            <i class="fas fa-user-tie"></i> Hedef: {{ sec.hedef_unvanlar ? sec.hedef_unvanlar.join(', ') : 'Yönetim Kurulu Başkanı / Genel Müdür' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. 4-Way Pitch Suite -->
+                            <div class="p-4 rounded-xl bg-black/40 border border-white/10 space-y-3">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <div class="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                        <i class="fas fa-bullhorn text-amber-400"></i> Çoklu İkna &amp; Pazarlama Paketi (4 Boyutlu)
+                                    </div>
+                                    <!-- Tabs -->
+                                    <div class="flex flex-wrap gap-1 bg-white/5 p-1 rounded-lg border border-white/10">
+                                        <button @click="nexaScoutPitchTab = 'meslektas'" class="px-2.5 py-1 rounded text-xs font-medium transition" :class="nexaScoutPitchTab === 'meslektas' ? 'bg-amber-500 text-black font-bold' : 'text-gray-400 hover:text-white'">
+                                            🤝 Meslektaş
+                                        </button>
+                                        <button @click="nexaScoutPitchTab = 'whatsapp'" class="px-2.5 py-1 rounded text-xs font-medium transition" :class="nexaScoutPitchTab === 'whatsapp' ? 'bg-emerald-500 text-black font-bold' : 'text-gray-400 hover:text-white'">
+                                            💬 WhatsApp C-Level
+                                        </button>
+                                        <button @click="nexaScoutPitchTab = 'email'" class="px-2.5 py-1 rounded text-xs font-medium transition" :class="nexaScoutPitchTab === 'email' ? 'bg-cyan-500 text-black font-bold' : 'text-gray-400 hover:text-white'">
+                                            ✉️ Kurumsal E-Posta
+                                        </button>
+                                        <button @click="nexaScoutPitchTab = 'afis'" class="px-2.5 py-1 rounded text-xs font-medium transition" :class="nexaScoutPitchTab === 'afis' ? 'bg-purple-500 text-black font-bold' : 'text-gray-400 hover:text-white'">
+                                            📢 30 Sn / Afiş
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Contents -->
+                                <div class="pt-2">
+                                    <!-- Meslektas -->
+                                    <div v-show="nexaScoutPitchTab === 'meslektas'" class="space-y-2">
+                                        <div class="flex justify-between items-center text-xs text-gray-400">
+                                            <span>Coldwell Banker, KW, Remax ve Yerel Emlak Gruplarına Gönderim</span>
+                                            <button @click="copyNexaScoutText(nexaScoutResult.meslektas_metni, 'Meslektaş Metni')" class="btn btn-sm text-xs py-1 px-3 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-lg hover:bg-amber-500/30">
+                                                <i class="fas fa-copy mr-1"></i> Kopyala
+                                            </button>
+                                        </div>
+                                        <textarea readonly rows="8" class="w-full bg-slate-950 border border-white/10 rounded-xl p-3 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="nexaScoutResult.meslektas_metni"></textarea>
+                                    </div>
+
+                                    <!-- WhatsApp -->
+                                    <div v-show="nexaScoutPitchTab === 'whatsapp'" class="space-y-2">
+                                        <div class="flex justify-between items-center text-xs text-gray-400">
+                                            <span>Holding Patronları, Başhekimler ve CEO'lar için VIP Teaser</span>
+                                            <div class="flex gap-2">
+                                                <a :href="'https://api.whatsapp.com/send?text=' + encodeURIComponent(nexaScoutResult.wa_teaser)" target="_blank" class="btn btn-sm text-xs py-1 px-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500">
+                                                    <i class="fab fa-whatsapp mr-1"></i> WhatsApp'ta Aç
+                                                </a>
+                                                <button @click="copyNexaScoutText(nexaScoutResult.wa_teaser, 'WhatsApp Metni')" class="btn btn-sm text-xs py-1 px-3 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-lg hover:bg-emerald-500/30">
+                                                    <i class="fas fa-copy mr-1"></i> Kopyala
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <textarea readonly rows="8" class="w-full bg-slate-950 border border-white/10 rounded-xl p-3 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="nexaScoutResult.wa_teaser"></textarea>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div v-show="nexaScoutPitchTab === 'email'" class="space-y-2">
+                                        <div class="flex justify-between items-center text-xs text-gray-400">
+                                            <span>Yatırım &amp; Genişleme Direktörlüğü Resmi Teklifi</span>
+                                            <button @click="copyNexaScoutText('KONU: ' + nexaScoutResult.email_subject + '\n\n' + nexaScoutResult.email_body, 'E-Posta Teklifi')" class="btn btn-sm text-xs py-1 px-3 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 rounded-lg hover:bg-cyan-500/30">
+                                                <i class="fas fa-copy mr-1"></i> Kopyala
+                                            </button>
+                                        </div>
+                                        <div class="p-2.5 rounded-lg bg-slate-950 border border-white/10 text-xs font-semibold text-cyan-300">
+                                            Konu: {{ nexaScoutResult.email_subject }}
+                                        </div>
+                                        <textarea readonly rows="8" class="w-full bg-slate-950 border border-white/10 rounded-xl p-3 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="nexaScoutResult.email_body"></textarea>
+                                    </div>
+
+                                    <!-- Afis / 30 Sn -->
+                                    <div v-show="nexaScoutPitchTab === 'afis'" class="space-y-2">
+                                        <div class="flex justify-between items-center text-xs text-gray-400">
+                                            <span>30 Saniyelik Asansör Tanıtımı / Sosyal Medya Afiş Metni</span>
+                                            <button @click="copyNexaScoutText(nexaScoutResult.gorsel_metin, 'Afiş Metni')" class="btn btn-sm text-xs py-1 px-3 bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-lg hover:bg-purple-500/30">
+                                                <i class="fas fa-copy mr-1"></i> Kopyala
+                                            </button>
+                                        </div>
+                                        <textarea readonly rows="8" class="w-full bg-slate-950 border border-white/10 rounded-xl p-3 text-xs text-gray-200 font-mono leading-relaxed focus:outline-none" :value="nexaScoutResult.gorsel_metin"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Download Word Dossier Footer -->
+                            <div class="p-4 rounded-xl bg-gradient-to-r from-blue-900/30 to-indigo-900/30 border border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+                                <div>
+                                    <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                                        <i class="fas fa-file-word text-blue-400"></i> Kurumsal Yatırım Teklifi &amp; Mülk Dosyası (.docx)
+                                    </div>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Renkli başlıklar, PropFit tablosu ve Yiğit Narin CB VIP anteti ile hazır oluşturuldu.</p>
+                                </div>
+                                <a v-if="nexaScoutResult.docx_url" :href="nexaScoutResult.docx_url" download class="btn justify-center text-xs py-2.5 px-5 font-bold w-full sm:w-auto" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(37,99,235,0.35);">
+                                    <i class="fas fa-download mr-1.5"></i> Word Dosyasını İndir (.docx)
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Toast Notification -->
+                    <div v-if="nexaScoutCopyToast" class="fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-2xl flex items-center gap-2 animate-bounce">
+                        <i class="fas fa-check-circle"></i> {{ nexaScoutCopyToast }}
+                    </div>
+
                 </div>
             </div>
         </transition>
@@ -4575,6 +4864,9 @@
                                             </button>
                                             <button @click="activeListingTab='media'" :class="['portfoy-tab-pill', activeListingTab==='media' ? 'active bg-teal-500/20 text-teal-300 border border-teal-500/40 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5']">
                                                 <i class="fas fa-images text-teal-400"></i> <span>Görseller & Rapor</span>
+                                            </button>
+                                            <button @click="activeListingTab='nexascout'; openNexaScoutModal(currentListingObj)" :class="['portfoy-tab-pill', activeListingTab==='nexascout' ? 'active bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5']">
+                                                <i class="fas fa-satellite-dish text-cyan-400"></i> <span>NexaScout Alıcı Radarı</span>
                                             </button>
                                         </div>
 
@@ -5193,6 +5485,101 @@
                 const msg = `*${title}*${price}${loc}\n\nDetaylı PDF Sunumu:\n${link}\n\nYiğit Narin | Coldwell Banker CB VIP Ankara\nTel: +90 532 451 40 08`;
                 return `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
             };
+
+            // ── NEXASCOUT (FAZ 2: OTONOM ALICI RADARI & STRATEJİ) ──
+            const showNexaScoutModal = ref(false);
+            const nexaScoutUrl = ref('');
+            const nexaScoutLoading = ref(false);
+            const nexaScoutError = ref('');
+            const nexaScoutResult = ref(null);
+            const nexaScoutPitchTab = ref('meslektas');
+            const nexaScoutProgressStep = ref(0);
+            const nexaScoutCopyToast = ref(false);
+
+            const openNexaScoutModal = (lst = null) => {
+                showNexaScoutModal.value = true;
+                nexaScoutError.value = '';
+                nexaScoutCopyToast.value = false;
+                if (lst) {
+                    const candidateUrl = lst.link || lst.url || lst.detail_url || lst.href || '';
+                    if (candidateUrl) {
+                        nexaScoutUrl.value = candidateUrl;
+                    } else if (lst.id) {
+                        nexaScoutUrl.value = `https://www.sahibinden.com/ilan/${lst.id}/detay`;
+                    }
+                }
+            };
+
+            const triggerNexaScoutFromListing = (lst) => {
+                openNexaScoutModal(lst);
+            };
+
+            const runNexaScoutPipeline = async () => {
+                const targetUrl = (nexaScoutUrl.value || '').trim();
+                if (!targetUrl) {
+                    nexaScoutError.value = "Lütfen geçerli bir portföy bağlantısı (Sahibinden veya Coldwell Banker) giriniz.";
+                    return;
+                }
+                nexaScoutLoading.value = true;
+                nexaScoutError.value = '';
+                nexaScoutResult.value = null;
+                nexaScoutProgressStep.value = 1;
+
+                const pTimer = setInterval(() => {
+                    if (nexaScoutProgressStep.value < 4) {
+                        nexaScoutProgressStep.value++;
+                    }
+                }, 3000);
+
+                try {
+                    const res = await fetch('/api/nexascout/pipeline', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            url: targetUrl,
+                            broker_name: 'YİĞİT NARİN',
+                            broker_phone: '0532 451 40 08',
+                            broker_office: 'Coldwell Banker VIP Real Gayrimenkul'
+                        })
+                    });
+                    const data = await res.json();
+                    clearInterval(pTimer);
+                    nexaScoutProgressStep.value = 5;
+                    if (data.status === 'success' && data.data) {
+                        nexaScoutResult.value = data.data;
+                    } else {
+                        nexaScoutError.value = data.error || 'NexaScout analizi tamamlanamadı.';
+                    }
+                } catch (e) {
+                    clearInterval(pTimer);
+                    nexaScoutError.value = 'Sunucu bağlantı hatası: ' + (e.message || e);
+                } finally {
+                    nexaScoutLoading.value = false;
+                }
+            };
+
+            const copyNexaScoutText = (text, label = 'Metin') => {
+                if (!text) return;
+                try {
+                    navigator.clipboard.writeText(text).then(() => {
+                        nexaScoutCopyToast.value = `${label} panoya kopyalandı!`;
+                        setTimeout(() => { nexaScoutCopyToast.value = false; }, 2500);
+                    }).catch(() => {
+                        const ta = document.createElement('textarea');
+                        ta.value = text;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(ta);
+                        nexaScoutCopyToast.value = `${label} kopyalandı!`;
+                        setTimeout(() => { nexaScoutCopyToast.value = false; }, 2500);
+                    });
+                } catch (err) {
+                    nexaScoutCopyToast.value = `${label} kopyalandı!`;
+                    setTimeout(() => { nexaScoutCopyToast.value = false; }, 2500);
+                }
+            };
+
             const saving = ref(false);
             const toast = ref({ show: false, message: '', icon: '' });
             const draggedContact = ref(null);
@@ -7771,6 +8158,8 @@ ${comments}`;
                 user, uiLoading, authMode, authLoading, authError, email, password, displayName,
                 activeView, currentPipeline, contacts, myListings, loadMyListings, searchQuery, showMenu, showContactModal,
                 showUrlPdfModal, urlPdfInput, urlPdfLoading, urlPdfError, urlPdfResult, generateUrlPdf, getWhatsAppShareUrl,
+                showNexaScoutModal, nexaScoutUrl, nexaScoutLoading, nexaScoutError, nexaScoutResult, nexaScoutPitchTab,
+                nexaScoutProgressStep, nexaScoutCopyToast, openNexaScoutModal, triggerNexaScoutFromListing, runNexaScoutPipeline, copyNexaScoutText,
                 socialWeeklySchedule, todayPlan, socialInventoryStats, expandedThematicDay, socialLoading, showSocialStudioModal, socialStudioItem, socialStudioDay,
                 socialStudioLoading, socialStudioActiveTab, socialStudioResult, socialCopyToast, loadSocialPlanner, openPostStudio, copySocialContent, openPersonaModal,
                 editingContact, saving, toast, draggedContact,
@@ -9152,4 +9541,6 @@ ${comments}`;
       }
     });
   })();
-
+</script>
+</body>
+</html>

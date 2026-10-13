@@ -56,6 +56,14 @@ CORS(app, origins=[
     "http://127.0.0.1:5000",
 ], supports_credentials=True)
 
+# ── NexaScout Blueprint (Faz 2: Otonom Alıcı & Strateji Radarı) ──
+try:
+    from nexascout.routes import nexascout_bp
+    app.register_blueprint(nexascout_bp)
+    print("✅ NexaScout Blueprint başarıyla entegre edildi.")
+except Exception as _ns_err:
+    print(f"⚠️ NexaScout Blueprint yüklenemedi: {_ns_err}")
+
 # FAZ 2: Rate limiter (flask-limiter yüklüyse aktif olur)
 if _limiter_available:
     limiter = Limiter(
@@ -179,22 +187,29 @@ def send_telegram(text: str) -> bool:
 # SAYFA ROUTE'LARI
 # ================================================================
 
+def _safe_send_html(filename):
+    """HTML şablonunu templates/ veya kök dizinden güvenle yükler."""
+    candidates = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates", filename),
+        os.path.join("templates", filename),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), filename),
+        filename
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return send_file(c)
+    return f"{filename} bulunamadı", 404
+
 @app.route("/")
 def home():
     """Web sitesi — site.html"""
-    try:
-        return send_file("site.html")
-    except Exception as e:
-        return f"site.html bulunamadı: {e}", 404
+    return _safe_send_html("site.html")
 
 
 @app.route("/crm")
 def crm():
     """CRM paneli — crm.html"""
-    try:
-        return send_file("crm.html")
-    except Exception as e:
-        return f"crm.html bulunamadı: {e}", 404
+    return _safe_send_html("crm.html")
 
 
 # ================================================================
@@ -566,19 +581,13 @@ def fetch_real_estate_data() -> list:
 @app.route("/ilanlar")
 def ilanlar():
     """İlanlar sayfası — ilanlar.html"""
-    try:
-        return send_file("ilanlar.html")
-    except Exception as e:
-        return f"ilanlar.html bulunamadı: {e}", 404
+    return _safe_send_html("ilanlar.html")
 
 
 @app.route("/admin")
 def admin():
     """Admin paneli — admin.html"""
-    try:
-        return send_file("admin.html")
-    except Exception as e:
-        return f"admin.html bulunamadı: {e}", 404
+    return _safe_send_html("admin.html")
 
 
 # ================================================================
@@ -2419,10 +2428,7 @@ def bootstrap_app():
 @app.route("/ai-analysis")
 def ai_analysis_page():
     """AI Gayrimenkul Analiz sayfası."""
-    try:
-        return send_file("ai_analysis.html")
-    except Exception as e:
-        return f"ai_analysis.html bulunamadı: {e}", 404
+    return _safe_send_html("ai_analysis.html")
 
 
 @app.route("/api/ai/scrape", methods=["POST"])
@@ -2507,10 +2513,7 @@ def api_ai_save_to_crm():
 @app.route("/sunum")
 def sunum_page():
     """Proje Sunumu sayfası."""
-    try:
-        return send_file("sunum.html")
-    except Exception as e:
-        return f"sunum.html bulunamadı: {e}", 404
+    return _safe_send_html("sunum.html")
 
 
 

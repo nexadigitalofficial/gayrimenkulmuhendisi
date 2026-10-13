@@ -5298,5 +5298,103 @@
       ],
       "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
     }
+  },
+  "https://www.cb.com.tr/ankara-golbasi-kizilcasar-satilik/ticari-bina/376268": {
+    "ok": true,
+    "listing_ref": {
+      "title": "Kızılcaşar Lösante Karşısı Köşe Parsel Ticari Satılık Bina - 376268",
+      "price": "₺78.249.000",
+      "loc": "GÖLBAŞI, KIZILCAŞAR-İMAR M",
+      "type": "Satılık",
+      "property_type": "Bina",
+      "rooms": "8+2",
+      "area": "420 m2(brüt)",
+      "link": "https://www.cb.com.tr/ankara-golbasi-kizilcasar-satilik/ticari-bina/376268",
+      "img": "https://media.cb.com.tr/StockMediaFiles/5628/100_VLOPYOZ83X_331X224.jpg"
+    },
+    "theme": {
+      "mode": "gold",
+      "accent_color": "#d4af37",
+      "badge_text": "Satılık",
+      "title": "Satılık Yatırım & Konut Analizi"
+    },
+    "swarm_metadata": {
+      "engine": "NEXA AI Persona Swarm 2.0",
+      "agents_count": 4,
+      "active_agents": [
+        "DemographicScoutAgent",
+        "FinancialYieldAgent",
+        "LocationDynamicsAgent",
+        "HonestAdvisoryAuditorAgent"
+      ],
+      "confidence_score": 0.96
+    },
+    "executive_summary": "NEXA AI Swarm değerlendirmesine göre bu bina portföyü; özellikle 'Orta-Uzun Vadeli Varlık Büyütme Yatırımcısı' profili için %97 uyumluluk skoru vermektedir. Ankara Metropol Bölgesi avantajı ve Sermaye Kazancı & Mülkiyet Güvencesi odağıyla öne çıkmaktadır.",
+    "top_personas": [
+      {
+        "title": "Orta-Uzun Vadeli Varlık Büyütme Yatırımcısı",
+        "score": 97,
+        "icon": "fa-chart-line",
+        "badge": "Enflasyon Kalkanı",
+        "suitability": "Tek tapu güvencesi, değerini kaybetmeyen reel toprak varlığı ve enflasyona karşı güçlü koruma."
+      },
+      {
+        "title": "Müstakil Yaşam & Doğa / Hobi Bahçesi Meraklısı",
+        "score": 92,
+        "icon": "fa-seedling",
+        "badge": "Yaşam Kalitesi",
+        "suitability": "Hafta sonu kaçış alanı, tiny house veya hobi amaçlı ekim-dikim için ferah parsel yapısı."
+      },
+      {
+        "title": "Gelecek Vizyonlu İmar & Proje Geliştiricisi",
+        "score": 88,
+        "icon": "fa-drafting-compass",
+        "badge": "Gelişim Aksı",
+        "suitability": "Bölgesel altyapı ve imar genişleme planları ile prim potansiyeli taşıyan stratejik konum."
+      }
+    ],
+    "primary_category": "Stratejik Arsa & Arazi Yatırımı",
+    "ideal_scale": "Bireysel / Kurumsal Yatırımcı & Geliştirici",
+    "capacity_detail": "Bölgesel gelişme koridorunda tek tapu güvencesiyle yüksek getiri hedefli sermaye konuşlandırması.",
+    "financial_analysis": {
+      "transaction_focus": "Sermaye Kazancı & Mülkiyet Güvencesi",
+      "financial_metrics": [
+        {
+          "label": "Bölgesel Değer Artışı",
+          "value": "Enflasyon Üzeri Reel Getiri",
+          "desc": "Ankara'nın gelişen arterinde arz kısıtı bulunan lokasyon yapısı sayesinde yüksek sermaye kıymet artışı."
+        },
+        {
+          "label": "Kira Amortisman Potansiyeli",
+          "value": "14 - 17 Yıl Projeksiyonu",
+          "desc": "Bölge ortalamasının üzerinde talep gören nitelikli mülk, kiralamaya verildiğinde güçlü nakit akışı üretir."
+        },
+        {
+          "label": "Likidite & Teminat Kabiliyeti",
+          "value": "A Sınıfı Teminat Değeri",
+          "desc": "Bankacılık ve kredi mekanizmalarında yüksek ekspertiz ve kolay teminata konu olabilme gücü."
+        }
+      ],
+      "investor_verdict": "Satın alma perspektifinde; enflasyonist ortamda reel satın alma gücünü koruyan, zamanla arsa payı veya bölgesel talep artışıyla katlanarak değerlenen stratejik bir varlık alımıdır."
+    },
+    "location_analysis": {
+      "region_badge": "Ankara Metropol Bölgesi",
+      "prestige_level": "Standart Metropol Dinamiği",
+      "commute_score": 89,
+      "walkability": "Ana arterlere ve toplu taşıma olanaklarına dengeli erişim",
+      "zoning_notes": "Gelişmiş kentsel altyapı ve oturmuş mahalle dokusu."
+    },
+    "auditor_analysis": {
+      "key_usps": [
+        "Fonksiyonel kat planı ve ferah yaşam alanları",
+        "Aile yaşamına uygun güvenli ve nezih komşuluk çevresi",
+        "Eğitim kurumları ve sosyal olanaklara kesintisiz erişim"
+      ],
+      "anti_personas": [
+        "Ağır ticari müşteri trafiği yaratacak perakende mağaza işletmecileri",
+        "Yalnızca 1 kişilik minimal mikro-stüdyo arayan öğrenciler"
+      ],
+      "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
+    }
   }
 }

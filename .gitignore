@@ -47,3 +47,15 @@ projeler/
 *~
 static/generated_pdfs/
 
+# Google OAuth & Security Secrets (Never commit credentials)
+client_secret*.json
+token*.json
+*_token.json
+nexascout/client_secret*.json
+nexascout/token*.json
+
+# Windows Duplicate Artifacts
+* - Kopya*
+*- Kopya*
+*- Kopya.*
+*-Kopya*

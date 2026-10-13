@@ -1,0 +1,190 @@
+{
+  "scraped": {
+    "ok": true,
+    "source": "sahibinden_playwright_pagespeed",
+    "title": "Satılık Kızılcaşar LÖSANTE Karşısı Karsisi Köşe Parsel Ticari Satılık Bina",
+    "price": "",
+    "location": "Ankara",
+    "city": "Ankara",
+    "district": "",
+    "neighborhood": "",
+    "specs": {},
+    "description": "Satılık Kızılcaşar LÖSANTE Karşısı Karsisi Köşe Parsel Ticari Satılık Bina — Ankara lokasyonunda yer alan, stratejik konumu, kurumsal mimari tasarımı, bağımsız kullanım avantajı ve yüksek yatırım değeriyle öne çıkan seçkin portföy.",
+    "images": [],
+    "photo_count": 0,
+    "url": "https://www.sahibinden.com/ilan/emlak-is-yeri-satilik-kizilcasar-losante-karsisi-kose-parsel-ticari-satilik-bina-1343884633/detay/",
+    "listing_id": "1343884633",
+    "latitude": 39.9207759,
+    "longitude": 32.8540497
+  },
+  "analysis": {
+    "title": "Satılık Kızılcaşar LÖSANTE Karşısı Karsisi Köşe Parsel Ticari Satılık Bina",
+    "price": "Teklif Usulü / Özel Görüşme",
+    "location": "Ankara",
+    "asset_class": "Komple Müstakil Ticari Bina",
+    "kapali_m2": "420 m²",
+    "arsa_m2": "398 m²",
+    "kat_sayisi": "4 Katlı",
+    "advantages": [
+      "TİCARİ KULLANIM AVANTAJI: Şirket merkezi, sağlık kuruluşu ve eğitim kampüsüne tam uyumlu yasal altyapı.",
+      "KÖŞE PARSEL TABELA DEĞERİ: Çift cadde cepheli kesintisiz kurumsal görünürlük, bağımsız çift giriş ve yüksek vitrin prestiji.",
+      "MÜSTAKİL OTOPARK & BAHÇE: Özel kapalı garaj, misafir araç kapasitesi ve bağımsız peyzajlı bahçe."
+    ],
+    "vision_analysis": {
+      "overall_condition": "Çok Bakımlı & Masrafsız",
+      "condition_score": 8,
+      "detected_features": [
+        "Müstakil bahçe ve kurumsal cephe",
+        "Geniş araç otopark alanı"
+      ],
+      "commercial_suitability": "Çok Yüksek",
+      "flooring_quality": "Kurumsal Zemin Kaplama & Granit",
+      "natural_light": "Dört Cepheli Ferah Doğal Işık",
+      "positive_visuals": [
+        "Prestijli köşe parsel konumu sayesinde çift cepheli yüksek tabela değeri"
+      ],
+      "staging_tips": [
+        "Kurumsal totem ve ışıklı cephe tabelası konumlandırması önerilir"
+      ],
+      "analyzed_with": "NexaScout Heuristic Vision Agent",
+      "photo_count": 0
+    },
+    "matched_sectors": [
+      {
+        "kod": "SAGLIK_TIP",
+        "ad": "Özel Hastane, Tıp Merkezi & Onkoloji/Genetik Klinikleri",
+        "icon": "fa-hospital",
+        "propfit_score": 99,
+        "fit_verdict": "MÜKEMMEL UYUM",
+        "neden": "LÖSANTE Hastanesi'nin tam karşısında yer alması nedeniyle doğrudan hasta ve ziyaretçi sinerjisi. Bölgedeki tek TİCARİ ruhsatlı bina olması ve hazır asansör şaftı sayesinde Sağlık Bakanlığı Ayakta Teşhis ve Tedavi Yönetmeliği şartlarını tek seferde karşılar.",
+        "hedef_unvanlar": "Yönetim Kurulu Başkanı, Tıbbi Direktör, İş Geliştirme Koordinatörü, Başhekim",
+        "queries": [
+          "özel tıp merkezi",
+          "onkoloji merkezi",
+          "tüp bebek merkezi",
+          "genetik tanı merkezi",
+          "fizik tedavi tıp merkezi"
+        ]
+      },
+      {
+        "kod": "DIS_ESTETIK",
+        "ad": "Ağız ve Diş Sağlığı Poliklinikleri & VIP Estetik/Plastik Cerrahi",
+        "icon": "fa-tooth",
+        "propfit_score": 97,
+        "fit_verdict": "MÜKEMMEL UYUM",
+        "neden": "Köşe parsel çift cadde tabela prestiji, bağımsız steril klinik odaları, müstakil otopark ve su deposu altyapısı. İncek/Çayyolu A+ sosyoekonomik müşteri kitlesine VIP hizmet vermek için rakipsiz lokasyon.",
+        "hedef_unvanlar": "Kurucu Ortak Hekim, Poliklinik Genel Müdürü, Franchise Direktörü",
+        "queries": [
+          "ağız ve diş sağlığı polikliniği",
+          "diş klinikleri",
+          "estetik cerrahi tıp merkezi",
+          "dermatoloji kliniği"
+        ]
+      },
+      {
+        "kod": "SAVUNMA_TEKNO",
+        "ad": "Savunma Sanayii Tedarikçileri, Siber Güvenlik & Tier-1 AR-GE Karargahları",
+        "icon": "fa-shield-halved",
+        "propfit_score": 91,
+        "fit_verdict": "MÜKEMMEL UYUM",
+        "neden": "ASELSAN Gölbaşı Yerleşkesi, TUSAŞ ve Çevre Yolu aksına dakikalar içinde erişim. Müstakil bahçe duvarları ile yüksek gizlilik ve güvenlik standardı, sunucu/server odası ve jeneratör altyapısına tam uygunluk.",
+        "hedef_unvanlar": "Genel Müdür (CEO), İdari İşler Direktörü, Savunma Sanayi Tedarik Koordinatörü",
+        "queries": [
+          "savunma sanayi",
+          "siber güvenlik anonim şirketi",
+          "yazılım arge merkezi",
+          "havacılık uzay mühendislik"
+        ]
+      },
+      {
+        "kod": "GYF_VARLIK_FONU",
+        "ad": "Gayrimenkul Yatırım Fonları (GYF), Family Office & Portföy Şirketleri",
+        "icon": "fa-chart-pie",
+        "propfit_score": 90,
+        "fit_verdict": "MÜKEMMEL UYUM",
+        "neden": "Tek kurumsal kiracıya yüksek çarpanla kiralama potansiyeli, ticari ruhsat tekelinin sağladığı enflasyon üzeri prim artışı ve kurumsal portföy değerleme avantajı.",
+        "hedef_unvanlar": "Fon Kurulu Başkanı, Gayrimenkul Portföy Yöneticisi, Aile Ofisi Yatırım Direktörü",
+        "queries": [
+          "gayrimenkul yatırım fonu",
+          "portföy yönetim şirketi",
+          "girişim sermayesi yatırım ortaklığı"
+        ]
+      },
+      {
+        "kod": "EGITIM_KOLEJ",
+        "ad": "VIP Erken Çocukluk Akademisi, Butik Kolej & Yabancı Dil Kampüsü",
+        "icon": "fa-graduation-cap",
+        "propfit_score": 89,
+        "fit_verdict": "YÜKSEK UYUM",
+        "neden": "MEB Özel Öğretim Kurumları Standartlar Yönergesi'nin şart koştuğu müstakil bina, güvenli açık bahçe ve zorunlu TİCARİ RUHSAT koşullarını sağlayan bölgedeki tek mülk olması.",
+        "hedef_unvanlar": "Kurucu Temsilcisi, Eğitim Grubu Genel Müdürü, Kampüs Yatırım Direktörü",
+        "queries": [
+          "özel anaokulu",
+          "butik kolej",
+          "montessori anaokulu",
+          "uluslararası dil okulu"
+        ]
+      },
+      {
+        "kod": "HUKUK_DENETIM",
+        "ad": "Büyük Hukuk & Arabuluculuk Ortaklıkları, YMM & Bağımsız Denetim",
+        "icon": "fa-scale-balanced",
+        "propfit_score": 88,
+        "fit_verdict": "YÜKSEK UYUM",
+        "neden": "Çukurambar ve Söğütözü plazalarındaki otopark krizinden ve asansör bekleme sürelerinden bağımsız, şömineli VIP müvekkil kabul salonları ve müstakil villa ofis prestiji.",
+        "hedef_unvanlar": "Kıdemli Yönetici Ortak (Managing Partner), Kurucu Avukat, Yeminli Mali Müşavir",
+        "queries": [
+          "avukatlık ortaklığı",
+          "hukuk bürosu",
+          "yeminli mali müşavirlik",
+          "bağımsız denetim a.ş."
+        ]
+      },
+      {
+        "kod": "HOLDING_KARARGAH",
+        "ad": "Kurumsal Şirket Genel Merkezleri & Sanayici Aile Ofisleri",
+        "icon": "fa-building",
+        "propfit_score": 87,
+        "fit_verdict": "YÜKSEK UYUM",
+        "neden": "OSTİM, İvedik ve ASO fabrikalarını yöneten sanayicilerin yönetim kurulu merkezini İncek aksında prestijli müstakil bir karargâha taşıma vizyonuna tam uyum.",
+        "hedef_unvanlar": "Yönetim Kurulu Başkanı, İcra Kurulu Başkanı (CEO), Aile Ofisi Başkanı",
+        "queries": [
+          "holding anonim şirketi",
+          "inşaat taahhüt a.ş.",
+          "sanayi grubu genel müdürlüğü"
+        ]
+      },
+      {
+        "kod": "DIPLOMATIK_ELCILIK",
+        "ad": "Diplomatik Misyonlar, Elçilik Hizmet Binaları & Konsolosluk Rezidansları",
+        "icon": "fa-landmark-flag",
+        "propfit_score": 85,
+        "fit_verdict": "YÜKSEK UYUM",
+        "neden": "Güney Ankara diplomatik aksına yakınlık, tam müstakil parsel güvenliği, geniş temsil ve resepsiyon salonları altyapısı.",
+        "hedef_unvanlar": "Misyon Şefi, Başkatip / İdari Ataşe, Diplomatik Temsilcilik Müsteşarı",
+        "queries": [
+          "büyükelçilik",
+          "diplomatik misyon",
+          "konsolosluk temsilciliği"
+        ]
+      }
+    ],
+    "lead_search_queries": [
+      "özel tıp merkezi",
+      "onkoloji merkezi",
+      "ağız ve diş sağlığı polikliniği",
+      "diş klinikleri",
+      "savunma sanayi",
+      "siber güvenlik anonim şirketi",
+      "gayrimenkul yatırım fonu",
+      "portföy yönetim şirketi"
+    ],
+    "top_propfit_score": 99
+  },
+  "broker": {
+    "name": "YİĞİT NARİN",
+    "phone": "0532 451 40 08",
+    "office": "Coldwell Banker VIP Real Gayrimenkul"
+  },
+  "created_at": "2026-10-09T21:02:01.497919"
+}

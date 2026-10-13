@@ -4610,6 +4610,14 @@ JOBS_DIR.mkdir(exist_ok=True)
 
 app = Flask(__name__, template_folder=str(BASE_DIR / "templates"))
 
+# ── NexaScout Blueprint (Faz 2: Otonom Alıcı & Strateji Radarı) ──
+try:
+    from nexascout.routes import nexascout_bp
+    app.register_blueprint(nexascout_bp)
+    print("✅ NexaScout Blueprint başarıyla app.py'ye entegre edildi.")
+except Exception as _ns_err:
+    print(f"⚠️ NexaScout Blueprint app.py'ye yüklenemedi: {_ns_err}")
+
 @app.after_request
 def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'

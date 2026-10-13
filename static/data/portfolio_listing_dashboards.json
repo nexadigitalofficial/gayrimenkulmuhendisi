@@ -1455,5 +1455,157 @@
         "author": "Yiğit Narin"
       }
     ]
+  },
+  "3bafbd202b02": {
+    "refId": "3bafbd202b02",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "09.10.2026 22:51",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "cb568bb26dfc": {
+    "refId": "cb568bb26dfc",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "13.10.2026 08:35",
+        "author": "Yiğit Narin"
+      }
+    ]
   }
 }
