@@ -1059,7 +1059,7 @@ class CFBypassEngine:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# ADIM 1 — PageSpeed ile mağaza/liste sayfasını çek
+# ADIM 1 — Mağaza / Liste sayfasını çek (PageSpeed Cloud API + Selenium Fallback)
 # ─────────────────────────────────────────────────────────────────────────────
 
 def step1_pagespeed_store(
@@ -1069,15 +1069,51 @@ def step1_pagespeed_store(
     headless: bool,
     stop_event=None,
 ) -> Path:
+    _sep("ADIM 1 — Mağaza/Liste sayfası PageSpeed ile taranıyor")
+    print(f"  Hedef  : {target_url}")
+    print(f"  [MOTOR] Google PageSpeed Insights (PerimeterX/Turnstile Bot Bypass)")
+    print(f"  Bekleme: {wait_sec} sn | Headless: {headless}")
+
+    out_path = Path(out_html)
+    out_dir = out_path.parent
+    out_dir.mkdir(parents=True, exist_ok=True)
+    json_path = out_dir / "pagespeed_result.json"
+
+    # 1. Öncelikli Yöntem: Google PageSpeed Insights v5 REST API (Hızlı bulut render, sıfır bot engeli)
+    print("  [API] Google PageSpeed Insights Bulut Motoru ile taranıyor...")
+    psi_data = _psi_api_fetch(target_url, timeout=max(wait_sec, 60))
+    if psi_data and "lighthouseResult" in psi_data:
+        try:
+            with open(json_path, "w", encoding="utf-8") as f:
+                json.dump(psi_data, f, ensure_ascii=False, indent=2)
+
+            lr = psi_data.get("lighthouseResult", {})
+            final_url = lr.get("finalUrl", target_url)
+            html_content = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>PageSpeed Analysis - {target_url}</title></head>
+<body>
+<div id="lh-root">
+  <h1>PageSpeed Insights Result</h1>
+  <p>Target URL: {target_url}</p>
+  <p>Final URL: {final_url}</p>
+  <p>Analysis UTC: {psi_data.get('analysisUTCTimestamp', '')}</p>
+</div>
+</body>
+</html>"""
+            out_path.write_text(html_content, encoding="utf-8")
+            size_kb = json_path.stat().st_size // 1024
+            print(f"  [OK] PageSpeed API ile başarıyla çekildi ({size_kb} KB veri kaydedildi)!")
+            return out_path
+        except Exception as e:
+            print(f"  [WARN] PageSpeed API verisi kaydedilemedi: {e}")
+
+    # 2. İkincil Fallback: Selenium ile PageSpeed Arayüzü
+    print("  [FALLBACK] Selenium PageSpeed arayüzü deneniyor...")
     if not _SELENIUM:
         raise ImportError("pip install selenium webdriver-manager")
 
-    _sep("ADIM 1 — Mağaza sayfası → PageSpeed")
-    print(f"  Hedef  : {target_url}")
-    print(f"  Bekleme: {wait_sec} sn | Headless: {headless}")
-
     driver = _make_chrome(headless)
-    out_path = Path(out_html)
     try:
         ok = _pagespeed_fetch(
             driver=driver,
