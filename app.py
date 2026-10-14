@@ -377,6 +377,9 @@ PSI_OCR_LANG = os.environ.get("PSI_OCR_LANG", "tur")
 CLASSIFIED_DETAIL_FRAGMENT = "classified-detail"
 CD_FILE_SUFFIX = "__cd"  # {listing_id}__cd.html olarak kaydedilir
 
+CLASSIFIED_PROPERTIES_FRAGMENT = "classifiedProperties"
+PROP_FILE_SUFFIX = "__prop"  # {listing_id}__prop.html olarak kaydedilir
+
 
 def _strip_fragment(url: str) -> str:
     return url.split("#", 1)[0]
@@ -390,6 +393,16 @@ def _build_classified_detail_url(base_url: str) -> str:
     """
     clean = _strip_fragment(base_url).rstrip("/")
     return f"{clean}/#{CLASSIFIED_DETAIL_FRAGMENT}"
+
+
+def _build_classified_properties_url(base_url: str) -> str:
+    """
+    Verilen detay URL'sine (varsa mevcut fragment'i temizleyip)
+    '#classifiedProperties' fragment'ini ekler.
+    ".../detay" veya ".../detay/" → ".../detay/#classifiedProperties"
+    """
+    clean = _strip_fragment(base_url).rstrip("/")
+    return f"{clean}/#{CLASSIFIED_PROPERTIES_FRAGMENT}"
 
 # Sahibinden detay URL formatı  (ID'den otomatik türetilemezse bu search URL'si kullanılır)
 SB_SEARCH_URL  = "https://www.sahibinden.com/arama?query_text={id}"
@@ -1152,22 +1165,59 @@ def step3_pagespeed_details(
     out_dir.mkdir(exist_ok=True)
     detail_paths: List[Path] = []
 
-    # ── Eğer tekil ilan ise PageSpeed'e gerek yok, doğrudan SeleniumBase UC ile çek ──
+    # ── Eğer tekil ilan ise: Önce SeleniumBase UC, başarısızsa PageSpeed Bulut Motoru ile çek ──
     is_single = len(summaries) == 1 and bool(detect_single_listing_id(summaries[0].detail_url))
     if is_single:
-        _sep("TEKİL İLAN MODU (PageSpeed Atlanıyor) — SeleniumBase UC ile çekiliyor")
         summary = summaries[0]
         p = out_dir / f"{summary.listing_id}.html"
-        print(f"  Hedef: {summary.detail_url}")
-        engine = CFBypassEngine()
-        html = engine.fetch_page(summary.detail_url)
-        if html:
-            p.write_text(html, encoding="utf-8")
-            print(f"    [OK] Kaydedildi: {p.name} ({len(html)//1024} KB)")
+        html = None
+
+        if _SELENIUMBASE:
+            _sep("TEKİL İLAN MODU — SeleniumBase UC ile deneniyor")
+            print(f"  Hedef: {summary.detail_url}")
+            try:
+                engine = CFBypassEngine()
+                html = engine.fetch_page(summary.detail_url)
+                if html:
+                    p.write_text(html, encoding="utf-8")
+                    print(f"    [OK] Kaydedildi: {p.name} ({len(html)//1024} KB)")
+                    detail_paths.append(p)
+                    return detail_paths
+            except Exception as e:
+                print(f"    [WARN] SeleniumBase UC hatası: {e}")
+
+        # SeleniumBase başarısız olursa veya Cloudflare takılırsa: PageSpeed Bulut Motoru ile çek
+        # Kullanıcı kuralı: Tekil ilanlarda #classified-detail ve #classifiedProperties hedeflenir
+        print("  [API] SeleniumBase doğrudan erişemedi, PageSpeed Bulut Motoru devreye giriyor...")
+        target_fetch_url = (
+            summary.detail_url
+            if "#" in summary.detail_url
+            else _build_classified_detail_url(summary.detail_url)
+        )
+        print(f"  [API] Hedef URL: {target_fetch_url}")
+        psi_data = _psi_api_fetch(target_fetch_url, timeout=wait_sec)
+        if psi_data and "lighthouseResult" in psi_data:
+            lr = psi_data.get("lighthouseResult", {})
+            net_items = lr.get("audits", {}).get("network-requests", {}).get("details", {}).get("items", [])
+            html_parts = [
+                "<!DOCTYPE html><html><head><meta charset='utf-8'>",
+                f"<title>PageSpeed Insights - {summary.listing_id}</title></head><body>",
+                f"<div id='lh-root'><h1>{target_fetch_url}</h1>",
+            ]
+            for it in net_items:
+                u = it.get("url", "")
+                html_parts.append(f"<a href=\"{u}\">{u}</a><br>")
+            html_parts.append("</div></body></html>")
+
+            p.write_text("\n".join(html_parts), encoding="utf-8")
+            with open(out_dir / f"{summary.listing_id}_psi.json", "w", encoding="utf-8") as jf:
+                json.dump(psi_data, jf, ensure_ascii=False, indent=2)
+            print(f"    [OK] PageSpeed ile buluttan başarıyla çekildi: {p.name}")
             detail_paths.append(p)
+            return detail_paths
         else:
-            print("    [ERR] SeleniumBase UC ile tekil ilan sayfası çekilemedi!")
-        return detail_paths
+            print("    [ERR] PageSpeed ile de tekil ilan sayfası çekilemedi!")
+            return detail_paths
 
     if skip:
         print("  ⏭  Adım atlandı, mevcut dosyalar kullanılıyor.\n")
@@ -2009,32 +2059,40 @@ def _psi_api_extract_description(target_url: str) -> Tuple[str, str]:
         return "", f"görsel decode edilemedi: {exc}"
 
     rect = _psi_api_find_desc_rect(psi_json)
+    w, h = full_img.size
     if rect:
         left, top = rect["left"], rect["top"]
         right = left + rect["width"]
         bottom = top + rect["height"]
-        # Görsel sınırlarını taşmayacak şekilde kırp
         left = max(0, left)
         top = max(0, top)
-        right = min(full_img.width, right)
-        bottom = min(full_img.height, bottom)
+        right = min(w, right)
+        bottom = min(h, bottom)
         crop_img = full_img.crop((left, top, right, bottom))
     else:
-        # Rect bulunamazsa tüm sayfayı OCR'la (daha gürültülü ama best-effort)
-        crop_img = full_img
+        # #classified-detail Sahibinden şablonunda y: 920-2700 bandında yer alır
+        top_y = min(int(h * 0.16), 920)
+        bot_y = min(h, 2700)
+        crop_img = full_img.crop((int(w * 0.04), top_y, int(w * 0.96), bot_y))
 
     try:
         raw_ocr = _pytesseract.image_to_string(crop_img, lang=PSI_OCR_LANG)
     except Exception as exc:
         return "", f"tesseract OCR başarısız: {exc}"
 
-    cleaned = re.sub(r"[ \t]+", " ", raw_ocr)
+    # #classified-detail / Açıklama başlığı sonrasını ve Özellikler öncesini al
+    parts = re.split(r'A.{1,2}klama\s*', raw_ocr, flags=re.IGNORECASE)
+    body = parts[1] if len(parts) > 1 else raw_ocr
+    end_parts = re.split(r'\n\s*.{0,2}zellikler', body, flags=re.IGNORECASE)
+    body = end_parts[0].strip()
+
+    cleaned = re.sub(r"[ \t]+", " ", body)
     cleaned = re.sub(r"\n{3,}", "\n\n", cleaned).strip()
 
     if len(cleaned) < 40:
         return "", "OCR sonucu çok kısa/boş"
 
-    source = "PSI API + OCR (tam sayfa)" if not rect else "PSI API + OCR (açıklama rect'i)"
+    source = "PSI fullPageScreenshot OCR (#classified-detail)"
     return cleaned, source
 
 
@@ -2154,6 +2212,39 @@ def step4_parse_details(
 
             description = _extract_psi_description(raw_text)
             description_source = "PSI HTML" if description else ""
+
+            # ── Fallback 0: Önceden indirilmiş {listing_id}_psi.json varsa doğrudan OCR ve tüm fotoğrafları çek ──
+            psi_cached_json = p.parent / f"{listing_id}_psi.json"
+            if psi_cached_json.exists():
+                try:
+                    with open(psi_cached_json, "r", encoding="utf-8") as jf:
+                        cj = json.load(jf)
+                    if not description:
+                        print(f"    ℹ Önceden kaydedilmiş PSI JSON üzerinden #classified-detail OCR yapılıyor...")
+                        ocr_desc, ocr_note = _psi_api_extract_description(canonical_url, psi_json=cj)
+                        if ocr_desc:
+                            description = ocr_desc
+                            description_source = ocr_note
+
+                    # Tüm JSON payload'ından eksiksiz tüm fotoğrafları topla
+                    cj_str = json.dumps(cj)
+                    psi_photo_pat = re.compile(
+                        r'https?://i\d+\.shbdn\.com/photos/(\d+/\d+/\d+)/([a-zA-Z0-9_]+)\.(avif|jpg|jpeg|png|webp)',
+                        re.IGNORECASE
+                    )
+                    seen_photo_keys = {re.sub(r'/(?:x5_|x3_|x2_|x1_|thmb_|lthmb_)', '/', ph) for ph in photos}
+                    for match in psi_photo_pat.finditer(cj_str):
+                        folder, fname, ext = match.groups()
+                        base_id = re.sub(r'^(x5_|x3_|x2_|x1_|thmb_|lthmb_)', '', fname)
+                        if not base_id or "blank" in base_id:
+                            continue
+                        core_key = f"https://i0.shbdn.com/photos/{folder}/{base_id}"
+                        if core_key not in seen_photo_keys:
+                            seen_photo_keys.add(core_key)
+                            highres_url = f"https://i0.shbdn.com/photos/{folder}/x5_{base_id}.avif"
+                            photos.append(highres_url)
+                except Exception as e:
+                    print(f"    [WARN] PSI JSON OCR/Fotoğraf ayrıştırma hatası: {e}")
 
             # ── Fallback 1: #classified-detail fragment varyantı ──────────
             # step3'ün ürettiği "{listing_id}__cd.html" varsa (birincil
@@ -7992,83 +8083,77 @@ async def _scrape_via_pagespeed_async(url: str) -> dict:
 
 def _scrape_via_psi_api(url: str) -> dict:
     """
-    Google PageSpeed Insights v5 REST API ile bulut tabanlı render.
-    Headless Chromium/Playwright gerektirmez. Cloudflare/Akamai bot korumalarını aşar.
+    Google PageSpeed Insights v5 REST API kullanarak tekil ilanı çeker.
+    %100 fotoğrafları (x5_ yüksek çözünürlük) ve OCR ile #classified-detail ve
+    #classifiedProperties alanlarını eksiksiz çıkarır.
     """
-    api_key = os.environ.get("PAGESPEED_API_KEY", "AIzaSyClEth2ooknGZJ53WrgY1QKdrQunZfsNXg")
-    psi_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
     listing_id = detect_single_listing_id(url)
-    title = _title_from_detail_url(url, listing_id) or (f"Sahibinden İlanı #{listing_id}" if listing_id else "Gayrimenkul Portföy İlanı")
+    target_url = url if "#" in url else _build_classified_detail_url(url)
+    print(f"    [PSI] PageSpeed REST API çağrılıyor... ({target_url[:65]})")
+    psi_json = _psi_api_fetch(target_url, timeout=60)
+    if not psi_json or "lighthouseResult" not in psi_json:
+        return {"ok": False, "error": "PageSpeed API yanıt vermedi veya lighthouseResult yok"}
 
-    params = {
-        "url": url,
-        "category": "performance",
-        "hl": "tr"
-    }
-    if api_key:
-        params["key"] = api_key
+    lr = psi_json.get("lighthouseResult", {})
+    net_items = lr.get("audits", {}).get("network-requests", {}).get("details", {}).get("items", [])
+    raw_synthetic = "\n".join(f'<a href="{it.get("url", "")}">{it.get("url", "")}</a>' for it in net_items)
 
+    title = _title_from_detail_url(url, listing_id) or (f"İlan #{listing_id}" if listing_id else "Gayrimenkul İlanı")
+    psi_specs = _extract_psi_specs(raw_synthetic)
+    price = psi_specs.get("Fiyat") or _extract_price_tr(raw_synthetic) or ""
+
+    loc_parts = []
+    for k in ["İl", "Şehir", "İlçe", "Mahalle"]:
+        if k in psi_specs and psi_specs[k] not in loc_parts:
+            loc_parts.append(psi_specs[k])
+    loc_str = " / ".join(loc_parts) if loc_parts else ""
+
+    # %100 Fotoğrafları çek (x5_ tam boy)
+    cj_str = json.dumps(psi_json)
+    psi_photo_pat = re.compile(
+        r'https?://i\d+\.shbdn\.com/photos/(\d+/\d+/\d+)/([a-zA-Z0-9_]+)\.(avif|jpg|jpeg|png|webp)',
+        re.IGNORECASE
+    )
+    seen_keys = set()
     photos = []
+    for match in psi_photo_pat.finditer(cj_str):
+        folder, fname, ext = match.groups()
+        base_id = re.sub(r'^(x5_|x3_|x2_|x1_|thmb_|lthmb_)', '', fname)
+        if not base_id or "blank" in base_id:
+            continue
+        core_key = f"https://i0.shbdn.com/photos/{folder}/{base_id}"
+        if core_key not in seen_keys:
+            seen_keys.add(core_key)
+            photos.append(f"https://i0.shbdn.com/photos/{folder}/x5_{base_id}.avif")
+
+    # OCR Açıklama ve Özellikler (#classified-detail & #classifiedProperties)
+    ocr_desc, ocr_note = _psi_api_extract_description(target_url, psi_json=psi_json)
+    desc = ocr_desc if ocr_desc else ""
+
     specs = {}
-    description = ""
-    price = ""
-    location = "Ankara"
+    if listing_id:
+        specs["İlan No"] = listing_id
+    if price:
+        specs["Fiyat"] = price
+    if loc_str:
+        specs["Konum"] = loc_str
+    for k, v in psi_specs.items():
+        if k not in specs:
+            specs[k] = v
 
-    try:
-        resp = requests.get(psi_url, params=params, timeout=8)
-        if resp.status_code == 200:
-            raw_text = resp.text
-            psi_photos = _extract_psi_photos(raw_text)
-            full_photos  = [p["url"] for p in psi_photos if p["type"] == "full"]
-            thumb_photos = [p["url"] for p in psi_photos if p["type"] == "thumb"]
-            other_photos = [p["url"] for p in psi_photos if p["type"] == "other"]
-
-            raw_photos = full_photos or thumb_photos or other_photos or _parse_photos_from_raw(raw_text)
-            clean_photos = []
-            for ph in raw_photos:
-                ph_c = _sahibinden_avif_to_jpg(ph) if "_sahibinden_avif_to_jpg" in globals() else ph
-                if ph_c and ph_c not in clean_photos:
-                    clean_photos.append(ph_c)
-            photos = clean_photos
-
-            specs = _extract_psi_specs(raw_text)
-            price = specs.get("Fiyat") or _extract_price_tr(raw_text)
-            loc_parts = [x for x in [specs.get("Mahalle",""), specs.get("İlçe",""), specs.get("Şehir","")] if x]
-            if loc_parts:
-                location = ", ".join(loc_parts)
-
-            description = _extract_psi_description(raw_text)
-            extracted_title = _title_from_detail_url(_extract_sahibinden_detail_url(raw_text), listing_id)
-            if extracted_title and len(extracted_title) > 3:
-                title = extracted_title
-
-            slug_data = _scrape_via_slug_fallback(url)
-            if not location or location == "Ankara":
-                if slug_data.get("location") and slug_data.get("location") != "Ankara":
-                    location = slug_data.get("location")
-                elif not location:
-                    location = "Ankara"
-            if not title or title.islower() or "pagespeed" in title.lower():
-                title = slug_data.get("title", title)
-            for sk, sv in slug_data.get("specs", {}).items():
-                if sk not in specs and sv:
-                    specs[sk] = sv
-
-            return {
-                "ok": True,
-                "source": "sahibinden_psi_api",
-                "title": title,
-                "price": price,
-                "location": location,
-                "specs": specs,
-                "description": description,
-                "images": photos,
-                "photo_count": len(photos),
-            }
-    except Exception as exc:
-        print(f"    ⚠ PSI REST API hatası ({exc}), diğer kademelere geçiliyor...")
-
-    return {"ok": False, "error": "PSI REST API başarısız"}
+    return {
+        "ok": True,
+        "source": "psi_api",
+        "url": url,
+        "listing_id": listing_id,
+        "title": title,
+        "price": price,
+        "location": loc_str,
+        "specs": specs,
+        "images": photos,
+        "photo_count": len(photos),
+        "description": desc,
+    }
 
 
 def _scrape_via_slug_fallback(url: str) -> dict:

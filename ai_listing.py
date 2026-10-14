@@ -612,14 +612,17 @@ def _scrape_via_psi_api(url: str) -> dict:
     """
     Google PageSpeed Insights v5 REST API ile bulut tabanlı render.
     Headless Chromium/Playwright gerektirmez. Cloudflare/Akamai bot korumalarını aşar.
+    %100 fotoğrafları (x5_ yüksek çözünürlük) ve OCR ile #classified-detail alanını eksiksiz çıkarır.
     """
     api_key = os.environ.get("PAGESPEED_API_KEY", "AIzaSyClEth2ooknGZJ53WrgY1QKdrQunZfsNXg")
     psi_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
     listing_id = detect_single_listing_id(url)
+    clean_url = url.split("#", 1)[0].rstrip("/")
+    target_url = f"{clean_url}/#classified-detail"
     title = _title_from_detail_url(url, listing_id) or (f"Sahibinden İlanı #{listing_id}" if listing_id else "Gayrimenkul Portföy İlanı")
 
     params = {
-        "url": url,
+        "url": target_url,
         "category": "performance",
         "hl": "tr"
     }
@@ -633,21 +636,26 @@ def _scrape_via_psi_api(url: str) -> dict:
     location = "Ankara"
 
     try:
-        resp = requests.get(psi_url, params=params, timeout=8)
+        resp = requests.get(psi_url, params=params, timeout=60)
         if resp.status_code == 200:
+            psi_json = resp.json()
             raw_text = resp.text
-            psi_photos = _extract_psi_photos(raw_text)
-            full_photos  = [p["url"] for p in psi_photos if p["type"] == "full"]
-            thumb_photos = [p["url"] for p in psi_photos if p["type"] == "thumb"]
-            other_photos = [p["url"] for p in psi_photos if p["type"] == "other"]
 
-            raw_photos = full_photos or thumb_photos or other_photos or _parse_photos_from_raw(raw_text)
-            clean_photos = []
-            for ph in raw_photos:
-                ph_c = _sahibinden_avif_to_jpg(ph)
-                if ph_c and ph_c not in clean_photos:
-                    clean_photos.append(ph_c)
-            photos = clean_photos
+            # %100 Fotoğrafları JSON payload'ından çıkar (x5_ yüksek çözünürlük)
+            psi_photo_pat = re.compile(
+                r'https?://i\d+\.shbdn\.com/photos/(\d+/\d+/\d+)/([a-zA-Z0-9_]+)\.(avif|jpg|jpeg|png|webp)',
+                re.IGNORECASE
+            )
+            seen_keys = set()
+            for match in psi_photo_pat.finditer(raw_text):
+                folder, fname, ext = match.groups()
+                base_id = re.sub(r'^(x5_|x3_|x2_|x1_|thmb_|lthmb_)', '', fname)
+                if not base_id or "blank" in base_id:
+                    continue
+                core_key = f"https://i0.shbdn.com/photos/{folder}/{base_id}"
+                if core_key not in seen_keys:
+                    seen_keys.add(core_key)
+                    photos.append(f"https://i0.shbdn.com/photos/{folder}/x5_{base_id}.avif")
 
             specs = _extract_psi_specs(raw_text)
             price = specs.get("Fiyat") or _extract_price_tr(raw_text)
@@ -656,6 +664,33 @@ def _scrape_via_psi_api(url: str) -> dict:
                 location = ", ".join(loc_parts)
 
             description = _extract_psi_description(raw_text)
+
+            # OCR ile Açıklama ve Özellikleri (#classified-detail) çıkar
+            try:
+                from PIL import Image as _PILImage
+                import io as _io
+                import pytesseract as _pytesseract
+                b64_data = psi_json.get("lighthouseResult", {}).get("fullPageScreenshot", {}).get("screenshot", {}).get("data", "")
+                if b64_data:
+                    if "," in b64_data[:60]:
+                        b64_data = b64_data.split(",", 1)[1]
+                    img_bytes = base64.b64decode(b64_data)
+                    full_img = _PILImage.open(_io.BytesIO(img_bytes)).convert("RGB")
+                    w, h = full_img.size
+                    top_y = min(int(h * 0.16), 920)
+                    bot_y = min(h, 2700)
+                    crop_img = full_img.crop((int(w * 0.04), top_y, int(w * 0.96), bot_y))
+                    raw_ocr = _pytesseract.image_to_string(crop_img, lang="tur")
+                    parts = re.split(r'A.{1,2}klama\s*', raw_ocr, flags=re.IGNORECASE)
+                    body = parts[1] if len(parts) > 1 else raw_ocr
+                    end_parts = re.split(r'\n\s*.{0,2}zellikler', body, flags=re.IGNORECASE)
+                    cleaned_ocr = re.sub(r"[ \t]+", " ", end_parts[0].strip())
+                    cleaned_ocr = re.sub(r"\n{3,}", "\n\n", cleaned_ocr).strip()
+                    if len(cleaned_ocr) >= 40:
+                        description = cleaned_ocr
+            except Exception:
+                pass
+
             extracted_title = _title_from_detail_url(_extract_sahibinden_detail_url(raw_text), listing_id)
             if extracted_title and len(extracted_title) > 3:
                 title = extracted_title
