@@ -2210,9 +2210,9 @@ def _psi_api_find_desc_rect(psi_json: dict) -> Optional[Dict[str, float]]:
     return best_rect
 
 
-def _psi_api_extract_description(target_url: str) -> Tuple[str, str]:
+def _psi_api_extract_description(target_url: str, psi_json: Optional[dict] = None) -> Tuple[str, str]:
     """
-    Tam zincir: PSI v5 API çağır → fullPageScreenshot'ı decode et →
+    Tam zincir: PSI v5 API yanıtı / fullPageScreenshot'ı decode et →
     açıklama container'ının rect'i ile crop'la → Tesseract OCR (tur) →
     temizlenmiş metni döner.
 
@@ -2226,7 +2226,8 @@ def _psi_api_extract_description(target_url: str) -> Tuple[str, str]:
     if not tess_ok:
         return "", tess_msg
 
-    psi_json = _psi_api_fetch(target_url)
+    if psi_json is None:
+        psi_json = _psi_api_fetch(target_url)
     if not psi_json:
         return "", "PSI API yanıtı alınamadı"
 
