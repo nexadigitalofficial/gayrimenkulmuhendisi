@@ -1067,6 +1067,57 @@ def step2_extract_summaries(html_path: Path) -> List[ListingSummary]:
     # Sayfa genelindeki kategoriyi bir kez tespit et (her iki yöntem de kullanır)
     page_kategori_slug = _detect_kategori_slug(text)
 
+    # ── Yöntem 0: PageSpeed API JSON Dosyası Varsa (Network Requests + Resimler) ──
+    json_path = html_path.parent / "pagespeed_result.json"
+    if json_path.exists():
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                psi_data = json.load(f)
+            lr = psi_data.get("lighthouseResult", {})
+            net_items = lr.get("audits", {}).get("network-requests", {}).get("details", {}).get("items", [])
+            for item in net_items:
+                u = item.get("url", "")
+                m_standard = re.search(r"photos/\d+/\d+/\d+/lthmb_(\d{6,})", u)
+                if m_standard:
+                    lid = m_standard.group(1)
+                    if len(lid) > 10:
+                        lid = lid[:10]
+                    if lid not in items:
+                        detail_url = f"https://www.sahibinden.com/ilan/{lid}/detay"
+                        items[lid] = ListingSummary(
+                            listing_id=lid,
+                            title=f"İlan #{lid}",
+                            thumb_url=u,
+                            detail_url=detail_url
+                        )
+                m_proj = re.search(r"projects/(\d+/\d+/\d+)/", u)
+                if m_proj:
+                    pid = m_proj.group(1).replace("/", "").lstrip("0")
+                    if pid and pid not in items:
+                        detail_url = f"https://www.sahibinden.com/emlak-projeler/{pid}/detay"
+                        items[pid] = ListingSummary(
+                            listing_id=pid,
+                            title=f"Proje #{pid}",
+                            thumb_url=u,
+                            detail_url=detail_url
+                        )
+            # Node labels ve alt metinlerden başlıkları ve box URL'lerini yakala
+            psi_text = json.dumps(lr, ensure_ascii=False)
+            for m_nl in re.finditer(r'([^\n\r"\'<>]+?)\s*#(\d{6,})', psi_text):
+                t_cand, lid_cand = m_nl.group(1).strip(), m_nl.group(2)
+                if lid_cand in items and t_cand and len(t_cand) > 3 and not t_cand.startswith("http"):
+                    items[lid_cand].title = t_cand
+
+            for m_url in re.finditer(r'https?://(?:www\.)?sahibinden\.com/ilan/([a-zA-Z0-9_\-]+?)-(\d{6,})/detay', psi_text):
+                slug, lid_cand = m_url.group(1), m_url.group(2)
+                if lid_cand in items:
+                    items[lid_cand].detail_url = f"https://www.sahibinden.com/ilan/{slug}-{lid_cand}/detay"
+
+            if items:
+                print(f"  [OK] PageSpeed Bulut Verisinden {len(items)} ilan/proje yakalandı.")
+        except Exception as err:
+            print(f"  [WARN] PageSpeed API JSON okunurken hata: {err}")
+
     # ── Yöntem A: Mağaza sayfası formatı (img alt="Başlık #ID") ────────────────
     #    örn. coldwellbankercizgi.sahibinden.com/emlak gibi kişisel mağaza sayfaları
     for img_url, alt in ENC_IMG_RE.findall(text):
@@ -2361,6 +2412,27 @@ def step4_parse_details(
             or soup.find(class_="classifiedDescription")
         )
         description = desc_el.get_text(strip=True) if desc_el else ""
+
+        # ── Self-Healing Fallback (Eğer Selenium login sayfasına takıldıysa veya veriler eksikse) ──
+        if (not photos or len(photos) <= 1) or len(specs) == 0 or price == "—":
+            try:
+                print(f"    [FALLBACK] {listing_id} için HTML eksik (giris yönlendirmesi tespit edildi), PageSpeed API ile tamamlanıyor...")
+                target_url = canonical_url or f"https://www.sahibinden.com/ilan/{listing_id}/detay"
+                psi_res = _scrape_via_psi_api(target_url)
+                if psi_res and psi_res.get("ok"):
+                    if (not title or title == listing_id) and psi_res.get("title"):
+                        title = psi_res.get("title")
+                    if price == "—" and psi_res.get("price"):
+                        price = psi_res.get("price")
+                    if psi_res.get("images"):
+                        photos = psi_res.get("images")
+                    if psi_res.get("specs"):
+                        specs = psi_res.get("specs")
+                    if not description and psi_res.get("description"):
+                        description = psi_res.get("description")
+                    print(f"    [OK] PageSpeed API ile kurtarıldı: {len(photos)} foto, {len(specs)} özellik, Fiyat: {price}")
+            except Exception as fb_err:
+                print(f"    [WARN] PageSpeed API fallback hatası: {fb_err}")
 
         det = ListingDetail(
             listing_id=listing_id,
