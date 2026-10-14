@@ -1407,6 +1407,12 @@ def step3_pagespeed_details(
                 print(f"  ✗ Bulunamadı (atlanacak): {p.name}")
         return detail_paths
 
+    # ── Toplu ilan: SeleniumBase UC ile seri indirme (PageSpeed hatasını ve 429 kotasını atlar) ──
+    if _SELENIUMBASE:
+        _sep(f"TOPLU İLAN MODU ({len(summaries)} İlan) — SeleniumBase UC ile çekiliyor")
+        engine = CFBypassEngine()
+        return engine.fetch_pages_bulk(summaries, out_dir, delay=delay, stop_event=stop_event)
+
     if not _SELENIUM:
         raise ImportError("pip install selenium webdriver-manager")
 
