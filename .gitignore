@@ -44,8 +44,9 @@ projeler/
 # Temp files
 *.tmp
 *.bak
-*~
 static/generated_pdfs/
+cache_bayat/
+cache_cb_danisman/
 
 # Google OAuth & Security Secrets (Never commit credentials)
 client_secret*.json

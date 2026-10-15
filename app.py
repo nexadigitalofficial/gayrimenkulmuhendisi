@@ -6391,6 +6391,60 @@ def _route_index():
     )
 
 
+@app.route("/api/nlp-search/parse", methods=["POST"])
+def _route_nlp_search_parse():
+    data = request.get_json(force=True, silent=True) or {}
+    prompt = (data.get("prompt") or "").strip()
+    if not prompt:
+        return jsonify({"error": "Lütfen aranacak kriter veya tanımı girin."}), 400
+        
+    gemini_api_key = (data.get("gemini_api_key") or os.environ.get("GEMINI_API_KEY", "")).strip()
+    sorting_override = (data.get("sorting") or "").strip()
+    
+    try:
+        from nexa_nlp_search_engine import NexaNlpToLink
+        engine = NexaNlpToLink()
+        
+        if gemini_api_key:
+            builder, engine_name = engine.parse_with_gemini(prompt, gemini_api_key)
+        else:
+            builder = engine.parse(prompt)
+            engine_name = "Nexa Offline Geo Engine (81 İl, 973 İlçe, 32.279 Mahalle)"
+            
+        if sorting_override and sorting_override in builder.SORTING_OPTIONS:
+            builder.sorting = sorting_override
+            
+        target_url = builder.build_url()
+        
+        return jsonify({
+            "ok": True,
+            "url": target_url,
+            "engine_used": engine_name,
+            "details": {
+                "category": builder.category,
+                "location_path": builder.location_path,
+                "price_min": builder.price_min,
+                "price_max": builder.price_max,
+                "m2_min": builder.m2_min,
+                "m2_max": builder.m2_max,
+                "rooms": builder.oda_sayisi,
+                "building_age": builder.bina_yasi,
+                "floor": builder.kat_sayisi,
+                "sorting": builder.sorting,
+                "tapu_durumu": builder.tapu_durumu,
+                "kimden": builder.kimden,
+                "ada_min": builder.ada_min,
+                "ada_max": builder.ada_max,
+                "parsel_min": builder.parsel_min,
+                "parsel_max": builder.parsel_max,
+                "imar_durumu": builder.imar_durumu,
+                "kaks_emsal": builder.kaks_emsal
+            }
+        })
+    except Exception as e:
+        return jsonify({"error": f"NLP Çözümleme Hatası: {str(e)}"}), 500
+
+
 @app.route("/api/start", methods=["POST"])
 def _route_start():
     data = request.get_json(force=True, silent=True) or {}
@@ -11850,10 +11904,18 @@ def _require_admin():
     try:
         decoded = fb_auth.verify_id_token(id_token)
         # Verify admin claim or authorized email whitelist
-        ADMIN_EMAILS = {"yigit@gayrimenkulmuhendisi.com", "info@gayrimenkulmuhendisi.com", "admin@gayrimenkulmuhendisi.com", "yigitnarin@gmail.com"}
+        ADMIN_EMAILS = {
+            "yigit@gayrimenkulmuhendisi.com",
+            "info@gayrimenkulmuhendisi.com",
+            "admin@gayrimenkulmuhendisi.com",
+            "yigitnarin@gmail.com",
+            "yigit.narin@cb.com.tr",
+            "yigit.narin@coldwellbanker.vip"
+        }
         email = (decoded.get("email") or "").lower().strip()
         is_admin_claim = bool(decoded.get("admin") or decoded.get("is_admin"))
-        if not is_admin_claim and email not in ADMIN_EMAILS:
+        is_cb_domain = email.endswith("@coldwellbanker.vip") or email.endswith("@cb.com.tr")
+        if not is_admin_claim and email not in ADMIN_EMAILS and not is_cb_domain:
             print(f"⛔ Yetkisiz Admin Erişimi Engellendi: {email} — {flask_request.path}")
             return None, "Yetkisiz işlem: Bu panel yalnızca yönetici hesaplarına açıktır."
         print(f"✅ Admin doğrulandı: {email} — {flask_request.path}")

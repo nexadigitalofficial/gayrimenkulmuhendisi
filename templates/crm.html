@@ -855,9 +855,9 @@
         .sidebar-item-badge { margin-left: auto; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 999px; min-width: 18px; text-align: center; }
         .sidebar-item-badge.yellow { background: var(--warning); color: #0d1117; }
         .sidebar-footer { padding: 12px 8px; border-top: 1px solid var(--border-subtle); }
-        .sidebar-user { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: background 0.12s; }
+        .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background 0.12s; }
         .sidebar-user:hover { background: var(--bg-elevated); }
-        .sidebar-user-avatar { width: 28px; height: 28px; border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+        .sidebar-user-avatar { width: 34px; height: 34px; border-radius: 8px; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(201,164,92,0.15); border: 1px solid rgba(201,164,92,0.3); color: var(--gold-soft); font-weight: 700; font-size: 12px; }
         .sidebar-user-email { font-size: 11px; color: var(--text-tertiary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; }
         .app-main { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
         .main-header { background: var(--bg-elevated); border-bottom: 1px solid var(--border-subtle); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; position: sticky; top: 0; z-index: 50; }
@@ -1590,8 +1590,8 @@
     <div v-else-if="!user" class="auth-container">
         <div class="auth-box fade-in">
             <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4 overflow-hidden">
-                    <a href="https://ibb.co/bqHDW5Y"><img src="/static/yigit_narin_portrait.png" alt="Gemini-Generated-mage-6zpnsj6zpnsj6zpn" border="0" style="width:100%;height:100%;object-fit:cover;"></a>
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4 overflow-hidden" style="background: linear-gradient(135deg, #c9a45c 0%, #e8cd93 50%, #997838 100%); box-shadow: 0 8px 24px rgba(201,164,92,0.35);">
+                    <i class="fas fa-crown text-2xl text-black"></i>
                 </div>
                 <h1 class="text-3xl font-bold mb-2">Nexa CRM Pro</h1>
                 <p class="text-gray-400">Akıllı Süreç Yönetim Sistemi</p>
@@ -1665,8 +1665,8 @@
         <!-- ── SOL SIDEBAR ──────────────────────────────────────── -->
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0;">
-                    <a href="https://ibb.co/bqHDW5Y"><img src="/static/yigit_narin_portrait.png" alt="Nexa" style="width:100%;height:100%;object-fit:cover;"></a>
+                <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0;background: linear-gradient(135deg, #c9a45c 0%, #e8cd93 50%, #997838 100%);display:flex;align-items:center;justify-content:center;color:#08080a;font-weight:900;font-size:14px;box-shadow:0 2px 8px rgba(201,164,92,0.3);">
+                    <i class="fas fa-crown text-black text-xs"></i>
                 </div>
                 <div>
                     <h1>Nexa CRM</h1>
@@ -1746,9 +1746,13 @@
                 </button>
                 <div class="sidebar-user" style="margin-top:8px;">
                     <div class="sidebar-user-avatar">
-                        <img src="/static/yigit_narin_portrait.png" style="width:100%;height:100%;object-fit:cover;">
+                        <img v-if="userPhotoUrl" :src="userPhotoUrl" :alt="userDisplayName" style="width:100%;height:100%;object-fit:cover;">
+                        <span v-else>{{ userInitials }}</span>
                     </div>
-                    <div class="sidebar-user-email">{{ user.email }}</div>
+                    <div style="min-width:0;flex:1;line-height:1.2;">
+                        <div style="font-size:12.5px;font-weight:700;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ userDisplayName }}</div>
+                        <div class="sidebar-user-email" style="font-size:10.5px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ user.email }}</div>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -4982,7 +4986,7 @@
                                         <div v-show="activeListingTab==='chat'" class="space-y-4">
                                             <div class="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 flex items-center justify-between">
                                                 <div class="flex items-center gap-3">
-                                                    <img src="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png" class="w-10 h-10 rounded-full border border-gold object-cover">
+                                                    <img :src="userPhotoUrl || 'https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png'" class="w-10 h-10 rounded-full border border-gold object-cover">
                                                     <div>
                                                         <h4 class="text-sm font-bold text-white flex items-center gap-2">
                                                             NexaPrime AI Copilot <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full">İlana Özel</span>
@@ -5015,7 +5019,7 @@
                                             <div class="p-4 rounded-2xl bg-black/40 border border-white/10 h-72 overflow-y-auto space-y-3">
                                                 <div v-if="listingChatMessages.length===0" class="text-center py-10 text-gray-400 text-xs">
                                                     <i class="fas fa-robot text-2xl text-emerald-400 mb-2 block"></i>
-                                                    Merhaba Yiğit Bey! Bu ilanla ilgili platform analizleri, pazarlama metinleri veya alıcı ikna taktikleri hakkında sorularınızı sorabilirsiniz.
+                                                    Merhaba {{ userDisplayName }}! Bu ilanla ilgili platform analizleri, pazarlama metinleri veya alıcı ikna taktikleri hakkında sorularınızı sorabilirsiniz.
                                                 </div>
                                                 <div v-for="(m, mi) in listingChatMessages" :key="mi" :class="['flex', m.role==='user' ? 'justify-end' : 'justify-start']">
                                                     <div :class="['max-w-[80%] rounded-2xl p-3 text-xs leading-relaxed', m.role==='user' ? 'bg-amber-500/20 text-amber-200 border border-amber-500/30' : 'bg-white/[0.06] text-gray-200 border border-white/10']">
@@ -5312,6 +5316,10 @@
             const myListings = ref([]);
             
             const loadMyListings = async () => {
+                if (!isUserAdmin.value) {
+                    myListings.value = [];
+                    return;
+                }
                 try {
                     const res = await fetch('/api/listings');
                     const json = await res.json();
@@ -5343,6 +5351,12 @@
             const socialCopyToast = ref(false);
 
             const loadSocialPlanner = async () => {
+                if (!isUserAdmin.value) {
+                    socialWeeklySchedule.value = [];
+                    todayPlan.value = null;
+                    socialInventoryStats.value = null;
+                    return;
+                }
                 socialLoading.value = true;
                 try {
                     const res = await fetch('/api/crm/social-planner/weekly');
@@ -6085,17 +6099,110 @@
                 return date.toLocaleDateString('tr-TR');
             };
 
+            // ── AUTHORIZATION WHITELIST & ACCESS CONTROL ──────────
+            const AUTHORIZED_ADMIN_EMAILS = [
+                'yigit.narin@cb.com.tr',
+                'yigit.narin@coldwellbanker.vip',
+                'yigit@gayrimenkulmuhendisi.com',
+                'info@gayrimenkulmuhendisi.com',
+                'admin@gayrimenkulmuhendisi.com',
+                'yigitnarin@gmail.com'
+            ];
+
+            const checkUserAuthorization = async (u) => {
+                if (!u || !u.email) return false;
+                const emailClean = u.email.trim().toLowerCase();
+                if (AUTHORIZED_ADMIN_EMAILS.includes(emailClean)) return true;
+                if (emailClean.endsWith('@coldwellbanker.vip') || emailClean.endsWith('@cb.com.tr')) return true;
+                try {
+                    const authDoc = await db.collection('authorized_users').doc(emailClean).get();
+                    if (authDoc.exists) return true;
+                } catch(e) {
+                    console.warn("authorized_users kontrolü:", e);
+                }
+                return false;
+            };
+
+            const isUserAdmin = computed(() => {
+                if (!user.value || !user.value.email) return false;
+                const e = user.value.email.trim().toLowerCase();
+                return AUTHORIZED_ADMIN_EMAILS.includes(e) || e.includes('yigit');
+            });
+
+            const userDisplayName = computed(() => {
+                if (!user.value) return '';
+                if (user.value.displayName && user.value.displayName.trim()) return user.value.displayName;
+                if (isUserAdmin.value) return 'Yiğit Narin';
+                return user.value.email.split('@')[0];
+            });
+
+            const userPhotoUrl = computed(() => {
+                if (!user.value) return null;
+                if (user.value.photoURL) return user.value.photoURL;
+                if (isUserAdmin.value) return '/static/yigit_narin_portrait.png';
+                return null;
+            });
+
+            const userInitials = computed(() => {
+                if (!user.value) return 'YN';
+                const name = userDisplayName.value.trim();
+                const parts = name.split(/\s+/);
+                if (parts.length >= 2) {
+                    return (parts[0][0] + parts[1][0]).toUpperCase();
+                }
+                return name.substring(0, 2).toUpperCase();
+            });
+
+            const resetCrmState = () => {
+                contacts.value = [];
+                reminders.value = [];
+                followups.value = [];
+                webLeads.value = [];
+                myListings.value = [];
+                socialWeeklySchedule.value = [];
+                todayPlan.value = null;
+                socialInventoryStats.value = null;
+                activeLead.value = null;
+                activeLeadScreenshots.value = [];
+                editingContact.value = {};
+                newWebLeadCount.value = 0;
+                fsboResult.value = null;
+                fsboStrategies.value = [];
+                if (webLeadsUnsub) {
+                    try { webLeadsUnsub(); } catch(e) {}
+                    webLeadsUnsub = null;
+                }
+            };
+
             // ── AUTH ──────────────────────────────────────────────
             const signIn = async () => {
                 authError.value = '';
                 authLoading.value = true;
-                try { await auth.signInWithEmailAndPassword(email.value, password.value); }
+                try { 
+                    const cred = await auth.signInWithEmailAndPassword(email.value, password.value);
+                    const isAuth = await checkUserAuthorization(cred.user);
+                    if (!isAuth) {
+                        authError.value = `⛔ Yetkisiz Hesap: "${cred.user.email}" adresinin bu CRM paneline erişim yetkisi tanımlanmamıştır.`;
+                        user.value = null;
+                        resetCrmState();
+                        await auth.signOut();
+                    }
+                }
                 catch (e) { authError.value = getErrorMessage(e.code); }
                 finally { authLoading.value = false; }
             };
             const register = async () => {
                 authError.value = '';
                 authLoading.value = true;
+                const emailClean = email.value.trim().toLowerCase();
+                const isAuthCandidate = AUTHORIZED_ADMIN_EMAILS.includes(emailClean) || 
+                                       emailClean.endsWith('@coldwellbanker.vip') || 
+                                       emailClean.endsWith('@cb.com.tr');
+                if (!isAuthCandidate) {
+                    authError.value = '⛔ Yeni kayıtlar yalnızca yetkili Coldwell Banker / Nexa personeline açıktır. Lütfen yöneticiniz (Yiğit Narin) ile iletişime geçiniz.';
+                    authLoading.value = false;
+                    return;
+                }
                 try {
                     const cred = await auth.createUserWithEmailAndPassword(email.value, password.value);
                     await cred.user.updateProfile({ displayName: displayName.value });
@@ -6105,13 +6212,25 @@
             const signInWithGoogle = async () => {
                 authError.value = '';
                 authLoading.value = true;
-                try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+                try { 
+                    const cred = await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+                    const isAuth = await checkUserAuthorization(cred.user);
+                    if (!isAuth) {
+                        authError.value = `⛔ Yetkisiz Hesap: "${cred.user.email}" adresinin bu CRM paneline erişim yetkisi tanımlanmamıştır.`;
+                        user.value = null;
+                        resetCrmState();
+                        await auth.signOut();
+                    }
+                }
                 catch (e) { authError.value = getErrorMessage(e.code); }
                 finally { authLoading.value = false; }
             };
             const logout = async () => {
                 showMenu.value = false;
-                await auth.signOut();
+                resetCrmState();
+                try { await auth.signOut(); } catch(e) {}
+                user.value = null;
+                window.location.reload();
             };
             const getErrorMessage = (code) => {
                 const errors = {
@@ -6127,12 +6246,20 @@
 
             // ── DATA ──────────────────────────────────────────────
             const loadData = async () => {
+                if (!user.value) return;
                 try {
                     const snapshot = await db.collection('users').doc(user.value.uid).collection('contacts').get();
                     contacts.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     await loadReminders();
                     await loadFollowups();
-                    loadWebLeads(); // Web formundan gelen leadleri gerçek zamanlı dinle
+                    if (isUserAdmin.value) {
+                        loadWebLeads();
+                        loadSocialPlanner();
+                        loadMyListings();
+                    } else {
+                        webLeads.value = [];
+                        myListings.value = [];
+                    }
                     await nextTick();
                     initCharts();
                 } catch (e) {
@@ -6159,9 +6286,13 @@
                 }
             };
 
-            // Web formundan gelen leadleri gerçek zamanlı dinle
+            // Web formundan gelen leadleri gerçek zamanlı dinle (Sadece yetkili admin görebilir)
             const loadWebLeads = () => {
-                if (webLeadsUnsub) webLeadsUnsub();
+                if (webLeadsUnsub) { webLeadsUnsub(); webLeadsUnsub = null; }
+                if (!isUserAdmin.value) {
+                    webLeads.value = [];
+                    return;
+                }
                 let isFirst = true;
                 webLeadsUnsub = db.collection('leads')
                     .orderBy('createdAt', 'desc')
@@ -7199,17 +7330,35 @@
 
             // ── LIFECYCLE ─────────────────────────────────────────
             onMounted(() => {
-                loadSocialPlanner();
-                if (window.location.search.includes('demo=1') || window.location.search.includes('mode=preview')) {
+                const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                if (isLocalHost && (window.location.search.includes('demo=1') || window.location.search.includes('mode=preview'))) {
                     user.value = { email: 'yigit.narin@coldwellbanker.vip', displayName: 'Yiğit Narin', uid: 'demo_yigit' };
                     uiLoading.value = false;
                     loadData();
                     return;
                 }
                 auth.onAuthStateChanged(async (u) => {
+                    if (!u) {
+                        user.value = null;
+                        uiLoading.value = false;
+                        resetCrmState();
+                        return;
+                    }
+                    uiLoading.value = true;
+                    const isAuthorized = await checkUserAuthorization(u);
+                    if (!isAuthorized) {
+                        console.warn("⛔ Yetkisiz e-posta oturumu engellendi:", u.email);
+                        authError.value = `⛔ Yetkisiz Hesap: "${u.email}" adresinin bu CRM paneline erişim yetkisi tanımlanmamıştır. Lütfen yetkili danışman hesabınızla giriş yapınız.`;
+                        user.value = null;
+                        resetCrmState();
+                        try { await auth.signOut(); } catch(e) {}
+                        uiLoading.value = false;
+                        return;
+                    }
                     user.value = u;
+                    authError.value = '';
                     uiLoading.value = false;
-                    if (u) await loadData();
+                    await loadData();
                 });
 
                 // ── BUG #3 FIX: Global paste listener — Ctrl+V her zaman çalışır ──
@@ -8156,6 +8305,7 @@ ${comments}`;
             // ── RETURN ────────────────────────────────────────────
             return {
                 user, uiLoading, authMode, authLoading, authError, email, password, displayName,
+                isUserAdmin, userDisplayName, userPhotoUrl, userInitials,
                 activeView, currentPipeline, contacts, myListings, loadMyListings, searchQuery, showMenu, showContactModal,
                 showUrlPdfModal, urlPdfInput, urlPdfLoading, urlPdfError, urlPdfResult, generateUrlPdf, getWhatsAppShareUrl,
                 showNexaScoutModal, nexaScoutUrl, nexaScoutLoading, nexaScoutError, nexaScoutResult, nexaScoutPitchTab,
