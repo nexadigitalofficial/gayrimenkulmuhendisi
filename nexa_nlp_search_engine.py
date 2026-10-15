@@ -124,9 +124,10 @@ class GeoRegistry:
         # 4. Fallback: Check if there's a custom mevki/ada token right in text (e.g. bozburunadalari)
         custom_mevki = None
         if found_district and not found_neighborhood_slug:
+            EXCLUDE_MEVKI = ["satilik", "kiralik", "hisseli", "tapu", "parsel", "arsa", "villa", "daire", "fiyat", "yeni", "milyon", "bin", "metrekare", "katli", "odali", "yasinda", "artan", "azalan", "getir", "olan"]
             for tok in raw_tokens:
                 if tok not in [found_province["slug"] if found_province else "", found_district["slug"]] and len(tok) >= 5:
-                    if not any(k in tok for k in ["satilik", "kiralik", "hisseli", "tapu", "parsel", "arsa", "villa", "daire", "fiyat", "yeni"]):
+                    if not any(k in tok for k in EXCLUDE_MEVKI):
                         custom_mevki = tok
                         break
 
@@ -480,13 +481,24 @@ class NexaNlpToLink:
                 # Sorting
                 sort = g_data.get("sorting") or self._extract_sorting(prompt.lower())
                 
+                # Price and m2 with local engine fallback
+                p_min = g_data.get("price_min")
+                p_max = g_data.get("price_max")
+                if p_min is None and p_max is None:
+                    p_min, p_max = self._extract_price_range(prompt)
+                    
+                m_min = g_data.get("m2_min")
+                m_max = g_data.get("m2_max")
+                if m_min is None and m_max is None:
+                    m_min, m_max = self._extract_m2_range(prompt)
+
                 builder = SahibindenUrlBuilder(
                     category=cat,
                     location_path=loc_path,
-                    price_min=g_data.get("price_min"),
-                    price_max=g_data.get("price_max"),
-                    m2_min=g_data.get("m2_min"),
-                    m2_max=g_data.get("m2_max"),
+                    price_min=p_min,
+                    price_max=p_max,
+                    m2_min=m_min,
+                    m2_max=m_max,
                     oda_sayisi=g_data.get("rooms") or [],
                     bina_yasi=g_data.get("building_age") or [],
                     kat_sayisi=g_data.get("floor"),
@@ -635,32 +647,49 @@ class NexaNlpToLink:
         return min(v1, v2), max(v1, v2)
 
     def _extract_price_range(self, text: str) -> Tuple[Optional[int], Optional[int]]:
-        """Parses millions, thousands, or raw numbers for price ranges."""
-        # Check "X milyon ile Y milyon" or "X - Y milyon"
-        m_range = re.search(r"(\d+(?:[.,]\d+)?)\s*(?:milyon)?\s*(?:-|ile|ve|ila)\s*(\d+(?:[.,]\d+)?)\s*milyon", text, re.IGNORECASE)
+        """Parses millions, thousands, or raw numbers for price ranges and target budgets."""
+        t = text.lower()
+        
+        # 1. Range millions: e.g. 20-40 milyon, 20 milyon ile 40 milyon
+        m_range = re.search(r'(\d+(?:[.,]\d+)?)\s*(?:milyon)?\s*(?:-|ile|ve|ila|ila\s+kadar)\s*(\d+(?:[.,]\d+)?)\s*milyon', t)
         if m_range:
-            v1 = float(m_range.group(1).replace(",", ".")) * 1_000_000
-            v2 = float(m_range.group(2).replace(",", ".")) * 1_000_000
+            v1 = float(m_range.group(1).replace(',', '.')) * 1_000_000
+            v2 = float(m_range.group(2).replace(',', '.')) * 1_000_000
             return int(min(v1, v2)), int(max(v1, v2))
-            
-        # Single "X milyon altı" or "X milyona kadar"
-        m_max = re.search(r"(\d+(?:[.,]\d+)?)\s*milyon(?:a kadar| altı| altinda)?", text, re.IGNORECASE)
-        if m_max and any(w in text.lower() for w in ["altı", "kadar", "maksimum", "en fazla"]):
-            v = int(float(m_max.group(1).replace(",", ".")) * 1_000_000)
-            return None, v
-            
-        # Single "X milyon üzeri"
-        m_min = re.search(r"(\d+(?:[.,]\d+)?)\s*milyon(?:dan| üzeri| uzeri| minimum| en az)?", text, re.IGNORECASE)
-        if m_min and any(w in text.lower() for w in ["üzeri", "uzeri", "en az", "minimum", "başlayan"]):
-            v = int(float(m_min.group(1).replace(",", ".")) * 1_000_000)
-            return v, None
-            
-        # Check raw numbers (e.g. 2000000 - 5000000)
-        raw_range = re.search(r"(\d{6,10})\s*(?:-|ile)\s*(\d{6,10})", text)
+
+        # 2. Range thousands: e.g. 20-50 bin, 20 bin ile 50 bin
+        k_range = re.search(r'(\d+(?:[.,]\d+)?)\s*(?:bin)?\s*(?:-|ile|ve|ila)\s*(\d+(?:[.,]\d+)?)\s*bin', t)
+        if k_range:
+            v1 = float(k_range.group(1).replace(',', '.')) * 1_000
+            v2 = float(k_range.group(2).replace(',', '.')) * 1_000
+            return int(min(v1, v2)), int(max(v1, v2))
+
+        # 3. Raw number range: e.g. 2.000.000 - 5.000.000
+        raw_range = re.search(r'(\d{1,3}(?:\.\d{3})+|\d{5,10})\s*(?:-|ile)\s*(\d{1,3}(?:\.\d{3})+|\d{5,10})', t)
         if raw_range:
-            v1, v2 = int(raw_range.group(1)), int(raw_range.group(2))
+            v1 = int(raw_range.group(1).replace('.', ''))
+            v2 = int(raw_range.group(2).replace('.', ''))
             return min(v1, v2), max(v1, v2)
-            
+
+        # 4. Single million with min indicators (uzeri, baslayan, en az, minimum, min)
+        min_m = re.search(r'(?:en az|minimum|min|başlayan|baslayan)\s*(\d+(?:[.,]\d+)?)\s*milyon|(\d+(?:[.,]\d+)?)\s*milyon(?:dan|den)?\s*(?:üzeri|uzeri|fazla|üstü|ustu|başlayan|baslayan)', t)
+        if min_m:
+            val_str = min_m.group(1) or min_m.group(2)
+            v = int(float(val_str.replace(',', '.')) * 1_000_000)
+            return v, None
+
+        # 5. Single million with max or target indicators (40 milyona, 40 milyonluk, 40 milyon tl, 40 milyona kadar, vb.)
+        max_m = re.search(r'(\d+(?:[.,]\d+)?)\s*milyon(?:a\s+kadar|a|luk|lük|lik|e|e\s+kadar|\s+altı|\s+alti|\s+altinda|\s+kadar|\s+tl)?', t)
+        if max_m:
+            v = int(float(max_m.group(1).replace(',', '.')) * 1_000_000)
+            return None, v
+
+        # 6. Single thousands with max indicators (50 bine, 50 binlik, 50 bin tl)
+        max_k = re.search(r'(\d+(?:[.,]\d+)?)\s*bin(?:e\s+kadar|e|lik|lik|\s+altı|\s+alti|\s+kadar|\s+tl)?', t)
+        if max_k:
+            v = int(float(max_k.group(1).replace(',', '.')) * 1_000)
+            return None, v
+
         return None, None
 
     def _extract_m2_range(self, text: str) -> Tuple[Optional[int], Optional[int]]:

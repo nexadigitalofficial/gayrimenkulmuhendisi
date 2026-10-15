@@ -12,26 +12,41 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Output directories
+# Output directories & scratch
 scratch/
 downloaded_files/
 scraper_output/
 matcher_output/
 jobs/
+detay_html/
+cache_cb_danisman/
+cache_bayat/
 
-# Logs and databases
+# Logs and temporary databases
 *.log
 *.sqlite3
 *.jsonl
 logs/
 3/logs/
-nexa_database.db
 watch_state.json
-
-
-# Runtime caches
+nexa_database.db
 nexa_embedding_cache.json
-3/nexa_embedding_cache.json
+
+# Test & Scrape HTML / PDF artifacts
+*.pdf
+ilan_*.html
+pagespeed_*.html
+pagespeed_result.*
+otomatik_magaza_testi.html
+test_*.html
+test_*.pdf
+test_pw.pdf
+cb_store_screenshot.jpg
+*.tmp
+*.bak
+
+# Presentations generated pdfs
+static/generated_pdfs/
 
 # Standalone 3/ folder (kept local, not deployed)
 3/
@@ -41,12 +56,10 @@ static/img/pdf_previews/
 static/projeler/
 projeler/
 
-# Temp files
-*.tmp
-*.bak
-static/generated_pdfs/
-cache_bayat/
-cache_cb_danisman/
+# IDEs
+.vscode/
+.idea/
+dist/
 
 # Google OAuth & Security Secrets (Never commit credentials)
 client_secret*.json

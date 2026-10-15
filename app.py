@@ -10897,13 +10897,33 @@ def _is_mobile_request() -> bool:
     return any(m in ua for m in ["mobile", "android", "iphone", "ipad", "ipod", "webos", "blackberry", "windows phone"])
 
 @app.route("/")
-@app.route("/site")
 def home():
-    """Web sitesi — Hem masaüstü hem mobilde orijinal site.html servis edilir (mobil uygulama kabuğu & PWA dock ile)."""
+    """Ana sayfa router'ı:
+    - NEXAOS projesindeyken veya ?view=nexaos istendiğinde doğrudan NEXA.OS Komuta Merkezi açılır.
+    - gayrimenkulmuhendisi projesindeyken orijinal site.html servis edilir.
+    """
+    is_nexaos = "nexaos" in str(BASE_DIR).lower()
+    req_view = flask_request.args.get("view", "").lower()
+    if is_nexaos or req_view in ["nexaos", "dashboard", "nexa"]:
+        return _route_index()
+    
+    try:
+        return send_from_directory("templates", "site.html")
+    except Exception:
+        return _route_index()
+
+@app.route("/site")
+def serve_site():
+    """Gayrimenkul Mühendisi Orijinal Web Sitesi"""
     try:
         return send_from_directory("templates", "site.html")
     except Exception as e:
         return f"site.html bulunamadı: {e}", 404
+
+@app.route("/nexaos")
+def serve_nexaos():
+    """NEXA.OS Unified PropTech Command Center Doğrudan Giriş"""
+    return _route_index()
 
 @app.route("/app")
 def mobile_app_view():
