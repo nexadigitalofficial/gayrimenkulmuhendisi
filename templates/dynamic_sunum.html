@@ -2,255 +2,1395 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ listing.title }} - Gelişmiş Sunum</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{{ listing.title }} | 4K Ultra Lüks Portföy Sunumu</title>
+    
+    <!-- Meta & Open Graph -->
+    <meta name="description" content="{{ listing.title }} - Coldwell Banker CB VIP Ankara Özel Gayrimenkul Sunumu">
+    <meta property="og:title" content="{{ listing.title }}">
+    <meta property="og:description" content="{{ listing.loc }} • {{ listing.price }}">
+    <meta property="og:image" content="{{ listing.img }}">
+    <meta name="theme-color" content="#070d18">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root {
             --gold: #D4AF37;
             --gold-light: #F3E5AB;
-            --dark-bg: #0A0A0A;
-            --text-light: #F8F9FA;
-            --glass-bg: rgba(10, 10, 10, 0.65);
-            --glass-border: rgba(212, 175, 55, 0.2);
+            --gold-dark: #997D21;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --bg-base: #060911;
+            --bg-surface: #0a101f;
+            --bg-glass: rgba(7, 13, 24, 0.85);
+            --border-glass: rgba(212, 175, 55, 0.3);
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { width: 100%; height: 100%; overflow: hidden; background-color: var(--dark-bg); font-family: 'Inter', sans-serif; color: var(--text-light); }
-
-        .slider-container { width: 100vw; height: 100vh; position: relative; }
         
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-base);
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text-primary);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ─── APP HEADER ─── */
+        .presentation-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(6, 9, 17, 0.95) 0%, rgba(6, 9, 17, 0.6) 70%, transparent 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 50;
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+        .brand-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            object-fit: cover;
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+        .brand-meta {
+            display: flex;
+            flex-direction: column;
+        }
+        .brand-company {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        .header-tracker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 6px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+        }
+        .tracker-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold-light);
+        }
+        .tracker-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            max-width: 280px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            border: none;
+        }
+        .btn-gold-glow {
+            background: linear-gradient(135deg, #E6C65B 0%, #B8941F 100%);
+            color: #060911;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+        }
+        .btn-gold-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 26px rgba(212, 175, 55, 0.6);
+            color: #000;
+        }
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+        }
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(212, 175, 55, 0.4);
+            color: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        /* ─── SLIDER CONTAINER ─── */
+        .slider-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
         .slide {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-            transform: scale(1.05); z-index: 1;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .slide.active { opacity: 1; transform: scale(1); z-index: 2; }
-        
-        .slide-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1; }
-        .slide-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.6) 100%); z-index: -1; }
-
-        .slide-content {
-            position: absolute; bottom: 80px; left: 5%; right: 5%; max-width: 1200px; margin: 0 auto;
-            display: flex; flex-direction: column; gap: 20px;
-            animation: fadeUp 1s forwards ease-out; animation-delay: 0.3s; opacity: 0;
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
         }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        .slide-badge { display: inline-block; background: var(--gold); color: var(--dark-bg); padding: 6px 16px; border-radius: 50px; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
-        .slide-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 56px); font-weight: 700; line-height: 1.1; text-shadow: 2px 4px 10px rgba(0,0,0,0.8); color: #fff; }
-        .slide-price { font-size: clamp(20px, 3vw, 36px); color: var(--gold); font-weight: 600; text-shadow: 1px 2px 5px rgba(0,0,0,0.8); }
+        /* ── DUAL LAYER CINEMATIC STAGE (NO STRETCHING) ── */
+        .ambient-backdrop {
+            position: absolute;
+            inset: -30px;
+            background-size: cover;
+            background-position: center;
+            filter: blur(55px) brightness(0.22) saturate(1.4);
+            transform: scale(1.1);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .stage-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 40%, rgba(6, 9, 17, 0.85) 90%),
+                        linear-gradient(to top, rgba(6, 9, 17, 0.95) 0%, transparent 40%, rgba(6, 9, 17, 0.5) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .stage-wrapper {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 85px 40px 110px 40px;
+        }
+
+        .stage-frame {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            max-height: 100%;
+            transition: all 0.3s ease;
+        }
         
-        .ai-slogan { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: #fff; border-left: 4px solid var(--gold); padding-left: 15px; margin-top: 10px; background: rgba(0,0,0,0.4); padding: 10px 15px; border-radius: 0 8px 8px 0; }
+        .stage-img {
+            max-width: 90vw;
+            max-height: 70vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 18px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.15);
+            transition: transform 0.4s ease;
+        }
 
-        .features-grid { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; }
-        .feature-box { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); padding: 12px 20px; border-radius: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-        .feature-box i { color: var(--gold); font-size: 20px; }
-        .feature-box div { display: flex; flex-direction: column; }
-        .feat-val { font-size: 16px; font-weight: 600; color: #fff; }
-        .feat-lbl { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        /* Fullscreen cover mode option */
+        body.mode-cover .stage-img {
+            width: 100vw;
+            height: 100vh;
+            max-width: 100vw;
+            max-height: 100vh;
+            object-fit: cover;
+            border-radius: 0;
+            border: none;
+        }
+        body.mode-cover .ambient-backdrop { display: none; }
 
-        .slider-controls { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 30px; z-index: 10; pointer-events: none; }
-        .control-btn { pointer-events: auto; width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
-        .control-btn:hover { background: var(--gold); border-color: var(--dark-bg); color: var(--dark-bg); transform: scale(1.1); }
-        .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; flex-wrap: wrap; max-width: 80%; justify-content: center; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; }
-        .dot.active { background: var(--gold); transform: scale(1.3); box-shadow: 0 0 10px var(--gold); }
+        /* ─── SLIDE CONTENT OVERLAYS ─── */
+        .slide-overlay-card {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 60px);
+            max-width: 1100px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 22px 30px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.1);
+            z-index: 10;
+        }
 
-        .branding { position: absolute; top: 30px; left: 5%; z-index: 20; display: flex; align-items: center; gap: 15px; animation: fadeIn 2s forwards; }
-        .brand-logo { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; }
-        .brand-text { display: flex; flex-direction: column; }
-        .brand-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 1px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .brand-title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        
-        .action-btns { position: absolute; top: 30px; right: 5%; z-index: 20; display: flex; gap: 10px; }
-        .btn-capture { background: var(--gold); color: var(--dark-bg); border: none; padding: 10px 20px; border-radius: 50px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(212,175,55,0.4); display: flex; align-items: center; gap: 8px; font-size: 14px; transition: all 0.3s; }
-        .btn-capture:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.6); }
+        .card-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .category-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+        .price-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--gold-light);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .slide-title-hero {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(20px, 2.5vw, 36px);
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .slogan-hero {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 15px;
+            color: #E2E8F0;
+            border-left: 3px solid var(--gold);
+            padding-left: 14px;
+            margin: 10px 0 14px 0;
+            line-height: 1.5;
+        }
+
+        .specs-grid-hero {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .spec-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #F1F5F9;
+        }
+        .spec-item i { color: var(--gold); font-size: 14px; }
+
+        /* Floating pill for gallery slides (middle) */
+        .gallery-compact-pill {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            background: rgba(6, 9, 17, 0.88);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 10px 24px;
+            border-radius: 50px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            z-index: 10;
+            max-width: 90vw;
+        }
+        .g-pill-left { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #fff; }
+        .g-pill-left i { color: var(--gold); }
+        .g-pill-right { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800; color: var(--gold-light); }
+
+        /* Final Contact Slide */
+        .contact-stage-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 28px;
+            padding: 40px 50px;
+            max-width: 720px;
+            width: 90%;
+            text-align: center;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.2);
+            z-index: 10;
+        }
+        .contact-crest {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px auto;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.15);
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 32px;
+            box-shadow: 0 0 25px var(--gold-glow);
+        }
+        .contact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+        }
+        .contact-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .broker-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 14px 20px;
+            border-radius: 18px;
+            margin-bottom: 24px;
+        }
+        .broker-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            object-fit: cover;
+        }
+        .broker-info { text-align: left; }
+        .broker-name { font-weight: 800; font-size: 16px; color: #fff; }
+        .broker-role { font-size: 12px; color: var(--gold-light); }
+        .broker-phone { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-secondary); }
+
+        .contact-cta-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ─── CONTROLS & NAVIGATION ─── */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(6, 9, 17, 0.65);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--gold-light);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 40;
+        }
+        .slider-arrow:hover {
+            background: var(--gold);
+            color: #060911;
+            transform: translateY(-50%) scale(1.12);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+        }
+        .arrow-prev { left: 24px; }
+        .arrow-next { right: 24px; }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 40;
+            max-width: 85%;
+            overflow-x: auto;
+            padding: 4px;
+        }
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        .dot.active {
+            background: var(--gold);
+            width: 22px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        /* ─── 4K DOWNLOAD MODAL WIZARD ─── */
+        .download-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 6, 12, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .download-modal-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .download-modal-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            max-width: 580px;
+            width: 100%;
+            padding: 32px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95), 0 0 50px rgba(212, 175, 55, 0.2);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .download-modal-backdrop.show .download-modal-card {
+            transform: scale(1);
+        }
+        .modal-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+        .modal-sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .modal-close-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: #94A3B8;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .modal-close-btn:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
+
+        .format-cards-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .format-card-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            color: #fff;
+            width: 100%;
+        }
+        .format-card-btn:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold);
+            transform: translateX(4px);
+        }
+        .format-card-left { display: flex; align-items: center; gap: 16px; }
+        .format-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .format-name { font-weight: 700; font-size: 15px; color: #FFFFFF; }
+        .format-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+        .format-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold-light);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* Toast notification */
+        .toast-notify {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 13px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .toast-notify.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ─── RESPONSIVE BREAKPOINTS ─── */
         @media (max-width: 768px) {
-            .slider-controls { display: none; }
-            .branding { top: 15px; left: 15px; }
-            .action-btns { top: 15px; right: 15px; }
-            .btn-capture span { display: none; }
-            .btn-capture { padding: 10px; border-radius: 50%; }
+            .presentation-header { height: 60px; padding: 0 14px; }
+            .header-tracker { display: none; }
+            .brand-name { font-size: 15px; }
+            .brand-company { font-size: 9px; }
+            .brand-avatar { width: 34px; height: 34px; }
+            .btn-action span { display: none; }
+            .btn-action { padding: 8px 12px; }
+            .slider-arrow { width: 42px; height: 42px; font-size: 16px; }
+            .arrow-prev { left: 10px; }
+            .arrow-next { right: 10px; }
+            .slide-overlay-card { bottom: 25px; padding: 16px 18px; width: calc(100% - 24px); }
+            .price-badge { font-size: 20px; }
+            .slide-title-hero { font-size: 18px; }
+            .slogan-hero { font-size: 12px; margin: 6px 0; }
+            .stage-wrapper { padding: 65px 10px 140px 10px; }
+            .stage-img { max-height: 52vh; max-width: 95vw; }
+            .gallery-compact-pill { bottom: 20px; padding: 8px 16px; gap: 12px; }
+            .contact-stage-card { padding: 24px 20px; }
+            .contact-title { font-size: 20px; }
         }
     </style>
 </head>
-<body id="presentationBody">
+<body id="presentationRoot">
 
-    <!-- BRANDING -->
-    <div class="branding" data-html2canvas-ignore="false">
-        <img src="https://media.cb.com.tr/OfficeUserImages/5313/119_H3JA3P5QK2_75X75.png" alt="Yiğit Narin" class="brand-logo">
-        <div class="brand-text">
-            <span class="brand-name">YİĞİT NARİN</span>
-            <span class="brand-title">Gayrimenkul ve Yatırım Danışmanınız</span>
+    <!-- ─── HEADER ─── -->
+    <header class="presentation-header" data-html2canvas-ignore="true">
+        <a href="/crm" class="brand-block" title="CRM Paneline Dön">
+            <img src="/static/yigit_narin_portrait.png" onerror="this.src='https://media.cb.com.tr/OfficeUserImages/5313/119_H3JA3P5QK2_75X75.png'" alt="Yiğit Narin" class="brand-avatar">
+            <div class="brand-meta">
+                <span class="brand-company"><i class="fas fa-crown"></i> Coldwell Banker VIP</span>
+                <span class="brand-name">YİĞİT NARİN</span>
+            </div>
+        </a>
+
+        <!-- Slide Tracker Pill -->
+        <div class="header-tracker">
+            <span class="tracker-badge" id="slideTrackerBadge">01 / {{ listing.images|length if listing.images else 1 }}</span>
+            <span class="tracker-title">{{ listing.title }}</span>
         </div>
-    </div>
-    
-    <!-- ACTION BUTTONS -->
-    <div class="action-btns" data-html2canvas-ignore="true">
-        <button class="btn-capture" onclick="captureSlide()">
-            <i class="fas fa-camera"></i> <span>Görsel Olarak İndir</span>
-        </button>
-    </div>
 
-    <!-- CAROUSEL -->
-    <div class="slider-container" id="slider">
+        <!-- Action Toolbar -->
+        <div class="header-actions">
+            <!-- 4K Download Wizard -->
+            <button class="btn-action btn-gold-glow" onclick="openDownloadModal()">
+                <i class="fas fa-camera"></i> <span>Görsel Olarak İndir (4K)</span>
+            </button>
+            
+            <!-- View Mode (Fit vs Cover) -->
+            <button class="btn-action btn-ghost" onclick="toggleViewMode()" id="viewModeBtn" title="Görünüm Modunu Değiştir">
+                <i class="fas fa-expand"></i> <span>Orantılı</span>
+            </button>
+
+            <!-- WhatsApp Share -->
+            <button class="btn-action btn-ghost" onclick="shareWhatsApp()" title="WhatsApp'ta Paylaş">
+                <i class="fab fa-whatsapp text-emerald-400"></i> <span>Paylaş</span>
+            </button>
+
+            <!-- Fullscreen -->
+            <button class="btn-action btn-ghost" onclick="toggleFullscreen()" title="Tam Ekran">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ─── SLIDER STAGE ─── -->
+    <div class="slider-container" id="sliderStage">
         
         {% if listing.images %}
             {% for img_url in listing.images %}
-            <div class="slide {% if loop.index0 == 0 %}active{% endif %}">
-                <div class="slide-bg" style="background-image: url('{{ img_url }}');"></div>
-                <div class="slide-overlay"></div>
+            <div class="slide {% if loop.index0 == 0 %}active{% endif %}" data-index="{{ loop.index0 }}" data-img-url="{{ img_url }}">
+                <!-- Atmospheric Ambient Backdrop (Matches property colors without stretching center) -->
+                <div class="ambient-backdrop" style="background-image: url('/api/image-proxy?url={{ img_url | urlencode }}');"></div>
                 
-                <div class="slide-content">
-                    {% if loop.index0 == 0 %}
-                        <!-- İlk slaytta kapak bilgileri ve AI sloganı -->
-                        <span class="slide-badge"><i class="fas fa-gem"></i> {{ listing.type }}</span>
-                        <h1 class="slide-title">{{ listing.title }}</h1>
-                        <div class="slide-price">{{ listing.price }}</div>
+                <!-- Vignette depth overlay -->
+                <div class="stage-vignette"></div>
+
+                <!-- Center Stage (Uncropped, native aspect ratio 4K photo) -->
+                <div class="stage-wrapper">
+                    <div class="stage-frame">
+                        <img src="/api/image-proxy?url={{ img_url | urlencode }}" 
+                             alt="{{ listing.title }}" 
+                             class="stage-img" 
+                             crossorigin="anonymous"
+                             loading="eager">
+                    </div>
+                </div>
+
+                <!-- SLIDE CONTENT ACCORDING TO INDEX -->
+                {% if loop.index0 == 0 %}
+                    <!-- ── SLIDE 1: MASTER HERO COVER ── -->
+                    <div class="slide-overlay-card">
+                        <div class="card-top-row">
+                            <span class="category-pill">
+                                <i class="fas fa-gem"></i> {{ listing.type or 'Özel Portföy' }}
+                            </span>
+                            <div class="price-badge">{{ listing.price }}</div>
+                        </div>
+
+                        <h1 class="slide-title-hero">{{ listing.title }}</h1>
+                        
                         {% if listing.slogan %}
-                        <div class="ai-slogan">"{{ listing.slogan }}"</div>
+                        <div class="slogan-hero">"{{ listing.slogan }}"</div>
                         {% endif %}
-                        <div class="features-grid">
-                            <div class="feature-box">
+
+                        <div class="specs-grid-hero">
+                            <div class="spec-item">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <div>
-                                    <span class="feat-val">{{ listing.loc }}</span>
-                                    <span class="feat-lbl">Lokasyon</span>
-                                </div>
+                                <span>{{ listing.loc }}</span>
                             </div>
                             {% if listing.rooms %}
-                            <div class="feature-box">
+                            <div class="spec-item">
                                 <i class="fas fa-door-open"></i>
-                                <div>
-                                    <span class="feat-val">{{ listing.rooms }}</span>
-                                    <span class="feat-lbl">Oda Sayısı</span>
-                                </div>
+                                <span>{{ listing.rooms }}</span>
                             </div>
                             {% endif %}
                             {% if listing.area %}
-                            <div class="feature-box">
+                            <div class="spec-item">
                                 <i class="fas fa-vector-square"></i>
-                                <div>
-                                    <span class="feat-val">{{ listing.area }}</span>
-                                    <span class="feat-lbl">Büyüklük</span>
-                                </div>
+                                <span>{{ listing.area }}</span>
                             </div>
                             {% endif %}
+                            <div class="spec-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>CB VIP Tek Yetkili</span>
+                            </div>
                         </div>
-                    {% elif loop.index0 == listing.images|length - 1 %}
-                        <!-- Son slayt: İletişim -->
-                        <div style="text-align:center; padding-bottom:100px;">
-                            <i class="fas fa-handshake" style="font-size: 60px; color: var(--gold); margin-bottom: 20px;"></i>
-                            <h1 class="slide-title" style="font-size: clamp(28px, 4vw, 48px);">Hayalinizdeki Yatırım<br>Bir Telefon Uzağınızda</h1>
-                            <p style="color: #ccc; font-size: 18px; line-height: 1.6; margin-top: 15px;">Daha fazla detay ve yer gösterimi için iletişime geçin.</p>
-                            <div style="margin-top: 30px; font-size: 24px; color: var(--gold); font-weight: bold;"><i class="fas fa-phone-alt"></i> 0500 000 00 00</div>
+                    </div>
+
+                {% elif loop.index0 == (listing.images|length - 1) and listing.images|length > 2 %}
+                    <!-- ── FINAL SLIDE: VIP DECISION & CONTACT ── -->
+                    <div class="contact-stage-card">
+                        <div class="contact-crest">
+                            <i class="fas fa-handshake"></i>
                         </div>
-                    {% else %}
-                        <!-- Ara slaytlar: Sadece Logo, Konum ve Fiyat küçük şekilde -->
-                        <div style="position: absolute; bottom: -60px; display: flex; justify-content: space-between; width: 100%; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
-                            <span style="font-size: 18px; font-weight: 600;">{{ listing.loc }}</span>
-                            <span style="color: var(--gold); font-size: 18px; font-weight: bold;">{{ listing.price }}</span>
+                        <h2 class="contact-title">Ayrıcalıklı Portföy Sunumu &amp; Yer Gösterimi</h2>
+                        <p class="contact-desc">
+                            Ankara'nın prestijli lokasyonundaki bu mülkün resmi ekspertiz raporu, imar durumu ve özel randevu gösterimi için tek yetkili danışmanınızla görüşün.
+                        </p>
+
+                        <div class="broker-card">
+                            <img src="/static/yigit_narin_portrait.png" onerror="this.src='https://media.cb.com.tr/OfficeUserImages/5313/119_H3JA3P5QK2_75X75.png'" alt="Yiğit Narin" class="broker-img">
+                            <div class="broker-info">
+                                <div class="broker-name">YİĞİT NARİN</div>
+                                <div class="broker-role">Gayrimenkul ve Yatırım Mühendisi • Coldwell Banker CB VIP</div>
+                                <div class="broker-phone"><i class="fas fa-phone mr-1"></i> +90 532 451 40 08</div>
+                            </div>
                         </div>
-                    {% endif %}
-                </div>
+
+                        <div class="contact-cta-row">
+                            <a href="tel:05324514008" class="btn-action btn-gold-glow">
+                                <i class="fas fa-phone-alt"></i> <span>Hemen Ara</span>
+                            </a>
+                            <button onclick="shareWhatsApp()" class="btn-action btn-ghost" style="background:#25D366; color:#000; font-weight:800; border:none;">
+                                <i class="fab fa-whatsapp"></i> <span>WhatsApp Mesaj</span>
+                            </button>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <!-- ── MIDDLE SLIDES: GALLERY SHOWCASE (MINIMALIST FLOATING PILL) ── -->
+                    <div class="gallery-compact-pill">
+                        <div class="g-pill-left">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ listing.loc }} • {{ listing.title[:45] }}{% if listing.title|length > 45 %}...{% endif %}</span>
+                        </div>
+                        <div class="g-pill-right">
+                            {{ listing.price }}
+                        </div>
+                    </div>
+                {% endif %}
+
             </div>
             {% endfor %}
+        {% else %}
+            <!-- Fallback if no images -->
+            <div class="slide active">
+                <div class="stage-wrapper">
+                    <div class="slide-overlay-card" style="position:relative; transform:none; left:auto; bottom:auto;">
+                        <h1 class="slide-title-hero">{{ listing.title }}</h1>
+                        <div class="price-badge">{{ listing.price }}</div>
+                    </div>
+                </div>
+            </div>
         {% endif %}
 
     </div>
 
-    <!-- CONTROLS -->
-    <div class="slider-controls" data-html2canvas-ignore="true">
-        <div class="control-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
-        <div class="control-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
-    </div>
-    
+    <!-- ─── SLIDER ARROWS ─── -->
+    <button class="slider-arrow arrow-prev" onclick="prevSlide()" aria-label="Önceki Slayt" data-html2canvas-ignore="true">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="slider-arrow arrow-next" onclick="nextSlide()" aria-label="Sonraki Slayt" data-html2canvas-ignore="true">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- ─── DOTS PAGINATION ─── -->
     <div class="slider-dots" id="dotsContainer" data-html2canvas-ignore="true"></div>
 
-    <!-- NOTIFICATION -->
-    <div id="toast" style="position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:#000; padding:10px 20px; border-radius:30px; font-weight:bold; z-index:9999; display:none; box-shadow:0 4px 15px rgba(0,0,0,0.5);">
-        <i class="fas fa-check-circle"></i> Görsel İndiriliyor...
+    <!-- ─── 4K DOWNLOAD MODAL ─── -->
+    <div class="download-modal-backdrop" id="downloadModal" onclick="if(event.target===this) closeDownloadModal()">
+        <div class="download-modal-card">
+            <div class="modal-head">
+                <div>
+                    <h3 class="modal-title">4K Ultra HD Görsel İndir</h3>
+                    <p class="modal-sub">Seçtiğiniz slaytı kristal netliğinde, 300 DPI kalitede indirin</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeDownloadModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="format-cards-grid">
+                <!-- Option 1: 4K Cinema Landscape -->
+                <button class="format-card-btn" onclick="generate4KExport('cinema')">
+                    <div class="format-card-left">
+                        <div class="format-icon"><i class="fas fa-tv"></i></div>
+                        <div>
+                            <div class="format-name">4K Ultra HD Sinematik Kart</div>
+                            <div class="format-desc">16:9 Yatay • Sunumlar, VIP Müşteri Dosyası ve Masaüstü</div>
+                        </div>
+                    </div>
+                    <span class="format-badge">3840 x 2160</span>
+                </button>
+
+                <!-- Option 2: 4K Story Portrait -->
+                <button class="format-card-btn" onclick="generate4KExport('story')">
+                    <div class="format-card-left">
+                        <div class="format-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <div>
+                            <div class="format-name">4K Instagram &amp; WhatsApp Story</div>
+                            <div class="format-desc">9:16 Dikey • Durum, Hikaye ve Reels kapakları için ideal</div>
+                        </div>
+                    </div>
+                    <span class="format-badge">2160 x 3840</span>
+                </button>
+
+                <!-- Option 3: Screen Snapshot -->
+                <button class="format-card-btn" onclick="generate4KExport('screen')">
+                    <div class="format-card-left">
+                        <div class="format-icon"><i class="fas fa-desktop"></i></div>
+                        <div>
+                            <div class="format-name">Ekran Çözünürlüğü Görseli</div>
+                            <div class="format-desc">Mevcut pencere görünümünü birebir 2X Retina olarak kaydet</div>
+                        </div>
+                    </div>
+                    <span class="format-badge">2X Retina</span>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const dotsContainer = document.getElementById('dotsContainer');
-        
-        let currentSlide = 0;
+    <!-- ─── TOAST NOTIFICATION ─── -->
+    <div class="toast-notify" id="toastNotify">
+        <i class="fas fa-check-circle"></i> <span id="toastMsg">İşlem Tamamlandı</span>
+    </div>
 
-        slides.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        });
+    <!-- ─── LOGIC & 4K RENDER ENGINE ─── -->
+    <script>
+        // Data injected from Python
+        const listingData = {
+            title: {{ listing.title | tojson }},
+            price: {{ listing.price | tojson }},
+            loc: {{ listing.loc | tojson }},
+            type: {{ listing.type | tojson }},
+            rooms: {{ listing.rooms | tojson }},
+            area: {{ listing.area | tojson }},
+            slogan: {{ listing.slogan | tojson }},
+            highlights: {{ listing.highlights | tojson }},
+            images: {{ listing.images | tojson }}
+        };
+
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const trackerBadge = document.getElementById('slideTrackerBadge');
+        let currentSlide = 0;
+        let isCoverMode = false;
+
+        // Initialize dots
+        if (slides.length > 0) {
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            });
+        }
         const dots = document.querySelectorAll('.dot');
 
-        function goToSlide(index) {
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-            
-            const content = slides[currentSlide].querySelector('.slide-content');
-            if(content) content.style.animation = 'none';
-
-            currentSlide = (index + slides.length) % slides.length;
-
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-            
-            const newContent = slides[currentSlide].querySelector('.slide-content');
-            if(newContent) {
-                newContent.style.animation = ''; 
-                void newContent.offsetWidth; 
-                newContent.style.animation = 'fadeUp 1s forwards ease-out 0.3s';
+        function updateSlideUI() {
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === currentSlide);
+            });
+            dots.forEach((d, idx) => {
+                d.classList.toggle('active', idx === currentSlide);
+            });
+            if (trackerBadge) {
+                const pad = (n) => String(n).padStart(2, '0');
+                trackerBadge.textContent = `${pad(currentSlide + 1)} / ${pad(slides.length)}`;
             }
         }
 
-        if(prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
-        if(nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+        function goToSlide(index) {
+            if (slides.length === 0) return;
+            currentSlide = (index + slides.length) % slides.length;
+            updateSlideUI();
+        }
 
-        let touchStartX = 0; let touchEndX = 0;
-        document.getElementById('slider').addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
-        document.getElementById('slider').addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchEndX < touchStartX - 50) goToSlide(currentSlide + 1);
-            if (touchEndX > touchStartX + 50) goToSlide(currentSlide - 1);
+        function nextSlide() { goToSlide(currentSlide + 1); }
+        function prevSlide() { goToSlide(currentSlide - 1); }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') { nextSlide(); }
+            else if (e.key === 'ArrowLeft') { prevSlide(); }
+            else if (e.key.toLowerCase() === 'f') { toggleFullscreen(); }
+            else if (e.key === 'Escape') { closeDownloadModal(); }
         });
 
-        // HTML2CANVAS CAPTURE FUNCTION
-        function captureSlide() {
-            const toast = document.getElementById('toast');
-            toast.style.display = 'block';
-            
-            // html2canvas needs a tiny delay to ensure fonts/images are ready
-            setTimeout(() => {
-                html2canvas(document.body, {
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: "#0A0A0A",
-                    scale: 2 // High resolution
-                }).then(canvas => {
-                    toast.style.display = 'none';
+        // Touch Swipe navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const sliderStage = document.getElementById('sliderStage');
+        sliderStage.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+        sliderStage.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) prevSlide();
+        }, {passive: true});
+
+        // Toggle View Mode (Contain vs Cover)
+        function toggleViewMode() {
+            isCoverMode = !isCoverMode;
+            document.body.classList.toggle('mode-cover', isCoverMode);
+            const btn = document.getElementById('viewModeBtn');
+            btn.querySelector('span').textContent = isCoverMode ? 'Tam Ekran' : 'Orantılı';
+            showToast(isCoverMode ? 'Tam Ekran Görünüm Aktif' : 'Sinematik Orantılı Görünüm Aktif');
+        }
+
+        // Fullscreen Toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // WhatsApp Share
+        function shareWhatsApp() {
+            const title = listingData.title || 'Gayrimenkul Portföyü';
+            const price = listingData.price ? `\n💰 Fiyat: ${listingData.price}` : '';
+            const loc = listingData.loc ? `\n📍 Lokasyon: ${listingData.loc}` : '';
+            const slogan = listingData.slogan ? `\n✨ "${listingData.slogan}"` : '';
+            const link = window.location.href;
+            const text = `💎 *COLDWELL BANKER CB VIP ANKARA • ÖZEL PORTFÖY*\n\n🏡 *${title}*${price}${loc}${slogan}\n\n📲 *Detaylı 4K Web Sunumu:*\n${link}\n\nGayrimenkul & Yatırım Mühendisi *Yiğit Narin*\n📞 0532 451 40 08`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // Toast Helper
+        function showToast(msg, isSuccess = true) {
+            const toast = document.getElementById('toastNotify');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.style.background = isSuccess ? 'linear-gradient(135deg, #10B981, #059669)' : 'linear-gradient(135deg, #EF4444, #DC2626)';
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        // Modal Controls
+        function openDownloadModal() {
+            document.getElementById('downloadModal').classList.add('show');
+        }
+        function closeDownloadModal() {
+            document.getElementById('downloadModal').classList.remove('show');
+        }
+
+        /* ═════════════════════════════════════════════════════════════════
+           4K BULLETPROOF EXPORT ENGINE (ZERO BLACK SCREEN GUARANTEED)
+        ═════════════════════════════════════════════════════════════════ */
+        async function generate4KExport(mode) {
+            closeDownloadModal();
+            showToast("✦ 4K Görsel İşleniyor... Lütfen Bekleyiniz");
+
+            if (mode === 'screen') {
+                // Enhanced HTML2Canvas with proxy and positive z-index
+                try {
+                    const canvas = await html2canvas(document.body, {
+                        useCORS: true,
+                        allowTaint: false,
+                        proxy: '/api/image-proxy?url=',
+                        backgroundColor: "#060911",
+                        scale: 2,
+                        logging: false
+                    });
                     const link = document.createElement('a');
-                    link.download = 'Nexa_Sunum_Slayt_' + (currentSlide + 1) + '.png';
+                    link.download = `Yigit_Narin_Sunum_Slayt_${currentSlide + 1}.png`;
                     link.href = canvas.toDataURL('image/png');
                     link.click();
-                }).catch(err => {
-                    toast.innerHTML = '<i class="fas fa-times-circle"></i> Hata oluştu!';
-                    console.error("html2canvas error:", err);
-                    setTimeout(() => toast.style.display='none', 3000);
-                });
-            }, 500);
+                    showToast("🎉 Ekran Görseli Başarıyla İndirildi!");
+                } catch(e) {
+                    console.error("HTML2Canvas hatası, 4K Canvas motoru devreye giriyor:", e);
+                    await renderDirect4K('cinema');
+                }
+            } else {
+                await renderDirect4K(mode);
+            }
         }
+
+        async function renderDirect4K(mode) {
+            // mode = 'cinema' (3840x2160) or 'story' (2160x3840)
+            const isCinema = (mode === 'cinema');
+            const targetWidth = isCinema ? 3840 : 2160;
+            const targetHeight = isCinema ? 2160 : 3840;
+
+            const activeSlideEl = slides[currentSlide];
+            const rawImgUrl = activeSlideEl ? activeSlideEl.getAttribute('data-img-url') : (listingData.images[0] || '');
+
+            if (!rawImgUrl) {
+                showToast("Görsel URL bulunamadı!", false);
+                return;
+            }
+
+            // Create offscreen 4K canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
+            // 1. Dark Luxury Base Background
+            const bgGrad = ctx.createLinearGradient(0, 0, targetWidth, targetHeight);
+            bgGrad.addColorStop(0, '#060a12');
+            bgGrad.addColorStop(0.5, '#0a101f');
+            bgGrad.addColorStop(1, '#04060a');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, targetWidth, targetHeight);
+
+            // 2. Load Master Image via Proxy (100% CORS-Safe)
+            const proxyUrl = `/api/image-proxy?url=${encodeURIComponent(rawImgUrl)}`;
+            const masterImg = new Image();
+            masterImg.crossOrigin = 'anonymous';
+
+            await new Promise((resolve, reject) => {
+                masterImg.onload = resolve;
+                masterImg.onerror = () => {
+                    // Try fallback without proxy
+                    masterImg.src = rawImgUrl;
+                    masterImg.onload = resolve;
+                    masterImg.onerror = reject;
+                };
+                masterImg.src = proxyUrl;
+            }).catch(err => {
+                console.warn("Görsel yükleme uyarısı:", err);
+            });
+
+            // 3. Draw Ambient Blurred Aura
+            try {
+                ctx.save();
+                ctx.filter = 'blur(60px) brightness(0.28) saturate(1.4)';
+                ctx.drawImage(masterImg, -100, -100, targetWidth + 200, targetHeight + 200);
+                ctx.restore();
+            } catch(e) {}
+
+            // 4. Subtle Vignette
+            const vigGrad = ctx.createRadialGradient(
+                targetWidth / 2, targetHeight / 2, targetWidth * 0.2,
+                targetWidth / 2, targetHeight / 2, targetWidth * 0.7
+            );
+            vigGrad.addColorStop(0, 'rgba(6, 9, 17, 0.2)');
+            vigGrad.addColorStop(1, 'rgba(6, 9, 17, 0.85)');
+            ctx.fillStyle = vigGrad;
+            ctx.fillRect(0, 0, targetWidth, targetHeight);
+
+            // 5. Draw Center Stage Fitted Photo (No Stretching!)
+            if (masterImg.naturalWidth > 0 && masterImg.naturalHeight > 0) {
+                const imgAspect = masterImg.naturalWidth / masterImg.naturalHeight;
+                let boxW, boxH, boxX, boxY;
+
+                if (isCinema) {
+                    boxW = 3360;
+                    boxH = 1380;
+                    boxX = 240;
+                    boxY = 220;
+                } else {
+                    // Story 9:16
+                    boxW = 1860;
+                    boxH = 2000;
+                    boxX = 150;
+                    boxY = 480;
+                }
+
+                let renderW, renderH;
+                if (boxW / boxH > imgAspect) {
+                    renderH = boxH;
+                    renderW = renderH * imgAspect;
+                } else {
+                    renderW = boxW;
+                    renderH = renderW / imgAspect;
+                }
+
+                const renderX = boxX + (boxW - renderW) / 2;
+                const renderY = boxY + (boxH - renderH) / 2;
+
+                // Photo Shadow
+                ctx.save();
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+                ctx.shadowBlur = 50;
+                ctx.shadowOffsetY = 25;
+
+                // Rounded Rect Clip
+                const radius = 28;
+                ctx.beginPath();
+                ctx.roundRect(renderX, renderY, renderW, renderH, radius);
+                ctx.clip();
+                ctx.drawImage(masterImg, renderX, renderY, renderW, renderH);
+                ctx.restore();
+
+                // Champagne Gold Border
+                ctx.save();
+                ctx.strokeStyle = 'rgba(212, 175, 55, 0.65)';
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.roundRect(renderX, renderY, renderW, renderH, radius);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // 6. Draw Luxury Branding Header
+            ctx.save();
+            if (isCinema) {
+                // Header Left: Coldwell Banker VIP + Yiğit Narin
+                ctx.fillStyle = '#D4AF37';
+                ctx.font = 'bold 36px "Inter", sans-serif';
+                ctx.fillText('COLDWELL BANKER CB VIP ANKARA', 240, 110);
+
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 52px "Playfair Display", serif';
+                ctx.fillText('YİĞİT NARİN', 240, 170);
+
+                // Header Right: VIP License Badge
+                const badgeText = '✦ LİSANSLI VIP TEK YETKİLİ PORTFÖY';
+                ctx.font = 'bold 28px "Inter", sans-serif';
+                const bWidth = ctx.measureText(badgeText).width + 60;
+                const bX = 3840 - 240 - bWidth;
+
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.15)';
+                ctx.strokeStyle = '#D4AF37';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.roundRect(bX, 85, bWidth, 68, 34);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#F3E5AB';
+                ctx.fillText(badgeText, bX + 30, 130);
+
+            } else {
+                // Story Header (Top Centered)
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#D4AF37';
+                ctx.font = 'bold 34px "Inter", sans-serif';
+                ctx.fillText('COLDWELL BANKER CB VIP ANKARA', targetWidth / 2, 180);
+
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 58px "Playfair Display", serif';
+                ctx.fillText('YİĞİT NARİN', targetWidth / 2, 250);
+
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
+                ctx.strokeStyle = '#D4AF37';
+                ctx.lineWidth = 3;
+                const bText = '✦ VIP TEK YETKİLİ PORTFÖY ✦';
+                ctx.font = 'bold 26px "Inter", sans-serif';
+                const sBw = ctx.measureText(bText).width + 50;
+                ctx.beginPath();
+                ctx.roundRect((targetWidth - sBw) / 2, 290, sBw, 56, 28);
+                ctx.fill();
+                ctx.stroke();
+                ctx.fillStyle = '#F3E5AB';
+                ctx.fillText(bText, targetWidth / 2, 328);
+                ctx.textAlign = 'left';
+            }
+            ctx.restore();
+
+            // 7. Draw Glassmorphism Bottom Information Card
+            ctx.save();
+            let cardX, cardY, cardW, cardH;
+            if (isCinema) {
+                cardX = 240;
+                cardY = 1660;
+                cardW = 3360;
+                cardH = 420;
+            } else {
+                cardX = 150;
+                cardY = 2580;
+                cardW = 1860;
+                cardH = 1100;
+            }
+
+            // Card Background & Border
+            ctx.fillStyle = 'rgba(7, 13, 24, 0.94)';
+            ctx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.roundRect(cardX, cardY, cardW, cardH, 30);
+            ctx.fill();
+            ctx.stroke();
+
+            if (isCinema) {
+                // Category Pill
+                const catText = `✦ ${(listingData.type || 'LÜKS PORTFÖY').toUpperCase()}`;
+                ctx.fillStyle = '#D4AF37';
+                ctx.font = 'bold 26px "Inter", sans-serif';
+                ctx.fillText(catText, cardX + 50, cardY + 70);
+
+                // Price Right-Aligned in Gold
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#F3E5AB';
+                ctx.font = 'bold 62px "JetBrains Mono", monospace';
+                ctx.fillText(listingData.price || '', cardX + cardW - 50, cardY + 80);
+                ctx.textAlign = 'left';
+
+                // Title
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 44px "Playfair Display", serif';
+                const truncTitle = listingData.title.length > 70 ? listingData.title.substring(0, 68) + '...' : listingData.title;
+                ctx.fillText(truncTitle, cardX + 50, cardY + 145);
+
+                // AI Slogan
+                if (listingData.slogan) {
+                    ctx.fillStyle = '#CBD5E1';
+                    ctx.font = 'italic 28px "Playfair Display", serif';
+                    const truncSlogan = listingData.slogan.length > 120 ? listingData.slogan.substring(0, 118) + '...' : listingData.slogan;
+                    ctx.fillText(`"${truncSlogan}"`, cardX + 50, cardY + 205);
+                }
+
+                // Specs Pills Row
+                const specs = [];
+                if (listingData.loc) specs.push(`📍 ${listingData.loc}`);
+                if (listingData.rooms) specs.push(`🚪 ${listingData.rooms}`);
+                if (listingData.area) specs.push(`📐 ${listingData.area}`);
+                specs.push(`🛡️ Coldwell Banker VIP Güvencesi`);
+
+                let pillX = cardX + 50;
+                const pillY = cardY + 265;
+                ctx.font = '600 24px "Inter", sans-serif';
+                for (const sp of specs) {
+                    const pw = ctx.measureText(sp).width + 36;
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.roundRect(pillX, pillY, pw, 50, 12);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillText(sp, pillX + 18, pillY + 34);
+                    pillX += pw + 16;
+                }
+
+                // Footer Signature
+                ctx.fillStyle = '#94A3B8';
+                ctx.font = '500 22px "Inter", sans-serif';
+                ctx.fillText('Gayrimenkul ve Yatırım Danışmanınız: Yiğit Narin • 0532 451 40 08 • Coldwell Banker CB VIP Ankara', cardX + 50, cardY + 380);
+
+            } else {
+                // Story Card Content
+                ctx.fillStyle = '#D4AF37';
+                ctx.font = 'bold 28px "Inter", sans-serif';
+                ctx.fillText(`✦ ${(listingData.type || 'LÜKS PORTFÖY').toUpperCase()}`, cardX + 50, cardY + 80);
+
+                ctx.fillStyle = '#F3E5AB';
+                ctx.font = 'bold 64px "JetBrains Mono", monospace';
+                ctx.fillText(listingData.price || '', cardX + 50, cardY + 165);
+
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 42px "Playfair Display", serif';
+                // Multiline wrap title for story
+                const words = (listingData.title || '').split(' ');
+                let line1 = '', line2 = '';
+                for (const w of words) {
+                    if ((line1 + w).length < 28) line1 += w + ' ';
+                    else line2 += w + ' ';
+                }
+                ctx.fillText(line1.trim(), cardX + 50, cardY + 245);
+                if (line2) ctx.fillText(line2.trim().substring(0, 32), cardX + 50, cardY + 300);
+
+                if (listingData.loc) {
+                    ctx.fillStyle = '#94A3B8';
+                    ctx.font = '600 32px "Inter", sans-serif';
+                    ctx.fillText(`📍 ${listingData.loc}`, cardX + 50, cardY + 375);
+                }
+
+                if (listingData.slogan) {
+                    ctx.fillStyle = '#E2E8F0';
+                    ctx.font = 'italic 30px "Playfair Display", serif';
+                    ctx.fillText(`"${listingData.slogan.substring(0, 55)}..."`, cardX + 50, cardY + 445);
+                }
+
+                // Specs list
+                let spY = cardY + 540;
+                const storySpecs = [
+                    listingData.rooms ? `🚪 Oda Sayısı: ${listingData.rooms}` : null,
+                    listingData.area ? `📐 Büyüklük: ${listingData.area}` : null,
+                    `🌟 Kurumsal Tek Yetkili Portföy`,
+                    `💎 Yatırıma & Krediye Uygun`
+                ].filter(Boolean);
+
+                ctx.font = '600 28px "Inter", sans-serif';
+                for (const stSp of storySpecs) {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+                    ctx.beginPath();
+                    ctx.roundRect(cardX + 50, spY, cardW - 100, 64, 16);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillText(stSp, cardX + 75, spY + 43);
+                    spY += 80;
+                }
+
+                // Story Contact Footer
+                ctx.fillStyle = '#F3E5AB';
+                ctx.font = 'bold 34px "Playfair Display", serif';
+                ctx.fillText('Yiğit Narin • 0532 451 40 08', cardX + 50, cardY + cardH - 60);
+                ctx.fillStyle = '#94A3B8';
+                ctx.font = '22px "Inter", sans-serif';
+                ctx.fillText('Coldwell Banker CB VIP Ankara', cardX + 50, cardY + cardH - 25);
+            }
+
+            ctx.restore();
+
+            // 8. Trigger 4K Blob Download
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    showToast("Görsel dışa aktarılamadı!", false);
+                    return;
+                }
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const safeTitle = (listingData.title || 'Portfoy').replace(/[^a-zA-Z0-9çşğüöıÇŞĞÜÖİ]/g, '_').substring(0, 30);
+                a.download = `Yigit_Narin_4K_${mode.toUpperCase()}_${safeTitle}_Slayt_${currentSlide + 1}.png`;
+                a.href = url;
+                a.click();
+                setTimeout(() => URL.revokeObjectURL(url), 10000);
+                showToast("🎉 4K Ultra HD Görsel Başarıyla İndirildi!");
+            }, 'image/png', 1.0);
+        }
+
+        // Initialize UI
+        updateSlideUI();
     </script>
 </body>
 </html>

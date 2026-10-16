@@ -14655,6 +14655,171 @@ def sunum_page():
     except Exception as e:
         return f"sunum.html bulunamadı: {e}", 404
 
+def _prepare_advanced_listing_data(listing):
+    """
+    Portföy ilanı için 4K yüksek çözünürlüklü görselleri,
+    Gemini AI slogan & öne çıkan yatırım özelliklerini ve kurumsal danışman verilerini hazırlar.
+    """
+    import requests, re
+    from bs4 import BeautifulSoup
+    import os
+
+    title = listing.get("title", "Lüks Gayrimenkul Portföyü")
+    price = listing.get("price", "")
+    loc = listing.get("loc", "")
+    ltype = listing.get("type") or listing.get("property_type") or "Satılık"
+    rooms = listing.get("rooms", "")
+    area = listing.get("area", "")
+    cb_url = listing.get("link") or listing.get("url") or ""
+
+    # 1. Ana görseli 4K / orijinal boyuta yükselt (küçük thumbnail eklerini temizle)
+    raw_img = listing.get("img") or ""
+    primary_img = re.sub(r'_\d+X\d+(\.[a-zA-Z]+)$', r'\1', raw_img) if raw_img else ""
+
+    images = []
+    if primary_img:
+        images.append(primary_img)
+
+    # 2. İlan detay sayfasından tüm galeri fotoğraflarını 4K master olarak topla
+    if cb_url and (cb_url.startswith("http://") or cb_url.startswith("https://")):
+        try:
+            resp = requests.get(cb_url, headers=HEADERS, timeout=12)
+            if resp.status_code == 200:
+                html = resp.text
+                # Coldwell Banker StockMediaFiles klasör tespiti
+                folder_match = re.search(r'StockMediaFiles/(\d+)/', html) or (re.search(r'StockMediaFiles/(\d+)/', primary_img) if primary_img else None)
+                if folder_match:
+                    folder = folder_match.group(1)
+                    pattern = rf'https?://media\.cb\.com\.tr/StockMediaFiles/{folder}/[a-zA-Z0-9_\.]+'
+                    found_imgs = re.findall(pattern, html)
+                    for u in found_imgs:
+                        clean_u = re.sub(r'_\d+X\d+(\.[a-zA-Z]+)$', r'\1', u)
+                        if clean_u not in images and not clean_u.endswith('.gif') and 'logo' not in clean_u.lower():
+                            images.append(clean_u)
+                
+                # Ek galeri seçicileri (diğer platformlar veya alternatif markup)
+                soup = BeautifulSoup(html, "html.parser")
+                gallery = soup.select(".property-detail-gallery img, .swiper-slide img, #gallery img, .gallery-slider img, .lightgallery img, .property-gallery img, a[data-lightbox] img")
+                for img_tag in gallery:
+                    src = img_tag.get("data-large") or img_tag.get("data-original") or img_tag.get("data-highres") or img_tag.get("data-src") or img_tag.get("src")
+                    if src and not src.endswith(".gif") and "logo" not in src.lower():
+                        if src.startswith("//"): src = "https:" + src
+                        elif src.startswith("/"): src = "https://www.cb.com.tr" + src
+                        clean_src = re.sub(r'_\d+X\d+(\.[a-zA-Z]+)$', r'\1', src)
+                        if clean_src not in images:
+                            images.append(clean_src)
+        except Exception as e:
+            print(f"Sunum galeri tarama uyarısı: {e}")
+
+    if not images and raw_img:
+        images = [raw_img]
+
+    # 3. Gemini 2.5 Flash ile VIP Pazarlama Sloganı & 3 Maddelik Yatırım Özeti
+    ai_slogan = "Ankara'nın En Seçkin Lokasyonunda Eşsiz Bir Yaşam ve Yüksek Getirili Yatırım Fırsatı."
+    highlights = [
+        "Coldwell Banker CB VIP Kurumsal Tek Yetkili Güvencesi",
+        "Yüksek Prim Potansiyeli ve Ayrıcalıklı Lokasyon",
+        "Krediye ve Hemen Tapu Devrine Uygun Kusursuz Portföy"
+    ]
+    try:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key:
+            from google import genai
+            client = genai.Client(api_key=api_key)
+            prompt = f"""Sen Coldwell Banker VIP Ankara'nın lüks gayrimenkul ve yatırım mühendisi Yiğit Narin'sin.
+Aşağıdaki portföy için:
+1) 1 cümlelik çok prestijli ve etkileyici bir VIP pazarlama sloganı yaz.
+2) 3 maddelik kısa 'Neden Bu Mülk?' öne çıkan özelliklerini yaz.
+
+Portföy:
+Başlık: {title}
+Fiyat: {price}
+Lokasyon: {loc}
+Tür: {ltype}
+Oda: {rooms}
+Alan: {area}
+
+SADECE geçerli JSON olarak dön:
+{{"slogan": "...", "highlights": ["...", "...", "..."]}}"""
+            resp_gemini = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=prompt,
+            )
+            if resp_gemini.text:
+                m = re.search(r'\{.*\}', resp_gemini.text, re.DOTALL)
+                if m:
+                    import json as _json
+                    p_data = _json.loads(m.group(0))
+                    if p_data.get("slogan"):
+                        ai_slogan = p_data["slogan"].strip().replace('"', '')
+                    if p_data.get("highlights") and isinstance(p_data["highlights"], list):
+                        highlights = p_data["highlights"][:3]
+    except Exception as e:
+        print(f"Gemini sunum içerik motoru: {e}")
+
+    return {
+        "id": listing.get("id", ""),
+        "title": title,
+        "price": price,
+        "loc": loc,
+        "type": ltype,
+        "rooms": rooms,
+        "area": area,
+        "img": primary_img or raw_img,
+        "images": images,
+        "slogan": ai_slogan,
+        "highlights": highlights,
+        "agent": {
+            "name": "YİĞİT NARİN",
+            "title": "Gayrimenkul ve Yatırım Mühendisi",
+            "office": "Coldwell Banker CB VIP Ankara",
+            "phone": "0532 451 40 08",
+            "photo": "/static/yigit_narin_portrait.png",
+            "email": "yigit.narin@cb.com.tr"
+        }
+    }
+
+@app.route("/api/image-proxy")
+def api_image_proxy():
+    """
+    CORS engelini kaldıran, cross-origin canvas tainting'i önleyen
+    ve görselleri otomatik 4K master çözünürlüğe yükselten proxy endpoint'i.
+    """
+    import requests, re
+    from flask import Response
+    raw_url = flask_request.args.get("url", "").strip()
+    if not raw_url:
+        return "Missing url parameter", 400
+    
+    # Otomatik 4K yükseltme (thumbnail boyut etiketlerini temizle)
+    clean_url = re.sub(r'_\d+X\d+(\.[a-zA-Z]+)$', r'\1', raw_url)
+    
+    if not (clean_url.startswith("http://") or clean_url.startswith("https://")):
+        return "Invalid URL schema", 400
+        
+    try:
+        req_headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+        if "cb.com.tr" in clean_url:
+            req_headers["Referer"] = "https://www.cb.com.tr/"
+            
+        r = requests.get(clean_url, headers=req_headers, timeout=12)
+        if r.status_code != 200 and clean_url != raw_url:
+            r = requests.get(raw_url, headers=req_headers, timeout=12)
+            
+        if r.status_code != 200:
+            return f"Image fetch failed: {r.status_code}", 502
+            
+        content_type = r.headers.get("Content-Type", "image/jpeg")
+        resp = Response(r.content, mimetype=content_type)
+        resp.headers["Access-Control-Allow-Origin"] = "*"
+        resp.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        resp.headers["Cache-Control"] = "public, max-age=604800, immutable"
+        return resp
+    except Exception as e:
+        return f"Proxy error: {e}", 500
+
 @app.route("/sunum/advanced/<int:listing_index>")
 def advanced_sunum_page(listing_index):
     try:
@@ -14662,63 +14827,8 @@ def advanced_sunum_page(listing_index):
         if not listings or listing_index >= len(listings):
             return "İlan bulunamadı.", 404
         listing = listings[listing_index]
-        cb_url = listing.get("link") or listing.get("url")
-        if not cb_url:
-            return "İlanın detay linki bulunamadı.", 404
-
-        # İlan detay sayfasından tüm fotoğrafları ve bilgileri kazı (scrape)
-        import requests
-        from bs4 import BeautifulSoup
-        resp = requests.get(cb_url, headers=HEADERS, timeout=20)
-        soup = BeautifulSoup(resp.content, "html.parser")
-        
-        # Resimleri bul
-        images = []
-        gallery = soup.select(".property-detail-gallery img, .swiper-slide img, #gallery img, .gallery-slider img, .lightgallery img, .property-gallery img")
-        for img in gallery:
-            src = img.get("data-src") or img.get("src")
-            if src and not src.endswith(".gif") and "logo" not in src.lower():
-                # Fix relative links
-                if src.startswith("//"): src = "https:" + src
-                elif src.startswith("/"): src = "https://www.cb.com.tr" + src
-                if src not in images:
-                    images.append(src)
-        
-        # Eğer resim kazınamazsa en azından ana resmi listeye koy
-        if not images:
-            images = [listing.get("img")]
-
-        # Gemini ile pazarlama sloganı üret (Eğer API key varsa)
-        ai_slogan = "Lüks, Konfor ve Geleceğiniz İçin Eşsiz Bir Fırsat!"
-        try:
-            from google import genai
-            import os
-            api_key = os.getenv("GEMINI_API_KEY")
-            if api_key:
-                client = genai.Client(api_key=api_key)
-                prompt = f"Sen lüks gayrimenkul danışmanısın. Şu ilan için SADECE 1 CÜMLELİK çok havalı, prestijli, premium bir pazarlama sloganı yaz:\nBaşlık: {listing.get('title')}\nFiyat: {listing.get('price')}\nLokasyon: {listing.get('loc')}"
-                resp_gemini = client.models.generate_content(
-                    model='gemini-2.5-flash',
-                    contents=prompt,
-                )
-                if resp_gemini.text:
-                    ai_slogan = resp_gemini.text.strip().replace('"', '')
-        except Exception as e:
-            print(f"Gemini slogan hatası: {e}")
-
-        # Veriyi hazırla
-        advanced_listing = {
-            "title": listing.get("title"),
-            "price": listing.get("price"),
-            "loc": listing.get("loc"),
-            "type": listing.get("type"),
-            "rooms": listing.get("rooms", ""),
-            "area": listing.get("area", ""),
-            "img": listing.get("img"),
-            "images": images,
-            "slogan": ai_slogan
-        }
-        return render_template_string(open("templates/dynamic_sunum.html", encoding="utf-8").read(), listing=advanced_listing)
+        advanced_listing = _prepare_advanced_listing_data(listing)
+        return render_template("dynamic_sunum.html", listing=advanced_listing)
     except Exception as e:
         return f"Gelişmiş sunum oluşturulurken hata: {e}", 500
 
@@ -14728,14 +14838,14 @@ def auto_sunum_page(listing_index):
     try:
         listings = _listings_cache.get("data", [])
         if not listings or listing_index >= len(listings):
-            # Fallback to trigger fetch if empty
             if not listings:
                 _refresh_listings_bg()
                 return "Sistem ilanları hazırlıyor, lütfen sayfayı 5 saniye sonra yenileyin.", 503
             return "İlan bulunamadı.", 404
             
         listing = listings[listing_index]
-        return render_template("dynamic_sunum.html", listing=listing)
+        advanced_listing = _prepare_advanced_listing_data(listing)
+        return render_template("dynamic_sunum.html", listing=advanced_listing)
     except Exception as e:
         return f"Sunum oluşturulurken hata oluştu: {e}", 500
 
