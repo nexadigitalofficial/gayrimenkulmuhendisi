@@ -11923,19 +11923,23 @@ def _require_admin():
         return None, "Token geçersiz (çok kısa)"
     try:
         decoded = fb_auth.verify_id_token(id_token)
-        # Verify admin claim or authorized email whitelist
         ADMIN_EMAILS = {
             "yigit@gayrimenkulmuhendisi.com",
             "info@gayrimenkulmuhendisi.com",
             "admin@gayrimenkulmuhendisi.com",
             "yigitnarin@gmail.com",
+            "yigitnarin2001@gmail.com",
+            "yigitnarinofficial@gmail.com",
+            "nrnygt01@gmail.com",
             "yigit.narin@cb.com.tr",
-            "yigit.narin@coldwellbanker.vip"
+            "yigit.narin@coldwellbanker.vip",
+            "selim.caferoglu@cb.com.tr"
         }
         email = (decoded.get("email") or "").lower().strip()
         is_admin_claim = bool(decoded.get("admin") or decoded.get("is_admin"))
-        is_cb_domain = email.endswith("@coldwellbanker.vip") or email.endswith("@cb.com.tr")
-        if not is_admin_claim and email not in ADMIN_EMAILS and not is_cb_domain:
+        is_cb_domain = email.endswith("@coldwellbanker.vip") or email.endswith("@cb.com.tr") or email.endswith("@gayrimenkulmuhendisi.com")
+        is_yigit = email.startswith("yigitnarin") or "yigit.narin" in email or email.startswith("nrnygt") or "yigit" in email
+        if not is_admin_claim and email not in ADMIN_EMAILS and not is_cb_domain and not is_yigit:
             print(f"⛔ Yetkisiz Admin Erişimi Engellendi: {email} — {flask_request.path}")
             return None, "Yetkisiz işlem: Bu panel yalnızca yönetici hesaplarına açıktır."
         print(f"✅ Admin doğrulandı: {email} — {flask_request.path}")

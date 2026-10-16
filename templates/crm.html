@@ -6101,19 +6101,39 @@
 
             // ── AUTHORIZATION WHITELIST & ACCESS CONTROL ──────────
             const AUTHORIZED_ADMIN_EMAILS = [
+                'yigitnarin2001@gmail.com',
+                'yigitnarinofficial@gmail.com',
+                'nrnygt01@gmail.com',
+                'yigitnarin@gmail.com',
                 'yigit.narin@cb.com.tr',
                 'yigit.narin@coldwellbanker.vip',
                 'yigit@gayrimenkulmuhendisi.com',
                 'info@gayrimenkulmuhendisi.com',
                 'admin@gayrimenkulmuhendisi.com',
-                'yigitnarin@gmail.com'
+                'selim.caferoglu@cb.com.tr'
             ];
+
+            // Yiğit Narin'in bilinen Firebase Auth UID listesi (veri sürekliliği için)
+            const YIGIT_ADMIN_UIDS = [
+                'RnHhsj3K4VSWRY4cjc3Pc09JMFn2', // yigitnarin2001@gmail.com
+                'GP3Eiiz0cvPgibGnXPoNElCeWzW2', // yigit.narin@cb.com.tr
+                'N24DQxhNQHVYGHoX9bBi52mINYi1', // yigitnarinofficial@gmail.com
+                'URaEvk4heBZmwTAIPbeDTNziqDx1'  // nrnygt01@gmail.com
+            ];
+
+            const isAuthorizedEmail = (rawEmail) => {
+                if (!rawEmail) return false;
+                const e = rawEmail.trim().toLowerCase();
+                if (AUTHORIZED_ADMIN_EMAILS.includes(e)) return true;
+                if (e.startsWith('yigitnarin') || e.includes('yigit.narin') || e.startsWith('nrnygt') || e.includes('yigit')) return true;
+                if (e.endsWith('@coldwellbanker.vip') || e.endsWith('@cb.com.tr') || e.endsWith('@gayrimenkulmuhendisi.com')) return true;
+                return false;
+            };
 
             const checkUserAuthorization = async (u) => {
                 if (!u || !u.email) return false;
                 const emailClean = u.email.trim().toLowerCase();
-                if (AUTHORIZED_ADMIN_EMAILS.includes(emailClean)) return true;
-                if (emailClean.endsWith('@coldwellbanker.vip') || emailClean.endsWith('@cb.com.tr')) return true;
+                if (isAuthorizedEmail(emailClean)) return true;
                 try {
                     const authDoc = await db.collection('authorized_users').doc(emailClean).get();
                     if (authDoc.exists) return true;
@@ -6125,8 +6145,7 @@
 
             const isUserAdmin = computed(() => {
                 if (!user.value || !user.value.email) return false;
-                const e = user.value.email.trim().toLowerCase();
-                return AUTHORIZED_ADMIN_EMAILS.includes(e) || e.includes('yigit');
+                return isAuthorizedEmail(user.value.email);
             });
 
             const userDisplayName = computed(() => {
@@ -6195,9 +6214,7 @@
                 authError.value = '';
                 authLoading.value = true;
                 const emailClean = email.value.trim().toLowerCase();
-                const isAuthCandidate = AUTHORIZED_ADMIN_EMAILS.includes(emailClean) || 
-                                       emailClean.endsWith('@coldwellbanker.vip') || 
-                                       emailClean.endsWith('@cb.com.tr');
+                const isAuthCandidate = isAuthorizedEmail(emailClean);
                 if (!isAuthCandidate) {
                     authError.value = '⛔ Yeni kayıtlar yalnızca yetkili Coldwell Banker / Nexa personeline açıktır. Lütfen yöneticiniz (Yiğit Narin) ile iletişime geçiniz.';
                     authLoading.value = false;
@@ -6248,8 +6265,27 @@
             const loadData = async () => {
                 if (!user.value) return;
                 try {
-                    const snapshot = await db.collection('users').doc(user.value.uid).collection('contacts').get();
-                    contacts.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    let snapshot = await db.collection('users').doc(user.value.uid).collection('contacts').get();
+                    let loadedContacts = snapshot.docs.map(doc => ({ id: doc.id, _ownerUid: user.value.uid, ...doc.data() }));
+
+                    // Eğer Yiğit Narin admin hesabı ile girildiyse ve bu UID'de hiç contact bulunamadıysa,
+                    // diğer admin UID'lerini kontrol et (farklı Google/Email hesabı ile açılmış veriyi bağlamak için)
+                    if (loadedContacts.length === 0 && isUserAdmin.value) {
+                        for (const altUid of YIGIT_ADMIN_UIDS) {
+                            if (altUid !== user.value.uid) {
+                                try {
+                                    const altSnap = await db.collection('users').doc(altUid).collection('contacts').get();
+                                    if (altSnap.docs.length > 0) {
+                                        console.log("ℹ️ Yiğit Narin verileri ilişkili admin UID'den bağlandı:", altUid);
+                                        loadedContacts = altSnap.docs.map(doc => ({ id: doc.id, _ownerUid: altUid, ...doc.data() }));
+                                        break;
+                                    }
+                                } catch(err) {}
+                            }
+                        }
+                    }
+
+                    contacts.value = loadedContacts;
                     await loadReminders();
                     await loadFollowups();
                     if (isUserAdmin.value) {
@@ -6269,8 +6305,22 @@
 
             const loadReminders = async () => {
                 try {
-                    const snapshot = await db.collection('users').doc(user.value.uid).collection('reminders').orderBy('dueDate', 'asc').get();
-                    reminders.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    let snapshot = await db.collection('users').doc(user.value.uid).collection('reminders').orderBy('dueDate', 'asc').get();
+                    let loadedReminders = snapshot.docs.map(doc => ({ id: doc.id, _ownerUid: user.value.uid, ...doc.data() }));
+                    if (loadedReminders.length === 0 && isUserAdmin.value) {
+                        for (const altUid of YIGIT_ADMIN_UIDS) {
+                            if (altUid !== user.value.uid) {
+                                try {
+                                    const altSnap = await db.collection('users').doc(altUid).collection('reminders').orderBy('dueDate', 'asc').get();
+                                    if (altSnap.docs.length > 0) {
+                                        loadedReminders = altSnap.docs.map(doc => ({ id: doc.id, _ownerUid: altUid, ...doc.data() }));
+                                        break;
+                                    }
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                    reminders.value = loadedReminders;
                 } catch (e) {
                     console.warn('Reminders load error:', e);
                 }
@@ -6278,9 +6328,23 @@
 
             const loadFollowups = async () => {
                 try {
-                    const snapshot = await db.collection('users').doc(user.value.uid)
+                    let snapshot = await db.collection('users').doc(user.value.uid)
                         .collection('followups').where('done', '==', false).get();
-                    followups.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    let loadedFollowups = snapshot.docs.map(doc => ({ id: doc.id, _ownerUid: user.value.uid, ...doc.data() }));
+                    if (loadedFollowups.length === 0 && isUserAdmin.value) {
+                        for (const altUid of YIGIT_ADMIN_UIDS) {
+                            if (altUid !== user.value.uid) {
+                                try {
+                                    const altSnap = await db.collection('users').doc(altUid).collection('followups').where('done', '==', false).get();
+                                    if (altSnap.docs.length > 0) {
+                                        loadedFollowups = altSnap.docs.map(doc => ({ id: doc.id, _ownerUid: altUid, ...doc.data() }));
+                                        break;
+                                    }
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                    followups.value = loadedFollowups;
                 } catch (e) {
                     console.warn('Followups load error:', e);
                 }
@@ -6309,13 +6373,13 @@
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({
-                                            name:     d.name || 'İsimsiz',
-                                            phone:    d.phone || '-',
-                                            email:    d.email || '-',
-                                            source:   d.source || 'Web Sitesi',
-                                            message:  d.message || d.notes || '',
-                                            category: d.category || '',
-                                            stage:    d.status || 'Yeni',
+                                             name:     d.name || 'İsimsiz',
+                                             phone:    d.phone || '-',
+                                             email:    d.email || '-',
+                                             source:   d.source || 'Web Sitesi',
+                                             message:  d.message || d.notes || '',
+                                             category: d.category || '',
+                                             stage:    d.status || 'Yeni',
                                         })
                                     }).catch(() => {});
                                 }
@@ -6335,13 +6399,14 @@
                     if (!data.createdAt) data.createdAt = new Date().toISOString();
                     data.updatedAt = new Date().toISOString();
                     if (!data.source) data.source = 'manual';
+                    const targetUid = data._ownerUid || user.value.uid;
                     if (data.id) {
-                        await db.collection('users').doc(user.value.uid).collection('contacts').doc(data.id).update(data);
+                        await db.collection('users').doc(targetUid).collection('contacts').doc(data.id).update(data);
                         const idx = contacts.value.findIndex(c => c.id === data.id);
                         if (idx !== -1) contacts.value[idx] = data;
                     } else {
                         const docRef = await db.collection('users').doc(user.value.uid).collection('contacts').add(data);
-                        contacts.value.push({ id: docRef.id, ...data });
+                        contacts.value.push({ id: docRef.id, _ownerUid: user.value.uid, ...data });
                         // Bekleyen screenshot'ları Firestore'a yaz
                         await _flushPendingModalScreenshots(docRef.id);
                     }
@@ -6356,7 +6421,8 @@
             const deleteContact = async () => {
                 if (!confirm('Silmek istediğinize emin misiniz?')) return;
                 try {
-                    await db.collection('users').doc(user.value.uid).collection('contacts').doc(editingContact.value.id).delete();
+                    const targetUid = editingContact.value._ownerUid || user.value.uid;
+                    await db.collection('users').doc(targetUid).collection('contacts').doc(editingContact.value.id).delete();
                     contacts.value = contacts.value.filter(c => c.id !== editingContact.value.id);
                     showToast('Silindi', 'fas fa-check-circle text-green-400');
                     closeContactModal();
@@ -7040,7 +7106,8 @@
                 if (!draggedContact.value || draggedContact.value.stage === newStageId) return;
                 try {
                     const now = new Date().toISOString();
-                    await db.collection('users').doc(user.value.uid).collection('contacts').doc(draggedContact.value.id).update({
+                    const targetUid = draggedContact.value._ownerUid || user.value.uid;
+                    await db.collection('users').doc(targetUid).collection('contacts').doc(draggedContact.value.id).update({
                         stage: newStageId, stageChangedAt: now, updatedAt: now
                     });
                     const idx = contacts.value.findIndex(c => c.id === draggedContact.value.id);
