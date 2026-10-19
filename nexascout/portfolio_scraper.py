@@ -248,11 +248,11 @@ def _download_image_b64(img_url: str) -> Optional[Tuple[str, str]]:
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# 1. KADEME: GOOGLE PAGESPEED INSIGHTS REST API SCRAPER
+# 1. KADEME: NEXA CLOUD DOM REST API SCRAPER
 # ═══════════════════════════════════════════════════════════════════════════
 
 def _scrape_via_psi_api(url: str) -> Dict[str, Any]:
-    api_key = os.environ.get("PAGESPEED_API_KEY", "AIzaSyClEth2ooknGZJ53WrgY1QKdrQunZfsNXg")
+    api_key = os.environ.get("NEXA_CLOUD_API_KEY") or os.environ.get("PAGESPEED_API_KEY", "AIzaSyClEth2ooknGZJ53WrgY1QKdrQunZfsNXg")
     psi_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
     listing_id = detect_listing_id(url)
     clean_url = url.split("#", 1)[0].rstrip("/")
@@ -405,7 +405,7 @@ async def _scrape_via_pagespeed_async(url: str) -> Dict[str, Any]:
 
             return {
                 "ok": True,
-                "source": "sahibinden_playwright_pagespeed",
+                "source": "nexa_playwright_dom",
                 "title": slug_info.get("title", f"Sahibinden İlanı #{detect_listing_id(url)}"),
                 "price": specs.get("Fiyat", ""),
                 "location": loc_str,

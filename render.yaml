@@ -3,12 +3,20 @@ services:
     name: nexa-flask
     runtime: python
     buildCommand: pip install -r requirements.txt && PLAYWRIGHT_BROWSERS_PATH=/opt/render/project/.browsers playwright install chromium && PLAYWRIGHT_BROWSERS_PATH=/opt/render/project/.browsers playwright install-deps chromium
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 300
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
       - key: PLAYWRIGHT_BROWSERS_PATH
         value: /opt/render/project/.browsers
+      - key: PS_HEADLESS
+        value: "1"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: PAGESPEED_API_KEY
+        sync: false
+      - key: NEXA_CLOUD_API_KEY
+        sync: false
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: TELEGRAM_CHAT_ID

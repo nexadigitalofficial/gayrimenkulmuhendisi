@@ -865,12 +865,23 @@ function startJob(jobType) {
   });
 }
 
+let pollErrorCount = 0;
 function pollJobStatus() {
   if(!currentJobId) return;
   fetch(`/api/status/${currentJobId}?after=${logCursor}`)
     .then(r => r.json())
     .then(data => {
-      if(data.error) return;
+      if(data.error) {
+        pollErrorCount++;
+        if (pollErrorCount >= 12) {
+          clearInterval(pollTimer);
+          appendConsole(`\n✗ HATA: Görev sunucuda bulunamadı veya sonlandı (${data.error}).\n`, true);
+          displayOutputResults('', 'error', `HATA: ${data.error}`);
+          finishJobUI();
+        }
+        return;
+      }
+      pollErrorCount = 0;
       if(data.new_logs) {
         appendConsole(data.new_logs);
         logCursor = data.log_len;
@@ -1111,7 +1122,7 @@ async function generatePdf() {
   _pdfStep(1, false);
 
   let elapsedSec = 0;
-  _pdfStatus(`⏳ İlan sayfası taranıyor ve veriler çekiliyor… <span id="pdfTimer" style="color:var(--gold);font-family:'JetBrains Mono',monospace;">(0s)</span><br><small style="color:var(--text-2)">Sahibinden bot koruması PageSpeed altyapısıyla güvenli şekilde aşılıyor (15-45 sn sürebilir)</small>`);
+  _pdfStatus(`⏳ İlan sayfası taranıyor ve veriler çekiliyor… <span id="pdfTimer" style="color:var(--gold);font-family:'JetBrains Mono',monospace;">(0s)</span><br><small style="color:var(--text-2)">Sahibinden bot ve güvenlik kalkanı NEXA Cloud DOM Motoru ile otonom olarak aşılıyor (15-45 sn sürebilir)</small>`);
   
   const timerInterval = setInterval(() => {
     elapsedSec++;

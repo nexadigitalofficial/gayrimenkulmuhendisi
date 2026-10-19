@@ -816,8 +816,8 @@ class NexaUltraSearchPipeline:
         if auto_scrape:
             try:
                 from app import step1_pagespeed_store, step2_extract_summaries, _scrape_via_psi_api
-                print("[SCRAPE] PageSpeed Bulut Motoru ile taranıyor...")
-                ps_html = step1_pagespeed_store(target_url, "pagespeed_nlp_search.html", wait_sec=40)
+                print("[SCRAPE] NEXA Cloud DOM Motoru ile taranıyor...")
+                ps_html = step1_pagespeed_store(target_url, "nexa_cloud_nlp_search.html", wait_sec=40)
                 summaries = step2_extract_summaries(ps_html)
                 print(f"[SCRAPE] {len(summaries)} ilan tespit edildi!")
                 
