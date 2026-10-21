@@ -208,6 +208,7 @@ footer b{color:var(--gold-soft);}
   <!-- Tabs Navigation -->
   <div class="tabs-nav">
     <button class="tab-btn active" id="tabBtn-criteria" onclick="switchTab('criteria')" style="background:rgba(201,164,92,.12);border-color:var(--gold);color:var(--gold-soft);font-weight:700;">★ Kritere Göre Ara (NLP & Gemini)</button>
+        <button class="tab-btn" id="tabBtn-orbit" onclick="switchTab('orbit')" style="background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(168,85,247,.15));border:1px solid #38bdf8;color:#38bdf8;font-weight:700;box-shadow:0 0 15px rgba(56,189,248,.25);">🪐 NEXA ORBIT™ (Tersine Emsal Radarı)</button>
     <button class="tab-btn" id="tabBtn-sahibinden" onclick="switchTab('sahibinden')">◆ Sahibinden Scraper</button>
     <button class="tab-btn" id="tabBtn-cb" onclick="switchTab('cb')">◆ CB Scraper</button>
     <button class="tab-btn" id="tabBtn-whatsapp" onclick="switchTab('whatsapp')">◆ WhatsApp Parser</button>
@@ -344,6 +345,19 @@ footer b{color:var(--gold-soft);}
             <label class="switch"><input type="checkbox" id="sh_cd_fallback" checked><span class="slider"></span></label>
           </div>
         </div>
+        <div class="field">
+          <div class="toggle-row">
+            <span>Tekil İlan Modu (Doğrudan Detay & Vitrin)</span>
+            <label class="switch"><input type="checkbox" id="sh_is_single"><span class="slider"></span></label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="toggle-row">
+            <span>SeleniumBase UC (#gmap Pini & PageSpeed Fallback)</span>
+            <label class="switch"><input type="checkbox" id="sh_prefer_uc" checked><span class="slider"></span></label>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -613,7 +627,181 @@ footer b{color:var(--gold-soft);}
   <!-- Shared Progress & Console Panel -->
   <div class="panel" id="progressPanel" style="display:none;">
     <h2>② Operations Progress</h2>
+    <!-- Tab: NEXA ORBIT™ (Tersine Emsal & Piyasa Radarı) -->
+  <div class="tab-pane" id="pane-orbit" style="display:none;">
+    <div class="panel" style="border-color:rgba(56,189,248,.35);background:radial-gradient(ellipse at top right, rgba(56,189,248,.07), transparent 60%), var(--bg-1);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+        <h2 style="color:#38bdf8;margin:0;border:none;">
+          <span style="font-size:18px;">🪐</span> NEXA ORBIT™ — OTONOM TERSİNE EMSAL & PİYASA REKABET RADARI
+        </h2>
+        <span style="font-size:11px;padding:5px 14px;border-radius:20px;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.4);color:#38bdf8;font-weight:700;letter-spacing:.05em;">
+          REVERSE-CMA ENGINE v5.0
+        </span>
+      </div>
+
+      <p style="font-size:13px;color:var(--text-1);margin:0 0 20px;line-height:1.5;">
+        Tekil bir portföyden tersine mühendislikle rakiplerin bulunduğu tüm pazarı otonom olarak inşa eder veya doğrudan verdiğiniz pazar havuzundaki portföyünüzü emsalleriyle kıyaslar.
+      </p>
+
+      <!-- Scenario Selector Tabs -->
+      <div style="display:flex;gap:10px;margin-bottom:20px;background:var(--bg-2);padding:6px;border-radius:12px;border:1px solid var(--line);">
+        <button type="button" id="btnOrbitMode2" onclick="switchOrbitMode('scenario2')" style="flex:1;padding:12px 16px;border-radius:8px;border:1px solid #38bdf8;background:rgba(56,189,248,.15);color:#38bdf8;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;">
+          ⚡ SENARYO 2: Tekil İlandan Tersine Mühendislik (Otonom)
+        </button>
+        <button type="button" id="btnOrbitMode1" onclick="switchOrbitMode('scenario1')" style="flex:1;padding:12px 16px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--text-1);font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;">
+          🎯 SENARYO 1: Pazar Arama Linki + Bizim İlan Eşleme
+        </button>
+      </div>
+
+      <!-- SENARYO 2 FORM (Tekil İlandan Tersine Mühendislik) -->
+      <div id="orbit_form_scenario2">
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">
+            Hedef Portföy İlan No veya Detay URL'si
+          </label>
+          <input type="text" id="orbit_target_id_s2" class="mono" style="width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;" placeholder="Örnek: 1296499962 veya https://www.sahibinden.com/ilan/...-1296499962/detay">
+        </div>
+
+        <!-- Presets -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+          <span style="font-size:11px;color:var(--text-2);align-self:center;text-transform:uppercase;">Hızlı Test:</span>
+          <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;border-color:rgba(56,189,248,.3);color:#38bdf8;" onclick="setOrbitTargetPreset('1296499962')">
+            🏢 Mustafa Kemal Mah. Ofis İBK (#1296499962 - 55.000 TL)
+          </button>
+        </div>
+
+        <div class="adv-grid" style="margin-bottom:20px;">
+          <div class="field">
+            <label>Rasyonel Fiyat Koridoru (Tavan Çarpanı)</label>
+            <select id="orbit_price_multiplier">
+              <option value="1.28" selected>%28 Artış (55k → 70.000 TL - Önerilen)</option>
+              <option value="1.20">%20 Artış (Daha Dar Emsal)</option>
+              <option value="1.35">%35 Artış (Daha Geniş Emsal)</option>
+              <option value="1.50">%50 Artış (Tüm Üst Segment)</option>
+            </select>
+          </div>
+          <div class="field" style="display:flex;align-items:center;gap:10px;padding-top:16px;">
+            <input type="checkbox" id="orbit_substitutes" checked style="width:18px;height:18px;accent-color:#38bdf8;">
+            <label for="orbit_substitutes" style="font-size:12px;color:var(--text-0);cursor:pointer;text-transform:none;">
+              İkame Tipolojileri Dahil Et (1+0, 1+1, 2+1 alternatifleri)
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-gold" id="btnRunOrbitS2" onclick="runOrbitAnalysis('scenario2')" style="background:linear-gradient(135deg,#38bdf8,#818cf8);color:#070d18;padding:15px 30px;font-size:14.5px;font-weight:700;box-shadow:0 8px 25px rgba(56,189,248,.35);">
+          🚀 TERSİNE MÜHENDİSLİKLE PAZARI İNŞA ET & ANALİZ ET
+        </button>
+      </div>
+
+      <!-- SENARYO 1 FORM (Manuel Pazar URL + Bizim İlan) -->
+      <div id="orbit_form_scenario1" style="display:none;">
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">
+            1) Sahibinden Pazar Arama URL'si (Kategori, İlçe, Mahalle, Fiyat Filtresi)
+          </label>
+          <input type="text" id="orbit_search_url_s1" class="mono" style="width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:13.5px;" placeholder="https://www.sahibinden.com/kiralik-is-yeri-ofis-buro/ankara-cankaya-balgat-mustafa-kemal-mah.?price_max=70000...">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">
+            2) Bu Pazarın İçindeki Bizim İlan No veya Detay URL'si
+          </label>
+          <input type="text" id="orbit_target_id_s1" class="mono" style="width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;" placeholder="1296499962">
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+          <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;border-color:rgba(56,189,248,.3);color:#38bdf8;" onclick="setOrbitScenario1Preset()">
+            🏢 Mustafa Kemal Mah. 35 İlanlık Pazar + Bizim İlan (#1296499962) Doldur
+          </button>
+        </div>
+
+        <button class="btn btn-gold" id="btnRunOrbitS1" onclick="runOrbitAnalysis('scenario1')" style="background:linear-gradient(135deg,#38bdf8,#818cf8);color:#070d18;padding:15px 30px;font-size:14.5px;font-weight:700;box-shadow:0 8px 25px rgba(56,189,248,.35);">
+          🔍 PAZAR HAVUZUNU TARA VE BİZİMKİYLE KIYASLA
+        </button>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="orbit_loading" style="display:none;margin-top:24px;text-align:center;padding:30px;background:var(--bg-2);border-radius:12px;border:1px solid var(--line);">
+        <div style="display:inline-block;width:36px;height:36px;border:3px solid rgba(56,189,248,.2);border-top-color:#38bdf8;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        <div style="margin-top:12px;font-size:14px;color:#38bdf8;font-weight:700;">NEXA ORBIT™ Motoru Devrede...</div>
+        <div id="orbit_loading_msg" style="margin-top:6px;font-size:12px;color:var(--text-1);">Pazar tersine mühendislikle çözümleniyor ve emsaller taranıyor...</div>
+      </div>
+
+      <!-- Orbit Real-Time Result / Card -->
+      <div id="orbit_result_container" style="display:none;margin-top:24px;background:var(--bg-2);border:1px solid rgba(56,189,248,.4);border-radius:14px;padding:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px;flex-wrap:wrap;gap:10px;">
+          <div style="font-size:14px;font-weight:700;color:#38bdf8;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:16px;">✓</span>
+            <span id="orbit_result_title">NEXA ORBIT™ OPERASYONU TAMAMLANDI</span>
+          </div>
+          <span id="orbit_mode_pill" style="font-size:11px;padding:4px 12px;border-radius:15px;background:rgba(56,189,248,.15);color:#38bdf8;border:1px solid rgba(56,189,248,.3);"></span>
+        </div>
+
+        <!-- Synthesized URL box (for scenario 2) -->
+        <div id="orbit_synth_box" style="margin-bottom:18px;background:var(--bg-1);padding:12px 16px;border-radius:10px;border:1px solid var(--line);">
+          <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;margin-bottom:6px;font-weight:600;">Tersine Mühendislikle Oluşturulan Dinamik Pazar URL'si:</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <input type="text" id="orbit_synth_url_input" readonly class="mono" style="flex:1;background:transparent;border:none;color:#38bdf8;font-size:12.5px;outline:none;" value="">
+            <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="copyOrbitUrl()">📋 Kopyala</button>
+            <a id="orbit_synth_open" href="#" target="_blank" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;text-decoration:none;">↗ Sahibinden'de Aç</a>
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;">
+          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Toplam Rakip Havuzu</div>
+            <div id="orbit_kpi_total" style="font-size:22px;font-weight:800;color:var(--text-0);margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Piyasa Medyan Kirası</div>
+            <div id="orbit_kpi_median" style="font-size:22px;font-weight:800;color:#c9a45c;margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Ortalama m² Birim Kira</div>
+            <div id="orbit_kpi_m2" style="font-size:22px;font-weight:800;color:var(--text-0);margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Eşyalı Tekel Oranı</div>
+            <div id="orbit_kpi_furn" style="font-size:22px;font-weight:800;color:#10b981;margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Bizim Portföy Pozisyonu</div>
+            <div id="orbit_kpi_percentile" style="font-size:22px;font-weight:800;color:#38bdf8;margin-top:4px;">-</div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <a id="orbit_open_dashboard_btn" href="/orbit/report" target="_blank" class="btn btn-gold" style="padding:12px 24px;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#d4af37,#aa7c11);color:#0a0c10;font-weight:700;">
+            📊 ULTRA LÜKS DASHBOARD'U AÇ (YENİ SEKME) ↗
+          </a>
+          <button type="button" class="btn btn-ghost" onclick="toggleOrbitIframe()" style="padding:12px 20px;font-size:13.5px;">
+            👁️ Dashboard'u Bu Sayfada Önizle
+          </button>
+        </div>
+
+        <!-- Embedded Dashboard iFrame (Optional Preview) -->
+        <div id="orbit_iframe_box" style="display:none;margin-top:20px;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 15px 35px rgba(0,0,0,.6);">
+          <iframe id="orbit_preview_iframe" src="" style="width:100%;height:800px;border:none;background:#05070b;"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Progress & Console Panel -->
+  <div class="panel" id="progressPanel" style="display:none;">
+    <h2>② Operations Progress</h2>
     <div class="steps" id="steps">
+      <!-- Steps loaded dynamically based on job type -->
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="panel" id="consolePanel" style="display:none;">
+    <h2>③ Live Terminal Output</h2>
+
+  <div class="steps" id="steps">
       <!-- Steps loaded dynamically based on job type -->
     </div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -811,6 +999,8 @@ function startJob(jobType) {
     payload.delay = parseFloat(document.getElementById('sh_delay').value) || 5;
     payload.limit = parseInt(document.getElementById('sh_limit').value) || 0;
     payload.cd_fallback = document.getElementById('sh_cd_fallback').checked;
+    payload.is_single = document.getElementById('sh_is_single') ? document.getElementById('sh_is_single').checked : false;
+    payload.prefer_uc = document.getElementById('sh_prefer_uc') ? document.getElementById('sh_prefer_uc').checked : true;
     payload.ollama = "{{ default_ollama }}";
     payload.model = "{{ default_model }}";
     payload.gemini_api_key = document.getElementById('sh_gemini_api_key').value.trim();
@@ -1224,6 +1414,22 @@ function copyPdfLink() {
     prompt('Linki kopyalayın:', _currentPdfShareUrl);
   });
 }
+
+
+  // Tekil ilan URL'si yapıştırıldığında otomatik algıla
+  const shUrlInput = document.getElementById('sh_url');
+  if(shUrlInput) {
+    shUrlInput.addEventListener('input', function() {
+      const v = (this.value || '').trim();
+      const isSingleListing = /\/ilan\/(?:[^\/]+\/)?(?:[^\/]+-)?(\d{6,})(?:\/detay|\/?$)/i.test(v) || (/\d{8,}/.test(v) && !/\/arama\b|\/magaza\b/.test(v));
+      const singleBox = document.getElementById('sh_is_single');
+      const ucBox = document.getElementById('sh_prefer_uc');
+      if(isSingleListing) {
+        if(singleBox) singleBox.checked = true;
+        if(ucBox) ucBox.checked = true;
+      }
+    });
+  }
 
 </script>
 </body>

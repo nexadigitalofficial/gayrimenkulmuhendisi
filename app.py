@@ -1360,6 +1360,7 @@ def step3_pagespeed_details(
     skip: bool,
     stop_event=None,
     cd_fallback: bool = True,
+    prefer_uc: bool = False,
 ) -> List[Path]:
     """
     Her ilan için detay sayfasını PageSpeed üzerinden çeker.
@@ -1376,29 +1377,35 @@ def step3_pagespeed_details(
     out_dir.mkdir(exist_ok=True)
     detail_paths: List[Path] = []
 
-    # ── Eğer tekil ilan ise: Önce SeleniumBase UC, başarısızsa NEXA Cloud Motoru ile çek ──
+    # ── Eğer tekil ilan ise: Opsiyona göre SeleniumBase UC veya PageSpeed/NEXA Cloud Motoru + Karşılıklı Fallback ──
     is_single = len(summaries) == 1 and bool(detect_single_listing_id(summaries[0].detail_url))
     if is_single:
         summary = summaries[0]
         p = out_dir / f"{summary.listing_id}.html"
-        html = None
+        is_linux_headless = sys.platform.startswith("linux") and not os.environ.get("DISPLAY")
+        use_uc_first = (prefer_uc or (os.getenv("PREFER_SELENIUM_UC", "0").lower() in ("1", "true", "yes"))) and not is_linux_headless
 
-        if _SELENIUMBASE and (not sys.platform.startswith("linux") or bool(os.environ.get("DISPLAY"))):
-            _sep("TEKİL İLAN MODU — SeleniumBase UC ile deneniyor")
+        # A) Eğer prefer_uc aktifse: ÖNCE SeleniumBase UC dene (Ham DOM & Doğrudan #gmap Bina Pini)
+        if use_uc_first and _SELENIUMBASE:
+            _sep("TEKİL İLAN — Önce SeleniumBase UC ile deneniyor (Birebir DOM & #gmap Koordinatı)")
             print(f"  Hedef: {summary.detail_url}")
             try:
                 engine = CFBypassEngine()
                 html = engine.fetch_page(summary.detail_url)
-                if html:
+                if html and len(html) > 10000 and "giris" not in html[:3000].lower() and not any(s in html[:3000] for s in CF_SIGNALS):
                     p.write_text(html, encoding="utf-8")
-                    print(f"    [OK] Kaydedildi: {p.name} ({len(html)//1024} KB)")
+                    print(f"    ✓ [OK] SeleniumBase UC ile başarıyla kaydedildi: {p.name} ({len(html)//1024} KB)")
                     detail_paths.append(p)
                     return detail_paths
+                else:
+                    print("    ⚠ [FALLBACK] SeleniumBase UC içeriği yetersiz veya Cloudflare/giriş engeline takıldı.")
+                    print("    ➜ Ana sistemimiz olan NEXA Cloud / PageSpeed Motoru devreye alınıyor...")
             except Exception as e:
-                print(f"    [WARN] SeleniumBase UC hatası: {e}")
+                print(f"    ✗ [FALLBACK] SeleniumBase UC hatası: {e}")
+                print("    ➜ Ana sistemimiz olan NEXA Cloud / PageSpeed Motoru devreye alınıyor...")
 
-        # SeleniumBase başarısız olursa veya Cloudflare takılırsa: NEXA Cloud Motoru ile çek
-        print("  [API] SeleniumBase doğrudan erişemedi, NEXA Cloud Motoru devreye giriyor...")
+        # B) PageSpeed / NEXA Cloud Bulut Motoru (Ana sistem: %100 Cloudflare ve Giriş Engeli Bypass)
+        print("  [API] Tekil ilan NEXA Cloud Motoru ile taranıyor...")
         target_fetch_url = (
             summary.detail_url
             if "#" in summary.detail_url
@@ -1425,13 +1432,28 @@ def step3_pagespeed_details(
             print(f"    [OK] NEXA Cloud Motoru ile buluttan başarıyla çekildi: {p.name}")
             detail_paths.append(p)
             return detail_paths
-        else:
-            print("    [FALLBACK] Tekil ilan için temel sentetik kayıt oluşturuluyor...")
-            target_title = summary.title or f"İlan #{summary.listing_id}"
-            fallback_html = f"<!DOCTYPE html><html><head><meta charset='utf-8'><title>{target_title}</title></head><body><h1>{target_title}</h1><p>İlan No: {summary.listing_id}</p><p>URL: {summary.detail_url}</p></body></html>"
-            p.write_text(fallback_html, encoding="utf-8")
-            detail_paths.append(p)
-            return detail_paths
+
+        # C) Eğer use_uc_first aktif değildiyse ve PageSpeed başarısız olduysa, SeleniumBase UC Fallback'i dene
+        if not use_uc_first and _SELENIUMBASE and not is_linux_headless:
+            _sep("FALLBACK — SeleniumBase UC ile deneniyor")
+            print(f"  Hedef: {summary.detail_url}")
+            try:
+                engine = CFBypassEngine()
+                html = engine.fetch_page(summary.detail_url)
+                if html:
+                    p.write_text(html, encoding="utf-8")
+                    print(f"    [OK] Kaydedildi: {p.name} ({len(html)//1024} KB)")
+                    detail_paths.append(p)
+                    return detail_paths
+            except Exception as e:
+                print(f"    [WARN] SeleniumBase UC hatası: {e}")
+
+        print("    [FALLBACK] Tekil ilan için temel sentetik kayıt oluşturuluyor...")
+        target_title = summary.title or f"İlan #{summary.listing_id}"
+        fallback_html = f"<!DOCTYPE html><html><head><meta charset='utf-8'><title>{target_title}</title></head><body><h1>{target_title}</h1><p>İlan No: {summary.listing_id}</p><p>URL: {summary.detail_url}</p></body></html>"
+        p.write_text(fallback_html, encoding="utf-8")
+        detail_paths.append(p)
+        return detail_paths
 
     if skip:
         print("  ⏭  Adım atlandı, mevcut dosyalar kullanılıyor.\n")
@@ -4693,6 +4715,9 @@ def main() -> None:
     ap.add_argument("--no-ai",          dest="no_ai",  action="store_true", help="Ollama analizini atla")
     ap.add_argument("--skip-pagespeed", dest="skip_ps", action="store_true",help="Adım 1'i atla (mevcut HTML kullan)")
     ap.add_argument("--skip-details",   dest="skip_det",action="store_true",help="Adım 3'ü atla (mevcut detay HTML'leri kullan)")
+    ap.add_argument("--single", "--tekil", dest="is_single", action="store_true", help="Tekil ilan modunu zorla (doğrudan detay ve vitrin)")
+    ap.add_argument("--prefer-uc", "--uc", dest="prefer_uc", action="store_true", default=True, help="Önce SeleniumBase UC dene (#gmap pini için), başarısızsa PageSpeed'e düş")
+    ap.add_argument("--no-uc", dest="prefer_uc", action="store_false", help="SeleniumBase UC kullanma, doğrudan PageSpeed bulut motoruyla çek")
     args = ap.parse_args()
 
     # ── Kısa modlar: sadece HTML parse ───────────────────────────────
@@ -4830,8 +4855,10 @@ def main() -> None:
     # ── Senaryo ayrımı: tekil ilan linki mi, mağaza/arama sonucu linki mi? ──
     # (web_app.py ile aynı tek doğruluk kaynağı: detect_single_listing_id)
     single_id = detect_single_listing_id(args.url) if not args.skip_ps else ""
-
-    if single_id:
+    is_single_mode = args.is_single or bool(single_id)
+    if is_single_mode:
+        if not single_id:
+            single_id = detect_single_listing_id(args.url) or "single_listing"
         # ── SENARYO 1: TEKİL İLAN MODU ────────────────────────────────────
         print(f"\nℹ Tekil ilan linki algılandı (İlan No: {single_id}).")
         print("  ⏭ Adım 1-2 (mağaza taraması) atlanıyor, doğrudan Adım 3'e geçiliyor.\n")
@@ -4878,6 +4905,7 @@ def main() -> None:
             delay=args.delay,
             headless=args.headless,
             skip=args.skip_det,
+            prefer_uc=args.prefer_uc,
         )
     except Exception as e:
         print(f"\n✗ Adım 3 hatası: {e}")
@@ -4965,8 +4993,24 @@ def step6_build_html_luxury(
                 dd["ai_analysis"] = None
         html_out = build_luxury_cards_page(dict_details)
         p = Path(out_path)
+        p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(html_out, encoding="utf-8")
-        print(f"  [OK] {len(details)} ilan (Ultra Luxury v3) → {p.resolve()}")
+        print(f"  [OK] {len(details)} ilan (Ultra Luxury Elite) → {p.resolve()}")
+
+        # Tekil ilan modunda masaüstüne de doğrudan kopyala
+        if len(details) == 1:
+            try:
+                desk = Path.home() / "Desktop"
+                if desk.exists():
+                    lid = getattr(details[0], "listing_id", "ilan")
+                    t = getattr(details[0], "title", "")
+                    clean_t = re.sub(r'[\/:*?"<>|\s]+', '_', t[:25]).strip('_')
+                    desk_file = desk / f"ILAN_{lid}_{clean_t}_LUXURY.html"
+                    desk_file.write_text(html_out, encoding="utf-8")
+                    print(f"  ✓ [DESKTOP] Masaüstüne elit lüks vitrin kartı oluşturuldu: {desk_file.name}")
+            except Exception as de:
+                pass
+
         return p
     except Exception as exc:
         print(f"  [WARN] Lüks şablon üretilemedi ({exc}), klasik şablona düşülüyor...")
@@ -6133,8 +6177,11 @@ def _run_pipeline(job: "Job"):
             out_html = job.dir / "ilan_detay_karti.html"
 
             single_id = detect_single_listing_id(p["url"])
+            is_single_mode = bool(p.get("is_single")) or bool(single_id)
 
-            if single_id:
+            if is_single_mode:
+                if not single_id:
+                    single_id = detect_single_listing_id(p["url"]) or "single_listing"
                 job.set_step(0)
                 print(f"  ℹ Tekil ilan linki algılandı (İlan No: {single_id}).")
                 print("  ⏭ Bu bir mağaza/liste linki değil, mağaza taraması atlanıyor.")
@@ -6170,10 +6217,13 @@ def _run_pipeline(job: "Job"):
                 raise _StoppedByUser()
 
             job.set_step(2)
+            # Tekil ilanda prefer_uc varsayılan olarak açıktır (geçemezse PageSpeed'e düşer)
+            prefer_uc_active = p.get("prefer_uc", True if is_single_mode else False)
             detail_paths = step3_pagespeed_details(
                 summaries=summaries, detail_dir=str(detail_dir), wait_sec=p["det_wait"],
                 delay=p["delay"], headless=p["headless"], skip=False,
                 stop_event=job.stop_event, cd_fallback=p["cd_fallback"],
+                prefer_uc=prefer_uc_active,
             )
             if not detail_paths:
                 raise RuntimeError("Hiç detay sayfası indirilemedi.")
@@ -6505,6 +6555,59 @@ def _route_nlp_search_parse():
         return jsonify({"error": f"NLP Çözümleme Hatası: {str(e)}"}), 500
 
 
+# =============================================================================
+# NEXA ORBIT™ | AUTONOMOUS REVERSE-CMA API ROUTES
+# =============================================================================
+@app.route("/api/orbit/analyze", methods=["POST"])
+def _route_orbit_analyze():
+    data = request.get_json(force=True, silent=True) or {}
+    mode = data.get("mode", "scenario2")
+    target_input = (data.get("target_id") or data.get("target_url") or "").strip()
+    search_url = (data.get("search_url") or "").strip()
+    try:
+        multiplier = float(data.get("price_multiplier", 1.28))
+    except Exception:
+        multiplier = 1.28
+
+    if not target_input:
+        return jsonify({"ok": False, "error": "Hedef ilan ID veya URL'si belirtilmelidir."}), 400
+
+    try:
+        from nexa_reverse_cma_engine import NexaOrbitReverseCMA
+        orbit = NexaOrbitReverseCMA()
+
+        if mode == "scenario1":
+            if not search_url:
+                return jsonify({"ok": False, "error": "Senaryo 1 için pazar arama URL'si zorunludur."}), 400
+            res = orbit.run_scenario_1(search_url, target_input)
+        else:
+            res = orbit.run_scenario_2(target_input, price_corridor_multiplier=multiplier)
+
+        return jsonify({
+            "ok": True,
+            "result": res,
+            "report_url": "/orbit/report"
+        })
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"ok": False, "error": f"NEXA Orbit Engine Hatası: {str(e)}"}), 500
+
+
+@app.route("/orbit/report")
+@app.route("/orbit")
+def _route_orbit_report():
+    from pathlib import Path
+    p1 = Path(r"C:\Users\USER\Desktop\NEXA_ORBIT_TERSINE_EMSAL_ANALIZI.html")
+    p2 = Path(r"C:\Users\USER\Desktop\NEXA_ORBIT_SENARYO_1_ANALIZ.html")
+    p3 = Path(r"C:\Users\USER\Desktop\MUSTAFA_KEMAL_OFIS_PIYASA_ANALIZI.html")
+    for target in [p1, p2, p3]:
+        if target.exists():
+            with open(target, "r", encoding="utf-8") as f:
+                return f.read(), 200, {"Content-Type": "text/html; charset=utf-8"}
+    return "<h1>Rapor henüz oluşturulmadı. Lütfen arayüzden Orbit analizini başlatın.</h1>", 404
+
+
 @app.route("/api/start", methods=["POST"])
 def _route_start():
     data = request.get_json(force=True, silent=True) or {}
@@ -6533,6 +6636,8 @@ def _route_start():
             "ai_delay": _num("ai_delay", 0.5, float),
             "limit": int(_num("limit", 0, float)),
             "cd_fallback": bool(data.get("cd_fallback", True)),
+            "is_single": bool(data.get("is_single", False)),
+            "prefer_uc": bool(data.get("prefer_uc", True)),
             "gemini_api_key": (data.get("gemini_api_key") or os.environ.get("GEMINI_API_KEY", "")).strip(),
         }
     elif job_type == "cb":
