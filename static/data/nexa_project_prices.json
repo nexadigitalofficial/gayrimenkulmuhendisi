@@ -565,5 +565,20 @@
       "Müstakil Parsel / Villa Arsası"
     ],
     "description": "Hemen tapu teslim, bağımsız müstakil parsel villa arsaları, altyapısı hazır yüksek prim potansiyeli."
+  },
+  "WEST POINT": {
+    "price_display": "1.890.000 - 3.100.000 TL",
+    "price_min": 1890000,
+    "price_max": 3100000,
+    "price_numeric": 1890000,
+    "down_payment": "945.000 TL (%50)",
+    "installment_terms": "24-30 Ay Sabit Taksit",
+    "monthly_installment": 45000,
+    "delivery_months": 30,
+    "delivery_display": "30 Ay Teslim",
+    "rooms": [
+      "1+1 Rezidans"
+    ],
+    "description": "Osko Yapı güvencesiyle 49132 Ada 1 Parsel üzerinde yükselen 1+1 modern rezidanslar, açık yüzme havuzu, yeşil peyzaj ve 30 ay teslim avantajı."
   }
 }
