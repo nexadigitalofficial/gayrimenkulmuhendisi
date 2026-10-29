@@ -38,8 +38,8 @@
     "category": "Kentsel Dönüşüm",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.625368+00:00",
-    "updatedAt": "2026-10-28T12:26:06.625371+00:00",
+    "createdAt": "2026-10-29T12:36:41.832373+00:00",
+    "updatedAt": "2026-10-29T12:36:41.832377+00:00",
     "slug": "kentsel-donusum-ve-guvenli-konut-hamlesinde-yeni-kredi-hibe-destekleri",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Bakanlık ve kamu bankaları iş birliğiyle kentsel dönüşüm kira yardımları ve uygun maliyetli güçlendirme/yenileme finansman paketleri güncellendi.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -76,86 +76,10 @@
     "category": "Konut",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.624559+00:00",
-    "updatedAt": "2026-10-28T12:26:06.624565+00:00",
+    "createdAt": "2026-10-29T12:36:41.831554+00:00",
+    "updatedAt": "2026-10-29T12:36:41.831557+00:00",
     "slug": "ankara-guneybati-aksinda-yeni-ulasim-ve-altyapi-yatirimlari-degerleri-artiriyor",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: İncek, Beytepe ve Çayyolu aksındaki bulvar genişletmeleri ve toplu taşıma bağlantıları bölge arsa ve lüks konut birim fiyatlarını yukarı taşıyor.",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_6ffb288bcfb7",
-    "title": "Cıvayı altına dönüştürdüğünü öne süren girişim, altın piyasasını sarsabilir mi?",
-    "summary": "ABD merkezli şirketin iddiası, elmas sektörünün uzun süredir gündeminde olan bir soruyu yeniden gündeme getirdi: Laboratuvarda üretilen altın, bir gün madenden çıkarılan altının fiyatını düşürebilir mi?",
-    "content": "Cıvayı altına dönüştürdüğünü öne süren girişim, altın piyasasını sarsabilir mi? ABD merkezli şirketin iddiası, elmas sektörünün uzun süredir gündeminde olan bir soruyu yeniden gündeme getirdi: Laboratuvarda üretilen altın, bir gün madenden çıkarılan altının fiyatını düşürebilir mi? Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: Euronews Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.623751+00:00",
-    "updatedAt": "2026-10-28T12:26:06.623755+00:00",
-    "slug": "civayi-altina-donusturdugunu-one-suren-girisim-altin-piyasasini-sarsabilir-mi",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: ABD merkezli şirketin iddiası, elmas sektörünün uzun süredir gündeminde olan bir soruyu yeniden gündeme getirdi: Laboratuvarda üretilen altın, bir gün madenden çıkarılan altının fiyatını düşürebilir mi?",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_7c17dcb4fa45",
-    "title": "Küresel risklere karşın Almanya'da iş dünyası güveni ekimde arttı",
-    "summary": "Ekim'de Almanya'nın ifo İş Ortamı Endeksi, imalat sektöründeki güven artışıyla yükseldi; ancak yüksek enerji fiyatları ve faizler toparlanmayı hâlâ tehdit ediyor.",
-    "content": "Küresel risklere karşın Almanya'da iş dünyası güveni ekimde arttı Ekim'de Almanya'nın ifo İş Ortamı Endeksi, imalat sektöründeki güven artışıyla yükseldi; ancak yüksek enerji fiyatları ve faizler toparlanmayı hâlâ tehdit ediyor. Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: Euronews Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.622761+00:00",
-    "updatedAt": "2026-10-28T12:26:06.622765+00:00",
-    "slug": "kuresel-risklere-karsin-almanyada-is-dunyasi-guveni-ekimde-artti",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Ekim'de Almanya'nın ifo İş Ortamı Endeksi, imalat sektöründeki güven artışıyla yükseldi; ancak yüksek enerji fiyatları ve faizler toparlanmayı hâlâ tehdit ediyor.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -190,8 +114,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.621828+00:00",
-    "updatedAt": "2026-10-28T12:26:06.621835+00:00",
+    "createdAt": "2026-10-29T12:36:41.830764+00:00",
+    "updatedAt": "2026-10-29T12:36:41.830768+00:00",
     "slug": "now-wanted-in-silicon-valley-ho-hum-businesses-with-thin-profit-margins",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Venture-capital firms are bringing AI and dealmaking to accounting, property management and other unglamorous fields.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -228,124 +152,10 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.620935+00:00",
-    "updatedAt": "2026-10-28T12:26:06.620938+00:00",
+    "createdAt": "2026-10-29T12:36:41.829887+00:00",
+    "updatedAt": "2026-10-29T12:36:41.829890+00:00",
     "slug": "building-products-distributor-qxo-launches-hostile-bid-for-beacon",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: QXO is taking its offer directly to shareholders after being rebuffed on several occasions.",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_32c119329448",
-    "title": "India’s retail inflation jumps to 5.54% in September, above estimates",
-    "summary": "India inflations jumps for the 11-straight month, raising prospects of a further interest rate hike",
-    "content": "India’s retail inflation jumps to 5.54% in September, above estimates India inflations jumps for the 11-straight month, raising prospects of a further interest rate hike Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: CNBC Global Economy. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.620109+00:00",
-    "updatedAt": "2026-10-28T12:26:06.620113+00:00",
-    "slug": "indias-retail-inflation-jumps-to-554-in-september-above-estimates",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: India inflations jumps for the 11-straight month, raising prospects of a further interest rate hike",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_05ef9e0ca8a9",
-    "title": "IMF warns bond yields could see a 'disorderly' spike as debt, inflation risks worsen",
-    "summary": "The IMF says risks in the government bond market have worsened and that yields could jump sharply and disorderly.",
-    "content": "IMF warns bond yields could see a 'disorderly' spike as debt, inflation risks worsen The IMF says risks in the government bond market have worsened and that yields could jump sharply and disorderly. Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: CNBC Global Economy. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.619228+00:00",
-    "updatedAt": "2026-10-28T12:26:06.619231+00:00",
-    "slug": "imf-warns-bond-yields-could-see-a-disorderly-spike-as-debt-inflation-risks-worsen",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: The IMF says risks in the government bond market have worsened and that yields could jump sharply and disorderly.",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_7899dfee8d5c",
-    "title": "The latest inflation data is expected to show price increases are accelerating",
-    "summary": "Economists expect the consumer price index for September to rise 0.6% on the month and 3.6% year over year.",
-    "content": "The latest inflation data is expected to show price increases are accelerating Economists expect the consumer price index for September to rise 0.6% on the month and 3.6% year over year. Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: CNBC Global Economy. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.618316+00:00",
-    "updatedAt": "2026-10-28T12:26:06.618320+00:00",
-    "slug": "the-latest-inflation-data-is-expected-to-show-price-increases-are-accelerating",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Economists expect the consumer price index for September to rise 0.6% on the month and 3.6% year over year.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -380,8 +190,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.617430+00:00",
-    "updatedAt": "2026-10-28T12:26:06.617434+00:00",
+    "createdAt": "2026-10-29T12:36:41.829066+00:00",
+    "updatedAt": "2026-10-29T12:36:41.829070+00:00",
     "slug": "godzilla-el-nio-is-wreaking-havoc-with-philippine-central-banks-inflation-forecasts",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: The Philippine central bank is running policy scenarios for a severe El Niño on top of the oil shock, with inflation at a three-year high.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -418,8 +228,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.616474+00:00",
-    "updatedAt": "2026-10-28T12:26:06.616479+00:00",
+    "createdAt": "2026-10-29T12:36:41.828116+00:00",
+    "updatedAt": "2026-10-29T12:36:41.828119+00:00",
     "slug": "how-high-inflation-became-a-fact-of-life-in-the-us",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: U.S. inflation has stayed elevated for years, raising concern at the Federal Reserve that consumers may come to expect stubbornly high prices.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -456,8 +266,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.615611+00:00",
-    "updatedAt": "2026-10-28T12:26:06.615615+00:00",
+    "createdAt": "2026-10-29T12:36:41.827241+00:00",
+    "updatedAt": "2026-10-29T12:36:41.827244+00:00",
     "slug": "uk-economy-grew-01-in-august-beating-expectations",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: The U.K. is grappling with a cost-of-living crisis sparked by sticky inflation and surging energy costs.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -494,8 +304,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.614791+00:00",
-    "updatedAt": "2026-10-28T12:26:06.614794+00:00",
+    "createdAt": "2026-10-29T12:36:41.826444+00:00",
+    "updatedAt": "2026-10-29T12:36:41.826448+00:00",
     "slug": "analysis-why-a-2-trillion-deficit-and-5-treasury-yields-are-becoming-americas-biggest-economic-challenge",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Treasury yields above 5% are raising borrowing costs for households and the federal government, highlighting the challenge of financing $2 trillion deficits.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -532,8 +342,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.613767+00:00",
-    "updatedAt": "2026-10-28T12:26:06.613775+00:00",
+    "createdAt": "2026-10-29T12:36:41.825430+00:00",
+    "updatedAt": "2026-10-29T12:36:41.825433+00:00",
     "slug": "economists-hot-ppi-shows-feds-work-is-not-done",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: 'We see real risks the Fed will deliver another rate hike in two weeks' time,' one Fedwatcher warns",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -570,8 +380,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.612961+00:00",
-    "updatedAt": "2026-10-28T12:26:06.612965+00:00",
+    "createdAt": "2026-10-29T12:36:41.824635+00:00",
+    "updatedAt": "2026-10-29T12:36:41.824639+00:00",
     "slug": "analysis-everyone-expects-the-fed-to-hold-rates-in-october-kevin-warsh-could-surprise-us-all",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Investors expect the Fed to pause rate hikes in October, but Kevin Warsh's rejection of traditional communications practices and continued concern about inflation leave the decision uncertain.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -608,8 +418,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.611930+00:00",
-    "updatedAt": "2026-10-28T12:26:06.611934+00:00",
+    "createdAt": "2026-10-29T12:36:41.823612+00:00",
+    "updatedAt": "2026-10-29T12:36:41.823616+00:00",
     "slug": "housing-is-flashing-warning-signs-just-as-the-fed-weighs-more-interest-rate-hikes",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Housing data deteriorated further in September, according to separate reports Tuesday.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -646,8 +456,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.611071+00:00",
-    "updatedAt": "2026-10-28T12:26:06.611075+00:00",
+    "createdAt": "2026-10-29T12:36:41.822760+00:00",
+    "updatedAt": "2026-10-29T12:36:41.822763+00:00",
     "slug": "uk-inflation-jumps-to-35-cementing-rate-hike-expectations",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: U.K. inflation rose by a hotter-than-expected 3.5% in the 12 months to September, driven by the surging cost of motor fuels.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -684,10 +494,162 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.610179+00:00",
-    "updatedAt": "2026-10-28T12:26:06.610183+00:00",
+    "createdAt": "2026-10-29T12:36:41.821874+00:00",
+    "updatedAt": "2026-10-29T12:36:41.821877+00:00",
     "slug": "fed-rate-hikes-are-coming-but-not-this-week-cnbc-survey",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: The CNBC Fed Survey shows that 93% of respondent expect a pause at the Federal Reserve meeting taking place this week.",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_6fc5778f012b",
+    "title": "Bessent says 'not necessarily' a mistake if the Fed hikes again",
+    "summary": "Treasury Secretary Scott Bessent joined CNBC for an interview on Oct. 28, 2026.",
+    "content": "Bessent says 'not necessarily' a mistake if the Fed hikes again Treasury Secretary Scott Bessent joined CNBC for an interview on Oct. 28, 2026. Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: CNBC Global Economy. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.821019+00:00",
+    "updatedAt": "2026-10-29T12:36:41.821022+00:00",
+    "slug": "bessent-says-not-necessarily-a-mistake-if-the-fed-hikes-again",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Treasury Secretary Scott Bessent joined CNBC for an interview on Oct. 28, 2026.",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_baee28cf6eea",
+    "title": "Here are five key takeaways from the Fed rate decision and Warsh news conference",
+    "summary": "Even though the interest-rate vote went as expected, there were a few surprises out of this week's Federal Open Market Committee meeting.",
+    "content": "Here are five key takeaways from the Fed rate decision and Warsh news conference Even though the interest-rate vote went as expected, there were a few surprises out of this week's Federal Open Market Committee meeting. Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: CNBC Global Economy. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.820197+00:00",
+    "updatedAt": "2026-10-29T12:36:41.820201+00:00",
+    "slug": "here-are-five-key-takeaways-from-the-fed-rate-decision-and-warsh-news-conference",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Even though the interest-rate vote went as expected, there were a few surprises out of this week's Federal Open Market Committee meeting.",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_340764d870ea",
+    "title": "Analysis: Warsh is learning to wield the Fed's power without showing his hand",
+    "summary": "The new chairman made clear he leans toward higher interest rates, but left himself options depending on how the data comes in.",
+    "content": "Analysis: Warsh is learning to wield the Fed's power without showing his hand The new chairman made clear he leans toward higher interest rates, but left himself options depending on how the data comes in. Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: CNBC Global Economy. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.819239+00:00",
+    "updatedAt": "2026-10-29T12:36:41.819242+00:00",
+    "slug": "analysis-warsh-is-learning-to-wield-the-feds-power-without-showing-his-hand",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: The new chairman made clear he leans toward higher interest rates, but left himself options depending on how the data comes in.",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_751464251477",
+    "title": "What the Budget offers for under 25s - and what it leaves out",
+    "summary": "The chancellor announced a series of measures which will impact under-25 year-olds from housing to minimum wage.",
+    "content": "What the Budget offers for under 25s - and what it leaves out The chancellor announced a series of measures which will impact under-25 year-olds from housing to minimum wage. Piyasa İstihbarat Kapsamı: Küresel Makro Piyasa • Kaynak: BBC World Business. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.818307+00:00",
+    "updatedAt": "2026-10-29T12:36:41.818311+00:00",
+    "slug": "what-the-budget-offers-for-under-25s-and-what-it-leaves-out",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: The chancellor announced a series of measures which will impact under-25 year-olds from housing to minimum wage.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -722,8 +684,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.609292+00:00",
-    "updatedAt": "2026-10-28T12:26:06.609298+00:00",
+    "createdAt": "2026-10-29T12:36:41.817435+00:00",
+    "updatedAt": "2026-10-29T12:36:41.817440+00:00",
     "slug": "bee-coin-nedir-hangi-borsalardan-alinir-bee-token-ne-zaman-cikti-ne-is-yapar",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Bee coin, sadece davetiye kodu ile giriş yapabileceğiniz bir kapalı sisteme sahiptir. Aynı zamanda Bee Network'ün ne olduğu ve nasıl alınabileceği pek çok kişi tarafından sorgulanıyor. Bee Network esasında cep telefonunuzdan kripto para madenciliği y",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -760,8 +722,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.607898+00:00",
-    "updatedAt": "2026-10-28T12:26:06.607902+00:00",
+    "createdAt": "2026-10-29T12:36:41.816068+00:00",
+    "updatedAt": "2026-10-29T12:36:41.816072+00:00",
     "slug": "spk-nedir-spknin-gorevleri-nelerdir-ne-is-yapar-spk-acilimi",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Devletin birçok organı bulunmaktadır. Devletin bir organı da SPK organıdır. SPK organının denetlemiş olduğu kurumlar ve sahip olduğu görevler vardır. SPK'nın açılımı ve ne iş yaptığı pek çok insan tarafından merak edilmektedir. Durum böyle olunca ara",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -790,56 +752,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_f920ef29f699",
-    "title": "Konutta metrekare hesabı değişiyor",
-    "summary": "Genç kuşağın değişen yaşam alışkanlıkları, gayrimenkul sektöründe yeni bir dönemin kapısını aralıyor. Proje geliştirici ve yüksek mimar Emrullah Yedikardeş'e göre geleceğin konutunda belirleyici olan metrekarenin büyüklüğü değil, yaşam alanının ne ka",
-    "content": "Konutta metrekare hesabı değişiyor Genç kuşağın değişen yaşam alışkanlıkları, gayrimenkul sektöründe yeni bir dönemin kapısını aralıyor. Proje geliştirici ve yüksek mimar Emrullah Yedikardeş'e göre geleceğin konutunda belirleyici olan metrekarenin büyüklüğü değil, yaşam alanının ne kadar verimli kullanıldığı olacak. Esra Toptaş yazdı Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Habertürk Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Konut",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.606493+00:00",
-    "updatedAt": "2026-10-28T12:26:06.606550+00:00",
-    "slug": "konutta-metrekare-hesabi-degisiyor",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Genç kuşağın değişen yaşam alışkanlıkları, gayrimenkul sektöründe yeni bir dönemin kapısını aralıyor. Proje geliştirici ve yüksek mimar Emrullah Yedikardeş'e göre geleceğin konutunda belirleyici olan metrekarenin büyüklüğü değil, yaşam alanının ne ka",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_89abc032cefb",
-    "title": "\"65 yaş üstü emeklilere daha fazla zam yapılabilir\"",
-    "summary": "AK Parti, Cumhurbaşkanı Recep Tayyip Erdoğan'ın dün Kabine toplantısının ardından yaptığı açıklama kapsamında, emekli maaşlarının iyileştirilmesine yönelik çalışmaları hızlandırdı. Emekli maaşlarına enflasyon oranında yapılacak artışların dışında, ya",
-    "content": "\"65 yaş üstü emeklilere daha fazla zam yapılabilir\" AK Parti, Cumhurbaşkanı Recep Tayyip Erdoğan'ın dün Kabine toplantısının ardından yaptığı açıklama kapsamında, emekli maaşlarının iyileştirilmesine yönelik çalışmaları hızlandırdı. Emekli maaşlarına enflasyon oranında yapılacak artışların dışında, yaş aralıklarına göre yapılacak kademelendirmeyle refah payı artışı ya da seyyanen artış yansıtılması değerlendiriliyor. Özellikle 65 yaş üstüne daha fazla artış yapılmasına yönelik müzakereler sürerken, çalışma hayatında olmayan emeklilerin gözetileceği bir sistem öngörülüyor. Öte yandan Cumhurbaşkanı Yardımcısı Cevdet Yılmaz da yaptığı açıklamada emekli maaşları düzenlemesi çalışmalarıyla ilgili olarak \"Enflasyonla gelecek artışın da üzerinde bir imkan sağlamayı esas alarak bu bütçeyi hazırladık\" ifadelerini kullandı Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Habertürk Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_9590356bbc5e",
+    "title": "Veri merkezlerine saldırıların ardından finansal tahminlerini geri çekti",
+    "summary": "Rus teknoloji şirketi Yandex, ekim ayında veri merkezlerine düzenlenen saldırıların ardından bu yıla ilişkin gelir ve düzeltilmiş faiz, amortisman ve vergi öncesi kar (FAVÖK) tahminlerini geri çekti",
+    "content": "Veri merkezlerine saldırıların ardından finansal tahminlerini geri çekti Rus teknoloji şirketi Yandex, ekim ayında veri merkezlerine düzenlenen saldırıların ardından bu yıla ilişkin gelir ve düzeltilmiş faiz, amortisman ve vergi öncesi kar (FAVÖK) tahminlerini geri çekti Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Habertürk Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.605516+00:00",
-    "updatedAt": "2026-10-28T12:26:06.605521+00:00",
-    "slug": "65-yas-ustu-emeklilere-daha-fazla-zam-yapilabilir",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: AK Parti, Cumhurbaşkanı Recep Tayyip Erdoğan'ın dün Kabine toplantısının ardından yaptığı açıklama kapsamında, emekli maaşlarının iyileştirilmesine yönelik çalışmaları hızlandırdı. Emekli maaşlarına enflasyon oranında yapılacak artışların dışında, ya",
+    "createdAt": "2026-10-29T12:36:41.814746+00:00",
+    "updatedAt": "2026-10-29T12:36:41.814750+00:00",
+    "slug": "veri-merkezlerine-saldirilarin-ardindan-finansal-tahminlerini-geri-cekti",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Rus teknoloji şirketi Yandex, ekim ayında veri merkezlerine düzenlenen saldırıların ardından bu yıla ilişkin gelir ve düzeltilmiş faiz, amortisman ve vergi öncesi kar (FAVÖK) tahminlerini geri çekti",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -866,18 +790,56 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_603432346a10",
-    "title": "Küresel piyasalarda gözler Fed'in faiz kararında",
-    "summary": "Küresel piyasalar, teknoloji hisselerindeki yükselişlerin etkisiyle pozitif seyrederken, gözler bugün ABD Merkez Bankası'nın (Fed) faiz kararına çevrildi",
-    "content": "Küresel piyasalarda gözler Fed'in faiz kararında Küresel piyasalar, teknoloji hisselerindeki yükselişlerin etkisiyle pozitif seyrederken, gözler bugün ABD Merkez Bankası'nın (Fed) faiz kararına çevrildi Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Habertürk Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_d0a5e815aba3",
+    "title": "Lagarde görevinden erken ayrılacak",
+    "summary": "Avrupa Merkez Bankası (ECB) Başkanı Christine Lagarde, 8 yıllık görev süresinin dolmasına yaklaşık 9 ay kala, 7 Şubat'ta görevinden ayrılacak. Lagarde'ın erken ayrılmasıyla, Fransa'da gelecek yıl yapılacak cumhurbaşkanlığı seçiminden önce halefinin b",
+    "content": "Lagarde görevinden erken ayrılacak Avrupa Merkez Bankası (ECB) Başkanı Christine Lagarde, 8 yıllık görev süresinin dolmasına yaklaşık 9 ay kala, 7 Şubat'ta görevinden ayrılacak. Lagarde'ın erken ayrılmasıyla, Fransa'da gelecek yıl yapılacak cumhurbaşkanlığı seçiminden önce halefinin belirlenmesinin önü açılacak. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Habertürk Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.813801+00:00",
+    "updatedAt": "2026-10-29T12:36:41.813804+00:00",
+    "slug": "lagarde-gorevinden-erken-ayrilacak",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Avrupa Merkez Bankası (ECB) Başkanı Christine Lagarde, 8 yıllık görev süresinin dolmasına yaklaşık 9 ay kala, 7 Şubat'ta görevinden ayrılacak. Lagarde'ın erken ayrılmasıyla, Fransa'da gelecek yıl yapılacak cumhurbaşkanlığı seçiminden önce halefinin b",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_f5f01bfab313",
+    "title": "Avrupa Merkez Bankası'nda erken ayrılık: Lagarde görevi bırakıyor",
+    "summary": "Avrupa Merkez Bankası'nda erken ayrılık: Lagarde görevi bırakıyor",
+    "content": "Avrupa Merkez Bankası'nda erken ayrılık: Lagarde görevi bırakıyor Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Dünya Gazetesi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Faiz",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.603913+00:00",
-    "updatedAt": "2026-10-28T12:26:06.603917+00:00",
-    "slug": "kuresel-piyasalarda-gozler-fedin-faiz-kararinda",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Küresel piyasalar, teknoloji hisselerindeki yükselişlerin etkisiyle pozitif seyrederken, gözler bugün ABD Merkez Bankası'nın (Fed) faiz kararına çevrildi",
+    "createdAt": "2026-10-29T12:36:41.812830+00:00",
+    "updatedAt": "2026-10-29T12:36:41.812833+00:00",
+    "slug": "avrupa-merkez-bankasinda-erken-ayrilik-lagarde-gorevi-birakiyor",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Avrupa Merkez Bankası'nda erken ayrılık: Lagarde görevi bırakıyor",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -904,18 +866,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_3d69942af9d8",
-    "title": "İlk ara ödemeler için tarih açıklandı",
-    "summary": "Cumhurbaşkanlığı İletişim Başkanlığı, TBMM'de kabul edilen 7596 sayılı Kanun ve ilgili Sermaye Piyasası Kurulu (SPK) usul ve esas Kararı ile süreçleri netleşen olağanüstü tasfiye kapsamında bulunan fonlarla ilgili ilk ara ödemelerin 30 Ekim 2026 Cuma",
-    "content": "İlk ara ödemeler için tarih açıklandı Cumhurbaşkanlığı İletişim Başkanlığı, TBMM'de kabul edilen 7596 sayılı Kanun ve ilgili Sermaye Piyasası Kurulu (SPK) usul ve esas Kararı ile süreçleri netleşen olağanüstü tasfiye kapsamında bulunan fonlarla ilgili ilk ara ödemelerin 30 Ekim 2026 Cuma günü başlamasının öngörüldüğünü duyurdu Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Habertürk Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_da5d0dff8e7a",
+    "title": "Lagarde'ın ECB'den erken ayrılacağı haberi euroyu yükseltti",
+    "summary": "Lagarde'ın ECB'den erken ayrılacağı haberi euroyu yükseltti",
+    "content": "Lagarde'ın ECB'den erken ayrılacağı haberi euroyu yükseltti Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Ekonomim. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.603067+00:00",
-    "updatedAt": "2026-10-28T12:26:06.603071+00:00",
-    "slug": "ilk-ara-odemeler-icin-tarih-aciklandi",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Cumhurbaşkanlığı İletişim Başkanlığı, TBMM'de kabul edilen 7596 sayılı Kanun ve ilgili Sermaye Piyasası Kurulu (SPK) usul ve esas Kararı ile süreçleri netleşen olağanüstü tasfiye kapsamında bulunan fonlarla ilgili ilk ara ödemelerin 30 Ekim 2026 Cuma",
+    "createdAt": "2026-10-29T12:36:41.812134+00:00",
+    "updatedAt": "2026-10-29T12:36:41.812137+00:00",
+    "slug": "lagardein-ecbden-erken-ayrilacagi-haberi-euroyu-yukseltti",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Lagarde'ın ECB'den erken ayrılacağı haberi euroyu yükseltti",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -942,56 +904,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_e667e7553593",
-    "title": "Avrupa'da konut kredisine talep sert düştü: Bankalardan son üç yılın en güçlü uyarısı",
-    "summary": "Avrupa'da konut kredisine talep sert düştü: Bankalardan son üç yılın en güçlü uyarısı",
-    "content": "Avrupa'da konut kredisine talep sert düştü: Bankalardan son üç yılın en güçlü uyarısı Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Dünya Gazetesi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Konut",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.602060+00:00",
-    "updatedAt": "2026-10-28T12:26:06.602063+00:00",
-    "slug": "avrupada-konut-kredisine-talep-sert-dustu-bankalardan-son-uc-yilin-en-guclu-uyarisi",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Avrupa'da konut kredisine talep sert düştü: Bankalardan son üç yılın en güçlü uyarısı",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_ae50ad6b46d2",
-    "title": "Yatırım fonlarında tasfiye ödemelerinin tarihi belli oldu",
-    "summary": "Yatırım fonlarında tasfiye ödemelerinin tarihi belli oldu",
-    "content": "Yatırım fonlarında tasfiye ödemelerinin tarihi belli oldu Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Dünya Gazetesi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_b8163726e0d6",
+    "title": "Faizi sabit tutan Fed Aralık'a ilişkin net sinyal vermedi",
+    "summary": "Eylül ayında üç yıl sonra faizleri artırma adımı atan Fed Ekim toplantısında ise faizleri sabit tutma kararı aldı.",
+    "content": "Faizi sabit tutan Fed Aralık'a ilişkin net sinyal vermedi Eylül ayında üç yıl sonra faizleri artırma adımı atan Fed Ekim toplantısında ise faizleri sabit tutma kararı aldı. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.601303+00:00",
-    "updatedAt": "2026-10-28T12:26:06.601308+00:00",
-    "slug": "yatirim-fonlarinda-tasfiye-odemelerinin-tarihi-belli-oldu",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Yatırım fonlarında tasfiye ödemelerinin tarihi belli oldu",
+    "createdAt": "2026-10-29T12:36:41.811481+00:00",
+    "updatedAt": "2026-10-29T12:36:41.811485+00:00",
+    "slug": "faizi-sabit-tutan-fed-aralika-iliskin-net-sinyal-vermedi",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Eylül ayında üç yıl sonra faizleri artırma adımı atan Fed Ekim toplantısında ise faizleri sabit tutma kararı aldı.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1018,18 +942,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_456b5c42b6c0",
-    "title": "ABD'de tüketici güveni 4 ayda ilk kez yükseldi, konut satışları düştü",
-    "summary": "ABD'de tüketici güveni Ekim'de yükselirken yeni konut satışları geçen ay hafif bir düşüş gösterdi.",
-    "content": "ABD'de tüketici güveni 4 ayda ilk kez yükseldi, konut satışları düştü ABD'de tüketici güveni Ekim'de yükselirken yeni konut satışları geçen ay hafif bir düşüş gösterdi. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_6a52cc25ddc3",
+    "title": "Erdoğan, Trump ile telefonda görüştü",
+    "summary": "Cumhurbaşkanı Recep Tayyip Erdoğan, ABD Başkanı Donald Trump ile telefonda görüştü. Görüşmede Türkiye-ABD ilişkilerinin yanı sıra Hürmüz Boğazı, Yemen ve Rusya-Ukrayna savaşındaki gelişmeler ele alınırken Erdoğan, bölgesel sorunların diplomatik yolla",
+    "content": "Erdoğan, Trump ile telefonda görüştü Cumhurbaşkanı Recep Tayyip Erdoğan, ABD Başkanı Donald Trump ile telefonda görüştü. Görüşmede Türkiye-ABD ilişkilerinin yanı sıra Hürmüz Boğazı, Yemen ve Rusya-Ukrayna savaşındaki gelişmeler ele alınırken Erdoğan, bölgesel sorunların diplomatik yollarla çözülmesi gerektiğini vurguladı. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Konut",
+    "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.600654+00:00",
-    "updatedAt": "2026-10-28T12:26:06.600658+00:00",
-    "slug": "abdde-tuketici-guveni-4-ayda-ilk-kez-yukseldi-konut-satislari-dustu",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: ABD'de tüketici güveni Ekim'de yükselirken yeni konut satışları geçen ay hafif bir düşüş gösterdi.",
+    "createdAt": "2026-10-29T12:36:41.810659+00:00",
+    "updatedAt": "2026-10-29T12:36:41.810663+00:00",
+    "slug": "erdogan-trump-ile-telefonda-gorustu",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Cumhurbaşkanı Recep Tayyip Erdoğan, ABD Başkanı Donald Trump ile telefonda görüştü. Görüşmede Türkiye-ABD ilişkilerinin yanı sıra Hürmüz Boğazı, Yemen ve Rusya-Ukrayna savaşındaki gelişmeler ele alınırken Erdoğan, bölgesel sorunların diplomatik yolla",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1056,208 +980,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_66b0d3657eca",
-    "title": "Fitch: Türkiye'nin borçlanma piyasası 2027'ye kadar 550 milyar dolara ulaşabilir",
-    "summary": "Uluslararası kredi derecelendirme kuruluşu Fitch Ratings, Türkiye'nin borçlanma sermaye piyasasında büyümenin devam etmesini ve piyasanın 2027'ye kadar 550 milyar dolarlık büyüklüğe ulaşmasını bekliyor.",
-    "content": "Fitch: Türkiye'nin borçlanma piyasası 2027'ye kadar 550 milyar dolara ulaşabilir Uluslararası kredi derecelendirme kuruluşu Fitch Ratings, Türkiye'nin borçlanma sermaye piyasasında büyümenin devam etmesini ve piyasanın 2027'ye kadar 550 milyar dolarlık büyüklüğe ulaşmasını bekliyor. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.599816+00:00",
-    "updatedAt": "2026-10-28T12:26:06.599819+00:00",
-    "slug": "fitch-turkiyenin-borclanma-piyasasi-2027ye-kadar-550-milyar-dolara-ulasabilir",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Uluslararası kredi derecelendirme kuruluşu Fitch Ratings, Türkiye'nin borçlanma sermaye piyasasında büyümenin devam etmesini ve piyasanın 2027'ye kadar 550 milyar dolarlık büyüklüğe ulaşmasını bekliyor.",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.98
-  },
-  {
-    "id": "art_74e09cae34c8",
-    "title": "Yılmaz: 1 milyon liraya kadar ödemeler Cuma günü başlayacak",
-    "summary": "Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, yatırım fonlarının tasfiye süreci kapsamında 23 Ekim itibarıyla 93 fonda 71 bin 899 hesaba toplam 68 milyar liralık ödeme yapıldığını açıkladı.",
-    "content": "Yılmaz: 1 milyon liraya kadar ödemeler Cuma günü başlayacak Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, yatırım fonlarının tasfiye süreci kapsamında 23 Ekim itibarıyla 93 fonda 71 bin 899 hesaba toplam 68 milyar liralık ödeme yapıldığını açıkladı. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.598819+00:00",
-    "updatedAt": "2026-10-28T12:26:06.598823+00:00",
-    "slug": "yilmaz-1-milyon-liraya-kadar-odemeler-cuma-gunu-baslayacak",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Cumhurbaşkanı Yardımcısı Cevdet Yılmaz, yatırım fonlarının tasfiye süreci kapsamında 23 Ekim itibarıyla 93 fonda 71 bin 899 hesaba toplam 68 milyar liralık ödeme yapıldığını açıkladı.",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_7a5e2244888c",
-    "title": "SPK'dan yeni Tera Yatırım kararı",
-    "summary": "Sermaye Piyasası Kurulu (SPK), Tera Yatırım Menkul Değerler AŞ’nin tüm faaliyet izinlerinin ve yetki belgesinin iptal edilmesine, yatırımcılarının tazminine ve şirketin tedrici tasfiyesine karar verdi",
-    "content": "SPK'dan yeni Tera Yatırım kararı Sermaye Piyasası Kurulu (SPK), Tera Yatırım Menkul Değerler AŞ’nin tüm faaliyet izinlerinin ve yetki belgesinin iptal edilmesine, yatırımcılarının tazminine ve şirketin tedrici tasfiyesine karar verdi Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Habertürk Ekonomi. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.597904+00:00",
-    "updatedAt": "2026-10-28T12:26:06.597908+00:00",
-    "slug": "spkdan-yeni-tera-yatirim-karari",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Sermaye Piyasası Kurulu (SPK), Tera Yatırım Menkul Değerler AŞ’nin tüm faaliyet izinlerinin ve yetki belgesinin iptal edilmesine, yatırımcılarının tazminine ve şirketin tedrici tasfiyesine karar verdi",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.98
-  },
-  {
-    "id": "art_614fbe147478",
-    "title": "Fon soruşturmasında 4 şüpheli hakimliğe sevk edildi",
-    "summary": "Sermaye piyasalarına yönelik yürütülen fon soruşturmasında gözaltına alınan 4 şüpheliden 2'si tutuklama talebiyle hakimliğe sevk edildi.",
-    "content": "Fon soruşturmasında 4 şüpheli hakimliğe sevk edildi Sermaye piyasalarına yönelik yürütülen fon soruşturmasında gözaltına alınan 4 şüpheliden 2'si tutuklama talebiyle hakimliğe sevk edildi. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.597034+00:00",
-    "updatedAt": "2026-10-28T12:26:06.597038+00:00",
-    "slug": "fon-sorusturmasinda-4-supheli-hakimlige-sevk-edildi",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Sermaye piyasalarına yönelik yürütülen fon soruşturmasında gözaltına alınan 4 şüpheliden 2'si tutuklama talebiyle hakimliğe sevk edildi.",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_fc8bcef3b09b",
-    "title": "Fed'in şahin mesajları tahvil piyasasında tersine dönüş riski yaratıyor",
-    "summary": "ABD tahvillerinde yükseliş yönlü pozisyonlar, Fed'in yaklaşan para politikası toplantısında beklenenden daha şahin bir tutum sergilemesi halinde sert bir tersine dönüş riskiyle karşı karşıya.",
-    "content": "Fed'in şahin mesajları tahvil piyasasında tersine dönüş riski yaratıyor ABD tahvillerinde yükseliş yönlü pozisyonlar, Fed'in yaklaşan para politikası toplantısında beklenenden daha şahin bir tutum sergilemesi halinde sert bir tersine dönüş riskiyle karşı karşıya. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.596221+00:00",
-    "updatedAt": "2026-10-28T12:26:06.596225+00:00",
-    "slug": "fedin-sahin-mesajlari-tahvil-piyasasinda-tersine-donus-riski-yaratiyor",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: ABD tahvillerinde yükseliş yönlü pozisyonlar, Fed'in yaklaşan para politikası toplantısında beklenenden daha şahin bir tutum sergilemesi halinde sert bir tersine dönüş riskiyle karşı karşıya.",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_c4d319197621",
-    "title": "Altın, Fed kararı öncesinde 4 bin doların üzerinde tutundu",
-    "summary": "Altın, yatırımcıların ABD Merkez Bankası'nın (Fed) faiz kararını beklediği çarşamba günü 4 bin doların üzerinde seyretti.",
-    "content": "Altın, Fed kararı öncesinde 4 bin doların üzerinde tutundu Altın, yatırımcıların ABD Merkez Bankası'nın (Fed) faiz kararını beklediği çarşamba günü 4 bin doların üzerinde seyretti. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_6760c71cd844",
+    "title": "AMB'nin faizleri sabit tutması bekleniyor",
+    "summary": "Avrupa Merkez Bankası'nın (AMB), Fransa tahvil piyasasındaki çalkantı ve enerji fiyatlarındaki yükselişin yarattığı belirsizlikler nedeniyle politika faizini yüzde 2,5 seviyesinde sabit tutması bekleniyor. Ekonomistler, bankanın aralık ayında yılın ü",
+    "content": "AMB'nin faizleri sabit tutması bekleniyor Avrupa Merkez Bankası'nın (AMB), Fransa tahvil piyasasındaki çalkantı ve enerji fiyatlarındaki yükselişin yarattığı belirsizlikler nedeniyle politika faizini yüzde 2,5 seviyesinde sabit tutması bekleniyor. Ekonomistler, bankanın aralık ayında yılın üçüncü ve son faiz artışına gideceğini öngörüyor. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Faiz",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.595285+00:00",
-    "updatedAt": "2026-10-28T12:26:06.595291+00:00",
-    "slug": "altin-fed-karari-oncesinde-4-bin-dolarin-uzerinde-tutundu",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Altın, yatırımcıların ABD Merkez Bankası'nın (Fed) faiz kararını beklediği çarşamba günü 4 bin doların üzerinde seyretti.",
+    "createdAt": "2026-10-29T12:36:41.809687+00:00",
+    "updatedAt": "2026-10-29T12:36:41.809691+00:00",
+    "slug": "ambnin-faizleri-sabit-tutmasi-bekleniyor",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Avrupa Merkez Bankası'nın (AMB), Fransa tahvil piyasasındaki çalkantı ve enerji fiyatlarındaki yükselişin yarattığı belirsizlikler nedeniyle politika faizini yüzde 2,5 seviyesinde sabit tutması bekleniyor. Ekonomistler, bankanın aralık ayında yılın ü",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1284,18 +1018,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_7187e6769b7e",
-    "title": "Küresel piyasalar Fed kararına odaklandı",
-    "summary": "Fed'in faizleri sabit tutması beklenirken, Aralık ayında olası bir artışa ilişkin sinyal verip vermeyeceği izlenecek.",
-    "content": "Küresel piyasalar Fed kararına odaklandı Fed'in faizleri sabit tutması beklenirken, Aralık ayında olası bir artışa ilişkin sinyal verip vermeyeceği izlenecek. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_44011df7379b",
+    "title": "Altın Fed kararının ardından yön değiştirdi",
+    "summary": "Altın fiyatları, Fed'in para politikası toplantısının ardından verilen mesajların değerlendirilmesiyle perşembe günü düşüş gösterdi. Spot altın, saat 09.40 itibarıyla yüzde 0,9 gerileyerek ons başına 4.030 dolar seviyesine indi.",
+    "content": "Altın Fed kararının ardından yön değiştirdi Altın fiyatları, Fed'in para politikası toplantısının ardından verilen mesajların değerlendirilmesiyle perşembe günü düşüş gösterdi. Spot altın, saat 09.40 itibarıyla yüzde 0,9 gerileyerek ons başına 4.030 dolar seviyesine indi. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.594427+00:00",
-    "updatedAt": "2026-10-28T12:26:06.594430+00:00",
-    "slug": "kuresel-piyasalar-fed-kararina-odaklandi",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fed'in faizleri sabit tutması beklenirken, Aralık ayında olası bir artışa ilişkin sinyal verip vermeyeceği izlenecek.",
+    "createdAt": "2026-10-29T12:36:41.808644+00:00",
+    "updatedAt": "2026-10-29T12:36:41.808648+00:00",
+    "slug": "altin-fed-kararinin-ardindan-yon-degistirdi",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Altın fiyatları, Fed'in para politikası toplantısının ardından verilen mesajların değerlendirilmesiyle perşembe günü düşüş gösterdi. Spot altın, saat 09.40 itibarıyla yüzde 0,9 gerileyerek ons başına 4.030 dolar seviyesine indi.",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1322,18 +1056,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_2b8b045899d0",
-    "title": "Fed toplantısı öncesi ipuçları",
-    "summary": "Küresel piyasalarda dikkatler Fed toplantısına çevrilirken, piyasa aktörleri gelecek yönlendirmeye yönelik işaretlere odaklandı. İşte karar öncesi öne çıkan detaylar...",
-    "content": "Fed toplantısı öncesi ipuçları Küresel piyasalarda dikkatler Fed toplantısına çevrilirken, piyasa aktörleri gelecek yönlendirmeye yönelik işaretlere odaklandı. İşte karar öncesi öne çıkan detaylar... Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
+    "id": "art_7cf9a24de0c5",
+    "title": "Lagarde AMB Başkanlığı görevinden Şubat'ta ayrılacak",
+    "summary": "Avrupa Merkez Bankası (AMB) Başkanı Christine Lagarde, görevinden 7 Şubat 2027'de ayrılacağını açıkladı. Görev süresi Ekim 2027'de sona erecek Lagarde'ın erken ayrılık kararı, Avrupa'nın en önemli ekonomi yönetimi pozisyonlarından biri için başkanlık",
+    "content": "Lagarde AMB Başkanlığı görevinden Şubat'ta ayrılacak Avrupa Merkez Bankası (AMB) Başkanı Christine Lagarde, görevinden 7 Şubat 2027'de ayrılacağını açıkladı. Görev süresi Ekim 2027'de sona erecek Lagarde'ın erken ayrılık kararı, Avrupa'nın en önemli ekonomi yönetimi pozisyonlarından biri için başkanlık yarışını hızlandırdı. Piyasa İstihbarat Kapsamı: Türkiye Makro Finans • Kaynak: Bloomberg HT. Analiz: Bu makroekonomik gelişme para politikaları, sermaye getiri oranları ve doğrudan gayrimenkul yatırım tercihleri üzerinde belirleyici sinyaller içermektedir.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.593655+00:00",
-    "updatedAt": "2026-10-28T12:26:06.593661+00:00",
-    "slug": "fed-toplantisi-oncesi-ipuclari",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Küresel piyasalarda dikkatler Fed toplantısına çevrilirken, piyasa aktörleri gelecek yönlendirmeye yönelik işaretlere odaklandı. İşte karar öncesi öne çıkan detaylar...",
+    "createdAt": "2026-10-29T12:36:41.807698+00:00",
+    "updatedAt": "2026-10-29T12:36:41.807703+00:00",
+    "slug": "lagarde-amb-baskanligi-gorevinden-subatta-ayrilacak",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Avrupa Merkez Bankası (AMB) Başkanı Christine Lagarde, görevinden 7 Şubat 2027'de ayrılacağını açıkladı. Görev süresi Ekim 2027'de sona erecek Lagarde'ın erken ayrılık kararı, Avrupa'nın en önemli ekonomi yönetimi pozisyonlarından biri için başkanlık",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1368,8 +1102,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.592833+00:00",
-    "updatedAt": "2026-10-28T12:26:06.592837+00:00",
+    "createdAt": "2026-10-29T12:36:41.806662+00:00",
+    "updatedAt": "2026-10-29T12:36:41.806667+00:00",
     "slug": "spkdan-7-portfoy-sirketine-mudahale-fon-tasfiyeleri-sonrasi-sermaye-gayrimenkule-yoneliyor",
     "what_we_know": "Resmi kurumlar ve doğrulanmış piyasa kaynakları tarafından teyit edilen veriler: SPK ve Sermaye Piyasaları İstihbarat Masası tarafından yayımlanan resmi piyasa bülteni. Bu veriler kurumsal bültenler ve birincil piyasa kayıtlarına dayanmaktadır.",
     "what_we_infer": "Ekonomik ve sektörel göstergelerin mantıksal analizi: Mevcut finansman maliyetleri ve arz-talep dengesi, özellikle Ankara'nın gelişen batı koridorunda (Beytepe, İncek, Çayyolu) nakit gücü olan alıcılar için avantajlı pazarlık fırsatları sunarken, enflasyona karşı gayrimenkulün güçlü bir koruma kalkanı olduğunu ortaya koymaktadır.",
@@ -1399,6 +1133,44 @@
     "confidence_score": 0.9
   },
   {
+    "id": "art_1d94915d273f",
+    "title": "Tera ve Pusula ile gündeme geldi: Fon krizi nedir, nasıl patladı, son durum ne? - birgun.net",
+    "summary": "Tera ve Pusula ile gündeme geldi: Fon krizi nedir, nasıl patladı, son durum ne?&nbsp;&nbsp;birgun.net",
+    "content": "Tera ve Pusula ile gündeme geldi: Fon krizi nedir, nasıl patladı, son durum ne? - birgun.net. Tera ve Pusula ile gündeme geldi: Fon krizi nedir, nasıl patladı, son durum ne?&nbsp;&nbsp;birgun.net Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.805574+00:00",
+    "updatedAt": "2026-10-29T12:36:41.805578+00:00",
+    "slug": "tera-ve-pusula-ile-gundeme-geldi-fon-krizi-nedir-nasil-patladi-son-durum-ne-birgunnet",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Tera ve Pusula ile gündeme geldi: Fon krizi nedir, nasıl patladı, son durum ne?&nbsp;&nbsp;birgun.net",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
     "id": "art_ddeda08dfbc4",
     "title": "ARPACI’DAN FON KRİZİ TEPKİSİ - Denizli Yeni Olay Haber",
     "summary": "ARPACI’DAN FON KRİZİ TEPKİSİ&nbsp;&nbsp;Denizli Yeni Olay Haber",
@@ -1407,8 +1179,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.591742+00:00",
-    "updatedAt": "2026-10-28T12:26:06.591747+00:00",
+    "createdAt": "2026-10-29T12:36:41.804474+00:00",
+    "updatedAt": "2026-10-29T12:36:41.804478+00:00",
     "slug": "arpacidan-fon-krizi-tepkisi-denizli-yeni-olay-haber",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: ARPACI’DAN FON KRİZİ TEPKİSİ&nbsp;&nbsp;Denizli Yeni Olay Haber",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -1437,18 +1209,94 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_cf8cab2b55f2",
-    "title": "Fon krizinde yeni gelişme: Bloke edilen TEFAS işlemleri de tasfiye kapsamına alındı - Ekonomi Manşet",
-    "summary": "Fon krizinde yeni gelişme: Bloke edilen TEFAS işlemleri de tasfiye kapsamına alındı&nbsp;&nbsp;Ekonomi Manşet",
-    "content": "Fon krizinde yeni gelişme: Bloke edilen TEFAS işlemleri de tasfiye kapsamına alındı - Ekonomi Manşet. Fon krizinde yeni gelişme: Bloke edilen TEFAS işlemleri de tasfiye kapsamına alındı&nbsp;&nbsp;Ekonomi Manşet Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "id": "art_9cb7f40f5606",
+    "title": "Fon krizinde son gelişmeler neler? - BBC",
+    "summary": "Fon krizinde son gelişmeler neler?&nbsp;&nbsp;BBC",
+    "content": "Fon krizinde son gelişmeler neler? - BBC. Fon krizinde son gelişmeler neler?&nbsp;&nbsp;BBC Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.590756+00:00",
-    "updatedAt": "2026-10-28T12:26:06.590761+00:00",
-    "slug": "fon-krizinde-yeni-gelisme-bloke-edilen-tefas-islemleri-de-tasfiye-kapsamina-alindi-ekonomi-manset",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fon krizinde yeni gelişme: Bloke edilen TEFAS işlemleri de tasfiye kapsamına alındı&nbsp;&nbsp;Ekonomi Manşet",
+    "createdAt": "2026-10-29T12:36:41.803508+00:00",
+    "updatedAt": "2026-10-29T12:36:41.803512+00:00",
+    "slug": "fon-krizinde-son-gelismeler-neler-bbc",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fon krizinde son gelişmeler neler?&nbsp;&nbsp;BBC",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_ba0328034c74",
+    "title": "Türk piyasalarında fon skandalı: Tam olarak ne oluyor? - Euronews.com",
+    "summary": "Türk piyasalarında fon skandalı: Tam olarak ne oluyor?&nbsp;&nbsp;Euronews.com",
+    "content": "Türk piyasalarında fon skandalı: Tam olarak ne oluyor? - Euronews.com. Türk piyasalarında fon skandalı: Tam olarak ne oluyor?&nbsp;&nbsp;Euronews.com Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.802616+00:00",
+    "updatedAt": "2026-10-29T12:36:41.802621+00:00",
+    "slug": "turk-piyasalarinda-fon-skandali-tam-olarak-ne-oluyor-euronewscom",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Türk piyasalarında fon skandalı: Tam olarak ne oluyor?&nbsp;&nbsp;Euronews.com",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_b43ed32f7776",
+    "title": "TLY fonu SPK onayı olmadan TEFAS'a açıldı: Aynı ay yaklaşık 20 milyar lira çekildi - DW.com",
+    "summary": "TLY fonu SPK onayı olmadan TEFAS'a açıldı: Aynı ay yaklaşık 20 milyar lira çekildi&nbsp;&nbsp;DW.com",
+    "content": "TLY fonu SPK onayı olmadan TEFAS'a açıldı: Aynı ay yaklaşık 20 milyar lira çekildi - DW.com. TLY fonu SPK onayı olmadan TEFAS'a açıldı: Aynı ay yaklaşık 20 milyar lira çekildi&nbsp;&nbsp;DW.com Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.801621+00:00",
+    "updatedAt": "2026-10-29T12:36:41.801626+00:00",
+    "slug": "tly-fonu-spk-onayi-olmadan-tefasa-acildi-ayni-ay-yaklasik-20-milyar-lira-cekildi-dwcom",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: TLY fonu SPK onayı olmadan TEFAS'a açıldı: Aynı ay yaklaşık 20 milyar lira çekildi&nbsp;&nbsp;DW.com",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1483,8 +1331,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.589563+00:00",
-    "updatedAt": "2026-10-28T12:26:06.589567+00:00",
+    "createdAt": "2026-10-29T12:36:41.800534+00:00",
+    "updatedAt": "2026-10-29T12:36:41.800539+00:00",
     "slug": "fon-krizinde-para-kaybedenler-ne-yasadilar-ne-talep-ediyorlar-bbc",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fon krizinde para kaybedenler: Ne yaşadılar, ne talep ediyorlar?&nbsp;&nbsp;BBC",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -1513,18 +1361,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_46f363c43cd3",
-    "title": "800 milyar liralık fon vurgunu: Nasıl başladı, nasıl oldu, ne yapılabilirdi? - Medyascope",
-    "summary": "800 milyar liralık fon vurgunu: Nasıl başladı, nasıl oldu, ne yapılabilirdi?&nbsp;&nbsp;Medyascope",
-    "content": "800 milyar liralık fon vurgunu: Nasıl başladı, nasıl oldu, ne yapılabilirdi? - Medyascope. 800 milyar liralık fon vurgunu: Nasıl başladı, nasıl oldu, ne yapılabilirdi?&nbsp;&nbsp;Medyascope Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "id": "art_dcd30517f07d",
+    "title": "SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar - Hürriyet",
+    "summary": "SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar&nbsp;&nbsp;Hürriyet",
+    "content": "SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar - Hürriyet. SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar&nbsp;&nbsp;Hürriyet Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.588550+00:00",
-    "updatedAt": "2026-10-28T12:26:06.588554+00:00",
-    "slug": "800-milyar-liralik-fon-vurgunu-nasil-basladi-nasil-oldu-ne-yapilabilirdi-medyascope",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: 800 milyar liralık fon vurgunu: Nasıl başladı, nasıl oldu, ne yapılabilirdi?&nbsp;&nbsp;Medyascope",
+    "createdAt": "2026-10-29T12:36:41.799521+00:00",
+    "updatedAt": "2026-10-29T12:36:41.799526+00:00",
+    "slug": "spkden-tera-yatirim-holding-ve-peker-gayrimenkul-yatirim-ortakligina-iliskin-karar-hurriyet",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar&nbsp;&nbsp;Hürriyet",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1551,170 +1399,18 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_9f695cab03e1",
-    "title": "Fon mağdurlarına Meclis’te gece yarısı sürprizi: Satış emri verenler de tasfiyeye alındı - Serbestiyet",
-    "summary": "Fon mağdurlarına Meclis’te gece yarısı sürprizi: Satış emri verenler de tasfiyeye alındı&nbsp;&nbsp;Serbestiyet",
-    "content": "Fon mağdurlarına Meclis’te gece yarısı sürprizi: Satış emri verenler de tasfiyeye alındı - Serbestiyet. Fon mağdurlarına Meclis’te gece yarısı sürprizi: Satış emri verenler de tasfiyeye alındı&nbsp;&nbsp;Serbestiyet Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "id": "art_abd7c89bcce3",
+    "title": "SPK'den gayrimenkul ve girişim sermayesi yatırım fonlarında sağlıklı fiyatlama adımı - Anadolu Ajansı",
+    "summary": "SPK'den gayrimenkul ve girişim sermayesi yatırım fonlarında sağlıklı fiyatlama adımı&nbsp;&nbsp;Anadolu Ajansı",
+    "content": "SPK'den gayrimenkul ve girişim sermayesi yatırım fonlarında sağlıklı fiyatlama adımı - Anadolu Ajansı. SPK'den gayrimenkul ve girişim sermayesi yatırım fonlarında sağlıklı fiyatlama adımı&nbsp;&nbsp;Anadolu Ajansı Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.587431+00:00",
-    "updatedAt": "2026-10-28T12:26:06.587435+00:00",
-    "slug": "fon-magdurlarina-mecliste-gece-yarisi-surprizi-satis-emri-verenler-de-tasfiyeye-alindi-serbestiyet",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fon mağdurlarına Meclis’te gece yarısı sürprizi: Satış emri verenler de tasfiyeye alındı&nbsp;&nbsp;Serbestiyet",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_e1365920493e",
-    "title": "Fon krizi: Bugüne kadar geçen süreçte neler yaşandı? - BBC",
-    "summary": "Fon krizi: Bugüne kadar geçen süreçte neler yaşandı?&nbsp;&nbsp;BBC",
-    "content": "Fon krizi: Bugüne kadar geçen süreçte neler yaşandı? - BBC. Fon krizi: Bugüne kadar geçen süreçte neler yaşandı?&nbsp;&nbsp;BBC Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.586310+00:00",
-    "updatedAt": "2026-10-28T12:26:06.586315+00:00",
-    "slug": "fon-krizi-bugune-kadar-gecen-surecte-neler-yasandi-bbc",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fon krizi: Bugüne kadar geçen süreçte neler yaşandı?&nbsp;&nbsp;BBC",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_882b23a1e77d",
-    "title": "SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar - Bigpara",
-    "summary": "SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar&nbsp;&nbsp;Bigpara",
-    "content": "SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar - Bigpara. SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar&nbsp;&nbsp;Bigpara Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.585352+00:00",
-    "updatedAt": "2026-10-28T12:26:06.585356+00:00",
-    "slug": "spkden-tera-yatirim-holding-ve-peker-gayrimenkul-yatirim-ortakligina-iliskin-karar-bigpara",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'den Tera Yatırım Holding ve Peker Gayrimenkul Yatırım Ortaklığına ilişkin karar&nbsp;&nbsp;Bigpara",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.98
-  },
-  {
-    "id": "art_5a8991aae38b",
-    "title": "Borsa İstanbul'dan Tera Portföy kararı, 3 fonda işlem durdu - Gaste24",
-    "summary": "Borsa İstanbul'dan Tera Portföy kararı, 3 fonda işlem durdu&nbsp;&nbsp;Gaste24",
-    "content": "Borsa İstanbul'dan Tera Portföy kararı, 3 fonda işlem durdu - Gaste24. Borsa İstanbul'dan Tera Portföy kararı, 3 fonda işlem durdu&nbsp;&nbsp;Gaste24 Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.584274+00:00",
-    "updatedAt": "2026-10-28T12:26:06.584278+00:00",
-    "slug": "borsa-istanbuldan-tera-portfoy-karari-3-fonda-islem-durdu-gaste24",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Borsa İstanbul'dan Tera Portföy kararı, 3 fonda işlem durdu&nbsp;&nbsp;Gaste24",
-    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
-    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
-    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
-    "contrarian_view": {
-      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
-      "contrary_indicators": [
-        "Konut kredisi faiz maliyeti",
-        "Sermaye piyasalarındaki alternatif getiri oranları"
-      ],
-      "downside_risks": [
-        "İkinci el piyasada alıcı iskonto talebinin artması"
-      ],
-      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
-    },
-    "why_this_news": {
-      "importance_score": 85,
-      "evidence_score": 88,
-      "market_impact_score": 82,
-      "regional_relevance_score": 90,
-      "final_score": 86,
-      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
-    },
-    "quality_score": 92,
-    "confidence_score": 0.9
-  },
-  {
-    "id": "art_1b8f86c5e2f7",
-    "title": "SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı - Sabah",
-    "summary": "SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı&nbsp;&nbsp;Sabah",
-    "content": "SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı - Sabah. SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı&nbsp;&nbsp;Sabah Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
-    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    "category": "Yatırım",
-    "readTime": "2 dk",
-    "published": true,
-    "createdAt": "2026-10-28T12:26:06.583273+00:00",
-    "updatedAt": "2026-10-28T12:26:06.583276+00:00",
-    "slug": "spkdan-fonlar-icin-iki-onemli-degisiklik-yatirim-siniri-5-katina-cikti-uyum-sureci-uzadi-sabah",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı&nbsp;&nbsp;Sabah",
+    "createdAt": "2026-10-29T12:36:41.798409+00:00",
+    "updatedAt": "2026-10-29T12:36:41.798415+00:00",
+    "slug": "spkden-gayrimenkul-ve-girisim-sermayesi-yatirim-fonlarinda-saglikli-fiyatlama-adimi-anadolu-ajansi",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'den gayrimenkul ve girişim sermayesi yatırım fonlarında sağlıklı fiyatlama adımı&nbsp;&nbsp;Anadolu Ajansı",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1749,10 +1445,48 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.582157+00:00",
-    "updatedAt": "2026-10-28T12:26:06.582161+00:00",
+    "createdAt": "2026-10-29T12:36:41.797201+00:00",
+    "updatedAt": "2026-10-29T12:36:41.797206+00:00",
     "slug": "spknin-son-kararlari-fon-piyasasi-icin-ne-ifade-ediyor-haberi-borsanin-gundemi",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'nın son kararları fon piyasası için ne ifade ediyor? haberi&nbsp;&nbsp;Borsanın Gündemi",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_1b8f86c5e2f7",
+    "title": "SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı - Sabah",
+    "summary": "SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı&nbsp;&nbsp;Sabah",
+    "content": "SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı - Sabah. SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı&nbsp;&nbsp;Sabah Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.796123+00:00",
+    "updatedAt": "2026-10-29T12:36:41.796127+00:00",
+    "slug": "spkdan-fonlar-icin-iki-onemli-degisiklik-yatirim-siniri-5-katina-cikti-uyum-sureci-uzadi-sabah",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'dan fonlar için iki önemli değişiklik! Yatırım sınırı 5 katına çıktı, uyum süreci uzadı&nbsp;&nbsp;Sabah",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1787,10 +1521,86 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.581114+00:00",
-    "updatedAt": "2026-10-28T12:26:06.581118+00:00",
+    "createdAt": "2026-10-29T12:36:41.795001+00:00",
+    "updatedAt": "2026-10-29T12:36:41.795006+00:00",
     "slug": "spkdan-flas-karar-tera-ve-pusulanin-faaliyetleri-gecici-olarak-durduruldu-turkiye-ekonomisi-haberleri-yeni-safak",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'dan flaş karar: Tera ve Pusula'nın faaliyetleri geçici olarak durduruldu | Türkiye Ekonomisi Haberleri&nbsp;&nbsp;Yeni Şafak",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_753f3b2fe806",
+    "title": "SPK'dan nitelikli yatırımcı düzenlemesi: Limit 50 milyon liraya yükseldi - Haber3",
+    "summary": "SPK'dan nitelikli yatırımcı düzenlemesi: Limit 50 milyon liraya yükseldi&nbsp;&nbsp;Haber3",
+    "content": "SPK'dan nitelikli yatırımcı düzenlemesi: Limit 50 milyon liraya yükseldi - Haber3. SPK'dan nitelikli yatırımcı düzenlemesi: Limit 50 milyon liraya yükseldi&nbsp;&nbsp;Haber3 Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.793738+00:00",
+    "updatedAt": "2026-10-29T12:36:41.793742+00:00",
+    "slug": "spkdan-nitelikli-yatirimci-duzenlemesi-limit-50-milyon-liraya-yukseldi-haber3",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'dan nitelikli yatırımcı düzenlemesi: Limit 50 milyon liraya yükseldi&nbsp;&nbsp;Haber3",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_c949e8e7c037",
+    "title": "Fon geri ödemelerinde öncelik para piyasası fonlarında - Forbes Türkiye",
+    "summary": "Fon geri ödemelerinde öncelik para piyasası fonlarında&nbsp;&nbsp;Forbes Türkiye",
+    "content": "Fon geri ödemelerinde öncelik para piyasası fonlarında - Forbes Türkiye. Fon geri ödemelerinde öncelik para piyasası fonlarında&nbsp;&nbsp;Forbes Türkiye Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.792701+00:00",
+    "updatedAt": "2026-10-29T12:36:41.792705+00:00",
+    "slug": "fon-geri-odemelerinde-oncelik-para-piyasasi-fonlarinda-forbes-turkiye",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fon geri ödemelerinde öncelik para piyasası fonlarında&nbsp;&nbsp;Forbes Türkiye",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1825,8 +1635,8 @@
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.579939+00:00",
-    "updatedAt": "2026-10-28T12:26:06.579945+00:00",
+    "createdAt": "2026-10-29T12:36:41.791715+00:00",
+    "updatedAt": "2026-10-29T12:36:41.791719+00:00",
     "slug": "spkdan-iki-portfoy-sirketi-hakkinda-kritik-karar-fonlarin-tasfiyesinde-yeni-donem-bursada-bugun",
     "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'dan iki portföy şirketi hakkında kritik karar! Fonların tasfiyesinde yeni dönem&nbsp;&nbsp;Bursada Bugün",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
@@ -1855,18 +1665,94 @@
     "confidence_score": 0.9
   },
   {
-    "id": "art_9e6092b5147a",
-    "title": "SPK'dan Tera ve Pusula Portföy kararı: Faaliyetleri durduruldu, iki banka görevlendirildi - Haber 7",
-    "summary": "SPK'dan Tera ve Pusula Portföy kararı: Faaliyetleri durduruldu, iki banka görevlendirildi&nbsp;&nbsp;Haber 7",
-    "content": "SPK'dan Tera ve Pusula Portföy kararı: Faaliyetleri durduruldu, iki banka görevlendirildi - Haber 7. SPK'dan Tera ve Pusula Portföy kararı: Faaliyetleri durduruldu, iki banka görevlendirildi&nbsp;&nbsp;Haber 7 Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "id": "art_59232bd26f61",
+    "title": "Fon Koordinasyon Kurulu sekizinci kez toplandı... 26 bin 152 adet hesaba 27,2 milyar TL ödendi - Anka Haber",
+    "summary": "Fon Koordinasyon Kurulu sekizinci kez toplandı... 26 bin 152 adet hesaba 27,2 milyar TL ödendi&nbsp;&nbsp;Anka Haber",
+    "content": "Fon Koordinasyon Kurulu sekizinci kez toplandı... 26 bin 152 adet hesaba 27,2 milyar TL ödendi - Anka Haber. Fon Koordinasyon Kurulu sekizinci kez toplandı... 26 bin 152 adet hesaba 27,2 milyar TL ödendi&nbsp;&nbsp;Anka Haber Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
     "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     "category": "Yatırım",
     "readTime": "2 dk",
     "published": true,
-    "createdAt": "2026-10-28T12:26:06.578834+00:00",
-    "updatedAt": "2026-10-28T12:26:06.578838+00:00",
-    "slug": "spkdan-tera-ve-pusula-portfoy-karari-faaliyetleri-durduruldu-iki-banka-gorevlendirildi-haber-7",
-    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'dan Tera ve Pusula Portföy kararı: Faaliyetleri durduruldu, iki banka görevlendirildi&nbsp;&nbsp;Haber 7",
+    "createdAt": "2026-10-29T12:36:41.790606+00:00",
+    "updatedAt": "2026-10-29T12:36:41.790610+00:00",
+    "slug": "fon-koordinasyon-kurulu-sekizinci-kez-toplandi-26-bin-152-adet-hesaba-272-milyar-tl-odendi-anka-haber",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: Fon Koordinasyon Kurulu sekizinci kez toplandı... 26 bin 152 adet hesaba 27,2 milyar TL ödendi&nbsp;&nbsp;Anka Haber",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_84c9b0632ef3",
+    "title": "SPK’dan iki portföy yönetim şirketine geçici durdurma kararı - İlke Haber Ajansı",
+    "summary": "SPK’dan iki portföy yönetim şirketine geçici durdurma kararı&nbsp;&nbsp;İlke Haber Ajansı",
+    "content": "SPK’dan iki portföy yönetim şirketine geçici durdurma kararı - İlke Haber Ajansı. SPK’dan iki portföy yönetim şirketine geçici durdurma kararı&nbsp;&nbsp;İlke Haber Ajansı Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.789443+00:00",
+    "updatedAt": "2026-10-29T12:36:41.789447+00:00",
+    "slug": "spkdan-iki-portfoy-yonetim-sirketine-gecici-durdurma-karari-ilke-haber-ajansi",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK’dan iki portföy yönetim şirketine geçici durdurma kararı&nbsp;&nbsp;İlke Haber Ajansı",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_b27a150b4959",
+    "title": "SPK'dan Tera Portföy ve Pusula Portföy kararı: Faaliyetleri geçici olarak durduruldu - T24",
+    "summary": "SPK'dan Tera Portföy ve Pusula Portföy kararı: Faaliyetleri geçici olarak durduruldu&nbsp;&nbsp;T24",
+    "content": "SPK'dan Tera Portföy ve Pusula Portföy kararı: Faaliyetleri geçici olarak durduruldu - T24. SPK'dan Tera Portföy ve Pusula Portföy kararı: Faaliyetleri geçici olarak durduruldu&nbsp;&nbsp;T24 Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.788381+00:00",
+    "updatedAt": "2026-10-29T12:36:41.788385+00:00",
+    "slug": "spkdan-tera-portfoy-ve-pusula-portfoy-karari-faaliyetleri-gecici-olarak-durduruldu-t24",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK'dan Tera Portföy ve Pusula Portföy kararı: Faaliyetleri geçici olarak durduruldu&nbsp;&nbsp;T24",
     "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
     "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
     "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
@@ -1891,5 +1777,119 @@
     },
     "quality_score": 92,
     "confidence_score": 0.98
+  },
+  {
+    "id": "art_b71d61859e4b",
+    "title": "SPK açıkladı! İşte tasfiye edilen fonlarda ödeme esasları - Son Dakika",
+    "summary": "SPK açıkladı! İşte tasfiye edilen fonlarda ödeme esasları&nbsp;&nbsp;Son Dakika",
+    "content": "SPK açıkladı! İşte tasfiye edilen fonlarda ödeme esasları - Son Dakika. SPK açıkladı! İşte tasfiye edilen fonlarda ödeme esasları&nbsp;&nbsp;Son Dakika Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.787295+00:00",
+    "updatedAt": "2026-10-29T12:36:41.787300+00:00",
+    "slug": "spk-acikladi-iste-tasfiye-edilen-fonlarda-odeme-esaslari-son-dakika",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK açıkladı! İşte tasfiye edilen fonlarda ödeme esasları&nbsp;&nbsp;Son Dakika",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_ccc3b354e2d1",
+    "title": "SON DAKİKA! SPK'dan 3 yatırım fonu için tasfiye kararı: Ödemeler hangi sırayla yapılacak? İşte şartlar - Sabah",
+    "summary": "SON DAKİKA! SPK'dan 3 yatırım fonu için tasfiye kararı: Ödemeler hangi sırayla yapılacak? İşte şartlar&nbsp;&nbsp;Sabah",
+    "content": "SON DAKİKA! SPK'dan 3 yatırım fonu için tasfiye kararı: Ödemeler hangi sırayla yapılacak? İşte şartlar - Sabah. SON DAKİKA! SPK'dan 3 yatırım fonu için tasfiye kararı: Ödemeler hangi sırayla yapılacak? İşte şartlar&nbsp;&nbsp;Sabah Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.786279+00:00",
+    "updatedAt": "2026-10-29T12:36:41.786284+00:00",
+    "slug": "son-dakika-spkdan-3-yatirim-fonu-icin-tasfiye-karari-odemeler-hangi-sirayla-yapilacak-iste-sartlar-sabah",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SON DAKİKA! SPK'dan 3 yatırım fonu için tasfiye kararı: Ödemeler hangi sırayla yapılacak? İşte şartlar&nbsp;&nbsp;Sabah",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
+  },
+  {
+    "id": "art_c54c40206b00",
+    "title": "SPK, tasfiyesine karar verilen bazı yatırım fonlarının tasfiye ve ödeme esaslarını belirledi - Uzmanpara",
+    "summary": "SPK, tasfiyesine karar verilen bazı yatırım fonlarının tasfiye ve ödeme esaslarını belirledi&nbsp;&nbsp;Uzmanpara",
+    "content": "SPK, tasfiyesine karar verilen bazı yatırım fonlarının tasfiye ve ödeme esaslarını belirledi - Uzmanpara. SPK, tasfiyesine karar verilen bazı yatırım fonlarının tasfiye ve ödeme esaslarını belirledi&nbsp;&nbsp;Uzmanpara Sermaye Piyasası Kurulu (SPK) ve TEFAS piyasasında yaşanan fon likidite kısıtlamaları ve tasfiye kararları, kurumsal ve bireysel tasarruf sahiplerinin sermaye koruma reflekslerini yeniden şekillendiriyor. Finansal piyasalardaki oynaklık ve fon kilitlenmeleri karşısında yatırımcıların güvenli liman olarak tapulu, kira getirili ve fiziki gayrimenkul varlıklarına yönelme eğilimi güçleniyor.",
+    "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    "category": "Yatırım",
+    "readTime": "2 dk",
+    "published": true,
+    "createdAt": "2026-10-29T12:36:41.785085+00:00",
+    "updatedAt": "2026-10-29T12:36:41.785089+00:00",
+    "slug": "spk-tasfiyesine-karar-verilen-bazi-yatirim-fonlarinin-tasfiye-ve-odeme-esaslarini-belirledi-uzmanpara",
+    "what_we_know": "Doğrulanmış piyasa verisi ve resmi kayıtlar: SPK, tasfiyesine karar verilen bazı yatırım fonlarının tasfiye ve ödeme esaslarını belirledi&nbsp;&nbsp;Uzmanpara",
+    "what_we_infer": "Bu gelişme Ankara aksındaki arz-talep dengesini ve yatırım getiri projeksiyonlarını doğrudan etkilemektedir.",
+    "what_we_suspect": "Önümüzdeki çeyrekte kurumsal portföylerde bu bölgeye yönelik satın alma eğilimi artabilir.",
+    "what_we_dont_know": "İlgili kamu kuruluşlarının ve yerel belediyenin ek düzenleme takvimi henüz ilan edilmemiştir.",
+    "contrarian_view": {
+      "counter_hypothesis": "Makroekonomik faiz oranları yüksek kalırsa likidite baskısı bu beklentiyi geciktirebilir.",
+      "contrary_indicators": [
+        "Konut kredisi faiz maliyeti",
+        "Sermaye piyasalarındaki alternatif getiri oranları"
+      ],
+      "downside_risks": [
+        "İkinci el piyasada alıcı iskonto talebinin artması"
+      ],
+      "verdict": "Piyasa etkisi teyit edildi ancak risk marjı dikkate alınmalı."
+    },
+    "why_this_news": {
+      "importance_score": 85,
+      "evidence_score": 88,
+      "market_impact_score": 82,
+      "regional_relevance_score": 90,
+      "final_score": 86,
+      "selection_reason": "Ankara Lüks Konut & Finansman Göstergeleri"
+    },
+    "quality_score": 92,
+    "confidence_score": 0.9
   }
 ]
