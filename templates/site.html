@@ -6007,11 +6007,13 @@
 
     
     /* ══════════════════════════════════════════════════════════════════
-       NEXA ULTRA-LUXURY MORPHING DYNAMIC ISLAND NAVBAR
+       /* ══════════════════════════════════════════════════════════════════
+       /* ══════════════════════════════════════════════════════════════════
+       NEXA ULTRA-LUXURY MORPHING DYNAMIC ISLAND NAVBAR (REFINED & TESTED)
     ══════════════════════════════════════════════════════════════════ */
     .nxa-island-nav-wrapper {
       position: fixed;
-      top: 50px; /* Aligned below 44px top-bar */
+      top: 50px; /* Below 44px top-bar */
       left: 0;
       right: 0;
       z-index: 1000;
@@ -6035,17 +6037,17 @@
       justify-content: center;
 
       /* Collapsed Resting Dimensions */
-      width: 410px;
+      width: 390px;
       height: 46px;
-      padding: 0 18px;
+      padding: 0 16px;
       border-radius: 999px;
 
       /* Luxury Dark Glassmorphism */
-      background: radial-gradient(circle at 50% 0%, rgba(19, 34, 56, 0.94) 0%, rgba(7, 13, 24, 0.92) 100%);
+      background: radial-gradient(circle at 50% 0%, rgba(19, 34, 56, 0.95) 0%, rgba(7, 13, 24, 0.94) 100%);
       backdrop-filter: blur(24px) saturate(190%);
       -webkit-backdrop-filter: blur(24px) saturate(190%);
-      border: 1px solid rgba(212, 175, 55, 0.42);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 25px rgba(212, 175, 55, 0.18);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 25px rgba(212, 175, 55, 0.2);
 
       cursor: pointer;
       overflow: hidden;
@@ -6053,12 +6055,12 @@
 
       /* Cinematic Spring Morphing Physics */
       transition:
-        width 0.46s cubic-bezier(0.16, 1, 0.3, 1),
-        height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        background 0.35s ease,
-        border-color 0.35s ease,
-        box-shadow 0.4s ease,
+        width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+        border-radius 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.36s ease,
         transform 0.25s ease;
       transform-origin: center top;
     }
@@ -6066,22 +6068,22 @@
     /* Collapsed Hover Micro-Lift & Golden Aura */
     .nxa-island-container:not(.is-expanded):hover {
       transform: translateY(-2px) scale(1.015);
-      border-color: rgba(212, 175, 55, 0.75);
+      border-color: rgba(212, 175, 55, 0.8);
       box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 35px rgba(212, 175, 55, 0.35);
     }
 
     /* ══════════ EXPANDED FULL NAVBAR RECTANGLE ══════════ */
     .nxa-island-container.is-expanded {
-      width: min(1440px, calc(100vw - 32px));
+      width: min(1360px, calc(100vw - 24px));
       height: 66px;
-      border-radius: 18px;
-      padding: 0 32px;
+      border-radius: 16px;
+      padding: 0 24px;
       cursor: default;
 
       background: rgba(7, 13, 24, 0.96);
       backdrop-filter: blur(28px) saturate(200%);
       -webkit-backdrop-filter: blur(28px) saturate(200%);
-      border: 1px solid rgba(212, 175, 55, 0.32);
+      border: 1px solid rgba(212, 175, 55, 0.35);
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(212, 175, 55, 0.22);
       transform: translateY(0);
     }
@@ -6090,11 +6092,13 @@
     .nxa-island-collapsed {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       white-space: nowrap;
       opacity: 1;
       transform: scale(1);
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      width: 100%;
+      height: 100%;
+      transition: opacity 0.22s ease, transform 0.22s ease;
     }
 
     .nxa-island-container.is-expanded .nxa-island-collapsed {
@@ -6111,6 +6115,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
     .nxa-island-pulse-dot {
       width: 7px;
@@ -6134,10 +6139,11 @@
 
     .nxa-island-brand {
       font-family: 'Playfair Display', serif;
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 700;
       color: #ffffff;
       letter-spacing: 0.02em;
+      flex-shrink: 0;
     }
     .nxa-island-brand .gold-text {
       color: var(--gold);
@@ -6145,8 +6151,9 @@
 
     .nxa-island-divider {
       width: 1px;
-      height: 16px;
+      height: 15px;
       background: rgba(212, 175, 55, 0.35);
+      flex-shrink: 0;
     }
 
     .nxa-island-badge {
@@ -6154,24 +6161,44 @@
       align-items: center;
       gap: 6px;
       font-family: 'Outfit', sans-serif;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: rgba(248, 250, 252, 0.92);
       letter-spacing: 0.02em;
+      flex-shrink: 0;
     }
 
     .nxa-island-trigger-hint {
       display: flex;
       align-items: center;
-      gap: 5px;
-      padding: 3px 9px;
+      gap: 4px;
+      padding: 3px 8px;
       background: rgba(212, 175, 55, 0.14);
       border: 1px solid rgba(212, 175, 55, 0.35);
       border-radius: 999px;
       font-family: 'Outfit', sans-serif;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: var(--gold-light);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .nxa-mobile-capsule-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      margin-left: auto;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .nxa-mobile-capsule-toggle span {
+      width: 20px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: all 0.3s;
     }
 
     .nxa-island-chevron {
@@ -6209,7 +6236,7 @@
       height: 100%;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.28s ease 0.06s;
+      transition: opacity 0.25s ease 0.05s;
     }
 
     .nxa-island-container.is-expanded .nxa-island-expanded {
@@ -6220,15 +6247,16 @@
     /* Expanded Logo */
     .nxa-expanded-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 24px;
+      font-size: 21px;
       font-weight: 700;
       color: #fff;
       text-decoration: none;
       white-space: nowrap;
       flex-shrink: 0;
-      transform: translateX(-12px);
+      margin-right: 12px;
+      transform: translateX(-10px);
       opacity: 0;
-      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.35s ease 0.08s;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.06s, opacity 0.3s ease 0.06s;
     }
     .nxa-island-container.is-expanded .nxa-expanded-logo {
       transform: translateX(0);
@@ -6236,46 +6264,46 @@
     }
 
     /* Expanded Navigation Links */
-    .nxa-expanded-links {
+    .nxa-desktop-nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 14px;
       margin: 0 auto;
       opacity: 0;
-      transform: translateY(-8px);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, opacity 0.35s ease 0.12s;
+      transform: translateY(-6px);
+      transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.3s ease 0.08s;
     }
-    .nxa-island-container.is-expanded .nxa-expanded-links {
+    .nxa-island-container.is-expanded .nxa-desktop-nav-links {
       opacity: 1;
       transform: translateY(0);
     }
 
     .nxa-nav-item {
-      color: rgba(248, 250, 252, 0.88) !important;
+      color: rgba(248, 250, 252, 0.9) !important;
       text-decoration: none;
       font-family: 'Outfit', sans-serif;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
-      letter-spacing: 0.02em;
-      padding: 6px 3px;
+      letter-spacing: 0.015em;
+      padding: 5px 4px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
       white-space: nowrap;
       position: relative;
-      transition: color 0.25s ease, transform 0.25s ease;
+      transition: color 0.2s ease, transform 0.2s ease;
     }
     .nxa-nav-item i {
       color: var(--gold);
-      font-size: 13px;
-      transition: transform 0.25s ease;
+      font-size: 12.5px;
+      transition: transform 0.2s ease;
     }
     .nxa-nav-item:hover {
       color: #ffffff !important;
       transform: translateY(-1px);
     }
     .nxa-nav-item:hover i {
-      transform: scale(1.18);
+      transform: scale(1.15);
     }
     .nxa-nav-item::after {
       content: '';
@@ -6287,7 +6315,7 @@
       height: 2px;
       background: var(--gold);
       border-radius: 999px;
-      transition: width 0.25s ease;
+      transition: width 0.2s ease;
     }
     .nxa-nav-item:hover::after {
       width: 80%;
@@ -6296,9 +6324,10 @@
     /* Expanded Action Button */
     .nxa-expanded-action {
       flex-shrink: 0;
-      transform: translateX(12px);
+      margin-left: 12px;
+      transform: translateX(10px);
       opacity: 0;
-      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.14s, opacity 0.35s ease 0.14s;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.3s ease 0.1s;
     }
     .nxa-island-container.is-expanded .nxa-expanded-action {
       transform: translateX(0);
@@ -6308,19 +6337,20 @@
     .nxa-nav-terminal-btn {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.06) 100%);
       border: 1px solid var(--gold);
       color: var(--gold) !important;
-      padding: 7px 18px;
+      padding: 6px 15px;
       border-radius: 999px;
       font-family: 'Outfit', sans-serif;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       text-decoration: none;
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
+      white-space: nowrap;
     }
     .nxa-nav-terminal-btn:hover {
       background: var(--gold);
@@ -6329,17 +6359,29 @@
       transform: translateY(-1px);
     }
 
-    /* ══════════ MOBILE ADAPTATIONS ══════════ */
-    @media (max-width: 1200px) {
-      .nxa-expanded-links {
-        gap: 12px;
+    /* ══════════ RESPONSIVE COMPACTING ══════════ */
+    @media (max-width: 1240px) {
+      .nxa-desktop-nav-links {
+        gap: 9px;
       }
       .nxa-nav-item {
         font-size: 12px;
-        gap: 4px;
+        gap: 3.5px;
+        padding: 4px 2px;
+      }
+      .nxa-expanded-logo {
+        font-size: 19px;
       }
     }
 
+    /* On Desktop: Mobile drawer is completely hidden */
+    @media (min-width: 993px) {
+      .nav-links {
+        display: none !important;
+      }
+    }
+
+    /* On Mobile: Unconstrained full-viewport sliding drawer */
     @media (max-width: 992px) {
       .nxa-island-nav-wrapper {
         top: 10px !important;
@@ -6349,23 +6391,50 @@
         max-width: 390px;
         height: 46px !important;
       }
-      .nxa-island-container.is-expanded {
-        width: calc(100vw - 24px) !important;
-        height: 54px !important;
-        padding: 0 16px !important;
-      }
-      .nxa-expanded-links {
-        display: none !important; /* Managed via mobile drawer */
-      }
-      .nxa-expanded-action {
+      .nxa-island-trigger-hint {
         display: none !important;
       }
-      .mobile-toggle {
+      .nxa-mobile-capsule-toggle {
         display: flex !important;
-        margin-left: auto;
+      }
+      /* Desktop expanded horizontal bar is disabled on mobile */
+      .nxa-island-expanded {
+        display: none !important;
+      }
+
+      /* Native Mobile Sliding Drawer */
+      .nav-links {
+        position: fixed !important;
+        top: 0 !important;
+        right: -100% !important;
+        width: 100% !important;
+        max-width: 320px !important;
+        height: 100vh !important;
+        background: rgba(10, 20, 36, 0.98) !important;
+        backdrop-filter: blur(28px) !important;
+        -webkit-backdrop-filter: blur(28px) !important;
+        border-left: 1px solid rgba(212, 175, 55, 0.22) !important;
+        flex-direction: column !important;
+        padding: calc(60px + env(safe-area-inset-top, 0px)) 24px calc(80px + env(safe-area-inset-bottom, 8px)) !important;
+        gap: 12px !important;
+        box-shadow: -12px 0 40px rgba(0, 0, 0, 0.75) !important;
+        transition: right 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        overflow-y: auto !important;
+        z-index: 10002 !important;
+        display: flex !important;
+        pointer-events: auto !important;
+      }
+      .nav-links.active {
+        right: 0 !important;
+      }
+      .nav-links a {
+        display: flex !important;
+        align-items: center !important;
+        font-size: 15px !important;
+        color: #f8fafc !important;
+        padding: 8px 0 !important;
       }
     }
-
     </style>
 
   <!-- ══ DEĞERLEME RAPOR MODAL ══════════════════════════════════════════════ -->
@@ -6681,8 +6750,10 @@
 
   <div class="grain"></div>
 
-    <!-- Navigation: Ultra-Luxury Morphing Dynamic Island Navbar -->
+        <!-- Navigation: Ultra-Luxury Morphing Dynamic Island Navbar -->
   <div class="nxa-island-nav-wrapper" id="navbar">
+    
+    <!-- Morphing Dynamic Island Container -->
     <div class="nxa-island-container" id="nxaIslandNav" role="navigation" aria-label="Ana Navigasyon">
 
       <!-- 1. RESTING / COLLAPSED STATE (Orta İlgi Çekici Kapsül) -->
@@ -6699,9 +6770,16 @@
           <i class="fas fa-compass" style="color:var(--gold);"></i>
           <span>VIP Portföy &amp; Zeka Menüsü</span>
         </div>
+        <!-- Desktop Hover Hint -->
         <div class="nxa-island-trigger-hint">
           <span>Keşfet</span>
           <i class="fas fa-chevron-down nxa-island-chevron"></i>
+        </div>
+        <!-- Mobile Native Hamburger Inside Capsule -->
+        <div class="mobile-toggle nxa-mobile-capsule-toggle" id="mobileToggle" aria-label="Mobil Menüyü Aç">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
         <div class="nxa-island-shimmer"></div>
       </div>
@@ -6713,8 +6791,8 @@
           Yiğit <span style="color:var(--gold);">Narin</span>
         </a>
 
-        <!-- Nav Links (Pixel-perfect to user's uploaded image) -->
-        <div class="nav-links nxa-expanded-links" id="navLinks">
+        <!-- Desktop Horizontal Nav Links (Pixel-perfect to user's uploaded image) -->
+        <div class="nxa-desktop-nav-links">
           <a href="#home" class="nxa-nav-item">Ana Sayfa</a>
           <a href="#harita" class="nxa-nav-item"><i class="fas fa-map-marker-alt"></i>Harita</a>
           <a href="#portfolio" class="nxa-nav-item">Portföy</a>
@@ -6726,8 +6804,6 @@
           <a href="#odullerimiz" class="nxa-nav-item"><i class="fas fa-award"></i>Ödüller</a>
           <a href="#testimonials" class="nxa-nav-item">Referanslar</a>
           <a href="#contact" class="nxa-nav-item">İletişim</a>
-          <!-- Mobile Drawer NEXA.OS button -->
-          <a href="/dashboard" class="nxa-nav-item nxa-mobile-only-btn" style="display:none;"><i class="fas fa-terminal"></i>NEXA.OS</a>
         </div>
 
         <!-- Desktop Right Action -->
@@ -6736,16 +6812,26 @@
             <i class="fas fa-terminal"></i>NEXA.OS
           </a>
         </div>
-
-        <!-- Mobile Toggle Button -->
-        <div class="mobile-toggle" id="mobileToggle" aria-label="Mobil Menüyü Aç">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
       </div>
 
     </div>
+
+    <!-- Mobile Drawer (Clean, Unconstrained Viewport-Fixed Element) -->
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Ana Sayfa</a>
+      <a href="#harita"><i class="fas fa-map-marker-alt" style="margin-right:6px;color:var(--gold);"></i>Harita</a>
+      <a href="#portfolio">Portföy</a>
+      <a href="/ilanlar"><i class="fas fa-th-list" style="margin-right:6px;color:var(--gold);"></i>İlanlar</a>
+      <a href="/ai-analysis"><i class="fas fa-robot" style="margin-right:6px;color:var(--gold);"></i>AI Analiz</a>
+      <a href="/intelligence"><i class="fas fa-chart-line" style="margin-right:6px;color:var(--gold);"></i>Piyasa Zekası</a>
+      <a href="/sunum"><i class="fas fa-folder-open" style="margin-right:6px;color:var(--gold);"></i>Projeler</a>
+      <a href="#services">Hizmetler</a>
+      <a href="#odullerimiz"><i class="fas fa-award" style="margin-right:6px;color:var(--gold);"></i>Ödüller</a>
+      <a href="#testimonials">Referanslar</a>
+      <a href="#contact">İletişim</a>
+      <a href="/dashboard" style="background:linear-gradient(135deg,rgba(201,164,92,0.2),rgba(201,164,92,0.05));border:1px solid var(--gold);color:var(--gold);padding:8px 16px;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;margin-top:12px;"><i class="fas fa-terminal" style="margin-right:6px;"></i>NEXA.OS</a>
+    </div>
+
   </div>
   <!-- Mobil menü karartma overlay -->
   <div class="nav-overlay" id="navOverlay"></div>
@@ -13838,11 +13924,12 @@ ${src.length ? `
   </script>
 
 
-  <!-- NEXA Dynamic Island Interactive Morphing Engine -->
+  <!-- NEXA Dynamic Island Interactive Morphing Engine (Refined Y-Axis Exit) -->
   <script>
     (function initMorphingDynamicIslandNavbar() {
       const island = document.getElementById('nxaIslandNav');
       const islandWrapper = document.getElementById('navbar');
+      const topBar = document.getElementById('topBar');
       if (!island || !islandWrapper) return;
 
       let isExpanded = false;
@@ -13850,15 +13937,14 @@ ${src.length ? `
 
       function openIsland() {
         clearTimeout(closeTimer);
-        if (!isExpanded) {
+        if (!isExpanded && window.innerWidth > 992) {
           isExpanded = true;
           island.classList.add('is-expanded');
         }
       }
 
-      function closeIsland(immediate = false) {
+      function scheduleClose(delay = 180) {
         clearTimeout(closeTimer);
-        const delay = immediate ? 0 : 120;
         closeTimer = setTimeout(() => {
           if (isExpanded) {
             isExpanded = false;
@@ -13872,60 +13958,64 @@ ${src.length ? `
         openIsland();
       });
 
-      // 2. Y-Axis Bounding Box Exit Detection
-      // When moving outside the rectangle in the Y-axis (top or bottom), close with silk animation
+      // 2. Pure Y-Axis Bounding Box Exit Detection
+      // Moving left and right between links MUST NEVER close the navbar.
+      // ONLY exiting along the Y axis (moving above top edge or below bottom edge) triggers collapse.
       window.addEventListener('mousemove', (e) => {
         if (!isExpanded) return;
 
         const rect = island.getBoundingClientRect();
-        // User moves above the top edge or below the bottom edge
-        const isOutsideY = (e.clientY < (rect.top - 8)) || (e.clientY > (rect.bottom + 14));
-        // User moves far outside left or right beyond the rectangle
-        const isOutsideX = (e.clientX < (rect.left - 25)) || (e.clientX > (rect.right + 25));
+        // Check ONLY Y-axis: cursor moved above rect.top or below rect.bottom
+        const isAboveNavbar = e.clientY < (rect.top - 6);
+        const isBelowNavbar = e.clientY > (rect.bottom + 12);
 
-        if (isOutsideY || isOutsideX) {
-          closeIsland(false);
+        if (isAboveNavbar || isBelowNavbar) {
+          // Cursor left vertically outside the rectangle
+          scheduleClose(140);
         } else {
-          // Inside rectangle: cancel any pending close
+          // Cursor is within the horizontal rectangle band! Cancel any pending close
           clearTimeout(closeTimer);
         }
       });
 
-      // 3. Mouseleave fallback on island element
-      island.addEventListener('mouseleave', (e) => {
-        const rect = island.getBoundingClientRect();
-        // If exiting along Y axis specifically
-        if (e.clientY <= rect.top + 2 || e.clientY >= rect.bottom - 2) {
-          closeIsland(false);
-        } else {
-          closeIsland(false);
-        }
-      });
-
-      // 4. Click on any nav item scrolls and closes navbar smoothly
+      // 3. Click on any nav item scrolls and closes navbar smoothly
       const allNavLinks = island.querySelectorAll('.nxa-nav-item, .nxa-nav-terminal-btn');
       allNavLinks.forEach(link => {
         link.addEventListener('click', () => {
-          closeIsland(true);
+          scheduleClose(0); // Close immediately on link click
         });
       });
 
-      // 5. Scroll Handler for Docking Adjustment
+      // 4. Scroll Handler for Smooth Top Docking
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 40) {
+        const scrolled = window.scrollY > 40;
+        if (scrolled) {
           islandWrapper.classList.add('scrolled');
+          if (topBar) topBar.style.transform = 'translateY(-100%)';
         } else {
           islandWrapper.classList.remove('scrolled');
+          if (topBar) topBar.style.transform = 'translateY(0)';
         }
-      });
+      }, { passive: true });
 
-      // 6. Mobile Click Toggle for Compact Mode
+      // 5. Mobile Click Toggle for Compact Mode
       const collapsedBar = document.getElementById('nxaIslandCollapsed');
       if (collapsedBar) {
         collapsedBar.addEventListener('click', (e) => {
           if (window.innerWidth <= 992) {
-            const mobileToggle = document.getElementById('mobileToggle');
-            if (mobileToggle) mobileToggle.click();
+            const navLinks = document.getElementById('navLinks');
+            const navOverlay = document.getElementById('navOverlay');
+            if (navLinks && navOverlay) {
+              if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+              } else {
+                navLinks.classList.add('active');
+                navOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+              }
+            }
           } else {
             openIsland();
           }
@@ -13933,6 +14023,5 @@ ${src.length ? `
       }
     })();
   </script>
-
 </body>
 </html>
