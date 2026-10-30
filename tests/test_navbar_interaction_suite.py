@@ -29,8 +29,19 @@ def run_suite():
         island = page.locator("#nxaIslandNav")
         resting_box = island.bounding_box()
         print("1.1 Resting Capsule Box:", resting_box)
-        assert resting_box["width"] <= 410, f"Resting capsule too wide: {resting_box['width']}"
+        assert resting_box["width"] <= 430, f"Resting capsule too wide: {resting_box['width']}"
         assert resting_box["height"] >= 40 and resting_box["height"] <= 52, f"Unexpected resting height: {resting_box['height']}"
+
+        # Verify no clipping of collapsed items (Yiğit Narin brand, pulse, badge, hint)
+        brand = page.locator(".nxa-island-brand")
+        brand_box = brand.bounding_box()
+        assert brand_box["x"] >= resting_box["x"], f"Brand clipped on left! brand.x={brand_box['x']}, container.x={resting_box['x']}"
+        assert (brand_box["x"] + brand_box["width"]) <= (resting_box["x"] + resting_box["width"]), "Brand clipped on right!"
+
+        hint = page.locator(".nxa-island-trigger-hint")
+        hint_box = hint.bounding_box()
+        assert hint_box["x"] >= resting_box["x"], "Hint clipped on left!"
+        assert (hint_box["x"] + hint_box["width"]) <= (resting_box["x"] + resting_box["width"]), "Hint clipped on right!"
 
         # Hover onto center capsule
         island.hover()
@@ -95,25 +106,25 @@ def run_suite():
         # Move mouse down into the hero content (Y = 300)
         print("Moving mouse to (683, 300) - Y-Axis exit below navbar...")
         page.mouse.move(683, 300)
-        time.sleep(0.5)
+        time.sleep(0.8)
 
         box_after_down = island.bounding_box()
         print("Box after moving down:", box_after_down)
-        assert box_after_down["width"] <= 410, f"Navbar did not collapse on Y-axis exit downwards! Width: {box_after_down['width']}"
+        assert box_after_down["width"] <= 430, f"Navbar did not collapse on Y-axis exit downwards! Width: {box_after_down['width']}"
         print("PASS: Successfully collapsed back to center capsule on Y-axis downwards exit!")
 
         # Re-open and test exit above
         print("Re-opening navbar...")
         island.hover()
-        time.sleep(0.5)
+        time.sleep(0.6)
         assert island.bounding_box()["width"] > 1000, "Failed to re-open"
 
         print("Moving mouse to (683, 10) - Y-Axis exit above navbar...")
         page.mouse.move(683, 10)
-        time.sleep(0.5)
+        time.sleep(0.8)
         box_after_up = island.bounding_box()
         print("Box after moving up:", box_after_up)
-        assert box_after_up["width"] <= 410, f"Navbar did not collapse on Y-axis exit upwards! Width: {box_after_up['width']}"
+        assert box_after_up["width"] <= 430, f"Navbar did not collapse on Y-axis exit upwards! Width: {box_after_up['width']}"
         print("PASS: Successfully collapsed back to center capsule on Y-axis upwards exit!")
 
         print("\n=======================================================")

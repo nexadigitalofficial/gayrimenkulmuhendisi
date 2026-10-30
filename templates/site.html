@@ -6037,7 +6037,7 @@
       justify-content: center;
 
       /* Collapsed Resting Dimensions */
-      width: 390px;
+      width: 420px;
       height: 46px;
       padding: 0 16px;
       border-radius: 999px;
@@ -6236,12 +6236,17 @@
       height: 100%;
       opacity: 0;
       pointer-events: none;
+      position: absolute;
+      inset: 0;
+      padding: 0 24px;
       transition: opacity 0.25s ease 0.05s;
     }
 
     .nxa-island-container.is-expanded .nxa-island-expanded {
       opacity: 1;
       pointer-events: auto;
+      position: relative;
+      padding: 0;
     }
 
     /* Expanded Logo */
@@ -6388,7 +6393,7 @@
       }
       .nxa-island-container {
         width: calc(100vw - 24px) !important;
-        max-width: 390px;
+        max-width: 420px;
         height: 46px !important;
       }
       .nxa-island-trigger-hint {
