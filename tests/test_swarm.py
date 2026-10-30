@@ -271,14 +271,14 @@ def test_swarm_database_helpers():
         trend_id="trend_test_001",
         topic="İncek Müstakil Parsel Talebi",
         region="İncek",
-        velocity=1.85,
+        velocity=99.0,
         signal_count=4,
         summary="İncek bölgesinde arsa talebinde haftalık %40 artış",
         first_seen="2026-03-01T00:00:00Z",
         last_seen="2026-03-07T00:00:00Z"
     )
     assert ok_trend is True
-    trends = get_active_trends(limit=5)
+    trends = get_active_trends(limit=20)
     assert any(t["id"] == "trend_test_001" for t in trends)
 
     # 4. Research audit

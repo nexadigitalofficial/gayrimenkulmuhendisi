@@ -5494,5 +5494,495 @@
       ],
       "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
     }
+  },
+  "https://www.cb.com.tr/ankara-cankaya-cankaya-satilik/daire/379539": {
+    "ok": true,
+    "listing_ref": {
+      "title": "CİNNAHTA CADDE CEPHELİ OTOPARKLI SATILIK 2+1 DAİRE - 379539",
+      "price": "₺7.950.000",
+      "loc": "ÇANKAYA, AYRANCI",
+      "type": "Satılık",
+      "property_type": "Daire",
+      "rooms": "2+1",
+      "area": "130 m2(brüt)",
+      "link": "https://www.cb.com.tr/ankara-cankaya-cankaya-satilik/daire/379539",
+      "img": "https://media.cb.com.tr/StockMediaFiles/5683/4_5AEJV5DI8K_331X224.jpg"
+    },
+    "theme": {
+      "mode": "gold",
+      "accent_color": "#d4af37",
+      "badge_text": "Satılık",
+      "title": "Satılık Yatırım & Konut Analizi"
+    },
+    "swarm_metadata": {
+      "engine": "NEXA AI Persona Swarm 2.0",
+      "agents_count": 4,
+      "active_agents": [
+        "DemographicScoutAgent",
+        "FinancialYieldAgent",
+        "LocationDynamicsAgent",
+        "HonestAdvisoryAuditorAgent"
+      ],
+      "confidence_score": 0.96
+    },
+    "executive_summary": "NEXA AI Swarm değerlendirmesine göre bu daire portföyü; özellikle 'Genç Profesyoneller, Akademisyenler & Kurumsal Yöneticiler' profili için %96 uyumluluk skoru vermektedir. Diplomatik & Prestij Aksı (Protokol Koridoru) avantajı ve Sermaye Kazancı & Mülkiyet Güvencesi odağıyla öne çıkmaktadır.",
+    "top_personas": [
+      {
+        "title": "Genç Profesyoneller, Akademisyenler & Kurumsal Yöneticiler",
+        "score": 96,
+        "icon": "fa-user-tie",
+        "badge": "Maksimum Uyum",
+        "suitability": "Şehir merkezine yakın, bakımı kolay, akıllı ve şık iç tasarım donatısı."
+      },
+      {
+        "title": "Yeni Evli Çiftler & İlk Evini Tercih Edenler",
+        "score": 92,
+        "icon": "fa-heart",
+        "badge": "Kusursuz Başlangıç",
+        "suitability": "Düşük aidat ve ısınma genel gideri, modern site güvenliği ve estetik yaşam."
+      },
+      {
+        "title": "Hızlı Likidite & Yüksek Amortismanlı Kira Yatırımcısı",
+        "score": 90,
+        "icon": "fa-coins",
+        "badge": "Hızlı Dönüş",
+        "suitability": "Bölgedeki kurumsal kiracı sirkülasyonu sayesinde minimum boş kalma süresi."
+      }
+    ],
+    "primary_category": "Modern Şehir Yaşamı & Dinamik Profesyoneller",
+    "ideal_scale": "1 - 3 Kişilik Bireysel / Çift Yaşamı",
+    "capacity_detail": "Yüksek kiralama hızı, minimum boşluk süresi ve dinamik metropol yaşam temposu.",
+    "financial_analysis": {
+      "transaction_focus": "Sermaye Kazancı & Mülkiyet Güvencesi",
+      "financial_metrics": [
+        {
+          "label": "Bölgesel Değer Artışı",
+          "value": "Enflasyon Üzeri Reel Getiri",
+          "desc": "Ankara'nın gelişen arterinde arz kısıtı bulunan lokasyon yapısı sayesinde yüksek sermaye kıymet artışı."
+        },
+        {
+          "label": "Kira Amortisman Potansiyeli",
+          "value": "14 - 17 Yıl Projeksiyonu",
+          "desc": "Bölge ortalamasının üzerinde talep gören nitelikli mülk, kiralamaya verildiğinde güçlü nakit akışı üretir."
+        },
+        {
+          "label": "Likidite & Teminat Kabiliyeti",
+          "value": "A Sınıfı Teminat Değeri",
+          "desc": "Bankacılık ve kredi mekanizmalarında yüksek ekspertiz ve kolay teminata konu olabilme gücü."
+        }
+      ],
+      "investor_verdict": "Satın alma perspektifinde; enflasyonist ortamda reel satın alma gücünü koruyan, zamanla arsa payı veya bölgesel talep artışıyla katlanarak değerlenen stratejik bir varlık alımıdır."
+    },
+    "location_analysis": {
+      "region_badge": "Diplomatik & Prestij Aksı (Protokol Koridoru)",
+      "prestige_level": "Ultra Prime (A++)",
+      "commute_score": 98,
+      "walkability": "Tüm Elçilik, Bakanlık ve Kızılay/Tunalı aksına dakikalar mesafesinde",
+      "zoning_notes": "Yüksek tabela görünürlüğü, prestijli kurumsal komşuluk, elit müşteri algısı."
+    },
+    "auditor_analysis": {
+      "key_usps": [
+        "Fonksiyonel kat planı ve ferah yaşam alanları",
+        "Aile yaşamına uygun güvenli ve nezih komşuluk çevresi",
+        "Eğitim kurumları ve sosyal olanaklara kesintisiz erişim"
+      ],
+      "anti_personas": [
+        "Ağır ticari müşteri trafiği yaratacak perakende mağaza işletmecileri",
+        "Yalnızca 1 kişilik minimal mikro-stüdyo arayan öğrenciler"
+      ],
+      "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
+    }
+  },
+  "https://www.cb.com.tr/ankara-cankaya-cankaya-satilik/daire/379537": {
+    "ok": true,
+    "listing_ref": {
+      "title": "CİNNAHTA CADDE CEPHELİ OTOPARKLI SATILIK 2+1 OFİS - 379537",
+      "price": "₺7.950.000",
+      "loc": "ÇANKAYA, AYRANCI",
+      "type": "Satılık",
+      "property_type": "Daire",
+      "rooms": "2+1",
+      "area": "130 m2(brüt)",
+      "link": "https://www.cb.com.tr/ankara-cankaya-cankaya-satilik/daire/379537",
+      "img": "https://media.cb.com.tr/StockMediaFiles/5683/31_Z6HT9DCCF3_331X224.jpg"
+    },
+    "theme": {
+      "mode": "gold",
+      "accent_color": "#d4af37",
+      "badge_text": "Satılık",
+      "title": "Satılık Yatırım & Konut Analizi"
+    },
+    "swarm_metadata": {
+      "engine": "NEXA AI Persona Swarm 2.0",
+      "agents_count": 4,
+      "active_agents": [
+        "DemographicScoutAgent",
+        "FinancialYieldAgent",
+        "LocationDynamicsAgent",
+        "HonestAdvisoryAuditorAgent"
+      ],
+      "confidence_score": 0.96
+    },
+    "executive_summary": "NEXA AI Swarm değerlendirmesine göre bu daire portföyü; özellikle 'Genç Profesyoneller, Akademisyenler & Kurumsal Yöneticiler' profili için %96 uyumluluk skoru vermektedir. Diplomatik & Prestij Aksı (Protokol Koridoru) avantajı ve Sermaye Kazancı & Mülkiyet Güvencesi odağıyla öne çıkmaktadır.",
+    "top_personas": [
+      {
+        "title": "Genç Profesyoneller, Akademisyenler & Kurumsal Yöneticiler",
+        "score": 96,
+        "icon": "fa-user-tie",
+        "badge": "Maksimum Uyum",
+        "suitability": "Şehir merkezine yakın, bakımı kolay, akıllı ve şık iç tasarım donatısı."
+      },
+      {
+        "title": "Yeni Evli Çiftler & İlk Evini Tercih Edenler",
+        "score": 92,
+        "icon": "fa-heart",
+        "badge": "Kusursuz Başlangıç",
+        "suitability": "Düşük aidat ve ısınma genel gideri, modern site güvenliği ve estetik yaşam."
+      },
+      {
+        "title": "Hızlı Likidite & Yüksek Amortismanlı Kira Yatırımcısı",
+        "score": 90,
+        "icon": "fa-coins",
+        "badge": "Hızlı Dönüş",
+        "suitability": "Bölgedeki kurumsal kiracı sirkülasyonu sayesinde minimum boş kalma süresi."
+      }
+    ],
+    "primary_category": "Modern Şehir Yaşamı & Dinamik Profesyoneller",
+    "ideal_scale": "1 - 3 Kişilik Bireysel / Çift Yaşamı",
+    "capacity_detail": "Yüksek kiralama hızı, minimum boşluk süresi ve dinamik metropol yaşam temposu.",
+    "financial_analysis": {
+      "transaction_focus": "Sermaye Kazancı & Mülkiyet Güvencesi",
+      "financial_metrics": [
+        {
+          "label": "Bölgesel Değer Artışı",
+          "value": "Enflasyon Üzeri Reel Getiri",
+          "desc": "Ankara'nın gelişen arterinde arz kısıtı bulunan lokasyon yapısı sayesinde yüksek sermaye kıymet artışı."
+        },
+        {
+          "label": "Kira Amortisman Potansiyeli",
+          "value": "14 - 17 Yıl Projeksiyonu",
+          "desc": "Bölge ortalamasının üzerinde talep gören nitelikli mülk, kiralamaya verildiğinde güçlü nakit akışı üretir."
+        },
+        {
+          "label": "Likidite & Teminat Kabiliyeti",
+          "value": "A Sınıfı Teminat Değeri",
+          "desc": "Bankacılık ve kredi mekanizmalarında yüksek ekspertiz ve kolay teminata konu olabilme gücü."
+        }
+      ],
+      "investor_verdict": "Satın alma perspektifinde; enflasyonist ortamda reel satın alma gücünü koruyan, zamanla arsa payı veya bölgesel talep artışıyla katlanarak değerlenen stratejik bir varlık alımıdır."
+    },
+    "location_analysis": {
+      "region_badge": "Diplomatik & Prestij Aksı (Protokol Koridoru)",
+      "prestige_level": "Ultra Prime (A++)",
+      "commute_score": 98,
+      "walkability": "Tüm Elçilik, Bakanlık ve Kızılay/Tunalı aksına dakikalar mesafesinde",
+      "zoning_notes": "Yüksek tabela görünürlüğü, prestijli kurumsal komşuluk, elit müşteri algısı."
+    },
+    "auditor_analysis": {
+      "key_usps": [
+        "Fonksiyonel kat planı ve ferah yaşam alanları",
+        "Aile yaşamına uygun güvenli ve nezih komşuluk çevresi",
+        "Eğitim kurumları ve sosyal olanaklara kesintisiz erişim"
+      ],
+      "anti_personas": [
+        "Ağır ticari müşteri trafiği yaratacak perakende mağaza işletmecileri",
+        "Yalnızca 1 kişilik minimal mikro-stüdyo arayan öğrenciler"
+      ],
+      "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
+    }
+  },
+  "https://www.cb.com.tr/ankara-cankaya-mustafa-kemal-kiralik/daire/379693": {
+    "ok": true,
+    "listing_ref": {
+      "title": "MUSTAFA KEMAL MAH. EŞYALI KİRALIK OFİS - 379693",
+      "price": "₺51.000 / ay",
+      "loc": "ÇANKAYA, MUSTAFA KEMAL",
+      "type": "Kiralık",
+      "property_type": "Daire",
+      "rooms": "1+1",
+      "area": "65 m2(brüt)",
+      "link": "https://www.cb.com.tr/ankara-cankaya-mustafa-kemal-kiralik/daire/379693",
+      "img": "https://media.cb.com.tr/StockMediaFiles/5685/ChatGPT-Image-31-Tem-2026-14-05-57_OD27Y9A848_331X224.png"
+    },
+    "theme": {
+      "mode": "emerald",
+      "accent_color": "#10b981",
+      "badge_text": "Kiralık",
+      "title": "Kiralık Portföy Analizi"
+    },
+    "swarm_metadata": {
+      "engine": "NEXA AI Persona Swarm 2.0",
+      "agents_count": 4,
+      "active_agents": [
+        "DemographicScoutAgent",
+        "FinancialYieldAgent",
+        "LocationDynamicsAgent",
+        "HonestAdvisoryAuditorAgent"
+      ],
+      "confidence_score": 0.96
+    },
+    "executive_summary": "NEXA AI Swarm değerlendirmesine göre bu daire portföyü; özellikle 'Genç Profesyoneller, Akademisyenler & Kurumsal Yöneticiler' profili için %96 uyumluluk skoru vermektedir. Diplomatik & Prestij Aksı (Protokol Koridoru) avantajı ve Kiralama & Nakit Akış Rasyoneli odağıyla öne çıkmaktadır.",
+    "top_personas": [
+      {
+        "title": "Genç Profesyoneller, Akademisyenler & Kurumsal Yöneticiler",
+        "score": 96,
+        "icon": "fa-user-tie",
+        "badge": "Maksimum Uyum",
+        "suitability": "Şehir merkezine yakın, bakımı kolay, akıllı ve şık iç tasarım donatısı."
+      },
+      {
+        "title": "Yeni Evli Çiftler & İlk Evini Tercih Edenler",
+        "score": 92,
+        "icon": "fa-heart",
+        "badge": "Kusursuz Başlangıç",
+        "suitability": "Düşük aidat ve ısınma genel gideri, modern site güvenliği ve estetik yaşam."
+      },
+      {
+        "title": "Hızlı Likidite & Yüksek Amortismanlı Kira Yatırımcısı",
+        "score": 90,
+        "icon": "fa-coins",
+        "badge": "Hızlı Dönüş",
+        "suitability": "Bölgedeki kurumsal kiracı sirkülasyonu sayesinde minimum boş kalma süresi."
+      }
+    ],
+    "primary_category": "Modern Şehir Yaşamı & Dinamik Profesyoneller",
+    "ideal_scale": "1 - 3 Kişilik Bireysel / Çift Yaşamı",
+    "capacity_detail": "Yüksek kiralama hızı, minimum boşluk süresi ve dinamik metropol yaşam temposu.",
+    "financial_analysis": {
+      "transaction_focus": "Kiralama & Nakit Akış Rasyoneli",
+      "financial_metrics": [
+        {
+          "label": "Gider Gösterilebilirlik",
+          "value": "%100 Vergisel Avantaj",
+          "desc": "Tüzel kişi veya serbest meslek erbabı kiralamalarında kira bedeli kurumlar/gelir vergisinden doğrudan düşülebilir."
+        },
+        {
+          "label": "Stopaj / KDV Dengesi",
+          "value": "Optimum Maliyet",
+          "desc": "Şirket merkezleri için faturalı veya stopajlı kiralama sayesinde net işletme maliyetini optimize eder."
+        },
+        {
+          "label": "Giriş Sermaye Yükü",
+          "value": "Minimum Sabit Maliyet",
+          "desc": "Büyük satın alma sermayesi bağlamadan ana arterde temsil kabiliyeti ve nakit esnekliği sağlar."
+        }
+      ],
+      "investor_verdict": "Bu gayrimenkul kiralama modelinde; sermayeyi ana operasyonel işlerde değerlendirirken, şirket veya bireysel bütçeye öngörülebilir aylık maliyet ve yüksek vergisel amortisman faydası sunmaktadır."
+    },
+    "location_analysis": {
+      "region_badge": "Diplomatik & Prestij Aksı (Protokol Koridoru)",
+      "prestige_level": "Ultra Prime (A++)",
+      "commute_score": 98,
+      "walkability": "Tüm Elçilik, Bakanlık ve Kızılay/Tunalı aksına dakikalar mesafesinde",
+      "zoning_notes": "Yüksek tabela görünürlüğü, prestijli kurumsal komşuluk, elit müşteri algısı."
+    },
+    "auditor_analysis": {
+      "key_usps": [
+        "Fonksiyonel kat planı ve ferah yaşam alanları",
+        "Aile yaşamına uygun güvenli ve nezih komşuluk çevresi",
+        "Eğitim kurumları ve sosyal olanaklara kesintisiz erişim"
+      ],
+      "anti_personas": [
+        "Ağır ticari müşteri trafiği yaratacak perakende mağaza işletmecileri",
+        "Yalnızca 1 kişilik minimal mikro-stüdyo arayan öğrenciler"
+      ],
+      "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
+    }
+  },
+  "https://www.cb.com.tr/ankara-sincan-mustafa-kemal-satilik/daire/379691": {
+    "ok": true,
+    "listing_ref": {
+      "title": "SİNCAN YENİKENT M.KEMAL'DE ÇİFT BALKONLU 4+1 SATILIK DAİRE - 379691",
+      "price": "₺5.500.000",
+      "loc": "SİNCAN, YENİKENT/MUSTAFAKEMAL",
+      "type": "Satılık",
+      "property_type": "Daire",
+      "rooms": "",
+      "area": "150 m2(brüt)",
+      "link": "https://www.cb.com.tr/ankara-sincan-mustafa-kemal-satilik/daire/379691",
+      "img": "https://media.cb.com.tr/StockMediaFiles/5685/WhatsApp-Image-2026-07-06-at-15-45-24-3-_FDL3X43OSU_331X224.jpeg"
+    },
+    "theme": {
+      "mode": "gold",
+      "accent_color": "#d4af37",
+      "badge_text": "Satılık",
+      "title": "Satılık Yatırım & Konut Analizi"
+    },
+    "swarm_metadata": {
+      "engine": "NEXA AI Persona Swarm 2.0",
+      "agents_count": 4,
+      "active_agents": [
+        "DemographicScoutAgent",
+        "FinancialYieldAgent",
+        "LocationDynamicsAgent",
+        "HonestAdvisoryAuditorAgent"
+      ],
+      "confidence_score": 0.96
+    },
+    "executive_summary": "NEXA AI Swarm değerlendirmesine göre bu daire portföyü; özellikle 'Çocuklu Çekirdek & Geniş Aileler' profili için %97 uyumluluk skoru vermektedir. Ankara Metropol Bölgesi avantajı ve Sermaye Kazancı & Mülkiyet Güvencesi odağıyla öne çıkmaktadır.",
+    "top_personas": [
+      {
+        "title": "Çocuklu Çekirdek & Geniş Aileler",
+        "score": 97,
+        "icon": "fa-users",
+        "badge": "İdeal Aile Evi",
+        "suitability": "Çift balkon, geniş ebeveyn yatak odası, çocuk çalışma odaları ve ferah salon yerleşimi."
+      },
+      {
+        "title": "Konum ve Ulaşım Odaklı Kamu & Özel Sektör Çalışanı",
+        "score": 93,
+        "icon": "fa-briefcase",
+        "badge": "Lojistik Avantaj",
+        "suitability": "Okullara, sağlık merkezlerine ve toplu taşıma akslarına yürüme mesafesinde günlük konfor."
+      },
+      {
+        "title": "Düzenli Kira Getirisi Arayan Gayrimenkul Yatırımcısı",
+        "score": 89,
+        "icon": "fa-hand-holding-usd",
+        "badge": "Yüksek Talep",
+        "suitability": "Bölgede 3+1 / 4+1 kiralık aile konutlarına olan sürekli ve yüksek talep derinliği."
+      }
+    ],
+    "primary_category": "Geniş Aile & Konforlu Konut Yaşamı",
+    "ideal_scale": "3 - 6 Kişilik Çekirdek / Geniş Aile",
+    "capacity_detail": "Kullanışlı kat planı, optimize edilmiş metrekare verimliliği ve aile odaklı yaşam standartları.",
+    "financial_analysis": {
+      "transaction_focus": "Sermaye Kazancı & Mülkiyet Güvencesi",
+      "financial_metrics": [
+        {
+          "label": "Bölgesel Değer Artışı",
+          "value": "Enflasyon Üzeri Reel Getiri",
+          "desc": "Ankara'nın gelişen arterinde arz kısıtı bulunan lokasyon yapısı sayesinde yüksek sermaye kıymet artışı."
+        },
+        {
+          "label": "Kira Amortisman Potansiyeli",
+          "value": "14 - 17 Yıl Projeksiyonu",
+          "desc": "Bölge ortalamasının üzerinde talep gören nitelikli mülk, kiralamaya verildiğinde güçlü nakit akışı üretir."
+        },
+        {
+          "label": "Likidite & Teminat Kabiliyeti",
+          "value": "A Sınıfı Teminat Değeri",
+          "desc": "Bankacılık ve kredi mekanizmalarında yüksek ekspertiz ve kolay teminata konu olabilme gücü."
+        }
+      ],
+      "investor_verdict": "Satın alma perspektifinde; enflasyonist ortamda reel satın alma gücünü koruyan, zamanla arsa payı veya bölgesel talep artışıyla katlanarak değerlenen stratejik bir varlık alımıdır."
+    },
+    "location_analysis": {
+      "region_badge": "Ankara Metropol Bölgesi",
+      "prestige_level": "Standart Metropol Dinamiği",
+      "commute_score": 89,
+      "walkability": "Ana arterlere ve toplu taşıma olanaklarına dengeli erişim",
+      "zoning_notes": "Gelişmiş kentsel altyapı ve oturmuş mahalle dokusu."
+    },
+    "auditor_analysis": {
+      "key_usps": [
+        "Fonksiyonel kat planı ve ferah yaşam alanları",
+        "Aile yaşamına uygun güvenli ve nezih komşuluk çevresi",
+        "Eğitim kurumları ve sosyal olanaklara kesintisiz erişim"
+      ],
+      "anti_personas": [
+        "Ağır ticari müşteri trafiği yaratacak perakende mağaza işletmecileri",
+        "Yalnızca 1 kişilik minimal mikro-stüdyo arayan öğrenciler"
+      ],
+      "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
+    }
+  },
+  "https://www.cb.com.tr/ankara-sincan-mustafa-kemal-satilik/daire/379690": {
+    "ok": true,
+    "listing_ref": {
+      "title": "SİNCAN YENİKENT M.KEMAL'DE ÇİFT BALKONLU 3+1 SATILIK DAİRE - 379690",
+      "price": "₺4.950.000",
+      "loc": "SİNCAN, YENİKENT/MUSTAFAKEMAL",
+      "type": "Satılık",
+      "property_type": "Daire",
+      "rooms": "",
+      "area": "110 m2(brüt)",
+      "link": "https://www.cb.com.tr/ankara-sincan-mustafa-kemal-satilik/daire/379690",
+      "img": "https://media.cb.com.tr/StockMediaFiles/5685/DSCF2291_ZFK0UD8V1Y_331X224.jpg"
+    },
+    "theme": {
+      "mode": "gold",
+      "accent_color": "#d4af37",
+      "badge_text": "Satılık",
+      "title": "Satılık Yatırım & Konut Analizi"
+    },
+    "swarm_metadata": {
+      "engine": "NEXA AI Persona Swarm 2.0",
+      "agents_count": 4,
+      "active_agents": [
+        "DemographicScoutAgent",
+        "FinancialYieldAgent",
+        "LocationDynamicsAgent",
+        "HonestAdvisoryAuditorAgent"
+      ],
+      "confidence_score": 0.96
+    },
+    "executive_summary": "NEXA AI Swarm değerlendirmesine göre bu daire portföyü; özellikle 'Çocuklu Çekirdek & Geniş Aileler' profili için %97 uyumluluk skoru vermektedir. Ankara Metropol Bölgesi avantajı ve Sermaye Kazancı & Mülkiyet Güvencesi odağıyla öne çıkmaktadır.",
+    "top_personas": [
+      {
+        "title": "Çocuklu Çekirdek & Geniş Aileler",
+        "score": 97,
+        "icon": "fa-users",
+        "badge": "İdeal Aile Evi",
+        "suitability": "Çift balkon, geniş ebeveyn yatak odası, çocuk çalışma odaları ve ferah salon yerleşimi."
+      },
+      {
+        "title": "Konum ve Ulaşım Odaklı Kamu & Özel Sektör Çalışanı",
+        "score": 93,
+        "icon": "fa-briefcase",
+        "badge": "Lojistik Avantaj",
+        "suitability": "Okullara, sağlık merkezlerine ve toplu taşıma akslarına yürüme mesafesinde günlük konfor."
+      },
+      {
+        "title": "Düzenli Kira Getirisi Arayan Gayrimenkul Yatırımcısı",
+        "score": 89,
+        "icon": "fa-hand-holding-usd",
+        "badge": "Yüksek Talep",
+        "suitability": "Bölgede 3+1 / 4+1 kiralık aile konutlarına olan sürekli ve yüksek talep derinliği."
+      }
+    ],
+    "primary_category": "Geniş Aile & Konforlu Konut Yaşamı",
+    "ideal_scale": "3 - 6 Kişilik Çekirdek / Geniş Aile",
+    "capacity_detail": "Kullanışlı kat planı, optimize edilmiş metrekare verimliliği ve aile odaklı yaşam standartları.",
+    "financial_analysis": {
+      "transaction_focus": "Sermaye Kazancı & Mülkiyet Güvencesi",
+      "financial_metrics": [
+        {
+          "label": "Bölgesel Değer Artışı",
+          "value": "Enflasyon Üzeri Reel Getiri",
+          "desc": "Ankara'nın gelişen arterinde arz kısıtı bulunan lokasyon yapısı sayesinde yüksek sermaye kıymet artışı."
+        },
+        {
+          "label": "Kira Amortisman Potansiyeli",
+          "value": "14 - 17 Yıl Projeksiyonu",
+          "desc": "Bölge ortalamasının üzerinde talep gören nitelikli mülk, kiralamaya verildiğinde güçlü nakit akışı üretir."
+        },
+        {
+          "label": "Likidite & Teminat Kabiliyeti",
+          "value": "A Sınıfı Teminat Değeri",
+          "desc": "Bankacılık ve kredi mekanizmalarında yüksek ekspertiz ve kolay teminata konu olabilme gücü."
+        }
+      ],
+      "investor_verdict": "Satın alma perspektifinde; enflasyonist ortamda reel satın alma gücünü koruyan, zamanla arsa payı veya bölgesel talep artışıyla katlanarak değerlenen stratejik bir varlık alımıdır."
+    },
+    "location_analysis": {
+      "region_badge": "Ankara Metropol Bölgesi",
+      "prestige_level": "Standart Metropol Dinamiği",
+      "commute_score": 89,
+      "walkability": "Ana arterlere ve toplu taşıma olanaklarına dengeli erişim",
+      "zoning_notes": "Gelişmiş kentsel altyapı ve oturmuş mahalle dokusu."
+    },
+    "auditor_analysis": {
+      "key_usps": [
+        "Fonksiyonel kat planı ve ferah yaşam alanları",
+        "Aile yaşamına uygun güvenli ve nezih komşuluk çevresi",
+        "Eğitim kurumları ve sosyal olanaklara kesintisiz erişim"
+      ],
+      "anti_personas": [
+        "Ağır ticari müşteri trafiği yaratacak perakende mağaza işletmecileri",
+        "Yalnızca 1 kişilik minimal mikro-stüdyo arayan öğrenciler"
+      ],
+      "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
+    }
   }
 }

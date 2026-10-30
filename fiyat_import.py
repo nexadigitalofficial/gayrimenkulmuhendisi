@@ -27,7 +27,7 @@ from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-DB = r"C:\Users\USER\Desktop\NEXA_PRIME_v2_ENTERPRISE\nexa_database.db"
+DB = str(Path(__file__).resolve().parent / "nexa_database.db")
 JSON = Path(r"C:\Users\USER\Desktop\3\nexa_portfolio_data.json")
 BACKUP_DB = r"C:\Users\USER\AppData\Local\Temp\opencode\nexa_database_backup_fiyat.db"
 BACKUP_JSON = r"C:\Users\USER\AppData\Local\Temp\opencode\nexa_portfolio_data_backup_fiyat.json"

@@ -27,7 +27,7 @@ def _resolve_nexa_root():
                 return Path(d)
         except Exception:
             continue
-    return Path(r"C:\Users\USER\Desktop\NEXA_PRIME_v2_ENTERPRISE")
+    return Path(__file__).resolve().parent
 
 
 NEXA_ROOT = _resolve_nexa_root()
@@ -625,6 +625,10 @@ Sonuna şu iletişim satırını ekle: {CONTACT_LINE}
     except Exception as e:
         logger.error("Cognitive generation failed: %s", e)
     return None
+
+
+# Backward-compatibility alias
+_build_canonical_matrix = build_global_context
 
 
 if __name__ == "__main__":

@@ -79,3 +79,6 @@ nexascout/token*.json
 cache_beytepe_arsa/
 ilan_*.json
 test_location_*
+
+service-account.json
+audit_report.json

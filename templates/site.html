@@ -19,6 +19,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="/static/images/hero_bg.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
@@ -907,9 +908,14 @@
     }
 
     .nav-wrapper.scrolled {
-      background: rgba(250, 248, 243, 0.95);
-      backdrop-filter: blur(20px);
-      box-shadow: var(--shadow-sm);
+      background: rgba(7, 13, 24, 0.94) !important;
+      backdrop-filter: blur(24px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7) !important;
+    }
+    .nav-wrapper.scrolled nav {
+      padding: 16px 40px !important;
     }
 
     nav {
@@ -932,7 +938,7 @@
     }
 
     .scrolled .logo {
-      color: var(--navy);
+      color: var(--white) !important;
     }
 
     .nav-links {
@@ -952,7 +958,7 @@
     }
 
     .scrolled .nav-links a {
-      color: var(--navy);
+      color: rgba(248, 250, 252, 0.9) !important;
     }
 
     .nav-links a::after {
@@ -986,7 +992,7 @@
     }
 
     .scrolled .mobile-toggle span {
-      background: var(--navy);
+      background: var(--gold) !important;
     }
 
     @media (max-width: 968px) {
@@ -5029,7 +5035,1338 @@
       }
     }
   
-  </style>
+  
+    /* ══════════════════════════════════════════════════════════════════
+       NEXA ULTRA-LUXURY HERO & GREETING ENHANCEMENT SUITE
+    ══════════════════════════════════════════════════════════════════ */
+    .hero-advisor-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 18px 6px 8px;
+      background: rgba(7, 13, 24, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 40px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.15);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+    .hero-advisor-pill:hover {
+      transform: translateY(-2px);
+      border-color: rgba(212, 175, 55, 0.9);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65), 0 0 28px rgba(212, 175, 55, 0.3);
+      background: rgba(12, 22, 38, 0.92);
+    }
+    .advisor-avatar-wrap {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+    }
+    .advisor-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--gold);
+    }
+    .advisor-live-dot {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      border: 2px solid #070d18;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulseShowcase 2s infinite;
+    }
+    .advisor-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .advisor-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .advisor-meta {
+      font-size: 10.5px;
+      color: var(--gold-light);
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .advisor-arrow {
+      color: #25D366;
+      font-size: 17px;
+      margin-left: 4px;
+      transition: transform 0.2s ease;
+    }
+    .hero-advisor-pill:hover .advisor-arrow {
+      transform: scale(1.18);
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, var(--gold-light) 45%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    /* ── SPOTLIGHT HERO AI SMART SEARCH BAR ── */
+    .hero-ai-search-box {
+      max-width: 650px;
+      width: 100%;
+      margin: 0 auto 20px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ai-search-input-wrap {
+      display: flex;
+      align-items: center;
+      background: rgba(12, 22, 38, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 50px;
+      padding: 6px 8px 6px 18px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55), 0 0 24px rgba(212, 175, 55, 0.16);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ai-search-input-wrap:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.7), 0 0 35px rgba(212, 175, 55, 0.35);
+      background: rgba(18, 32, 56, 0.95);
+      transform: translateY(-2px);
+    }
+    .ai-sparkle-icon {
+      color: var(--gold);
+      font-size: 16px;
+      margin-right: 12px;
+      animation: sparkleRotate 4s infinite linear;
+    }
+    @keyframes sparkleRotate {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.15); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    .ai-search-input-wrap input {
+      flex: 1;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      color: #ffffff !important;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+    .ai-search-input-wrap input::placeholder {
+      color: rgba(148, 163, 184, 0.8) !important;
+      font-size: 13.5px;
+    }
+    .ai-search-submit-btn {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: var(--deep-navy);
+      border: none;
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    .ai-search-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    }
+    .hero-quick-chips {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .quick-chip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(248, 250, 252, 0.88);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .quick-chip:hover {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: var(--gold);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ── SOCIAL PROOF TRUST STRIP ── */
+    .hero-trust-strip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      padding: 8px 18px;
+      background: rgba(7, 13, 24, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      font-size: 11.5px;
+      color: rgba(248, 250, 252, 0.8);
+      font-family: 'Outfit', sans-serif;
+    }
+    .trust-badge-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .trust-badge-item i {
+      color: var(--gold);
+      font-size: 12px;
+    }
+    .trust-sep {
+      color: rgba(212, 175, 55, 0.4);
+      font-size: 9px;
+    }
+
+    /* ── AI RESULTS MODAL ── */
+    .hero-ai-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 8, 16, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 100050;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .hero-ai-modal {
+      width: 100%;
+      max-width: 680px;
+      max-height: 85vh;
+      background: #0b1526;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalFadeIn 0.3s ease-out;
+    }
+    .hero-ai-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(15, 26, 46, 0.95);
+    }
+    .hero-ai-modal-header h3 {
+      margin: 0;
+      font-size: 17px;
+      font-family: 'Playfair Display', serif;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-ai-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .hero-ai-close-btn:hover {
+      background: rgba(212, 175, 55, 0.3);
+      color: var(--gold);
+    }
+    .hero-ai-modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ai-res-text {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #f1f5f9;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 16px;
+      border-radius: 14px;
+      border-left: 3px solid var(--gold);
+    }
+    .ai-project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .ai-prj-card {
+      background: rgba(19, 34, 56, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .ai-prj-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    .ai-prj-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+    }
+    .ai-prj-meta {
+      font-size: 12px;
+      color: var(--gold-light);
+      display: flex;
+      justify-content: space-between;
+    }
+    .ai-prj-desc {
+      font-size: 12px;
+      color: rgba(248, 250, 252, 0.7);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .ai-prj-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .ai-prj-btn {
+      flex: 1;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .ai-prj-btn-primary {
+      background: var(--gold);
+      color: var(--deep-navy);
+    }
+    .ai-prj-btn-wa {
+      background: #25D366;
+      color: #fff;
+    }
+
+    /* ── MOBILE SPECIFIC RESPONSIVE HERO REFINEMENTS ── */
+    @media (max-width: 768px) {
+      .hero-content {
+        padding: 16px 8px !important;
+        border-radius: 20px !important;
+      }
+      .hero-advisor-pill {
+        padding: 4px 14px 4px 6px !important;
+        margin-bottom: 12px !important;
+      }
+      .advisor-avatar-wrap {
+        width: 32px !important;
+        height: 32px !important;
+      }
+      .advisor-name {
+        font-size: 12px !important;
+      }
+      .advisor-meta {
+        font-size: 9.5px !important;
+      }
+      .hero h1 {
+        font-size: clamp(26px, 7.6vw, 36px) !important;
+        margin-bottom: 8px !important;
+      }
+      .hero-subtitle {
+        font-size: 13.5px !important;
+        margin-bottom: 14px !important;
+        min-height: 20px !important;
+      }
+      .hero-ai-search-box {
+        margin-bottom: 14px !important;
+      }
+      .ai-search-input-wrap {
+        padding: 4px 6px 4px 14px !important;
+      }
+      .ai-search-input-wrap input {
+        font-size: 12.5px !important;
+      }
+      .ai-search-submit-btn {
+        padding: 8px 14px !important;
+        font-size: 11.5px !important;
+      }
+      .hero-quick-chips {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+        padding-bottom: 4px !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+      }
+      .hero-quick-chips::-webkit-scrollbar {
+        display: none !important;
+      }
+      .quick-chip {
+        white-space: nowrap !important;
+        font-size: 10.5px !important;
+        padding: 4px 10px !important;
+        flex-shrink: 0 !important;
+      }
+      .hero-trust-strip {
+        margin-top: 12px !important;
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+        gap: 8px !important;
+      }
+    }
+
+    
+    /* ══════════════════════════════════════════════════════════════════
+       NEXA ULTRA-LUXURY DISTRICT ATLAS & LIFESTYLE SUITE
+    ══════════════════════════════════════════════════════════════════ */
+    .nxa-district-atlas-section {
+      position: relative;
+      background: radial-gradient(circle at 50% 20%, rgba(19, 34, 56, 0.45) 0%, rgba(7, 13, 24, 0.95) 80%) !important;
+      border-top: 1px solid rgba(212, 175, 55, 0.18);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+      padding: 90px 0;
+      overflow: hidden;
+    }
+
+    /* Tabs Bar */
+    .nxa-district-tabs-wrap {
+      max-width: 1140px;
+      margin: 0 auto 35px auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 6px;
+    }
+    .nxa-district-tabs-wrap::-webkit-scrollbar {
+      display: none;
+    }
+    .nxa-district-tabs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-width: max-content;
+      padding: 4px;
+    }
+    .nxa-district-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: rgba(15, 26, 46, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      color: rgba(248, 250, 252, 0.85);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: left;
+      user-select: none;
+    }
+    .nxa-district-tab i {
+      font-size: 20px;
+      color: var(--gray-light);
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .nxa-district-tab .tab-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .nxa-district-tab .tab-text strong {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+    }
+    .nxa-district-tab .tab-text span {
+      font-size: 11px;
+      color: var(--gray-light);
+      line-height: 1.25;
+    }
+    .nxa-district-tab:hover {
+      background: rgba(21, 37, 66, 0.9);
+      border-color: rgba(212, 175, 55, 0.5);
+      transform: translateY(-2px);
+    }
+    .nxa-district-tab:hover i {
+      color: var(--gold);
+      transform: scale(1.1);
+    }
+    .nxa-district-tab.active {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(15, 26, 46, 0.95) 100%);
+      border-color: var(--gold);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.25);
+    }
+    .nxa-district-tab.active i {
+      color: var(--gold);
+      transform: scale(1.12);
+    }
+    .nxa-district-tab.active .tab-text strong {
+      color: var(--gold-light);
+    }
+    .nxa-district-tab.active .tab-text span {
+      color: rgba(248, 250, 252, 0.95);
+    }
+
+    /* District Stage (Hero HUD) */
+    .nxa-district-stage {
+      max-width: 1140px;
+      margin: 0 auto 70px auto;
+      background: rgba(13, 23, 40, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(212, 175, 55, 0.15);
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .nxa-district-card {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      min-height: 480px;
+    }
+    .district-card-media {
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+    }
+    .district-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nxa-district-card:hover .district-card-img {
+      transform: scale(1.04);
+    }
+    .district-media-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7,13,24,0.15) 0%, rgba(7,13,24,0.85) 100%);
+    }
+    .district-media-badges {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 2;
+    }
+    .district-badge-pill {
+      background: rgba(7, 13, 24, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 30px;
+      padding: 6px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .district-badge-pill.status-hot {
+      border-color: #22c55e;
+      color: #86efac;
+    }
+    .district-media-bottom {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      z-index: 2;
+    }
+    .district-media-bottom h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 6px 0;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+    .district-media-bottom p {
+      font-size: 13px;
+      color: rgba(248, 250, 252, 0.85);
+      margin: 0;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+    }
+
+    .district-card-content {
+      padding: 36px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .district-desc {
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: rgba(248, 250, 252, 0.85);
+      margin: 0;
+    }
+
+    /* HUD Metrics Grid */
+    .district-hud-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .hud-metric-item {
+      background: rgba(19, 34, 56, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.25s ease;
+    }
+    .hud-metric-item:hover {
+      border-color: var(--gold);
+      background: rgba(23, 42, 70, 0.8);
+      transform: translateY(-2px);
+    }
+    .hud-metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .hud-metric-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Amenities Pill Row */
+    .district-highlights-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .highlight-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(248, 250, 252, 0.9);
+    }
+    .highlight-row i {
+      color: var(--gold);
+      font-size: 14px;
+      width: 18px;
+      text-align: center;
+    }
+
+    /* Actions */
+    .district-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .district-btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: var(--deep-navy) !important;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 12px 24px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .district-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(212, 175, 55, 0.55);
+    }
+    .district-btn-wa {
+      background: rgba(37, 211, 102, 0.15);
+      border: 1px solid rgba(37, 211, 102, 0.4);
+      color: #25D366 !important;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 12px 22px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .district-btn-wa:hover {
+      background: #25D366;
+      color: #fff !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    }
+
+    /* ── PILLARS SECTION (4 INVESTMENT POWERS) ── */
+    .nxa-pillars-wrap {
+      max-width: 1140px;
+      margin: 0 auto 80px auto;
+      background: linear-gradient(135deg, rgba(15, 26, 46, 0.95) 0%, rgba(7, 13, 24, 0.95) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 28px;
+      padding: 45px 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .nxa-pillars-header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+    .nxa-pillars-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .nxa-pillars-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+    }
+    .nxa-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+    .nxa-pillar-card {
+      background: rgba(19, 34, 56, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.3s ease;
+    }
+    .nxa-pillar-card:hover {
+      background: rgba(23, 42, 70, 0.85);
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.18);
+    }
+    .pillar-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .nxa-pillar-card h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+      line-height: 1.3;
+    }
+    .nxa-pillar-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(248, 250, 252, 0.75);
+      margin: 0;
+      flex: 1;
+    }
+    .pillar-metric {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* ── VIP LIFESTYLE & CONCIERGE DIRECTORY (6 CARDS) ── */
+    .nxa-lifestyle-wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+    .nxa-lifestyle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .nxa-life-card {
+      background: rgba(13, 23, 40, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 24px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nxa-life-card:hover {
+      border-color: var(--gold);
+      background: rgba(18, 32, 56, 0.95);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(212, 175, 55, 0.2);
+    }
+    .life-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .life-icon-wrap {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .life-badge {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .life-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+    }
+    .life-card-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(248, 250, 252, 0.75);
+      margin: 0;
+    }
+    .life-card-list {
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .life-card-list li {
+      font-size: 12.5px;
+      color: rgba(248, 250, 252, 0.85);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.45;
+    }
+    .life-card-list li i {
+      color: var(--gold);
+      font-size: 13px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── MOBILE BREAKPOINT OPTIMIZATIONS ── */
+    @media (max-width: 992px) {
+      .nxa-district-card {
+        grid-template-columns: 1fr;
+      }
+      .nxa-pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nxa-lifestyle-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nxa-district-atlas-section {
+        padding: 60px 0;
+      }
+      .nxa-district-tabs-wrap {
+        margin-bottom: 24px;
+      }
+      .nxa-district-tab {
+        padding: 10px 16px;
+      }
+      .nxa-district-card-content {
+        padding: 24px 20px;
+      }
+      .district-hud-metrics {
+        grid-template-columns: 1fr;
+      }
+      .nxa-pillars-wrap {
+        padding: 30px 20px;
+        margin-bottom: 50px;
+      }
+      .nxa-pillars-grid {
+        grid-template-columns: 1fr;
+      }
+      .nxa-lifestyle-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .district-card-media {
+        min-height: 240px;
+      }
+      .district-media-bottom h3 {
+        font-size: 22px;
+      }
+    }
+
+    
+    /* ══════════════════════════════════════════════════════════════════
+       NEXA ULTRA-LUXURY MORPHING DYNAMIC ISLAND NAVBAR
+    ══════════════════════════════════════════════════════════════════ */
+    .nxa-island-nav-wrapper {
+      position: fixed;
+      top: 50px; /* Aligned below 44px top-bar */
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none; /* Side areas pass-through */
+      transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nxa-island-nav-wrapper.scrolled {
+      top: 14px !important;
+    }
+
+    /* Morphing Island Base Container */
+    .nxa-island-container {
+      pointer-events: auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* Collapsed Resting Dimensions */
+      width: 410px;
+      height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+
+      /* Luxury Dark Glassmorphism */
+      background: radial-gradient(circle at 50% 0%, rgba(19, 34, 56, 0.94) 0%, rgba(7, 13, 24, 0.92) 100%);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 25px rgba(212, 175, 55, 0.18);
+
+      cursor: pointer;
+      overflow: hidden;
+      user-select: none;
+
+      /* Cinematic Spring Morphing Physics */
+      transition:
+        width 0.46s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.4s ease,
+        transform 0.25s ease;
+      transform-origin: center top;
+    }
+
+    /* Collapsed Hover Micro-Lift & Golden Aura */
+    .nxa-island-container:not(.is-expanded):hover {
+      transform: translateY(-2px) scale(1.015);
+      border-color: rgba(212, 175, 55, 0.75);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 35px rgba(212, 175, 55, 0.35);
+    }
+
+    /* ══════════ EXPANDED FULL NAVBAR RECTANGLE ══════════ */
+    .nxa-island-container.is-expanded {
+      width: min(1440px, calc(100vw - 32px));
+      height: 66px;
+      border-radius: 18px;
+      padding: 0 32px;
+      cursor: default;
+
+      background: rgba(7, 13, 24, 0.96);
+      backdrop-filter: blur(28px) saturate(200%);
+      -webkit-backdrop-filter: blur(28px) saturate(200%);
+      border: 1px solid rgba(212, 175, 55, 0.32);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(212, 175, 55, 0.22);
+      transform: translateY(0);
+    }
+
+    /* 1. COLLAPSED INNER CONTENT */
+    .nxa-island-collapsed {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .nxa-island-container.is-expanded .nxa-island-collapsed {
+      opacity: 0;
+      transform: scale(0.92);
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .nxa-island-pulse-wrap {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nxa-island-pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--gold);
+    }
+    .nxa-island-pulse {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      animation: islandBeaconPulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+    @keyframes islandBeaconPulse {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .nxa-island-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+    .nxa-island-brand .gold-text {
+      color: var(--gold);
+    }
+
+    .nxa-island-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(212, 175, 55, 0.35);
+    }
+
+    .nxa-island-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: rgba(248, 250, 252, 0.92);
+      letter-spacing: 0.02em;
+    }
+
+    .nxa-island-trigger-hint {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .nxa-island-chevron {
+      font-size: 9px;
+      animation: islandBounceMicro 1.8s ease-in-out infinite;
+    }
+    @keyframes islandBounceMicro {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(2.5px); }
+    }
+
+    /* Shimmer Sweep Animation Across Capsule */
+    .nxa-island-shimmer {
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+      transform: skewX(-25deg);
+      animation: islandSweepShimmer 4.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes islandSweepShimmer {
+      0% { left: -120%; }
+      35%, 100% { left: 180%; }
+    }
+
+    /* 2. EXPANDED INNER CONTENT (FULL NAVBAR) */
+    .nxa-island-expanded {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease 0.06s;
+    }
+
+    .nxa-island-container.is-expanded .nxa-island-expanded {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Expanded Logo */
+    .nxa-expanded-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transform: translateX(-12px);
+      opacity: 0;
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.35s ease 0.08s;
+    }
+    .nxa-island-container.is-expanded .nxa-expanded-logo {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    /* Expanded Navigation Links */
+    .nxa-expanded-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, opacity 0.35s ease 0.12s;
+    }
+    .nxa-island-container.is-expanded .nxa-expanded-links {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nxa-nav-item {
+      color: rgba(248, 250, 252, 0.88) !important;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 6px 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      position: relative;
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+    .nxa-nav-item i {
+      color: var(--gold);
+      font-size: 13px;
+      transition: transform 0.25s ease;
+    }
+    .nxa-nav-item:hover {
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
+    .nxa-nav-item:hover i {
+      transform: scale(1.18);
+    }
+    .nxa-nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+    .nxa-nav-item:hover::after {
+      width: 80%;
+    }
+
+    /* Expanded Action Button */
+    .nxa-expanded-action {
+      flex-shrink: 0;
+      transform: translateX(12px);
+      opacity: 0;
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.14s, opacity 0.35s ease 0.14s;
+    }
+    .nxa-island-container.is-expanded .nxa-expanded-action {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .nxa-nav-terminal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.06) 100%);
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      padding: 7px 18px;
+      border-radius: 999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+      transition: all 0.3s ease;
+    }
+    .nxa-nav-terminal-btn:hover {
+      background: var(--gold);
+      color: #070d18 !important;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+      transform: translateY(-1px);
+    }
+
+    /* ══════════ MOBILE ADAPTATIONS ══════════ */
+    @media (max-width: 1200px) {
+      .nxa-expanded-links {
+        gap: 12px;
+      }
+      .nxa-nav-item {
+        font-size: 12px;
+        gap: 4px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .nxa-island-nav-wrapper {
+        top: 10px !important;
+      }
+      .nxa-island-container {
+        width: calc(100vw - 24px) !important;
+        max-width: 390px;
+        height: 46px !important;
+      }
+      .nxa-island-container.is-expanded {
+        width: calc(100vw - 24px) !important;
+        height: 54px !important;
+        padding: 0 16px !important;
+      }
+      .nxa-expanded-links {
+        display: none !important; /* Managed via mobile drawer */
+      }
+      .nxa-expanded-action {
+        display: none !important;
+      }
+      .mobile-toggle {
+        display: flex !important;
+        margin-left: auto;
+      }
+    }
+
+    </style>
 
   <!-- ══ DEĞERLEME RAPOR MODAL ══════════════════════════════════════════════ -->
   <style>
@@ -5344,30 +6681,71 @@
 
   <div class="grain"></div>
 
-  <!-- Navigation -->
-  <div class="nav-wrapper" id="navbar">
-    <nav>
-      <a href="#home" class="logo">Yiğit <span style="color:var(--gold);">Narin</span></a>
-      <div class="nav-links" id="navLinks">
-        <a href="#home">Ana Sayfa</a>
-        <a href="#harita"><i class="fas fa-map-marker-alt" style="margin-right:4px;color:var(--gold);"></i>Harita</a>
-        <a href="#portfolio">Portföy</a>
-        <a href="/ilanlar"><i class="fas fa-th-list" style="margin-right:4px;color:var(--gold);"></i>İlanlar</a>
-        <a href="/ai-analysis"><i class="fas fa-robot" style="margin-right:4px;color:var(--gold);"></i>AI Analiz</a>
-        <a href="/intelligence"><i class="fas fa-chart-line" style="margin-right:4px;color:var(--gold);"></i>Piyasa Zekası</a>
-        <a href="/sunum"><i class="fas fa-folder-open" style="margin-right:4px;color:var(--gold);"></i>Projeler</a>
-        <a href="#services">Hizmetler</a>
-        <a href="#odullerimiz"><i class="fas fa-award" style="margin-right:4px;color:var(--gold);"></i>Ödüller</a>
-        <a href="#testimonials">Referanslar</a>
-        <a href="#contact">İletişim</a>
-        <a href="/dashboard" style="background:linear-gradient(135deg,rgba(201,164,92,0.2),rgba(201,164,92,0.05));border:1px solid var(--gold);color:var(--gold);padding:6px 14px;border-radius:20px;font-weight:700;"><i class="fas fa-terminal" style="margin-right:5px;"></i>NEXA.OS</a>
+    <!-- Navigation: Ultra-Luxury Morphing Dynamic Island Navbar -->
+  <div class="nxa-island-nav-wrapper" id="navbar">
+    <div class="nxa-island-container" id="nxaIslandNav" role="navigation" aria-label="Ana Navigasyon">
+
+      <!-- 1. RESTING / COLLAPSED STATE (Orta İlgi Çekici Kapsül) -->
+      <div class="nxa-island-collapsed" id="nxaIslandCollapsed">
+        <div class="nxa-island-pulse-wrap" title="Coldwell Banker VIP Live">
+          <span class="nxa-island-pulse"></span>
+          <span class="nxa-island-pulse-dot"></span>
+        </div>
+        <div class="nxa-island-brand">
+          Yiğit <span class="gold-text">Narin</span>
+        </div>
+        <span class="nxa-island-divider"></span>
+        <div class="nxa-island-badge">
+          <i class="fas fa-compass" style="color:var(--gold);"></i>
+          <span>VIP Portföy &amp; Zeka Menüsü</span>
+        </div>
+        <div class="nxa-island-trigger-hint">
+          <span>Keşfet</span>
+          <i class="fas fa-chevron-down nxa-island-chevron"></i>
+        </div>
+        <div class="nxa-island-shimmer"></div>
       </div>
-      <div class="mobile-toggle" id="mobileToggle">
-        <span></span>
-        <span></span>
-        <span></span>
+
+      <!-- 2. EXPANDED STATE (Görseldeki Tam Lüks Dikdörtgen Navbar) -->
+      <div class="nxa-island-expanded" id="nxaIslandExpanded">
+        <!-- Logo -->
+        <a href="#home" class="logo nxa-expanded-logo">
+          Yiğit <span style="color:var(--gold);">Narin</span>
+        </a>
+
+        <!-- Nav Links (Pixel-perfect to user's uploaded image) -->
+        <div class="nav-links nxa-expanded-links" id="navLinks">
+          <a href="#home" class="nxa-nav-item">Ana Sayfa</a>
+          <a href="#harita" class="nxa-nav-item"><i class="fas fa-map-marker-alt"></i>Harita</a>
+          <a href="#portfolio" class="nxa-nav-item">Portföy</a>
+          <a href="/ilanlar" class="nxa-nav-item"><i class="fas fa-th-list"></i>İlanlar</a>
+          <a href="/ai-analysis" class="nxa-nav-item"><i class="fas fa-robot"></i>AI Analiz</a>
+          <a href="/intelligence" class="nxa-nav-item"><i class="fas fa-chart-line"></i>Piyasa Zekası</a>
+          <a href="/sunum" class="nxa-nav-item"><i class="fas fa-folder-open"></i>Projeler</a>
+          <a href="#services" class="nxa-nav-item">Hizmetler</a>
+          <a href="#odullerimiz" class="nxa-nav-item"><i class="fas fa-award"></i>Ödüller</a>
+          <a href="#testimonials" class="nxa-nav-item">Referanslar</a>
+          <a href="#contact" class="nxa-nav-item">İletişim</a>
+          <!-- Mobile Drawer NEXA.OS button -->
+          <a href="/dashboard" class="nxa-nav-item nxa-mobile-only-btn" style="display:none;"><i class="fas fa-terminal"></i>NEXA.OS</a>
+        </div>
+
+        <!-- Desktop Right Action -->
+        <div class="nxa-expanded-action">
+          <a href="/dashboard" class="nxa-nav-terminal-btn" title="NEXA.OS Komuta Paneli">
+            <i class="fas fa-terminal"></i>NEXA.OS
+          </a>
+        </div>
+
+        <!-- Mobile Toggle Button -->
+        <div class="mobile-toggle" id="mobileToggle" aria-label="Mobil Menüyü Aç">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
-    </nav>
+
+    </div>
   </div>
   <!-- Mobil menü karartma overlay -->
   <div class="nav-overlay" id="navOverlay"></div>
@@ -5440,20 +6818,63 @@
       </div>
     </div>
     <div class="hero-content">
-      <div class="hero-badge">Coldwell Banker CB VIP Ankara</div>
-      <h1>Ankara'da<br/>Akıllı Yatırım</h1>
+      <!-- Executive Advisor Presence Pill -->
+      <div class="hero-advisor-pill" onclick="window.open('https://wa.me/905324514008?text=Merhaba%20Yi%C4%9Fit%20Bey,%20VIP%20portf%C3%B6y%20ve%20yat%C4%B1r%C4%B1m%20dan%C4%B1%C5%9Fmanl%C4%B1%C4%9F%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.', '_blank')" title="Yiğit Narin ile Canlı WhatsApp İletişimi">
+        <div class="advisor-avatar-wrap">
+          <img src="/static/yigit_narin_portrait.png" alt="Yiğit Narin" class="advisor-avatar" onerror="this.src='https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png'">
+          <span class="advisor-live-dot"></span>
+        </div>
+        <div class="advisor-info">
+          <span class="advisor-name">Yiğit Narin <i class="fas fa-badge-check" style="color:var(--gold); font-size:12px;"></i></span>
+          <span class="advisor-meta">Coldwell Banker CB VIP • Çevrimiçi Danışman</span>
+        </div>
+        <i class="fab fa-whatsapp advisor-arrow"></i>
+      </div>
+
+      <!-- High-Impact Editorial Title -->
+      <h1>Ankara'da <span class="gold-gradient-text">Akıllı Yatırım</span> &amp; VIP Portföy</h1>
+
       <p class="hero-subtitle">
         <span id="typingText"></span>
       </p>
+
+      <!-- Spotlight Hero AI Smart Search Bar -->
+      <div class="hero-ai-search-box" id="heroAiSearchBox">
+        <div class="ai-search-input-wrap">
+          <i class="fas fa-sparkles ai-sparkle-icon"></i>
+          <input type="text" id="heroAiQueryInput" placeholder="Nereye veya hangi bütçeye yatırım arıyorsunuz? (Örn: 2M altı, Beytepe villa...)" autocomplete="off" onkeydown="if(event.key==='Enter') handleHeroAiSearch()">
+          <button type="button" class="ai-search-submit-btn" id="heroAiSearchBtn" onclick="handleHeroAiSearch()">
+            <span>Keşfet</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+        <div class="hero-quick-chips">
+          <button type="button" class="quick-chip" onclick="quickHeroAiSearch('2 milyon altında ne var?')">₺1.5M - ₺3M Fırsatlar</button>
+          <button type="button" class="quick-chip" onclick="quickHeroAiSearch('Beytepe ve Çayyolu projeleri')">Beytepe &amp; Çayyolu</button>
+          <button type="button" class="quick-chip" onclick="quickHeroAiSearch('Yüksek kira getirili ticari ofis ve sanayi')">Ticari / Sanayi</button>
+          <button type="button" class="quick-chip" onclick="quickHeroAiSearch('Hemen teslim villa projeleri')">Hemen Teslim Villa</button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
       <div class="hero-cta">
         <a href="#contact" class="btn btn-primary">
           <span>Ücretsiz Değerleme</span>
-          <i class="fas fa-arrow-right"></i>
+          <i class="fas fa-calculator"></i>
         </a>
         <a href="#portfolio" class="btn btn-secondary">
-          <span>Portföyü İncele</span>
-          <i class="fas fa-building"></i>
+          <span>36 Seçkin Proje</span>
+          <i class="fas fa-th-large"></i>
         </a>
+      </div>
+
+      <!-- Social Proof Trust Strip -->
+      <div class="hero-trust-strip">
+        <div class="trust-badge-item"><i class="fas fa-shield-halved"></i> <span>Yetki Belgesi: 0600470</span></div>
+        <div class="trust-sep">◈</div>
+        <div class="trust-badge-item"><i class="fas fa-building"></i> <span>36 Seçkin Proje</span></div>
+        <div class="trust-sep">◈</div>
+        <div class="trust-badge-item"><i class="fas fa-award"></i> <span>Coldwell Banker CB VIP Ankara</span></div>
       </div>
     </div>
     <div class="scroll-indicator">
@@ -5879,236 +7300,267 @@
     </style>
   </section>
 
-  <!-- About Ankara Section -->
-  <section class="section">
+    <!-- ══════════════════════════════════════════════════════════════════════════
+       ANKARA VIP BÖLGE REHBERİ & YAŞAM ATLASI (ULTRA-PREMIUM REDESIGN)
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <section class="section section-dark nxa-district-atlas-section" id="bolgeRehberi">
     <div class="container">
-      <div class="section-header">
-        <span class="section-label">Bölge Rehberi</span>
-        <h2 class="section-title">Ankara'yı Keşfedin</h2>
+      
+      <!-- Section Header -->
+      <div class="section-header text-center" style="margin-bottom: 45px;">
+        <span class="section-label"><i class="fas fa-compass" style="color:var(--gold); margin-right:6px;"></i> Bölge &amp; Lokasyon İstihbaratı</span>
+        <h2 class="section-title">Ankara Prestij &amp; Yatırım Atlası</h2>
         <p class="section-subtitle">
-          Çankaya'nın gözde şehri Ankara, modern yaşamın tüm olanaklarını sunan bir bölgedir
+          Başkentin en yüksek sermaye getirisi, diplomatik güvenlik ve lüks yaşam standartlarına sahip elit akslarını veriye dayalı mimariyle keşfedin.
         </p>
       </div>
 
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-img">
-            <img src="https://i.ibb.co/1G0NFt12/dikmen-vadisi-1.jpg" alt="Ankara Manzarası">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Ankara Yaşamı</h3>
-            <p class="card-location"><i class="fas fa-tree"></i> 378.695 m² Yeşil Alan</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Türkiye'nin en önemli kentsel dönüşüm projesi. 120.000+ ağaç, 50+ bitki türü, 
-              yürüyüş yolları, göletler, kafeler ve sosyal tesislerle 24 saat canlı yaşam alanı.
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Spor ve kondisyon alanları</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Çocuk oyun alanları</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Kafe ve restoranlar</div>
+      <!-- Bölüm 1: İnteraktif Bölge Sekmeleri (Horizontal Tabs) -->
+      <div class="nxa-district-tabs-wrap">
+        <div class="nxa-district-tabs" id="nxaDistrictTabs">
+          <button type="button" class="nxa-district-tab active" onclick="switchDistrictTab('cankaya')" id="tabBtn-cankaya">
+            <i class="fas fa-landmark"></i>
+            <div class="tab-text">
+              <strong>Çankaya &amp; Cinnah</strong>
+              <span>Diplomatik &amp; Ticari Merkez</span>
+            </div>
+          </button>
+          <button type="button" class="nxa-district-tab" onclick="switchDistrictTab('beytepe')" id="tabBtn-beytepe">
+            <i class="fas fa-crown"></i>
+            <div class="tab-text">
+              <strong>Beytepe &amp; Bilkent</strong>
+              <span>Ultra-Lüks Villa Muhiti</span>
+            </div>
+          </button>
+          <button type="button" class="nxa-district-tab" onclick="switchDistrictTab('cayyolu')" id="tabBtn-cayyolu">
+            <i class="fas fa-city"></i>
+            <div class="tab-text">
+              <strong>Çayyolu &amp; Yaşamkent</strong>
+              <span>A+ Aile &amp; Sosyal Yaşam</span>
+            </div>
+          </button>
+          <button type="button" class="nxa-district-tab" onclick="switchDistrictTab('incek')" id="tabBtn-incek">
+            <i class="fas fa-tree"></i>
+            <div class="tab-text">
+              <strong>İncek &amp; Gölbaşı</strong>
+              <span>Müstakil Kampüs &amp; Doğa</span>
+            </div>
+          </button>
+          <button type="button" class="nxa-district-tab" onclick="switchDistrictTab('saray')" id="tabBtn-saray">
+            <i class="fas fa-industry"></i>
+            <div class="tab-text">
+              <strong>Kazan / Saray Aksı</strong>
+              <span>Yüksek Getirili Ticari &amp; Sanayi</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Dinamik Bölge Kartı Sahnesi (HUD Stage) -->
+      <div class="nxa-district-stage" id="nxaDistrictStage">
+        <!-- Default Content: Çankaya -->
+        <div class="nxa-district-card" id="districtCardActive">
+          <div class="district-card-media">
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80" alt="Çankaya & Cinnah" class="district-card-img" id="districtMediaImg">
+            <div class="district-media-scrim"></div>
+            <div class="district-media-badges">
+              <span class="district-badge-pill"><i class="fas fa-chart-line"></i> Yıllık Prim: +%24.8</span>
+              <span class="district-badge-pill status-hot"><i class="fas fa-fire"></i> Çok Yüksek Likidite</span>
+            </div>
+            <div class="district-media-bottom">
+              <h3 id="districtMediaTitle">Çankaya &amp; Cinnah Aksı</h3>
+              <p id="districtMediaSubtitle">Başkentin Diplomatik Kalbi, Elçilikler &amp; Elit Rezidans Muhiti</p>
             </div>
           </div>
-        </div>
 
-        <div class="card">
-          <div class="card-img">
-            <img src="https://i.ibb.co/svh0VtH4/dikmen-vadisi-bir.jpg" alt="Ulaşım">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Mükemmel Ulaşım</h3>
-            <p class="card-location"><i class="fas fa-subway"></i> Metro + Otobüs Ağı</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              M4 metro hattı, 145, 154, 155, 183, 185 ve 20+ otobüs hattıyla şehrin her noktasına kolay erişim. 
-              Kızılay'a 10 dakika, şehir merkezine 15 dakika mesafede.
+          <div class="district-card-content">
+            <p class="district-desc" id="districtDescText">
+              Türkiye'nin diplomatik ve bürokratik merkezi. Bakanlıklar, büyükelçilikler, Cinnah Caddesi ve Seğmenler Parkı çevresinde; krizlerden bağımsız kesintisiz kurumsal ve döviz bazlı kiralama talebi sunan en köklü yatırım havzası.
             </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> M4 Metro Hattı</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> 20+ Otobüs Hattı</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Ana arterlere yakınlık</div>
+
+            <div class="district-hud-metrics" id="districtHudMetrics">
+              <div class="hud-metric-item">
+                <span class="hud-metric-label"><i class="fas fa-coins"></i> Ortalama Satış m² Değeri</span>
+                <span class="hud-metric-val" id="hudM2Val">₺82.000 / m²</span>
+              </div>
+              <div class="hud-metric-item">
+                <span class="hud-metric-label"><i class="fas fa-calculator"></i> Ortalama Kira Çarpanı</span>
+                <span class="hud-metric-val" id="hudRoiVal">13.5 Yıl (Hızlı)</span>
+              </div>
+              <div class="hud-metric-item">
+                <span class="hud-metric-label"><i class="fas fa-clock"></i> Kızılay &amp; Şehir Merkezi</span>
+                <span class="hud-metric-val" id="hudDistVal">6 - 10 Dk</span>
+              </div>
+              <div class="hud-metric-item">
+                <span class="hud-metric-label"><i class="fas fa-shield-halved"></i> Güvenlik &amp; Prestij İndeksi</span>
+                <span class="hud-metric-val" id="hudScoreVal">9.9 / 10</span>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div class="card">
-          <div class="card-img">
-            <img src="https://i.ibb.co/0jtyK3kp/08c3439cad3cab4db7da128837cc896f.jpg" alt="Sosyal Donatı">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Sosyal Donatılar</h3>
-            <p class="card-location"><i class="fas fa-graduation-cap"></i> Eğitim & Yaşam</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Kaliteli okullar, alışveriş merkezleri, hastaneler, spor tesisleri ve kültür merkezleriyle 
-              tam donanımlı yaşam alanı. Atakule, ANKAmall ve Kentpark yakınında.
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Kaliteli eğitim kurumları</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> AVM'lere yakınlık</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Sağlık tesisleri</div>
+            <div class="district-highlights-list" id="districtHighlightsList">
+              <div class="highlight-row"><i class="fas fa-landmark"></i> <strong>Diplomasi &amp; Bürokrasi:</strong> Elçilikler Row, TBMM, Bakanlıklar ve Çankaya Köşkü aksı</div>
+              <div class="highlight-row"><i class="fas fa-utensils"></i> <strong>Gastronomi &amp; Sosyal Yaşam:</strong> Atakule, Arjantin, Filistin ve Tunalı Hilmi fine dining merkezleri</div>
+              <div class="highlight-row"><i class="fas fa-tree"></i> <strong>Kentsel Yeşil Alanlar:</strong> Seğmenler Parkı, Kuğulu Park, Dikmen Vadisi Kentsel Koridoru</div>
+            </div>
+
+            <div class="district-card-actions">
+              <a href="#portfolio" onclick="filterPortfolioByDistrict('Çankaya')" class="district-btn-primary" id="districtActionBtn">
+                <i class="fas fa-building"></i> <span id="districtActionText">Çankaya VIP Portföylerini Gör</span>
+              </a>
+              <a href="https://wa.me/905324514008?text=Merhaba%20Yi%C4%9Fit%20Bey,%20%C3%87ankaya%20b%C3%B6lgesindeki%20VIP%20portf%C3%B6y%20ve%20yat%C4%B1r%C4%B1m%20f%C4%B1rsatlar%C4%B1%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum." target="_blank" class="district-btn-wa">
+                <i class="fab fa-whatsapp"></i> Bölge Raporu İste
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      <div style="margin-top: 60px; background: linear-gradient(135deg, var(--navy) 0%, var(--deep-navy) 100%); padding: 50px; border-radius: 30px; text-align: center; color: var(--white);">
-        <h3 style="font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 20px; color: var(--gold-light);">
-          Ankara'da Neden Yatırım Yapmalısınız?
-        </h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; text-align: left;">
-          <div>
-            <div style="font-size: 40px; color: var(--gold); margin-bottom: 15px;">📍</div>
-            <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--gold-light);">Stratejik Konum</h4>
-            <p style="color: var(--gray-light); line-height: 1.7; font-size: 14px;">
-              Çankaya merkez aksında, şehir merkezine 10km, Kızılay'a 10 dakika mesafede premium lokasyon
-            </p>
+      <!-- Bölüm 2: Ankara Gayrimenkul Yatırımının 4 Stratejik Gücü -->
+      <div class="nxa-pillars-wrap">
+        <div class="nxa-pillars-header">
+          <span class="nxa-pillars-badge"><i class="fas fa-shield-alt"></i> Sermaye Koruması &amp; Yüksek Prim</span>
+          <h3 class="nxa-pillars-title">Ankara Gayrimenkul Yatırımının 4 Stratejik Gücü</h3>
+        </div>
+        <div class="nxa-pillars-grid">
+          <div class="nxa-pillar-card">
+            <div class="pillar-icon-box"><i class="fas fa-landmark-dome"></i></div>
+            <h4>Diplomatik &amp; Bürokratik Kalkan</h4>
+            <p>Başkent statüsü, büyükelçilikler, bakanlıklar ve uluslararası temsilcilikler sayesinde ekonomik dalgalanmalarda bile döviz bazlı kesintisiz kiralama talebi.</p>
+            <div class="pillar-metric"><i class="fas fa-arrow-trend-up"></i> Kesintisiz Yüksek Likidite</div>
           </div>
-          <div>
-            <div style="font-size: 40px; color: var(--gold); margin-bottom: 15px;">🌳</div>
-            <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--gold-light);">Yeşil Yaşam</h4>
-            <p style="color: var(--gray-light); line-height: 1.7; font-size: 14px;">
-              Ankara'nın parklarına yakın, 378.695 m² yeşil alan, temiz hava ve doğayla iç içe yaşam
-            </p>
+          <div class="nxa-pillar-card">
+            <div class="pillar-icon-box"><i class="fas fa-gem"></i></div>
+            <h4>Sınırlı İmar &amp; Değer Konsolidasyonu</h4>
+            <p>Çankaya, Beytepe ve İncek akslarında yeni nitelikli imarlı arsa stoğunun tükenmesi, mevcut lüks rezidans ve villaların değerini her yıl katlamaktadır.</p>
+            <div class="pillar-metric"><i class="fas fa-chart-line"></i> Yıllık +%24+ Reel Artış</div>
           </div>
-          <div>
-            <div style="font-size: 40px; color: var(--gold); margin-bottom: 15px;">🚇</div>
-            <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--gold-light);">Ulaşım Kolaylığı</h4>
-            <p style="color: var(--gray-light); line-height: 1.7; font-size: 14px;">
-              M4 metro + 20+ otobüs hattı, ana arterler ve gelişmiş ulaşım ağı
-            </p>
+          <div class="nxa-pillar-card">
+            <div class="pillar-icon-box"><i class="fas fa-subway"></i></div>
+            <h4>Kesintisiz Stratejik Mobilite</h4>
+            <p>Esenboğa VIP Protokol yolu, M2/M4 metro ağları, YHT Hızlı Tren Garı ve çevre yolu yoncalarıyla trafiğe takılmadan kentin her noktasına hızlı erişim.</p>
+            <div class="pillar-metric"><i class="fas fa-clock"></i> 8-15 Dk Transit Ulaşım</div>
           </div>
-          <div>
-            <div style="font-size: 40px; color: var(--gold); margin-bottom: 15px;">📈</div>
-            <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--gold-light);">Değer Artışı</h4>
-            <p style="color: var(--gray-light); line-height: 1.7; font-size: 14px;">
-              Kentsel dönüşüm, yatırım artışı ve sürekli gelişen altyapı ile yüksek değer potansiyeli
-            </p>
+          <div class="nxa-pillar-card">
+            <div class="pillar-icon-box"><i class="fas fa-coins"></i></div>
+            <h4>Lojistik &amp; Ticari Amortisman Rekoru</h4>
+            <p>Kazan-Saray ve İstanbul yolu akslarındaki modern sanayi, lojistik depo ve ticari ofis projelerinde 10-12 yıl arası rekor amortisman süreleri.</p>
+            <div class="pillar-metric"><i class="fas fa-bolt"></i> %10-12 Yıllık ROI Çarpanı</div>
           </div>
         </div>
       </div>
+
+      <!-- Bölüm 3: A++ VIP Yaşam Kolaylığı & Konsiyerj Atlası -->
+      <div class="nxa-lifestyle-wrap">
+        <div class="section-header text-center" style="margin-bottom:35px;">
+          <span class="section-label"><i class="fas fa-crown" style="color:var(--gold); margin-right:6px;"></i> VIP Yaşam Standartları</span>
+          <h2 class="section-title">A++ Yaşam Standartları &amp; Elit Donatılar</h2>
+          <p class="section-subtitle">
+            Ankara'nın seçkin sakinleri için uluslararası kalitede sağlık, eğitim, diplomasi, gastronomi ve yeşil vaha ekosistemi.
+          </p>
+        </div>
+
+        <div class="nxa-lifestyle-grid">
+          <!-- Kart 1: Sağlık & Medikal -->
+          <div class="nxa-life-card">
+            <div class="life-card-header">
+              <div class="life-icon-wrap" style="color:#ef4444; background:rgba(239,68,68,0.12);"><i class="fas fa-heart-pulse"></i></div>
+              <span class="life-badge">7/24 VIP Sağlık</span>
+            </div>
+            <h3 class="life-card-title">A++ Sağlık &amp; Medikal Ağ</h3>
+            <p class="life-card-desc">Türkiye'nin en donanımlı tıp fakülteleri ve dünya akreditasyonlu özel hastaneleriyle tam teşekküllü sağlık güvencesi.</p>
+            <ul class="life-card-list">
+              <li><i class="fas fa-circle-check"></i> <strong>Memorial Ankara Hastanesi</strong> (Çankaya)</li>
+              <li><i class="fas fa-circle-check"></i> <strong>Medicana International Ankara</strong> (Söğütözü)</li>
+              <li><i class="fas fa-circle-check"></i> <strong>Bilkent Şehir Hastanesi &amp; Güven Hastanesi</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Bayındır &amp; Acıbadem VIP Klinikler</strong></li>
+            </ul>
+          </div>
+
+          <!-- Kart 2: Lüks Alışveriş & Moda -->
+          <div class="nxa-life-card">
+            <div class="life-card-header">
+              <div class="life-icon-wrap" style="color:var(--gold); background:rgba(212,175,55,0.12);"><i class="fas fa-bag-shopping"></i></div>
+              <span class="life-badge">Haute Couture</span>
+            </div>
+            <h3 class="life-card-title">Lüks Alışveriş &amp; AVM</h3>
+            <p class="life-card-desc">Dünya devi moda markaları, açık hava alışveriş sokakları, gurme marketler ve elit sosyal yaşam merkezleri.</p>
+            <ul class="life-card-list">
+              <li><i class="fas fa-circle-check"></i> <strong>Atakule &amp; Cinnah Butikleri</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Panora &amp; One Tower Alışveriş Aksı</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Armada Lifestyle &amp; Kentpark AVM</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Beymen Çankaya &amp; Tasarım Konseptleri</strong></li>
+            </ul>
+          </div>
+
+          <!-- Kart 3: Elit Eğitim & Kolejler -->
+          <div class="nxa-life-card">
+            <div class="life-card-header">
+              <div class="life-icon-wrap" style="color:#38bdf8; background:rgba(56,189,248,0.12);"><i class="fas fa-graduation-cap"></i></div>
+              <span class="life-badge">Dünya Standartı</span>
+            </div>
+            <h3 class="life-card-title">Seçkin Eğitim &amp; Akademi</h3>
+            <p class="life-card-desc">Uluslararası bakalorya (IB) veren köklü kolejler ve dünya sıralamasında üst sıralardaki araştırma üniversiteleri.</p>
+            <ul class="life-card-list">
+              <li><i class="fas fa-circle-check"></i> <strong>TED Ankara Koleji İncek Kampüsü</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Bilkent Üniversitesi &amp; BLIS Okulu</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>ODTÜ &amp; Hacettepe Teknokentleri</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Lycée Français Charles de Gaulle</strong></li>
+            </ul>
+          </div>
+
+          <!-- Kart 4: Gastronomi & Kulüpler -->
+          <div class="nxa-life-card">
+            <div class="life-card-header">
+              <div class="life-icon-wrap" style="color:#f59e0b; background:rgba(245,158,11,0.12);"><i class="fas fa-wine-glass"></i></div>
+              <span class="life-badge">Fine Dining</span>
+            </div>
+            <h3 class="life-card-title">Gastronomi &amp; Özel Kulüpler</h3>
+            <p class="life-card-desc">Michelin rehberi standartlarında şef restoranları, diplomatik kulüpler, golf sahaları ve binicilik merkezleri.</p>
+            <ul class="life-card-list">
+              <li><i class="fas fa-circle-check"></i> <strong>Filistin, Arjantin &amp; Park Caddesi Restoranları</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Ankara Golf Kulübü &amp; Binicilik Tesisleri</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Bilkent Tenis &amp; Yüzme Spor Kulübü</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Butik Şarap &amp; Gurme Tadım Evleri</strong></li>
+            </ul>
+          </div>
+
+          <!-- Kart 5: Diplomatik Ulaşım -->
+          <div class="nxa-life-card">
+            <div class="life-card-header">
+              <div class="life-icon-wrap" style="color:#10b981; background:rgba(16,185,129,0.12);"><i class="fas fa-plane-departure"></i></div>
+              <span class="life-badge">Hızlı Erişim</span>
+            </div>
+            <h3 class="life-card-title">Stratejik Ulaşım &amp; Mobilite</h3>
+            <p class="life-card-desc">Kentin ana omurgasını birbirine bağlayan ekspres protokol yolları, metro hatları ve havalimanı VIP aksı.</p>
+            <ul class="life-card-list">
+              <li><i class="fas fa-circle-check"></i> <strong>Esenboğa Havalimanı VIP Yolu</strong> (25-30 Dk)</li>
+              <li><i class="fas fa-circle-check"></i> <strong>M2 Çayyolu &amp; M4 Keçiören Metro Hatları</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>YHT Ankara Hızlı Tren Terminali</strong> (12 Dk)</li>
+              <li><i class="fas fa-circle-check"></i> <strong>Çevre Yolu Yonca Bağlantıları</strong> (Doğrudan)</li>
+            </ul>
+          </div>
+
+          <!-- Kart 6: Doğal Vahalar & Göller -->
+          <div class="nxa-life-card">
+            <div class="life-card-header">
+              <div class="life-icon-wrap" style="color:#84cc16; background:rgba(132,204,22,0.12);"><i class="fas fa-mountain-sun"></i></div>
+              <span class="life-badge">Ekolojik Yaşam</span>
+            </div>
+            <h3 class="life-card-title">Yeşil Vahalar &amp; Göller</h3>
+            <p class="life-card-desc">Şehrin karmaşasından uzaklaşabileceğiniz, çam ormanları ve göl manzaralarıyla çevrili koruma altındaki doğal alanlar.</p>
+            <ul class="life-card-list">
+              <li><i class="fas fa-circle-check"></i> <strong>Eymir Gölü &amp; ODTÜ Çam Ormanları</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Mogan Tabiat Parkı &amp; Su Sporları</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Dikmen Vadisi 370.000 m² Kentsel Park</strong></li>
+              <li><i class="fas fa-circle-check"></i> <strong>Beytepe &amp; İncek Botanik Koruları</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Local Places Section -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-label">Lokal Mekanlar</span>
-        <h2 class="section-title">Ankara'da Yaşam Kolaylığı</h2>
-        <p class="section-subtitle">
-          Günlük yaşamınızı kolaylaştıran tüm hizmetler ayağınızın dibinde
-        </p>
-      </div>
-
-      <div class="cards-grid" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80" alt="Hastaneler">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Sağlık Tesisleri</h3>
-            <p class="card-location"><i class="fas fa-hospital"></i> Yakın Hastaneler</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Ankara'da ve çevresinde 7/24 hizmet veren özel ve devlet hastaneleri, poliklinikler ve eczaneler
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Medicana Hastanesi</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Memorial Hastanesi</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Ankara Sağlık Tesisleri</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Alışveriş">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Alışveriş Merkezleri</h3>
-            <p class="card-location"><i class="fas fa-shopping-bag"></i> AVM & Market</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Modern alışveriş merkezleri, süpermarketler ve yerel marketlerle eksiksiz alışveriş deneyimi
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> ANKAmall (5 dk)</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Atakule AVM (7 dk)</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Migros, Carrefour, A101</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=800&q=80" alt="Servisler">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Teknik Servisler</h3>
-            <p class="card-location"><i class="fas fa-tools"></i> Tamirci & Servis</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Otomotiv, beyaz eşya ve elektronik cihazlar için profesyonel teknik servisler
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Oto Tamirhaneleri</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Beyaz Eşya Servisleri</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Elektrikçi & Tesisatçı</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Kafe & Restoran">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Kafe & Restoran</h3>
-            <p class="card-location"><i class="fas fa-utensils"></i> Lezzet Noktaları</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Michelin yıldızlı restoranlardan mahalle lokantalarına kadar geniş lezzet yelpazesi
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Boutique Kafeler</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Fine Dining Restoranlar</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Yerel Lezzetler</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80" alt="Spor">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Spor Merkezleri</h3>
-            <p class="card-location"><i class="fas fa-dumbbell"></i> Fitness & Spor</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Modern spor salonları, yüzme havuzları ve fitness merkezleriyle sağlıklı yaşam
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Form Factory</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Body & Mind Studio</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Yoga & Pilates Stüdyoları</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80" alt="Eğitim">
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Eğitim Kurumları</h3>
-            <p class="card-location"><i class="fas fa-graduation-cap"></i> Okullar & Kurslar</p>
-            <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">
-              Anaokulu, ilkokul, lise ve üniversiteler ile özel dershaneler ve kurslar
-            </p>
-            <div style="color: var(--gray); font-size: 13px; font-weight: 600;">
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> TED Ankara Koleji</div>
-              <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> Özel Okullar</div>
-              <div><i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i> ODTÜ (10 dk)</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="section section-dark">
     <div class="container">
@@ -12193,6 +13645,294 @@ ${src.length ? `
       </div>
     </div>
   </div>
+
+
+  <!-- ── HERO AI DISCOVERY RESULTS MODAL ── -->
+  <div class="hero-ai-modal-overlay" id="heroAiModalOverlay" onclick="closeHeroAiModal()">
+    <div class="hero-ai-modal" onclick="event.stopPropagation()">
+      <div class="hero-ai-modal-header">
+        <h3><i class="fas fa-sparkles" style="color:var(--gold);"></i> Nexa AI Portföy Analizi</h3>
+        <button type="button" class="hero-ai-close-btn" onclick="closeHeroAiModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="hero-ai-modal-body" id="heroAiModalBody">
+        <div id="heroAiLoading" style="text-align:center; padding:30px 20px;">
+          <i class="fas fa-circle-notch fa-spin" style="font-size:28px; color:var(--gold);"></i>
+          <p style="margin-top:12px; font-size:14px; color:var(--gray-light);">36 proje ve piyasa veritabanı analiz ediliyor...</p>
+        </div>
+        <div id="heroAiResultContent" style="display:none;">
+          <div class="ai-res-text" id="heroAiResText"></div>
+          <div style="margin-top:14px;">
+            <h4 style="font-size:14px; color:var(--gold-light); margin-bottom:10px; font-family:'Outfit', sans-serif;"><i class="fas fa-gem"></i> Eşleşen VIP Projeler &amp; Portföy:</h4>
+            <div class="ai-project-grid" id="heroAiPrjGrid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── NEXA DISTRICT ATLAS INTERACTIVE SCRIPT ── -->
+  <script>
+    const NXA_DISTRICTS_DATA = {
+      cankaya: {
+        title: "Çankaya & Cinnah Aksı",
+        subtitle: "Başkentin Diplomatik Kalbi, Elçilikler & Elit Rezidans Muhiti",
+        img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=80",
+        prim: "+%24.8 Yıllık Prim",
+        status: "Çok Yüksek Likidite",
+        desc: "Türkiye'nin diplomatik ve bürokratik merkezi. Bakanlıklar, büyükelçilikler, Cinnah Caddesi ve Seğmenler Parkı çevresinde; krizlerden bağımsız kesintisiz kurumsal ve döviz bazlı kiralama talebi sunan en köklü yatırım havzası.",
+        m2: "₺82.000 / m²",
+        roi: "13.5 Yıl (Hızlı)",
+        dist: "6 - 10 Dk",
+        score: "9.9 / 10",
+        highlights: [
+          {icon: "fa-landmark", text: "<strong>Diplomasi & Bürokrasi:</strong> Elçilikler Row, TBMM, Bakanlıklar ve Çankaya Köşkü aksı"},
+          {icon: "fa-utensils", text: "<strong>Gastronomi & Sosyal Yaşam:</strong> Atakule, Arjantin, Filistin ve Tunalı Hilmi fine dining merkezleri"},
+          {icon: "fa-tree", text: "<strong>Kentsel Yeşil Alanlar:</strong> Seğmenler Parkı, Kuğulu Park, Dikmen Vadisi Kentsel Koridoru"}
+        ],
+        portfolioFilter: "Çankaya",
+        btnText: "Çankaya VIP Portföylerini Gör"
+      },
+      beytepe: {
+        title: "Beytepe & Bilkent Vadisi",
+        subtitle: "Ankara'nın En Prestijli Lüks Konut & Müstakil Villa Aksı",
+        img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
+        prim: "+%28.4 Yıllık Prim",
+        status: "En Yüksek Değer Artışı",
+        desc: "Ankara'nın Beverly Hills'i olarak kabul edilen Beytepe aksı; yüksek sermaye sahibi iş insanları, büyükelçiler ve akademisyenlerin tercih ettiği ultra lüks sitelere ve akıllı villa projelerine ev sahipliği yapar.",
+        m2: "₺95.000 / m²",
+        roi: "14.2 Yıl",
+        dist: "12 - 15 Dk",
+        score: "9.8 / 10",
+        highlights: [
+          {icon: "fa-crown", text: "<strong>Elit Konut Mimarisi:</strong> Müstakil bahçeli lüks villalar, penthouse daireler ve akıllı site konseptleri"},
+          {icon: "fa-graduation-cap", text: "<strong>Akademik Merkez:</strong> Bilkent Üniversitesi, BLIS Uluslararası Okulu ve Hacettepe Kampüsü"},
+          {icon: "fa-shield-halved", text: "<strong>Yüksek Güvenlik & Konfor:</strong> 24 saat kapalı devre güvenlik ve geniş peyzaj alanları"}
+        ],
+        portfolioFilter: "Beytepe",
+        btnText: "Beytepe VIP Portföylerini Gör"
+      },
+      cayyolu: {
+        title: "Çayyolu & Yaşamkent",
+        subtitle: "Modern Şehir Yaşamı, Park Caddesi & Seçkin Aile Kültürü",
+        img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80",
+        prim: "+%21.5 Yıllık Prim",
+        status: "Dengeli Prim & İstikrar",
+        desc: "Batı aksının en köklü ve modern yerleşim alanı. Metro bağlantısı, geniş bulvarları, Park Caddesi restoranları ve seçkin site hayatıyla Ankara'nın en huzurlu ve oturmuş sosyo-ekonomik dokusuna sahiptir.",
+        m2: "₺76.000 / m²",
+        roi: "14.8 Yıl",
+        dist: "15 - 18 Dk",
+        score: "9.7 / 10",
+        highlights: [
+          {icon: "fa-wine-glass", text: "<strong>Gastronomi Omurgası:</strong> Park Caddesi fine dining restoranları, lounge barlar ve kafeler"},
+          {icon: "fa-subway", text: "<strong>Metro ile Doğrudan Bağlantı:</strong> Koru ve Çayyolu metro istasyonlarıyla şehre trafikten bağımsız ulaşım"},
+          {icon: "fa-bag-shopping", text: "<strong>Alışveriş & Sosyal Yaşam:</strong> Gordion AVM, Arcadium ve butik alışveriş merkezleri"}
+        ],
+        portfolioFilter: "Çayyolu",
+        btnText: "Çayyolu & Yaşamkent Portföylerini Gör"
+      },
+      incek: {
+        title: "İncek & Mogan (Gölbaşı)",
+        subtitle: "Geniş Parseller, TED Koleji & Müstakil Yaşam Vahası",
+        img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80",
+        prim: "+%31.2 Yıllık Prim",
+        status: "Rekor Arsa Talebi",
+        desc: "Doğayla iç içe, az katlı ve müstakil yaşam trendinin başkenti. TED Ankara Koleji ve yabancı kolejlerin gelişiyle değerini en hızlı katlayan, geniş bahçeli malikanelerin ve prestijli rezidansların gözdesi.",
+        m2: "₺72.000 / m²",
+        roi: "15.5 Yıl",
+        dist: "15 - 20 Dk",
+        score: "9.6 / 10",
+        highlights: [
+          {icon: "fa-school", text: "<strong>Kolejler Vadisi:</strong> TED Ankara Koleji ana kampüsü, Maya Okulları, Sevgi Koleji ve Charles de Gaulle"},
+          {icon: "fa-water", text: "<strong>Göl & Ekolojik Yaşam:</strong> Mogan Gölü kıyısı, yelken kulüpleri ve atlı binicilik tesisleri"},
+          {icon: "fa-chart-pie", text: "<strong>Arsa ve Parsel Prim Potansiyeli:</strong> Müstakil imarlı parsellerde Ankara'nın en yüksek prim çarpanı"}
+        ],
+        portfolioFilter: "İncek",
+        btnText: "İncek & Gölbaşı Portföylerini Gör"
+      },
+      saray: {
+        title: "Kazan / Saray Ticari & Sanayi Aksı",
+        subtitle: "Lojistik, Üretim & Sanayi Yatırımlarında Yüksek Nakit Akışı",
+        img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80",
+        prim: "+%35.0 Yıllık Prim",
+        status: "Maksimum Kira Çarpanı",
+        desc: "Ankara'nın sanayi ve lojistik üssü. İstanbul yolu ve otoyol yonca bağlantılarıyla Ankaport, S Point ve büyük sanayi sitelerinin bulunduğu, 10-12 yıl arası rekor amortisman süreleriyle yatırımcısına yüksek nakit akışı sağlayan ticari merkez.",
+        m2: "₺48.000 / m²",
+        roi: "10.5 - 12 Yıl (En Hızlı)",
+        dist: "20 - 25 Dk",
+        score: "9.4 / 10",
+        highlights: [
+          {icon: "fa-truck-fast", text: "<strong>Lojistik & Sanayi Üssü:</strong> Ankaport Saray ve sanayi siteleriyle Türkiye'nin üretim kavşağı"},
+          {icon: "fa-money-bill-trend-up", text: "<strong>Rekor Kira Getirisi:</strong> Fabrika, depo ve ticari dükkan kiralamalarında %10-12 arası yıllık brüt getiri"},
+          {icon: "fa-road", text: "<strong>Otoyol & Çevre Yolu:</strong> İstanbul ve Kuzey Marmara otoyollarına doğrudan kesintisiz bağlantı"}
+        ],
+        portfolioFilter: "Saray",
+        btnText: "Ticari & Sanayi Portföylerini Gör"
+      }
+    };
+
+    function switchDistrictTab(districtKey) {
+      const data = NXA_DISTRICTS_DATA[districtKey];
+      if (!data) return;
+
+      // Update active tabs
+      document.querySelectorAll('.nxa-district-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      const activeBtn = document.getElementById(`tabBtn-${districtKey}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Update Media Card
+      const mediaImg = document.getElementById('districtMediaImg');
+      const mediaTitle = document.getElementById('districtMediaTitle');
+      const mediaSubtitle = document.getElementById('districtMediaSubtitle');
+      const descText = document.getElementById('districtDescText');
+      const m2Val = document.getElementById('hudM2Val');
+      const roiVal = document.getElementById('hudRoiVal');
+      const distVal = document.getElementById('hudDistVal');
+      const scoreVal = document.getElementById('hudScoreVal');
+      const highlightsList = document.getElementById('districtHighlightsList');
+      const actionBtn = document.getElementById('districtActionBtn');
+      const actionText = document.getElementById('districtActionText');
+
+      if (mediaImg) {
+        mediaImg.style.opacity = '0.4';
+        setTimeout(() => {
+          mediaImg.src = data.img;
+          mediaImg.style.opacity = '1';
+        }, 150);
+      }
+      if (mediaTitle) mediaTitle.textContent = data.title;
+      if (mediaSubtitle) mediaSubtitle.textContent = data.subtitle;
+      if (descText) descText.textContent = data.desc;
+      if (m2Val) m2Val.textContent = data.m2;
+      if (roiVal) roiVal.textContent = data.roi;
+      if (distVal) distVal.textContent = data.dist;
+      if (scoreVal) scoreVal.textContent = data.score;
+      if (actionText) actionText.textContent = data.btnText;
+      if (actionBtn) {
+        actionBtn.onclick = function() {
+          filterPortfolioByDistrict(data.portfolioFilter);
+        };
+      }
+
+      if (highlightsList) {
+        highlightsList.innerHTML = data.highlights.map(h => `
+          <div class="highlight-row"><i class="fas ${h.icon}"></i> ${h.text}</div>
+        `).join('');
+      }
+    }
+
+    function filterPortfolioByDistrict(keyword) {
+      const portfolioSec = document.getElementById('portfolio');
+      if (portfolioSec) {
+        portfolioSec.scrollIntoView({behavior: 'smooth'});
+      }
+      // If search input exists in portfolio, trigger search
+      const searchInputs = document.querySelectorAll('input[type="text"][id*="search"], input[type="text"][placeholder*="ara"]');
+      if (searchInputs.length > 0) {
+        searchInputs[0].value = keyword;
+        searchInputs[0].dispatchEvent(new Event('input', {bubbles: true}));
+      }
+    }
+  </script>
+
+
+  <!-- NEXA Dynamic Island Interactive Morphing Engine -->
+  <script>
+    (function initMorphingDynamicIslandNavbar() {
+      const island = document.getElementById('nxaIslandNav');
+      const islandWrapper = document.getElementById('navbar');
+      if (!island || !islandWrapper) return;
+
+      let isExpanded = false;
+      let closeTimer = null;
+
+      function openIsland() {
+        clearTimeout(closeTimer);
+        if (!isExpanded) {
+          isExpanded = true;
+          island.classList.add('is-expanded');
+        }
+      }
+
+      function closeIsland(immediate = false) {
+        clearTimeout(closeTimer);
+        const delay = immediate ? 0 : 120;
+        closeTimer = setTimeout(() => {
+          if (isExpanded) {
+            isExpanded = false;
+            island.classList.remove('is-expanded');
+          }
+        }, delay);
+      }
+
+      // 1. Mouse Enter / Hover onto Island opens it
+      island.addEventListener('mouseenter', () => {
+        openIsland();
+      });
+
+      // 2. Y-Axis Bounding Box Exit Detection
+      // When moving outside the rectangle in the Y-axis (top or bottom), close with silk animation
+      window.addEventListener('mousemove', (e) => {
+        if (!isExpanded) return;
+
+        const rect = island.getBoundingClientRect();
+        // User moves above the top edge or below the bottom edge
+        const isOutsideY = (e.clientY < (rect.top - 8)) || (e.clientY > (rect.bottom + 14));
+        // User moves far outside left or right beyond the rectangle
+        const isOutsideX = (e.clientX < (rect.left - 25)) || (e.clientX > (rect.right + 25));
+
+        if (isOutsideY || isOutsideX) {
+          closeIsland(false);
+        } else {
+          // Inside rectangle: cancel any pending close
+          clearTimeout(closeTimer);
+        }
+      });
+
+      // 3. Mouseleave fallback on island element
+      island.addEventListener('mouseleave', (e) => {
+        const rect = island.getBoundingClientRect();
+        // If exiting along Y axis specifically
+        if (e.clientY <= rect.top + 2 || e.clientY >= rect.bottom - 2) {
+          closeIsland(false);
+        } else {
+          closeIsland(false);
+        }
+      });
+
+      // 4. Click on any nav item scrolls and closes navbar smoothly
+      const allNavLinks = island.querySelectorAll('.nxa-nav-item, .nxa-nav-terminal-btn');
+      allNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          closeIsland(true);
+        });
+      });
+
+      // 5. Scroll Handler for Docking Adjustment
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          islandWrapper.classList.add('scrolled');
+        } else {
+          islandWrapper.classList.remove('scrolled');
+        }
+      });
+
+      // 6. Mobile Click Toggle for Compact Mode
+      const collapsedBar = document.getElementById('nxaIslandCollapsed');
+      if (collapsedBar) {
+        collapsedBar.addEventListener('click', (e) => {
+          if (window.innerWidth <= 992) {
+            const mobileToggle = document.getElementById('mobileToggle');
+            if (mobileToggle) mobileToggle.click();
+          } else {
+            openIsland();
+          }
+        });
+      }
+    })();
+  </script>
 
 </body>
 </html>

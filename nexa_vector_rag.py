@@ -50,7 +50,7 @@ EMB_CACHE_TTL = 300        # 5 dk
 
 _CACHE_FILE = Path(__file__).resolve().parent / "nexa_embedding_cache.json"
 _CONFIG_CANDIDATES = (Path(__file__).resolve().parent / "config.json",)
-_DEFAULT_DB = Path(r"C:\Users\USER\Desktop\NEXA_PRIME_v2_ENTERPRISE") / "nexa_database.db"
+_DEFAULT_DB = Path(__file__).resolve().parent / "nexa_database.db"
 
 
 def _db_path():
@@ -86,7 +86,7 @@ def _read_api_keys():
     env_keys = os.getenv("GEMINI_API_KEYS", "")
     if env_keys:
         keys += [k.strip() for k in env_keys.split(",") if k.strip()]
-    env_file = Path(r"C:\Users\USER\Desktop\NEXA_PRIME_v2_ENTERPRISE\.env")
+    env_file = Path(__file__).resolve().parent / ".env"
     if env_file.exists():
         for line in env_file.read_text(encoding="utf-8", errors="ignore").splitlines():
             line = line.strip()

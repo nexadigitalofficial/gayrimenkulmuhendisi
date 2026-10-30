@@ -1723,6 +1723,10 @@
                 <button @click="showUrlPdfModal = true" class="sidebar-item" style="color: #f59e0b; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); margin-top: 4px;">
                     <i class="fas fa-magic" style="width:16px; color:#f59e0b;"></i> URL'den PDF Üret
                 </button>
+                <button @click="activeView = 'proactive_radar'; loadProactiveRadar();" :class="{ active: activeView === 'proactive_radar' }" class="sidebar-item" style="color: #f43f5e; background: linear-gradient(135deg, rgba(244,63,94,0.12) 0%, rgba(212,175,55,0.12) 100%); border: 1px solid rgba(244,63,94,0.35); margin-top: 4px;">
+                    <i class="fas fa-radar" style="width:16px; color:#f43f5e;"></i> Proaktif Pazar Radarı
+                    <span v-if="proactiveAlerts.length > 0" class="sidebar-item-badge" style="background:#f43f5e; color:#fff; font-size:10px; animation: pulse 2s infinite;">{{ proactiveAlerts.length }}</span>
+                </button>
                 <button @click="openNexaScoutModal()" class="sidebar-item" style="color: #38bdf8; background: linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(59,130,246,0.12) 100%); border: 1px solid rgba(56,189,248,0.35); margin-top: 4px;">
                     <i class="fas fa-satellite-dish" style="width:16px; color:#38bdf8;"></i> NexaScout Alıcı Bul
                     <span class="sidebar-item-badge" style="background:#0284c7; color:#fff; font-size:10px;">FAZ 2</span>
@@ -1768,7 +1772,8 @@
                     <span v-else-if="activeView === 'leads'">Leadler</span>
                     <span v-else-if="activeView === 'analytics'">Analitik</span>
                     <span v-else-if="activeView === 'my_listings'">Portföy İlanlarım</span>
-                    <span v-else-if="activeView === 'social_autopilot'">Sosyal Medya Autopilot & İçerik Stüdyosu</span>
+                    <span v-else-if="activeView === 'proactive_radar'">🚨 Proaktif Pazar Radarı & Fiyat İndirimi Alarmları</span>
+                <span v-else-if="activeView === 'social_autopilot'">Sosyal Medya Autopilot & İçerik Stüdyosu</span>
                     <span v-else-if="activeView === 'buyer'">Alıcı Paneli</span>
                 </span>
                 <div class="header-metric-strip">
@@ -1868,6 +1873,9 @@
                                 <button @click.stop="openListingPortfoy(lst)" class="btn btn-primary" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color:#000000; font-weight:800; border:none; padding:11px 16px; border-radius:12px; box-shadow:0 6px 20px rgba(212,175,55,0.35); cursor:pointer; font-size:12px; letter-spacing:0.3px;">
                                     <i class="fas fa-chart-pie text-sm"></i> 📊 Operasyon &amp; İstatistik Dashboard
                                 </button>
+                                <button @click.stop="trackListingInProactiveRadar(lst)" class="btn" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: rgba(244,63,94,0.15); color: #fb7185; border: 1px solid rgba(244,63,94,0.4); padding:9px 14px; border-radius:10px; font-weight:700; font-size:12px; cursor:pointer; margin-bottom:2px;">
+                                    <i class="fas fa-radar text-rose-400"></i> 🚨 Pazar Radarına Al & Fiyat Takip Et
+                                </button>
                                 <a :href="'/sunum/advanced/' + idx" target="_blank" @click.stop class="btn btn-primary" style="width:100%; display:flex; justify-content:center; gap:8px; align-items:center; background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); padding:8px 12px; border-radius:10px; font-size:12px;">
                                     <i class="fas fa-magic"></i> Sunum Oluştur
                                 </a>
@@ -1875,6 +1883,233 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            
+            <!-- ═══════════════════ PROAKTİF PAZAR RADARI & FİYAT İNDİRİMİ ALARMLARI ═══════════════════ -->
+            <div v-if="activeView === 'proactive_radar'" class="space-y-6">
+                <!-- Üst Başlık & Kontrol Paneli -->
+                <div class="glass-strong rounded-2xl p-6 border border-rose-500/30" style="background: linear-gradient(135deg, rgba(30,10,20,0.85) 0%, rgba(15,23,42,0.95) 100%);">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-black bg-rose-500/20 text-rose-400 border border-rose-500/40 uppercase tracking-wider flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                                    7/24 PROAKTİF PİYASA GÖZETİMİ & DELTA RADARI
+                                </span>
+                                <span class="text-xs text-gray-400 font-mono">{{ proactiveAlerts.length }} Aktif Alarm</span>
+                            </div>
+                            <h2 class="text-2xl font-black text-white tracking-tight flex items-center gap-3">
+                                <span>🚨 Proaktif Pazar Radarı & Fiyat İndirimi Alarmları</span>
+                            </h2>
+                            <p class="text-sm text-gray-300 mt-1 max-w-3xl">
+                                Coldwell Banker portföylerinizin yer aldığı pazar havuzlarını her gün otonom tarar. Rakiplerden biri <strong class="text-rose-400">fiyat kırdığında</strong>, pazara <strong class="text-cyan-400">yeni bir rakip girdiğinde</strong> veya emsal <strong class="text-emerald-400">satılıp kalktığında</strong> NEXA AI anında aksiyon stratejisi üretir.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <button @click="syncVipStores()" :disabled="vipSyncing" class="btn" style="background: linear-gradient(135deg, #d4af37 0%, #f59e0b 50%, #e11d48 100%); color:#000; font-weight:900; padding:10px 18px; border-radius:12px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 16px rgba(212,175,55,0.4); cursor:pointer;">
+                                <i class="fas" :class="vipSyncing ? 'fa-spinner fa-spin' : 'fa-satellite-dish'"></i>
+                                <span>{{ vipSyncing ? 'CB VIP Mağazaları Taranıyor...' : '🚀 CB VIP Mağazalarını Tara & Tersine Mühendislikle Radara Bağla' }}</span>
+                            </button>
+                            <button @click="triggerProactiveScan()" :disabled="radarScanning" class="btn" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); color:#fff; font-weight:800; padding:10px 18px; border-radius:12px; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 16px rgba(244,63,94,0.35); cursor:pointer;">
+                                <i class="fas" :class="radarScanning ? 'fa-spinner fa-spin' : 'fa-radar'"></i>
+                                <span>{{ radarScanning ? 'Havuzlar Taranıyor...' : 'Pazarı Şimdi Tara' }}</span>
+                            </button>
+                            <button @click="loadProactiveRadar()" class="btn btn-secondary" style="padding:10px 14px; border-radius:12px; cursor:pointer;" title="Yenile">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- KPI Kartları -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/10">
+                        <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                            <div class="text-xs font-bold text-rose-400 uppercase tracking-wider mb-1">🚨 Fiyat İndirimi</div>
+                            <div class="text-2xl font-black text-white">{{ proactiveAlerts.filter(a => a.event_type === 'PRICE_DROP').length }}</div>
+                            <div class="text-[11px] text-gray-400 mt-0.5">Emsal fiyat kırdı</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
+                            <div class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1">🆕 Yeni Rakip</div>
+                            <div class="text-2xl font-black text-white">{{ proactiveAlerts.filter(a => a.event_type === 'NEW_ENTRY').length }}</div>
+                            <div class="text-[11px] text-gray-400 mt-0.5">Bölgeye yeni girdi</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                            <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">🏁 Satıldı / Kalktı</div>
+                            <div class="text-2xl font-black text-white">{{ proactiveAlerts.filter(a => a.event_type === 'DELISTED_OR_SOLD').length }}</div>
+                            <div class="text-[11px] text-gray-400 mt-0.5">Pazar arzı daraldı</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">📁 Takipteki Havuz</div>
+                            <div class="text-2xl font-black text-white">{{ proactivePools.length }}</div>
+                            <div class="text-[11px] text-gray-400 mt-0.5">İzlenen portföy kümesi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtreleme Sekmeleri -->
+                <div class="flex items-center justify-between gap-4 flex-wrap pb-2">
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1">
+                        <button @click="proactiveFilter = 'ALL'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer', proactiveFilter === 'ALL' ? 'bg-white/15 text-white border border-white/30' : 'bg-white/5 text-gray-400 hover:text-white border border-white/5']">
+                            Tüm Olaylar ({{ proactiveAlerts.length }})
+                        </button>
+                        <button @click="proactiveFilter = 'PRICE_DROP'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer', proactiveFilter === 'PRICE_DROP' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-white/5 text-gray-400 hover:text-white border border-white/5']">
+                            🚨 Fiyat İndirimi ({{ proactiveAlerts.filter(a => a.event_type === 'PRICE_DROP').length }})
+                        </button>
+                        <button @click="proactiveFilter = 'NEW_ENTRY'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer', proactiveFilter === 'NEW_ENTRY' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'bg-white/5 text-gray-400 hover:text-white border border-white/5']">
+                            🆕 Yeni Rakip ({{ proactiveAlerts.filter(a => a.event_type === 'NEW_ENTRY').length }})
+                        </button>
+                        <button @click="proactiveFilter = 'DELISTED_OR_SOLD'" :class="['px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer', proactiveFilter === 'DELISTED_OR_SOLD' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-white/5 text-gray-400 hover:text-white border border-white/5']">
+                            🏁 Satıldı / Kalktı ({{ proactiveAlerts.filter(a => a.event_type === 'DELISTED_OR_SOLD').length }})
+                        </button>
+                    </div>
+
+                    <a href="/Belgeler_ve_Raporlar/NEXA_GUNLUK_PAZAR_RADARI.html" target="_blank" class="text-xs text-amber-400 hover:underline flex items-center gap-1 font-semibold">
+                        <i class="fas fa-file-invoice"></i> Günlük Yönetici Brifing Raporunu Aç
+                    </a>
+                </div>
+
+                <!-- İzlenen Havuzlar Özeti (Pool Badges) -->
+                <!-- İzlenen Havuzlar Özeti (Tersine Mühendislik Portföy Havuzları) -->
+                <div v-if="proactivePools.length > 0" class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                            <i class="fas fa-layer-group text-amber-400"></i> Takip Edilen Tersine Mühendislik Portföy Havuzları ({{ proactivePools.length }})
+                        </span>
+                        <span class="text-[11px] text-gray-500 font-mono">Coldwell Banker VIP 1 & VIP 2 Entegre</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div v-for="p in proactivePools" :key="p.id" class="p-3.5 rounded-xl bg-slate-900/80 border border-white/10 hover:border-amber-400/40 transition-all flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold">
+                                        <i class="fas fa-store"></i> {{ p.store_name || 'Coldwell Banker VIP' }}
+                                    </span>
+                                    <span v-if="p.unread_alerts_count > 0" class="px-2 py-0.5 rounded-full bg-rose-500 text-white font-black text-[10px] animate-pulse">
+                                        {{ p.unread_alerts_count }} Alarm
+                                    </span>
+                                </div>
+                                <h4 class="text-sm font-bold text-white line-clamp-1 mb-1">{{ p.title }}</h4>
+                                <div class="text-xs text-gray-400 flex items-center gap-2 mb-2">
+                                    <span>📍 {{ p.neighborhood || p.district || 'Çankaya' }}</span>
+                                    <span>•</span>
+                                    <span class="text-amber-300 font-semibold">{{ Number(p.current_price).toLocaleString('tr-TR') }} TL</span>
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-white/5 flex items-center justify-between gap-2">
+                                <span class="text-[11px] text-cyan-400 font-bold flex items-center gap-1">
+                                    <i class="fas fa-users text-[10px]"></i> {{ p.active_competitors_count || 0 }} Emsal
+                                </span>
+                                <a :href="p.pool_search_url" target="_blank" class="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-[11px] font-mono flex items-center gap-1 transition-all" title="Sahibinden Üzerinde Tersine Mühendislik Rakip Havuzunu Aç">
+                                    <span>Havuz Linki</span>
+                                    <i class="fas fa-external-link-alt text-[9px]"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALARMLAR LİSTESİ -->
+                <div v-if="filteredProactiveAlerts.length > 0" class="space-y-4">
+                    <div v-for="a in filteredProactiveAlerts" :key="a.id" class="glass-strong rounded-2xl p-5 border transition-all"
+                         :class="{
+                             'border-rose-500/40 bg-gradient-to-r from-rose-950/30 via-slate-900/60 to-slate-900/60': a.event_type === 'PRICE_DROP',
+                             'border-cyan-500/40 bg-gradient-to-r from-cyan-950/30 via-slate-900/60 to-slate-900/60': a.event_type === 'NEW_ENTRY',
+                             'border-emerald-500/40 bg-gradient-to-r from-emerald-950/30 via-slate-900/60 to-slate-900/60': a.event_type === 'DELISTED_OR_SOLD' || a.event_type === 'PRICE_HIKE'
+                         }">
+                        
+                        <!-- Kart Üst Barı -->
+                        <div class="flex items-center justify-between gap-3 mb-3 flex-wrap">
+                            <div class="flex items-center gap-2">
+                                <span v-if="a.event_type === 'PRICE_DROP'" class="px-3 py-1 rounded-md text-xs font-black bg-rose-500 text-white flex items-center gap-1">
+                                    <i class="fas fa-arrow-trend-down"></i> %{{ a.change_pct }} İNDİRİM
+                                </span>
+                                <span v-else-if="a.event_type === 'NEW_ENTRY'" class="px-3 py-1 rounded-md text-xs font-black bg-cyan-500 text-slate-950 flex items-center gap-1">
+                                    <i class="fas fa-plus-circle"></i> YENİ RAKİP
+                                </span>
+                                <span v-else-if="a.event_type === 'DELISTED_OR_SOLD'" class="px-3 py-1 rounded-md text-xs font-black bg-emerald-500 text-white flex items-center gap-1">
+                                    <i class="fas fa-check-circle"></i> PAZARDAN ÇIKTI
+                                </span>
+                                <span v-else class="px-3 py-1 rounded-md text-xs font-black bg-amber-500 text-slate-950">
+                                    {{ a.event_type }}
+                                </span>
+
+                                <span class="text-xs text-amber-400 font-semibold">📁 {{ a.pool_title }}</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">{{ a.created_at }}</span>
+                        </div>
+
+                        <!-- Başlık ve Fiyat Değişimi -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 border-b border-white/10 mb-3">
+                            <div>
+                                <h3 class="text-base font-extrabold text-white mb-1">{{ a.event_summary }}</h3>
+                                <div class="text-xs text-gray-400 flex items-center gap-2 flex-wrap">
+                                    <span>📍 {{ a.location_path || 'Ankara / Çankaya' }}</span>
+                                    <span>&bull;</span>
+                                    <span>İlan No: #{{ a.listing_id }}</span>
+                                    <span v-if="a.our_price > 0" class="text-amber-300 font-bold">
+                                        &bull; Bizim Fiyatımız: {{ Number(a.our_price).toLocaleString('tr-TR') }} TL
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Fiyat Kutusu -->
+                            <div class="text-right">
+                                <div v-if="a.event_type === 'PRICE_DROP' && a.old_price > 0" class="flex items-baseline gap-2 justify-end">
+                                    <span class="text-sm text-gray-400 line-through">{{ Number(a.old_price).toLocaleString('tr-TR') }} TL</span>
+                                    <span class="text-2xl font-black text-rose-400">{{ Number(a.new_price).toLocaleString('tr-TR') }} TL</span>
+                                </div>
+                                <div v-else-if="a.new_price > 0" class="text-2xl font-black text-white">
+                                    {{ Number(a.new_price).toLocaleString('tr-TR') }} TL
+                                </div>
+                                <div v-if="a.price_diff > 0 && a.event_type === 'PRICE_DROP'" class="text-xs font-bold text-rose-300">
+                                    -{{ Number(a.price_diff).toLocaleString('tr-TR') }} TL İndirim Yapıldı
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NEXA AI Stratejik Piyasa Yorumu -->
+                        <div class="p-3.5 rounded-xl bg-slate-950/60 border border-amber-500/30 mb-3">
+                            <div class="text-[11px] font-black text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                                <i class="fas fa-robot"></i> NEXA AI STRATEJİK PİYASA YORUMU
+                            </div>
+                            <p class="text-xs text-gray-200 leading-relaxed m-0">{{ a.ai_strategic_comment }}</p>
+                        </div>
+
+                        <!-- Danışmana Önerilen Aksiyon -->
+                        <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-bolt text-emerald-400 mt-0.5 text-sm"></i>
+                                <div>
+                                    <span class="text-[11px] font-black text-emerald-300 uppercase tracking-wider">ÖNERİLEN AKSİYON:</span>
+                                    <p class="text-xs text-emerald-100 font-medium m-0">{{ a.recommended_action }}</p>
+                                </div>
+                            </div>
+                            <a v-if="a.pool_search_url" :href="a.pool_search_url" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 flex items-center gap-1.5 whitespace-nowrap self-end sm:self-auto" title="Tersine Mühendislikle Üretilen Sahibinden Emsal Havuzunu Aç">
+                                <i class="fas fa-satellite-dish"></i> <span>Rakip Havuzu</span> <i class="fas fa-external-link-alt text-[10px]"></i>
+                            </a>
+                            <a :href="'https://www.sahibinden.com/ilan/' + a.listing_id + '/detay'" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center gap-1.5 whitespace-nowrap self-end sm:self-auto">
+                                <span>İlana Git</span> <i class="fas fa-external-link-alt text-[10px]"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- BOŞ DURUM (Henüz Alarm Yoksa) -->
+                <div v-else class="glass-strong rounded-2xl p-12 text-center border border-white/10">
+                    <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center text-2xl mx-auto mb-4">
+                        <i class="fas fa-radar"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Henüz Bekleyen Pazar Değişim Alarmı Bulunmuyor</h3>
+                    <p class="text-sm text-gray-400 max-w-md mx-auto mb-6">
+                        Takipteki portföy havuzlarınız temiz. Rakiplerden herhangi biri fiyat kırdığında veya yeni bir emsal pazara girdiğinde bildirimler burada anlık olarak listelenecektir.
+                    </p>
+                    <button @click="triggerProactiveScan()" :disabled="radarScanning" class="btn btn-primary" style="padding:10px 20px; border-radius:12px; font-weight:700; cursor:pointer;">
+                        <i class="fas fa-sync-alt mr-2" :class="radarScanning ? 'fa-spin' : ''"></i>
+                        <span>Pazarı Şimdi Kontrol Et</span>
+                    </button>
+                </div>
+
             </div>
 
             <!-- ═══════════════════ SOSYAL MEDYA AUTOPILOT (7 GÜNLÜK YAYIN PLANI) ═══════════════════ -->
@@ -5307,6 +5542,99 @@
             const password = ref('');
             const displayName = ref('');
 
+            const proactiveAlerts = ref([]);
+            const proactivePools = ref([]);
+            const radarScanning = ref(false);
+            const proactiveFilter = ref('ALL');
+            const vipSyncing = ref(false);
+
+            const syncVipStores = async (live = false) => {
+                vipSyncing.value = true;
+                try {
+                    const res = await fetch('/api/proactive/sync_vip_stores' + (live ? '?live=1' : ''), {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'}
+                    });
+                    const json = await res.json();
+                    if (json.ok) {
+                        alert(`✅ CB VIP Mağaza Taraması & Tersine Mühendislik Tamamlandı!\n\n• Taranan İlan: ${json.total_vip_listings}\n• Eşleşen Portföy: ${json.matched_portfolios_count}\n• Radara Bağlanan Havuz: ${json.registered_pools_count}\n• Üretilen Yeni Delta Alarmları: ${json.new_delta_alerts_count}`);
+                        await loadProactiveRadar();
+                    } else {
+                        alert('Hata: ' + (json.error || 'Bilinmeyen hata'));
+                    }
+                } catch(err) {
+                    alert('Bağlantı hatası: ' + err);
+                } finally {
+                    vipSyncing.value = false;
+                }
+            };
+
+            const loadProactiveRadar = async () => {
+                try {
+                    const [resAlerts, resPools] = await Promise.all([
+                        fetch('/api/proactive/alerts').then(r => r.json()),
+                        fetch('/api/proactive/pools').then(r => r.json())
+                    ]);
+                    if (resAlerts.ok) proactiveAlerts.value = resAlerts.alerts || [];
+                    if (resPools.ok) proactivePools.value = resPools.pools || [];
+                } catch(err) {
+                    console.error("Proactive radar fetch error:", err);
+                }
+            };
+
+            const triggerProactiveScan = async (poolId = null) => {
+                radarScanning.value = true;
+                try {
+                    const res = await fetch('/api/proactive/scan_now', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ pool_id: poolId })
+                    });
+                    const json = await res.json();
+                    await loadProactiveRadar();
+                } catch(err) {
+                    console.error("Scan trigger error:", err);
+                } finally {
+                    radarScanning.value = false;
+                }
+            };
+
+            const trackListingInProactiveRadar = async (listing) => {
+                try {
+                    const res = await fetch('/api/proactive/register', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            listing: {
+                                listing_id: listing.id || listing.listing_id || 'CB_' + Date.now(),
+                                title: listing.title,
+                                price: listing.price,
+                                specs: {
+                                    'Şehir': 'Ankara',
+                                    'İlçe': listing.loc ? listing.loc.split('/')[1] : 'Çankaya',
+                                    'Mahalle': listing.loc ? listing.loc.split('/')[2] : '',
+                                    'Kategori 2': 'Konut',
+                                    'Marka': listing.type || 'Satılık'
+                                }
+                            }
+                        })
+                    });
+                    const json = await res.json();
+                    if (json.ok) {
+                        alert('✅ Portföy Proaktif Pazar Radarına eklendi! Otomatik pazar gözetimi başlatıldı.');
+                        activeView.value = 'proactive_radar';
+                        await loadProactiveRadar();
+                    }
+                } catch(err) {
+                    alert('Hata: ' + err);
+                }
+            };
+
+            const filteredProactiveAlerts = computed(() => {
+                if (proactiveFilter.value === 'ALL') return proactiveAlerts.value;
+                return proactiveAlerts.value.filter(a => a.event_type === proactiveFilter.value);
+            });
+
             const activeView = ref('dashboard');
             const officeScanning = ref(false);
             const currentScanId = ref(null);
@@ -7733,7 +8061,7 @@ ${comments}`;
                 } catch(e) {}
 
                 // 2. Cache yok/geçersiz → API çağrısı
-                proactiveLoading.value = true;
+                radarScanning.value = true;
                 try {
                     const idToken = await firebase.auth().currentUser.getIdToken();
 
@@ -7784,7 +8112,7 @@ ${comments}`;
                 } catch(e) {
                     console.warn('Proaktif uyarı yüklenemedi:', e);
                 } finally {
-                    proactiveLoading.value = false;
+                    radarScanning.value = false;
                 }
             };
 
@@ -8373,7 +8701,7 @@ ${comments}`;
             return {
                 user, uiLoading, authMode, authLoading, authError, email, password, displayName,
                 isUserAdmin, userDisplayName, userPhotoUrl, userInitials,
-                activeView, currentPipeline, contacts, myListings, loadMyListings, searchQuery, showMenu, showContactModal,
+                activeView, proactiveAlerts, proactivePools, radarScanning, proactiveFilter, filteredProactiveAlerts, loadProactiveRadar, vipSyncing, syncVipStores, triggerProactiveScan, trackListingInProactiveRadar, currentPipeline, contacts, myListings, loadMyListings, searchQuery, showMenu, showContactModal,
                 showUrlPdfModal, urlPdfInput, urlPdfLoading, urlPdfError, urlPdfResult, generateUrlPdf, getWhatsAppShareUrl,
                 showNexaScoutModal, nexaScoutUrl, nexaScoutLoading, nexaScoutError, nexaScoutResult, nexaScoutPitchTab,
                 nexaScoutProgressStep, nexaScoutCopyToast, openNexaScoutModal, triggerNexaScoutFromListing, runNexaScoutPipeline, copyNexaScoutText,

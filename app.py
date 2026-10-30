@@ -11041,39 +11041,58 @@ db_admin = None
 
 def init_firebase_admin():
     global _fb_initialized, db_admin
-    if _fb_initialized:
+    if _fb_initialized and db_admin is not None:
         return
     try:
         import json as _json
 
-        # Render'da FIREBASE_SERVICE_ACCOUNT env var'ı JSON string içerir.
-        # Lokal'de ise service-account.json dosya yoludur.
-        # İkisini de destekle:
-        sa_value = SERVICE_ACCOUNT.strip()
-        # .env dosyasında değer tek/çift tırnakla sarılmış olabilir → temizle
+        sa_value = SERVICE_ACCOUNT.strip() if SERVICE_ACCOUNT else "service-account.json"
         if (sa_value.startswith("'") and sa_value.endswith("'")) or \
            (sa_value.startswith('"') and sa_value.endswith('"')):
             sa_value = sa_value[1:-1]
 
-        if os.path.exists(sa_value):
-            # Dosya yolu → klasik yöntem
-            cred = credentials.Certificate(sa_value)
-            print("✅ Firebase Admin bağlandı (dosya)")
+        candidates = [
+            sa_value,
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), sa_value),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "service-account.json"),
+            r"c:\Users\USER\Desktop\gayrimenkulmuhendisi-main\service-account.json",
+            r"c:\Users\USER\Desktop\NEXAOS-main\service-account.json",
+            r"c:\Users\USER\Desktop\NEXA\LABARATOUVAR\ALL\dosya\nexacrm-44a49-firebase-adminsdk-fbsvc-d86e3466a5.json"
+        ]
+        resolved_path = None
+        for c in candidates:
+            if c and os.path.exists(c):
+                resolved_path = c
+                break
+
+        if resolved_path:
+            cred = credentials.Certificate(resolved_path)
+            print(f"✅ Firebase Admin bağlandı: {resolved_path}")
         elif sa_value.startswith("{"):
-            # JSON string içeriği → dict'e parse et
             sa_dict = _json.loads(sa_value)
             cred = credentials.Certificate(sa_dict)
             print("✅ Firebase Admin bağlandı (env JSON)")
         else:
-            print(f"⚠️  Firebase service account bulunamadı — "
-                  f"FIREBASE_SERVICE_ACCOUNT ortam değişkeni JSON string ya da geçerli dosya yolu olmalı")
+            print(f"⚠️  Firebase service account bulunamadı")
             return
 
-        firebase_admin.initialize_app(cred)
+        try:
+            firebase_admin.get_app()
+        except ValueError:
+            firebase_admin.initialize_app(cred)
+
         db_admin = admin_firestore.client()
         _fb_initialized = True
+        print("✅ Firebase Admin ve Firestore client başarıyla bağlandı!")
     except Exception as e:
         print(f"❌ Firebase Admin hatası: {e}")
+
+# Otomatik Firebase Admin başlat
+try:
+    init_firebase_admin()
+except Exception as _e:
+    print(f'Firebase auto-start: {_e}')
+
 
 # ================================================================
 # BACKGROUND SCHEDULER
@@ -13094,16 +13113,39 @@ def _refresh_listings_bg():
     def _run():
         data = fetch_real_estate_data()
         if data:
-            with _listings_lock:
-                _listings_cache["data"] = data
-                _listings_cache["ts"]   = time.time()
             try:
                 cache_file = BASE_DIR / "static" / "data" / "cached_cb_listings.json"
                 cache_file.parent.mkdir(parents=True, exist_ok=True)
+                existing_items = []
+                if cache_file.exists():
+                    try:
+                        with open(cache_file, "r", encoding="utf-8") as rf:
+                            existing_items = json.load(rf)
+                    except Exception:
+                        existing_items = []
+
+                merged_dict = {}
+                for itm in existing_items:
+                    k = itm.get("id") or itm.get("link") or itm.get("title")
+                    if k:
+                        merged_dict[k] = itm
+                for itm in data:
+                    k = itm.get("id") or itm.get("link") or itm.get("title")
+                    if k:
+                        merged_dict[k] = itm
+                final_data = list(merged_dict.values()) if merged_dict else data
+
+                with _listings_lock:
+                    _listings_cache["data"] = final_data
+                    _listings_cache["ts"]   = time.time()
+
                 with open(cache_file, "w", encoding="utf-8") as f:
-                    json.dump(data, f, ensure_ascii=False, indent=2)
+                    json.dump(final_data, f, ensure_ascii=False, indent=2)
             except Exception as e:
                 print(f"⚠️ Listings disk cache hatası: {e}")
+                with _listings_lock:
+                    _listings_cache["data"] = data
+                    _listings_cache["ts"]   = time.time()
 
             # 🤖 Otomatik AI Persona Swarm Analizini Çalıştır
             try:
@@ -17599,6 +17641,104 @@ def render_presentation_viewer(token: str):
 # ==========================================
 # MAIN SERVER RUNNER
 # ==========================================
+
+
+# =========================================================================
+# PROACTIVE MARKET SURVEILLANCE & DELTA RADAR API (NEXA SENTINEL)
+# =========================================================================
+
+@app.route("/api/proactive/alerts", methods=["GET"])
+def _api_proactive_alerts():
+    """Returns real-time proactive market delta alerts (price drops, new entries, delisted)."""
+    try:
+        from nexa_pool_sentinel import NexaPoolSentinel
+        sentinel = NexaPoolSentinel()
+        pool_id = request.args.get("pool_id", type=int)
+        limit = request.args.get("limit", default=30, type=int)
+        alerts = sentinel.get_alerts(pool_id=pool_id, limit=limit)
+        return jsonify({"ok": True, "count": len(alerts), "alerts": alerts})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/proactive/pools", methods=["GET"])
+def _api_proactive_pools():
+    """Returns all monitored competitor pools with their stats."""
+    try:
+        from nexa_pool_sentinel import NexaPoolSentinel
+        sentinel = NexaPoolSentinel()
+        with sentinel._get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT p.*, 
+                    (SELECT count(*) FROM nexa_pool_snapshots s WHERE s.pool_id = p.id AND s.scan_date = (SELECT max(scan_date) FROM nexa_pool_snapshots WHERE pool_id = p.id)) as active_competitors_count,
+                    (SELECT count(*) FROM nexa_market_delta_events e WHERE e.pool_id = p.id AND e.is_read = 0) as unread_alerts_count
+                FROM nexa_monitored_pools p
+                ORDER BY p.last_scanned_at DESC
+            """)
+            pools = [dict(r) for r in cur.fetchall()]
+        return jsonify({"ok": True, "count": len(pools), "pools": pools})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/proactive/register", methods=["POST"])
+def _api_proactive_register():
+    """Registers a new portfolio (Coldwell Banker or direct) into proactive surveillance."""
+    data = request.get_json(force=True, silent=True) or {}
+    cb_listing = data.get("listing") or data
+    search_url = data.get("search_url")
+    if not cb_listing.get("listing_id") and not cb_listing.get("title"):
+        return jsonify({"ok": False, "error": "Gecersiz portfoy verisi."}), 400
+    try:
+        from nexa_pool_sentinel import NexaPoolSentinel
+        sentinel = NexaPoolSentinel()
+        pool_id = sentinel.register_pool(cb_listing, search_url=search_url)
+        return jsonify({"ok": True, "pool_id": pool_id, "message": "Portfoy pazar havuzu basariyla takibe alindi."})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/proactive/scan_now", methods=["POST"])
+def _api_proactive_scan_now():
+    """Triggers an on-demand scan and delta detection for a pool or all pools."""
+    data = request.get_json(force=True, silent=True) or {}
+    pool_id = data.get("pool_id")
+    try:
+        from nexa_pool_sentinel import NexaPoolSentinel
+        sentinel = NexaPoolSentinel()
+        if pool_id:
+            events = sentinel.calculate_delta_events(int(pool_id))
+        else:
+            with sentinel._get_connection() as conn:
+                cur = conn.cursor()
+                cur.execute("SELECT id FROM nexa_monitored_pools WHERE is_active = 1")
+                pool_ids = [r[0] for r in cur.fetchall()]
+            events = []
+            for pid in pool_ids:
+                events.extend(sentinel.calculate_delta_events(pid))
+        return jsonify({"ok": True, "new_events_count": len(events), "events": events})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+
+@app.route("/api/proactive/sync_vip_stores", methods=["GET", "POST"])
+def _api_proactive_sync_vip_stores():
+    """
+    Scans Coldwell Banker VIP 1 and VIP 2 stores on Sahibinden,
+    cross-matches with CB CRM portfolios, reverse-engineers the competitor search pools,
+    registers them in sentinel, and calculates CDC delta events.
+    """
+    try:
+        from nexa_vip_store_bridge import NexaVipStoreBridge
+        force_live = request.args.get("live", "0") in ("1", "true")
+        bridge = NexaVipStoreBridge()
+        result = bridge.sync_vip_stores_pipeline(force_live_scan=force_live)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--cli":
