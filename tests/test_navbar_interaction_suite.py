@@ -29,7 +29,7 @@ def run_suite():
         island = page.locator("#nxaIslandNav")
         resting_box = island.bounding_box()
         print("1.1 Resting Capsule Box:", resting_box)
-        assert resting_box["width"] <= 430, f"Resting capsule too wide: {resting_box['width']}"
+        assert resting_box["width"] <= 475, f"Resting capsule too wide: {resting_box['width']}"
         assert resting_box["height"] >= 40 and resting_box["height"] <= 52, f"Unexpected resting height: {resting_box['height']}"
 
         # Verify no clipping of collapsed items (Yiğit Narin brand, pulse, badge, hint)
@@ -110,7 +110,7 @@ def run_suite():
 
         box_after_down = island.bounding_box()
         print("Box after moving down:", box_after_down)
-        assert box_after_down["width"] <= 430, f"Navbar did not collapse on Y-axis exit downwards! Width: {box_after_down['width']}"
+        assert box_after_down["width"] <= 475, f"Navbar did not collapse on Y-axis exit downwards! Width: {box_after_down['width']}"
         print("PASS: Successfully collapsed back to center capsule on Y-axis downwards exit!")
 
         # Re-open and test exit above
@@ -124,32 +124,57 @@ def run_suite():
         time.sleep(0.8)
         box_after_up = island.bounding_box()
         print("Box after moving up:", box_after_up)
-        assert box_after_up["width"] <= 430, f"Navbar did not collapse on Y-axis exit upwards! Width: {box_after_up['width']}"
+        assert box_after_up["width"] <= 475, f"Navbar did not collapse on Y-axis exit upwards! Width: {box_after_up['width']}"
         print("PASS: Successfully collapsed back to center capsule on Y-axis upwards exit!")
 
         print("\n=======================================================")
-        print("TEST 4: MOBILE (390x844) VIEWPORT ERGONOMICS")
+        print("TEST 4: MOBILE (360x800 & 390x844) VIEWPORT ERGONOMICS")
         print("=======================================================")
-        page_mobile = browser.new_page(viewport={"width": 390, "height": 844})
-        page_mobile.goto(f"http://127.0.0.1:{PORT}/")
-        time.sleep(1.2)
+        for mob_w, mob_h in [(360, 800), (390, 844)]:
+            print(f"\n--- Testing Mobile Viewport {mob_w}x{mob_h} ---")
+            page_mobile = browser.new_page(viewport={"width": mob_w, "height": mob_h})
+            page_mobile.goto(f"http://127.0.0.1:{PORT}/")
+            time.sleep(1.2)
 
-        mob_island = page_mobile.locator("#nxaIslandNav")
-        mob_box = mob_island.bounding_box()
-        print("Mobile Capsule Box:", mob_box)
-        assert mob_box["width"] <= 380, f"Mobile capsule overflows screen: {mob_box['width']}"
+            mob_island = page_mobile.locator("#nxaIslandNav")
+            mob_box = mob_island.bounding_box()
+            print("Mobile Capsule Box:", mob_box)
+            assert mob_box["width"] <= (mob_w - 20), f"Mobile capsule overflows screen: {mob_box['width']}"
 
-        # Click mobile toggle
-        mob_toggle = page_mobile.locator("#mobileToggle")
-        mob_toggle.click()
-        time.sleep(0.4)
+            # Verify hamburger fits inside container with zero clipping
+            h_box = page_mobile.locator("#mobileToggle").bounding_box()
+            assert (h_box["x"] + h_box["width"]) <= (mob_box["x"] + mob_box["width"] + 1), "Hamburger clipped on mobile!"
 
-        nav_links = page_mobile.locator("#navLinks")
-        nav_links_box = nav_links.bounding_box()
-        print("Mobile Drawer Box:", nav_links_box)
-        assert nav_links.is_visible(), "Mobile drawer is not visible after toggle click!"
-        assert nav_links_box["width"] >= 260, f"Mobile drawer too narrow: {nav_links_box['width']}"
-        print("PASS: Mobile drawer opens properly and all links are accessible!")
+            # 4.1 Tap hamburger icon
+            mob_toggle = page_mobile.locator("#mobileToggle")
+            mob_toggle.click()
+            time.sleep(0.4)
+
+            nav_links = page_mobile.locator("#navLinks")
+            assert nav_links.is_visible(), "Mobile drawer is not visible after toggle click!"
+            print("PASS: Mobile drawer opens via hamburger tap!")
+
+            # 4.2 Tap close button inside drawer
+            page_mobile.locator("#mobileDrawerClose").click()
+            time.sleep(0.4)
+            is_active_after_close = page_mobile.evaluate("() => document.getElementById('navLinks').classList.contains('active')")
+            assert not is_active_after_close, "Mobile drawer failed to close via close button!"
+            print("PASS: Mobile drawer closes via close button!")
+
+            # 4.3 Tap capsule body to reopen
+            page_mobile.locator("#nxaIslandCollapsed").click()
+            time.sleep(0.4)
+            assert nav_links.is_visible(), "Mobile drawer failed to open via capsule body tap!"
+            print("PASS: Mobile drawer opens via capsule body tap!")
+
+            # 4.4 Tap overlay to close (tapping exposed left backdrop outside drawer)
+            page_mobile.locator("#navOverlay").click(position={"x": 15, "y": 200})
+            time.sleep(0.4)
+            is_active_after_overlay = page_mobile.evaluate("() => document.getElementById('navLinks').classList.contains('active')")
+            assert not is_active_after_overlay, "Mobile drawer failed to close via overlay tap!"
+            print("PASS: Mobile drawer closes via overlay tap!")
+
+            page_mobile.close()
 
         browser.close()
         print("\n=======================================================")

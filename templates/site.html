@@ -1001,7 +1001,7 @@
         top: 0;
         right: -100%;
         width: 100%;
-        max-width: 320px;
+        max-width: min(300px, 82vw);
         height: 100vh;
         background: rgba(10, 20, 36, 0.98);
         backdrop-filter: blur(28px);
@@ -1048,10 +1048,10 @@
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(10, 22, 40, 0.65);
-        z-index: 997;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
+        background: rgba(7, 13, 24, 0.75);
+        z-index: 10001;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
       }
 
       .nav-overlay.active {
@@ -6046,7 +6046,7 @@
       justify-content: center;
 
       /* Collapsed Resting Dimensions */
-      width: 420px;
+      width: min(460px, calc(100vw - 24px));
       height: 46px;
       padding: 0 16px;
       border-radius: 999px;
@@ -6422,7 +6422,7 @@
         top: 0 !important;
         right: -100% !important;
         width: 100% !important;
-        max-width: 320px !important;
+        max-width: min(300px, 82vw) !important;
         height: 100vh !important;
         background: rgba(10, 20, 36, 0.98) !important;
         backdrop-filter: blur(28px) !important;
@@ -6446,7 +6446,75 @@
         align-items: center !important;
         font-size: 15px !important;
         color: #f8fafc !important;
-        padding: 8px 0 !important;
+        padding: 10px 0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: color 0.2s, padding-left 0.2s;
+        text-decoration: none;
+      }
+      .nav-links a:hover, .nav-links a:active {
+        color: var(--gold) !important;
+        padding-left: 6px !important;
+      }
+      .nxa-drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 16px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        width: 100%;
+      }
+      .nxa-drawer-brand {
+        font-family: 'Playfair Display', serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .nxa-drawer-close {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .nxa-drawer-close:active {
+        background: rgba(212, 175, 55, 0.25);
+        color: var(--gold);
+        transform: scale(0.92);
+      }
+      .nxa-drawer-nexa-btn {
+        background: linear-gradient(135deg, rgba(201, 164, 92, 0.25), rgba(201, 164, 92, 0.08)) !important;
+        border: 1px solid var(--gold) !important;
+        color: var(--gold) !important;
+        padding: 12px 18px !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-top: 14px !important;
+        border-bottom: none !important;
+      }
+    }
+
+    .nxa-badge-mobile {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .nxa-badge-desktop {
+        display: none !important;
+      }
+      .nxa-badge-mobile {
+        display: inline !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
       }
     }
     </style>
@@ -6782,7 +6850,8 @@
         <span class="nxa-island-divider"></span>
         <div class="nxa-island-badge">
           <i class="fas fa-compass" style="color:var(--gold);"></i>
-          <span>VIP Portföy &amp; Zeka Menüsü</span>
+          <span class="nxa-badge-desktop">VIP Portföy &amp; Zeka Menüsü</span>
+          <span class="nxa-badge-mobile">VIP Menü</span>
         </div>
         <!-- Desktop Hover Hint -->
         <div class="nxa-island-trigger-hint">
@@ -6830,25 +6899,31 @@
 
     </div>
 
-    <!-- Mobile Drawer (Clean, Unconstrained Viewport-Fixed Element) -->
-    <div class="nav-links" id="navLinks">
-      <a href="#home">Ana Sayfa</a>
-      <a href="#harita"><i class="fas fa-map-marker-alt" style="margin-right:6px;color:var(--gold);"></i>Harita</a>
-      <a href="#portfolio">Portföy</a>
-      <a href="/ilanlar"><i class="fas fa-th-list" style="margin-right:6px;color:var(--gold);"></i>İlanlar</a>
-      <a href="/ai-analysis"><i class="fas fa-robot" style="margin-right:6px;color:var(--gold);"></i>AI Analiz</a>
-      <a href="/intelligence"><i class="fas fa-chart-line" style="margin-right:6px;color:var(--gold);"></i>Piyasa Zekası</a>
-      <a href="/sunum"><i class="fas fa-folder-open" style="margin-right:6px;color:var(--gold);"></i>Projeler</a>
-      <a href="#services">Hizmetler</a>
-      <a href="#odullerimiz"><i class="fas fa-award" style="margin-right:6px;color:var(--gold);"></i>Ödüller</a>
-      <a href="#testimonials">Referanslar</a>
-      <a href="#contact">İletişim</a>
-      <a href="/dashboard" style="background:linear-gradient(135deg,rgba(201,164,92,0.2),rgba(201,164,92,0.05));border:1px solid var(--gold);color:var(--gold);padding:8px 16px;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;margin-top:12px;"><i class="fas fa-terminal" style="margin-right:6px;"></i>NEXA.OS</a>
-    </div>
-
   </div>
   <!-- Mobil menü karartma overlay -->
   <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- Mobile Drawer (Clean, Unconstrained Viewport-Fixed Element, Root Stacking Context) -->
+  <div class="nav-links" id="navLinks">
+      <div class="nxa-drawer-header">
+        <div class="nxa-drawer-brand">Yiğit <span style="color:var(--gold);">Narin</span></div>
+        <button type="button" class="nxa-drawer-close" id="mobileDrawerClose" aria-label="Menüyü Kapat">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <a href="#home"><i class="fas fa-home" style="margin-right:10px;color:var(--gold);width:16px;"></i>Ana Sayfa</a>
+      <a href="#harita"><i class="fas fa-map-marker-alt" style="margin-right:10px;color:var(--gold);width:16px;"></i>Harita</a>
+      <a href="#portfolio"><i class="fas fa-building" style="margin-right:10px;color:var(--gold);width:16px;"></i>Portföy</a>
+      <a href="/ilanlar"><i class="fas fa-th-list" style="margin-right:10px;color:var(--gold);width:16px;"></i>İlanlar</a>
+      <a href="/ai-analysis"><i class="fas fa-robot" style="margin-right:10px;color:var(--gold);width:16px;"></i>AI Analiz</a>
+      <a href="/intelligence"><i class="fas fa-chart-line" style="margin-right:10px;color:var(--gold);width:16px;"></i>Piyasa Zekası</a>
+      <a href="/sunum"><i class="fas fa-folder-open" style="margin-right:10px;color:var(--gold);width:16px;"></i>Projeler</a>
+      <a href="#services"><i class="fas fa-concierge-bell" style="margin-right:10px;color:var(--gold);width:16px;"></i>Hizmetler</a>
+      <a href="#odullerimiz"><i class="fas fa-award" style="margin-right:10px;color:var(--gold);width:16px;"></i>Ödüller</a>
+      <a href="#testimonials"><i class="fas fa-comment-alt" style="margin-right:10px;color:var(--gold);width:16px;"></i>Referanslar</a>
+      <a href="#contact"><i class="fas fa-envelope" style="margin-right:10px;color:var(--gold);width:16px;"></i>İletişim</a>
+      <a href="/dashboard" class="nxa-drawer-nexa-btn"><i class="fas fa-terminal" style="margin-right:8px;"></i>>_ NEXA.OS</a>
+    </div>
 
   <!-- Ultra-Luxury Live Market Intelligence Ticker (Bloomberg / PropTech HUD) -->
   <div class="luxury-live-ticker" id="luxuryLiveTicker">
@@ -9993,11 +10068,24 @@
       document.body.style.overflow = '';
     }
 
-    mobileToggle.addEventListener('click', () => {
+    function toggleMobileMenu(e) {
+      if (e) e.stopPropagation();
+      if (!navLinks) return;
       navLinks.classList.contains('active') ? closeMenu() : openMenu();
-    });
+    }
+
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', (e) => {
+        toggleMobileMenu(e);
+      });
+    }
 
     navOverlay.addEventListener('click', closeMenu);
+
+    const drawerCloseBtn = document.getElementById('mobileDrawerClose');
+    if (drawerCloseBtn) {
+      drawerCloseBtn.addEventListener('click', closeMenu);
+    }
 
     // Close mobile menu on link click
     document.querySelectorAll('.nav-links a').forEach(link => {
@@ -14032,19 +14120,8 @@ ${src.length ? `
       if (collapsedBar) {
         collapsedBar.addEventListener('click', (e) => {
           if (window.innerWidth <= 992) {
-            const navLinks = document.getElementById('navLinks');
-            const navOverlay = document.getElementById('navOverlay');
-            if (navLinks && navOverlay) {
-              if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                navOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-              } else {
-                navLinks.classList.add('active');
-                navOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-              }
-            }
+            if (e.target.closest('#mobileToggle')) return;
+            toggleMobileMenu(e);
           } else {
             openIsland();
           }
