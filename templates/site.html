@@ -579,6 +579,262 @@
       100% { height: 11px; }
     }
 
+    /* ── Hero Showcase Draggable, PiP & Floating Background Player ── */
+    .showcase-drag-grip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(212, 175, 55, 0.75);
+      cursor: grab;
+      padding: 3px 5px;
+      border-radius: 6px;
+      font-size: 11px;
+      user-select: none;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+    .showcase-drag-grip:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.6);
+    }
+    .hero-showcase-badge.is-dragging .showcase-drag-grip {
+      cursor: grabbing;
+    }
+
+    .hero-ctrl-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.85);
+      width: 25px;
+      height: 25px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 10.5px;
+      transition: all 0.2s ease;
+    }
+    .hero-ctrl-btn:hover {
+      background: rgba(212, 175, 55, 0.25);
+      color: var(--gold-light);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+    .hero-ctrl-btn.hero-ctrl-close:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.6);
+    }
+
+    /* Free-floating Draggable Elevation State */
+    .hero-showcase-badge.is-floating {
+      position: fixed !important;
+      z-index: 1005 !important;
+    }
+    .hero-showcase-badge.is-dragging {
+      cursor: grabbing !important;
+      user-select: none !important;
+      transition: none !important;
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.92), 0 0 45px rgba(212, 175, 55, 0.45) !important;
+      transform: scale(1.025) !important;
+      border-color: rgba(212, 175, 55, 0.95) !important;
+    }
+
+    /* YouTube-Style PiP Mini Player Mode */
+    .hero-showcase-badge.showcase-pip {
+      position: fixed !important;
+      bottom: 24px !important;
+      right: 86px !important;
+      width: auto !important;
+      max-width: 480px !important;
+      min-width: 320px;
+      padding: 7px 14px !important;
+      border-radius: 40px !important;
+      background: rgba(7, 13, 24, 0.94) !important;
+      backdrop-filter: blur(24px) !important;
+      -webkit-backdrop-filter: blur(24px) !important;
+      border: 1px solid rgba(212, 175, 55, 0.6) !important;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 28px rgba(212, 175, 55, 0.28) !important;
+      z-index: 1005 !important;
+      animation: popInPip 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    @keyframes popInPip {
+      0% { transform: scale(0.92) translateY(12px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .hero-showcase-badge.showcase-pip .showcase-full-view {
+      display: none !important;
+    }
+    .hero-showcase-badge:not(.showcase-pip) .showcase-pip-view {
+      display: none !important;
+    }
+
+    .showcase-pip-view {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 12px;
+    }
+    .spc-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      overflow: hidden;
+      cursor: grab;
+      user-select: none;
+    }
+    .spc-live-dot {
+      width: 7px;
+      height: 7px;
+      min-width: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulseShowcase 2s infinite;
+    }
+    .spc-text {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .spc-tag {
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+    .spc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 165px;
+      line-height: 1.25;
+    }
+    .spc-actions {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .spc-action-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 10px;
+      transition: all 0.2s ease;
+    }
+    .spc-action-btn:hover {
+      background: var(--gold);
+      color: var(--deep-navy);
+      border-color: var(--gold);
+    }
+    .spc-action-btn.spc-play {
+      background: var(--gold);
+      color: var(--deep-navy);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+    }
+    .spc-action-btn.spc-close-btn:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.5);
+    }
+
+    /* Dismissed & Floating Restore Pill */
+    .hero-showcase-badge.is-dismissed {
+      display: none !important;
+    }
+    .showcase-restore-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 86px;
+      z-index: 1005;
+      background: rgba(7, 13, 24, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 40px;
+      padding: 7px 15px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75), 0 0 20px rgba(212, 175, 55, 0.25);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: popInRestore 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .showcase-restore-fab.is-visible {
+      display: inline-flex !important;
+    }
+    .showcase-restore-fab:hover {
+      transform: translateY(-2px) scale(1.02);
+      border-color: rgba(212, 175, 55, 0.9);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 30px rgba(212, 175, 55, 0.4);
+    }
+    @keyframes popInRestore {
+      0% { transform: translateY(20px) scale(0.88); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .srf-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulseShowcase 2s infinite;
+    }
+    .srf-icon {
+      color: var(--gold);
+      font-size: 13px;
+    }
+    .srf-body {
+      display: flex;
+      flex-direction: column;
+    }
+    .srf-badge {
+      font-size: 7.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+    .srf-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .srf-btn {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--deep-navy);
+      background: var(--gold);
+      padding: 4px 9px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     /* ── Luxury Live Market Ticker ── */
     .luxury-live-ticker {
       background: rgba(4, 9, 18, 0.94);
@@ -638,7 +894,7 @@
     }
 
     @media (max-width: 768px) {
-      .hero-showcase-badge {
+      .hero-showcase-badge:not(.is-floating):not(.showcase-pip) {
         position: relative !important;
         order: 2 !important;
         bottom: auto !important;
@@ -7596,48 +7852,100 @@
       <source id="heroVideoSource" src="/static/videos/hero/hero_day_0_ankaport.mp4" type="video/mp4">
     </video>
 
-    <!-- 7-Day Autonomous Rotating Showcase Badge -->
+    <!-- 7-Day Autonomous Rotating Showcase Badge (Draggable, Minimizable PiP & Dismissible) -->
     <div class="hero-showcase-badge" id="heroShowcaseBadge">
-      <!-- 7-Day Story Progress Bars -->
-      <div class="hero-story-bars" id="heroStoryBars">
-        <div class="hero-story-bar" id="storyBar0" onclick="applyHeroShowcase(0)" title="Pazartesi: ANKAPORT SARAY"><span class="bar-fill"></span></div>
-        <div class="hero-story-bar" id="storyBar1" onclick="applyHeroShowcase(1)" title="Salı: S POINT VIP SARAY"><span class="bar-fill"></span></div>
-        <div class="hero-story-bar" id="storyBar2" onclick="applyHeroShowcase(2)" title="Çarşamba: NARÇİN RONYA CITY"><span class="bar-fill"></span></div>
-        <div class="hero-story-bar" id="storyBar3" onclick="applyHeroShowcase(3)" title="Perşembe: GRANDE YAŞAMKENT"><span class="bar-fill"></span></div>
-        <div class="hero-story-bar" id="storyBar4" onclick="applyHeroShowcase(4)" title="Cuma: GÖKDEMİR İMZA"><span class="bar-fill"></span></div>
-        <div class="hero-story-bar" id="storyBar5" onclick="applyHeroShowcase(5)" title="Cumartesi: EVART YALIKAVAK"><span class="bar-fill"></span></div>
-        <div class="hero-story-bar" id="storyBar6" onclick="applyHeroShowcase(6)" title="Pazar: IDEA START BRAVO"><span class="bar-fill"></span></div>
+      <!-- Full Showcase Content View -->
+      <div class="showcase-full-view">
+        <!-- 7-Day Story Progress Bars -->
+        <div class="hero-story-bars" id="heroStoryBars">
+          <div class="hero-story-bar" id="storyBar0" onclick="applyHeroShowcase(0)" title="Pazartesi: ANKAPORT SARAY"><span class="bar-fill"></span></div>
+          <div class="hero-story-bar" id="storyBar1" onclick="applyHeroShowcase(1)" title="Salı: S POINT VIP SARAY"><span class="bar-fill"></span></div>
+          <div class="hero-story-bar" id="storyBar2" onclick="applyHeroShowcase(2)" title="Çarşamba: NARÇİN RONYA CITY"><span class="bar-fill"></span></div>
+          <div class="hero-story-bar" id="storyBar3" onclick="applyHeroShowcase(3)" title="Perşembe: GRANDE YAŞAMKENT"><span class="bar-fill"></span></div>
+          <div class="hero-story-bar" id="storyBar4" onclick="applyHeroShowcase(4)" title="Cuma: GÖKDEMİR İMZA"><span class="bar-fill"></span></div>
+          <div class="hero-story-bar" id="storyBar5" onclick="applyHeroShowcase(5)" title="Cumartesi: EVART YALIKAVAK"><span class="bar-fill"></span></div>
+          <div class="hero-story-bar" id="storyBar6" onclick="applyHeroShowcase(6)" title="Pazar: IDEA START BRAVO"><span class="bar-fill"></span></div>
+        </div>
+
+        <div class="hero-showcase-top">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span class="showcase-drag-grip" title="Sürükleyip Konumlandırın"><i class="fas fa-grip-vertical"></i></span>
+            <span class="hero-showcase-pill" id="heroShowcaseDayPill">
+              <span class="hero-pulse-dot"></span> GÜNÜN VİTRİNİ • PAZARTESİ
+            </span>
+          </div>
+          <div class="hero-showcase-nav">
+            <button type="button" class="hero-nav-btn" onclick="switchHeroShowcase(-1)" title="Önceki Günün Projesi">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button type="button" class="hero-nav-btn" onclick="switchHeroShowcase(1)" title="Sonraki Günün Projesi">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <button type="button" class="hero-ctrl-btn" id="showcaseResetPosBtn" onclick="resetShowcasePosition(event)" title="Varsayılan Köşeye Sıfırla" style="display:none;">
+              <i class="fas fa-undo-alt"></i>
+            </button>
+            <button type="button" class="hero-ctrl-btn" onclick="toggleShowcasePip(event)" title="Mini Player Moduna Al (PiP)">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="hero-ctrl-btn hero-ctrl-close" onclick="dismissShowcaseWidget(event)" title="Geçici Olarak Gizle">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="hero-showcase-tagline" id="heroShowcaseTagline">Ankara'nın Yeni Sanayi & Ticaret Üssü</div>
+        <h4 class="hero-showcase-title" id="heroShowcaseTitle">ANKAPORT SARAY</h4>
+        <p class="hero-showcase-hook" id="heroShowcaseHook">Kazan-Saray aksında lojistik & üretimde yüksek kira çarpanı ve lansman avantajı.</p>
+        <div class="hero-showcase-actions">
+          <button type="button" onclick="openCurrentHeroShowcaseModal()" class="btn btn-sm" style="background:var(--gold); color:var(--deep-navy); font-weight:700; font-size:11px; padding:6px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:5px; box-shadow:0 4px 12px rgba(212,175,55,0.35);">
+            <i class="fas fa-play"></i> Detaylı İzle
+          </button>
+          <button type="button" class="hero-sound-toggle-btn" id="heroSoundBtn" onclick="toggleHeroSound()" title="Arka Plan Sesini Aç/Kapat">
+            <i class="fas fa-volume-mute" id="heroSoundIcon"></i>
+            <span class="sound-bars" id="heroSoundBars"><span class="sound-bar"></span><span class="sound-bar"></span><span class="sound-bar"></span></span>
+            <span id="heroSoundLabel">Sesi Aç</span>
+          </button>
+          <a href="#projeler" class="btn btn-sm" style="background:rgba(255,255,255,0.08); color:#fff; font-size:11px; padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); display:inline-flex; align-items:center; gap:5px;">
+            <i class="fas fa-th-large"></i> 31 Proje
+          </a>
+        </div>
       </div>
 
-      <div class="hero-showcase-top">
-        <span class="hero-showcase-pill" id="heroShowcaseDayPill">
-          <span class="hero-pulse-dot"></span> GÜNÜN VİTRİNİ • PAZARTESİ
-        </span>
-        <div class="hero-showcase-nav">
-          <button type="button" class="hero-nav-btn" onclick="switchHeroShowcase(-1)" title="Önceki Günün Projesi">
-            <i class="fas fa-chevron-left"></i>
+      <!-- PiP Mini Player View (YouTube Style Floating Bar) -->
+      <div class="showcase-pip-view">
+        <div class="spc-left" title="Sürükleyip Taşıyın">
+          <span class="showcase-drag-grip"><i class="fas fa-grip-vertical"></i></span>
+          <span class="spc-live-dot"></span>
+          <div class="spc-text">
+            <span class="spc-tag">GÜNÜN VİTRİNİ</span>
+            <strong class="spc-title" id="showcasePipTitle">ANKAPORT SARAY</strong>
+          </div>
+        </div>
+        <div class="spc-actions">
+          <button type="button" class="spc-action-btn spc-play" onclick="openCurrentHeroShowcaseModal()" title="Detaylı İzle">
+            <i class="fas fa-play"></i>
           </button>
-          <button type="button" class="hero-nav-btn" onclick="switchHeroShowcase(1)" title="Sonraki Günün Projesi">
-            <i class="fas fa-chevron-right"></i>
+          <button type="button" class="spc-action-btn" id="showcasePipSoundBtn" onclick="toggleHeroSound()" title="Sesi Aç/Kapat">
+            <i class="fas fa-volume-mute" id="showcasePipSoundIcon"></i>
+          </button>
+          <button type="button" class="spc-action-btn" onclick="toggleShowcasePip(event)" title="Tam Boyuta Büyüt">
+            <i class="fas fa-expand-alt"></i>
+          </button>
+          <button type="button" class="spc-action-btn spc-close-btn" onclick="dismissShowcaseWidget(event)" title="Geçici Olarak Gizle">
+            <i class="fas fa-times"></i>
           </button>
         </div>
       </div>
-      <div class="hero-showcase-tagline" id="heroShowcaseTagline">Ankara'nın Yeni Sanayi & Ticaret Üssü</div>
-      <h4 class="hero-showcase-title" id="heroShowcaseTitle">ANKAPORT SARAY</h4>
-      <p class="hero-showcase-hook" id="heroShowcaseHook">Kazan-Saray aksında lojistik & üretimde yüksek kira çarpanı ve lansman avantajı.</p>
-      <div class="hero-showcase-actions">
-        <button type="button" onclick="openCurrentHeroShowcaseModal()" class="btn btn-sm" style="background:var(--gold); color:var(--deep-navy); font-weight:700; font-size:11px; padding:6px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:5px; box-shadow:0 4px 12px rgba(212,175,55,0.35);">
-          <i class="fas fa-play"></i> Detaylı İzle
-        </button>
-        <button type="button" class="hero-sound-toggle-btn" id="heroSoundBtn" onclick="toggleHeroSound()" title="Arka Plan Sesini Aç/Kapat">
-          <i class="fas fa-volume-mute" id="heroSoundIcon"></i>
-          <span class="sound-bars" id="heroSoundBars"><span class="sound-bar"></span><span class="sound-bar"></span><span class="sound-bar"></span></span>
-          <span id="heroSoundLabel">Sesi Aç</span>
-        </button>
-        <a href="#projeler" class="btn btn-sm" style="background:rgba(255,255,255,0.08); color:#fff; font-size:11px; padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); display:inline-flex; align-items:center; gap:5px;">
-          <i class="fas fa-th-large"></i> 31 Proje
-        </a>
+    </div>
+
+    <!-- Floating Restore Pill (When showcase is temporarily hidden) -->
+    <div class="showcase-restore-fab" id="showcaseRestoreFab" onclick="restoreHeroShowcaseWidget()" title="Günün Vitrini'ni Göster (Arka planda video devam ediyor)">
+      <span class="srf-dot"></span>
+      <i class="fas fa-film srf-icon"></i>
+      <div class="srf-body">
+        <span class="srf-badge">ARKA PLAN OYNATICI</span>
+        <span class="srf-title" id="srfTitle">ANKAPORT SARAY</span>
       </div>
+      <span class="srf-btn"><i class="fas fa-chevron-up"></i> Vitrini Aç</span>
     </div>
     <div class="hero-content">
       <!-- Executive Advisor Presence Pill -->
@@ -13322,6 +13630,12 @@ ${src.length ? `
       if (taglineEl) taglineEl.textContent = item.tagline;
       if (hookEl) hookEl.textContent = item.hook;
 
+      // Sync PiP and Restore Pill titles
+      const pipTitle = document.getElementById('showcasePipTitle');
+      if (pipTitle) pipTitle.textContent = item.title;
+      const srfTitle = document.getElementById('srfTitle');
+      if (srfTitle) srfTitle.textContent = item.title;
+
       if (videoEl && videoSrc) {
         const decodedCurrentSrc = decodeURIComponent(videoSrc.src || '');
         if (!decodedCurrentSrc.endsWith(item.videoSrc)) {
@@ -13345,14 +13659,17 @@ ${src.length ? `
       const icon = document.getElementById('heroSoundIcon');
       if (!video) return;
       video.muted = !video.muted;
+      const pipSoundIcon = document.getElementById('showcasePipSoundIcon');
       if (video.muted) {
         if (label) label.textContent = 'Sesi Aç';
         if (bars) bars.classList.remove('active');
         if (icon) icon.className = 'fas fa-volume-mute';
+        if (pipSoundIcon) pipSoundIcon.className = 'fas fa-volume-mute';
       } else {
         if (label) label.textContent = 'Sinematik Ses';
         if (bars) bars.classList.add('active');
         if (icon) icon.className = 'fas fa-volume-up';
+        if (pipSoundIcon) pipSoundIcon.className = 'fas fa-volume-up';
         video.play().catch(() => {});
       }
     }
@@ -13384,11 +13701,178 @@ ${src.length ? `
       window.location.hash = '#projeler';
     }
 
+    // ── Draggable, Minimizable (PiP) & Dismissible Hero Showcase Controller ──
+    let showcaseIsDragging = false;
+    let showcaseDragStartX = 0;
+    let showcaseDragStartY = 0;
+    let showcaseElemStartX = 0;
+    let showcaseElemStartY = 0;
+    let showcaseHasMoved = false;
+
+    function toggleShowcasePip(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const badge = document.getElementById('heroShowcaseBadge');
+      if (!badge) return;
+
+      const isPip = badge.classList.toggle('showcase-pip');
+      if (isPip) {
+        if (!showcaseHasMoved) {
+          badge.style.left = '';
+          badge.style.top = '';
+          badge.style.right = '86px';
+          badge.style.bottom = '24px';
+        }
+      } else {
+        if (!showcaseHasMoved) {
+          badge.style.left = '';
+          badge.style.top = '';
+          badge.style.right = '';
+          badge.style.bottom = '';
+          badge.classList.remove('is-floating');
+        }
+      }
+    }
+
+    function dismissShowcaseWidget(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const badge = document.getElementById('heroShowcaseBadge');
+      const restoreFab = document.getElementById('showcaseRestoreFab');
+      if (badge) badge.classList.add('is-dismissed');
+      if (restoreFab) restoreFab.classList.add('is-visible');
+    }
+
+    function restoreHeroShowcaseWidget(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const badge = document.getElementById('heroShowcaseBadge');
+      const restoreFab = document.getElementById('showcaseRestoreFab');
+      if (badge) {
+        badge.classList.remove('is-dismissed');
+      }
+      if (restoreFab) {
+        restoreFab.classList.remove('is-visible');
+      }
+    }
+
+    function resetShowcasePosition(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const badge = document.getElementById('heroShowcaseBadge');
+      const resetBtn = document.getElementById('showcaseResetPosBtn');
+      if (!badge) return;
+
+      badge.classList.remove('is-floating');
+      badge.classList.remove('showcase-pip');
+      badge.style.position = '';
+      badge.style.left = '';
+      badge.style.top = '';
+      badge.style.right = '';
+      badge.style.bottom = '';
+      badge.style.margin = '';
+      showcaseHasMoved = false;
+      if (resetBtn) resetBtn.style.display = 'none';
+    }
+
+    function initHeroShowcaseDraggable() {
+      const badge = document.getElementById('heroShowcaseBadge');
+      if (!badge || badge.dataset.draggableInit === 'true') return;
+      badge.dataset.draggableInit = 'true';
+
+      function onPointerDown(e) {
+        // Do not drag if clicked on buttons or links or story bars
+        if (e.target.closest('button, a, .hero-story-bar, input')) return;
+
+        showcaseIsDragging = true;
+        const rect = badge.getBoundingClientRect();
+        showcaseElemStartX = rect.left;
+        showcaseElemStartY = rect.top;
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        showcaseDragStartX = clientX;
+        showcaseDragStartY = clientY;
+
+        badge.classList.add('is-dragging');
+        badge.classList.add('is-floating');
+        badge.style.position = 'fixed';
+        badge.style.left = showcaseElemStartX + 'px';
+        badge.style.top = showcaseElemStartY + 'px';
+        badge.style.right = 'auto';
+        badge.style.bottom = 'auto';
+        badge.style.margin = '0';
+      }
+
+      function onPointerMove(e) {
+        if (!showcaseIsDragging) return;
+        if (e.cancelable && e.touches) e.preventDefault();
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const dx = clientX - showcaseDragStartX;
+        const dy = clientY - showcaseDragStartY;
+
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+          showcaseHasMoved = true;
+          const resetBtn = document.getElementById('showcaseResetPosBtn');
+          if (resetBtn) resetBtn.style.display = 'inline-flex';
+        }
+
+        const pad = 12;
+        const badgeW = badge.offsetWidth;
+        const badgeH = badge.offsetHeight;
+
+        let targetLeft = showcaseElemStartX + dx;
+        let targetTop = showcaseElemStartY + dy;
+
+        targetLeft = Math.max(pad, Math.min(window.innerWidth - badgeW - pad, targetLeft));
+        targetTop = Math.max(pad, Math.min(window.innerHeight - badgeH - pad, targetTop));
+
+        badge.style.left = targetLeft + 'px';
+        badge.style.top = targetTop + 'px';
+      }
+
+      function onPointerUp() {
+        if (!showcaseIsDragging) return;
+        showcaseIsDragging = false;
+        badge.classList.remove('is-dragging');
+      }
+
+      badge.addEventListener('mousedown', onPointerDown);
+      document.addEventListener('mousemove', onPointerMove, { passive: false });
+      document.addEventListener('mouseup', onPointerUp);
+
+      badge.addEventListener('touchstart', onPointerDown, { passive: true });
+      document.addEventListener('touchmove', onPointerMove, { passive: false });
+      document.addEventListener('touchend', onPointerUp);
+    }
+
     function initHeroDailyShowcase() {
       const jsDay = new Date().getDay();
       const todayIndex = (jsDay === 0) ? 6 : (jsDay - 1);
       applyHeroShowcase(todayIndex);
+      initHeroShowcaseDraggable();
     }
+
+    // Expose showcase controllers globally for HTML onclick handlers
+    window.applyHeroShowcase = applyHeroShowcase;
+    window.switchHeroShowcase = switchHeroShowcase;
+    window.toggleHeroSound = toggleHeroSound;
+    window.openCurrentHeroShowcaseModal = openCurrentHeroShowcaseModal;
+    window.toggleShowcasePip = toggleShowcasePip;
+    window.dismissShowcaseWidget = dismissShowcaseWidget;
+    window.restoreHeroShowcaseWidget = restoreHeroShowcaseWidget;
+    window.resetShowcasePosition = resetShowcasePosition;
+    window.initHeroShowcaseDraggable = initHeroShowcaseDraggable;
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initHeroDailyShowcase);
