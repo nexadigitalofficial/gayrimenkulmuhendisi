@@ -23,6 +23,7 @@ def run_suite():
         print("TEST 1: DESKTOP (1366x768) - Quick Chip Search")
         print("=======================================================")
         page = browser.new_page(viewport={"width": 1366, "height": 768})
+        page.add_init_script("sessionStorage.setItem('nexa_preloader_seen', '1');")
         page.goto(f"http://127.0.0.1:{PORT}/")
         time.sleep(1.2)
 
@@ -101,6 +102,7 @@ def run_suite():
         print("TEST 3: MOBILE (390x844) - Mobile Responsiveness & Touch")
         print("=======================================================")
         page_mobile = browser.new_page(viewport={"width": 390, "height": 844})
+        page_mobile.add_init_script("sessionStorage.setItem('nexa_preloader_seen', '1');")
         page_mobile.goto(f"http://127.0.0.1:{PORT}/")
         time.sleep(1.2)
 

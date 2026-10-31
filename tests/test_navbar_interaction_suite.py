@@ -23,6 +23,7 @@ def run_suite():
         print("TEST 1: DESKTOP (1366x768) - Resting, Expand, Nav Links, Fit")
         print("=======================================================")
         page = browser.new_page(viewport={"width": 1366, "height": 768})
+        page.add_init_script("sessionStorage.setItem('nexa_preloader_seen', '1');")
         page.goto(f"http://127.0.0.1:{PORT}/")
         time.sleep(1.2)
 
@@ -133,6 +134,7 @@ def run_suite():
         for mob_w, mob_h in [(360, 800), (390, 844)]:
             print(f"\n--- Testing Mobile Viewport {mob_w}x{mob_h} ---")
             page_mobile = browser.new_page(viewport={"width": mob_w, "height": mob_h})
+            page_mobile.add_init_script("sessionStorage.setItem('nexa_preloader_seen', '1');")
             page_mobile.goto(f"http://127.0.0.1:{PORT}/")
             time.sleep(1.2)
 
