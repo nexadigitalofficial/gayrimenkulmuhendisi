@@ -190,6 +190,27 @@
         .badge-meta     { background: rgba(14,165,233,0.12); color: #7dd3fc; border: 1px solid rgba(14,165,233,0.25); }
         .badge-whatsapp { background: rgba(16,185,129,0.12); color: #4ade80; border: 1px solid rgba(16,185,129,0.25); }
         .badge-manual   { background: rgba(100,116,139,0.12); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .badge-listing  { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+        .badge-buyer    { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+        .badge-hot      { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+        .badge-warm     { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
+        .badge-cold     { background: rgba(6,182,212,0.15); color: #67e8f9; border: 1px solid rgba(6,182,212,0.3); }
+        .badge-archetype { background: rgba(99,102,241,0.12); color: #c7d2fe; border: 1px solid rgba(99,102,241,0.25); }
+        .badge-exchange { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+
+        /* Network Tree Styles */
+        .network-tree, .network-tree ul { list-style: none; margin: 0; padding-left: 18px; border-left: 2px dashed rgba(212,175,55,0.25); }
+        .network-tree { padding-left: 0; border-left: none; }
+        .network-tree li { margin: 8px 0; position: relative; }
+        .network-tree ul li::before {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 16px;
+            width: 16px;
+            height: 2px;
+            border-top: 2px dashed rgba(212,175,55,0.25);
+        }
 
         .btn { padding: 8px 16px; border-radius: 8px; font-weight: 500; font-size: 13px; cursor: pointer; transition: all 0.15s; border: none; display: inline-flex; align-items: center; gap: 8px; }
         .btn-primary { background: var(--accent); color: white; }
@@ -1702,6 +1723,10 @@
                 <button @click="activeView = 'contacts'" :class="{ active: activeView === 'contacts' }" class="sidebar-item">
                     <i class="fas fa-users" style="width:16px"></i> Kişiler
                 </button>
+                <button @click="activeView = 'network'" :class="{ active: activeView === 'network' }" class="sidebar-item" style="color: #a78bfa; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.25); margin-top: 2px;">
+                    <i class="fas fa-project-diagram" style="width:16px; color:#a78bfa;"></i> İstihbarat Ağı
+                    <span class="sidebar-item-badge" style="background:#8b5cf6; color:#fff; font-size:10px;">AĞ</span>
+                </button>
                 <button @click="activeView = 'leads'; leadTab = 'list'" :class="{ active: activeView === 'leads' }" class="sidebar-item">
                     <i class="fas fa-satellite-dish" style="width:16px"></i> Leadler
                     <span v-if="webLeads.length > 0" class="sidebar-item-badge">{{ webLeads.length > 9 ? '9+' : webLeads.length }}</span>
@@ -1769,6 +1794,7 @@
                     <span v-if="activeView === 'dashboard'">Dashboard</span>
                     <span v-else-if="activeView === 'pipeline'">Pipeline</span>
                     <span v-else-if="activeView === 'contacts'">Kişiler</span>
+                    <span v-else-if="activeView === 'network'">🕸️ NEXA İstihbarat & Zincir Ağı</span>
                     <span v-else-if="activeView === 'leads'">Leadler</span>
                     <span v-else-if="activeView === 'analytics'">Analitik</span>
                     <span v-else-if="activeView === 'my_listings'">Portföy İlanlarım</span>
@@ -2591,13 +2617,39 @@
                 <div class="glass rounded-2xl p-4">
                     <div class="flex gap-4 flex-wrap">
                         <div class="flex-1 min-w-0">
-                            <input v-model="searchQuery" type="text" placeholder="İsim, telefon veya ilçe ara...">
+                            <input v-model="searchQuery" type="text" placeholder="İsim, telefon, kategori veya ilan ara...">
                         </div>
                         <button @click="openAddContact()" class="btn btn-primary">
                             <i class="fas fa-plus"></i>Yeni Kayıt
                         </button>
+                        <button @click="activeView = 'network'" class="btn" style="background: linear-gradient(135deg, rgba(167,139,250,0.2) 0%, rgba(139,92,246,0.3) 100%); border: 1px solid rgba(167,139,250,0.4); color: #c4b5fd;">
+                            <i class="fas fa-project-diagram mr-1"></i>İstihbarat Ağı
+                        </button>
                         <button @click="openImportModal()" class="btn btn-secondary">
                             <i class="fas fa-file-excel"></i>Excel İçe Aktar
+                        </button>
+                    </div>
+                    <!-- Hızlı Kategori Filtresi (Alıcılar dahil) -->
+                    <div class="flex gap-2 flex-wrap mt-3 pt-3 border-t border-white/5 items-center">
+                        <span class="text-xs text-gray-400 font-semibold mr-1"><i class="fas fa-filter mr-1"></i>Filtre:</span>
+                        <button @click="contactCategoryFilter = 'all'"
+                            :class="contactCategoryFilter === 'all' ? 'bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-500/20' : 'glass text-gray-400 hover:text-white'"
+                            class="px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                            <i class="fas fa-users text-[10px]"></i>
+                            Tümü ({{ contacts.length }})
+                        </button>
+                        <button @click="contactCategoryFilter = 'buyer'"
+                            :class="contactCategoryFilter === 'buyer' ? 'bg-emerald-600 text-white font-bold shadow-lg shadow-emerald-500/25 ring-1 ring-emerald-400/50' : 'glass text-gray-400 hover:text-emerald-300'"
+                            class="px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                            <i class="fas fa-user-check text-[10px] text-emerald-300"></i>
+                            Alıcılar ({{ contacts.filter(c => c.category === 'buyer' || c.category === 'alici' || c.category === 'alıcı').length }})
+                        </button>
+                        <button v-for="cat in pipelineCategories.filter(c => c.id !== 'buyer')" :key="cat.id"
+                            @click="contactCategoryFilter = cat.id"
+                            :class="contactCategoryFilter === cat.id ? 'bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-500/20' : 'glass text-gray-400 hover:text-white'"
+                            class="px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                            <i :class="cat.icon" class="text-[10px]"></i>
+                            {{ cat.label }} ({{ contacts.filter(c => c.category === cat.id).length }})
                         </button>
                     </div>
                 </div>
@@ -2606,53 +2658,347 @@
                         <table class="w-full">
                             <thead class="bg-white/5">
                                 <tr>
-                                    <th class="text-left p-4 font-semibold">İsim</th>
-                                    <th class="text-left p-4 font-semibold">Kaynak</th>
+                                    <th class="text-left p-4 font-semibold">İsim & İstihbarat</th>
+                                    <th class="text-left p-4 font-semibold">Kaynak / Zincir</th>
                                     <th class="text-left p-4 font-semibold">Kategori</th>
+                                    <th class="text-left p-4 font-semibold">Isı & Arketip</th>
                                     <th class="text-left p-4 font-semibold">Aşama</th>
-                                    <th class="text-left p-4 font-semibold">Değer</th>
-                                    <th class="text-left p-4 font-semibold">Tarih</th>
-                                    <th class="text-left p-4 font-semibold">İşlem</th>
+                                    <th class="text-left p-4 font-semibold">Değer / Takas</th>
+                                    <th class="text-left p-4 font-semibold">Skor</th>
+                                    <th class="text-left p-4 font-semibold">Sonraki Adım</th>
+                                    <th class="text-left p-4 font-semibold">Hızlı İşlem</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="contact in filteredContacts" :key="contact.id" class="border-t border-white/5 hover:bg-white/5 transition-colors">
                                     <td class="p-4">
                                         <div>
-                                            <p class="font-semibold">{{ contact.name }}</p>
+                                            <p class="font-semibold flex items-center gap-1.5 flex-wrap">
+                                                <span>{{ contact.name }}</span>
+                                                <span v-if="contact.hasExchange" class="badge badge-exchange text-[10px] py-0 px-1.5" title="Takas İhtimali Var">
+                                                    <i class="fas fa-sync-alt mr-1"></i>Takas
+                                                </span>
+                                            </p>
                                             <p class="text-sm text-gray-400">{{ contact.phone }}</p>
                                         </div>
                                     </td>
                                     <td class="p-4">
-                                        <span :class="'badge badge-' + (contact.source || 'manual')">
-                                            <i :class="[getSourceIcon(contact.source), 'mr-1']"></i>
-                                            {{ getSourceLabel(contact.source) }}
+                                        <div>
+                                            <span :class="'badge badge-' + (contact.source || 'manual')">
+                                                <i :class="[getSourceIcon(contact.source), 'mr-1']"></i>
+                                                {{ getSourceLabel(contact.source) }}
+                                            </span>
+                                            <div v-if="contact.parentId" class="text-[11px] text-amber-400/90 flex items-center gap-1 mt-1">
+                                                <i class="fas fa-link text-[9px]"></i>
+                                                <span>{{ getParentName(contact.parentId) }}</span>
+                                                <span v-if="contact.relationType" class="text-gray-400">({{ contact.relationType }})</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span :class="contact.category === 'buyer' || contact.category === 'alici' || contact.category === 'alıcı' ? 'badge badge-buyer font-bold ring-1 ring-emerald-500/30' : 'badge badge-info'">
+                                            <i v-if="contact.category === 'buyer' || contact.category === 'alici' || contact.category === 'alıcı'" class="fas fa-user-check mr-1 text-emerald-400"></i>
+                                            {{ getCategoryLabel(contact.category) }}
                                         </span>
                                     </td>
                                     <td class="p-4">
-                                        <span class="badge badge-info">{{ getCategoryLabel(contact.category) }}</span>
+                                        <div class="space-y-1">
+                                            <span :class="getHeatBadgeClass(contact.heat)" class="badge">
+                                                <i :class="[getHeatIcon(contact.heat), 'mr-1']"></i>
+                                                {{ getHeatLabel(contact.heat) }}
+                                            </span>
+                                            <div v-if="contact.archetype" class="text-[10px] text-indigo-300 font-medium">
+                                                <i class="fas fa-id-badge mr-1"></i>{{ contact.archetype }}
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="p-4">
-                                        <span :class="getStageBadgeClass(contact.stage)" class="badge">{{ contact.stage }}</span>
+                                        <span :class="getStageBadgeClass(contact.stage)" class="badge">{{ contact.stageName || contact.stage }}</span>
                                     </td>
                                     <td class="p-4 font-semibold text-indigo-400">
-                                        {{ contact.price ? formatCurrency(contact.price) : '-' }}
+                                        {{ contact.price ? formatCurrency(contact.price) : (contact.offer || '-') }}
                                     </td>
-                                    <td class="p-4 text-sm text-gray-400">{{ formatDate(contact.createdAt) }}</td>
                                     <td class="p-4">
-                                        <button @click="openContactDetail(contact)" class="btn btn-secondary py-2 px-4">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                        <span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 font-extrabold text-xs border border-purple-500/30" title="Dinamik İstihbarat Skoru">
+                                            ⭐ {{ computeContactScore(contact) }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 text-xs">
+                                        <div v-if="contact.nextAction" class="font-medium text-gray-200">{{ contact.nextAction }}</div>
+                                        <div :class="isNextActionOverdue(contact.nextActionDate) ? 'text-red-400 font-bold' : 'text-gray-400'" class="text-[11px] mt-0.5">
+                                            {{ formatNextActionDate(contact.nextActionDate) }}
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <div class="flex items-center gap-1.5 flex-wrap">
+                                            <button @click="quickMarkCalled(contact)" class="px-2 py-1 rounded-lg text-xs bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 transition-all font-semibold flex items-center gap-1" title="Bugün arandı olarak kaydet ve takibi 3 gün sonraya at">
+                                                <i class="fas fa-phone-alt text-[10px]"></i> Arandı
+                                            </button>
+                                            <button @click="quickSnoozeContact(contact, 3)" class="px-2 py-1 rounded-lg text-xs bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black border border-amber-500/30 transition-all font-semibold" title="Takibi 3 gün ertele">
+                                                +3g
+                                            </button>
+                                            <button @click="quickOpenWhatsApp(contact)" class="p-1.5 rounded-lg text-xs bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white border border-emerald-500/30 transition-all" title="Kişiselleştirilmiş WhatsApp Mesajı Aç">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </button>
+                                            <button @click="openContactDetail(contact)" class="p-1.5 rounded-lg text-xs btn-secondary" title="Detayları Düzenle">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr v-if="filteredContacts.length === 0">
-                                    <td colspan="7" class="p-8 text-center text-gray-500">
+                                    <td colspan="9" class="p-8 text-center text-gray-500">
                                         <i class="fas fa-search text-3xl mb-3 block opacity-30"></i>
                                         Kayıt bulunamadı
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- ═══════════════════ NEXA MÜŞTERİ İSTİHBARAT AĞI ═══════════════════ -->
+            <div v-if="activeView === 'network'" class="space-y-6">
+                <!-- Üst Başlık & Aksiyon Çubuğu -->
+                <div class="glass rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                <i class="fas fa-project-diagram mr-1"></i> İLİŞKİSEL GRAF & ZİNCİR AĞI
+                            </span>
+                            <span class="text-xs text-gray-400">Coldwell Banker CB VIP İstihbarat Defteri</span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-black text-white mt-1">Kim Kimin Üzerinden Geldi?</h2>
+                        <p class="text-xs sm:text-sm text-gray-400">Portföylerden türeyen alıcılar, tavsiye zincirleri, takas havuzu ve en çok ciro getiren referans merkezleri.</p>
+                    </div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button @click="openAddContact()" class="btn btn-primary text-xs py-2 px-4 font-bold">
+                            <i class="fas fa-plus"></i>Yeni İstihbarat Kaydı
+                        </button>
+                        <button @click="activeView = 'contacts'" class="btn btn-secondary text-xs py-2 px-3">
+                            <i class="fas fa-table mr-1.5"></i>Kişiler Tablosuna Dön
+                        </button>
+                    </div>
+                </div>
+
+                <!-- KPI Kartları Strip -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                    <div class="glass-strong rounded-2xl p-4 border border-white/5">
+                        <span class="text-xs text-gray-400 block font-medium">Toplam Müşteri</span>
+                        <b class="text-xl font-bold text-white mt-1 block">{{ networkStats.total }}</b>
+                    </div>
+                    <div class="glass-strong rounded-2xl p-4 border border-purple-500/20 bg-purple-950/10">
+                        <span class="text-xs text-purple-300 block font-medium">Zincire Bağlı</span>
+                        <b class="text-xl font-bold text-purple-400 mt-1 block">%{{ networkStats.chainedRate }}</b>
+                    </div>
+                    <div class="glass-strong rounded-2xl p-4 border border-red-500/20 bg-red-950/10">
+                        <span class="text-xs text-red-300 block font-medium">🔥 Sıcak Talep</span>
+                        <b class="text-xl font-bold text-red-400 mt-1 block">{{ networkStats.hotCount }}</b>
+                    </div>
+                    <div class="glass-strong rounded-2xl p-4 border border-emerald-500/20 bg-emerald-950/10">
+                        <span class="text-xs text-emerald-300 block font-medium">🔄 Takas Havuzu</span>
+                        <b class="text-xl font-bold text-emerald-400 mt-1 block">{{ networkStats.exchangeCount }}</b>
+                    </div>
+                    <div class="glass-strong rounded-2xl p-4 border border-amber-500/20 bg-amber-950/10">
+                        <span class="text-xs text-amber-300 block font-medium">🚨 Bugün Takip</span>
+                        <b class="text-xl font-bold text-amber-400 mt-1 block">{{ networkStats.dueTodayCount }}</b>
+                    </div>
+                    <div class="glass-strong rounded-2xl p-4 border border-cyan-500/20 bg-cyan-950/10">
+                        <span class="text-xs text-cyan-300 block font-medium">⭐ Ort. Skor</span>
+                        <b class="text-xl font-bold text-cyan-400 mt-1 block">{{ networkStats.avgScore }}</b>
+                    </div>
+                </div>
+
+                <!-- İki Sütunlu İstihbarat Düzeni -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Sol Sütun: İlişki Ağacı (Kim Kimi Getirdi?) -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="glass-strong rounded-2xl p-5 border border-white/10">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                    <i class="fas fa-sitemap text-purple-400"></i> Referans Zinciri & Portföy Dalları
+                                </h3>
+                                <span class="text-xs text-gray-400">{{ networkTreeRoots.length }} ana merkez</span>
+                            </div>
+
+                            <div v-if="networkTreeRoots.length === 0" class="p-8 text-center text-gray-500">
+                                <i class="fas fa-project-diagram text-3xl mb-2 opacity-30 block"></i>
+                                Henüz zincir bağlantısı kurulmamış. Müşterilerinize "Kaynak Bağlantı ID" (İlan veya Tavsiye Eden) ekleyin.
+                            </div>
+
+                            <ul v-else class="network-tree space-y-4">
+                                <li v-for="root in networkTreeRoots" :key="root.id" class="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 hover:border-purple-500/40 transition-colors">
+                                    <!-- Kök Düğüm (Portföy veya Referans Merkezi) -->
+                                    <div class="flex items-start sm:items-center justify-between gap-2 flex-wrap">
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm" :class="root.isListing ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'">
+                                                <i :class="root.isListing ? 'fas fa-home' : 'fas fa-crown'"></i>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold text-sm text-white flex items-center gap-2">
+                                                    <span>{{ root.name }}</span>
+                                                    <span v-if="root.isListing" class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold">PORTFÖY İLANI</span>
+                                                    <span v-else class="px-2 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold">REFERANS MERKEZİ</span>
+                                                </div>
+                                                <div class="text-xs text-gray-400 mt-0.5 flex items-center gap-2">
+                                                    <span>{{ root.subtitle }}</span>
+                                                    <span class="text-purple-300 font-bold">· {{ root.children.length }} doğrudan bağlı</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Alt Dallar (Bağlı Müşteriler) -->
+                                    <ul v-if="root.children.length" class="mt-3 space-y-2">
+                                        <li v-for="child in root.children" :key="child.id" class="p-2.5 rounded-lg bg-black/40 border border-white/5 hover:border-white/20 transition-all">
+                                            <div class="flex items-start sm:items-center justify-between gap-2 flex-wrap">
+                                                <div>
+                                                    <div class="flex items-center gap-2 flex-wrap">
+                                                        <a @click.prevent="openContactDetail(child)" class="font-bold text-sm text-indigo-300 hover:text-white cursor-pointer underline decoration-dotted">
+                                                            {{ child.name }}
+                                                        </a>
+                                                        <span :class="getHeatBadgeClass(child.heat)" class="badge text-[10px] py-0 px-1.5">
+                                                            <i :class="getHeatIcon(child.heat)"></i> {{ getHeatLabel(child.heat) }}
+                                                        </span>
+                                                        <span v-if="child.relationType" class="px-1.5 py-0.5 rounded text-[10px] bg-white/10 text-gray-300 font-medium">
+                                                            {{ child.relationType }}
+                                                        </span>
+                                                        <span v-if="child.hasExchange" class="badge badge-exchange text-[10px] py-0 px-1.5">
+                                                            <i class="fas fa-sync-alt mr-1"></i>Takas
+                                                        </span>
+                                                    </div>
+                                                    <div class="text-xs text-gray-400 mt-1 flex items-center gap-2 flex-wrap">
+                                                        <span>{{ child.phone }}</span>
+                                                        <span v-if="child.price" class="text-indigo-400 font-semibold">· {{ formatCurrency(child.price) }}</span>
+                                                        <span class="px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 text-[10px] font-bold">⭐ {{ computeContactScore(child) }} puan</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center gap-1.5">
+                                                    <button @click="quickMarkCalled(child)" class="p-1.5 rounded-lg text-xs bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white transition-all" title="Arandı ✓ (+3g)">
+                                                        <i class="fas fa-phone-alt"></i>
+                                                    </button>
+                                                    <button @click="quickOpenWhatsApp(child)" class="p-1.5 rounded-lg text-xs bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white transition-all" title="WhatsApp Mesajı">
+                                                        <i class="fab fa-whatsapp"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- İkinci Derece Alt Dallar (Torunlar: Bu müşterinin getirdiği kişiler) -->
+                                            <ul v-if="child.children && child.children.length" class="mt-2 space-y-1.5">
+                                                <li v-for="gchild in child.children" :key="gchild.id" class="p-2 rounded bg-white/[0.02] border border-white/5">
+                                                    <div class="flex items-center justify-between gap-2">
+                                                        <div class="flex items-center gap-2 flex-wrap">
+                                                            <i class="fas fa-angle-right text-gray-500 text-xs"></i>
+                                                            <a @click.prevent="openContactDetail(gchild)" class="font-bold text-xs text-amber-300 hover:text-white cursor-pointer">
+                                                                {{ gchild.name }}
+                                                            </a>
+                                                            <span class="text-[10px] text-gray-400">({{ gchild.relationType || 'Tavsiye' }})</span>
+                                                            <span :class="getHeatBadgeClass(gchild.heat)" class="badge text-[9px] py-0 px-1">
+                                                                {{ getHeatLabel(gchild.heat) }}
+                                                            </span>
+                                                        </div>
+                                                        <span class="text-xs text-indigo-400 font-semibold">{{ gchild.price ? formatCurrency(gchild.price) : '-' }}</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Sütun: İstihbarat Panelleri -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <!-- Kart 1: En Çok Müşteri Kazandıran Kilit Merkezler -->
+                        <div class="glass-strong rounded-2xl p-5 border border-purple-500/20 bg-purple-950/10">
+                            <h3 class="text-base font-bold text-white flex items-center gap-2 mb-3">
+                                <i class="fas fa-crown text-amber-400"></i> Kilit Referans Merkezleri
+                            </h3>
+                            <p class="text-xs text-gray-400 mb-3">Size en çok yeni müşteri ve portföy kazandıran ilk 5 kaynak.</p>
+                            <div v-if="topReferralHubs.length === 0" class="text-xs text-gray-500 text-center py-4">
+                                Henüz referans bağlantısı tespit edilmedi.
+                            </div>
+                            <div v-else class="space-y-2">
+                                <div v-for="(hub, hidx) in topReferralHubs" :key="hub.id" class="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-2 hover:bg-white/[0.06] transition-colors">
+                                    <div class="flex items-center gap-2.5 min-w-0">
+                                        <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                                            #{{ hidx + 1 }}
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="font-bold text-xs text-white truncate">{{ hub.name }}</p>
+                                            <p class="text-[10px] text-gray-400">{{ hub.type === 'listing' ? 'Portföy İlanı' : 'Kişisel Referans Merkezi' }}</p>
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-black bg-purple-600 text-white flex-shrink-0">
+                                        {{ hub.count }} Müşteri
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kart 2: Takas (Barter) Havuzu & Eşleşme -->
+                        <div class="glass-strong rounded-2xl p-5 border border-emerald-500/20 bg-emerald-950/10">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                    <i class="fas fa-sync-alt text-emerald-400"></i> Takas (Barter) Havuzu
+                                </h3>
+                                <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300">
+                                    {{ exchangePool.length }} Talep
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-3">Elindeki gayrimenkulü takasa verip yeni mülk almak/satmak isteyen portföy adayları.</p>
+                            <div v-if="exchangePool.length === 0" class="text-xs text-gray-500 text-center py-4">
+                                Takas talep eden müşteri bulunamadı. Kişi düzenleme ekranından "Takas İhtimali"ni işaretleyebilirsiniz.
+                            </div>
+                            <div v-else class="space-y-2">
+                                <div v-for="ex in exchangePool" :key="ex.id" class="p-3 rounded-xl bg-black/40 border border-emerald-500/20 hover:border-emerald-500/40 transition-colors">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <div>
+                                            <p class="font-bold text-xs text-white">{{ ex.name }}</p>
+                                            <p class="text-[11px] text-emerald-300 font-semibold">{{ ex.price ? formatCurrency(ex.price) : 'Bütçe Belirtilmedi' }}</p>
+                                            <p v-if="ex.notes" class="text-[11px] text-gray-400 mt-1 italic line-clamp-2">"{{ ex.notes }}"</p>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <button @click="quickOpenWhatsApp(ex)" class="p-1.5 rounded-lg text-xs bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white" title="WhatsApp ile İletişime Geç">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </button>
+                                            <button @click="openContactDetail(ex)" class="p-1.5 rounded-lg text-xs btn-secondary" title="Detay">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kart 3: Acil Takip Zamanı Gelenler (Gecikmiş / Bugün) -->
+                        <div class="glass-strong rounded-2xl p-5 border border-red-500/20 bg-red-950/10">
+                            <h3 class="text-base font-bold text-white flex items-center gap-2 mb-3">
+                                <i class="fas fa-stopwatch text-red-400"></i> Acil Temas & Takip Listesi
+                            </h3>
+                            <div v-if="dueFollowupContacts.length === 0" class="text-xs text-gray-400 text-center py-4">
+                                🎉 Gecikmiş veya bugün aranacak takip bulunmuyor!
+                            </div>
+                            <div v-else class="space-y-2">
+                                <div v-for="due in dueFollowupContacts" :key="due.id" class="p-2.5 rounded-xl bg-black/40 border border-red-500/25 flex items-center justify-between gap-2">
+                                    <div>
+                                        <p class="font-bold text-xs text-white">{{ due.name }}</p>
+                                        <p class="text-[11px] text-red-300 font-semibold">{{ due.nextAction || 'Takip Araması' }} · {{ formatNextActionDate(due.nextActionDate) }}</p>
+                                    </div>
+                                    <div class="flex items-center gap-1.5">
+                                        <button @click="quickMarkCalled(due)" class="px-2 py-1 rounded-lg text-xs bg-emerald-600 text-white font-bold" title="Arandı ✓ (+3g)">
+                                            Arandı ✓
+                                        </button>
+                                        <button @click="quickSnoozeContact(due, 3)" class="px-2 py-1 rounded-lg text-xs bg-amber-500/20 text-amber-300 font-bold" title="+3g Ertele">
+                                            +3g
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -4534,6 +4880,7 @@
                                 <label class="block text-sm font-medium mb-2">Kaynak</label>
                                 <select v-model="editingContact.source">
                                     <option value="manual">Manuel</option>
+                                    <option value="listing">İlan Alıcısı</option>
                                     <option value="website">Web Sitesi</option>
                                     <option value="meta">Meta Ads</option>
                                     <option value="whatsapp">WhatsApp</option>
@@ -4544,6 +4891,7 @@
                             <div>
                                 <label class="block text-sm font-medium mb-2">Kategori</label>
                                 <select v-model="editingContact.category">
+                                    <option value="buyer">ALICI</option>
                                     <option value="fsbo">FSBO</option>
                                     <option value="project">PROJE</option>
                                     <option value="client">MÜŞTERİ</option>
@@ -4572,6 +4920,67 @@
                         <div>
                             <label class="block text-sm font-medium mb-2">Randevu Tarihi</label>
                             <input v-model="editingContact.appointmentDate" type="datetime-local">
+                        </div>
+
+                        <!-- NEXA İSTİHBARAT & İLİŞKİ ALANLARI -->
+                        <div class="p-3.5 rounded-xl bg-purple-950/20 border border-purple-500/25 space-y-3">
+                            <h4 class="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fas fa-project-diagram"></i> NEXA İstihbarat & Zincir Ağı Bilgileri
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">Kaynak Bağlantı ID / Kimin Üzerinden Geldi?</label>
+                                    <input v-model="editingContact.parentId" list="parentReferenceList" @change="guessRelation" placeholder="Örn: Portföy ilanı veya tavsiye eden kişi" class="w-full text-xs">
+                                    <datalist id="parentReferenceList">
+                                        <option v-for="l in myListings" :key="l.ref_id" :value="l.ref_id">{{ l.title }} (İlan)</option>
+                                        <option v-for="c in contacts" :key="c.id" :value="c.id">{{ c.name }} ({{ c.phone }})</option>
+                                    </datalist>
+                                    <p v-if="editingContact.parentId" class="text-[11px] text-amber-400 mt-1">
+                                        Bağlantı: {{ getParentName(editingContact.parentId) }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">İlişki / Bağlantı Türü</label>
+                                    <select v-model="editingContact.relationType" class="w-full text-xs">
+                                        <option value="">Seçiniz...</option>
+                                        <option v-for="r in RELATION_TYPES" :key="r.id" :value="r.id">{{ r.label }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">Müşteri Profili (Arketip)</label>
+                                    <select v-model="editingContact.archetype" class="w-full text-xs">
+                                        <option value="">Belirtilmedi</option>
+                                        <option v-for="a in CUSTOMER_ARCHETYPES" :key="a.id" :value="a.id">{{ a.label }}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">Müşteri Isısı</label>
+                                    <select v-model="editingContact.heat" class="w-full text-xs">
+                                        <option value="warm">☀️ Ilık (1-3 Ay)</option>
+                                        <option value="hot">🔥 Sıcak (Hemen İşlem)</option>
+                                        <option value="cold">❄️ Soğuk (Araştırıyor)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">Takas İhtimali</label>
+                                    <select v-model="editingContact.hasExchange" class="w-full text-xs">
+                                        <option :value="false">Hayır</option>
+                                        <option :value="true">🔄 Evet (Takas İstiyor)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">Sonraki Adım / Görev</label>
+                                    <input v-model="editingContact.nextAction" type="text" placeholder="Örn: Değerleme sunumu yapılacak..." class="w-full text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-400 mb-1">Sonraki Adım Tarihi</label>
+                                    <input v-model="editingContact.nextActionDate" type="date" class="w-full text-xs">
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-2">Notlar</label>
@@ -6083,8 +6492,325 @@
             const categoryChart = ref(null);
             const sourceChart = ref(null);
 
+            // ── SATICI & ALICI HUNİSİ AŞAMALARI ─────────────────
+            const sellerStages = [
+                { id: 'contact',   name: 'İlk Temas',    color: '#3b82f6' },
+                { id: 'valuation', name: 'Değerleme',     color: '#8b5cf6' },
+                { id: 'contract',  name: 'Sözleşme',      color: '#ec4899' },
+                { id: 'listed',    name: 'İlanda',         color: '#f59e0b' },
+                { id: 'showing',   name: 'Görüntüleme',   color: '#10b981' },
+                { id: 'offer',     name: 'Teklif',         color: '#06b6d4' },
+                { id: 'closed',    name: 'Satıldı ✓',     color: '#22c55e' },
+            ];
+
+            const buyerStages = [
+                { id: 'new',         name: 'İlk Temas',        color: '#06b6d4' },
+                { id: 'contacted',   name: 'İhtiyaç Analizi',  color: '#3b82f6' },
+                { id: 'meeting',     name: 'Portföy Sunumu',   color: '#8b5cf6' },
+                { id: 'proposal',    name: 'Görüntüleme',      color: '#f59e0b' },
+                { id: 'negotiation', name: 'Teklif',            color: '#ec4899' },
+                { id: 'closed',      name: 'Sözleşme',         color: '#10b981' },
+                { id: 'tapu',        name: 'Tapu ✓',           color: '#22c55e' },
+            ];
+
+
+            // ── NEXA MÜŞTERİ İSTİHBARAT AĞI SABİTLERİ & MOTORU ──────
+            const RELATION_TYPES = [
+                { id: 'Portföy→Alıcı', label: 'Portföy → Alıcı' },
+                { id: 'Portföy→Satıcı', label: 'Portföy → Satıcı' },
+                { id: 'Alıcı→Satıcı', label: 'Alıcı → Satıcı (Kendi Evini Satacak)' },
+                { id: 'Satıcı→Alıcı', label: 'Satıcı → Alıcı (Evini Sattı, Alacak)' },
+                { id: 'Müşteri Referansı', label: 'Müşteri Referansı (Tavsiye)' },
+                { id: 'Takas', label: 'Takas / Barter' },
+                { id: 'Proje→Alıcı', label: 'Proje → Alıcı' },
+                { id: 'Etki Çevresi', label: 'Etki Çevresi / Yakın Çevre' },
+                { id: 'Esnaf→Müşteri', label: 'Esnaf / Saha Referansı' },
+                { id: 'Emlakçı→Ortak Satış', label: 'Emlakçı İşbirliği' },
+                { id: 'Yatırımcı Ağı', label: 'Yatırımcı Ağı' },
+                { id: 'Tekrar Müşteri', label: 'Tekrar Müşteri' }
+            ];
+
+            const CUSTOMER_ARCHETYPES = [
+                { id: 'İlk Defa Alıcı', label: 'İlk Defa Alıcı', icon: 'fas fa-key' },
+                { id: 'Büyüyen (Upsize)', label: 'Büyüyen (Upsize)', icon: 'fas fa-expand-alt' },
+                { id: 'Küçülen (Downsize)', label: 'Küçülen (Downsize)', icon: 'fas fa-compress-alt' },
+                { id: 'Yatırımcı', label: 'Yatırımcı (Kira/Kıymet)', icon: 'fas fa-chart-line' },
+                { id: 'Taşınan / Relokasyon', label: 'Taşınan / Relokasyon', icon: 'fas fa-truck-moving' },
+                { id: 'Referans Merkezi', label: 'Referans Merkezi (COI)', icon: 'fas fa-crown' },
+                { id: 'Esnaf / Çevre', label: 'Esnaf / Çevre', icon: 'fas fa-store' }
+            ];
+
+            const getParentName = (parentId) => {
+                if (!parentId) return '';
+                const l = myListings.value.find(x => x.ref_id === parentId || x.title === parentId);
+                if (l) return l.title || parentId;
+                const c = contacts.value.find(x => x.id === parentId || x.name === parentId);
+                if (c) return c.name;
+                return parentId;
+            };
+
+            const getHeatLabel = (heat) => {
+                if (heat === 'hot') return 'Sıcak';
+                if (heat === 'cold') return 'Soğuk';
+                return 'Ilık';
+            };
+
+            const getHeatIcon = (heat) => {
+                if (heat === 'hot') return 'fas fa-fire';
+                if (heat === 'cold') return 'fas fa-snowflake';
+                return 'fas fa-sun';
+            };
+
+            const getHeatBadgeClass = (heat) => {
+                if (heat === 'hot') return 'badge-hot font-bold';
+                if (heat === 'cold') return 'badge-cold';
+                return 'badge-warm';
+            };
+
+            const computeContactScore = (c) => {
+                const heatMult = c.heat === 'hot' ? 3 : c.heat === 'cold' ? 1 : 2;
+                let stageIdx = 1;
+                if (c.stage === 'closed' || c.stage === 'tapu' || c.stage === 'contract') stageIdx = 5;
+                else if (c.stage === 'offer' || c.stage === 'showing' || c.stage === 'proposal') stageIdx = 3;
+                else if (c.stage === 'contacted' || c.stage === 'meeting') stageIdx = 2;
+
+                const childrenCount = contacts.value.filter(other => other.parentId === c.id || other.parentId === c.name).length;
+                const exchangeBonus = c.hasExchange ? 5 : 0;
+                return (heatMult * 10) + (stageIdx * 4) + (childrenCount * 6) + exchangeBonus;
+            };
+
+            const guessRelation = () => {
+                const parentId = editingContact.value.parentId;
+                if (!parentId) return;
+                const isListing = myListings.value.some(l => l.ref_id === parentId || l.title === parentId);
+                const isBuyerRole = editingContact.value.category === 'buyer';
+
+                if (isListing) {
+                    editingContact.value.relationType = isBuyerRole ? 'Portföy→Alıcı' : 'Portföy→Satıcı';
+                } else {
+                    const parentContact = contacts.value.find(c => c.id === parentId || c.name === parentId);
+                    if (parentContact) {
+                        if (parentContact.category === 'buyer' && !isBuyerRole) {
+                            editingContact.value.relationType = 'Alıcı→Satıcı';
+                        } else if (parentContact.category !== 'buyer' && isBuyerRole) {
+                            editingContact.value.relationType = 'Satıcı→Alıcı';
+                        } else {
+                            editingContact.value.relationType = 'Müşteri Referansı';
+                        }
+                    } else {
+                        editingContact.value.relationType = 'Müşteri Referansı';
+                    }
+                }
+            };
+
+            const isNextActionOverdue = (dateStr) => {
+                if (!dateStr) return false;
+                return dateStr < new Date().toISOString().split('T')[0];
+            };
+
+            const formatNextActionDate = (dateStr) => {
+                if (!dateStr) return '-';
+                const today = new Date().toISOString().split('T')[0];
+                if (dateStr === today) return 'Bugün';
+                return formatDate(dateStr);
+            };
+
+            // Hızlı Temas: [ Arandı ✓ ]
+            const quickMarkCalled = async (contact) => {
+                try {
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    const nextDate = new Date();
+                    nextDate.setDate(nextDate.getDate() + 3);
+                    const nextStr = nextDate.toISOString().split('T')[0];
+
+                    const updated = {
+                        ...contact,
+                        lastContactDate: todayStr,
+                        nextActionDate: nextStr,
+                        nextAction: contact.nextAction || 'Periyodik Takip Araması',
+                        updatedAt: new Date().toISOString()
+                    };
+
+                    const targetUid = contact._ownerUid || (user.value ? user.value.uid : null);
+                    if (targetUid && typeof db !== 'undefined' && db) {
+                        await db.collection('users').doc(targetUid).collection('contacts').doc(contact.id).update({
+                            lastContactDate: todayStr,
+                            nextActionDate: nextStr,
+                            nextAction: updated.nextAction,
+                            updatedAt: updated.updatedAt
+                        });
+                    }
+
+                    const idx = contacts.value.findIndex(c => c.id === contact.id);
+                    if (idx !== -1) contacts.value[idx] = updated;
+
+                    showToast(`${contact.name} arandı olarak işlendi (Sonraki: +3 gün)`, 'fas fa-phone-alt text-green-400');
+                } catch (e) {
+                    showToast('Arama güncelleme hatası: ' + e.message, 'fas fa-times-circle text-red-400');
+                }
+            };
+
+            // Hızlı Erteleme: [ +3g ]
+            const quickSnoozeContact = async (contact, days = 3) => {
+                try {
+                    const baseDate = contact.nextActionDate ? new Date(contact.nextActionDate) : new Date();
+                    baseDate.setDate(baseDate.getDate() + days);
+                    const nextStr = baseDate.toISOString().split('T')[0];
+
+                    const updated = {
+                        ...contact,
+                        nextActionDate: nextStr,
+                        updatedAt: new Date().toISOString()
+                    };
+
+                    const targetUid = contact._ownerUid || (user.value ? user.value.uid : null);
+                    if (targetUid && typeof db !== 'undefined' && db) {
+                        await db.collection('users').doc(targetUid).collection('contacts').doc(contact.id).update({
+                            nextActionDate: nextStr,
+                            updatedAt: updated.updatedAt
+                        });
+                    }
+
+                    const idx = contacts.value.findIndex(c => c.id === contact.id);
+                    if (idx !== -1) contacts.value[idx] = updated;
+
+                    showToast(`${contact.name} takibi ${days} gün ertelendi (${nextStr})`, 'fas fa-calendar-plus text-amber-400');
+                } catch (e) {
+                    showToast('Erteleme hatası: ' + e.message, 'fas fa-times-circle text-red-400');
+                }
+            };
+
+            // Kişiselleştirilmiş WhatsApp Mesajı
+            const quickOpenWhatsApp = (contact) => {
+                if (!contact.phone) {
+                    showToast('Telefon numarası bulunamadı!', 'fas fa-exclamation-triangle text-amber-400');
+                    return;
+                }
+                const cleanPhone = String(contact.phone).replace(/\D/g, '');
+                const intlPhone = cleanPhone.startsWith('0') ? '90' + cleanPhone.slice(1) : cleanPhone.startsWith('90') ? cleanPhone : '90' + cleanPhone;
+
+                let greeting = `Sayın ${contact.name}, merhaba.`;
+                let body = `bugünkü telefon görüşmemize istinaden`;
+                if (contact.listingTitle) {
+                    body += ` "${contact.listingTitle}" portföyümüz ile ilgili`;
+                }
+                let msg = `${greeting} Coldwell Banker CB VIP Yiğit Narin olarak ${body} sürecinizi takip ediyorum. Her türlü sorunuz ve detay için dilediğiniz zaman ulaşabilirsiniz. Saygılarımla.`;
+
+                const encoded = encodeURIComponent(msg);
+                window.open(`https://wa.me/${intlPhone}?text=${encoded}`, '_blank');
+            };
+
+            // Top Referral Hubs
+            const topReferralHubs = computed(() => {
+                const hubMap = {};
+                contacts.value.forEach(c => {
+                    if (c.parentId) {
+                        hubMap[c.parentId] = (hubMap[c.parentId] || 0) + 1;
+                    }
+                });
+
+                const list = Object.entries(hubMap).map(([pid, count]) => {
+                    const contactObj = contacts.value.find(c => c.id === pid || c.name === pid);
+                    const listingObj = myListings.value.find(l => l.ref_id === pid || l.title === pid);
+                    return {
+                        id: pid,
+                        name: contactObj ? contactObj.name : listingObj ? (listingObj.title || 'Portföy İlanı') : pid,
+                        type: contactObj ? 'contact' : listingObj ? 'listing' : 'external',
+                        count: count
+                    };
+                });
+
+                return list.sort((a, b) => b.count - a.count).slice(0, 5);
+            });
+
+            // Takas Havuzu
+            const exchangePool = computed(() => {
+                return contacts.value.filter(c => c.hasExchange || (c.notes && c.notes.toLowerCase().includes('takas')));
+            });
+
+            // Acil Takip Zamanı Gelenler
+            const dueFollowupContacts = computed(() => {
+                const todayStr = new Date().toISOString().split('T')[0];
+                return contacts.value.filter(c => c.nextActionDate && c.nextActionDate <= todayStr)
+                    .sort((a, b) => a.nextActionDate.localeCompare(b.nextActionDate));
+            });
+
+            // Network KPIs
+            const networkStats = computed(() => {
+                const total = contacts.value.length;
+                const chained = contacts.value.filter(c => c.parentId).length;
+                const hotCount = contacts.value.filter(c => c.heat === 'hot').length;
+                const exchangeCount = exchangePool.value.length;
+                const todayStr = new Date().toISOString().split('T')[0];
+                const dueTodayCount = contacts.value.filter(c => c.nextActionDate && c.nextActionDate <= todayStr).length;
+
+                let avgScore = 0;
+                if (total > 0) {
+                    const sum = contacts.value.reduce((acc, c) => acc + computeContactScore(c), 0);
+                    avgScore = Math.round(sum / total);
+                }
+
+                return {
+                    total,
+                    chained,
+                    chainedRate: total > 0 ? Math.round((chained / total) * 100) : 0,
+                    hotCount,
+                    exchangeCount,
+                    dueTodayCount,
+                    avgScore
+                };
+            });
+
+            // Network Tree Roots
+            const networkTreeRoots = computed(() => {
+                const roots = [];
+
+                // 1. Portföy kökleri
+                myListings.value.forEach(l => {
+                    const directChildren = contacts.value.filter(c => c.parentId === l.ref_id || c.listingRef === l.ref_id || c.parentId === l.title);
+                    if (directChildren.length > 0) {
+                        const enrichedChildren = directChildren.map(child => {
+                            const subReferrals = contacts.value.filter(sub => sub.parentId === child.id || sub.parentId === child.name);
+                            return { ...child, children: subReferrals };
+                        });
+                        roots.push({
+                            id: l.ref_id,
+                            name: l.title || 'Portföy İlanı',
+                            subtitle: `${l.district || 'Ankara'} · ${formatCurrency(l.price)}`,
+                            isListing: true,
+                            children: enrichedChildren
+                        });
+                    }
+                });
+
+                // 2. Kişi kökleri (başka birine bağlı olmayıp kendisi birine referans olanlar)
+                const parentIds = new Set(contacts.value.map(c => c.parentId).filter(Boolean));
+                contacts.value.forEach(c => {
+                    const isParentOfSomeone = parentIds.has(c.id) || parentIds.has(c.name);
+                    const hasNoValidParent = !c.parentId || (!contacts.value.some(other => other.id === c.parentId || other.name === c.parentId) && !myListings.value.some(l => l.ref_id === c.parentId));
+                    
+                    if (isParentOfSomeone && hasNoValidParent) {
+                        const directChildren = contacts.value.filter(other => other.parentId === c.id || other.parentId === c.name);
+                        const enrichedChildren = directChildren.map(child => {
+                            const subReferrals = contacts.value.filter(sub => sub.parentId === child.id || sub.parentId === child.name);
+                            return { ...child, children: subReferrals };
+                        });
+                        roots.push({
+                            id: c.id,
+                            name: c.name,
+                            subtitle: `${c.phone} · ${getCategoryLabel(c.category)}`,
+                            isListing: false,
+                            children: enrichedChildren
+                        });
+                    }
+                });
+
+                return roots;
+            });
+
             // ── PIPELINE CATEGORIES & STAGES ────────────────────
             const pipelineCategories = [
+                { id: 'buyer', label: 'ALICI', icon: 'fas fa-user-check' },
                 { id: 'fsbo', label: 'FSBO', icon: 'fas fa-home' },
                 { id: 'project', label: 'PROJE', icon: 'fas fa-building' },
                 { id: 'client', label: 'MÜŞTERİ', icon: 'fas fa-user' },
@@ -6092,6 +6818,7 @@
             ];
 
             const stagesByCategory = {
+                buyer: buyerStages,
                 fsbo: [
                     { id: 'contact', name: 'İlk Temas', color: '#3b82f6' },
                     { id: 'valuation', name: 'Değerleme', color: '#8b5cf6' },
@@ -6128,27 +6855,6 @@
             };
 
             const currentStages = computed(() => stagesByCategory[currentPipeline.value] || []);
-
-            // ── SATICI & ALICI HUNİSİ AŞAMALARI ─────────────────
-            const sellerStages = [
-                { id: 'contact',   name: 'İlk Temas',    color: '#3b82f6' },
-                { id: 'valuation', name: 'Değerleme',     color: '#8b5cf6' },
-                { id: 'contract',  name: 'Sözleşme',      color: '#ec4899' },
-                { id: 'listed',    name: 'İlanda',         color: '#f59e0b' },
-                { id: 'showing',   name: 'Görüntüleme',   color: '#10b981' },
-                { id: 'offer',     name: 'Teklif',         color: '#06b6d4' },
-                { id: 'closed',    name: 'Satıldı ✓',     color: '#22c55e' },
-            ];
-
-            const buyerStages = [
-                { id: 'new',         name: 'İlk Temas',        color: '#06b6d4' },
-                { id: 'contacted',   name: 'İhtiyaç Analizi',  color: '#3b82f6' },
-                { id: 'meeting',     name: 'Portföy Sunumu',   color: '#8b5cf6' },
-                { id: 'proposal',    name: 'Görüntüleme',      color: '#f59e0b' },
-                { id: 'negotiation', name: 'Teklif',            color: '#ec4899' },
-                { id: 'closed',      name: 'Sözleşme',         color: '#10b981' },
-                { id: 'tapu',        name: 'Tapu ✓',           color: '#22c55e' },
-            ];
 
             // ── WEB LEAD STATE MACHINE ──────────────────────────
             const webLeadStages = [
@@ -6214,11 +6920,28 @@
                 return total > 0 ? Math.round((closed / total) * 100) : 0;
             });
 
+            const contactCategoryFilter = ref('all');
+
             const filteredContacts = computed(() => {
                 let list = contacts.value;
+                if (contactCategoryFilter.value && contactCategoryFilter.value !== 'all') {
+                    if (contactCategoryFilter.value === 'buyer') {
+                        list = list.filter(c => c.category === 'buyer' || c.category === 'alici' || c.category === 'alıcı');
+                    } else {
+                        list = list.filter(c => c.category === contactCategoryFilter.value);
+                    }
+                }
                 if (searchQuery.value) {
                     const q = searchQuery.value.toLowerCase();
-                    list = list.filter(c => c.name?.toLowerCase().includes(q) || c.phone?.includes(q) || c.district?.toLowerCase().includes(q));
+                    list = list.filter(c => 
+                        c.name?.toLowerCase().includes(q) || 
+                        c.phone?.includes(q) || 
+                        c.district?.toLowerCase().includes(q) ||
+                        (c.category && getCategoryLabel(c.category).toLowerCase().includes(q)) ||
+                        (c.source && getSourceLabel(c.source).toLowerCase().includes(q)) ||
+                        c.listingTitle?.toLowerCase().includes(q) ||
+                        c.notes?.toLowerCase().includes(q)
+                    );
                 }
                 return list;
             });
@@ -6357,7 +7080,15 @@
 
             // ── HELPER FUNCTIONS ─────────────────────────────────
             const getSourceIcon = (source) => {
-                const icons = { website: 'fas fa-globe', meta: 'fab fa-facebook-f', whatsapp: 'fab fa-whatsapp', manual: 'fas fa-pencil-alt' };
+                const icons = { 
+                    website: 'fas fa-globe', 
+                    meta: 'fab fa-facebook-f', 
+                    whatsapp: 'fab fa-whatsapp', 
+                    manual: 'fas fa-pencil-alt',
+                    listing: 'fas fa-tags',
+                    'İlan Alıcısı': 'fas fa-tags',
+                    'İlan Talebi': 'fas fa-tags'
+                };
                 return icons[source] || 'fas fa-pencil-alt';
             };
 
@@ -6368,7 +7099,10 @@
                     whatsapp: 'WhatsApp', WhatsApp: 'WhatsApp',
                     telegram: 'Telegram', Telegram: 'Telegram',
                     google: 'Google', Google: 'Google',
-                    manual: 'Manuel'
+                    manual: 'Manuel',
+                    listing: 'İlan Alıcısı',
+                    'İlan Alıcısı': 'İlan Alıcısı',
+                    'İlan Talebi': 'İlan Alıcısı'
                 };
                 return labels[source] || 'Manuel';
             };
@@ -6398,7 +7132,10 @@
                 return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
             };
 
-            const getCategoryLabel = (catId) => pipelineCategories.find(c => c.id === catId)?.label || catId;
+            const getCategoryLabel = (catId) => {
+                if (catId === 'buyer' || catId === 'alici' || catId === 'alıcı') return 'ALICI';
+                return pipelineCategories.find(c => c.id === catId)?.label || (catId ? String(catId).toUpperCase() : 'MÜŞTERİ');
+            };
             const getCurrentCategoryStages = (catId) => stagesByCategory[catId] || [];
             const getStageBadgeClass = (stage) => {
                 if (stage === 'closed' || stage === 'active') return 'badge-success';
@@ -7586,7 +8323,7 @@
                     type: 'pie',
                     data: {
                         labels: pipelineCategories.map(c => c.label),
-                        datasets: [{ data: pipelineCategories.map(c => contacts.value.filter(ct => ct.category === c.id).length), backgroundColor: ['#3b82f680', '#8b5cf680', '#ec489980', '#f59e0b80'], borderColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b'], borderWidth: 2 }]
+                        datasets: [{ data: pipelineCategories.map(c => contacts.value.filter(ct => ct.category === c.id).length), backgroundColor: ['#10b98180', '#3b82f680', '#8b5cf680', '#ec489980', '#f59e0b80'], borderColor: ['#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b'], borderWidth: 2 }]
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', padding: 15 } } } }
                 });
@@ -8245,31 +8982,82 @@ ${comments}`;
                             offer: listingNewBuyer.value.offer,
                             stage: listingNewBuyer.value.stage,
                             note: listingNewBuyer.value.note,
-                            listing_title: currentListingObj.value.title || portfoyCtx.value.title
+                            listing_title: currentListingObj.value.title || portfoyCtx.value.title,
+                            uid: user.value ? user.value.uid : null
                         })
                     });
                     const data = await res.json();
                     if (data.ok && data.buyer) {
                         listingBuyers.value.unshift(data.buyer);
                         if (data.timeline) listingTimeline.value = data.timeline;
-                        
-                        // Also sync to CRM global contacts in memory
+
+                        let cleanPrice = 0;
+                        if (data.buyer.offer) {
+                            const rawNums = String(data.buyer.offer).replace(/[^0-9]/g, '');
+                            if (rawNums) cleanPrice = parseInt(rawNums, 10);
+                        }
+
+                        let stageId = 'new';
+                        const stageLower = (data.buyer.stage || '').toLowerCase();
+                        if (stageLower.includes('randevu') || stageLower.includes('görüşme') || stageLower.includes('yer') || stageLower.includes('gösterim')) {
+                            stageId = 'showing';
+                        } else if (stageLower.includes('teklif') || stageLower.includes('pazarlık')) {
+                            stageId = 'offer';
+                        } else if (stageLower.includes('sözleşme') || stageLower.includes('anlaşıldı') || stageLower.includes('kapora')) {
+                            stageId = 'contract';
+                        } else if (stageLower.includes('satıldı') || stageLower.includes('kapandı') || stageLower.includes('tapu')) {
+                            stageId = 'closed';
+                        }
+
+                        const listingTitle = currentListingObj.value.title || portfoyCtx.value.title || 'Portföy İlanı';
+                        const buyerNoteFull = `${data.buyer.note ? data.buyer.note + '\n\n' : ''}📌 İlan Alıcısı: ${listingTitle} (Ref: ${refId})\nTeklif: ${data.buyer.offer || 'Belirtilmedi'}\nAşama: ${data.buyer.stage || 'Yeni Talep'}`;
+
+                        const contactDocData = {
+                            id: data.buyer.id,
+                            name: data.buyer.name,
+                            phone: data.buyer.phone,
+                            category: 'buyer',
+                            role: 'buyer',
+                            type: 'buyer',
+                            stage: stageId,
+                            stageName: data.buyer.stage || 'Yeni Talep',
+                            price: cleanPrice,
+                            offer: data.buyer.offer || '',
+                            source: 'listing',
+                            source_label: 'İlan Alıcısı',
+                            listingRef: refId,
+                            listingTitle: listingTitle,
+                            notes: buyerNoteFull,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        };
+
+                        // Direct client Firestore sync (persists even if server is offline or on Render)
+                        if (user.value && typeof db !== 'undefined' && db) {
+                            try {
+                                await db.collection('users').doc(user.value.uid).collection('contacts').doc(data.buyer.id).set(contactDocData, { merge: true });
+                                console.log('✅ Alıcı Firestore contacts koleksiyonuna senkronize edildi:', data.buyer.id);
+                            } catch (fsErr) {
+                                console.warn('Alıcı Firestore istemci yazma uyarısı:', fsErr);
+                            }
+                        }
+
+                        // Also sync to CRM global contacts in Vue memory immediately
                         if (contacts && contacts.value) {
-                            contacts.value.unshift({
-                                id: data.buyer.id,
-                                name: data.buyer.name,
-                                phone: data.buyer.phone,
-                                pipeline: 'buyer',
-                                stage: 'contacted',
-                                value: data.buyer.offer || '',
-                                notes: data.buyer.note,
-                                source: 'İlan Talebi'
-                            });
+                            const existingIdx = contacts.value.findIndex(c => c.id === data.buyer.id);
+                            if (existingIdx >= 0) {
+                                contacts.value[existingIdx] = { ...contacts.value[existingIdx], ...contactDocData };
+                            } else {
+                                contacts.value.unshift({
+                                    _ownerUid: user.value ? user.value.uid : null,
+                                    ...contactDocData
+                                });
+                            }
                         }
 
                         listingNewBuyer.value = { name: '', phone: '', offer: '', stage: 'Yeni Talep', note: '' };
                         if (toast && toast.value) {
-                            toast.value = { show: true, message: 'Alıcı başarıyla eklendi ve CRM havuzuna işlendi!', icon: 'user-check' };
+                            toast.value = { show: true, message: 'Alıcı başarıyla eklendi ve Kişilerim (ALICI) havuzuna işlendi!', icon: 'user-check' };
                             setTimeout(() => { toast.value.show = false; }, 3000);
                         }
                     }
@@ -8716,6 +9504,11 @@ ${comments}`;
                 newCommentText, newReminderText, newReminderDate,
                 reminders, allActiveReminders, doneReminders, overdueReminders, todayReminders,
                 upcomingReminders, pendingRemindersCount,
+                contactCategoryFilter,
+                RELATION_TYPES, CUSTOMER_ARCHETYPES,
+                getParentName, getHeatLabel, getHeatIcon, getHeatBadgeClass, computeContactScore, guessRelation,
+                isNextActionOverdue, formatNextActionDate, quickMarkCalled, quickSnoozeContact, quickOpenWhatsApp,
+                topReferralHubs, exchangePool, dueFollowupContacts, networkStats, networkTreeRoots,
                 pipelineCategories, currentStages, sellerStages, buyerStages, dashboardStats, conversionRate,
                 filteredContacts, filteredLeads, recentActivities, conversionMetrics,
                 sellerFunnelChart, buyerFunnelChart, pipelineChart, monthlyChart, categoryChart, sourceChart,

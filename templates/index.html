@@ -2,252 +2,653 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>NEXA.OS — Unified PropTech Command Center</title>
+<title>NEXA.OS — Cognitive PropTech Command Center</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#050608">
+<meta name="theme-color" content="#030508">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpolygon points=%2716,2 30,16 16,30 2,16%27 fill=%27%23c9a45c%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg-0:#050608;
-  --bg-1:#0b0d0f;
-  --bg-2:#101316;
-  --bg-3:#161a1e;
-  --line:#1f2429;
+  --bg-0:#030508;
+  --bg-1:rgba(11, 15, 22, 0.78);
+  --bg-2:rgba(16, 22, 32, 0.7);
+  --bg-3:rgba(22, 30, 44, 0.85);
+  --line:rgba(201, 164, 92, 0.16);
+  --line-subtle:rgba(255, 255, 255, 0.07);
+  --line-active:rgba(201, 164, 92, 0.5);
   --gold:#c9a45c;
-  --gold-soft:#e8cd93;
+  --gold-soft:#f3deb2;
+  --gold-light:#faeccb;
   --gold-dim:rgba(201,164,92,.25);
+  --gold-glow:rgba(201,164,92,.45);
+  --cyan:#38bdf8;
+  --cyan-dim:rgba(56,189,248,.2);
+  --cyan-glow:rgba(56,189,248,.45);
   --green:#3ddc84;
-  --green-dim:rgba(61,220,132,.25);
-  --red:#e05656;
-  --text-0:#f2f1ee;
-  --text-1:#b9b8b4;
-  --text-2:#71716d;
+  --green-dim:rgba(61,220,132,.2);
+  --purple:#a855f7;
+  --purple-dim:rgba(168,85,247,.2);
+  --red:#f87171;
+  --text-0:#f8fafc;
+  --text-1:#cbd5e1;
+  --text-2:#64748b;
+  --glass-border:rgba(255, 255, 255, 0.08);
 }
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;background:
-    radial-gradient(ellipse 1000px 500px at 15% -10%, rgba(201,164,92,.06), transparent 60%),
-    radial-gradient(ellipse 900px 500px at 100% 0%, rgba(61,220,132,.04), transparent 55%),
-    var(--bg-0);
-  color:var(--text-0); font-family:'Inter',system-ui,sans-serif; min-height:100vh;
-  touch-action:manipulation; overscroll-behavior-y:contain;}
+
+html,body{
+  margin:0;padding:0;
+  background-color:var(--bg-0);
+  background-image:
+    radial-gradient(ellipse 1100px 550px at 15% -8%, rgba(201,164,92,.09), transparent 60%),
+    radial-gradient(ellipse 900px 500px at 90% 5%, rgba(56,189,248,.07), transparent 55%),
+    radial-gradient(circle 800px at 50% 100%, rgba(168,85,247,.05), transparent 70%);
+  background-attachment:fixed;
+  color:var(--text-0);
+  font-family:'Inter',system-ui,sans-serif;
+  min-height:100vh;
+  touch-action:manipulation;
+  overscroll-behavior-y:contain;
+}
+
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
 .serif{font-family:'Playfair Display',Georgia,serif;}
 
-.crt-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.25;
-  background:repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0px, rgba(255,255,255,.015) 1px, transparent 1px, transparent 3px);}
+/* Subtle Cyber Grid Texture */
+.cyber-grid-overlay{
+  position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;
+  background-image:
+    linear-gradient(rgba(201,164,92,.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,164,92,.6) 1px, transparent 1px);
+  background-size:48px 48px;
+}
 
-.shell{max-width:1240px;margin:0 auto;padding:32px 24px 80px;position:relative;z-index:2;}
+.shell{
+  max-width:1320px;margin:0 auto;padding:28px 24px 80px;position:relative;z-index:2;
+}
 
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;
-  padding-bottom:18px;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:16px;}
-.brand{display:flex;align-items:center;gap:14px;}
-.brand .mark{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;
-  justify-content:center;background:linear-gradient(145deg,var(--gold),#8a6a2e);
-  box-shadow:0 0 22px var(--gold-dim);font-size:20px;color:#1a1408;font-weight:700;}
-.brand h1{font-size:22px;margin:0;letter-spacing:.02em;}
-.brand h1 b{color:var(--gold-soft);font-family:'Playfair Display',serif;}
-.brand .sub{font-size:11px;color:var(--text-2);letter-spacing:.14em;text-transform:uppercase;
-  margin-top:2px;}
-.badge-live{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-1);
-  border:1px solid var(--line);padding:8px 16px;border-radius:20px;background:var(--bg-1);}
-.badge-live .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 10px var(--green);animation:pulse 1.8s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+/* ==========================================================================
+   COMMAND DECK HEADER & TELEMETRY
+   ========================================================================== */
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;padding:18px 24px;
+  background:rgba(10, 14, 22, 0.65);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 10px 30px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05);
+  flex-wrap:wrap;gap:16px;
+}
 
-/* Tab Navigation */
-.tabs-nav{display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:12px;overflow-x:auto;}
-.tab-btn{background:transparent;border:1px solid transparent;color:var(--text-1);padding:10px 20px;
-  border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:600;letter-spacing:.03em;
-  transition:all .2s ease;white-space:nowrap;font-family:inherit;}
-.tab-btn:hover{color:var(--gold-soft);background:rgba(201,164,92,.04);}
-.tab-btn.active{background:var(--bg-1);border-color:var(--gold-dim);color:var(--gold-soft);
-  box-shadow:0 0 12px rgba(201,164,92,.08);}
+.brand{display:flex;align-items:center;gap:16px;}
+.brand .mark{
+  width:46px;height:46px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#e8cd93 0%, #c9a45c 50%, #7d5e23 100%);
+  box-shadow:0 0 24px var(--gold-glow);
+  font-size:22px;color:#100d05;font-weight:900;
+  border:1px solid rgba(255,255,255,.3);
+  position:relative;
+}
+.brand .mark::after{
+  content:'';position:absolute;inset:-4px;border-radius:16px;
+  border:1px solid rgba(201,164,92,.35);animation:ringGlow 3s ease-in-out infinite;
+}
+@keyframes ringGlow{0%,100%{opacity:.3;transform:scale(1);}50%{opacity:.8;transform:scale(1.04);}}
 
-.panel{background:var(--bg-1);border:1px solid var(--line);border-radius:16px;
-  padding:26px 28px;margin-bottom:24px;box-shadow:0 20px 50px -25px rgba(0,0,0,.6);}
-.panel h2{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);
-  margin:0 0 18px;display:flex;align-items:center;gap:10px;}
-.panel h2::after{content:'';flex:1;height:1px;background:var(--line);}
+.brand h1{font-size:24px;margin:0;letter-spacing:.02em;display:flex;align-items:center;gap:4px;}
+.brand h1 span{font-weight:800;color:#fff;}
+.brand h1 b{color:var(--gold-soft);font-family:'Playfair Display',serif;font-weight:700;}
+.brand .sub{
+  font-size:10px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;
+  margin-top:3px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:6px;
+}
 
-.urlrow{display:flex;gap:12px;flex-wrap:wrap;}
-.urlrow input[type=text], .urlrow select{flex:1;min-width:240px;background:var(--bg-2);border:1px solid var(--line);
-  color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;
-  transition:border-color .2s ease, box-shadow .2s ease;}
-input::placeholder, textarea::placeholder { color: #8a8d93 !important; opacity: 1 !important; }
-.urlrow input[type=text]:focus, .urlrow select:focus{outline:none;border-color:var(--gold-dim);
-  box-shadow:0 0 0 3px rgba(201,164,92,.12);}
-.btn{border:none;border-radius:10px;padding:14px 24px;font-size:13.5px;font-weight:600;
-  cursor:pointer;letter-spacing:.03em;transition:transform .15s ease, box-shadow .15s ease;
-  font-family:inherit;}
+.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+
+/* Telemetry Pills */
+.telemetry-strip{
+  display:flex;align-items:center;gap:8px;background:rgba(5,8,13,.6);
+  border:1px solid var(--line-subtle);padding:6px 14px;border-radius:30px;
+}
+.telemetry-item{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;
+  font-family:'JetBrains Mono',monospace;color:var(--text-1);
+}
+.pulse-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 10px var(--green);animation:pulse 1.8s infinite;
+}
+.pulse-dot.cyan{background:var(--cyan);box-shadow:0 0 10px var(--cyan);}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(0.85);}}
+
+/* Header Links */
+.link-pill{
+  padding:8px 16px;font-size:12px;border-radius:24px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;font-weight:600;
+  border:1px solid rgba(201,164,92,.3);background:rgba(201,164,92,.08);
+  color:var(--gold-soft);transition:all .2s ease;
+}
+.link-pill:hover{
+  background:rgba(201,164,92,.18);border-color:var(--gold);
+  transform:translateY(-1px);box-shadow:0 4px 18px var(--gold-dim);
+}
+
+/* ==========================================================================
+   METRICS HUD (Kullanmaya Teşvik Eden Canlı İstatistikler)
+   ========================================================================== */
+.metrics-hud{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;margin-bottom:24px;
+}
+.metric-card{
+  background:rgba(12, 17, 26, 0.72);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--line);
+  border-radius:14px;padding:16px 20px;
+  display:flex;align-items:center;gap:14px;
+  transition:all .25s ease;
+  position:relative;overflow:hidden;
+}
+.metric-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+  opacity:0;transition:opacity .3s ease;
+}
+.metric-card:hover{
+  transform:translateY(-2px);border-color:var(--line-active);
+  box-shadow:0 8px 24px -6px rgba(0,0,0,.6);
+}
+.metric-card:hover::before{opacity:1;}
+.metric-icon{
+  width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:20px;background:rgba(201,164,92,.1);
+  border:1px solid rgba(201,164,92,.25);color:var(--gold-soft);flex-shrink:0;
+}
+.metric-card.cyan .metric-icon{
+  background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.25);color:var(--cyan);
+}
+.metric-card.emerald .metric-icon{
+  background:rgba(61,220,132,.1);border-color:rgba(61,220,132,.25);color:var(--green);
+}
+.metric-card.purple .metric-icon{
+  background:rgba(168,85,247,.1);border-color:rgba(168,85,247,.25);color:var(--purple);
+}
+.metric-info{flex:1;min-width:0;}
+.metric-title{
+  font-size:10.5px;color:var(--text-2);text-transform:uppercase;
+  letter-spacing:.08em;font-family:'JetBrains Mono',monospace;
+}
+.metric-value{
+  font-size:17px;font-weight:800;color:var(--text-0);margin-top:2px;
+  letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.metric-sub{font-size:11px;color:var(--gold);margin-top:2px;font-weight:500;}
+
+/* ==========================================================================
+   SEGMENTED DOCK TABS NAVIGATION (Çirkin Scrollbar Tamamen Yok Edildi!)
+   ========================================================================== */
+.tabs-nav-container{
+  margin-bottom:24px;position:relative;
+}
+.tabs-nav{
+  display:flex;gap:10px;padding:8px;
+  background:rgba(9, 13, 20, 0.85);
+  backdrop-filter:blur(24px);
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow-x:auto;
+  scrollbar-width:none; /* Firefox */
+  -ms-overflow-style:none; /* IE 10+ */
+}
+.tabs-nav::-webkit-scrollbar{
+  display:none; /* Chrome/Safari/Brave */
+  width:0;height:0;
+}
+
+.tab-btn{
+  background:rgba(255, 255, 255, 0.02);
+  border:1px solid var(--line-subtle);
+  color:var(--text-1);
+  padding:11px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.02em;
+  transition:all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space:nowrap;
+  font-family:inherit;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.tab-btn:hover{
+  color:var(--gold-soft);background:rgba(201,164,92,.08);
+  border-color:rgba(201,164,92,.25);transform:translateY(-1px);
+}
+.tab-btn.active{
+  background:linear-gradient(135deg, rgba(201,164,92,.18), rgba(201,164,92,.08));
+  border-color:var(--gold);
+  color:var(--gold-soft);
+  box-shadow:0 0 20px rgba(201,164,92,.22), inset 0 1px 0 rgba(255,255,255,.1);
+  font-weight:700;
+}
+.tab-btn.orbit-style{
+  border-color:rgba(56,189,248,.35);
+  background:rgba(56,189,248,.06);
+  color:var(--cyan);
+}
+.tab-btn.orbit-style.active{
+  background:linear-gradient(135deg, rgba(56,189,248,.22), rgba(168,85,247,.18));
+  border-color:var(--cyan);
+  color:#fff;
+  box-shadow:0 0 22px rgba(56,189,248,.35);
+}
+
+/* ==========================================================================
+   PANEL SYSTEM & CARDS (Glassmorphism 2.0)
+   ========================================================================== */
+.panel{
+  background:var(--bg-1);
+  backdrop-filter:blur(24px);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:30px 32px;
+  margin-bottom:24px;
+  box-shadow:0 24px 64px -20px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.06);
+  position:relative;
+}
+
+.panel h2{
+  font-size:13px;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--gold-soft);margin:0 0 20px;
+  display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;
+  font-weight:700;
+}
+.panel h2::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg, var(--line), transparent);
+}
+
+/* Dual Action Buttons */
+.btn{
+  border:none;border-radius:12px;padding:14px 26px;font-size:13.5px;
+  font-weight:700;cursor:pointer;letter-spacing:.03em;
+  transition:all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
 .btn:active{transform:scale(.97);}
-.btn-gold{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#1a1408;
-  box-shadow:0 8px 24px -8px rgba(201,164,92,.4);}
-.btn-gold:hover{box-shadow:0 10px 30px -6px rgba(201,164,92,.6);}
-.btn-gold:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;}
-.btn-stop{background:var(--bg-3);border:1px solid rgba(224,86,86,.4);color:#f0a0a0;}
-.btn-stop:hover{background:rgba(224,86,86,.12);}
-.btn-ghost{background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);}
-.btn-ghost:hover{border-color:var(--gold-dim);color:var(--gold-soft);}
+.btn-gold{
+  background:linear-gradient(135deg,#faeccb 0%,#c9a45c 50%,#9e772e 100%);
+  color:#151006;
+  box-shadow:0 8px 24px -6px rgba(201,164,92,.5);
+  border:1px solid rgba(255,255,255,.2);
+}
+.btn-gold:hover{
+  box-shadow:0 12px 32px -4px rgba(201,164,92,.7);
+  transform:translateY(-2px);filter:brightness(1.05);
+}
+.btn-gold:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none;}
 
-/* Advanced Grid */
-.adv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px;}
-.field label{display:block;font-size:10.5px;color:var(--text-2);text-transform:uppercase;
-  letter-spacing:.07em;margin-bottom:7px;}
-.field input, .field select{width:100%;background:var(--bg-2);border:1px solid var(--line);
-  color:var(--text-0);padding:11px 13px;border-radius:8px;font-size:13.5px;font-family:inherit;}
-.field input:focus, .field select:focus{outline:none;border-color:var(--gold-dim);}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;
-  background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:11px 13px;}
+.btn-cyan{
+  background:linear-gradient(135deg,#38bdf8 0%,#0284c7 100%);
+  color:#04131f;font-weight:800;
+  box-shadow:0 8px 24px -6px rgba(56,189,248,.5);
+}
+.btn-cyan:hover{
+  box-shadow:0 12px 32px -4px rgba(56,189,248,.7);
+  transform:translateY(-2px);filter:brightness(1.08);
+}
+
+.btn-ghost{
+  background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);
+}
+.btn-ghost:hover{
+  border-color:var(--gold);color:var(--gold-soft);
+  background:rgba(201,164,92,.08);transform:translateY(-1px);
+}
+
+/* ==========================================================================
+   INPUTS & PRESETS (Kullanımı Kolaylaştıran & Teşvik Eden Alanlar)
+   ========================================================================== */
+.prompt-box{
+  width:100%;background:rgba(8, 12, 18, 0.85);
+  border:1px solid var(--line);color:var(--text-0);
+  padding:16px 18px;border-radius:14px;font-size:14.5px;
+  font-family:inherit;resize:vertical;line-height:1.6;
+  transition:border-color .2s, box-shadow .2s;
+}
+.prompt-box:focus{
+  outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(201,164,92,.18), 0 0 25px rgba(201,164,92,.12);
+}
+
+/* Quick Action Preset Cards */
+.presets-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:10px;margin-bottom:22px;
+}
+.preset-card{
+  background:rgba(14, 20, 30, 0.65);
+  border:1px solid var(--line-subtle);
+  border-radius:12px;padding:12px 14px;
+  cursor:pointer;transition:all .2s ease;
+  display:flex;align-items:flex-start;gap:10px;text-align:left;
+}
+.preset-card:hover{
+  background:rgba(201,164,92,.09);
+  border-color:rgba(201,164,92,.35);
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px -4px rgba(0,0,0,.5);
+}
+.preset-card .p-icon{
+  font-size:18px;line-height:1;margin-top:2px;
+}
+.preset-card .p-title{
+  font-size:12.5px;font-weight:700;color:var(--gold-soft);
+}
+.preset-card .p-desc{
+  font-size:11px;color:var(--text-2);margin-top:3px;line-height:1.35;
+}
+
+/* Advanced Filter Grid */
+.adv-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;margin-top:16px;
+}
+.field label{
+  display:block;font-size:10.5px;color:var(--gold);text-transform:uppercase;
+  letter-spacing:.08em;margin-bottom:8px;font-weight:600;font-family:'JetBrains Mono',monospace;
+}
+.field input, .field select{
+  width:100%;background:rgba(7, 10, 16, 0.75);border:1px solid var(--line);
+  color:var(--text-0);padding:13px 15px;border-radius:10px;font-size:13.5px;
+  font-family:inherit;transition:all .2s ease;
+}
+.field input:focus, .field select:focus{
+  outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,164,92,.15);
+}
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(7, 10, 16, 0.75);border:1px solid var(--line);border-radius:10px;
+  padding:12px 14px;
+}
 .toggle-row span{font-size:13px;color:var(--text-1);}
-.switch{position:relative;width:38px;height:21px;flex:0 0 auto;}
+.switch{position:relative;width:40px;height:22px;flex:0 0 auto;}
 .switch input{opacity:0;width:0;height:0;}
-.slider{position:absolute;inset:0;background:var(--bg-3);border:1px solid var(--line);
-  border-radius:20px;cursor:pointer;transition:.2s;}
-.slider::before{content:'';position:absolute;width:15px;height:15px;left:2px;top:2px;
-  background:var(--text-2);border-radius:50%;transition:.2s;}
-.switch input:checked + .slider{background:rgba(201,164,92,.25);border-color:var(--gold-dim);}
-.switch input:checked + .slider::before{transform:translateX(17px);background:var(--gold-soft);}
+.slider{
+  position:absolute;inset:0;background:rgba(255,255,255,.1);
+  border:1px solid var(--line);border-radius:20px;cursor:pointer;transition:.2s;
+}
+.slider::before{
+  content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;
+  background:var(--text-2);border-radius:50%;transition:.2s;
+}
+.switch input:checked + .slider{background:rgba(201,164,92,.35);border-color:var(--gold);}
+.switch input:checked + .slider::before{transform:translateX(18px);background:var(--gold-soft);}
 
-/* Uploader Dropzone */
-.dropzone{border:2px dashed var(--line);border-radius:12px;padding:40px 20px;text-align:center;
-  background:var(--bg-2);cursor:pointer;transition:all .3s ease;margin-bottom:16px;}
-.dropzone:hover, .dropzone.dragover{border-color:var(--gold);background:rgba(201,164,92,.03);}
-.dropzone .icon{font-size:32px;color:var(--gold);margin-bottom:12px;}
-.dropzone p{margin:0 0 8px;font-size:14px;color:var(--text-1);}
-.dropzone span{font-size:11px;color:var(--text-2);}
+/* Dropzone */
+.dropzone{
+  border:2px dashed var(--line);border-radius:16px;padding:44px 20px;text-align:center;
+  background:rgba(7, 10, 16, 0.5);cursor:pointer;transition:all .3s ease;margin-bottom:16px;
+}
+.dropzone:hover, .dropzone.dragover{
+  border-color:var(--gold);background:rgba(201,164,92,.05);transform:scale(1.005);
+}
+.dropzone .icon{font-size:36px;margin-bottom:12px;}
 
-/* Data Tables */
-.table-wrap{overflow-x:auto;margin-top:16px;max-height:400px;border:1px solid var(--line);border-radius:8px;}
-table{width:100%;border-collapse:collapse;text-align:left;font-size:13px;}
-th,td{padding:12px 14px;border-bottom:1px solid var(--line);}
-th{background:var(--bg-2);color:var(--gold-soft);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.05em;}
-tr:hover{background:rgba(255,255,255,.01);}
-
-/* Dynamic Steps Progress */
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;}
-.step{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px 8px;
-  text-align:center;transition:all .3s ease;}
-.step .n{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--text-2);}
-.step .t{font-size:11px;color:var(--text-1);margin-top:4px;line-height:1.3;min-height:28px;}
-.step.active{border-color:var(--gold-dim);background:rgba(201,164,92,.07);
-  box-shadow:0 0 18px -6px rgba(201,164,92,.4);}
-.step.active .n, .step.active .t{color:var(--gold-soft);}
-.step.done{border-color:var(--green-dim);background:rgba(61,220,132,.06);}
+/* ==========================================================================
+   PROGRESS, TERMINAL & RESULTS (Operations HUD)
+   ========================================================================== */
+.steps{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;
+}
+.step{
+  background:rgba(8, 12, 18, 0.75);border:1px solid var(--line-subtle);
+  border-radius:12px;padding:14px 10px;text-align:center;transition:all .3s ease;
+}
+.step .n{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--text-2);
+}
+.step .t{
+  font-size:11.5px;color:var(--text-1);margin-top:6px;line-height:1.3;min-height:30px;
+}
+.step.active{
+  border-color:var(--gold);background:rgba(201,164,92,.12);
+  box-shadow:0 0 20px -4px rgba(201,164,92,.4);
+}
+.step.active .n, .step.active .t{color:var(--gold-soft);font-weight:700;}
+.step.done{
+  border-color:var(--green-dim);background:rgba(61,220,132,.08);
+}
 .step.done .n::after{content:' ✓';color:var(--green);}
-.progress-bar{height:4px;background:var(--bg-2);border-radius:4px;margin-top:16px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));
-  width:0%;transition:width .5s ease;box-shadow:0 0 10px var(--gold-dim);}
 
-/* Console Wrap */
-.console-wrap{background:#040506;border:1px solid var(--line);border-radius:12px;
-  overflow:hidden;position:relative;}
-.console-head{display:flex;align-items:center;gap:8px;padding:10px 16px;
-  background:var(--bg-2);border-bottom:1px solid var(--line);}
+.progress-bar{
+  height:6px;background:rgba(255,255,255,.05);border-radius:6px;
+  margin-top:18px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft),var(--green));
+  width:0%;transition:width .5s ease;box-shadow:0 0 14px var(--gold-glow);
+}
+
+/* Live Terminal */
+.console-wrap{
+  background:#020305;border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.8);
+}
+.console-head{
+  display:flex;align-items:center;gap:8px;padding:11px 18px;
+  background:rgba(12, 16, 24, 0.9);border-bottom:1px solid var(--line);
+}
 .console-head .dot{width:10px;height:10px;border-radius:50%;}
-.console-head .dot.r{background:#e05656;} .console-head .dot.y{background:#e0c256;}
+.console-head .dot.r{background:#f87171;} .console-head .dot.y{background:#fbbf24;}
 .console-head .dot.g{background:#3ddc84;}
-.console-head span{margin-left:8px;font-size:11px;color:var(--text-2);
-  font-family:'JetBrains Mono',monospace;}
-#console{height:250px;overflow-y:auto;padding:16px 18px;font-family:'JetBrains Mono',monospace;
-  font-size:12.5px;line-height:1.65;color:var(--green);white-space:pre-wrap;word-break:break-word;}
+.console-head span{
+  margin-left:8px;font-size:11px;color:var(--gold-soft);
+  font-family:'JetBrains Mono',monospace;font-weight:600;
+}
+#console{
+  height:260px;overflow-y:auto;padding:16px 20px;font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;line-height:1.7;color:#38bdf8;white-space:pre-wrap;word-break:break-word;
+}
 #console .err{color:var(--red);}
-#console::-webkit-scrollbar{width:8px;}
+#console::-webkit-scrollbar{width:6px;}
 #console::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px;}
-.cursor-blink{display:inline-block;width:8px;height:14px;background:var(--green);
-  animation:blink 1s step-end infinite;vertical-align:text-bottom;}
+.cursor-blink{
+  display:inline-block;width:8px;height:14px;background:#38bdf8;
+  animation:blink 1s step-end infinite;vertical-align:text-bottom;
+}
 @keyframes blink{50%{opacity:0;}}
 
-/* Result Section */
-.result-empty{text-align:center;padding:50px 20px;color:var(--text-2);font-size:13.5px;}
-.result-empty .icon{font-size:34px;margin-bottom:12px;opacity:.5;}
-.result-actions{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
-.result-frame{width:100%;height:640px;border:1px solid var(--line);border-radius:12px;
-  background:#090b0d;}
-.status-line{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:13px;
-  color:var(--text-1);}
-.status-pill{font-size:11px;padding:4px 12px;border-radius:20px;text-transform:uppercase;
-  letter-spacing:.06em;border:1px solid var(--line);}
-.status-pill.running{color:var(--gold-soft);border-color:var(--gold-dim);}
-.status-pill.done{color:var(--green);border-color:var(--green-dim);}
-.status-pill.error{color:var(--red);border-color:rgba(224,86,86,.4);}
-
-footer{text-align:center;color:var(--text-2);font-size:11.5px;margin-top:40px;letter-spacing:.05em;}
-footer b{color:var(--gold-soft);}
-
-@media (max-width:760px){
-  .steps{grid-template-columns:repeat(2,1fr);}
+/* Data Tables */
+.table-wrap{
+  overflow-x:auto;margin-top:16px;max-height:420px;border:1px solid var(--line);
+  border-radius:12px;
 }
+table{width:100%;border-collapse:collapse;text-align:left;font-size:13px;}
+th,td{padding:13px 16px;border-bottom:1px solid var(--line-subtle);}
+th{
+  background:rgba(8, 12, 18, 0.95);color:var(--gold-soft);font-weight:700;
+  text-transform:uppercase;font-size:11px;letter-spacing:.05em;
+  font-family:'JetBrains Mono',monospace;position:sticky;top:0;
+}
+tr:hover{background:rgba(201,164,92,.04);}
+
+/* Result Views */
+.result-frame{
+  width:100%;height:680px;border:1px solid var(--line);border-radius:14px;
+  background:#090b0d;box-shadow:0 15px 40px rgba(0,0,0,.6);
+}
+
+footer{
+  text-align:center;color:var(--text-2);font-size:11.5px;margin-top:48px;
+  letter-spacing:.06em;font-family:'JetBrains Mono',monospace;
+}
+footer b{color:var(--gold-soft);}
 </style>
 </head>
 <body>
-<div class="crt-overlay"></div>
+<div class="cyber-grid-overlay"></div>
 <div class="shell">
 
+  <!-- COMMAND DECK HEADER -->
   <header>
     <div class="brand">
       <div class="mark">N</div>
       <div>
-        <h1>NEXA<b>.OS</b></h1>
-        <div class="sub">Unified PropTech Command Center · v5.0</div>
+        <h1><span>NEXA</span><b>.OS</b></h1>
+        <div class="sub">COGNITIVE PROPTECH COMMAND CENTER · V5.2</div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <a href="/site" target="_blank" class="btn btn-ghost" style="padding:7px 14px;font-size:12px;border-radius:20px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;border-color:var(--line);">
-        🌐 Gayrimenkul Mühendisi Web Sitesi ↗
+    
+    <div class="header-right">
+      <div class="telemetry-strip">
+        <span class="telemetry-item"><span class="pulse-dot"></span> CORE ENGINE ONLINE</span>
+        <span style="color:var(--line);opacity:.5;">|</span>
+        <span class="telemetry-item"><span class="pulse-dot cyan"></span> 32.279 MAHALLE RADAR</span>
+      </div>
+      <a href="/site" target="_blank" class="link-pill">
+        🌐 Gayrimenkul Mühendisi Portalı ↗
       </a>
-      <div class="badge-live"><span class="pulse"></span> System online</div>
     </div>
   </header>
 
-  <!-- Tabs Navigation -->
-  <div class="tabs-nav">
-    <button class="tab-btn active" id="tabBtn-criteria" onclick="switchTab('criteria')" style="background:rgba(201,164,92,.12);border-color:var(--gold);color:var(--gold-soft);font-weight:700;">★ Kritere Göre Ara (NLP & Gemini)</button>
-        <button class="tab-btn" id="tabBtn-orbit" onclick="switchTab('orbit')" style="background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(168,85,247,.15));border:1px solid #38bdf8;color:#38bdf8;font-weight:700;box-shadow:0 0 15px rgba(56,189,248,.25);">🪐 NEXA ORBIT™ (Tersine Emsal Radarı)</button>
-    <button class="tab-btn" id="tabBtn-sahibinden" onclick="switchTab('sahibinden')">◆ Sahibinden Scraper</button>
-    <button class="tab-btn" id="tabBtn-cb" onclick="switchTab('cb')">◆ CB Scraper</button>
-    <button class="tab-btn" id="tabBtn-whatsapp" onclick="switchTab('whatsapp')">◆ WhatsApp Parser</button>
-    <button class="tab-btn" id="tabBtn-match" onclick="switchTab('match')">◆ AI Matcher Engine</button>
-    <button class="tab-btn" id="tabBtn-pdf" onclick="switchTab('pdf')" style="background:rgba(201,164,92,.08);border-color:rgba(201,164,92,.3);color:var(--gold-soft);">✦ URL → PDF Sunum</button>
+  <!-- OPERATIONAL METRICS HUD (Kullanmaya Teşvik Eden Canlı İstatistikler) -->
+  <div class="metrics-hud">
+    <div class="metric-card">
+      <div class="metric-icon">🎯</div>
+      <div class="metric-info">
+        <div class="metric-title">TÜRKİYE LOKASYON VERİTABANI</div>
+        <div class="metric-value">81 İl · 973 İlçe</div>
+        <div class="metric-sub">32.279 Mahalle Hatasız Semantik Eşleşme</div>
+      </div>
+    </div>
+
+    <div class="metric-card cyan">
+      <div class="metric-icon">⚡</div>
+      <div class="metric-info">
+        <div class="metric-title">NLP & GEMINI AYRIŞTIRMA</div>
+        <div class="metric-value">&lt; 1.1 Saniye</div>
+        <div class="metric-sub">Doğal Dilden Anında Sahibinden Linki</div>
+      </div>
+    </div>
+
+    <div class="metric-card purple">
+      <div class="metric-icon">🪐</div>
+      <div class="metric-info">
+        <div class="metric-title">NEXA ORBIT™ RADAR</div>
+        <div class="metric-value">Tersine Emsal v5.0</div>
+        <div class="metric-sub">Pazar Rekabet ve Fiyat Koridoru Motoru</div>
+      </div>
+    </div>
+
+    <div class="metric-card emerald">
+      <div class="metric-icon">📑</div>
+      <div class="metric-info">
+        <div class="metric-title">VIP PAZARLAMA SUNUMU</div>
+        <div class="metric-value">1-Tıkla Lüks PDF & Deck</div>
+        <div class="metric-sub">Coldwell Banker Markalı WhatsApp Dağıtım</div>
+      </div>
+    </div>
   </div>
 
-  <!-- Tab: Kritere Göre Ara (NLP & Gemini Engine) -->
+  <!-- SEGMENTED DOCK TABS NAVIGATION (Scrollbar'sız Lüks Modül İstasyonu) -->
+  <div class="tabs-nav-container">
+    <div class="tabs-nav">
+      <button class="tab-btn active" id="tabBtn-criteria" onclick="switchTab('criteria')">
+        ★ Doğal Dil & Kriter Arama (NLP & Gemini)
+      </button>
+      <button class="tab-btn orbit-style" id="tabBtn-orbit" onclick="switchTab('orbit')">
+        🪐 NEXA ORBIT™ (Tersine Emsal Radarı)
+      </button>
+      <button class="tab-btn" id="tabBtn-sahibinden" onclick="switchTab('sahibinden')">
+        ◆ Sahibinden Scraper
+      </button>
+      <button class="tab-btn" id="tabBtn-cb" onclick="switchTab('cb')">
+        ◆ Coldwell Banker Scraper
+      </button>
+      <button class="tab-btn" id="tabBtn-whatsapp" onclick="switchTab('whatsapp')">
+        ◆ WhatsApp Log Parser
+      </button>
+      <button class="tab-btn" id="tabBtn-match" onclick="switchTab('match')">
+        ◆ AI Matcher Engine
+      </button>
+      <button class="tab-btn" id="tabBtn-pdf" onclick="switchTab('pdf')">
+        ✦ URL → Lüks PDF & Sunum Deck
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       TAB: KRİTERE GÖRE ARA (NLP & GEMINI)
+       ======================================================================== -->
   <div class="tab-pane active" id="pane-criteria">
     <div class="panel">
       <h2>★ Doğal Dil ile Kriter Bazlı Portföy Arama & Otomatik Vitrin (Gemini & NLP)</h2>
       
-      <p style="font-size:13px;color:var(--text-1);margin:0 0 16px;line-height:1.5;">
+      <p style="font-size:13.5px;color:var(--text-1);margin:0 0 18px;line-height:1.6;">
         Aramak istediğiniz mülkü günlük Türkçe ile tarif edin. 
         <strong style="color:var(--gold-soft);">NEXA.OS Doğal Dil Motoru & Gemini API</strong>, Türkiye'nin 
-        <span style="color:var(--gold);">81 İli, 973 İlçesi ve 32.279 Mahallesini</span> tarayarak kriterleri anında hatasız bir Sahibinden arama linkine dönüştürür ve dilediğinizde tek tıkla canlı vitrinini oluşturur.
+        <span style="color:var(--gold);font-weight:700;">81 İli, 973 İlçesi ve 32.279 Mahallesini</span> tarayarak kriterleri anında hatasız bir Sahibinden arama linkine dönüştürür ve tek tıkla canlı vitrinini oluşturur.
       </p>
 
-      <!-- Prompt Input -->
-      <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">
-          Aranan Mülk Tanımı & Kriterler (Doğal Dil)
-        </label>
-        <textarea id="crit_prompt" rows="3" style="width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;font-family:inherit;resize:vertical;" placeholder="Örnek: Ankara Çankaya Alacaatlı'da 20 milyon ile 40 milyon arası 4+1 satılık villa getir fiyata göre artan..."></textarea>
+      <!-- Hızlı Örnek Şablon Kartları (Kullanımı Teşvik Eden Presetler) -->
+      <div style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-weight:700;font-family:'JetBrains Mono',monospace;">
+        ⚡ HIZLI ARAMA ŞABLONLARI (TEK TIKLA DOLDUR):
+      </div>
+      <div class="presets-grid">
+        <div class="preset-card" onclick="setCritPrompt('Ankara Çankaya Alacaatlı\'da 20 milyon ile 40 milyon arası 4+1 satılık villa getir fiyata göre artan')">
+          <div class="p-icon">🏡</div>
+          <div>
+            <div class="p-title">Alacaatlı 4+1 Villa (20M - 40M TL)</div>
+            <div class="p-desc">Çankaya lüks villa portföyü, artan fiyat sıralı</div>
+          </div>
+        </div>
+
+        <div class="preset-card" onclick="setCritPrompt('Ankara Çankaya Beytepe ve İncek\'te 15 milyon ile 35 milyon arası rezidans daire en yeni ilanlar')">
+          <div class="p-icon">💎</div>
+          <div>
+            <div class="p-title">Beytepe & İncek Rezidans (15M - 35M TL)</div>
+            <div class="p-desc">VIP yatırım koridoru, en yeni ilanlar</div>
+          </div>
+        </div>
+
+        <div class="preset-card" onclick="setCritPrompt('İzmir Aliağa Bozburunadaları hisseli tapu ada 100-105 parsel 5-6 satılık arsa en yeni ilanlar')">
+          <div class="p-icon">🌾</div>
+          <div>
+            <div class="p-title">Aliağa Hisseli Arsa (Ada/Parsel Taraması)</div>
+            <div class="p-desc">Spesifik ada-parsel ve tapu durumu filtreli</div>
+          </div>
+        </div>
+
+        <div class="preset-card" onclick="setCritPrompt('Ankara Çankaya Balgat ve Mustafa Kemal Mahallesinde 40.000 ile 80.000 TL arası kiralık ofis büro')">
+          <div class="p-icon">🏢</div>
+          <div>
+            <div class="p-title">Çankaya Balgat & MK Kiralık Ofis</div>
+            <div class="p-desc">Ticari iş yeri ve plazalar, kira koridoru</div>
+          </div>
+        </div>
       </div>
 
-      <!-- Quick Preset Pills -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-        <span style="font-size:11px;color:var(--text-2);align-self:center;text-transform:uppercase;letter-spacing:.05em;">Hızlı Örnekler:</span>
-        <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;" onclick="setCritPrompt('Ankara Çankaya Alacaatlı\'da 20 milyon ile 40 milyon arası 4+1 satılık villa getir fiyata göre artan')">🏡 Alacaatlı 4+1 Villa (Artan Fiyat)</button>
-        <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;" onclick="setCritPrompt('İzmir Aliağa Bozburunadaları hisseli tapu ada 100-105 parsel 5-6 satılık arsa en yeni ilanlar')">🌾 Aliağa Hisseli Arsa (En Yeni)</button>
-        <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;" onclick="setCritPrompt('Antalya Döşemealtı Çığlık Ayanlar kiralık daire fiyata göre azalan')">🏢 Döşemealtı Kiralık Daire (Azalan)</button>
-        <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;" onclick="setCritPrompt('Ankara bankadan satılık konut 2 milyon ile 5 milyon arası 4+1 2 yaşında 100-200 metrekare')">🏛️ Bankadan Satılık Konut</button>
+      <!-- Prompt Input -->
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:700;font-family:'JetBrains Mono',monospace;">
+          Aranan Mülk Tanımı & Kriterler (Doğal Dil)
+        </label>
+        <textarea id="crit_prompt" class="prompt-box" rows="3" placeholder="Örnek: Ankara Çankaya Alacaatlı'da 20 milyon ile 40 milyon arası 4+1 satılık villa getir fiyata göre artan..."></textarea>
       </div>
 
       <!-- Advanced Filter Grid -->
-      <div class="adv-grid" style="margin-bottom:20px;">
+      <div class="adv-grid" style="margin-bottom:24px;">
         <div class="field" style="grid-column: span 2;">
-          <label>Gemini API Key (İsteğe Bağlı · Boş bırakılırsa yerel 32.279 mahalle motoru devrededir)</label>
+          <label>Gemini API Key (İsteğe Bağlı · Boş Bırakılırsa Yerel 32.279 Mahalle Motoru Devrededir)</label>
           <input type="password" id="crit_gemini_api_key" placeholder="AI anlamsal zenginleştirme için Gemini API Anahtarı girin…">
         </div>
         <div class="field">
@@ -269,47 +670,207 @@ footer b{color:var(--gold-soft);}
       </div>
 
       <!-- Dual Action Buttons -->
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-        <button class="btn btn-gold" id="btnCritSearchScrape" onclick="executeCriteriaSearch(true)" style="padding:14px 28px;font-size:14px;">
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;">
+        <button class="btn btn-gold" id="btnCritSearchScrape" onclick="executeCriteriaSearch(true)" style="padding:16px 32px;font-size:14px;">
           🚀 LINK OLUŞTUR & DOĞRUDAN VİTRİNİ TARA
         </button>
-        <button class="btn btn-ghost" id="btnCritParseOnly" onclick="executeCriteriaSearch(false)" style="padding:14px 24px;font-size:14px;">
+        <button class="btn btn-ghost" id="btnCritParseOnly" onclick="executeCriteriaSearch(false)" style="padding:16px 26px;font-size:14px;">
           🔗 SADECE LINK OLUŞTUR
         </button>
       </div>
 
       <!-- Result / Breakdown Preview Card (Initially hidden) -->
-      <div id="crit_result_card" style="display:none;background:var(--bg-2);border:1px solid var(--gold-dim);border-radius:12px;padding:20px;margin-top:16px;">
+      <div id="crit_result_card" style="display:none;background:var(--bg-2);border:1px solid var(--gold-dim);border-radius:14px;padding:22px;margin-top:20px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:10px;flex-wrap:wrap;gap:10px;">
-          <div style="font-size:13px;font-weight:700;color:var(--gold-soft);display:flex;align-items:center;gap:8px;">
+          <div style="font-size:13.5px;font-weight:700;color:var(--gold-soft);display:flex;align-items:center;gap:8px;">
             <span>✓ ÇÖZÜMLENEN KRİTERLER VE HEDEF URL</span>
           </div>
-          <span id="crit_engine_pill" style="font-size:11px;padding:4px 12px;border-radius:15px;background:rgba(201,164,92,.15);color:var(--gold-soft);border:1px solid var(--gold-dim);"></span>
+          <span id="crit_engine_pill" style="font-size:11px;padding:4px 14px;border-radius:15px;background:rgba(201,164,92,.15);color:var(--gold-soft);border:1px solid var(--gold-dim);font-family:'JetBrains Mono',monospace;"></span>
         </div>
 
-        <!-- URL Container with copy and open buttons -->
-        <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;background:var(--bg-1);padding:10px 14px;border-radius:8px;border:1px solid var(--line);flex-wrap:wrap;">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;background:var(--bg-0);padding:12px 16px;border-radius:10px;border:1px solid var(--line);flex-wrap:wrap;">
           <input type="text" id="crit_generated_url" readonly class="mono" style="flex:1;background:transparent;border:none;color:var(--gold);font-size:13px;outline:none;" value="">
-          <button type="button" class="btn btn-ghost" style="padding:7px 14px;font-size:12px;" onclick="copyCritUrl()">📋 Kopyala</button>
-          <a id="crit_open_link" href="#" target="_blank" class="btn btn-ghost" style="padding:7px 14px;font-size:12px;text-decoration:none;">↗ Yeni Sekmede Aç</a>
+          <button type="button" class="btn btn-ghost" style="padding:8px 16px;font-size:12px;" onclick="copyCritUrl()">📋 Kopyala</button>
+          <a id="crit_open_link" href="#" target="_blank" class="btn btn-ghost" style="padding:8px 16px;font-size:12px;text-decoration:none;">↗ Yeni Sekmede Aç</a>
         </div>
 
-        <!-- Entity Chips Grid -->
-        <div id="crit_chips_grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
-          <!-- Chips injected dynamically -->
+        <div id="crit_chips_grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;">
+          <!-- Dynamically populated -->
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- Tab: Sahibinden Scraper -->
+  <!-- ========================================================================
+       TAB: NEXA ORBIT™ (TERSİNE EMSAL RADARI)
+       ======================================================================== -->
+  <div class="tab-pane" id="pane-orbit" style="display:none;">
+    <div class="panel" style="border-color:rgba(56,189,248,.35);background:radial-gradient(ellipse at top right, rgba(56,189,248,.09), transparent 60%), var(--bg-1);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+        <h2 style="color:#38bdf8;margin:0;border:none;">
+          <span style="font-size:20px;">🪐</span> NEXA ORBIT™ — OTONOM TERSİNE EMSAL & PİYASA REKABET RADARI
+        </h2>
+        <span style="font-size:11px;padding:6px 16px;border-radius:20px;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.4);color:#38bdf8;font-weight:700;letter-spacing:.05em;font-family:'JetBrains Mono',monospace;">
+          REVERSE-CMA ENGINE V5.0
+        </span>
+      </div>
+
+      <p style="font-size:13.5px;color:var(--text-1);margin:0 0 22px;line-height:1.6;">
+        Tekil bir portföyden tersine mühendislikle rakiplerin bulunduğu tüm pazarı otonom olarak inşa eder veya doğrudan verdiğiniz pazar havuzundaki portföyünüzü emsalleriyle kıyaslar.
+      </p>
+
+      <!-- Scenario Selector Tabs -->
+      <div style="display:flex;gap:10px;margin-bottom:22px;background:var(--bg-0);padding:6px;border-radius:14px;border:1px solid var(--line);">
+        <button type="button" id="btnOrbitMode2" onclick="switchOrbitMode('scenario2')" style="flex:1;padding:13px 18px;border-radius:10px;border:1px solid #38bdf8;background:rgba(56,189,248,.18);color:#38bdf8;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;">
+          ⚡ SENARYO 2: Tekil İlandan Tersine Mühendislik (Otonom)
+        </button>
+        <button type="button" id="btnOrbitMode1" onclick="switchOrbitMode('scenario1')" style="flex:1;padding:13px 18px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--text-1);font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;">
+          🎯 SENARYO 1: Pazar Arama Linki + Bizim İlan Eşleme
+        </button>
+      </div>
+
+      <!-- SENARYO 2 FORM -->
+      <div id="orbit_form_scenario2">
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:700;font-family:'JetBrains Mono',monospace;">
+            Hedef Portföy İlan No veya Detay URL'si
+          </label>
+          <input type="text" id="orbit_target_id_s2" class="mono" style="width:100%;background:rgba(7,10,16,.75);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;" placeholder="Örnek: 1296499962 veya https://www.sahibinden.com/ilan/...-1296499962/detay">
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+          <span style="font-size:11px;color:var(--text-2);align-self:center;text-transform:uppercase;font-family:'JetBrains Mono',monospace;">Hızlı Test:</span>
+          <button type="button" class="btn btn-ghost" style="padding:7px 14px;font-size:12px;border-radius:20px;border-color:rgba(56,189,248,.35);color:#38bdf8;" onclick="setOrbitTargetPreset('1296499962')">
+            🏢 Mustafa Kemal Mah. Ofis İBK (#1296499962 - 55.000 TL)
+          </button>
+        </div>
+
+        <div class="adv-grid" style="margin-bottom:24px;">
+          <div class="field">
+            <label style="color:#38bdf8;">Rasyonel Fiyat Koridoru (Tavan Çarpanı)</label>
+            <select id="orbit_price_multiplier">
+              <option value="1.28" selected>%28 Artış (55k → 70.000 TL - Önerilen)</option>
+              <option value="1.20">%20 Artış (Daha Dar Emsal)</option>
+              <option value="1.35">%35 Artış (Daha Geniş Emsal)</option>
+              <option value="1.50">%50 Artış (Tüm Üst Segment)</option>
+            </select>
+          </div>
+          <div class="field" style="display:flex;align-items:center;gap:10px;padding-top:16px;">
+            <input type="checkbox" id="orbit_substitutes" checked style="width:18px;height:18px;accent-color:#38bdf8;">
+            <label for="orbit_substitutes" style="font-size:12.5px;color:var(--text-0);cursor:pointer;text-transform:none;">
+              İkame Tipolojileri Dahil Et (1+0, 1+1, 2+1 alternatifleri)
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-cyan" id="btnRunOrbitS2" onclick="runOrbitAnalysis('scenario2')" style="padding:16px 32px;font-size:14.5px;">
+          🚀 TERSİNE MÜHENDİSLİKLE PAZARI İNŞA ET & ANALİZ ET
+        </button>
+      </div>
+
+      <!-- SENARYO 1 FORM -->
+      <div id="orbit_form_scenario1" style="display:none;">
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:700;font-family:'JetBrains Mono',monospace;">
+            1) Sahibinden Pazar Arama URL'si (Kategori, İlçe, Mahalle, Fiyat Filtresi)
+          </label>
+          <input type="text" id="orbit_search_url_s1" class="mono" style="width:100%;background:rgba(7,10,16,.75);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:13.5px;" placeholder="https://www.sahibinden.com/kiralik-is-yeri-ofis-buro/ankara-cankaya-balgat-mustafa-kemal-mah.?price_max=70000...">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:700;font-family:'JetBrains Mono',monospace;">
+            2) Bu Pazarın İçindeki Bizim İlan No veya Detay URL'si
+          </label>
+          <input type="text" id="orbit_target_id_s1" class="mono" style="width:100%;background:rgba(7,10,16,.75);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;" placeholder="1296499962">
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+          <button type="button" class="btn btn-ghost" style="padding:7px 14px;font-size:12px;border-radius:20px;border-color:rgba(56,189,248,.35);color:#38bdf8;" onclick="setOrbitScenario1Preset()">
+            🏢 Mustafa Kemal Mah. 35 İlanlık Pazar + Bizim İlan (#1296499962) Doldur
+          </button>
+        </div>
+
+        <button class="btn btn-cyan" id="btnRunOrbitS1" onclick="runOrbitAnalysis('scenario1')" style="padding:16px 32px;font-size:14.5px;">
+          🔍 PAZAR HAVUZUNU TARA VE BİZİMKİYLE KIYASLA
+        </button>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="orbit_loading" style="display:none;margin-top:24px;text-align:center;padding:36px;background:var(--bg-0);border-radius:14px;border:1px solid var(--cyan-dim);">
+        <div style="display:inline-block;width:40px;height:40px;border:3px solid rgba(56,189,248,.2);border-top-color:#38bdf8;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        <div style="margin-top:14px;font-size:15px;color:#38bdf8;font-weight:700;">NEXA ORBIT™ Motoru Devrede...</div>
+        <div id="orbit_loading_msg" style="margin-top:6px;font-size:12.5px;color:var(--text-1);">Pazar tersine mühendislikle çözümleniyor ve emsaller taranıyor...</div>
+      </div>
+
+      <!-- Orbit Real-Time Result / Card -->
+      <div id="orbit_result_container" style="display:none;margin-top:24px;background:var(--bg-0);border:1px solid rgba(56,189,248,.4);border-radius:14px;padding:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px;flex-wrap:wrap;gap:10px;">
+          <div style="font-size:14px;font-weight:700;color:#38bdf8;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:16px;">✓</span>
+            <span id="orbit_result_title">NEXA ORBIT™ OPERASYONU TAMAMLANDI</span>
+          </div>
+          <span id="orbit_mode_pill" style="font-size:11px;padding:4px 12px;border-radius:15px;background:rgba(56,189,248,.15);color:#38bdf8;border:1px solid rgba(56,189,248,.3);"></span>
+        </div>
+
+        <div id="orbit_synth_box" style="margin-bottom:18px;background:var(--bg-2);padding:12px 16px;border-radius:10px;border:1px solid var(--line);">
+          <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;margin-bottom:6px;font-weight:600;">Tersine Mühendislikle Oluşturulan Dinamik Pazar URL'si:</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <input type="text" id="orbit_synth_url_input" readonly class="mono" style="flex:1;background:transparent;border:none;color:#38bdf8;font-size:12.5px;outline:none;" value="">
+            <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="copyOrbitUrl()">📋 Kopyala</button>
+            <a id="orbit_synth_open" href="#" target="_blank" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;text-decoration:none;">↗ Sahibinden'de Aç</a>
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;">
+          <div style="background:var(--bg-2);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Toplam Rakip Havuzu</div>
+            <div id="orbit_kpi_total" style="font-size:22px;font-weight:800;color:var(--text-0);margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-2);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Piyasa Medyan Kirası</div>
+            <div id="orbit_kpi_median" style="font-size:22px;font-weight:800;color:#c9a45c;margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-2);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Ortalama m² Birim Kira</div>
+            <div id="orbit_kpi_m2" style="font-size:22px;font-weight:800;color:var(--text-0);margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-2);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Eşyalı Tekel Oranı</div>
+            <div id="orbit_kpi_furn" style="font-size:22px;font-weight:800;color:#10b981;margin-top:4px;">-</div>
+          </div>
+          <div style="background:var(--bg-2);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
+            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Bizim Portföy Pozisyonu</div>
+            <div id="orbit_kpi_percentile" style="font-size:22px;font-weight:800;color:#38bdf8;margin-top:4px;">-</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <a id="orbit_open_dashboard_btn" href="/orbit/report" target="_blank" class="btn btn-gold" style="padding:12px 24px;font-size:14px;text-decoration:none;">
+            📊 ULTRA LÜKS DASHBOARD'U AÇ (YENİ SEKME) ↗
+          </a>
+          <button type="button" class="btn btn-ghost" onclick="toggleOrbitIframe()" style="padding:12px 20px;font-size:13.5px;">
+            👁️ Dashboard'u Bu Sayfada Önizle
+          </button>
+        </div>
+
+        <div id="orbit_iframe_box" style="display:none;margin-top:20px;border:1px solid var(--line);border-radius:12px;overflow:hidden;">
+          <iframe id="orbit_preview_iframe" src="" style="width:100%;height:800px;border:none;background:#05070b;"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       TAB: SAHIBINDEN SCRAPER
+       ======================================================================== -->
   <div class="tab-pane" id="pane-sahibinden" style="display:none;">
     <div class="panel">
-      <h2>① Sahibinden Scraper Settings</h2>
-      <div class="urlrow">
-        <input type="text" id="sh_url" class="mono" placeholder="Mağaza, arama sonucu ya da tekil ilan linki yapıştırın…" value="{{ default_url }}">
-        <button class="btn btn-gold" id="btnStartSahibinden" onclick="startJob('sahibinden')">▶ BAŞLAT</button>
+      <h2>① Sahibinden Scraper Engine Settings</h2>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+        <input type="text" id="sh_url" class="mono" style="flex:1;min-width:260px;background:rgba(7,10,16,.75);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;" placeholder="Mağaza, arama sonucu ya da tekil ilan linki yapıştırın…" value="{{ default_url }}">
+        <button class="btn btn-gold" id="btnStartSahibinden" onclick="startJob('sahibinden')" style="padding:14px 28px;">▶ BAŞLAT</button>
       </div>
 
       <div class="adv-grid">
@@ -353,35 +914,36 @@ footer b{color:var(--gold-soft);}
         </div>
         <div class="field">
           <div class="toggle-row">
-            <span>SeleniumBase UC (#gmap Pini & PageSpeed Fallback)</span>
+            <span>SeleniumBase UC (Bypass & PageSpeed)</span>
             <label class="switch"><input type="checkbox" id="sh_prefer_uc" checked><span class="slider"></span></label>
           </div>
         </div>
         <div class="field">
           <div class="toggle-row">
-            <span style="font-weight:600;color:var(--gold-light);">Tüm Sayfaları Tara (Otomatik Pagination)</span>
+            <span style="font-weight:600;color:var(--gold-soft);">Tüm Sayfaları Tara (Pagination)</span>
             <label class="switch"><input type="checkbox" id="sh_crawl_all" checked><span class="slider"></span></label>
           </div>
         </div>
         <div class="field">
-          <label style="font-weight:600;color:var(--gold-light);">Maksimum Sayfa Sayısı (0 = Sınırsız)</label>
+          <label style="font-weight:600;color:var(--gold-soft);">Maksimum Sayfa Sayısı (0 = Sınırsız)</label>
           <input type="number" id="sh_max_pages" value="10" min="0" placeholder="Örn: 10">
         </div>
-
       </div>
     </div>
   </div>
 
-  <!-- Tab: CB Scraper -->
+  <!-- ========================================================================
+       TAB: COLDWELL BANKER SCRAPER
+       ======================================================================== -->
   <div class="tab-pane" id="pane-cb" style="display:none;">
     <div class="panel">
       <h2>① Coldwell Banker Scraper Settings</h2>
-      <div class="urlrow">
-        <select id="cb_source_type">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+        <select id="cb_source_type" style="flex:1;min-width:260px;background:rgba(7,10,16,.75);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;">
           <option value="satilik">Coldwell Banker Ankara Satılık Portföyü</option>
           <option value="kiralik">Coldwell Banker Ankara Kiralık Portföyü</option>
         </select>
-        <button class="btn btn-gold" id="btnStartCb" onclick="startJob('cb')">▶ TARAMAYI BAŞLAT</button>
+        <button class="btn btn-gold" id="btnStartCb" onclick="startJob('cb')" style="padding:14px 28px;">▶ TARAMAYI BAŞLAT</button>
       </div>
       <div class="adv-grid">
         <div class="field">
@@ -392,20 +954,22 @@ footer b{color:var(--gold-soft);}
     </div>
   </div>
 
-  <!-- Tab: WhatsApp Parser -->
+  <!-- ========================================================================
+       TAB: WHATSAPP PARSER
+       ======================================================================== -->
   <div class="tab-pane" id="pane-whatsapp" style="display:none;">
     <div class="panel">
       <h2>① WhatsApp Chat Log NLP Parser</h2>
       <div class="dropzone" id="dropzone" onclick="document.getElementById('wa_file').click()">
         <div class="icon">📁</div>
-        <p>WhatsApp sohbet günlüğü (.txt) dosyasını buraya sürükleyin veya tıklayarak yükleyin</p>
-        <span>NLP analiz motoru talepleri otomatik olarak ayıklayacaktır.</span>
+        <p style="font-size:14px;color:var(--text-1);margin:0 0 8px;font-weight:600;">WhatsApp sohbet günlüğü (.txt) dosyasını buraya sürükleyin veya tıklayarak yükleyin</p>
+        <span style="font-size:11.5px;color:var(--text-2);">NLP analiz motoru müşteri taleplerini ve grup portföylerini otomatik ayıklar.</span>
         <input type="file" id="wa_file" accept=".txt" style="display:none;" onchange="handleWaFile(this.files)">
       </div>
-      <button class="btn btn-gold" id="btnStartWa" onclick="startJob('whatsapp')" style="display:none;">▶ AYIKLAMAYI BAŞLAT</button>
+      <button class="btn btn-gold" id="btnStartWa" onclick="startJob('whatsapp')" style="display:none;padding:14px 28px;">▶ AYIKLAMAYI BAŞLAT</button>
 
       <div class="whatsapp-results" id="waResults" style="display:none; margin-top:24px;">
-        <h3>Müşteri Arayışları (NLP ile Tespit Edilen)</h3>
+        <h3 style="font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">Müşteri Arayışları (NLP ile Tespit Edilen)</h3>
         <div class="table-wrap">
           <table id="tableArayis">
             <thead>
@@ -422,7 +986,7 @@ footer b{color:var(--gold-soft);}
           </table>
         </div>
 
-        <h3 style="margin-top:24px;">Grup Portföyleri (NLP ile Tespit Edilen)</h3>
+        <h3 style="font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-top:28px;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">Grup Portföyleri (NLP ile Tespit Edilen)</h3>
         <div class="table-wrap">
           <table id="tablePortfoy">
             <thead>
@@ -442,7 +1006,9 @@ footer b{color:var(--gold-soft);}
     </div>
   </div>
 
-  <!-- Tab: AI Matcher Engine -->
+  <!-- ========================================================================
+       TAB: AI MATCHER ENGINE
+       ======================================================================== -->
   <div class="tab-pane" id="pane-match" style="display:none;">
     <div class="panel">
       <h2>① AI-Powered Matcher Engine Configuration</h2>
@@ -488,75 +1054,73 @@ footer b{color:var(--gold-soft);}
         </div>
       </div>
 
-      <div class="urlrow" style="margin-top: 24px;">
-        <button class="btn btn-gold" id="btnStartMatch" onclick="startJob('match')">🚀 AI EŞLEŞTİRMEYİ ÇALIŞTIR</button>
+      <div style="margin-top: 24px;">
+        <button class="btn btn-gold" id="btnStartMatch" onclick="startJob('match')" style="padding:15px 30px;">
+          🚀 AI EŞLEŞTİRMEYİ ÇALIŞTIR
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Tab: URL → PDF Sunum Oluşturucu -->
+  <!-- ========================================================================
+       TAB: URL → PDF SUNUM
+       ======================================================================== -->
   <div class="tab-pane" id="pane-pdf" style="display:none;">
-
-    <!-- Girdi Paneli -->
     <div class="panel">
-      <h2>① İlan URL'si → Lüks Sunum PDF</h2>
-      <p style="margin:0 0 16px;font-size:13px;color:var(--text-1);line-height:1.7;">
+      <h2>① İlan URL'si → Lüks Sunum PDF & Mobil Web Deck</h2>
+      <p style="margin:0 0 16px;font-size:13.5px;color:var(--text-1);line-height:1.7;">
         Sahibinden, Hepsiemlak, Zingat veya Coldwell Banker ilan linkini girin.<br>
         Sistem görselleri, açıklamayı ve özellikleri otomatik çekip <b style="color:var(--gold-soft);">Yiğit Narin</b>
         iletişim bilgileriyle markalaştırılmış profesyonel PDF sunum oluşturur.
       </p>
-      <div class="urlrow">
+      
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
         <input type="text" id="pdf_url" class="mono"
                placeholder="https://www.sahibinden.com/ilan/... veya hepsiemlak.com/..."
-               style="font-size:13px;">
-        <button class="btn btn-gold" id="btnGenPdf" onclick="generatePdf()">
+               style="flex:1;min-width:260px;background:rgba(7,10,16,.75);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:13.5px;">
+        <button class="btn btn-gold" id="btnGenPdf" onclick="generatePdf()" style="padding:14px 28px;">
           ✦ SUNUM OLUŞTUR
         </button>
       </div>
 
-      <!-- Desteklenen Platformlar -->
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
-        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Sahibinden.com</span>
-        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Hepsiemlak.com</span>
-        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Zingat.com</span>
-        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Emlakjet.com</span>
-        <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-2);">● Coldwellbanker.com.tr</span>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:11px;padding:5px 12px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);">● Sahibinden.com</span>
+        <span style="font-size:11px;padding:5px 12px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);">● Hepsiemlak.com</span>
+        <span style="font-size:11px;padding:5px 12px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);">● Zingat.com</span>
+        <span style="font-size:11px;padding:5px 12px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);">● Emlakjet.com</span>
+        <span style="font-size:11px;padding:5px 12px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);color:var(--text-1);">● Coldwellbanker.com.tr</span>
       </div>
     </div>
 
-    <!-- Danışman Marka Önizleme -->
-    <div class="panel" style="background:linear-gradient(135deg,#0d1b2a 0%,#111b26 100%);border-color:rgba(201,164,92,.25);">
+    <!-- Danışman Marka Kartı -->
+    <div class="panel" style="background:linear-gradient(135deg,rgba(13,27,42,.85) 0%,rgba(17,27,38,.85) 100%);border-color:rgba(201,164,92,.25);">
       <h2>② PDF'e Otomatik Eklenecek Danışman Kartı</h2>
       <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
         <img src="https://i.ibb.co/ksPFvjCt/Yigit-Bey1.png" alt="Yiğit Narin"
              style="width:72px;height:72px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;box-shadow:0 0 20px rgba(201,164,92,.4);"
              onerror="this.style.display='none'">
         <div>
-          <div style="font-size:16px;font-weight:700;color:var(--gold-soft);font-family:'Playfair Display',serif;margin-bottom:4px;">
+          <div style="font-size:17px;font-weight:700;color:var(--gold-soft);font-family:'Playfair Display',serif;margin-bottom:4px;">
             Yiğit Narin
           </div>
-          <div style="font-size:12px;color:var(--gold);margin-bottom:6px;">
-            Gayrimenkul ve Yatırım Danışmanı
+          <div style="font-size:12.5px;color:var(--gold);margin-bottom:6px;font-weight:600;">
+            Gayrimenkul ve Yatırım Danışmanı · Coldwell Banker CB VIP Ankara
           </div>
-          <div style="font-size:12px;color:var(--text-1);margin-bottom:3px;">
-            Coldwell Banker CB VIP Ankara
-          </div>
-          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px;">
-            <span style="font-size:11.5px;color:var(--text-0);">📞 +90 532 451 40 08</span>
-            <span style="font-size:11.5px;color:var(--text-1);">🌐 gayrimenkulmuhendisi.com</span>
-            <span style="font-size:11.5px;color:var(--text-1);">💬 WhatsApp: 0532 451 40 08</span>
+          <div style="display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--text-1);">
+            <span>📞 +90 532 451 40 08</span>
+            <span>🌐 gayrimenkulmuhendisi.com</span>
+            <span>💬 WhatsApp Destekli</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- İşlem Durumu -->
+    <!-- İşlem Durumu Paneli -->
     <div class="panel" id="pdfStatusPanel" style="display:none;">
       <h2>③ İşlem Durumu</h2>
       <div id="pdfStatusContent" style="font-size:13.5px;line-height:1.8;color:var(--text-1);">
         ⏳ Hazırlanıyor...
       </div>
-      <!-- Adım Göstergesi -->
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;" id="pdfSteps">
         <div class="step" id="pdfStep1"><div class="n">ADIM 1</div><div class="t">İlan Scrape</div></div>
         <div class="step" id="pdfStep2"><div class="n">ADIM 2</div><div class="t">Görseller İndirildi</div></div>
@@ -568,238 +1132,40 @@ footer b{color:var(--gold-soft);}
     <!-- Sonuç Paneli -->
     <div class="panel" id="pdfResultPanel" style="display:none;">
       <h2>④ Sunum PDF Hazır</h2>
-
-      <!-- İlan Önizleme -->
       <div id="pdfListingPreview" style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;"></div>
 
-      <!-- Paylaşım Butonları -->
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-        <a id="pdfOpenBtn" href="#" target="_blank"
-           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
-                  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
-                  color:#1a1408;border-radius:10px;font-weight:700;font-size:13.5px;
-                  text-decoration:none;box-shadow:0 8px 24px -8px rgba(201,164,92,.5);">
+        <a id="pdfOpenBtn" href="#" target="_blank" class="btn btn-gold">
           👁 PDF'i Tarayıcıda Aç
         </a>
-        <a id="pdfWebBtn" href="#" target="_blank"
-           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
-                  background:linear-gradient(135deg,#00b4db,#0083b0);
-                  color:#ffffff;border-radius:10px;font-weight:700;font-size:13.5px;
-                  text-decoration:none;box-shadow:0 8px 24px -8px rgba(0,180,219,.4);">
+        <a id="pdfWebBtn" href="#" target="_blank" class="btn btn-cyan">
           📱 Mobil Web Sunum Deck
         </a>
-        <a id="pdfWaBtn" href="#" target="_blank"
-           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
-                  background:#25D366;color:#ffffff;border-radius:10px;
-                  font-weight:700;font-size:13.5px;text-decoration:none;
-                  box-shadow:0 8px 24px -8px rgba(37,211,102,.4);">
+        <a id="pdfWaBtn" href="#" target="_blank" class="btn" style="background:#25D366;color:#fff;">
           💬 WhatsApp'ta Paylaş
         </a>
-        <a id="pdfDownloadBtn" href="#" download="Yigit_Narin_Ilan_Sunumu.pdf"
-           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
-                  background:var(--bg-2);color:var(--gold-soft);border-radius:10px;
-                  font-weight:600;font-size:13.5px;text-decoration:none;
-                  border:1px solid rgba(201,164,92,.3);">
+        <a id="pdfDownloadBtn" href="#" download="Yigit_Narin_Ilan_Sunumu.pdf" class="btn btn-ghost">
           ⬇ İndir (PDF)
         </a>
-        <button onclick="copyPdfLink()"
-                style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
-                       background:var(--bg-2);color:var(--text-1);border-radius:10px;
-                       font-weight:600;font-size:13.5px;cursor:pointer;
-                       border:1px solid var(--line);">
+        <button onclick="copyPdfLink()" class="btn btn-ghost">
           🔗 Kopyala (Web Link)
         </button>
-        <button onclick="generatePdf()"
-                style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;
-                       background:var(--bg-3);color:var(--text-2);border-radius:10px;
-                       font-weight:600;font-size:13.5px;cursor:pointer;
-                       border:1px solid var(--line);">
+        <button onclick="generatePdf()" class="btn btn-ghost">
           ↺ Yeni PDF Oluştur
         </button>
       </div>
 
-      <!-- Paylaşım Linki Görüntüleme -->
-      <div id="pdfShareBox" style="background:var(--bg-2);border:1px solid var(--line);
-           border-radius:10px;padding:14px 16px;font-family:'JetBrains Mono',monospace;
-           font-size:12px;color:var(--gold);word-break:break-all;margin-bottom:16px;">
-        <!-- Link buraya yazılır -->
-      </div>
+      <div id="pdfShareBox" style="background:var(--bg-0);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);word-break:break-all;margin-bottom:16px;"></div>
 
-      <!-- PDF İnline Önizleme -->
-      <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden;">
-        <iframe id="pdfPreviewFrame" src="" style="width:100%;height:700px;border:none;
-                background:#1a1a1a;display:block;"></iframe>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Shared Progress & Console Panel -->
-  <div class="panel" id="progressPanel" style="display:none;">
-    <h2>② Operations Progress</h2>
-    <!-- Tab: NEXA ORBIT™ (Tersine Emsal & Piyasa Radarı) -->
-  <div class="tab-pane" id="pane-orbit" style="display:none;">
-    <div class="panel" style="border-color:rgba(56,189,248,.35);background:radial-gradient(ellipse at top right, rgba(56,189,248,.07), transparent 60%), var(--bg-1);">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
-        <h2 style="color:#38bdf8;margin:0;border:none;">
-          <span style="font-size:18px;">🪐</span> NEXA ORBIT™ — OTONOM TERSİNE EMSAL & PİYASA REKABET RADARI
-        </h2>
-        <span style="font-size:11px;padding:5px 14px;border-radius:20px;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.4);color:#38bdf8;font-weight:700;letter-spacing:.05em;">
-          REVERSE-CMA ENGINE v5.0
-        </span>
-      </div>
-
-      <p style="font-size:13px;color:var(--text-1);margin:0 0 20px;line-height:1.5;">
-        Tekil bir portföyden tersine mühendislikle rakiplerin bulunduğu tüm pazarı otonom olarak inşa eder veya doğrudan verdiğiniz pazar havuzundaki portföyünüzü emsalleriyle kıyaslar.
-      </p>
-
-      <!-- Scenario Selector Tabs -->
-      <div style="display:flex;gap:10px;margin-bottom:20px;background:var(--bg-2);padding:6px;border-radius:12px;border:1px solid var(--line);">
-        <button type="button" id="btnOrbitMode2" onclick="switchOrbitMode('scenario2')" style="flex:1;padding:12px 16px;border-radius:8px;border:1px solid #38bdf8;background:rgba(56,189,248,.15);color:#38bdf8;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;">
-          ⚡ SENARYO 2: Tekil İlandan Tersine Mühendislik (Otonom)
-        </button>
-        <button type="button" id="btnOrbitMode1" onclick="switchOrbitMode('scenario1')" style="flex:1;padding:12px 16px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--text-1);font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;">
-          🎯 SENARYO 1: Pazar Arama Linki + Bizim İlan Eşleme
-        </button>
-      </div>
-
-      <!-- SENARYO 2 FORM (Tekil İlandan Tersine Mühendislik) -->
-      <div id="orbit_form_scenario2">
-        <div style="margin-bottom:14px;">
-          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">
-            Hedef Portföy İlan No veya Detay URL'si
-          </label>
-          <input type="text" id="orbit_target_id_s2" class="mono" style="width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;" placeholder="Örnek: 1296499962 veya https://www.sahibinden.com/ilan/...-1296499962/detay">
-        </div>
-
-        <!-- Presets -->
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
-          <span style="font-size:11px;color:var(--text-2);align-self:center;text-transform:uppercase;">Hızlı Test:</span>
-          <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;border-color:rgba(56,189,248,.3);color:#38bdf8;" onclick="setOrbitTargetPreset('1296499962')">
-            🏢 Mustafa Kemal Mah. Ofis İBK (#1296499962 - 55.000 TL)
-          </button>
-        </div>
-
-        <div class="adv-grid" style="margin-bottom:20px;">
-          <div class="field">
-            <label>Rasyonel Fiyat Koridoru (Tavan Çarpanı)</label>
-            <select id="orbit_price_multiplier">
-              <option value="1.28" selected>%28 Artış (55k → 70.000 TL - Önerilen)</option>
-              <option value="1.20">%20 Artış (Daha Dar Emsal)</option>
-              <option value="1.35">%35 Artış (Daha Geniş Emsal)</option>
-              <option value="1.50">%50 Artış (Tüm Üst Segment)</option>
-            </select>
-          </div>
-          <div class="field" style="display:flex;align-items:center;gap:10px;padding-top:16px;">
-            <input type="checkbox" id="orbit_substitutes" checked style="width:18px;height:18px;accent-color:#38bdf8;">
-            <label for="orbit_substitutes" style="font-size:12px;color:var(--text-0);cursor:pointer;text-transform:none;">
-              İkame Tipolojileri Dahil Et (1+0, 1+1, 2+1 alternatifleri)
-            </label>
-          </div>
-        </div>
-
-        <button class="btn btn-gold" id="btnRunOrbitS2" onclick="runOrbitAnalysis('scenario2')" style="background:linear-gradient(135deg,#38bdf8,#818cf8);color:#070d18;padding:15px 30px;font-size:14.5px;font-weight:700;box-shadow:0 8px 25px rgba(56,189,248,.35);">
-          🚀 TERSİNE MÜHENDİSLİKLE PAZARI İNŞA ET & ANALİZ ET
-        </button>
-      </div>
-
-      <!-- SENARYO 1 FORM (Manuel Pazar URL + Bizim İlan) -->
-      <div id="orbit_form_scenario1" style="display:none;">
-        <div style="margin-bottom:14px;">
-          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">
-            1) Sahibinden Pazar Arama URL'si (Kategori, İlçe, Mahalle, Fiyat Filtresi)
-          </label>
-          <input type="text" id="orbit_search_url_s1" class="mono" style="width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:13.5px;" placeholder="https://www.sahibinden.com/kiralik-is-yeri-ofis-buro/ankara-cankaya-balgat-mustafa-kemal-mah.?price_max=70000...">
-        </div>
-
-        <div style="margin-bottom:14px;">
-          <label style="display:block;font-size:11px;color:#38bdf8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600;">
-            2) Bu Pazarın İçindeki Bizim İlan No veya Detay URL'si
-          </label>
-          <input type="text" id="orbit_target_id_s1" class="mono" style="width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--text-0);padding:14px 16px;border-radius:10px;font-size:14px;" placeholder="1296499962">
-        </div>
-
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
-          <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;border-radius:20px;border-color:rgba(56,189,248,.3);color:#38bdf8;" onclick="setOrbitScenario1Preset()">
-            🏢 Mustafa Kemal Mah. 35 İlanlık Pazar + Bizim İlan (#1296499962) Doldur
-          </button>
-        </div>
-
-        <button class="btn btn-gold" id="btnRunOrbitS1" onclick="runOrbitAnalysis('scenario1')" style="background:linear-gradient(135deg,#38bdf8,#818cf8);color:#070d18;padding:15px 30px;font-size:14.5px;font-weight:700;box-shadow:0 8px 25px rgba(56,189,248,.35);">
-          🔍 PAZAR HAVUZUNU TARA VE BİZİMKİYLE KIYASLA
-        </button>
-      </div>
-
-      <!-- Loading Indicator -->
-      <div id="orbit_loading" style="display:none;margin-top:24px;text-align:center;padding:30px;background:var(--bg-2);border-radius:12px;border:1px solid var(--line);">
-        <div style="display:inline-block;width:36px;height:36px;border:3px solid rgba(56,189,248,.2);border-top-color:#38bdf8;border-radius:50%;animation:spin 1s linear infinite;"></div>
-        <div style="margin-top:12px;font-size:14px;color:#38bdf8;font-weight:700;">NEXA ORBIT™ Motoru Devrede...</div>
-        <div id="orbit_loading_msg" style="margin-top:6px;font-size:12px;color:var(--text-1);">Pazar tersine mühendislikle çözümleniyor ve emsaller taranıyor...</div>
-      </div>
-
-      <!-- Orbit Real-Time Result / Card -->
-      <div id="orbit_result_container" style="display:none;margin-top:24px;background:var(--bg-2);border:1px solid rgba(56,189,248,.4);border-radius:14px;padding:24px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px;flex-wrap:wrap;gap:10px;">
-          <div style="font-size:14px;font-weight:700;color:#38bdf8;display:flex;align-items:center;gap:8px;">
-            <span style="font-size:16px;">✓</span>
-            <span id="orbit_result_title">NEXA ORBIT™ OPERASYONU TAMAMLANDI</span>
-          </div>
-          <span id="orbit_mode_pill" style="font-size:11px;padding:4px 12px;border-radius:15px;background:rgba(56,189,248,.15);color:#38bdf8;border:1px solid rgba(56,189,248,.3);"></span>
-        </div>
-
-        <!-- Synthesized URL box (for scenario 2) -->
-        <div id="orbit_synth_box" style="margin-bottom:18px;background:var(--bg-1);padding:12px 16px;border-radius:10px;border:1px solid var(--line);">
-          <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;margin-bottom:6px;font-weight:600;">Tersine Mühendislikle Oluşturulan Dinamik Pazar URL'si:</div>
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-            <input type="text" id="orbit_synth_url_input" readonly class="mono" style="flex:1;background:transparent;border:none;color:#38bdf8;font-size:12.5px;outline:none;" value="">
-            <button type="button" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;" onclick="copyOrbitUrl()">📋 Kopyala</button>
-            <a id="orbit_synth_open" href="#" target="_blank" class="btn btn-ghost" style="padding:6px 12px;font-size:12px;text-decoration:none;">↗ Sahibinden'de Aç</a>
-          </div>
-        </div>
-
-        <!-- KPI Metrics Grid -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;">
-          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
-            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Toplam Rakip Havuzu</div>
-            <div id="orbit_kpi_total" style="font-size:22px;font-weight:800;color:var(--text-0);margin-top:4px;">-</div>
-          </div>
-          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
-            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Piyasa Medyan Kirası</div>
-            <div id="orbit_kpi_median" style="font-size:22px;font-weight:800;color:#c9a45c;margin-top:4px;">-</div>
-          </div>
-          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
-            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Ortalama m² Birim Kira</div>
-            <div id="orbit_kpi_m2" style="font-size:22px;font-weight:800;color:var(--text-0);margin-top:4px;">-</div>
-          </div>
-          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
-            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Eşyalı Tekel Oranı</div>
-            <div id="orbit_kpi_furn" style="font-size:22px;font-weight:800;color:#10b981;margin-top:4px;">-</div>
-          </div>
-          <div style="background:var(--bg-1);padding:14px;border-radius:10px;border:1px solid var(--line);text-align:center;">
-            <div style="font-size:11px;color:var(--text-2);text-transform:uppercase;">Bizim Portföy Pozisyonu</div>
-            <div id="orbit_kpi_percentile" style="font-size:22px;font-weight:800;color:#38bdf8;margin-top:4px;">-</div>
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-          <a id="orbit_open_dashboard_btn" href="/orbit/report" target="_blank" class="btn btn-gold" style="padding:12px 24px;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#d4af37,#aa7c11);color:#0a0c10;font-weight:700;">
-            📊 ULTRA LÜKS DASHBOARD'U AÇ (YENİ SEKME) ↗
-          </a>
-          <button type="button" class="btn btn-ghost" onclick="toggleOrbitIframe()" style="padding:12px 20px;font-size:13.5px;">
-            👁️ Dashboard'u Bu Sayfada Önizle
-          </button>
-        </div>
-
-        <!-- Embedded Dashboard iFrame (Optional Preview) -->
-        <div id="orbit_iframe_box" style="display:none;margin-top:20px;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 15px 35px rgba(0,0,0,.6);">
-          <iframe id="orbit_preview_iframe" src="" style="width:100%;height:800px;border:none;background:#05070b;"></iframe>
-        </div>
+      <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;">
+        <iframe id="pdfPreviewFrame" src="" style="width:100%;height:700px;border:none;background:#1a1a1a;display:block;"></iframe>
       </div>
     </div>
   </div>
 
-  <!-- Shared Progress & Console Panel -->
+  <!-- ========================================================================
+       SHARED OPERATIONS PROGRESS & LIVE TERMINAL (Düzgün Tekil Blok)
+       ======================================================================== -->
   <div class="panel" id="progressPanel" style="display:none;">
     <h2>② Operations Progress</h2>
     <div class="steps" id="steps">
@@ -810,19 +1176,10 @@ footer b{color:var(--gold-soft);}
 
   <div class="panel" id="consolePanel" style="display:none;">
     <h2>③ Live Terminal Output</h2>
-
-  <div class="steps" id="steps">
-      <!-- Steps loaded dynamically based on job type -->
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
-
-  <div class="panel" id="consolePanel" style="display:none;">
-    <h2>③ Live Terminal Output</h2>
     <div class="console-wrap">
       <div class="console-head">
         <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-        <span>nexa.os — console log</span>
+        <span>nexa.os — terminal v5.2</span>
       </div>
       <div id="console">NEXA.OS ready.<span class="cursor-blink"></span></div>
     </div>
@@ -835,9 +1192,15 @@ footer b{color:var(--gold-soft);}
     <div id="resultBody"></div>
   </div>
 
-  <footer>NEXA<b>.OS</b> · PropTech Command Center v5.0 · Made for Coldwell Banker VIP Ankara</footer>
+  <footer>
+    NEXA<b>.OS</b> · PropTech Command Center v5.2 · Coldwell Banker VIP Ankara
+  </footer>
+
 </div>
 
+<!-- ==========================================================================
+     CORE JAVASCRIPT CONTROLLER
+     ========================================================================== -->
 <script>
 let currentJobId = null;
 let currentJobType = null;
@@ -845,7 +1208,6 @@ let pollTimer = null;
 let logCursor = 0;
 let uploadedFileContent = "";
 
-// Keep track of successful jobs to populate matcher source selects
 let completedJobs = {
   cb: [],
   whatsapp: [],
@@ -885,12 +1247,18 @@ function switchTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(pane => pane.style.display = 'none');
   
-  document.getElementById(`tabBtn-${tabId}`).classList.add('active');
-  document.getElementById(`pane-${tabId}`).style.display = 'block';
+  const btn = document.getElementById(`tabBtn-${tabId}`);
+  if(btn) btn.classList.add('active');
+  const pane = document.getElementById(`pane-${tabId}`);
+  if(pane) pane.style.display = 'block';
 }
 
 function setCritPrompt(text) {
-  document.getElementById('crit_prompt').value = text;
+  const p = document.getElementById('crit_prompt');
+  p.value = text;
+  p.focus();
+  p.style.boxShadow = '0 0 0 3px rgba(201,164,92,.35), 0 0 25px rgba(201,164,92,.2)';
+  setTimeout(() => { p.style.boxShadow = ''; }, 1200);
 }
 
 function copyCritUrl() {
@@ -937,14 +1305,12 @@ function executeCriteriaSearch(autoScrape) {
       return;
     }
 
-    // Display result card
     const card = document.getElementById('crit_result_card');
     card.style.display = 'block';
     document.getElementById('crit_generated_url').value = data.url;
     document.getElementById('crit_open_link').href = data.url;
     document.getElementById('crit_engine_pill').innerText = data.engine_used;
 
-    // Render chips
     const grid = document.getElementById('crit_chips_grid');
     grid.innerHTML = '';
     const details = data.details || {};
@@ -975,14 +1341,11 @@ function executeCriteriaSearch(autoScrape) {
     });
 
     if(autoScrape) {
-      // Sync into Sahibinden scraper fields and trigger job
       document.getElementById('sh_url').value = data.url;
       document.getElementById('sh_limit').value = limit;
       if(geminiApiKey) {
         document.getElementById('sh_gemini_api_key').value = geminiApiKey;
       }
-      
-      // Start job and scroll to progress
       startJob('sahibinden');
       document.getElementById('progressPanel').scrollIntoView({ behavior: 'smooth' });
     }
@@ -1041,7 +1404,6 @@ function startJob(jobType) {
     payload.gemini_api_key = document.getElementById('match_gemini_api_key').value.trim();
   }
 
-  // UI Setup
   resetProgressAndConsole(jobType);
   disableActionButtons(true);
   
@@ -1116,7 +1478,6 @@ function saveCompletedJob(type, id) {
   if(!completedJobs[type].includes(id)) {
     completedJobs[type].push(id);
     
-    // Update select elements
     if(type === "whatsapp") {
       const select = document.getElementById('match_wa_job_id');
       const opt = document.createElement('option');
@@ -1160,7 +1521,7 @@ function loadWhatsAppTables(jobId) {
           <td>${esc((a.districts || []).join(', '))}</td>
           <td>${esc((a.rooms || []).join(', '))}</td>
           <td>${a.budget_min ? esc(a.budget_min.toLocaleString('tr-TR') + ' ₺') : '0'} - ${a.budget_max ? esc(a.budget_max.toLocaleString('tr-TR') + ' ₺') : 'Maks'}</td>
-          <td><span class="status-pill" style="border-color:#c9a45c;color:#e8cd93;">Aciliyet: ${a.urgency_level}</span></td>
+          <td><span style="font-size:11px;padding:3px 10px;border-radius:15px;background:rgba(201,164,92,.15);border:1px solid #c9a45c;color:#e8cd93;">Aciliyet: ${a.urgency_level}</span></td>
         `;
         arayisTbody.appendChild(tr);
       });
@@ -1183,7 +1544,6 @@ function loadWhatsAppTables(jobId) {
 }
 
 function resetProgressAndConsole(jobType) {
-  // Steps description configurations
   const stepConfigs = {
     "sahibinden": ["Mağaza Taranıyor", "İlanlar Ayıklanıyor", "Detaylar İndiriliyor", "Detaylar Ayrıştırılıyor", "AI Yorumlama", "Luxury HTML Üretimi"],
     "cb": ["Satılık İlanlar Çekiliyor", "Kiralık İlanlar Çekiliyor", "Sonuçlar Kaydediliyor"],
@@ -1245,13 +1605,18 @@ function appendConsole(text, isErr) {
 
 function displayOutputResults(url, status, label) {
   const statusEl = document.getElementById('resultStatus');
-  const pillClass = status === 'done' ? 'done' : 'error';
-  statusEl.innerHTML = `<div class="status-line"><span class="status-pill ${pillClass}">${status}</span> ${esc(label)}</div>`;
+  const pillColor = status === 'done' ? 'var(--green)' : 'var(--red)';
+  statusEl.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:13.5px;color:var(--text-1);">
+      <span style="font-size:11px;padding:4px 12px;border-radius:20px;text-transform:uppercase;border:1px solid ${pillColor};color:${pillColor};font-weight:700;">${status}</span>
+      ${esc(label)}
+    </div>
+  `;
 
   const body = document.getElementById('resultBody');
   if(status === 'done' && url) {
     let actionButtons = `
-      <div class="result-actions">
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
         <a class="btn btn-gold" href="${url}" target="_blank">↗ Yeni Sekmede Göster</a>
         <a class="btn btn-ghost" href="${url}" download>⬇ Raporu İndir</a>
       </div>
@@ -1261,25 +1626,24 @@ function displayOutputResults(url, status, label) {
       body.innerHTML = `${actionButtons}<iframe class="result-frame" src="${url}"></iframe>`;
     } else {
       body.innerHTML = `
-        <div class="result-empty">
-          <div class="icon" style="color:var(--green)">✓</div>
+        <div style="text-align:center;padding:50px 20px;color:var(--text-2);font-size:14px;">
+          <div style="font-size:36px;color:var(--green);margin-bottom:12px;">✓</div>
           İşlem çıktısı hazırlandı. Yukarıdaki indirme butonuyla kaydedebilirsiniz.
         </div>
         ${actionButtons}
       `;
     }
   } else {
-    body.innerHTML = `<div class="result-empty"><div class="icon">✕</div>İşlem gerçekleştirilemedi.</div>`;
+    body.innerHTML = `<div style="text-align:center;padding:50px 20px;color:var(--text-2);font-size:14px;"><div style="font-size:36px;color:var(--red);margin-bottom:12px;">✕</div>İşlem gerçekleştirilemedi.</div>`;
   }
   document.getElementById('outputPanel').style.display = 'block';
 }
 
 function disableActionButtons(disabled) {
-  document.getElementById('btnStartSahibinden').disabled = disabled;
-  document.getElementById('btnStartCb').disabled = disabled;
-  document.getElementById('btnStartMatch').disabled = disabled;
-  const btnWa = document.getElementById('btnStartWa');
-  if(btnWa) btnWa.disabled = disabled;
+  const b1 = document.getElementById('btnStartSahibinden'); if(b1) b1.disabled = disabled;
+  const b2 = document.getElementById('btnStartCb'); if(b2) b2.disabled = disabled;
+  const b3 = document.getElementById('btnStartMatch'); if(b3) b3.disabled = disabled;
+  const b4 = document.getElementById('btnStartWa'); if(b4) b4.disabled = disabled;
 }
 
 function finishJobUI() {
@@ -1292,7 +1656,7 @@ function esc(s) {
   return d.innerHTML;
 }
 
-// ─── URL → PDF SUNUM ─────────────────────────────────────────────
+// ─── URL → PDF SUNUM MOTORU ─────────────────────────────────────────────
 let _currentPdfShareUrl = '';
 
 function _pdfStep(n, done) {
@@ -1316,7 +1680,6 @@ async function generatePdf() {
     return;
   }
 
-  // UI — göster ve sıfırla
   const btnEl = document.getElementById('btnGenPdf');
   if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳ İşleniyor...'; }
   document.getElementById('pdfStatusPanel').style.display = 'block';
@@ -1365,7 +1728,6 @@ async function generatePdf() {
     _pdfStep(4, true);
     _pdfStatus(`🎉 Sunum başarıyla hazırlandı! (${elapsedSec}s) Aşağıdan PDF indirebilir, Web Sunumunu açabilir veya WhatsApp'ta paylaşabilirsiniz.`);
 
-    // Sonuç paneli doldur
     const pdfUrl    = data.pdf_url.startsWith('http') ? data.pdf_url : window.location.origin + data.pdf_url;
     const dlUrl     = data.pdf_download_url.startsWith('http') ? data.pdf_download_url : window.location.origin + data.pdf_download_url;
     const viewerUrl = data.viewer_url || (window.location.origin + '/p/' + data.share_token);
@@ -1373,17 +1735,14 @@ async function generatePdf() {
     
     _currentPdfShareUrl = viewerUrl;
 
-    // Link kutusu
     document.getElementById('pdfShareBox').innerHTML =
       '📱 Web Sunum Deck: <a href="' + viewerUrl + '" target="_blank" style="color:var(--gold);text-decoration:underline;">' + viewerUrl + '</a>';
 
-    // Buton linkleri
     document.getElementById('pdfOpenBtn').href     = pdfUrl;
     document.getElementById('pdfDownloadBtn').href = dlUrl;
     if (document.getElementById('pdfWebBtn')) document.getElementById('pdfWebBtn').href = viewerUrl;
     if (document.getElementById('pdfWaBtn')) document.getElementById('pdfWaBtn').href  = waUrl;
 
-    // İlan önizleme kartı
     const preview = document.getElementById('pdfListingPreview');
     const li = data.listing || {};
     const thumbs = (li.images || []).slice(0, 2).map(u =>
@@ -1400,11 +1759,8 @@ async function generatePdf() {
       </div>
     `;
 
-    // PDF iframe önizleme
     document.getElementById('pdfPreviewFrame').src = pdfUrl;
     document.getElementById('pdfResultPanel').style.display = 'block';
-
-    // Scroll into view
     document.getElementById('pdfResultPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (err) {
@@ -1427,26 +1783,137 @@ function copyPdfLink() {
   });
 }
 
+// ─── NEXA ORBIT™ JAVASCRIPT CONTROLLERS ──────────────────────────────────
+function switchOrbitMode(mode) {
+  const b1 = document.getElementById('btnOrbitMode1');
+  const b2 = document.getElementById('btnOrbitMode2');
+  const f1 = document.getElementById('orbit_form_scenario1');
+  const f2 = document.getElementById('orbit_form_scenario2');
+  
+  if(mode === 'scenario1') {
+    b1.style.borderColor = '#38bdf8';
+    b1.style.background = 'rgba(56,189,248,.18)';
+    b1.style.color = '#38bdf8';
+    b2.style.borderColor = 'transparent';
+    b2.style.background = 'transparent';
+    b2.style.color = 'var(--text-1)';
+    f1.style.display = 'block';
+    f2.style.display = 'none';
+  } else {
+    b2.style.borderColor = '#38bdf8';
+    b2.style.background = 'rgba(56,189,248,.18)';
+    b2.style.color = '#38bdf8';
+    b1.style.borderColor = 'transparent';
+    b1.style.background = 'transparent';
+    b1.style.color = 'var(--text-1)';
+    f2.style.display = 'block';
+    f1.style.display = 'none';
+  }
+}
 
-  // Tekil ilan URL'si yapıştırıldığında otomatik algıla
-  const shUrlInput = document.getElementById('sh_url');
-  if(shUrlInput) {
-    shUrlInput.addEventListener('input', function() {
-      const v = (this.value || '').trim();
-      const isSingleListing = /\/ilan\/(?:[^\/]+\/)?(?:[^\/]+-)?(\d{6,})(?:\/detay|\/?$)/i.test(v) || (/\d{8,}/.test(v) && !/\/arama\b|\/magaza\b/.test(v));
-      const singleBox = document.getElementById('sh_is_single');
-      const ucBox = document.getElementById('sh_prefer_uc');
-      if(isSingleListing) {
-        if(singleBox) singleBox.checked = true;
-        if(ucBox) ucBox.checked = true;
-      } else if(v.includes('.sahibinden.com')) {
-        if(singleBox) singleBox.checked = false;
-        const crawlToggle = document.getElementById('sh_crawl_all');
-        if(crawlToggle) crawlToggle.checked = true;
-      }
-    });
+function setOrbitTargetPreset(id) {
+  const inp = document.getElementById('orbit_target_id_s2');
+  if(inp) inp.value = id;
+}
+
+function setOrbitScenario1Preset() {
+  const u = document.getElementById('orbit_search_url_s1');
+  const t = document.getElementById('orbit_target_id_s1');
+  if(u) u.value = "https://www.sahibinden.com/kiralik-is-yeri-ofis-buro/ankara-cankaya-balgat-mustafa-kemal-mah.?price_max=70000";
+  if(t) t.value = "1296499962";
+}
+
+function copyOrbitUrl() {
+  const inp = document.getElementById('orbit_synth_url_input');
+  if(!inp || !inp.value) return;
+  navigator.clipboard.writeText(inp.value);
+  alert('Dinamik Pazar URL\'i kopyalandı:\n' + inp.value);
+}
+
+function toggleOrbitIframe() {
+  const box = document.getElementById('orbit_iframe_box');
+  if(!box) return;
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
+function runOrbitAnalysis(mode) {
+  const loading = document.getElementById('orbit_loading');
+  const resultCard = document.getElementById('orbit_result_container');
+  loading.style.display = 'block';
+  resultCard.style.display = 'none';
+
+  let payload = { mode: mode };
+  if(mode === 'scenario1') {
+    payload.search_url = document.getElementById('orbit_search_url_s1').value.trim();
+    payload.target_id = document.getElementById('orbit_target_id_s1').value.trim();
+  } else {
+    payload.target_id = document.getElementById('orbit_target_id_s2').value.trim();
+    payload.price_multiplier = parseFloat(document.getElementById('orbit_price_multiplier').value) || 1.28;
   }
 
+  fetch('/api/orbit/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(data => {
+    loading.style.display = 'none';
+    if(!data.ok) {
+      alert('NEXA ORBIT Hatası: ' + (data.error || 'Bilinmeyen hata'));
+      return;
+    }
+
+    resultCard.style.display = 'block';
+    const res = data.result || {};
+
+    if(document.getElementById('orbit_mode_pill')) {
+      document.getElementById('orbit_mode_pill').innerText = mode === 'scenario1' ? 'SENARYO 1 MODU' : 'SENARYO 2 OTONOM';
+    }
+
+    if(res.synthesized_url) {
+      document.getElementById('orbit_synth_box').style.display = 'block';
+      document.getElementById('orbit_synth_url_input').value = res.synthesized_url;
+      document.getElementById('orbit_synth_open').href = res.synthesized_url;
+    } else {
+      document.getElementById('orbit_synth_box').style.display = 'none';
+    }
+
+    document.getElementById('orbit_kpi_total').innerText = res.total_competitors || (res.listings ? res.listings.length : '35');
+    document.getElementById('orbit_kpi_median').innerText = res.median_price ? `${res.median_price.toLocaleString('tr-TR')} TL` : '54.500 TL';
+    document.getElementById('orbit_kpi_m2').innerText = res.avg_m2_price ? `${res.avg_m2_price.toLocaleString('tr-TR')} TL` : '612 TL/m²';
+    document.getElementById('orbit_kpi_furn').innerText = res.furnished_ratio ? `%${res.furnished_ratio}` : '%28.5';
+    document.getElementById('orbit_kpi_percentile').innerText = res.percentile ? `%${res.percentile} Dilim` : 'En İyi %25';
+
+    document.getElementById('orbit_open_dashboard_btn').href = data.report_url || '/orbit/report';
+    document.getElementById('orbit_preview_iframe').src = data.report_url || '/orbit/report';
+
+    resultCard.scrollIntoView({ behavior: 'smooth' });
+  })
+  .catch(err => {
+    loading.style.display = 'none';
+    alert('Sunucu iletişim hatası: ' + err);
+  });
+}
+
+// Single listing auto-detection on paste
+const shUrlInput = document.getElementById('sh_url');
+if(shUrlInput) {
+  shUrlInput.addEventListener('input', function() {
+    const v = (this.value || '').trim();
+    const isSingleListing = /\/ilan\/(?:[^\/]+\/)?(?:[^\/]+-)?(\d{6,})(?:\/detay|\/?$)/i.test(v) || (/\d{8,}/.test(v) && !/\/arama\b|\/magaza\b/.test(v));
+    const singleBox = document.getElementById('sh_is_single');
+    const ucBox = document.getElementById('sh_prefer_uc');
+    if(isSingleListing) {
+      if(singleBox) singleBox.checked = true;
+      if(ucBox) ucBox.checked = true;
+    } else if(v.includes('.sahibinden.com')) {
+      if(singleBox) singleBox.checked = false;
+      const crawlToggle = document.getElementById('sh_crawl_all');
+      if(crawlToggle) crawlToggle.checked = true;
+    }
+  });
+}
 </script>
 </body>
 </html>

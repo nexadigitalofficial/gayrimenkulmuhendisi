@@ -5984,5 +5984,103 @@
       ],
       "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
     }
+  },
+  "SİNCAN YENİKENT M.KEMAL'DE ÇİFT BALKONLU 3+1 SATILIK DAİRE - 379690": {
+    "ok": true,
+    "listing_ref": {
+      "title": "SİNCAN YENİKENT M.KEMAL'DE ÇİFT BALKONLU 3+1 SATILIK DAİRE - 379690",
+      "price": "₺4.950.000",
+      "loc": "SİNCAN, YENİKENT/MUSTAFAKEMAL",
+      "type": "Satılık",
+      "property_type": "Daire",
+      "rooms": "",
+      "area": "110 m2(brüt)",
+      "link": "https://www.cb.com.tr/ankara-sincan-mustafa-kemal-satilik/daire/379690",
+      "img": "https://media.cb.com.tr/StockMediaFiles/5685/DSCF2291_ZFK0UD8V1Y_331X224.jpg"
+    },
+    "theme": {
+      "mode": "gold",
+      "accent_color": "#d4af37",
+      "badge_text": "Satılık",
+      "title": "Satılık Yatırım & Konut Analizi"
+    },
+    "swarm_metadata": {
+      "engine": "NEXA AI Persona Swarm 2.0",
+      "agents_count": 4,
+      "active_agents": [
+        "DemographicScoutAgent",
+        "FinancialYieldAgent",
+        "LocationDynamicsAgent",
+        "HonestAdvisoryAuditorAgent"
+      ],
+      "confidence_score": 0.96
+    },
+    "executive_summary": "NEXA AI Swarm değerlendirmesine göre bu daire portföyü; özellikle 'Çocuklu Çekirdek & Geniş Aileler' profili için %97 uyumluluk skoru vermektedir. Ankara Metropol Bölgesi avantajı ve Sermaye Kazancı & Mülkiyet Güvencesi odağıyla öne çıkmaktadır.",
+    "top_personas": [
+      {
+        "title": "Çocuklu Çekirdek & Geniş Aileler",
+        "score": 97,
+        "icon": "fa-users",
+        "badge": "İdeal Aile Evi",
+        "suitability": "Çift balkon, geniş ebeveyn yatak odası, çocuk çalışma odaları ve ferah salon yerleşimi."
+      },
+      {
+        "title": "Konum ve Ulaşım Odaklı Kamu & Özel Sektör Çalışanı",
+        "score": 93,
+        "icon": "fa-briefcase",
+        "badge": "Lojistik Avantaj",
+        "suitability": "Okullara, sağlık merkezlerine ve toplu taşıma akslarına yürüme mesafesinde günlük konfor."
+      },
+      {
+        "title": "Düzenli Kira Getirisi Arayan Gayrimenkul Yatırımcısı",
+        "score": 89,
+        "icon": "fa-hand-holding-usd",
+        "badge": "Yüksek Talep",
+        "suitability": "Bölgede 3+1 / 4+1 kiralık aile konutlarına olan sürekli ve yüksek talep derinliği."
+      }
+    ],
+    "primary_category": "Geniş Aile & Konforlu Konut Yaşamı",
+    "ideal_scale": "3 - 6 Kişilik Çekirdek / Geniş Aile",
+    "capacity_detail": "Kullanışlı kat planı, optimize edilmiş metrekare verimliliği ve aile odaklı yaşam standartları.",
+    "financial_analysis": {
+      "transaction_focus": "Sermaye Kazancı & Mülkiyet Güvencesi",
+      "financial_metrics": [
+        {
+          "label": "Bölgesel Değer Artışı",
+          "value": "Enflasyon Üzeri Reel Getiri",
+          "desc": "Ankara'nın gelişen arterinde arz kısıtı bulunan lokasyon yapısı sayesinde yüksek sermaye kıymet artışı."
+        },
+        {
+          "label": "Kira Amortisman Potansiyeli",
+          "value": "14 - 17 Yıl Projeksiyonu",
+          "desc": "Bölge ortalamasının üzerinde talep gören nitelikli mülk, kiralamaya verildiğinde güçlü nakit akışı üretir."
+        },
+        {
+          "label": "Likidite & Teminat Kabiliyeti",
+          "value": "A Sınıfı Teminat Değeri",
+          "desc": "Bankacılık ve kredi mekanizmalarında yüksek ekspertiz ve kolay teminata konu olabilme gücü."
+        }
+      ],
+      "investor_verdict": "Satın alma perspektifinde; enflasyonist ortamda reel satın alma gücünü koruyan, zamanla arsa payı veya bölgesel talep artışıyla katlanarak değerlenen stratejik bir varlık alımıdır."
+    },
+    "location_analysis": {
+      "region_badge": "Ankara Metropol Bölgesi",
+      "prestige_level": "Standart Metropol Dinamiği",
+      "commute_score": 89,
+      "walkability": "Ana arterlere ve toplu taşıma olanaklarına dengeli erişim",
+      "zoning_notes": "Gelişmiş kentsel altyapı ve oturmuş mahalle dokusu."
+    },
+    "auditor_analysis": {
+      "key_usps": [
+        "Fonksiyonel kat planı ve ferah yaşam alanları",
+        "Aile yaşamına uygun güvenli ve nezih komşuluk çevresi",
+        "Eğitim kurumları ve sosyal olanaklara kesintisiz erişim"
+      ],
+      "anti_personas": [
+        "Ağır ticari müşteri trafiği yaratacak perakende mağaza işletmecileri",
+        "Yalnızca 1 kişilik minimal mikro-stüdyo arayan öğrenciler"
+      ],
+      "advisory_honesty_note": "NEXA Portföy Etik İlkesi: Bir gayrimenkulün kimler için uygun olduğu kadar, kimler için uygun olmadığını açıkça ifade etmek hem alıcının hem satıcının zamanını korur."
+    }
   }
 }

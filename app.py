@@ -16463,19 +16463,68 @@ def add_portfolio_listing_buyer(ref_id):
 
         # Global CRM Sync: also register in Firestore / Contacts if available
         try:
-            if "db" in globals() and db:
-                db.collection("crm_leads").add({
+            global db_admin
+            if db_admin is None:
+                init_firebase_admin()
+            target_db = db_admin or globals().get("db")
+            if target_db:
+                clean_price = 0
+                if offer:
+                    digits = re.sub(r'[^0-9]', '', str(offer))
+                    if digits:
+                        clean_price = int(digits)
+
+                stage_lower = stage.lower()
+                stage_id = "new"
+                if any(x in stage_lower for x in ["randevu", "görüşme", "yer", "gösterim"]):
+                    stage_id = "showing"
+                elif any(x in stage_lower for x in ["teklif", "pazarlık"]):
+                    stage_id = "offer"
+                elif any(x in stage_lower for x in ["sözleşme", "anlaşıldı", "kapora"]):
+                    stage_id = "contract"
+                elif any(x in stage_lower for x in ["satıldı", "kapandı", "tapu"]):
+                    stage_id = "closed"
+
+                contact_data = {
+                    "id": buyer_id,
                     "name": name,
                     "phone": phone,
-                    "source": f"Portföy İlanı: {listing_title}",
-                    "listing_ref": ref_id,
-                    "listing_title": listing_title,
-                    "stage": stage,
-                    "budget": offer,
-                    "notes": note,
+                    "category": "buyer",
+                    "role": "buyer",
+                    "type": "buyer",
+                    "stage": stage_id,
+                    "stageName": stage or "Yeni Talep",
+                    "price": clean_price,
+                    "offer": offer,
+                    "source": "listing",
+                    "source_label": "İlan Alıcısı",
+                    "listingRef": ref_id,
+                    "listingTitle": listing_title,
+                    "notes": f"{note + chr(10) + chr(10) if note else ''}📌 İlan Alıcısı: {listing_title} (Ref: {ref_id})\nTeklif: {offer or 'Belirtilmedi'}\nAşama: {stage}",
                     "createdAt": datetime.now().isoformat(),
+                    "updatedAt": datetime.now().isoformat(),
                     "agent": "Yiğit Narin"
-                })
+                }
+
+                target_uids = []
+                passed_uid = (payload.get("uid") or "").strip()
+                if passed_uid:
+                    target_uids.append(passed_uid)
+                for yuid in ['RnHhsj3K4VSWRY4cjc3Pc09JMFn2', 'GP3Eiiz0cvPgibGnXPoNElCeWzW2', 'N24DQxhNQHVYGHoX9bBi52mINYi1', 'URaEvk4heBZmwTAIPbeDTNziqDx1']:
+                    if yuid not in target_uids:
+                        target_uids.append(yuid)
+
+                for u in target_uids:
+                    try:
+                        target_db.collection("users").document(u).collection("contacts").document(buyer_id).set(contact_data, merge=True)
+                    except Exception as ce:
+                        print(f"Firestore contact add error for {u}: {ce}")
+
+                try:
+                    target_db.collection("crm_leads").document(buyer_id).set(contact_data, merge=True)
+                    target_db.collection("buyers").document(buyer_id).set(contact_data, merge=True)
+                except Exception as le:
+                    print(f"Firestore lead sync warning: {le}")
         except Exception as fe:
             print(f"Firestore CRM sync warning: {fe}")
 

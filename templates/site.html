@@ -330,10 +330,14 @@
     /* Hero Section */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: calc(100vh - 36px);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
+      padding-top: max(85px, calc(56px + 46px + 14px));
+      padding-bottom: 24px;
+      box-sizing: border-box;
       overflow: hidden;
       background: linear-gradient(135deg, rgba(7,13,24,0.65) 0%, rgba(15,26,46,0.8) 100%), url('/static/images/hero_bg.jpg') center/cover no-repeat;
     }
@@ -371,17 +375,18 @@
     /* ── Hero Daily Rotating Showcase Badge ── */
     .hero-showcase-badge {
       position: absolute;
-      bottom: 40px;
-      right: 86px; /* Offset horizontally to prevent collision with right floating dock */
+      bottom: 26px;
+      right: 28px; /* Tucked closer to right edge with ample clearance from centered trust strip */
       z-index: 15;
-      background: rgba(7, 13, 24, 0.82);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(7, 13, 24, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(212, 175, 55, 0.45);
       border-radius: 16px;
-      padding: 14px 18px;
-      max-width: 380px;
-      width: calc(100% - 80px);
+      padding: 12px 14px;
+      max-width: 395px;
+      width: calc(100% - 56px);
+      box-sizing: border-box;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.18);
       color: #fff;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -398,23 +403,30 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
       margin-bottom: 6px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .hero-showcase-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 10px;
+      gap: 5px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--gold-light);
       background: rgba(212, 175, 55, 0.15);
-      padding: 3px 9px;
+      padding: 2.5px 7px;
       border-radius: 20px;
       border: 1px solid rgba(212, 175, 55, 0.3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+      flex-shrink: 1;
     }
 
     .hero-pulse-dot {
@@ -432,24 +444,27 @@
     }
 
     .hero-showcase-nav {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
+      flex-shrink: 0;
     }
 
     .hero-nav-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      color: rgba(255, 255, 255, 0.8);
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
+      color: rgba(255, 255, 255, 0.85);
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 9.5px;
       transition: all 0.2s ease;
+      flex-shrink: 0;
+      padding: 0;
     }
 
     .hero-nav-btn:hover {
@@ -586,13 +601,14 @@
       justify-content: center;
       color: rgba(212, 175, 55, 0.75);
       cursor: grab;
-      padding: 3px 5px;
-      border-radius: 6px;
-      font-size: 11px;
+      padding: 2px 4px;
+      border-radius: 5px;
+      font-size: 10px;
       user-select: none;
       transition: all 0.2s ease;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(212, 175, 55, 0.25);
+      flex-shrink: 0;
     }
     .showcase-drag-grip:hover {
       color: var(--gold);
@@ -607,15 +623,17 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.16);
       color: rgba(255, 255, 255, 0.85);
-      width: 25px;
-      height: 25px;
-      border-radius: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 10.5px;
+      font-size: 9.5px;
       transition: all 0.2s ease;
+      flex-shrink: 0;
+      padding: 0;
     }
     .hero-ctrl-btn:hover {
       background: rgba(212, 175, 55, 0.25);
@@ -646,9 +664,10 @@
     .hero-showcase-badge.showcase-pip {
       position: fixed !important;
       bottom: 24px !important;
-      right: 86px !important;
+      right: 28px !important;
       width: auto !important;
       max-width: 480px !important;
+      z-index: 10005 !important;
       min-width: 320px;
       padding: 7px 14px !important;
       border-radius: 40px !important;
@@ -762,8 +781,8 @@
     .showcase-restore-fab {
       position: fixed;
       bottom: 28px;
-      right: 86px;
-      z-index: 1005;
+      right: 28px;
+      z-index: 10005;
       background: rgba(7, 13, 24, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -1011,7 +1030,8 @@
       text-align: center;
       max-width: 1200px;
       width: 100%;
-      padding: 60px 30px;
+      padding: 0 16px;
+      margin: 0 auto;
       animation: fadeInUp 1.2s ease-out;
     }
 
@@ -1049,32 +1069,35 @@
 
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(50px, 8vw, 110px);
+      font-size: clamp(34px, 4.4vw, 56px);
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.15;
       color: var(--white);
-      margin-bottom: 20px;
-      letter-spacing: -2px;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
       text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       animation: fadeInUp 1.4s ease-out 0.2s backwards;
     }
 
     .hero-subtitle {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(20px, 3vw, 32px);
+      font-size: clamp(15px, 1.6vw, 18px);
       font-weight: 300;
       color: var(--gold-light);
-      margin-bottom: 38px;
-      min-height: 54px;
-      line-height: 1.5;
+      margin-bottom: 12px;
+      min-height: auto;
+      line-height: 1.45;
       animation: fadeInUp 1.6s ease-out 0.4s backwards;
     }
 
     .hero-cta {
-      display: inline-flex;
-      gap: 20px;
-      flex-wrap: wrap;
+      display: flex !important;
+      align-items: center;
       justify-content: center;
+      gap: 16px;
+      width: 100%;
+      margin: 18px auto 14px auto;
+      flex-wrap: wrap;
       animation: fadeInUp 1.8s ease-out 0.6s backwards;
     }
 
@@ -3510,56 +3533,68 @@
       color: var(--navy);
     }
 
-    /* Blog Slider */
+    /* Blog Slider - Ultra-Luxury Gutter & Clearance Architecture */
     .blog-slider {
       position: relative;
       overflow: hidden;
-      padding: 20px 0;
+      padding: 20px 64px;
+      box-sizing: border-box;
     }
 
     .blog-slider-container {
       display: flex;
-      gap: 30px;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 0;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
     }
 
     .blog-slide {
       min-width: 100%;
+      width: 100%;
+      flex: 0 0 100%;
+      flex-shrink: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      box-sizing: border-box;
     }
 
     .blog-nav {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 50px;
-      height: 50px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
-      background: rgba(212, 175, 55, 0.9);
-      border: none;
-      color: var(--white);
-      font-size: 20px;
+      background: rgba(7, 13, 24, 0.92);
+      border: 1.5px solid rgba(212, 175, 55, 0.55);
+      color: var(--gold);
+      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s;
-      z-index: 10;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 20;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 18px rgba(212, 175, 55, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .blog-nav:hover {
-      background: var(--gold);
-      transform: translateY(-50%) scale(1.1);
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: #070d18;
+      border-color: var(--gold);
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.45);
     }
 
     .blog-nav.prev {
-      left: -25px;
+      left: 8px;
     }
 
     .blog-nav.next {
-      right: -25px;
+      right: 8px;
     }
 
     .blog-dots {
@@ -4124,12 +4159,34 @@
     }
 
     /* -- Blog -- */
-    @media (max-width: 768px) {
-      .blog-slide {
-        grid-template-columns: 1fr;
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .blog-slider {
+        padding: 16px 60px !important;
       }
-      .blog-nav.prev { left: 0; }
-      .blog-nav.next { right: 0; }
+      .blog-slide {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+      .blog-nav {
+        width: 42px !important;
+        height: 42px !important;
+      }
+      .blog-nav.prev { left: 6px !important; }
+      .blog-nav.next { right: 6px !important; }
+    }
+    @media (max-width: 768px) {
+      .blog-slider {
+        padding: 14px 54px !important;
+      }
+      .blog-slide {
+        grid-template-columns: 1fr !important;
+      }
+      .blog-nav {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 13px !important;
+      }
+      .blog-nav.prev { left: 4px !important; }
+      .blog-nav.next { right: 4px !important; }
     }
 
     /* -- Testimonials -- */
@@ -5539,7 +5596,7 @@
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(212, 175, 55, 0.45);
       border-radius: 40px;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.15);
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -5614,9 +5671,9 @@
 
     /* ── SPOTLIGHT HERO AI SMART SEARCH BAR ── */
     .hero-ai-search-box {
-      max-width: 650px;
+      max-width: 620px;
       width: 100%;
-      margin: 8px auto 26px auto;
+      margin: 4px auto 14px auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -5715,20 +5772,96 @@
 
     /* ── SOCIAL PROOF TRUST STRIP ── */
     .hero-trust-strip {
-      display: inline-flex;
+      display: inline-flex !important;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-top: 20px;
-      padding: 8px 18px;
+      margin: 0 auto;
+      padding: 6px 18px;
       background: rgba(7, 13, 24, 0.65);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 30px;
-      font-size: 11.5px;
-      color: rgba(248, 250, 252, 0.8);
+      font-size: 11px;
+      color: rgba(248, 250, 252, 0.85);
       font-family: 'Outfit', sans-serif;
+      box-sizing: border-box;
+      max-width: fit-content;
+    }
+
+    /* ── Responsive Collision Prevention for Showcase & Trust Strip ── */
+    @media (max-width: 1400px) and (min-width: 992px) {
+      .hero-trust-strip {
+        font-size: 10px !important;
+        padding: 5px 14px !important;
+        gap: 8px !important;
+      }
+      .hero-showcase-badge:not(.is-floating) {
+        right: 18px !important;
+        bottom: 20px !important;
+        max-width: 360px !important;
+      }
+    }
+    @media (max-width: 1180px) and (min-width: 769px) {
+      .hero-trust-strip {
+        max-width: 440px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px 10px !important;
+        font-size: 9.5px !important;
+      }
+    }
+
+    /* ── Hero Cinematic Immersion Mode (Scroll down to reveal full video) ── */
+    .hero-content,
+    .hero-showcase-badge,
+    .scroll-indicator,
+    .luxury-live-ticker,
+    .showcase-restore-fab {
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.45s;
+    }
+
+    body.hero-cinematic-mode .hero-content {
+      opacity: 0 !important;
+      transform: translateY(-26px) scale(0.98) !important;
+      pointer-events: none !important;
+      visibility: hidden;
+    }
+
+    body.hero-cinematic-mode .hero-showcase-badge {
+      opacity: 0 !important;
+      transform: translateY(26px) scale(0.95) !important;
+      pointer-events: none !important;
+      visibility: hidden;
+    }
+
+    body.hero-cinematic-mode .scroll-indicator {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    body.hero-cinematic-mode .luxury-live-ticker {
+      opacity: 0 !important;
+      transform: translateY(-100%) !important;
+      pointer-events: none !important;
+    }
+
+    body.hero-cinematic-mode .showcase-restore-fab {
+      opacity: 0 !important;
+      transform: translateY(20px) !important;
+      pointer-events: none !important;
+    }
+
+    /* Keep VIP Zeka Menüsü Island firmly pinned and fully interactive */
+    #nxaIslandNav,
+    .nxa-island-container {
+      z-index: 9999 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
     }
     .trust-badge-item {
       display: inline-flex;
@@ -7868,7 +8001,7 @@
         </div>
 
         <div class="hero-showcase-top">
-          <div style="display:flex; align-items:center; gap:6px;">
+          <div class="hero-showcase-top-left" style="display:flex; align-items:center; gap:5px; min-width:0; flex:1 1 auto; overflow:hidden;">
             <span class="showcase-drag-grip" title="Sürükleyip Konumlandırın"><i class="fas fa-grip-vertical"></i></span>
             <span class="hero-showcase-pill" id="heroShowcaseDayPill">
               <span class="hero-pulse-dot"></span> GÜNÜN VİTRİNİ • PAZARTESİ
@@ -10956,20 +11089,44 @@
 
       function goToSlide(index) {
         currentSlide = index;
-        blogSliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+        window.currentBlogSlide = currentSlide;
+        const slide = blogSliderContainer.querySelector('.blog-slide');
+        const slideW = slide ? slide.offsetWidth : blogSliderContainer.clientWidth;
+        blogSliderContainer.style.transform = 'translateX(-' + (currentSlide * slideW) + 'px)';
         document.querySelectorAll('.blog-dot').forEach((dot, i) => {
           dot.classList.toggle('active', i === currentSlide);
         });
       }
+      window.goToBlogSlide = goToSlide;
+
+      window.addEventListener('resize', function() {
+        goToSlide(currentSlide);
+      }, { passive: true });
 
       const total = slides.length;
-      blogPrev.onclick = () => { goToSlide((currentSlide - 1 + total) % total); };
-      blogNext.onclick = () => { goToSlide((currentSlide + 1) % total); };
+      function resetAutoInterval() {
+        if (blogAutoInterval) clearInterval(blogAutoInterval);
+        if (window.blogAutoInterval) clearInterval(window.blogAutoInterval);
+        blogAutoInterval = setInterval(() => {
+          goToSlide((currentSlide + 1) % total);
+        }, 5000);
+        window.blogAutoInterval = blogAutoInterval;
+      }
+      window.resetBlogAutoInterval = resetAutoInterval;
+      blogPrev.onclick = () => { goToSlide((currentSlide - 1 + total) % total); resetAutoInterval(); };
+      blogNext.onclick = () => { goToSlide((currentSlide + 1) % total); resetAutoInterval(); };
 
-      if (blogAutoInterval) clearInterval(blogAutoInterval);
-      blogAutoInterval = setInterval(() => {
-        goToSlide((currentSlide + 1) % total);
-      }, 5000);
+      const blogSliderWrapper = document.querySelector('.blog-slider');
+      if (blogSliderWrapper) {
+        blogSliderWrapper.addEventListener('mouseenter', () => {
+          if (blogAutoInterval) clearInterval(blogAutoInterval);
+        });
+        blogSliderWrapper.addEventListener('mouseleave', () => {
+          resetAutoInterval();
+        });
+      }
+
+      resetAutoInterval();
 
       // Native touch swipe gestures
       let touchStartX = 0;
@@ -13722,7 +13879,7 @@ ${src.length ? `
         if (!showcaseHasMoved) {
           badge.style.left = '';
           badge.style.top = '';
-          badge.style.right = '86px';
+          badge.style.right = '28px';
           badge.style.bottom = '24px';
         }
       } else {
@@ -13879,6 +14036,43 @@ ${src.length ? `
     } else {
       initHeroDailyShowcase();
     }
+
+    // ── Hero Cinematic Scroll Immersion Controller ──
+    // Scroll down slightly to reveal full background video; scroll back to top to restore
+    (function initHeroCinematicScroll() {
+      let isCinematic = false;
+      let ticking = false;
+
+      function updateCinematicState() {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (scrollY > 75) {
+          if (!isCinematic) {
+            isCinematic = true;
+            document.body.classList.add('hero-cinematic-mode');
+            const hero = document.getElementById('home');
+            if (hero) hero.classList.add('hero-cinematic-active');
+          }
+        } else if (scrollY <= 45) {
+          if (isCinematic) {
+            isCinematic = false;
+            document.body.classList.remove('hero-cinematic-mode');
+            const hero = document.getElementById('home');
+            if (hero) hero.classList.remove('hero-cinematic-active');
+          }
+        }
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateCinematicState);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // Run once on load to sync initial state
+      updateCinematicState();
+    })();
 
     // ── Video Gallery Theater-Mode ──
     const theaterModal = document.getElementById('theaterModal');

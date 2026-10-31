@@ -64,6 +64,10 @@ def test_hero_showcase_pip_and_draggable():
         assert not badge.evaluate("el => el.classList.contains('is-floating')"), "Reset should remove .is-floating"
         print("[TEST 2] Reset Position confirmed!")
 
+        # Ensure scroll is at 0
+        page.evaluate("() => window.scrollTo(0, 0)")
+        page.wait_for_timeout(100)
+
         # 3. Test PiP Mode (Mini Player)
         pip_btn = page.locator("#heroShowcaseBadge button[title*='Mini Player']").first
         assert pip_btn.is_visible(), "Minimize to PiP button should be visible"
@@ -80,7 +84,8 @@ def test_hero_showcase_pip_and_draggable():
 
         # Expand back to Full Card
         expand_btn = page.locator(".showcase-pip-view button[title*='Tam Boyuta']").first
-        expand_btn.click()
+        expand_box = expand_btn.bounding_box()
+        page.mouse.click(expand_box["x"] + expand_box["width"]/2, expand_box["y"] + expand_box["height"]/2)
         page.wait_for_timeout(300)
         assert not badge.evaluate("el => el.classList.contains('showcase-pip')"), ".showcase-pip should be removed"
         print("[TEST 3] Expand back from PiP confirmed!")
@@ -125,7 +130,7 @@ def test_hero_showcase_pip_and_draggable():
 
         # 6. Test Sound Toggle synchronization
         sound_btn = page.locator("#heroSoundBtn")
-        sound_btn.click()
+        sound_btn.click(force=True)
         page.wait_for_timeout(200)
 
         pip_sound_icon = page.locator("#showcasePipSoundIcon").get_attribute("class")

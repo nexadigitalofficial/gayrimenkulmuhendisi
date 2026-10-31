@@ -32,6 +32,8 @@ logs/
 3/logs/
 watch_state.json
 nexa_database.db
+*.db-shm
+*.db-wal
 nexa_embedding_cache.json
 
 # Test & Scrape HTML / PDF artifacts
