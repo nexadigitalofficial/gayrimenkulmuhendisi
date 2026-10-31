@@ -20,7 +20,7 @@ def run_suite():
         browser = p.chromium.launch(headless=True)
 
         print("\n=======================================================")
-        print("TEST 1: DESKTOP (1366x768) - Full Cinematic Preloader & Telemetry")
+        print("TEST 1: DESKTOP (1366x768) - Full Luxury Signature Preloader")
         print("=======================================================")
         context = browser.new_context(viewport={"width": 1366, "height": 768})
         page = context.new_page()
@@ -30,31 +30,39 @@ def run_suite():
         loader = page.locator("#pagePreloader")
         assert loader.is_visible(), "Page preloader should be immediately visible on cold load!"
 
-        shutter_top = page.locator(".nxa-shutter-top")
-        shutter_bottom = page.locator(".nxa-shutter-bottom")
-        assert shutter_top.is_visible(), "Top velvet shutter not visible!"
-        assert shutter_bottom.is_visible(), "Bottom velvet shutter not visible!"
+        # Rings & Avatar
+        outer_ring = page.locator(".preloader-outer-ring")
+        inner_ring = page.locator(".preloader-inner-ring")
+        avatar = page.locator(".preloader-avatar")
+        avatar_status = page.locator(".preloader-avatar-status")
+        assert outer_ring.is_visible(), "Outer rotating ring not visible!"
+        assert inner_ring.is_visible(), "Inner rotating ring not visible!"
+        assert avatar.is_visible(), "Avatar image not visible!"
+        assert avatar_status.is_visible(), "Avatar live status dot not visible!"
+
+        # Brand Identity
+        badge = page.locator(".preloader-badge")
+        title = page.locator(".preloader-title")
+        subtitle = page.locator(".preloader-subtitle")
+        assert badge.is_visible(), "CB VIP badge not visible!"
+        assert title.is_visible(), "Preloader title (Yiğit Narin) not visible!"
+        assert subtitle.is_visible(), "Preloader subtitle not visible!"
+
+        # Progress elements
+        fill = page.locator("#preloaderFill")
+        pct = page.locator("#preloaderPercent")
+        status_el = page.locator("#preloaderStatus")
+        compliance = page.locator(".preloader-compliance")
+        assert fill.is_visible(), "Progress fill not visible!"
+        assert pct.is_visible(), "Progress percent not visible!"
+        assert status_el.is_visible(), "Status text not visible!"
+        assert compliance.is_visible(), "Compliance text not visible!"
 
         skip_btn = page.locator("#preloaderSkipBtn")
         assert skip_btn.is_visible(), "Skip micro-pill button not visible!"
 
-        # 3D Gimbal & Monogram SVG
-        gimbal = page.locator(".preloader-gimbal-rig")
-        assert gimbal.is_visible(), "3D Gimbal rig not visible!"
-        svg = page.locator(".luxury-compass-svg")
-        assert svg.is_visible(), "Luxury compass SVG not visible!"
-
-        # Telemetry HUD Grid Cards
-        hud_grid = page.locator("#hudTelemetryGrid")
-        assert hud_grid.is_visible(), "HUD Telemetry Grid not visible!"
-        cards = page.locator(".hud-card")
-        assert cards.count() == 4, f"Expected 4 HUD cards, found {cards.count()}"
-
-        lat_el = page.locator("#hudLatVal")
-        assert lat_el.is_visible(), "Latitude telemetry element not visible!"
-
         # Wait for progression and check live counter update
-        time.sleep(1.2)
+        time.sleep(1.0)
         pct_text = page.locator("#preloaderPercent").inner_text()
         print("Progress mid-flight:", pct_text)
         assert "%" in pct_text, "Percent text missing %"
@@ -63,28 +71,30 @@ def run_suite():
         page.wait_for_selector("#pagePreloader.revealed", state="attached", timeout=6000)
         print("PASS: Preloader received .revealed class on completion!")
 
-        # Verify shutters parted
-        time.sleep(1.3)
+        # Verify exit & unmounting
+        time.sleep(1.0)
         assert not loader.is_visible(), "Preloader should be hidden after unmounting!"
-        print("PASS: Preloader successfully unmounted after shutter split!")
+        print("PASS: Preloader successfully unmounted after completion!")
 
         print("\n=======================================================")
-        print("TEST 2: FAST-PASS (Session Storage Return Visit)")
+        print("TEST 2: FAST-PASS (Session Seen Hash Navigation)")
         print("=======================================================")
-        # Navigate to another internal URL or refresh within the same session
-        page.goto(f"http://127.0.0.1:{PORT}/")
+        ctx_fp = browser.new_context(viewport={"width": 1366, "height": 768})
+        page_fp = ctx_fp.new_page()
+        page_fp.add_init_script("sessionStorage.setItem('nexa_preloader_seen', '1');")
+        page_fp.goto(f"http://127.0.0.1:{PORT}/#portfolio")
         time.sleep(0.3)
-        # Should be bypassed immediately via fast-pass
-        is_fast_pass = page.evaluate("() => document.documentElement.classList.contains('nexa-fast-pass')")
+        is_fast_pass = page_fp.evaluate("() => document.documentElement.classList.contains('nexa-fast-pass')")
         print("Fast-Pass class on <html>:", is_fast_pass)
-        assert is_fast_pass, "Returning session should have .nexa-fast-pass on <html>!"
-        assert not loader.is_visible(), "Preloader should be instantly bypassed on return visit!"
-        print("PASS: Turbo Fast-Pass works seamlessly for returning VIP visits!")
+        assert is_fast_pass, "Returning in-session hash visit should have .nexa-fast-pass on <html>!"
+        loader_fp = page_fp.locator("#pagePreloader")
+        assert not loader_fp.is_visible(), "Preloader should be instantly bypassed on fast-pass visit!"
+        print("PASS: Fast-Pass works seamlessly for in-session navigation!")
+        page_fp.close()
 
         print("\n=======================================================")
         print("TEST 3: SKIP BUTTON INTERACTION")
         print("=======================================================")
-        # Fresh context without session storage
         ctx_skip = browser.new_context(viewport={"width": 1366, "height": 768})
         page_skip = ctx_skip.new_page()
         page_skip.goto(f"http://127.0.0.1:{PORT}/")
@@ -140,7 +150,7 @@ def run_suite():
         browser.close()
 
         print("\n=======================================================")
-        print("ALL CINEMATIC PRELOADER TESTS PASSED 100%!")
+        print("ALL SIGNATURE LUXURY PRELOADER TESTS PASSED 100%!")
         print("=======================================================")
 
 def test_cinematic_preloader_suite():
