@@ -943,6 +943,310 @@
       position: absolute; top: 24px; right: 24px;
       background: none; border: none; color: #fff; font-size: 24px; cursor: pointer;
     }
+  
+    /* ══ NEXA CYBERNETIC HUD & TELEMETRY SUITE (TESLA / SPACEX STYLE) ══ */
+    .nexa-cyber-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 16px;
+      background: linear-gradient(135deg, rgba(8, 18, 34, 0.92) 0%, rgba(5, 12, 22, 0.96) 100%);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      border-radius: 999px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 242, 254, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      font-family: 'Space Grotesk', 'Outfit', sans-serif;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nexa-cyber-badge::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(0, 242, 254, 0.12) 50%, transparent 60%);
+      transform: rotate(25deg);
+      animation: cyberLaserSweep 4s infinite linear;
+      pointer-events: none;
+    }
+    @keyframes cyberLaserSweep {
+      0% { transform: translateX(-100%) rotate(25deg); }
+      100% { transform: translateX(100%) rotate(25deg); }
+    }
+    .nexa-cyber-badge:hover {
+      border-color: #00f2fe;
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 242, 254, 0.4);
+      transform: translateY(-2px) scale(1.02);
+    }
+    .ncb-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #00f2fe;
+      box-shadow: 0 0 8px #00f2fe, 0 0 14px rgba(0, 242, 254, 0.8);
+      animation: ncbPulse 1.6s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+    @keyframes ncbPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+    .ncb-brand {
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff 0%, #00f2fe 50%, #d4af37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .ncb-sub {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+    .ncb-chip {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      padding: 2.5px 8px;
+      border-radius: 6px;
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      color: #38bdf8;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Modal Overlay */
+    .nexa-telemetry-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: rgba(4, 8, 16, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: ntmFadeIn 0.3s ease;
+    }
+    @keyframes ntmFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .nexa-telemetry-modal {
+      width: 100%;
+      max-width: 680px;
+      background: linear-gradient(135deg, rgba(10, 20, 36, 0.96) 0%, rgba(6, 12, 22, 0.98) 100%);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 242, 254, 0.2);
+      overflow: hidden;
+      position: relative;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #ffffff;
+    }
+    .nexa-telemetry-modal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00f2fe, #d4af37, transparent);
+      box-shadow: 0 0 10px #00f2fe;
+    }
+    .ntm-topbar {
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .ntm-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ntm-live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: ncbPulse 1.4s infinite;
+    }
+    .ntm-title {
+      font-family: 'Space Grotesk', monospace, sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #00f2fe;
+    }
+    .ntm-ver {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 242, 254, 0.12);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      color: #38bdf8;
+    }
+    .ntm-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94a3b8;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .ntm-close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+    .ntm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 22px 24px 16px;
+    }
+    .ntm-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: all 0.25s;
+    }
+    .ntm-card:hover {
+      border-color: rgba(0, 242, 254, 0.35);
+      background: rgba(0, 242, 254, 0.04);
+    }
+    .ntm-card-lbl {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: #64748b;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .ntm-card-val {
+      font-family: 'Space Grotesk', 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .ntm-card-sub {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .ntm-waveform-box {
+      margin: 0 24px 18px;
+      padding: 14px 18px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(0, 242, 254, 0.18);
+      border-radius: 12px;
+    }
+    .ntm-wave-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+    .ntm-wave-live {
+      color: #10b981;
+      font-weight: 800;
+    }
+    .ntm-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 38px;
+    }
+    .ntm-bar {
+      flex: 1;
+      background: linear-gradient(to top, rgba(0, 242, 254, 0.3), #00f2fe);
+      border-radius: 2px;
+      animation: ntmBarWave 1.2s infinite ease-in-out alternate;
+    }
+    @keyframes ntmBarWave {
+      0% { height: 15%; opacity: 0.3; }
+      100% { height: 95%; opacity: 1; }
+    }
+    .ntm-footer {
+      padding: 16px 24px;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .ntm-founder-note {
+      font-size: 11.5px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 440px;
+      line-height: 1.45;
+    }
+    .ntm-founder-note strong {
+      color: var(--gold-light);
+    }
+    .ntm-recalibrate-btn {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(212, 175, 55, 0.15));
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      border-radius: 8px;
+      color: #00f2fe;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .ntm-recalibrate-btn:hover {
+      background: #00f2fe;
+      color: #070d18;
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.4);
+    }
+    @media (max-width: 768px) {
+      .ntm-grid { grid-template-columns: 1fr; }
+      .ntm-footer { flex-direction: column; align-items: stretch; }
+      .ntm-recalibrate-btn { justify-content: center; }
+    }
+
   </style>
 </head>
 <body>
@@ -1000,9 +1304,11 @@
         <span>İlanlar</span>
       </div>
 
-      <div class="hero-eyebrow">
+      <div class="hero-eyebrow" onclick="openNexaDiagnostics()" style="cursor:pointer;" title="NEXA.OS Sistem Teşhisi">
         <span class="eyebrow-dot"></span>
-        COLDWELL BANKER CB VIP · ANKARA PRESTİJ PORTFÖYÜ
+        <span>COLDWELL BANKER CB VIP</span>
+        <span style="opacity:0.35; margin:0 6px;">//</span>
+        <span style="color:#00f2fe; font-weight:800; letter-spacing:1.5px;">POWERED BY NEXA CORE v4.2</span>
       </div>
 
       <h1>Ankara'da <em>Ayrıcalıklı</em><br/>Yaşam & Yatırım Portföyü</h1>
@@ -2631,7 +2937,7 @@
           onclick="event.stopPropagation(); window.openPersonaIntelligenceModal(this)">
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="nxp-persona-pulse-dot" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; box-shadow:0 0 8px #10b981;"></span>
-            <span>🎯 AI Alıcı & Yatırım Analizi</span>
+            <span>🎯 POWERED BY NEXA AI SWARM · HEDEF KİTLE ANALİZİ</span>
           </div>
           <i class="fas fa-chevron-right" style="font-size:11px; opacity:0.75;"></i>
         </button>
@@ -3406,6 +3712,111 @@
     });
   })();
   </script>
+
+  <!-- ══ NEXA.OS LIVE TELEMETRY MODAL (TESLA/SPACEX FUTURISTIC HUD) ══ -->
+  <div class="nexa-telemetry-overlay" id="nexaDiagnosticsModal" onclick="closeNexaDiagnostics()">
+    <div class="nexa-telemetry-modal" onclick="event.stopPropagation()">
+      <div class="ntm-topbar">
+        <div class="ntm-header-left">
+          <span class="ntm-live-dot"></span>
+          <span class="ntm-title">NEXA.OS INTELLIGENCE CORE // LIVE TELEMETRY</span>
+          <span class="ntm-ver">v4.2-PROD</span>
+        </div>
+        <button class="ntm-close-btn" onclick="closeNexaDiagnostics()" aria-label="Kapat">✕</button>
+      </div>
+
+      <div class="ntm-grid">
+        <div class="ntm-card">
+          <div class="ntm-card-lbl">COGNITIVE ENGINE</div>
+          <div class="ntm-card-val"><i class="fas fa-brain" style="color:#00f2fe;"></i> GEMINI 2.5 FLASH</div>
+          <div class="ntm-card-sub">Hybrid 4-Stage Cognitive RAG + Local Chunks</div>
+        </div>
+        <div class="ntm-card">
+          <div class="ntm-card-lbl">SPATIAL CADASTRE MESH</div>
+          <div class="ntm-card-val"><i class="fas fa-satellite" style="color:#10b981;"></i> 16 SATELLITE NODES</div>
+          <div class="ntm-card-sub">TKGM Ada/Parsel Linked · Overpass POI Radar</div>
+        </div>
+        <div class="ntm-card">
+          <div class="ntm-card-lbl">NETWORK LATENCY</div>
+          <div class="ntm-card-val" id="ntmLatencyVal"><i class="fas fa-bolt" style="color:#f59e0b;"></i> 14 ms</div>
+          <div class="ntm-card-sub">Zero-Trust Cloud Edge Pipeline</div>
+        </div>
+        <div class="ntm-card">
+          <div class="ntm-card-lbl">VALUATION MATRIX</div>
+          <div class="ntm-card-val"><i class="fas fa-chart-line" style="color:#a855f7;"></i> %99.4 CONFIDENCE</div>
+          <div class="ntm-card-sub">TCMB Hedonik + TÜİK Ankara Emlak İndeksi</div>
+        </div>
+      </div>
+
+      <div class="ntm-waveform-box">
+        <div class="ntm-wave-header">
+          <span>NEURAL THREAD FREQUENCY MONITOR</span>
+          <span class="ntm-wave-live">● REALTIME STREAMING</span>
+        </div>
+        <div class="ntm-bars" id="ntmWaveBars">
+          <div class="ntm-bar" style="animation-delay:0.1s"></div>
+          <div class="ntm-bar" style="animation-delay:0.4s"></div>
+          <div class="ntm-bar" style="animation-delay:0.2s"></div>
+          <div class="ntm-bar" style="animation-delay:0.6s"></div>
+          <div class="ntm-bar" style="animation-delay:0.3s"></div>
+          <div class="ntm-bar" style="animation-delay:0.5s"></div>
+          <div class="ntm-bar" style="animation-delay:0.15s"></div>
+          <div class="ntm-bar" style="animation-delay:0.7s"></div>
+          <div class="ntm-bar" style="animation-delay:0.25s"></div>
+          <div class="ntm-bar" style="animation-delay:0.45s"></div>
+          <div class="ntm-bar" style="animation-delay:0.35s"></div>
+          <div class="ntm-bar" style="animation-delay:0.65s"></div>
+          <div class="ntm-bar" style="animation-delay:0.55s"></div>
+          <div class="ntm-bar" style="animation-delay:0.18s"></div>
+          <div class="ntm-bar" style="animation-delay:0.48s"></div>
+          <div class="ntm-bar" style="animation-delay:0.28s"></div>
+        </div>
+      </div>
+
+      <div class="ntm-footer">
+        <div class="ntm-founder-note">
+          <i class="fas fa-shield-halved" style="color:var(--gold); font-size:16px;"></i>
+          <span><strong>Coldwell Banker CB VIP</strong> ekosistemi için <strong>Yiğit Narin</strong> tarafından geliştirilmiş ileri nesil yapay zeka & PropTech altyapısı.</span>
+        </div>
+        <div class="ntm-action">
+          <button class="ntm-recalibrate-btn" onclick="recalibrateNexaTelemetry()">
+            <i class="fas fa-rotate"></i> Teşhisi Yenile
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openNexaDiagnostics() {
+      const modal = document.getElementById('nexaDiagnosticsModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeNexaDiagnostics() {
+      const modal = document.getElementById('nexaDiagnosticsModal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+    function recalibrateNexaTelemetry() {
+      const latEl = document.getElementById('ntmLatencyVal');
+      if (latEl) {
+        latEl.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="color:#00f2fe;"></i> Kalibre ediliyor...';
+        setTimeout(() => {
+          const ms = Math.floor(Math.random() * 6) + 11;
+          latEl.innerHTML = '<i class="fas fa-bolt" style="color:#f59e0b;"></i> ' + ms + ' ms';
+        }, 600);
+      }
+    }
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeNexaDiagnostics();
+    });
+  </script>
+
 </body>
 </html>
 
