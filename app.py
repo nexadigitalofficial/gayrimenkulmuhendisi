@@ -11441,6 +11441,7 @@ from flask import Response as _FlaskResponse
 try:
     from nexa_ai_engine import process_nexa_query, extract_keywords_and_projects
     from nexa_rag import (cognitive_chat as _nexa_cognitive_chat,
+                          clean_ai_reply as _nexa_clean_ai_reply,
                           _find_project_by_name as _nexa_find_project,
                           _load_summaries as _nexa_load_summaries,
                           get_project_summary as _nexa_get_project_summary)
@@ -11635,6 +11636,12 @@ def api_nexa_ai_chat():
     else:
         reply_text = ("Nexa AI modülü şu anda yüklenemedi; "
                       "detaylı bilgi için Yiğit Bey ile WhatsApp'tan iletişime geçin.")
+
+    if _NEXA_IMPORT_OK:
+        try:
+            reply_text = _nexa_clean_ai_reply(reply_text)
+        except Exception:
+            pass
 
     payload = {
         "success": True,

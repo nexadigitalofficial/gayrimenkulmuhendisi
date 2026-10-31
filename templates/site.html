@@ -5587,6 +5587,68 @@
       border-radius: 14px;
       border-left: 3px solid var(--gold);
     }
+    .ai-res-text .hero-ai-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: rgba(7, 13, 24, 0.85);
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+    .ai-res-text .hero-ai-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      color: #e2e8f0;
+      min-width: 520px;
+    }
+    .ai-res-text .hero-ai-table th {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(19, 34, 56, 0.9) 100%);
+      color: var(--gold-light);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .ai-res-text .hero-ai-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      border-right: 1px solid rgba(255, 255, 255, 0.04);
+      line-height: 1.45;
+      vertical-align: middle;
+    }
+    .ai-res-text .hero-ai-table tbody tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .ai-res-text .hero-ai-table tbody tr:hover {
+      background: rgba(212, 175, 55, 0.08);
+    }
+    .ai-res-text a.ai-wa-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .ai-res-text a.ai-wa-cta:hover {
+      background: rgba(37, 211, 102, 0.2);
+      border-color: #25D366;
+      color: #fff;
+    }
     .ai-project-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -14228,6 +14290,115 @@ ${src.length ? `
       handleHeroAiSearch(queryText);
     }
 
+    function renderHeroAiMarkdown(text) {
+      if (!text || typeof text !== 'string') return '';
+      let str = text.trim();
+
+      // 1. Strip code block wrappers
+      str = str.replace(/^```(?:markdown|md)?\s*/gi, '');
+      str = str.replace(/\s*```$/g, '');
+      str = str.replace(/```/g, '');
+
+      // 2. Fix collapsed table rows where rows were concatenated with ||
+      str = str.replace(/\|\s*\|/g, '|\n|');
+
+      // 3. Fix common language and typo glitches
+      str = str.replace(/Altıncında\b/g, 'Altındaki');
+      str = str.replace(/Fiyat\/Eğeri\b/gi, 'Fiyat / Değer');
+      str = str.replace(/Peysaj\b/gi, 'Peyzaj');
+      str = str.replace(/\|\s*\/\s*\|/g, '| Ankara |');
+
+      // 4. Split into lines to extract tables and blocks cleanly
+      const lines = str.split('\n');
+      let outHtml = '';
+      let inTable = false;
+      let tableRows = [];
+
+      function renderCurrentTable() {
+        if (!tableRows.length) return '';
+        let tHtml = '<div class="hero-ai-table-wrap"><table class="hero-ai-table">';
+        let hasHeader = false;
+        if (tableRows.length >= 2 && tableRows[1].every(c => /^[-:\s]+$/.test(c))) {
+          hasHeader = true;
+        }
+
+        tableRows.forEach((row, rIdx) => {
+          if (hasHeader && rIdx === 1) return; // skip delimiter row
+          const isHeader = hasHeader && rIdx === 0;
+          tHtml += '<tr>';
+          row.forEach(cell => {
+            const tag = isHeader ? 'th' : 'td';
+            tHtml += `<${tag}>${formatInline(cell)}</${tag}>`;
+          });
+          tHtml += '</tr>';
+        });
+        tHtml += '</table></div>';
+        tableRows = [];
+        return tHtml;
+      }
+
+      function formatInline(txt) {
+        if (!txt) return '';
+        let t = txt.trim();
+        // Bold
+        t = t.replace(/\*\*([^\*]+)\*\*/g, '<strong style="color:var(--gold-light);">$1</strong>');
+        // Italic
+        t = t.replace(/\*([^\*]+)\*/g, '<em>$1</em>');
+        // Markdown Links [Label](url)
+        t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
+          if (url.includes('wa.me') || label.includes('0532') || label.includes('WhatsApp')) {
+            return `<a href="${url}" target="_blank" rel="noopener" class="ai-wa-cta"><i class="fab fa-whatsapp" style="color:#25D366;"></i> ${label}</a>`;
+          }
+          return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--gold); font-weight:700; text-decoration:underline;">${label}</a>`;
+        });
+        // Standalone phone number
+        t = t.replace(/\b0532\s*451\s*40\s*08\b/g, '<a href="https://wa.me/905324514008?text=' + encodeURIComponent('Merhaba Yiğit Bey, Nexa AI arama sonucu hakkında görüşmek istiyorum.') + '" target="_blank" class="ai-wa-cta"><i class="fab fa-whatsapp" style="color:#25D366;"></i> 0532 451 40 08</a>');
+        return t;
+      }
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+
+        // Check if line is a table row
+        if (line.startsWith('|') && line.endsWith('|')) {
+          inTable = true;
+          const cells = line.slice(1, -1).split('|').map(c => c.trim());
+          tableRows.push(cells);
+          continue;
+        } else if (inTable) {
+          outHtml += renderCurrentTable();
+          inTable = false;
+        }
+
+        if (!line) {
+          outHtml += '<div style="height:6px;"></div>';
+          continue;
+        }
+
+        // Headings
+        if (line.startsWith('### ')) {
+          outHtml += `<h4 style="color:var(--gold-light); margin:14px 0 6px; font-size:15px; font-weight:700;">${formatInline(line.slice(4))}</h4>`;
+        } else if (line.startsWith('## ')) {
+          outHtml += `<h3 style="color:var(--gold); margin:16px 0 8px; font-size:16.5px; font-weight:700; font-family:'Playfair Display',serif;">${formatInline(line.slice(3))}</h3>`;
+        } else if (line.startsWith('# ')) {
+          outHtml += `<h2 style="color:var(--white); margin:18px 0 10px; font-size:18px; font-weight:700; font-family:'Playfair Display',serif;">${formatInline(line.slice(2))}</h2>`;
+        } else if (/^[-—]{3,}$/.test(line)) {
+          outHtml += '<div style="height:1px; background:linear-gradient(90deg, transparent, rgba(212,175,55,0.4), transparent); margin:12px 0;"></div>';
+        } else if (/^[-•*]\s+/.test(line)) {
+          const itemText = line.replace(/^[-•*]\s+/, '');
+          outHtml += `<div style="display:flex; gap:8px; margin:4px 0; align-items:baseline;"><i class="fas fa-check" style="color:var(--gold); font-size:11px; flex-shrink:0;"></i><span>${formatInline(itemText)}</span></div>`;
+        } else {
+          outHtml += `<p style="margin:4px 0 8px; line-height:1.55;">${formatInline(line)}</p>`;
+        }
+      }
+
+      if (inTable) {
+        outHtml += renderCurrentTable();
+      }
+
+      return outHtml;
+    }
+
     async function handleHeroAiSearch(overrideQuery) {
       const input = document.getElementById('heroAiQueryInput');
       let query = (overrideQuery || (input ? input.value : '')).trim();
@@ -14266,20 +14437,7 @@ ${src.length ? `
           throw new Error(data?.response || 'Analiz yanıtı alınamadı.');
         }
 
-        // Format Markdown text nicely
-        let rawText = data.response || '';
-        rawText = rawText.replace(/^### (.*$)/gim, '<h4 style="color:var(--gold-light); margin:12px 0 6px; font-size:15px; font-weight:700;">$1</h4>');
-        rawText = rawText.replace(/^## (.*$)/gim, '<h3 style="color:var(--gold); margin:14px 0 8px; font-size:16px; font-weight:700;">$1</h3>');
-        rawText = rawText.replace(/^# (.*$)/gim, '<h2 style="color:var(--white); margin:16px 0 10px; font-size:18px; font-weight:700;">$1</h2>');
-        rawText = rawText.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-light);">$1</strong>');
-        rawText = rawText.replace(/^\s*[-•]\s*(.*$)/gim, '<div style="display:flex; gap:8px; margin:4px 0;"><i class="fas fa-check" style="color:var(--gold); font-size:11px; margin-top:5px; flex-shrink:0;"></i><span>$1</span></div>');
-        rawText = rawText.replace(/\n\n/g, '<div style="height:8px;"></div>');
-        rawText = rawText.replace(/\n/g, '<br>');
-
-        // Highlight WhatsApp numbers into clickable links
-        rawText = rawText.replace(/0532\s*451\s*40\s*08/g, '<a href="https://wa.me/905324514008?text=' + encodeURIComponent('Merhaba Yiğit Bey, Nexa AI arama sonucu hakkında görüşmek istiyorum.') + '" target="_blank" style="color:var(--gold); font-weight:700; text-decoration:underline;"><i class="fab fa-whatsapp"></i> 0532 451 40 08</a>');
-
-        if (resTextEl) resTextEl.innerHTML = rawText;
+        if (resTextEl) resTextEl.innerHTML = renderHeroAiMarkdown(data.response || '');
 
         // Render matched projects
         const projects = data.projects || [];

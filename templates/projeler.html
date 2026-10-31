@@ -7349,8 +7349,15 @@ Detay: ${window.location.origin}/site#site-card-${item.id}`;
 
         function formatMarkdownReport(reportText) {
             if(typeof reportText !== 'string') return '';
+            let raw = reportText.trim();
+            raw = raw.replace(/^```(?:markdown|md)?\s*/gi, '').replace(/\s*```$/g, '').replace(/```/g, '');
+            raw = raw.replace(/\|\s*\|/g, '|\n|');
+            raw = raw.replace(/Altıncında\b/g, 'Altındaki');
+            raw = raw.replace(/Fiyat\/Eğeri\b/gi, 'Fiyat / Değer');
+            raw = raw.replace(/Peysaj\b/gi, 'Peyzaj');
+            raw = raw.replace(/\|\s*\/\s*\|/g, '| Ankara |');
             const nl = String.fromCharCode(10);
-            const escaped = escapeHtml(reportText);
+            const escaped = escapeHtml(raw);
             const lines = escaped.split(nl);
 
             let html = '';

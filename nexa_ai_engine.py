@@ -705,7 +705,7 @@ def process_nexa_query(user_query):
         label = f"**{it['title']}** — %{s} Uyumlu\n📍 {item_region_label(it)} • 💰 {ip}"
         lines.append(f"\n{label}\n💡 {build_rationale(it, parts)}")
 
-    lines.append("\n---\n_Detaylı sunum, güncel fiyat listesi ve parsel raporları için **0535 489 56 56** WhatsApp hattından ulaşabilirsiniz._")
+    lines.append("\n---\n_Detaylı sunum, güncel fiyat listesi ve parsel raporları için **0532 451 40 08** WhatsApp hattından ulaşabilirsiniz._")
 
     # Kart formatı (site.html uyumlu)
     summaries = _load_project_summaries()

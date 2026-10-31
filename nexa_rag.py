@@ -55,7 +55,54 @@ FALLBACK_MODELS = [
 
 _dead_models = set()  # 404 veren (artık erişilemeyen) modeller
 
-CONTACT_LINE = "Detaylı sunum, güncel fiyat listesi ve parsel raporları için **0532 451 40 08** WhatsApp hattından ulaşabilirsiniz."
+CONTACT_LINE = "Detaylı sunum, güncel fiyat listesi ve parsel raporları için [0532 451 40 08](https://wa.me/905324514008?text=Merhaba%20Yi%C4%9Fit%20Bey%2C%20Nexa%20AI%20arama%20sonucu%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum.) WhatsApp hattından ulaşabilirsiniz."
+
+
+def clean_ai_reply(text):
+    """
+    AI çıktısını temizler, format bozukluklarını düzeltir:
+    - ```markdown veya ``` kod bloklarını kaldırır.
+    - Tek satıra sıkışmış tablo satırlarını (||) ayrı satırlara (\n|) açar.
+    - Dilbilgisi ve eksik alan anomalilerini onarır ('Altıncında' -> 'Altındaki', 'Fiyat/Eğeri' -> 'Fiyat / Değer', 'Peysaj' -> 'Peyzaj').
+    - ' / ' boş lokasyon hücrelerini 'Ankara' ile doldurur.
+    - Tekrarlanan WhatsApp / iletişim çağrılarını teke indirir.
+    """
+    if not text or not isinstance(text, str):
+        return ""
+    t = text.strip()
+
+    # 1. Kod blok sarmalayıcılarını temizle
+    t = re.sub(r"^```(?:markdown|md)?\s*", "", t, flags=re.IGNORECASE)
+    t = re.sub(r"\s*```$", "", t)
+    t = t.replace("```", "")
+
+    # 2. Tek satıra bitişen tablo satırlarını düzelt (|| -> |\n|)
+    t = re.sub(r"\|\s*\|", "|\n|", t)
+
+    # 3. İmla ve terminoloji düzeltmeleri
+    t = re.sub(r"Altıncında\b", "Altındaki", t)
+    t = re.sub(r"Fiyat/Eğeri\b", "Fiyat / Değer", t, flags=re.IGNORECASE)
+    t = re.sub(r"Peysaj\b", "Peyzaj", t, flags=re.IGNORECASE)
+    t = re.sub(r"\|\s*/\s*\|", "| Ankara |", t)
+
+    # 4. WhatsApp ve iletişim satırı mükerrerliğini önle
+    lines = t.split("\n")
+    cleaned_lines = []
+    seen_wa = False
+    for line in lines:
+        is_wa_line = ("0532 451 40 08" in line or "0535 489 56 56" in line or
+                      "wa.me/905324514008" in line or "WhatsApp hattından" in line)
+        if is_wa_line:
+            if seen_wa:
+                continue
+            seen_wa = True
+            # Telefon numarasını her zaman doğru Yiğit Narin numarasına standardize et
+            line = line.replace("0535 489 56 56", "0532 451 40 08")
+        cleaned_lines.append(line)
+    t = "\n".join(cleaned_lines)
+
+    t = re.sub(r"\n{3,}", "\n\n", t).strip()
+    return t
 
 
 def _read_api_keys():
@@ -219,7 +266,9 @@ def build_global_context():
                      if proj['is_portfolio'] else "MARKALI PROJE")
             specs = (f"Kategori: {proj['property_category'] or '-'}, "
                      f"Oda: {proj['room_info'] or '-'}, Alan: {proj['net_gross_area'] or '-'}")
-            loc = proj['location'] or f"{proj['ilce'] or ''} / {proj['il'] or ''}"
+            loc = (proj['location'] or f"{proj['ilce'] or ''} {proj['il'] or ''}").strip()
+            if not loc or loc == "/":
+                loc = "Ankara"
             chunks = []
             for r in db.execute(f"""
                 SELECT d.title, d.doc_type, dc.chunk_text
@@ -550,12 +599,12 @@ def cognitive_chat(user_message, project=None, history=None):
     if project:
         cached = get_project_summary(project["name"])
         if cached:
-            return _cached(f"**{project['name']} — Proje Özeti**\n\n{cached}\n\n{CONTACT_LINE}")
+            return _cached(clean_ai_reply(f"**{project['name']} — Proje Özeti**\n\n{cached}\n\n{CONTACT_LINE}"))
         try:
             s = build_project_summary(project)
             if s:
                 _save_summaries(_merge_summary(project["name"], project["id"], s))
-                return _cached(f"**{project['name']} — Proje Özeti**\n\n{s}\n\n{CONTACT_LINE}")
+                return _cached(clean_ai_reply(f"**{project['name']} — Proje Özeti**\n\n{s}\n\n{CONTACT_LINE}"))
         except Exception:
             pass
         context = build_project_context(project["id"], query=msg)
@@ -565,7 +614,7 @@ def cognitive_chat(user_message, project=None, history=None):
                 project.get("il") or "", project.get("ilce") or "",
                 project.get("mahalle") or "", project["name"])
         system = f"""
-Sen Nexa — Bilişkin Gayrimenkul Ekosistemi'nin kıdemli lüks yatırım danışmanısın (NEXA PRIME v2).
+Sen Nexa — Coldwell Banker VIP Ekosistemi'nin kıdemli lüks yatırım danışmanısın (NEXA PRIME v2).
 Son derece profesyonel, elit, ikna edici ve karizmatik bir dille yanıt ver.
 
 İncelenen Proje: {project['name']}
@@ -580,11 +629,13 @@ GEO-INTELLIGENCE:
 Kullanıcı: {msg}
 
 Kurallar:
-1. Fiyat, teslim, metrekare, ödeme planı varsa RAG'daki rakamları birebir ver.
-2. ULAŞIM/ÇEVRE sorularında GEO verisini kullanarak tramvay, hastane, üniversite, otoyol akslarını anlat; 'dokümanda yok' deme.
-3. Uydurma veri ekleme; bilinmeyeni 'danışmanımız netleştirecektir' diyerek kapat.
-4. Madde/liste kullan, markdown. Sonuna şu iletişim satırını ekle: {CONTACT_LINE}
-Cevabı 450 kelimeyi aşmadan Türkçe yaz.
+1. KESİNLİKLE yanıtı ```markdown veya ``` kod blokları içine ALMA; doğrudan temiz metin olarak yaz.
+2. Fiyat, teslim, metrekare, ödeme planı varsa RAG'daki rakamları birebir ver.
+3. ULAŞIM/ÇEVRE sorularında GEO verisini kullanarak tramvay, hastane, üniversite, otoyol akslarını anlat; 'dokümanda yok' deme.
+4. Uydurma veri ekleme; bilinmeyeni 'danışmanımız netleştirecektir' diyerek kapat.
+5. Tablo kullanırsan her satırı MUTLAKA ayrı bir satıra (\\n) yaz, asla '||' ile birleştirme.
+6. Madde/liste kullan. Sonuna şu iletişim satırını YALNIZCA BİR KEZ ekle: {CONTACT_LINE}
+Cevabı 450 kelimeyi aşmadan akıcı ve kurumsal bir Türkçe ile yaz.
 """
     else:
         context = build_global_context()
@@ -596,7 +647,7 @@ Cevabı 450 kelimeyi aşmadan Türkçe yaz.
 {summ_block[:6000] if summ_block else '(henüz üretilmemiş — RAG bağlamından yararlan)'}
 """
         system = f"""
-Sen Nexa — Bilişkin Gayrimenkul Ekosistemi'nin Baş Portföy & Yatırım Stratejisti AI Danışmanısın (NEXA PRIME v2).
+Sen Nexa — Coldwell Banker VIP Ekosistemi'nin Baş Portföy & Yatırım Stratejisti AI Danışmanısın (NEXA PRIME v2).
 Tüm portföydeki MARKALI PROJELERİ çapraz analiz eden kıdemli danışmansın.
 
 {history_block}
@@ -608,12 +659,14 @@ TÜM PORTFÖY RAG BAĞLAMI (proje metadata + kayıtlı doküman özetleri/fiyat 
 Kullanıcı: {msg}
 
 Kurallar:
-1. Soruyu markalı projelerin verilerine dayanarak cevapla; kişisel portföy ilanları bu sistemde değildir.
-2. Projeleri tanıtırken her proje için KISA PROJE ÖZETİ formatı kullan: adı — lokasyon — konsept/tipler — fiyat/ödeme özeti — teslim (varsa) — TKGM/ada-parsel. En fazla 5-6 satır/proje.
-3. Karşılaştırma sorularında şık bir Markdown tablosu kullan; rakamları yalnızca veriden al, uydurma.
-4. Bilgi bağlamda yoksa "danışmanımız netleştirecektir" de. İlgisiz sorularda kısa ve nazik bilgilendir.
-5. Markdown formatında, madde ve tablo kullan. Cevabı 500 kelimeyi aşmadan Türkçe yaz.
-Sonuna şu iletişim satırını ekle: {CONTACT_LINE}
+1. KESİNLİKLE yanıtı ```markdown veya ``` kod blokları içine ALMA; doğrudan temiz metin olarak yaz.
+2. BÜTÇE & KRİTER UYUMU: Kullanıcı belirli bir bütçe (örn: "2 milyon altı") veya bölge belirttiyse, öncelikle TAM olarak bu bütçe aralığına giren projeleri listele. Başlangıç fiyatı bu bütçeyi aşan projeleri ise "Bütçeyi Aşan Alternatifler" başlığı altında açıkça belirterek sun.
+3. TABLO FORMATI: Karşılaştırma sorularında şık bir Markdown tablosu kullan. HER SATIRI MUTLAKA AYRI BİR SATIRA (\\n) YAZ. Asla satırları tek satırda '||' ile birleştirme. Tablo başlığı, ayraç satırı (|---|---|) ve her veri satırı ayrı satır olmalıdır.
+4. LOKASYON: Lokasyon hücresini asla boş veya '/' bırakma; daima ilçe ve semt (örn: Ankara / Çankaya / İncek veya Etimesgut) yaz.
+5. TÜRKÇE DİLBİLGİSİ: İmla kurallarına ve akıcı Türkçeye azami özen göster ("Altıncında" gibi bozuk ekler kullanma, "Fiyat / Değer" ve "Peyzaj" gibi doğru kelimeler seç).
+6. Bilgi bağlamda yoksa "danışmanımız netleştirecektir" de. İlgisiz sorularda nazikçe portföy odağını belirt.
+7. Sonuna şu iletişim satırını YALNIZCA BİR KEZ ekle: {CONTACT_LINE}
+Cevabı 500 kelimeyi aşmadan kusursuz Türkçe yaz.
 """
         # Y5/B9: dev global bağlam (42K+) Ollama 8K context'e sığmayabilir; ortadan kırp.
         # Gemini 1M destekliyor, bu yüzden kırpma yalnızca taşma riskini önleyen güvenlik bandı.
@@ -621,7 +674,8 @@ Sonuna şu iletişim satırını ekle: {CONTACT_LINE}
     try:
         reply = _gemini_generate(system)
         if reply and len(reply.strip()) > 20:
-            return _cached(reply.strip())
+            cleaned = clean_ai_reply(reply.strip())
+            return _cached(cleaned)
     except Exception as e:
         logger.error("Cognitive generation failed: %s", e)
     return None
