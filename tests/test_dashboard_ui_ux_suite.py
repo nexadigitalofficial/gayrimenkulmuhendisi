@@ -29,12 +29,38 @@ def test_dashboard_renders_and_functions():
         tab_btns = page.locator(".tab-btn")
         assert tab_btns.count() >= 7
 
-        # 4. Test clicking Quick Preset Cards to populate textarea
+        # 4. Verify Dock Navigation Chevrons
+        left_arrow = page.locator("#dockScrollLeft")
+        right_arrow = page.locator("#dockScrollRight")
+        assert left_arrow.is_visible(), "Dock scroll left chevron must be visible"
+        assert right_arrow.is_visible(), "Dock scroll right chevron must be visible"
+
+        # Verify scrollbar is zero / hidden on dockNav
+        dock_scroll_style = page.evaluate("""() => {
+            const el = document.getElementById('dockNav');
+            const style = window.getComputedStyle(el);
+            return {
+                scrollbarWidth: style.scrollbarWidth,
+                overflowX: style.overflowX
+            };
+        }""")
+        assert dock_scroll_style["scrollbarWidth"] in ["none", ""], "Dock scrollbar must be 'none'"
+        assert dock_scroll_style["overflowX"] in ["auto", "scroll"], "Dock must allow horizontal scrolling"
+
+        # Click right arrow to test smooth scrolling
+        initial_scroll = page.evaluate("() => document.getElementById('dockNav').scrollLeft")
+        right_arrow.click()
+        page.wait_for_timeout(400)
+        scrolled_pos = page.evaluate("() => document.getElementById('dockNav').scrollLeft")
+        print(f"Dock scroll position: initial={initial_scroll}, after arrow click={scrolled_pos}")
+        assert scrolled_pos > initial_scroll, f"Clicking dock arrow must scroll right! Got: {scrolled_pos}"
+
+        # 5. Test clicking Quick Preset Cards to populate textarea
         page.click("text=Alacaatlı 4+1 Villa")
         prompt_val = page.input_value("#crit_prompt")
         assert "Alacaatlı" in prompt_val, f"Unexpected prompt value: {prompt_val}"
 
-        # 5. Test Tab Switching
+        # 6. Test Tab Switching
         # Switch to Orbit Tab
         page.click("#tabBtn-orbit")
         assert page.is_visible("#pane-orbit")

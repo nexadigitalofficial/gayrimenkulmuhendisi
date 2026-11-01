@@ -2035,5 +2035,257 @@
         "author": "Yiğit Narin"
       }
     ]
+  },
+  "test_listing_1793513755": {
+    "refId": "test_listing_1793513755",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793513755_689",
+        "refId": "test_listing_1793513755",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 09:15"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793513755",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:15",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "45e616122b56": {
+    "refId": "45e616122b56",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "01.11.2026 09:24",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793515088": {
+    "refId": "test_listing_1793515088",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793515088_217",
+        "refId": "test_listing_1793515088",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 09:38"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793515088",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:38",
+        "author": "Yiğit Narin"
+      }
+    ]
   }
 }

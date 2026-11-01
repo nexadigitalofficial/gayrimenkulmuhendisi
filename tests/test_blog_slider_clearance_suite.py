@@ -12,20 +12,20 @@ def test_blog_slider_arrows_clearance():
         # ══════════════════════════════════════════════════════════
         context = browser.new_context(viewport={"width": 1440, "height": 900})
         page = context.new_page()
-        page.goto(BASE_URL, wait_until="commit", timeout=30000)
+        page.goto(BASE_URL, wait_until="domcontentloaded", timeout=30000)
         
         try:
-            page.wait_for_selector("#pagePreloader", state="hidden", timeout=4000)
+            page.wait_for_selector("#pagePreloader", state="hidden", timeout=5000)
         except Exception:
             page.evaluate("() => { const p = document.getElementById('pagePreloader'); if (p) p.remove(); }")
             
-        page.wait_for_selector(".blog-slide", timeout=10000)
+        page.wait_for_selector(".blog-slide", timeout=12000)
         page.evaluate("() => document.getElementById('haberlerSection').scrollIntoView()")
         page.wait_for_timeout(500)
         
-        # Clear timer
-        page.evaluate("() => { if (window.blogAutoInterval) clearInterval(window.blogAutoInterval); window.blogAutoInterval = null; }")
-        page.wait_for_timeout(300)
+        # Clear timer and reset to slide 0
+        page.evaluate("() => { if (window.blogAutoInterval) clearInterval(window.blogAutoInterval); window.blogAutoInterval = null; if (window.goToBlogSlide) window.goToBlogSlide(0); }")
+        page.wait_for_timeout(400)
         
         prev_btn = page.locator("#blogPrev")
         next_btn = page.locator("#blogNext")
@@ -62,8 +62,8 @@ def test_blog_slider_arrows_clearance():
             print(f"    Left Clearance (Prev Arrow -> First Card): {clearance_left:.1f}px")
             print(f"    Right Clearance (Last Card -> Next Arrow): {clearance_right:.1f}px")
             
-            assert clearance_left >= 5.0, f"Prev arrow collides on slide {s}! Clearance: {clearance_left}px"
-            assert clearance_right >= 5.0, f"Next arrow collides on slide {s}! Clearance: {clearance_right}px"
+            assert clearance_left >= 14.0, f"Prev arrow collides on slide {s}! Clearance: {clearance_left}px"
+            assert clearance_right >= 14.0, f"Next arrow collides on slide {s}! Clearance: {clearance_right}px"
             
             next_btn.click()
             page.wait_for_timeout(600) # wait for smooth slide transition
@@ -78,29 +78,36 @@ def test_blog_slider_arrows_clearance():
         # ══════════════════════════════════════════════════════════
         context = browser.new_context(viewport={"width": 1024, "height": 768})
         page = context.new_page()
-        page.goto(BASE_URL, wait_until="commit", timeout=30000)
+        page.goto(BASE_URL, wait_until="domcontentloaded", timeout=30000)
         try:
-            page.wait_for_selector("#pagePreloader", state="hidden", timeout=4000)
+            page.wait_for_selector("#pagePreloader", state="hidden", timeout=5000)
         except Exception:
             page.evaluate("() => { const p = document.getElementById('pagePreloader'); if (p) p.remove(); }")
             
-        page.wait_for_selector(".blog-slide", timeout=10000)
+        page.wait_for_selector(".blog-slide", timeout=12000)
         page.evaluate("() => document.getElementById('haberlerSection').scrollIntoView()")
         page.wait_for_timeout(500)
-        page.evaluate("() => { if (window.blogAutoInterval) clearInterval(window.blogAutoInterval); window.blogAutoInterval = null; }")
+        page.evaluate("() => { if (window.blogAutoInterval) clearInterval(window.blogAutoInterval); window.blogAutoInterval = null; if (window.goToBlogSlide) window.goToBlogSlide(0); }")
+        page.wait_for_timeout(400)
         
         pb = page.locator("#blogPrev").bounding_box()
         nb = page.locator("#blogNext").bounding_box()
         
         card_boxes = page.evaluate("""() => {
-            const first = document.querySelector('.blog-slider .card').getBoundingClientRect();
-            return { x: first.x, right: first.right };
+            const slide0 = document.querySelectorAll('.blog-slide')[0];
+            const cards = slide0.querySelectorAll('.card');
+            const c0 = cards[0].getBoundingClientRect();
+            const cLast = cards[cards.length - 1].getBoundingClientRect();
+            return { x: c0.x, right: cLast.right };
         }""")
         
         clearance_left = card_boxes["x"] - (pb["x"] + pb["width"])
+        clearance_right = nb["x"] - card_boxes["right"]
         print(f"\n[BLOG SLIDER ARROWS TABLET TEST - 1024x768]")
         print(f"  Prev Arrow Clearance: {clearance_left:.1f}px")
-        assert clearance_left >= 5.0, f"Tablet collision! Clearance: {clearance_left}px"
+        print(f"  Next Arrow Clearance: {clearance_right:.1f}px")
+        assert clearance_left >= 14.0, f"Tablet collision! Clearance: {clearance_left}px"
+        assert clearance_right >= 14.0, f"Tablet collision right! Clearance: {clearance_right}px"
         context.close()
         
         # ══════════════════════════════════════════════════════════
@@ -108,23 +115,27 @@ def test_blog_slider_arrows_clearance():
         # ══════════════════════════════════════════════════════════
         context = browser.new_context(viewport={"width": 390, "height": 844})
         page = context.new_page()
-        page.goto(BASE_URL, wait_until="commit", timeout=30000)
+        page.goto(BASE_URL, wait_until="domcontentloaded", timeout=30000)
         try:
-            page.wait_for_selector("#pagePreloader", state="hidden", timeout=4000)
+            page.wait_for_selector("#pagePreloader", state="hidden", timeout=5000)
         except Exception:
             page.evaluate("() => { const p = document.getElementById('pagePreloader'); if (p) p.remove(); }")
             
-        page.wait_for_selector(".blog-slide", timeout=10000)
+        page.wait_for_selector(".blog-slide", timeout=12000)
         page.evaluate("() => document.getElementById('haberlerSection').scrollIntoView()")
         page.wait_for_timeout(500)
-        page.evaluate("() => { if (window.blogAutoInterval) clearInterval(window.blogAutoInterval); window.blogAutoInterval = null; }")
+        page.evaluate("() => { if (window.blogAutoInterval) clearInterval(window.blogAutoInterval); window.blogAutoInterval = null; if (window.goToBlogSlide) window.goToBlogSlide(0); }")
+        page.wait_for_timeout(400)
         
         pb = page.locator("#blogPrev").bounding_box()
         nb = page.locator("#blogNext").bounding_box()
         
         card_boxes = page.evaluate("""() => {
-            const first = document.querySelector('.blog-slider .card').getBoundingClientRect();
-            return { x: first.x, right: first.right };
+            const slide0 = document.querySelectorAll('.blog-slide')[0];
+            const cards = slide0.querySelectorAll('.card');
+            const c0 = cards[0].getBoundingClientRect();
+            const cLast = cards[cards.length - 1].getBoundingClientRect();
+            return { x: c0.x, right: cLast.right };
         }""")
         
         clearance_left = card_boxes["x"] - (pb["x"] + pb["width"])
@@ -132,8 +143,8 @@ def test_blog_slider_arrows_clearance():
         print(f"\n[BLOG SLIDER ARROWS MOBILE TEST - 390x844]")
         print(f"  Prev Arrow Clearance: {clearance_left:.1f}px")
         print(f"  Next Arrow Clearance: {clearance_right:.1f}px")
-        assert clearance_left >= 4.0, f"Mobile left collision! Clearance: {clearance_left}px"
-        assert clearance_right >= 4.0, f"Mobile right collision! Clearance: {clearance_right}px"
+        assert clearance_left >= 8.0, f"Mobile left collision! Clearance: {clearance_left}px"
+        assert clearance_right >= 8.0, f"Mobile right collision! Clearance: {clearance_right}px"
         context.close()
         
         browser.close()

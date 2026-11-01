@@ -193,24 +193,71 @@ header{
 .metric-sub{font-size:11px;color:var(--gold);margin-top:2px;font-weight:500;}
 
 /* ==========================================================================
-   SEGMENTED DOCK TABS NAVIGATION (Çirkin Scrollbar Tamamen Yok Edildi!)
+   SEGMENTED DOCK TABS NAVIGATION (Ultra-Futuristik Cyber Dock & Drag Kinematics)
    ========================================================================== */
 .tabs-nav-container{
-  margin-bottom:24px;position:relative;
+  margin-bottom:24px;position:relative;display:flex;align-items:center;
+}
+.tabs-nav-wrapper{
+  position:relative;width:100%;overflow:hidden;border-radius:16px;
 }
 .tabs-nav{
-  display:flex;gap:10px;padding:8px;
-  background:rgba(9, 13, 20, 0.85);
+  display:flex;gap:10px;padding:8px 46px;
+  background:rgba(9, 13, 20, 0.88);
   backdrop-filter:blur(24px);
   border:1px solid var(--line);
   border-radius:16px;
   overflow-x:auto;
-  scrollbar-width:none; /* Firefox */
-  -ms-overflow-style:none; /* IE 10+ */
+  scroll-behavior:smooth;
+  cursor:grab;
+  user-select:none;
+  scrollbar-width:none !important; /* Firefox */
+  -ms-overflow-style:none !important; /* IE 10+ */
+}
+.tabs-nav.is-dragging{
+  cursor:grabbing;
+  scroll-behavior:auto;
 }
 .tabs-nav::-webkit-scrollbar{
-  display:none; /* Chrome/Safari/Brave */
-  width:0;height:0;
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+/* Futuristic Dock Scroll Chevrons */
+.dock-nav-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(10, 15, 24, 0.95);
+  border:1px solid var(--gold);
+  color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:15;
+  box-shadow:0 4px 16px rgba(0,0,0,0.8), 0 0 12px rgba(201,164,92,0.35);
+  transition:all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size:13px;font-weight:700;
+  outline:none;
+}
+.dock-nav-arrow:hover{
+  transform:translateY(-50%) scale(1.12);
+  background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+  color:#030508;
+  box-shadow:0 6px 22px rgba(201,164,92,0.65);
+}
+.dock-nav-arrow.prev{left:6px;}
+.dock-nav-arrow.next{right:6px;}
+
+/* Edge fade gradients */
+.tabs-nav-wrapper::before,
+.tabs-nav-wrapper::after{
+  content:'';position:absolute;top:0;bottom:0;width:38px;
+  pointer-events:none;z-index:8;transition:opacity .25s ease;
+}
+.tabs-nav-wrapper::before{
+  left:0;background:linear-gradient(90deg, rgba(9,13,20,0.92), transparent);
+}
+.tabs-nav-wrapper::after{
+  right:0;background:linear-gradient(270deg, rgba(9,13,20,0.92), transparent);
 }
 
 .tab-btn{
@@ -561,29 +608,33 @@ footer b{color:var(--gold-soft);}
 
   <!-- SEGMENTED DOCK TABS NAVIGATION (Scrollbar'sız Lüks Modül İstasyonu) -->
   <div class="tabs-nav-container">
-    <div class="tabs-nav">
-      <button class="tab-btn active" id="tabBtn-criteria" onclick="switchTab('criteria')">
-        ★ Doğal Dil & Kriter Arama (NLP & Gemini)
-      </button>
-      <button class="tab-btn orbit-style" id="tabBtn-orbit" onclick="switchTab('orbit')">
-        🪐 NEXA ORBIT™ (Tersine Emsal Radarı)
-      </button>
-      <button class="tab-btn" id="tabBtn-sahibinden" onclick="switchTab('sahibinden')">
-        ◆ Sahibinden Scraper
-      </button>
-      <button class="tab-btn" id="tabBtn-cb" onclick="switchTab('cb')">
-        ◆ Coldwell Banker Scraper
-      </button>
-      <button class="tab-btn" id="tabBtn-whatsapp" onclick="switchTab('whatsapp')">
-        ◆ WhatsApp Log Parser
-      </button>
-      <button class="tab-btn" id="tabBtn-match" onclick="switchTab('match')">
-        ◆ AI Matcher Engine
-      </button>
-      <button class="tab-btn" id="tabBtn-pdf" onclick="switchTab('pdf')">
-        ✦ URL → Lüks PDF & Sunum Deck
-      </button>
+    <button class="dock-nav-arrow prev" id="dockScrollLeft" onclick="scrollDock(-260)" title="Sola Kaydır" aria-label="Sola Kaydır">&#10094;</button>
+    <div class="tabs-nav-wrapper">
+      <div class="tabs-nav" id="dockNav">
+        <button class="tab-btn active" id="tabBtn-criteria" onclick="switchTab('criteria')">
+          ★ Doğal Dil & Kriter Arama (NLP & Gemini)
+        </button>
+        <button class="tab-btn orbit-style" id="tabBtn-orbit" onclick="switchTab('orbit')">
+          🪐 NEXA ORBIT™ (Tersine Emsal Radarı)
+        </button>
+        <button class="tab-btn" id="tabBtn-sahibinden" onclick="switchTab('sahibinden')">
+          ◆ Sahibinden Scraper
+        </button>
+        <button class="tab-btn" id="tabBtn-cb" onclick="switchTab('cb')">
+          ◆ Coldwell Banker Scraper
+        </button>
+        <button class="tab-btn" id="tabBtn-whatsapp" onclick="switchTab('whatsapp')">
+          ◆ WhatsApp Log Parser
+        </button>
+        <button class="tab-btn" id="tabBtn-match" onclick="switchTab('match')">
+          ◆ AI Matcher Engine
+        </button>
+        <button class="tab-btn" id="tabBtn-pdf" onclick="switchTab('pdf')">
+          ✦ URL → Lüks PDF & Sunum Deck
+        </button>
+      </div>
     </div>
+    <button class="dock-nav-arrow next" id="dockScrollRight" onclick="scrollDock(260)" title="Sağa Kaydır" aria-label="Sağa Kaydır">&#10095;</button>
   </div>
 
   <!-- ========================================================================
@@ -1914,6 +1965,36 @@ if(shUrlInput) {
     }
   });
 }
+
+// ─── DOCK NAVIGATION CHEVRONS & DRAG-TO-SWIPE KINEMATICS ─────────────────
+function scrollDock(amount) {
+  const dock = document.getElementById('dockNav');
+  if (dock) dock.scrollBy({ left: amount, behavior: 'smooth' });
+}
+
+(function initDockKinematics() {
+  const dock = document.getElementById('dockNav');
+  if (!dock) return;
+  let isDown = false, startX, scrollLeft;
+  dock.addEventListener('mousedown', (e) => {
+    isDown = true;
+    dock.classList.add('is-dragging');
+    startX = e.pageX - dock.offsetLeft;
+    scrollLeft = dock.scrollLeft;
+  });
+  window.addEventListener('mouseup', () => {
+    isDown = false;
+    dock.classList.remove('is-dragging');
+  });
+  dock.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - dock.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    dock.scrollLeft = scrollLeft - walk;
+  });
+})();
+
 </script>
 </body>
 </html>
