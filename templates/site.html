@@ -1710,7 +1710,385 @@
     }
     .nxc-incele:hover::before { opacity: 1; }
     .nxc-incele i { transition: transform 0.25s; }
-    .nxc-incele:hover i { transform: translateX(3px); }
+        .nxc-incele:hover i { transform: translateX(3px); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       NEXA ULTRA-LUXURY CINEMATIC FULL-COVER CARD & HOVER REVEAL
+       ══════════════════════════════════════════════════════════════════ */
+    .nxc-card.nxc-cinematic-card,
+    .carousel-track .nxc-card.nxc-cinematic-card,
+    .portfolio-grid-view .nxc-card.nxc-cinematic-card {
+      position: relative !important;
+      width: 340px !important;
+      min-width: 340px !important;
+      max-width: 340px !important;
+      height: 505px !important;
+      min-height: 505px !important;
+      max-height: 505px !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      background: #060b14 !important;
+      border: 1px solid rgba(212, 175, 55, 0.3) !important;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65) !important;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.45s ease !important;
+      cursor: pointer !important;
+      display: flex !important;
+      flex-direction: column !important;
+      scroll-snap-align: start !important;
+    }
+
+    .nxc-card.nxc-cinematic-card:hover,
+    .nxc-card.nxc-cinematic-card.touch-expanded {
+      transform: translateY(-8px) scale(1.01) !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.88), 0 0 35px rgba(212, 175, 55, 0.38) !important;
+    }
+
+    /* FULL-BLEED COVER IMAGE CONTAINER */
+    .nxc-cinematic-card .nxc-img,
+    .carousel-track .nxc-cinematic-card .nxc-img,
+    .portfolio-grid-view .nxc-cinematic-card .nxc-img {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      max-height: 100% !important;
+      aspect-ratio: auto !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      z-index: 1 !important;
+      background: #070d18 !important;
+    }
+
+    .nxc-cinematic-card .nxc-img img,
+    .carousel-track .nxc-cinematic-card .nxc-img img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease !important;
+      display: block !important;
+      will-change: transform, filter;
+    }
+
+    .nxc-cinematic-card:hover .nxc-img img,
+    .nxc-cinematic-card.touch-expanded .nxc-img img {
+      transform: scale(1.09) !important;
+      filter: brightness(0.8) contrast(1.05) !important;
+    }
+
+    /* TOP & BOTTOM CINEMATIC VIGNETTES */
+    .nxc-cinematic-card .nxc-vignette-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 110px;
+      background: linear-gradient(180deg, rgba(6, 11, 20, 0.85) 0%, rgba(6, 11, 20, 0.4) 50%, transparent 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .nxc-cinematic-card .nxc-vignette-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 240px;
+      background: linear-gradient(0deg, rgba(6, 11, 20, 0.96) 0%, rgba(6, 11, 20, 0.65) 45%, transparent 100%);
+      pointer-events: none;
+      z-index: 2;
+      transition: opacity 0.4s ease;
+    }
+
+    /* TOP FLOATING BADGES BAR */
+    .nxc-cinematic-card .nxc-badge-bar {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .nxc-cinematic-card .nxc-badge {
+      position: static !important;
+      padding: 5px 12px !important;
+      border-radius: 50px !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.5px !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5) !important;
+    }
+    .nxc-cinematic-card .nxc-badge-vip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      background: rgba(10, 18, 32, 0.82);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 50px;
+      color: #fef08a;
+      font-family: 'Outfit', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+    .nxc-cinematic-card .nxc-badge-vip i {
+      color: var(--gold);
+      font-size: 10px;
+    }
+
+    /* SLIDING FROSTED GLASS SHEET (PEEK STATE -> EXPANDS ON HOVER) */
+    .nxc-cinematic-card .nxc-reveal-sheet,
+    .carousel-track .nxc-cinematic-card .nxc-body,
+    .portfolio-grid-view .nxc-cinematic-card .nxc-body {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 6 !important;
+      background: linear-gradient(180deg, rgba(10, 19, 35, 0.90) 0%, rgba(6, 11, 20, 0.98) 22%, #040812 100%) !important;
+      backdrop-filter: blur(20px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+      border-top: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+      border-radius: 22px 22px 0 0 !important;
+      padding: 15px 16px 18px !important;
+      box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.65) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      transform: translateY(calc(100% - 150px)) !important;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.4s ease,
+                  border-top-color 0.4s ease !important;
+      max-height: 94% !important;
+      overflow: hidden !important;
+      will-change: transform;
+    }
+
+    .nxc-cinematic-card:hover .nxc-reveal-sheet,
+    .nxc-cinematic-card.touch-expanded .nxc-reveal-sheet,
+    .carousel-track .nxc-cinematic-card:hover .nxc-body,
+    .carousel-track .nxc-cinematic-card.touch-expanded .nxc-body,
+    .portfolio-grid-view .nxc-cinematic-card:hover .nxc-body,
+    .portfolio-grid-view .nxc-cinematic-card.touch-expanded .nxc-body {
+      transform: translateY(0) !important;
+      box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.3) !important;
+      border-top-color: var(--gold) !important;
+    }
+
+    /* PEEK HEADER */
+    .nxc-cinematic-card .nxc-peek-header {
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .nxc-cinematic-card .nxc-peek-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+    }
+    .nxc-cinematic-card .nxc-price {
+      position: static !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 17.5px !important;
+      font-weight: 800 !important;
+      color: #fef08a !important;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(7, 13, 24, 0.85) 100%) !important;
+      border: 1px solid rgba(212, 175, 55, 0.48) !important;
+      border-radius: 8px !important;
+      padding: 3px 11px !important;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8) !important;
+      line-height: 1.15 !important;
+      display: inline-block !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
+    }
+    .nxc-cinematic-card .nxc-peek-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 3px 9px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.3s ease;
+    }
+    .nxc-cinematic-card .nxc-peek-hint i {
+      color: var(--gold);
+      font-size: 10px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nxc-cinematic-card:hover .nxc-peek-hint,
+    .nxc-cinematic-card.touch-expanded .nxc-peek-hint {
+      color: #fef08a;
+      background: rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.45);
+    }
+    .nxc-cinematic-card:hover .nxc-peek-hint i,
+    .nxc-cinematic-card.touch-expanded .nxc-peek-hint i {
+      transform: rotate(180deg);
+    }
+
+    .nxc-cinematic-card .nxc-title {
+      font-family: 'Playfair Display', Georgia, serif !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      color: #ffffff !important;
+      line-height: 1.3 !important;
+      margin-bottom: 5px !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
+    }
+    .nxc-cinematic-card .nxc-loc {
+      display: flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      color: #cbd5e1 !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11.5px !important;
+      font-weight: 500 !important;
+      margin-bottom: 0 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+    .nxc-cinematic-card .nxc-loc i {
+      color: var(--gold) !important;
+      font-size: 11px !important;
+    }
+
+    /* EXPANDED DETAILS (CASCADING STAGGERED REVEAL) */
+    .nxc-cinematic-card .nxc-expanded-details {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .nxc-cinematic-card .nxc-specs {
+      display: flex !important;
+      gap: 5px !important;
+      flex-wrap: wrap !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      border-bottom: none !important;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s ease 0.08s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
+      will-change: transform, opacity;
+    }
+    .nxc-cinematic-card .nxc-actions {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 6px !important;
+      margin-bottom: 0 !important;
+      margin-top: 0 !important;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.35s ease 0.14s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.14s;
+      will-change: transform, opacity;
+    }
+    .nxc-cinematic-card .nxc-persona-row {
+      margin-top: 0;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.35s ease 0.20s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.20s;
+      will-change: transform, opacity;
+    }
+    .nxc-cinematic-card .nxc-cta-row {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 6px !important;
+      margin-top: 1px !important;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.35s ease 0.26s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.26s;
+      will-change: transform, opacity;
+    }
+
+    /* Cascade Activation */
+    .nxc-cinematic-card:hover .nxc-specs,
+    .nxc-cinematic-card:hover .nxc-actions,
+    .nxc-cinematic-card:hover .nxc-persona-row,
+    .nxc-cinematic-card:hover .nxc-cta-row,
+    .nxc-cinematic-card.touch-expanded .nxc-specs,
+    .nxc-cinematic-card.touch-expanded .nxc-actions,
+    .nxc-cinematic-card.touch-expanded .nxc-persona-row,
+    .nxc-cinematic-card.touch-expanded .nxc-cta-row {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    /* Buttons inside the sheet */
+    .nxc-sunum-btn {
+      width: 100%;
+      padding: 7px 10px;
+      background: rgba(212, 175, 55, 0.12) !important;
+      border: 1px solid rgba(212, 175, 55, 0.45) !important;
+      color: #fde047 !important;
+      font-weight: 700 !important;
+      border-radius: 10px !important;
+      font-size: 11.5px !important;
+      font-family: 'Outfit', sans-serif !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      cursor: pointer !important;
+      transition: all 0.25s ease !important;
+    }
+    .nxc-sunum-btn:hover {
+      background: rgba(212, 175, 55, 0.26) !important;
+      border-color: var(--gold) !important;
+      color: #ffffff !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35) !important;
+    }
+
+    /* RESPONSIVE ADAPTATIONS (TABLET & MOBILE) */
+    @media (max-width: 768px) {
+      .carousel-track .nxc-card.nxc-cinematic-card {
+        flex: 0 0 280px !important;
+        width: 280px !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+        height: 480px !important;
+        min-height: 480px !important;
+        max-height: 480px !important;
+      }
+      .carousel-track .nxc-cinematic-card .nxc-body {
+        transform: translateY(calc(100% - 144px)) !important;
+        padding: 13px 14px 15px !important;
+      }
+      .carousel-track .nxc-cinematic-card.touch-expanded .nxc-body {
+        transform: translateY(0) !important;
+      }
+      .nxc-cinematic-card .nxc-price {
+        font-size: 15.5px !important;
+        padding: 2px 9px !important;
+      }
+      .nxc-cinematic-card .nxc-title {
+        font-size: 13.5px !important;
+      }
+    }
 
     /* ── LIST VIEW ── */
     .portfolio-list-view {
@@ -11627,7 +12005,7 @@
     // ── Ultra Pro Listing Card ────────────────────────────────────
     function createListingCard(listing, isFeatured) {
       const card = document.createElement('div');
-      card.className = 'nxc-card' + (isFeatured ? ' nxc-featured' : '');
+      card.className = 'nxc-card nxc-cinematic-card' + (isFeatured ? ' nxc-featured' : '');
       
       const waMsg = encodeURIComponent(`Merhaba, "${listing.title}" ilanı hakkında bilgi almak istiyorum.`);
       const imgSrc = listing.img || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
@@ -11639,7 +12017,7 @@
       const link = escapeHtml(listing.link || '');
 
       card.innerHTML = `
-        <!-- Image -->
+        <!-- 1. FULL-BLEED COVER IMAGE WITH CINEMATIC VIGNETTES -->
         <div class="nxc-img">
           <img
             src="${imgSrc}"
@@ -11647,74 +12025,104 @@
             loading="lazy"
             onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'"
           >
-          <div class="nxc-badge ${badgeClass}">${typeLabel}</div>
-          <div class="nxc-price">${escapeHtml(price)}</div>
+          <div class="nxc-vignette-top"></div>
+          <div class="nxc-vignette-bottom"></div>
         </div>
 
-        <!-- Body -->
-        <div class="nxc-body">
-          <h3 class="nxc-title">${title}</h3>
-          <div class="nxc-loc">
-            <i class="fas fa-map-marker-alt"></i>
-            ${loc}
+        <!-- 2. TOP FLOATING BADGES -->
+        <div class="nxc-badge-bar">
+          <div class="nxc-badge ${badgeClass}">✦ ${typeLabel}</div>
+          <div class="nxc-badge-vip"><i class="fas fa-crown"></i> CB VIP ONAYLI</div>
+        </div>
+
+        <!-- 3. SLIDING FROSTED GLASS SHEET (PEEK STATE -> EXPANDS ON HOVER) -->
+        <div class="nxc-body nxc-reveal-sheet">
+          <!-- PEEK HEADER (Always Visible at card bottom) -->
+          <div class="nxc-peek-header">
+            <div class="nxc-peek-topline">
+              <div class="nxc-price">${escapeHtml(price)}</div>
+              <div class="nxc-peek-hint" title="Tüm detayları açmak için dokunun veya üzerine gelin">
+                <span>Detaylar</span>
+                <i class="fas fa-chevron-up"></i>
+              </div>
+            </div>
+            <h3 class="nxc-title">${title}</h3>
+            <div class="nxc-loc">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>${loc}</span>
+            </div>
           </div>
 
-          <!-- Specs -->
-          <div class="nxc-specs">
-            ${listing.rooms ? `<span class="nxc-spec"><i class="fas fa-bed"></i>${escapeHtml(listing.rooms)}</span>` : ''}
-            ${listing.area ? `<span class="nxc-spec"><i class="fas fa-ruler-combined"></i>${escapeHtml(listing.area)}</span>` : ''}
-            ${listing.floor ? `<span class="nxc-spec"><i class="fas fa-layer-group"></i>${escapeHtml(listing.floor)}</span>` : ''}
-          </div>
+          <!-- EXPANDABLE CONTENT (SLIDES & CASCADES ON HOVER) -->
+          <div class="nxc-expanded-details">
+            <!-- Specs -->
+            <div class="nxc-specs">
+              ${listing.rooms ? `<span class="nxc-spec"><i class="fas fa-bed"></i>${escapeHtml(listing.rooms)}</span>` : ''}
+              ${listing.area ? `<span class="nxc-spec"><i class="fas fa-ruler-combined"></i>${escapeHtml(listing.area)}</span>` : ''}
+              ${listing.floor ? `<span class="nxc-spec"><i class="fas fa-layer-group"></i>${escapeHtml(listing.floor)}</span>` : ''}
+            </div>
 
-          <!-- Contact Buttons -->
-          <div class="nxc-actions">
-            <a href="https://wa.me/905324514008?text=${waMsg}" class="nxc-btn nxc-btn-wa" target="_blank">
-              <i class="fab fa-whatsapp"></i> WhatsApp
-            </a>
-            <a href="tel:+905324514008" class="nxc-btn nxc-btn-tel">
-              <i class="fas fa-phone"></i> Ara
-            </a>
-          </div>
+            <!-- Quick Contact Row -->
+            <div class="nxc-actions">
+              <a href="https://wa.me/905324514008?text=${waMsg}" class="nxc-btn nxc-btn-wa" target="_blank" onclick="event.stopPropagation()">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </a>
+              <a href="tel:+905324514008" class="nxc-btn nxc-btn-tel" onclick="event.stopPropagation()">
+                <i class="fas fa-phone"></i> Ara
+              </a>
+            </div>
 
-          <!-- Kimler İçin Uygun? AI Swarm Button -->
-          <div style="margin-top:8px;">
-            <button class="nxc-persona-btn ${listing.type === 'Kiralık' ? 'nxc-persona-btn-kiralik' : 'nxc-persona-btn-satilik'}"
-              data-url="${link}"
-              data-title="${title}"
-              data-type="${typeLabel}"
-              data-price="${price}"
-              data-loc="${loc}"
-              data-img="${imgSrc}"
-              data-rooms="${listing.rooms || ''}"
-              data-area="${listing.area || ''}"
-              data-prop="${listing.property_type || ''}"
-              onclick="event.stopPropagation(); window.openPersonaIntelligenceModal(this)">
-              <i class="fas fa-bullseye" style="font-size:12px;"></i>
-              <span>🎯 Kimler İçin Uygun? (AI Swarm)</span>
-            </button>
-          </div>
+            <!-- Kimler İçin Uygun? AI Swarm Button -->
+            <div class="nxc-persona-row">
+              <button class="nxc-persona-btn ${listing.type === 'Kiralık' ? 'nxc-persona-btn-kiralik' : 'nxc-persona-btn-satilik'}"
+                data-url="${link}"
+                data-title="${title}"
+                data-type="${typeLabel}"
+                data-price="${price}"
+                data-loc="${loc}"
+                data-img="${imgSrc}"
+                data-rooms="${listing.rooms || ''}"
+                data-area="${listing.area || ''}"
+                data-prop="${listing.property_type || ''}"
+                onclick="event.stopPropagation(); window.openPersonaIntelligenceModal(this)">
+                <i class="fas fa-bullseye" style="font-size:12px;"></i>
+                <span>🎯 Kimler İçin Uygun? (AI Swarm)</span>
+              </button>
+            </div>
 
-          <!-- Incele & Sunum CTA Row -->
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px;">
-            <button class="nxc-incele" style="margin:0; width:100%; justify-content:center; padding:7px 10px;"
-              data-url="${link}"
-              onclick="nexaInceleCard(this)">
-              <span>İlanı İncele</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-            <button class="btn btn-outline btn-sm" style="margin:0; width:100%; justify-content:center; padding:7px 8px; border:1px solid rgba(212,175,55,0.45); background:rgba(212,175,55,0.12); color:#fde047; font-weight:700; border-radius:10px; font-size:11.5px; display:inline-flex; align-items:center; gap:5px;"
-              onclick="event.stopPropagation(); openAppointmentModal('', '${title} - Portföy Sunumu')">
-              <i class="fas fa-file-pdf" style="color:#ef4444;"></i>
-              <span>Sunum Dosyası</span>
-            </button>
+            <!-- Incele & Sunum CTA Row -->
+            <div class="nxc-cta-row">
+              <button class="nxc-incele" style="margin:0; width:100%; justify-content:center; padding:7px 10px;"
+                data-url="${link}"
+                onclick="event.stopPropagation(); nexaInceleCard(this)">
+                <span>İlanı İncele</span>
+                <i class="fas fa-arrow-right"></i>
+              </button>
+              <button class="nxc-sunum-btn"
+                onclick="event.stopPropagation(); openAppointmentModal('', '${title} - Portföy Sunumu')">
+                <i class="fas fa-file-pdf" style="color:#ef4444;"></i>
+                <span>Sunum Dosyası</span>
+              </button>
+            </div>
           </div>
         </div>
       `;
 
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('a') || e.target.closest('button')) return;
+        this.classList.toggle('touch-expanded');
+      });
+
       return card;
     }
 
-    // Global incele handler
+    // Global click listener to close touched cinematic cards when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nxc-cinematic-card')) {
+        document.querySelectorAll('.nxc-cinematic-card.touch-expanded').forEach(c => c.classList.remove('touch-expanded'));
+      }
+    });
+
     window.nexaIncele = function(btn) {
       var url = btn.getAttribute('data-url');
       console.log('[nexaIncele] url =', url);
