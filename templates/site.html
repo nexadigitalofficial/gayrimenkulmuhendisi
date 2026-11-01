@@ -7913,8 +7913,8 @@
         <!-- Desktop Horizontal Nav Links (Pixel-perfect to user's uploaded image) -->
         <div class="nxa-desktop-nav-links">
           <a href="#home" class="nxa-nav-item">Ana Sayfa</a>
-          <a href="#harita" class="nxa-nav-item"><i class="fas fa-map-marker-alt"></i>Harita</a>
           <a href="#portfolio" class="nxa-nav-item">Portföy</a>
+          <a href="#harita" class="nxa-nav-item"><i class="fas fa-map-marker-alt"></i>Harita</a>
           <a href="/ilanlar" class="nxa-nav-item"><i class="fas fa-th-list"></i>İlanlar</a>
           <a href="/ai-analysis" class="nxa-nav-item"><i class="fas fa-robot"></i>AI Analiz</a>
           <a href="/intelligence" class="nxa-nav-item"><i class="fas fa-chart-line"></i>Piyasa Zekası</a>
@@ -8160,10 +8160,10 @@
   <nav class="mobile-section-nav" id="mobileSectionNav" aria-label="Mobil Bölüm Navigasyonu">
     <div class="section-nav-track" id="sectionNavTrack">
       <a href="#portfolio" class="sec-nav-pill active" data-target="portfolio"><i class="fas fa-crown"></i> <span>Projeler & Portföy</span></a>
+      <a href="#harita" class="sec-nav-pill" data-target="harita"><i class="fas fa-map-marked-alt"></i> <span>Harita</span></a>
       <a href="#roiMatrixSection" class="sec-nav-pill" data-target="roiMatrixSection"><i class="fas fa-chart-line"></i> <span>ROI Analizi</span></a>
       <a href="#services" class="sec-nav-pill" data-target="services"><i class="fas fa-compass"></i> <span>Hizmetler</span></a>
       <a href="#marketDashboardSection" class="sec-nav-pill" data-target="marketDashboardSection"><i class="fas fa-chart-bar"></i> <span>Canlı Endeks</span></a>
-      <a href="#harita" class="sec-nav-pill" data-target="harita"><i class="fas fa-map-marked-alt"></i> <span>Harita</span></a>
       <a href="#haberlerSection" class="sec-nav-pill" data-target="haberlerSection"><i class="fas fa-newspaper"></i> <span>İstihbarat</span></a>
       <a href="#videoGallerySection" class="sec-nav-pill" data-target="videoGallerySection"><i class="fas fa-film"></i> <span>Videolar</span></a>
       <a href="#contact" class="sec-nav-pill" data-target="contact"><i class="fas fa-calculator"></i> <span>AI Değerleme</span></a>
@@ -8323,6 +8323,75 @@
     </div>
   </section>
 
+
+
+  <!-- HARİTA'DA İLANLAR Bölümü -->
+  <!-- ============================================================ -->
+  <section class="map-section" id="harita">
+    <div class="map-section-header">
+      <div style="margin-bottom: 16px; display: flex; justify-content: center;">
+        <div class="nexa-cyber-badge" onclick="openNexaDiagnostics()" title="NEXA.OS Canlı Sistem Telemetrisi">
+          <span class="ncb-dot"></span>
+          <span class="ncb-brand">POWERED BY NEXA</span>
+          <span class="ncb-sub">NEURAL GEO-ENGINE v4.2</span>
+          <span class="ncb-chip"><i class="fas fa-satellite"></i> 16 SATELLITE NODES</span>
+          <span class="ncb-chip" style="color:#f59e0b; border-color:rgba(245,158,11,0.3);"><i class="fas fa-bolt"></i> 14ms</span>
+        </div>
+      </div>
+      <span class="section-label">Ankara Haritası</span>
+      <h2 class="section-title">İlanları Harita'da Keşfedin</h2>
+      <p class="section-subtitle">
+        Ankara'daki tüm portföyümüzü interaktif harita üzerinde inceleyin — markere tıklayın, detayları görün
+      </p>
+    </div>
+
+    <!-- POI Katman Toggle Butonları -->
+    <div class="poi-controls" id="poiControls">
+      <button class="poi-toggle" data-poi="okul">
+        <span class="poi-dot"></span> 🏫 Okullar
+      </button>
+      <button class="poi-toggle" data-poi="metro">
+        <span class="poi-dot"></span> 🚇 Metro
+      </button>
+      <button class="poi-toggle" data-poi="hastane">
+        <span class="poi-dot"></span> 🏥 Hastane
+      </button>
+      <button class="poi-toggle" data-poi="avm">
+        <span class="poi-dot"></span> 🛍️ AVM
+      </button>
+      <button class="poi-toggle" data-poi="park">
+        <span class="poi-dot"></span> 🌳 Park
+      </button>
+      <button class="poi-toggle" data-poi="restoran">
+        <span class="poi-dot"></span> 🍽️ Restoran
+      </button>
+      <span class="poi-loading-badge" id="poiLoadingBadge">
+        <i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...
+      </span>
+    </div>
+
+    <div class="map-layout">
+      <!-- Sol: ilan listesi -->
+      <div class="map-sidebar" id="mapSidebar">
+        <div class="map-sidebar-header">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+            <h3><i class="fas fa-list" style="color:var(--gold);margin-right:8px;"></i>Portföy Listesi</h3>
+            <span class="ncb-chip" onclick="openNexaDiagnostics()" style="cursor:pointer; font-size:9px; padding:2px 7px;" title="NEXA.OS Telemetri"><i class="fas fa-microchip"></i> NEXA.OS</span>
+          </div>
+          <p id="mapSidebarCount">İlanlar yükleniyor...</p>
+        </div>
+        <div id="mapSidebarItems">
+          <div style="padding:40px 20px;text-align:center;color:var(--gray-light);">
+            <i class="fas fa-circle-notch fa-spin" style="font-size:24px;color:var(--gold);margin-bottom:12px;display:block;"></i>
+            Yükleniyor...
+          </div>
+        </div>
+      </div>
+
+      <!-- Sağ: Leaflet haritası -->
+      <div id="mapContainer"></div>
+    </div>
+  </section>
 
 
   <!-- Ankara Emlak ROI Karşılaştırma Matrisi -->
@@ -9343,74 +9412,6 @@
     </div>
   </section>
 
-
-  <!-- HARİTA'DA İLANLAR Bölümü -->
-  <!-- ============================================================ -->
-  <section class="map-section" id="harita">
-    <div class="map-section-header">
-      <div style="margin-bottom: 16px; display: flex; justify-content: center;">
-        <div class="nexa-cyber-badge" onclick="openNexaDiagnostics()" title="NEXA.OS Canlı Sistem Telemetrisi">
-          <span class="ncb-dot"></span>
-          <span class="ncb-brand">POWERED BY NEXA</span>
-          <span class="ncb-sub">NEURAL GEO-ENGINE v4.2</span>
-          <span class="ncb-chip"><i class="fas fa-satellite"></i> 16 SATELLITE NODES</span>
-          <span class="ncb-chip" style="color:#f59e0b; border-color:rgba(245,158,11,0.3);"><i class="fas fa-bolt"></i> 14ms</span>
-        </div>
-      </div>
-      <span class="section-label">Ankara Haritası</span>
-      <h2 class="section-title">İlanları Harita'da Keşfedin</h2>
-      <p class="section-subtitle">
-        Ankara'daki tüm portföyümüzü interaktif harita üzerinde inceleyin — markere tıklayın, detayları görün
-      </p>
-    </div>
-
-    <!-- POI Katman Toggle Butonları -->
-    <div class="poi-controls" id="poiControls">
-      <button class="poi-toggle" data-poi="okul">
-        <span class="poi-dot"></span> 🏫 Okullar
-      </button>
-      <button class="poi-toggle" data-poi="metro">
-        <span class="poi-dot"></span> 🚇 Metro
-      </button>
-      <button class="poi-toggle" data-poi="hastane">
-        <span class="poi-dot"></span> 🏥 Hastane
-      </button>
-      <button class="poi-toggle" data-poi="avm">
-        <span class="poi-dot"></span> 🛍️ AVM
-      </button>
-      <button class="poi-toggle" data-poi="park">
-        <span class="poi-dot"></span> 🌳 Park
-      </button>
-      <button class="poi-toggle" data-poi="restoran">
-        <span class="poi-dot"></span> 🍽️ Restoran
-      </button>
-      <span class="poi-loading-badge" id="poiLoadingBadge">
-        <i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...
-      </span>
-    </div>
-
-    <div class="map-layout">
-      <!-- Sol: ilan listesi -->
-      <div class="map-sidebar" id="mapSidebar">
-        <div class="map-sidebar-header">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-            <h3><i class="fas fa-list" style="color:var(--gold);margin-right:8px;"></i>Portföy Listesi</h3>
-            <span class="ncb-chip" onclick="openNexaDiagnostics()" style="cursor:pointer; font-size:9px; padding:2px 7px;" title="NEXA.OS Telemetri"><i class="fas fa-microchip"></i> NEXA.OS</span>
-          </div>
-          <p id="mapSidebarCount">İlanlar yükleniyor...</p>
-        </div>
-        <div id="mapSidebarItems">
-          <div style="padding:40px 20px;text-align:center;color:var(--gray-light);">
-            <i class="fas fa-circle-notch fa-spin" style="font-size:24px;color:var(--gold);margin-bottom:12px;display:block;"></i>
-            Yükleniyor...
-          </div>
-        </div>
-      </div>
-
-      <!-- Sağ: Leaflet haritası -->
-      <div id="mapContainer"></div>
-    </div>
-  </section>
 
   <!-- Blog/News Slider Section -->
   <section class="section section-dark" id="haberlerSection">
