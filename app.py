@@ -16591,6 +16591,49 @@ def get_all_portfolio_buyers():
     except Exception as e:
         return jsonify({"ok": False, "error": str(e), "buyers": []}), 500
 
+@app.route("/api/crm/export/xlsx", methods=["GET", "POST"])
+def export_crm_xlsx():
+    """Tüm müşteri, alıcı, satıcı ve lead verilerini kategorize edilmiş kurumsal Excel (XLSX) olarak dışarı aktarır."""
+    try:
+        from flask import Response
+        from crm_excel_export import generate_crm_excel_backup
+
+        contacts_payload = None
+        leads_payload = None
+
+        if flask_request.method == "POST":
+            payload = flask_request.get_json(silent=True) or {}
+            contacts_payload = payload.get("contacts")
+            leads_payload = payload.get("webLeads")
+
+        global db_admin
+        if db_admin is None:
+            try:
+                init_firebase_admin()
+            except Exception:
+                pass
+
+        excel_bytes = generate_crm_excel_backup(
+            contacts=contacts_payload,
+            web_leads=leads_payload,
+            db_admin=db_admin
+        )
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+        filename = f"NEXA_CRM_Musteri_Yedek_{timestamp}.xlsx"
+
+        return Response(
+            excel_bytes,
+            mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={
+                "Content-Disposition": f'attachment; filename="{filename}"',
+                "Cache-Control": "no-cache, no-store, must-revalidate"
+            }
+        )
+    except Exception as e:
+        print(f"❌ Excel export hatası: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
 @app.route("/api/portfolio/listing/<path:ref_id>/buyer", methods=["POST"])
 def add_portfolio_listing_buyer(ref_id):
     """İlana özel alıcı ekler ve aynı anda genel CRM Lead/Contact havuzuna işler."""
