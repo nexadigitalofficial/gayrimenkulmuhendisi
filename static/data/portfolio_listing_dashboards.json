@@ -1672,8 +1672,28 @@
         "score": 0
       }
     ],
-    "buyers": [],
+    "buyers": [
+      {
+        "id": "b_cinnah_7m_b8aee88267a9",
+        "name": "Cinnah Alıcı Adayı (7M Teklif)",
+        "phone": "0532 451 40 08",
+        "offer": "7.000.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Cinnah satılık portföyü için 7.000.000 ₺ teklif iletildi. Mülk sahibi ile pazarlık ve kapatma sürecinde.",
+        "createdAt": "01.11.2026 09:24",
+        "refId": "b8aee88267a9",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ OTOPARKLI SATILIK 2+1 DAİRE - 379539"
+      }
+    ],
     "timeline": [
+      {
+        "id": "t_cinnah_7m_b8aee88267a9",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Cinnah Alıcı Adayı (7M Teklif)",
+        "note": "Teklif: 7.000.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:24",
+        "author": "Yiğit Narin"
+      },
       {
         "id": "init",
         "type": "status",
@@ -2188,8 +2208,28 @@
         "score": 0
       }
     ],
-    "buyers": [],
+    "buyers": [
+      {
+        "id": "b_cinnah_7m_45e616122b56",
+        "name": "Cinnah Alıcı Adayı (7M Teklif)",
+        "phone": "0532 451 40 08",
+        "offer": "7.000.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Cinnah satılık portföyü için 7.000.000 ₺ teklif iletildi. Mülk sahibi ile pazarlık ve kapatma sürecinde.",
+        "createdAt": "01.11.2026 09:24",
+        "refId": "45e616122b56",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ OTOPARKLI SATILIK 2+1 OFİS - 379537"
+      }
+    ],
     "timeline": [
+      {
+        "id": "t_cinnah_7m_45e616122b56",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Cinnah Alıcı Adayı (7M Teklif)",
+        "note": "Teklif: 7.000.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:24",
+        "author": "Yiğit Narin"
+      },
       {
         "id": "init",
         "type": "status",
@@ -2284,6 +2324,503 @@
         "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
         "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
         "date": "01.11.2026 09:38",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793516063": {
+    "refId": "test_listing_1793516063",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793516063_560",
+        "refId": "test_listing_1793516063",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 09:54"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793516063",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:54",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_no_phone_persist": {
+    "refId": "test_no_phone_persist",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793516156_854",
+        "refId": "test_no_phone_persist",
+        "name": "Mehmet Bey (Cinnah Adayı)",
+        "phone": "-",
+        "offer": "7.200.000 ₺",
+        "stage": "Pazarlık Aşamasında",
+        "note": "Telefon girmeden sadece isim ve teklif ile ekleme testi.",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ 2+1 DAİRE",
+        "createdAt": "01.11.2026 09:55"
+      },
+      {
+        "id": "b_1793516144_264",
+        "refId": "test_no_phone_persist",
+        "name": "Mehmet Bey (Cinnah Adayı)",
+        "phone": "-",
+        "offer": "7.200.000 ₺",
+        "stage": "Pazarlık Aşamasında",
+        "note": "Telefon girmeden sadece isim ve teklif ile ekleme testi.",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ 2+1 DAİRE",
+        "createdAt": "01.11.2026 09:55"
+      },
+      {
+        "id": "b_1793516098_518",
+        "refId": "test_no_phone_persist",
+        "name": "Mehmet Bey (Cinnah Adayı)",
+        "phone": "-",
+        "offer": "7.200.000 ₺",
+        "stage": "Pazarlık Aşamasında",
+        "note": "Telefon girmeden sadece isim ve teklif ile ekleme testi.",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ 2+1 DAİRE",
+        "createdAt": "01.11.2026 09:54"
+      },
+      {
+        "id": "b_1793516065_266",
+        "refId": "test_no_phone_persist",
+        "name": "Mehmet Bey (Cinnah Adayı)",
+        "phone": "-",
+        "offer": "7.200.000 ₺",
+        "stage": "Pazarlık Aşamasında",
+        "note": "Telefon girmeden sadece isim ve teklif ile ekleme testi.",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ 2+1 DAİRE",
+        "createdAt": "01.11.2026 09:54"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793516156",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Mehmet Bey (Cinnah Adayı)",
+        "note": "Teklif: 7.200.000 ₺ | Aşama: Pazarlık Aşamasında",
+        "date": "01.11.2026 09:55",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793516144",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Mehmet Bey (Cinnah Adayı)",
+        "note": "Teklif: 7.200.000 ₺ | Aşama: Pazarlık Aşamasında",
+        "date": "01.11.2026 09:55",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793516098",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Mehmet Bey (Cinnah Adayı)",
+        "note": "Teklif: 7.200.000 ₺ | Aşama: Pazarlık Aşamasında",
+        "date": "01.11.2026 09:54",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793516065",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Mehmet Bey (Cinnah Adayı)",
+        "note": "Teklif: 7.200.000 ₺ | Aşama: Pazarlık Aşamasında",
+        "date": "01.11.2026 09:54",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793516096": {
+    "refId": "test_listing_1793516096",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793516096_449",
+        "refId": "test_listing_1793516096",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 09:54"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793516096",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:54",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793516143": {
+    "refId": "test_listing_1793516143",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793516143_395",
+        "refId": "test_listing_1793516143",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 09:55"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793516143",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:55",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793516155": {
+    "refId": "test_listing_1793516155",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793516155_802",
+        "refId": "test_listing_1793516155",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 09:55"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793516155",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 09:55",
         "author": "Yiğit Narin"
       }
     ]

@@ -16338,6 +16338,99 @@ def _save_listing_dashboards(data):
                     pass
             raise
 
+def _init_portfolio_sqlite():
+    try:
+        db_path = os.path.join("data", "intelligence.db")
+        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        with sqlite3.connect(db_path) as conn:
+            cur = conn.cursor()
+            cur.execute("""
+            CREATE TABLE IF NOT EXISTS portfolio_listing_buyers (
+                id TEXT PRIMARY KEY,
+                refId TEXT NOT NULL,
+                name TEXT NOT NULL,
+                phone TEXT,
+                offer TEXT,
+                stage TEXT,
+                note TEXT,
+                listingTitle TEXT,
+                createdAt TEXT
+            );
+            """)
+            cur.execute("""
+            CREATE TABLE IF NOT EXISTS portfolio_listing_timeline (
+                id TEXT PRIMARY KEY,
+                refId TEXT NOT NULL,
+                type TEXT,
+                title TEXT,
+                note TEXT,
+                date TEXT,
+                author TEXT
+            );
+            """)
+            conn.commit()
+    except Exception as e:
+        print(f"⚠️ Portfolio SQLite init error: {e}")
+
+def _save_portfolio_buyer_to_sqlite(b):
+    try:
+        _init_portfolio_sqlite()
+        db_path = os.path.join("data", "intelligence.db")
+        with sqlite3.connect(db_path) as conn:
+            cur = conn.cursor()
+            cur.execute("""
+            INSERT OR REPLACE INTO portfolio_listing_buyers (id, refId, name, phone, offer, stage, note, listingTitle, createdAt)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (b.get('id'), b.get('refId'), b.get('name'), b.get('phone') or '-', b.get('offer') or '', b.get('stage') or 'Yeni Talep', b.get('note') or '', b.get('listingTitle') or '', b.get('createdAt') or ''))
+            conn.commit()
+    except Exception as e:
+        print(f"⚠️ Portfolio buyer SQLite save error: {e}")
+
+def _save_portfolio_timeline_to_sqlite(t, ref_id):
+    try:
+        _init_portfolio_sqlite()
+        db_path = os.path.join("data", "intelligence.db")
+        with sqlite3.connect(db_path) as conn:
+            cur = conn.cursor()
+            cur.execute("""
+            INSERT OR REPLACE INTO portfolio_listing_timeline (id, refId, type, title, note, date, author)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (t.get('id'), ref_id, t.get('type') or 'note', t.get('title') or '', t.get('note') or '', t.get('date') or '', t.get('author') or 'Yiğit Narin'))
+            conn.commit()
+    except Exception as e:
+        print(f"⚠️ Portfolio timeline SQLite save error: {e}")
+
+def _get_sqlite_portfolio_buyers(ref_id=None):
+    try:
+        _init_portfolio_sqlite()
+        db_path = os.path.join("data", "intelligence.db")
+        with sqlite3.connect(db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cur = conn.cursor()
+            if ref_id:
+                cur.execute('SELECT * FROM portfolio_listing_buyers WHERE refId = ? ORDER BY rowid DESC', (ref_id,))
+            else:
+                cur.execute('SELECT * FROM portfolio_listing_buyers ORDER BY rowid DESC')
+            rows = cur.fetchall()
+            return [dict(r) for r in rows]
+    except Exception as e:
+        print(f"⚠️ Portfolio buyer SQLite read error: {e}")
+        return []
+
+def _get_sqlite_portfolio_timeline(ref_id):
+    try:
+        _init_portfolio_sqlite()
+        db_path = os.path.join("data", "intelligence.db")
+        with sqlite3.connect(db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cur = conn.cursor()
+            cur.execute('SELECT * FROM portfolio_listing_timeline WHERE refId = ? ORDER BY rowid DESC', (ref_id,))
+            rows = cur.fetchall()
+            return [dict(r) for r in rows]
+    except Exception as e:
+        print(f"⚠️ Portfolio timeline SQLite read error: {e}")
+        return []
+
 DEFAULT_PLATFORMS = [
     {"platform": "SAHIBINDEN", "logo": "🟡", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0},
     {"platform": "HEPSIEMLAK", "logo": "🔴", "views": 0, "favorites": 0, "messages": 0, "calls": 0, "influence": 0, "score": 0},
@@ -16351,6 +16444,7 @@ DEFAULT_PLATFORMS = [
 def get_portfolio_listing_dashboard(ref_id):
     """İlanın platform istatistiklerini, alıcılarını ve zaman çizelgesini döner."""
     try:
+        ref_id = re.sub(r'[^a-zA-Z0-9_\-\.:]', '_', str(ref_id))[:128]
         all_data = _load_listing_dashboards()
         item = all_data.get(ref_id)
         if not item:
@@ -16371,6 +16465,21 @@ def get_portfolio_listing_dashboard(ref_id):
             }
             all_data[ref_id] = item
             _save_listing_dashboards(all_data)
+
+        # Merge with SQLite buyers and timeline to guarantee zero data loss
+        sql_buyers = _get_sqlite_portfolio_buyers(ref_id)
+        existing_bids = {b.get("id") for b in item.get("buyers", []) if b.get("id")}
+        for sb in sql_buyers:
+            if sb.get("id") not in existing_bids:
+                item.setdefault("buyers", []).append(sb)
+                existing_bids.add(sb.get("id"))
+
+        sql_timeline = _get_sqlite_portfolio_timeline(ref_id)
+        existing_tids = {t.get("id") for t in item.get("timeline", []) if t.get("id")}
+        for st in sql_timeline:
+            if st.get("id") not in existing_tids:
+                item.setdefault("timeline", []).append(st)
+                existing_tids.add(st.get("id"))
 
         return jsonify({"ok": True, "data": item})
     except Exception as e:
@@ -16414,6 +16523,74 @@ def save_portfolio_platform_stats(ref_id):
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 
+@app.route("/api/portfolio/all_buyers", methods=["GET"])
+def get_all_portfolio_buyers():
+    """Tüm portföy ilanlarındaki alıcıları tek havuzda döner (Kişilerim senkronizasyonu için)."""
+    try:
+        all_buyers_map = {}
+        # 1. From SQLite
+        sql_buyers = _get_sqlite_portfolio_buyers()
+        for sb in sql_buyers:
+            bid = sb.get("id")
+            if bid:
+                all_buyers_map[bid] = sb
+
+        # 2. From JSON dashboards
+        all_data = _load_listing_dashboards()
+        for ref_id, item in all_data.items():
+            for b in item.get("buyers", []):
+                bid = b.get("id")
+                if bid:
+                    all_buyers_map[bid] = b
+
+        formatted_contacts = []
+        for bid, b in all_buyers_map.items():
+            clean_price = 0
+            raw_offer = b.get("offer") or ""
+            digits = re.sub(r'[^0-9]', '', str(raw_offer))
+            if digits:
+                clean_price = int(digits)
+
+            stage_lower = (b.get("stage") or "").lower()
+            stage_id = "new"
+            if any(x in stage_lower for x in ["randevu", "görüşme", "yer", "gösterim"]):
+                stage_id = "showing"
+            elif any(x in stage_lower for x in ["teklif", "pazarlık"]):
+                stage_id = "offer"
+            elif any(x in stage_lower for x in ["sözleşme", "anlaşıldı", "kapora"]):
+                stage_id = "contract"
+            elif any(x in stage_lower for x in ["satıldı", "kapandı", "tapu"]):
+                stage_id = "closed"
+
+            listing_title = b.get("listingTitle") or "Portföy İlanı"
+            ref_id = b.get("refId") or ""
+            note = b.get("note") or ""
+
+            formatted_contacts.append({
+                "id": bid,
+                "name": b.get("name") or "İlan Alıcısı",
+                "phone": b.get("phone") or "-",
+                "category": "buyer",
+                "role": "buyer",
+                "type": "buyer",
+                "stage": stage_id,
+                "stageName": b.get("stage") or "Yeni Talep",
+                "price": clean_price,
+                "offer": raw_offer,
+                "source": "listing",
+                "source_label": "İlan Alıcısı",
+                "listingRef": ref_id,
+                "listingTitle": listing_title,
+                "notes": f"{note + chr(10) + chr(10) if note else ''}📌 İlan Alıcısı: {listing_title} (Ref: {ref_id})\nTeklif: {raw_offer or 'Belirtilmedi'}\nAşama: {b.get('stage') or 'Yeni Talep'}",
+                "createdAt": b.get("createdAt") or datetime.now().strftime("%d.%m.%Y %H:%M"),
+                "updatedAt": datetime.now().isoformat(),
+                "agent": "Yiğit Narin"
+            })
+
+        return jsonify({"ok": True, "buyers": formatted_contacts, "count": len(formatted_contacts)})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e), "buyers": []}), 500
+
 @app.route("/api/portfolio/listing/<path:ref_id>/buyer", methods=["POST"])
 def add_portfolio_listing_buyer(ref_id):
     """İlana özel alıcı ekler ve aynı anda genel CRM Lead/Contact havuzuna işler."""
@@ -16427,8 +16604,13 @@ def add_portfolio_listing_buyer(ref_id):
         note = html.escape((payload.get("note") or "").strip()[:1000])
         listing_title = html.escape((payload.get("listing_title") or "Portföy İlanı").strip()[:150])
 
-        if not name or not phone:
-            return jsonify({"ok": False, "error": "Ad ve telefon zorunludur."}), 400
+        if not name and not offer and not note:
+            return jsonify({"ok": False, "error": "Alıcı adı veya teklif tutarı zorunludur."}), 400
+
+        if not name:
+            name = f"Alıcı ({offer or 'Portföy Teklifi'})"
+        if not phone:
+            phone = "-"
 
         buyer_id = f"b_{int(time.time())}_{random.randint(100, 999)}"
         buyer_record = {
@@ -16460,6 +16642,10 @@ def add_portfolio_listing_buyer(ref_id):
             all_data[ref_id].setdefault("buyers", []).insert(0, buyer_record)
             all_data[ref_id].setdefault("timeline", []).insert(0, timeline_event)
             _save_listing_dashboards(all_data)
+
+        # Dual Persistence: Also persist to SQLite immediately
+        _save_portfolio_buyer_to_sqlite(buyer_record)
+        _save_portfolio_timeline_to_sqlite(timeline_event, ref_id)
 
         # Global CRM Sync: also register in Firestore / Contacts if available
         try:

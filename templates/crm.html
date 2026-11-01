@@ -5704,9 +5704,9 @@
                                                     <i class="fas fa-user-plus"></i> Yeni Alıcı / Teklif Ekle
                                                 </h4>
                                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
-                                                    <input type="text" v-model="listingNewBuyer.name" placeholder="Alıcı Adı Soyadı *" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
-                                                    <input type="text" v-model="listingNewBuyer.phone" placeholder="Telefon Numarası *" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
-                                                    <input type="text" v-model="listingNewBuyer.offer" placeholder="Teklif / Bütçe (örn: 14.500.000 ₺)" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
+                                                    <input type="text" v-model="listingNewBuyer.name" placeholder="Alıcı Adı Soyadı" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
+                                                    <input type="text" v-model="listingNewBuyer.phone" placeholder="Telefon Numarası (İsteğe Bağlı)" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
+                                                    <input type="text" v-model="listingNewBuyer.offer" placeholder="Teklif / Bütçe (örn: 7.000.000 ₺)" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
                                                     <select v-model="listingNewBuyer.stage" class="px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
                                                         <option value="Yeni Talep">Yeni Talep</option>
                                                         <option value="Yer Gösterildi">Yer Gösterildi</option>
@@ -5718,7 +5718,7 @@
                                                 </div>
                                                 <div class="flex flex-col sm:flex-row gap-2">
                                                     <input type="text" v-model="listingNewBuyer.note" placeholder="Özel Görüşme Notu (örn: Salonu çok beğendi, kredi onayı bekliyor...)" class="flex-1 px-3 py-2 rounded-xl bg-black/40 border border-white/10 text-white text-xs sm:text-sm focus:border-purple-400 focus:outline-none">
-                                                    <button @click="addListingBuyer" :disabled="listingBuyerAdding || !listingNewBuyer.name.trim() || !listingNewBuyer.phone.trim()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-40 transition-all flex items-center justify-center gap-1.5 w-full sm:w-auto">
+                                                    <button @click="addListingBuyer" :disabled="listingBuyerAdding || (!listingNewBuyer.name.trim() && !listingNewBuyer.offer.trim() && !listingNewBuyer.note.trim())" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-40 transition-all flex items-center justify-center gap-1.5 w-full sm:w-auto">
                                                         <i :class="['fas', listingBuyerAdding ? 'fa-spinner fa-spin' : 'fa-plus']"></i>
                                                         Alıcıyı Kaydet (CRM'e Entegre)
                                                     </button>
@@ -7351,6 +7351,26 @@
                     }
 
                     contacts.value = loadedContacts;
+
+                    // ── Dual-Sync: Fetch all portfolio listing buyers from backend to ensure 100% presence in Kişilerim
+                    try {
+                        const allBRes = await fetch('/api/portfolio/all_buyers');
+                        const allBJson = await allBRes.json();
+                        if (allBJson.ok && Array.isArray(allBJson.buyers)) {
+                            for (const b of allBJson.buyers) {
+                                const exists = contacts.value.some(c => c.id === b.id);
+                                if (!exists) {
+                                    contacts.value.unshift({
+                                        _ownerUid: user.value ? user.value.uid : null,
+                                        ...b
+                                    });
+                                }
+                            }
+                        }
+                    } catch (bSyncErr) {
+                        console.warn("Portfolio buyers sync warning:", bSyncErr);
+                    }
+
                     await loadReminders();
                     await loadFollowups();
                     if (isUserAdmin.value) {
@@ -8969,7 +8989,21 @@ ${comments}`;
             };
 
             const addListingBuyer = async () => {
-                if (!listingNewBuyer.value.name.trim() || !listingNewBuyer.value.phone.trim()) return;
+                const rawName = (listingNewBuyer.value.name || '').trim();
+                const rawOffer = (listingNewBuyer.value.offer || '').trim();
+                const rawPhone = (listingNewBuyer.value.phone || '').trim();
+                const rawNote = (listingNewBuyer.value.note || '').trim();
+
+                if (!rawName && !rawOffer && !rawNote) {
+                    if (toast && toast.value) {
+                        toast.value = { show: true, message: 'Lütfen alıcı adı veya teklif tutarı giriniz.', icon: 'exclamation-circle' };
+                        setTimeout(() => { toast.value.show = false; }, 3000);
+                    }
+                    return;
+                }
+                const finalName = rawName || `Alıcı (${rawOffer || 'Portföy Teklifi'})`;
+                const finalPhone = rawPhone || '-';
+
                 listingBuyerAdding.value = true;
                 try {
                     const refId = portfoyCtx.value.refId;
@@ -8977,11 +9011,11 @@ ${comments}`;
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            name: listingNewBuyer.value.name,
-                            phone: listingNewBuyer.value.phone,
-                            offer: listingNewBuyer.value.offer,
-                            stage: listingNewBuyer.value.stage,
-                            note: listingNewBuyer.value.note,
+                            name: finalName,
+                            phone: finalPhone,
+                            offer: rawOffer,
+                            stage: listingNewBuyer.value.stage || 'Yeni Talep',
+                            note: rawNote,
                             listing_title: currentListingObj.value.title || portfoyCtx.value.title,
                             uid: user.value ? user.value.uid : null
                         })
