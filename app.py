@@ -18286,6 +18286,91 @@ def _api_proactive_sync_vip_stores():
         return jsonify({"ok": False, "error": str(e)}), 500
 
 
+@app.route("/apk", methods=["GET"])
+@app.route("/download/apk", methods=["GET"])
+def download_nexa_crm_apk():
+    """Serves the NEXA CRM Pro Android APK for mobile devices."""
+    from pathlib import Path
+    apk_candidates = [
+        Path(__file__).parent / "NEXA_CRM_Pro_v1.0.0.apk",
+        Path(__file__).parent / "android_crm_pro" / "app" / "build" / "outputs" / "apk" / "debug" / "app-debug.apk",
+    ]
+    for apk_path in apk_candidates:
+        if apk_path.exists():
+            return send_file(
+                str(apk_path),
+                as_attachment=True,
+                download_name="NEXA_CRM_Pro_v1.0.0.apk",
+                mimetype="application/vnd.android.package-archive"
+            )
+    return jsonify({"ok": False, "error": "APK dosyasi bulunamadi"}), 404
+
+
+@app.route("/mobile", methods=["GET"])
+def mobile_download_page():
+    """Presents a responsive mobile landing page with direct APK download."""
+    import socket
+    local_ip = "192.168.1.36"
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        pass
+
+    crm_url = f"http://{local_ip}:5000/crm"
+
+    html = f"""<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXA CRM Pro - Android APK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {{ background: #030712; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }}
+        .gold-glow {{ box-shadow: 0 0 35px rgba(212, 175, 55, 0.2); }}
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 text-center gold-glow backdrop-blur-xl">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-400 p-0.5 shadow-lg shadow-amber-500/20">
+            <div class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center">
+                <i class="fas fa-crown text-3xl text-amber-400"></i>
+            </div>
+        </div>
+        <h1 class="text-2xl font-black tracking-tight text-white mb-1">NEXA CRM PRO</h1>
+        <p class="text-xs font-semibold text-amber-400 uppercase tracking-widest mb-4">Coldwell Banker CB VIP Edition</p>
+        <p class="text-sm text-slate-400 mb-6">Mobil Android uygulamasi ile alicilari, teklifleri ve WebTapu sureclerinizi telefonunuzdan yonetin.</p>
+
+        <a href="/apk" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-slate-950 font-bold text-base flex items-center justify-center gap-3 shadow-lg shadow-amber-500/30 hover:scale-[1.02] active:scale-[0.98] transition-transform mb-4">
+            <i class="fab fa-android text-2xl"></i>
+            <span>NEXA CRM Pro APK Indir (v1.0.0)</span>
+        </a>
+
+        <div class="bg-slate-950/70 border border-slate-800/80 rounded-2xl p-4 mb-6 text-left space-y-2 text-xs text-slate-400">
+            <div class="flex items-center gap-2 text-slate-300 font-semibold mb-1">
+                <i class="fas fa-info-circle text-amber-400"></i>
+                <span>Yukleme Adimlari:</span>
+            </div>
+            <p>1. <b>APK Indir</b> butonuna dokunarak dosyayi indirin.</p>
+            <p>2. Bildirim cubugundan indirilen dosyaya dokunun.</p>
+            <p>3. 'Bilinmeyen kaynaklar' iznini onaylayip <b>Yukle</b> deyin.</p>
+            <p>4. Uygulama baslatildiginda otomatik olarak <b>{crm_url}</b> sunucusuna baglanacaktir.</p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+            <span>Paket: <code class="text-slate-400">com.nexadigital.crmpro</code></span>
+            <span>Boyut: <span class="text-amber-400 font-semibold">13.0 MB</span></span>
+        </div>
+    </div>
+</body>
+</html>"""
+    return html
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--cli":
         sys.argv.pop(1)

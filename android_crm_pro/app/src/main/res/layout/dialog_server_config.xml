@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0b1120"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NEXA CRM Sunucu Ayarları"
+        android:textColor="#d4af37"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Telefonun bağlanacağı CRM web adresini girin:"
+        android:textColor="#94a3b8"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/editServerUrl"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/bg_dark_card"
+        android:hint="http://192.168.1.36:5000/crm"
+        android:inputType="textUri"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="#f8fafc"
+        android:textColorHint="#475569"
+        android:textSize="14sp" />
+
+    <!-- Presets / Quick Chips -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Hızlı Seçenekler:"
+        android:textColor="#64748b"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/chipLocal"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_secondary"
+            android:text="Wi-Fi"
+            android:textColor="#cbd5e1"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/chipDemo"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_secondary"
+            android:text="Demo"
+            android:textColor="#38bdf8"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/chipEmulator"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_secondary"
+            android:text="Emülatör"
+            android:textColor="#cbd5e1"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="14dp"
+        android:background="#1e293b" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnClearCache"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_button_secondary"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="Önbelleği Sil"
+            android:textAllCaps="false"
+            android:textColor="#f87171"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_button_secondary"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="İptal"
+            android:textAllCaps="false"
+            android:textColor="#94a3b8"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btnSaveConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_button_gold"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Bağlan"
+            android:textAllCaps="false"
+            android:textColor="#030712"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

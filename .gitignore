@@ -84,3 +84,7 @@ test_location_*
 
 service-account.json
 audit_report.json
+
+*.apk
+android_crm_pro/**/build/
+android_crm_pro/.gradle/
