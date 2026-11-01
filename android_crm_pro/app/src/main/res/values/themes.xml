@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.NEXACRMPro" parent="android:Theme.Material.NoActionBar">
+    <style name="Theme.NEXACRMPro" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:statusBarColor">#030712</item>
         <item name="android:navigationBarColor">#030712</item>
         <item name="android:windowBackground">#030712</item>
+        <item name="colorPrimary">#d4af37</item>
+        <item name="colorAccent">#d4af37</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>
