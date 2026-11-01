@@ -13864,6 +13864,42 @@ def send_lead_report():
 
     result = {"ok": True, "channels": {}}
 
+    # -- Yerel SQLite CRM'e garantili kayit (web_leads) --
+    try:
+        db_path = os.path.join("data", "intelligence.db")
+        with sqlite3.connect(db_path) as conn:
+            cur = conn.cursor()
+            cur.execute("""
+            CREATE TABLE IF NOT EXISTS web_leads (
+                id TEXT PRIMARY KEY,
+                name TEXT,
+                phone TEXT,
+                email TEXT,
+                project TEXT,
+                notes TEXT,
+                source TEXT,
+                status TEXT,
+                createdAt TEXT
+            )
+            """)
+            cur.execute("""
+            INSERT OR REPLACE INTO web_leads (id, name, phone, email, project, notes, source, status, createdAt)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                lead_id or f"lead_{int(time.time())}",
+                name,
+                phone,
+                email,
+                f"{neigh} - {ptype} ({sqm} m2 {rooms})".strip(" -()"),
+                notes,
+                "degerleme_formu",
+                "new_lead",
+                datetime.now().strftime("%d.%m.%Y %H:%M")
+            ))
+            conn.commit()
+    except Exception as _e_wl:
+        print(f"[WARN] Local web_leads save error: {_e_wl}")
+
     advisor_msg = (
         f"📋 <b>Yeni Değerleme Talebi!</b>\n\n"
         f"👤 <b>{name}</b>\n"
