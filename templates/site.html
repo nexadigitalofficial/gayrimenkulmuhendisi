@@ -4339,6 +4339,202 @@
       box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
     }
 
+    /* ═══════════════════════════════════════════════════════════════════════════
+       SHOWCASE ULTRA-LUXURY ARCHITECTURAL BLUEPRINT ATMOSPHERE
+    ═══════════════════════════════════════════════════════════════════════════ */
+    .showcase-luxury-section {
+      position: relative !important;
+      scroll-margin-top: 90px !important;
+      background-color: #050a14 !important;
+      background-image: 
+        radial-gradient(ellipse 70% 38% at 50% 0%, rgba(212, 175, 55, 0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 85% 55% at 50% 48%, rgba(15, 34, 68, 0.45) 0%, transparent 80%),
+        radial-gradient(ellipse 75% 35% at 50% 100%, rgba(10, 20, 36, 0.6) 0%, transparent 80%) !important;
+      overflow: hidden !important;
+      padding-top: 90px !important;
+      padding-bottom: 100px !important;
+    }
+
+    /* CAD Blueprint SVG Layer */
+    .showcase-cad-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.95;
+      user-select: none;
+    }
+
+    .showcase-luxury-section > .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Contrast Restoration: Section Label & Title */
+    #portfolio .section-label {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212, 175, 55, 0.1) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      color: #f3ba2f !important;
+      padding: 6px 18px !important;
+      border-radius: 999px !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 2px !important;
+      margin-bottom: 16px !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    #portfolio #showcaseSectionTitle,
+    #portfolio .section-title {
+      background: linear-gradient(135deg, #ffffff 15%, #f1f5f9 50%, #fef08a 85%, #d4af37 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      text-shadow: 0 4px 25px rgba(0, 0, 0, 0.6) !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.5px !important;
+      margin-bottom: 16px !important;
+    }
+
+    #portfolio .section-subtitle {
+      color: #cbd5e1 !important;
+      font-size: 16px !important;
+      max-width: 720px !important;
+      line-height: 1.7 !important;
+    }
+
+    /* ─── YATIRIM GÜVEN ROZETLERİ (TRUST BAR) ─── */
+    .showcase-trust-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 1.25rem auto 1.5rem auto;
+      max-width: 1040px;
+    }
+
+    .showcase-trust-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.68);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e2e8f0;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      transition: all 0.3s ease;
+    }
+
+    .showcase-trust-pill:hover {
+      border-color: var(--gold);
+      background: rgba(21, 32, 54, 0.88);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
+    }
+
+    .showcase-trust-pill i {
+      font-size: 13px;
+    }
+
+    /* ─── HIZLI BÖLGE VE KATEGORİ ÇİPLERİ (QUICK-CHIPS) ─── */
+    .showcase-chips-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 auto 1.8rem auto;
+      padding: 0 10px;
+      max-width: 980px;
+    }
+
+    .showcase-chip {
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(8px);
+    }
+
+    .showcase-chip:hover {
+      background: rgba(30, 41, 59, 0.95);
+      border-color: rgba(212, 175, 55, 0.45);
+      color: #f8fafc;
+      transform: translateY(-1px);
+    }
+
+    .showcase-chip.active {
+      background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%) !important;
+      color: #0a1628 !important;
+      font-weight: 700 !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.45) !important;
+      transform: scale(1.03);
+    }
+
+    .showcase-chip.active i {
+      color: #0a1628 !important;
+    }
+
+    /* ─── FULL-BLEED CAROUSEL VIGNETTE ─── */
+    .carousel-container {
+      mask-image: linear-gradient(to right, transparent 0%, black 3.5%, black 96.5%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3.5%, black 96.5%, transparent 100%);
+    }
+
+    @media (max-width: 768px) {
+      .showcase-luxury-section {
+        padding-top: 130px !important;
+      }
+      #portfolio .section-title {
+        font-size: 28px !important;
+        line-height: 1.3 !important;
+      }
+      .showcase-trust-bar {
+        gap: 8px;
+        margin: 1rem auto 1.25rem auto;
+      }
+      .showcase-trust-pill {
+        font-size: 11px;
+        padding: 5px 12px;
+      }
+      .showcase-chips-bar {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+      }
+      .showcase-chips-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .showcase-chip {
+        flex-shrink: 0;
+      }
+      .carousel-container {
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+      }
+    }
+
     /* ─── SEGMENTED CONTROL ─── */
     .nxc-segmented-wrapper {
       display: flex;
@@ -8171,15 +8367,108 @@
   </nav>
 
   <!-- ============================================================
-       ULTRA PRO PORTFOLIO SECTION
+       ULTRA PRO PORTFOLIO SECTION (LUXURY ARCHITECTURAL BLUEPRINT)
   ============================================================ -->
-  <section class="section showcase-luxury-section" id="portfolio" style="padding-top: 80px;">
+  <section class="section showcase-luxury-section" id="portfolio">
+    <!-- Chic Architectural CAD Plan & Blueprint Background SVG -->
+    <svg class="showcase-cad-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <pattern id="cadGridMajor" width="80" height="80" patternUnits="userSpaceOnUse">
+          <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(212, 175, 55, 0.08)" stroke-width="1"/>
+          <circle cx="0" cy="0" r="1.5" fill="rgba(212, 175, 55, 0.35)"/>
+          <path d="M -4 0 L 4 0 M 0 -4 L 0 4" stroke="rgba(212, 175, 55, 0.45)" stroke-width="0.8"/>
+        </pattern>
+        <pattern id="cadGridMinor" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.018)" stroke-width="0.5"/>
+        </pattern>
+        <radialGradient id="cadFadeMask" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+          <stop offset="55%" stop-color="#ffffff" stop-opacity="0.85"/>
+          <stop offset="85%" stop-color="#ffffff" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+        <mask id="cadMask">
+          <rect width="1600" height="900" fill="url(#cadFadeMask)"/>
+        </mask>
+      </defs>
+
+      <g mask="url(#cadMask)">
+        <!-- Base Precision Grids -->
+        <rect width="1600" height="900" fill="url(#cadGridMinor)"/>
+        <rect width="1600" height="900" fill="url(#cadGridMajor)"/>
+
+        <!-- Architectural Axis Lines & Labels -->
+        <g stroke="rgba(212, 175, 55, 0.16)" stroke-width="0.8" stroke-dasharray="6,4">
+          <line x1="80" y1="160" x2="1520" y2="160"/>
+          <line x1="80" y1="480" x2="1520" y2="480"/>
+          <line x1="80" y1="800" x2="1520" y2="800"/>
+          <line x1="240" y1="80" x2="240" y2="820"/>
+          <line x1="800" y1="80" x2="800" y2="820"/>
+          <line x1="1360" y1="80" x2="1360" y2="820"/>
+        </g>
+
+        <!-- Axis Bubbles -->
+        <g font-family="'Outfit', 'Inter', monospace" font-size="10" font-weight="700" fill="rgba(212, 175, 55, 0.55)" text-anchor="middle" dominant-baseline="central">
+          <circle cx="240" cy="70" r="11" fill="rgba(10, 22, 40, 0.85)" stroke="rgba(212, 175, 55, 0.45)" stroke-width="1"/>
+          <text x="240" y="70">A-1</text>
+          
+          <circle cx="800" cy="70" r="11" fill="rgba(10, 22, 40, 0.85)" stroke="rgba(212, 175, 55, 0.45)" stroke-width="1"/>
+          <text x="800" y="70">B-2</text>
+          
+          <circle cx="1360" cy="70" r="11" fill="rgba(10, 22, 40, 0.85)" stroke="rgba(212, 175, 55, 0.45)" stroke-width="1"/>
+          <text x="1360" y="70">C-3</text>
+        </g>
+
+        <!-- Architectural Floorplan Watermark (Left Wing) -->
+        <g stroke="rgba(212, 175, 55, 0.15)" fill="none" stroke-width="1.2">
+          <rect x="120" y="240" width="220" height="180" rx="3" stroke="rgba(212, 175, 55, 0.22)" stroke-width="1.5"/>
+          <rect x="135" y="255" width="110" height="90" stroke-dasharray="3,3"/>
+          <path d="M 245 255 A 40 40 0 0 1 285 295" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1.2"/>
+          <line x1="245" y1="295" x2="285" y2="295" stroke="rgba(56, 189, 248, 0.3)"/>
+          <rect x="120" y="420" width="220" height="40" stroke="rgba(212, 175, 55, 0.12)"/>
+          <line x1="120" y1="225" x2="340" y2="225" stroke="rgba(148, 163, 184, 0.35)" stroke-width="0.8"/>
+          <path d="M 120 220 L 120 230 M 340 220 L 340 230" stroke="rgba(148, 163, 184, 0.35)" stroke-width="0.8"/>
+          <text x="230" y="218" font-family="monospace" font-size="9" fill="rgba(148, 163, 184, 0.6)" text-anchor="middle">11.40 m</text>
+        </g>
+
+        <!-- Architectural Masterplan Watermark (Right Wing) -->
+        <g stroke="rgba(56, 189, 248, 0.15)" fill="none" stroke-width="1.2">
+          <rect x="1260" y="240" width="220" height="200" rx="3" stroke="rgba(56, 189, 248, 0.25)" stroke-width="1.5"/>
+          <path d="M 1260 360 A 100 100 0 0 1 1480 360" stroke="rgba(212, 175, 55, 0.25)" stroke-width="1.4"/>
+          <circle cx="1370" cy="310" r="45" stroke-dasharray="4,4" stroke="rgba(212, 175, 55, 0.18)"/>
+          <line x1="1260" y1="455" x2="1480" y2="455" stroke="rgba(148, 163, 184, 0.35)" stroke-width="0.8"/>
+          <path d="M 1260 450 L 1260 460 M 1480 450 L 1480 460" stroke="rgba(148, 163, 184, 0.35)" stroke-width="0.8"/>
+          <text x="1370" y="468" font-family="monospace" font-size="9" fill="rgba(148, 163, 184, 0.6)" text-anchor="middle">TERRACE R: 10.00 m</text>
+        </g>
+
+        <!-- Professional Blueprint Technical Legends -->
+        <g font-family="'Outfit', 'Inter', monospace" font-size="9" letter-spacing="1.5" fill="rgba(148, 163, 184, 0.45)">
+          <text x="80" y="115">⌖ NEXA REAL ESTATE ARCHITECTURAL PLATFORM</text>
+          <text x="80" y="130" fill="rgba(212, 175, 55, 0.55)">ANKARA PRIME PORTFOLIO MATRIX · SCALE 1:500</text>
+          
+          <text x="1520" y="115" text-anchor="end">COLDWELL BANKER CB VIP VIP-0600470</text>
+          <text x="1520" y="130" text-anchor="end" fill="rgba(56, 189, 248, 0.55)">CAD PLAN REF: 2026-HQ-DEV31</text>
+          
+          <text x="800" y="855" text-anchor="middle">COORD: 39°53'38"N 32°45'22"E · ELEV: +982.40m · GAYRİMENKUL MÜHENDİSLİĞİ DİZAYN IZGARASI</text>
+        </g>
+
+        <!-- Delicate North Compass (Top Center-Right) -->
+        <g transform="translate(1460, 160)" stroke="rgba(212, 175, 55, 0.35)" fill="none" stroke-width="1">
+          <circle cx="0" cy="0" r="18"/>
+          <circle cx="0" cy="0" r="14" stroke-dasharray="2,2"/>
+          <path d="M 0 -18 L 4 0 L 0 3 L -4 0 Z" fill="rgba(212, 175, 55, 0.55)" stroke="none"/>
+          <path d="M 0 18 L 3 0 L 0 -2 L -3 0 Z" fill="rgba(148, 163, 184, 0.25)" stroke="none"/>
+          <text x="0" y="-22" font-family="sans-serif" font-size="9" font-weight="900" fill="rgba(212, 175, 55, 0.75)" text-anchor="middle">N</text>
+        </g>
+      </g>
+    </svg>
+
     <div class="container">
 
       <!-- Section Header -->
       <div class="section-header text-center" style="margin-bottom: 2rem;">
         <span class="section-label">✦ SEÇKİN GAYRİMENKUL EKOSİSTEMİ</span>
-        <h2 class="section-title" id="showcaseSectionTitle">Öne Çıkan Projeler & Portföyler</h2>
+        <h2 class="section-title" id="showcaseSectionTitle">Öne Çıkan Projeler &amp; Portföyler</h2>
         <p class="section-subtitle">
           İster lansmana özel 31 prestij projesini, ister Coldwell Banker VIP onaylı seçkin portföy ilanlarını yatay akışta inceleyin.
         </p>
@@ -8197,6 +8486,54 @@
               <span>Portföy İlanları</span>
             </button>
           </div>
+        </div>
+
+        <!-- 4'lü Canlı Yatırım Güven Bandı (Trust Bar) -->
+        <div class="showcase-trust-bar">
+          <div class="showcase-trust-pill">
+            <i class="fas fa-city" style="color:#f3ba2f;"></i>
+            <span>31 Devam Eden Prestij Projesi</span>
+          </div>
+          <div class="showcase-trust-pill">
+            <i class="fas fa-shield-alt" style="color:#38bdf8;"></i>
+            <span>%100 Doğrulanmış Tapu &amp; Ruhsat</span>
+          </div>
+          <div class="showcase-trust-pill">
+            <i class="fas fa-tag" style="color:#4ade80;"></i>
+            <span>0 Komisyon Lansman Fırsatı</span>
+          </div>
+          <div class="showcase-trust-pill">
+            <i class="fas fa-chart-line" style="color:#f59e0b;"></i>
+            <span>%38 – %65 Öngörülen Prim Potansiyeli</span>
+          </div>
+        </div>
+
+        <!-- Etkileşimli Hızlı Bölge & Kategori Çipleri (Quick-Chips) -->
+        <div class="showcase-chips-bar" id="showcaseQuickChips">
+          <button class="showcase-chip active" data-filter="all" onclick="filterShowcaseProjects('all', this)">
+            <i class="fas fa-star" style="color:#facc15;"></i> <span>Tüm Projeler (31)</span>
+          </button>
+          <button class="showcase-chip" data-filter="çankaya" onclick="filterShowcaseProjects('çankaya', this)">
+            <i class="fas fa-map-marker-alt"></i> <span>Çankaya</span>
+          </button>
+          <button class="showcase-chip" data-filter="beytepe" onclick="filterShowcaseProjects('beytepe', this)">
+            <i class="fas fa-gem" style="color:#38bdf8;"></i> <span>Beytepe</span>
+          </button>
+          <button class="showcase-chip" data-filter="incek" onclick="filterShowcaseProjects('incek', this)">
+            <i class="fas fa-tree" style="color:#4ade80;"></i> <span>İncek</span>
+          </button>
+          <button class="showcase-chip" data-filter="çayyolu" onclick="filterShowcaseProjects('çayyolu', this)">
+            <i class="fas fa-coffee" style="color:#fb923c;"></i> <span>Çayyolu</span>
+          </button>
+          <button class="showcase-chip" data-filter="etimesgut" onclick="filterShowcaseProjects('etimesgut', this)">
+            <i class="fas fa-subway" style="color:#a855f7;"></i> <span>Etimesgut / Batı</span>
+          </button>
+          <button class="showcase-chip" data-filter="villa" onclick="filterShowcaseProjects('villa', this)">
+            <i class="fas fa-home" style="color:#f472b6;"></i> <span>Villa Projeleri</span>
+          </button>
+          <button class="showcase-chip" data-filter="lansman" onclick="filterShowcaseProjects('lansman', this)">
+            <i class="fas fa-fire" style="color:#ef4444;"></i> <span>Lansman Özel</span>
+          </button>
         </div>
       </div>
 
@@ -14507,8 +14844,11 @@ ${src.length ? `
       }
     }
 
-    // Render Projects Carousel (31 Major Development Projects)
-    function renderProjectsCarousel() {
+    let currentProjectFilter = 'all';
+
+    // Render Projects Carousel (31 Major Development Projects with Realtime Filtering)
+    function renderProjectsCarousel(filterKey = 'all') {
+      currentProjectFilter = filterKey || 'all';
       const track = document.getElementById('projects-track');
       if (!track) return;
       track.innerHTML = '';
@@ -14518,10 +14858,47 @@ ${src.length ? `
         return;
       }
 
-      const countEl = document.getElementById('projectsCountText');
-      if (countEl) countEl.textContent = `Devam Eden & Teslime Hazır ${projectsData.length} Prestij Projesi`;
+      let filteredList = projectsData;
+      if (filterKey && filterKey !== 'all') {
+        const q = filterKey.toLowerCase().trim();
+        filteredList = projectsData.filter(p => {
+          if (q === 'villa') {
+            return (p.type || '').toLowerCase().includes('villa') ||
+                   (p.title || '').toLowerCase().includes('villa') ||
+                   (p.room_info || '').toLowerCase().includes('villa') ||
+                   (p.description || '').toLowerCase().includes('villa');
+          }
+          if (q === 'lansman') {
+            return p.is_launch || (p.tags && p.tags.includes('lansman')) || (p.price_display || '').includes('Peşinat') || (p.sales_highlights || '').toLowerCase().includes('lansman');
+          }
+          const text = `${p.location || ''} ${p.ilce || ''} ${p.title || ''} ${p.description || ''} ${p.room_info || ''}`.toLowerCase();
+          return text.includes(q);
+        });
+      }
 
-      projectsData.forEach(p => {
+      const countEl = document.getElementById('projectsCountText');
+      if (countEl) {
+        if (filterKey === 'all') {
+          countEl.textContent = `Devam Eden & Teslime Hazır ${projectsData.length} Prestij Projesi`;
+        } else {
+          const capitalized = filterKey.charAt(0).toUpperCase() + filterKey.slice(1);
+          countEl.textContent = `${capitalized} Bölgesinde ${filteredList.length} Prestij Projesi`;
+        }
+      }
+
+      if (!filteredList.length) {
+        track.innerHTML = `
+          <div style="color:var(--gray-light);padding:50px 20px;text-align:center;width:100%;background:rgba(255,255,255,0.02);border:1px dashed rgba(212,175,55,0.25);border-radius:16px;">
+            <p style="margin:0 0 12px 0;font-size:14px;color:#cbd5e1;">Bu filtreye uygun aktif proje bulunamadı.</p>
+            <button onclick="filterShowcaseProjects('all', document.querySelector('.showcase-chip[data-filter=\'all\']'))" class="btn btn-primary btn-sm">
+              <i class="fas fa-undo"></i> Tüm Projeleri Göster
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      filteredList.forEach(p => {
         const imgSrc = p.thumbnail || '/static/img/placeholder.jpg';
         const title = escapeHtml(p.title || p.name || 'Prestij Projesi');
         const loc = escapeHtml(p.location || (p.ilce ? p.ilce + ', ' + p.il : 'Ankara'));
@@ -14608,6 +14985,34 @@ ${src.length ? `
         track.appendChild(card);
       });
     }
+
+    // Interactive Quick Location & Category Filter Dispatcher
+    window.filterShowcaseProjects = function(filterKey, btn) {
+      document.querySelectorAll('.showcase-chip').forEach(c => c.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      if (typeof activeShowcaseTab !== 'undefined' && activeShowcaseTab === 'portfolio') {
+        if (filterKey === 'all') {
+          displayListings(allListings);
+          const countEl = document.getElementById('portfolioCountText');
+          if (countEl) countEl.textContent = `Coldwell Banker VIP Portföyü (${allListings.length} İlan)`;
+        } else {
+          const q = filterKey.toLowerCase().trim();
+          const filtered = allListings.filter(l => {
+            const txt = `${l.title||''} ${l.location||''} ${l.district||''} ${l.type||''} ${l.rooms||''}`.toLowerCase();
+            return txt.includes(q);
+          });
+          displayListings(filtered);
+          const countEl = document.getElementById('portfolioCountText');
+          if (countEl) countEl.textContent = `${filterKey.toUpperCase()} Portföyü (${filtered.length} İlan)`;
+        }
+      } else {
+        renderProjectsCarousel(filterKey);
+      }
+
+      const activeTrack = document.getElementById(typeof activeShowcaseTab !== 'undefined' && activeShowcaseTab === 'portfolio' ? 'portfolio-track' : 'projects-track');
+      if (activeTrack) activeTrack.scrollTo({ left: 0, behavior: 'smooth' });
+    };
 
     // Smart Project Card Click Dispatcher
     function handleProjectCardClick(projectId) {
