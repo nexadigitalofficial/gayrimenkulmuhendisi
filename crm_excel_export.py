@@ -41,12 +41,27 @@ def _clean_str(val, default=""):
 
 
 def _parse_currency(val):
-    """Metin içindeki para tutarını temiz bir tamsayıya dönüştürür."""
+    """Metin içindeki para tutarını temiz bir tamsayıya dönüştürür (14.5M, 500k destekler)."""
     if val is None:
         return 0
     if isinstance(val, (int, float)):
         return int(val)
-    s = str(val).strip()
+    s = str(val).strip().lower()
+    multiplier = 1
+    if "milyon" in s or "mln" in s or s.endswith("m"):
+        multiplier = 1_000_000
+        s = re.sub(r'(milyon|mln|m)', '', s).strip()
+    elif "bin" in s or s.endswith("k"):
+        multiplier = 1_000
+        s = re.sub(r'(bin|k)', '', s).strip()
+
+    if multiplier > 1:
+        s_num = s.replace(",", ".").strip()
+        try:
+            return int(float(s_num) * multiplier)
+        except Exception:
+            pass
+
     digits = re.sub(r'[^0-9]', '', s)
     return int(digits) if digits else 0
 

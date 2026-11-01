@@ -1,0 +1,426 @@
+{
+  "total": 34,
+  "passed": 34,
+  "failed": 0,
+  "pass_rate": 100.0,
+  "test_results": [
+    {
+      "category": "REST: Export",
+      "name": "GET /api/crm/export/xlsx valid 5-sheet workbook",
+      "passed": true,
+      "latency_ms": 914.93,
+      "details": "HTTP 200, Sheets: 5, Size: 41207 bytes",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Export",
+      "name": "POST /api/crm/export/xlsx custom state with Turkish chars",
+      "passed": true,
+      "latency_ms": 446.5,
+      "details": "HTTP 200, Found custom contacts: True",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Portfolio",
+      "name": "GET /api/portfolio/all_buyers",
+      "passed": true,
+      "latency_ms": 10.9,
+      "details": "HTTP 200, ok: True, Total buyers in pool: 118",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Portfolio",
+      "name": "GET /api/portfolio/listing/<ref_id>/dashboard (auto-init)",
+      "passed": true,
+      "latency_ms": 29.63,
+      "details": "HTTP 200, refId: test_audit_listing_101, platforms: 6",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Portfolio",
+      "name": "POST /api/portfolio/listing/<ref_id>/platform_stats score matrix",
+      "passed": true,
+      "latency_ms": 8.86,
+      "details": "HTTP 200, Sahibinden Score calculated: 3905 (Expected 3905)",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Portfolio",
+      "name": "POST /api/portfolio/listing/<ref_id>/timeline event addition",
+      "passed": true,
+      "latency_ms": 29.49,
+      "details": "HTTP 200, Total timeline events: 4",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "GET /api/lead/stages",
+      "passed": true,
+      "latency_ms": 18.49,
+      "details": "HTTP 200, Stages: ['new_lead', 'report_sent', 'contacted', 'appointment', 'closed_won', 'closed_lost']",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "POST /api/lead/report (Değerleme & Bildirim)",
+      "passed": true,
+      "latency_ms": 5875.26,
+      "details": "HTTP 200, ok: False, channels: ['customer_email', 'customer_whatsapp', 'telegram', 'whatsapp']",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "POST /api/appointments (Randevu Talebi)",
+      "passed": true,
+      "latency_ms": 28.28,
+      "details": "HTTP 200, Appt ID: appt_1793518254",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "GET /api/lead/capture health status",
+      "passed": true,
+      "latency_ms": 13.69,
+      "details": "HTTP 200, status: active",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "POST /api/lead/capture & SQLite web_leads persistence",
+      "passed": true,
+      "latency_ms": 249.45,
+      "details": "HTTP 200, Lead ID: lead_1793518254_181, SQLite Persisted: True",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "POST /api/lead (site.html modal showcase alias)",
+      "passed": true,
+      "latency_ms": 261.87,
+      "details": "HTTP 200, Lead ID: lead_1793518255_527",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "POST /api/lead/capture empty payload rejection (HTTP 400)",
+      "passed": true,
+      "latency_ms": 27.23,
+      "details": "HTTP 400, Error: 'İsim veya iletişim bilgisi gereklidir.'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "POST /api/lead/state missing parameter rejection (HTTP 400)",
+      "passed": true,
+      "latency_ms": 14.29,
+      "details": "HTTP 400, Error: 'leadId ve newStage zorunlu'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "REST: Lead",
+      "name": "GET /api/lead/events/<lead_id> graceful handling",
+      "passed": true,
+      "latency_ms": 122.94,
+      "details": "HTTP 200",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Turkish",
+      "name": "Turkish characters (ç, ğ, ı, ö, ş, ü) & currency symbols (₺)",
+      "passed": true,
+      "latency_ms": 692.59,
+      "details": "HTTP 200, Name: 'Ömer Şafak Çelik (İncek &amp; Ümitköy Adayı)', Offer: '19.750.000 ₺'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Validation",
+      "name": "Reject completely empty payload with HTTP 400",
+      "passed": true,
+      "latency_ms": 2.58,
+      "details": "HTTP 400, Response error: 'Alıcı adı veya teklif tutarı zorunludur.'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Optional",
+      "name": "Empty phone number safely defaults to '-'",
+      "passed": true,
+      "latency_ms": 789.89,
+      "details": "HTTP 200, Assigned phone: '-'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Extreme",
+      "name": "Extreme offer handling: 0 TL Zero Offer",
+      "passed": true,
+      "latency_ms": 911.56,
+      "details": "HTTP 200, Offer saved: '0 ₺'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Extreme",
+      "name": "Extreme offer handling: Negative Offer (-5.000.000 ₺)",
+      "passed": true,
+      "latency_ms": 843.54,
+      "details": "HTTP 200, Offer saved: '-5.000.000 ₺'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Extreme",
+      "name": "Extreme offer handling: Massive Offer (999.999.999.999 ₺)",
+      "passed": true,
+      "latency_ms": 705.95,
+      "details": "HTTP 200, Offer saved: '999.999.999.999 ₺'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Extreme",
+      "name": "Extreme offer handling: Non-numeric String Offer ('Kat Karşılığı & Takas')",
+      "passed": true,
+      "latency_ms": 936.29,
+      "details": "HTTP 200, Offer saved: 'Kat Karşılığı &amp; Takas'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Security",
+      "name": "XSS & HTML tag injection escaping (html.escape)",
+      "passed": true,
+      "latency_ms": 808.78,
+      "details": "Escaped Name: '&lt;script&gt;alert(&#x27;XSS_ATTACK_NAME&#x27;)&lt;/script&gt;', Escaped Note snippet: 'XSS Note: &lt;script&gt;docume...'",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Security",
+      "name": "SQL Injection resilience (parameterized queries intact)",
+      "passed": true,
+      "latency_ms": 885.81,
+      "details": "HTTP 200, SQLite table portfolio_listing_buyers exists: True",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Buffer",
+      "name": "Massive payload 50KB input truncation & memory protection",
+      "passed": true,
+      "latency_ms": 683.01,
+      "details": "HTTP 200, Name len: 100 (max 100), Note len: 1000 (max 1000)",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Boundary: Path Traversal",
+      "name": "Path traversal sanitization (re.sub on ref_id)",
+      "passed": true,
+      "latency_ms": 24.09,
+      "details": "HTTP 404, Sanitized refId: ''",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Concurrency: HTTP",
+      "name": "20 simultaneous buyer creations (HTTP 200 checks)",
+      "passed": true,
+      "latency_ms": 874.84,
+      "details": "Success: 20/20, Max Latency: 969.42ms",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Concurrency: SQLite",
+      "name": "Zero row-loss in SQLite under 20 concurrent writes",
+      "passed": true,
+      "latency_ms": 0,
+      "details": "Persisted 20 of 20 rows",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Concurrency: JSON",
+      "name": "Zero buyer-loss in JSON file under 20 concurrent writes",
+      "passed": true,
+      "latency_ms": 0,
+      "details": "Persisted 20 of 20 buyers in JSON",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Concurrency: Sync",
+      "name": "All concurrent buyers synchronized in /api/portfolio/all_buyers",
+      "passed": true,
+      "latency_ms": 20.68,
+      "details": "Found 20 of 20 in unified CRM pool",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Database: SQLite",
+      "name": "PRAGMA integrity_check & foreign_key_check",
+      "passed": true,
+      "latency_ms": 19.33,
+      "details": "Integrity: ok, Total tables: 16, Tables: {'news_sources': 4, 'news_raw_articles': 835, 'news_events': 2330, 'news_articles': 817, 'user_interest_vectors': 21, 'crm_intelligence_events': 219, 'sqlite_sequence': 4, 'intelligence_runs': 55, 'research_queue': 1918, 'market_state_history': 71, 'evidence_graph_nodes': 0, 'emerging_trends': 286, 'research_audit_trail': 71, 'portfolio_listing_buyers': 100, 'portfolio_listing_timeline': 39, 'web_leads': 5}",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Database: Schema",
+      "name": "Table portfolio_listing_buyers column schema",
+      "passed": true,
+      "latency_ms": 0,
+      "details": "Columns: ['id', 'refId', 'name', 'phone', 'offer', 'stage', 'note', 'listingTitle', 'createdAt']",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Database: JSON",
+      "name": "portfolio_listing_dashboards.json schema & valid JSON format",
+      "passed": true,
+      "latency_ms": 0,
+      "details": "Total dashboards: 32, Total buyers: 148",
+      "severity": "NORMAL"
+    },
+    {
+      "category": "Database: Appointments",
+      "name": "appointments.json valid JSON array",
+      "passed": true,
+      "latency_ms": 0,
+      "details": "Total appointment records: 4",
+      "severity": "NORMAL"
+    }
+  ],
+  "endpoint_latencies": {
+    "GET /api/crm/export/xlsx": {
+      "count": 1,
+      "avg_ms": 914.93,
+      "max_ms": 914.93,
+      "min_ms": 914.93
+    },
+    "POST /api/crm/export/xlsx": {
+      "count": 1,
+      "avg_ms": 446.5,
+      "max_ms": 446.5,
+      "min_ms": 446.5
+    },
+    "GET /api/portfolio/all_buyers": {
+      "count": 1,
+      "avg_ms": 10.9,
+      "max_ms": 10.9,
+      "min_ms": 10.9
+    },
+    "GET /api/portfolio/listing/<ref>/dashboard": {
+      "count": 1,
+      "avg_ms": 29.63,
+      "max_ms": 29.63,
+      "min_ms": 29.63
+    },
+    "POST /api/portfolio/listing/<ref>/platform_stats": {
+      "count": 1,
+      "avg_ms": 8.86,
+      "max_ms": 8.86,
+      "min_ms": 8.86
+    },
+    "POST /api/portfolio/listing/<ref>/timeline": {
+      "count": 1,
+      "avg_ms": 29.49,
+      "max_ms": 29.49,
+      "min_ms": 29.49
+    },
+    "GET /api/lead/stages": {
+      "count": 1,
+      "avg_ms": 18.49,
+      "max_ms": 18.49,
+      "min_ms": 18.49
+    },
+    "POST /api/lead/report": {
+      "count": 1,
+      "avg_ms": 5875.26,
+      "max_ms": 5875.26,
+      "min_ms": 5875.26
+    },
+    "POST /api/appointments": {
+      "count": 1,
+      "avg_ms": 28.28,
+      "max_ms": 28.28,
+      "min_ms": 28.28
+    },
+    "GET /api/lead/capture": {
+      "count": 1,
+      "avg_ms": 13.69,
+      "max_ms": 13.69,
+      "min_ms": 13.69
+    },
+    "POST /api/lead/capture": {
+      "count": 1,
+      "avg_ms": 249.45,
+      "max_ms": 249.45,
+      "min_ms": 249.45
+    },
+    "POST /api/lead": {
+      "count": 1,
+      "avg_ms": 261.87,
+      "max_ms": 261.87,
+      "min_ms": 261.87
+    },
+    "POST /api/lead/capture (empty)": {
+      "count": 1,
+      "avg_ms": 27.23,
+      "max_ms": 27.23,
+      "min_ms": 27.23
+    },
+    "POST /api/lead/state (missing params)": {
+      "count": 1,
+      "avg_ms": 14.29,
+      "max_ms": 14.29,
+      "min_ms": 14.29
+    },
+    "GET /api/lead/events/<id>": {
+      "count": 1,
+      "avg_ms": 122.94,
+      "max_ms": 122.94,
+      "min_ms": 122.94
+    },
+    "POST /api/portfolio/listing/<ref>/buyer": {
+      "count": 1,
+      "avg_ms": 692.59,
+      "max_ms": 692.59,
+      "min_ms": 692.59
+    },
+    "POST /api/portfolio/listing/<ref>/buyer (empty)": {
+      "count": 1,
+      "avg_ms": 2.58,
+      "max_ms": 2.58,
+      "min_ms": 2.58
+    },
+    "POST /api/portfolio/listing/<ref>/buyer (no phone)": {
+      "count": 1,
+      "avg_ms": 789.89,
+      "max_ms": 789.89,
+      "min_ms": 789.89
+    },
+    "POST /api/portfolio/listing/<ref>/buyer (extreme)": {
+      "count": 4,
+      "avg_ms": 849.34,
+      "max_ms": 936.29,
+      "min_ms": 705.95
+    },
+    "POST /api/portfolio/listing/<ref>/buyer (xss)": {
+      "count": 1,
+      "avg_ms": 808.78,
+      "max_ms": 808.78,
+      "min_ms": 808.78
+    },
+    "POST /api/portfolio/listing/<ref>/buyer (sqli)": {
+      "count": 1,
+      "avg_ms": 885.81,
+      "max_ms": 885.81,
+      "min_ms": 885.81
+    },
+    "POST /api/portfolio/listing/<ref>/buyer (massive)": {
+      "count": 1,
+      "avg_ms": 683.01,
+      "max_ms": 683.01,
+      "min_ms": 683.01
+    },
+    "GET /api/portfolio/listing/<malicious_ref>/dashboard": {
+      "count": 1,
+      "avg_ms": 24.09,
+      "max_ms": 24.09,
+      "min_ms": 24.09
+    },
+    "Concurrent POST /api/portfolio/.../buyer": {
+      "count": 20,
+      "avg_ms": 874.84,
+      "max_ms": 969.42,
+      "min_ms": 774.51
+    }
+  }
+}

@@ -1817,6 +1817,13 @@
                         </div>
                         <div class="header-metric-label">Hatırl.</div>
                     </div>
+                    <!-- SPEED-TO-LEAD 5-DK SLA BADGE (FUB / kvCORE Benchmark) -->
+                    <div v-if="urgentSlaLead" @click="openLeadPanel(urgentSlaLead)" class="header-metric" style="cursor:pointer;background:rgba(239,68,68,0.14);border:1px solid rgba(239,68,68,0.35);border-radius:10px;padding:3px 10px;" :title="'Speed-to-Lead: ' + (urgentSlaLead.name || 'Web Talebi') + ' hızlı yanıt bekliyor'">
+                        <div class="header-metric-val" :style="{ color: urgentSlaRemainingSeconds > 0 ? '#34d399' : '#f87171' }">
+                            <i class="fas fa-bolt mr-1 animate-pulse" :style="{ color: urgentSlaRemainingSeconds > 0 ? '#34d399' : '#f87171' }"></i>{{ urgentSlaRemainingText }}
+                        </div>
+                        <div class="header-metric-label" style="color:#f87171;font-weight:700;">5-DK SLA</div>
+                    </div>
                     <button id="btn-excel-export-header" @click="exportCrmToExcel" :disabled="exportingExcel" class="btn" style="background: linear-gradient(135deg, rgba(16,185,129,0.2) 0%, rgba(5,150,105,0.3) 100%); border: 1px solid rgba(16,185,129,0.45); color: #34d399; font-weight: 700; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 10px rgba(16,185,129,0.2); display: inline-flex; align-items: center; gap: 6px; font-size: 12px;" title="Tüm Müşteri, Alıcı ve Portföyleri Kurumsal Excel (XLSX) Olarak Yedekle">
                         <i :class="['fas', exportingExcel ? 'fa-spinner fa-spin' : 'fa-file-excel text-emerald-400']"></i>
                         <span class="hidden md:inline">{{ exportingExcel ? 'Hazırlanıyor...' : 'Excel Yedekle' }}</span>
@@ -3482,6 +3489,12 @@
                                 <button @click="openChatTab()" :class="['panel-tab', leadPanelTab==='chat'?'active':'']" style="color: leadPanelTab!=='chat' ? '#34d399' : ''">
                                     <i class="fas fa-comments panel-tab-icon" :style="leadPanelTab!=='chat'?'color:#34d399':''"></i>Chat
                                 </button>
+                                <button @click="leadPanelTab='webtapu'" :class="['panel-tab', leadPanelTab==='webtapu'?'active':'']" style="color:#d4af37;">
+                                    <i class="fas fa-stamp panel-tab-icon" style="color:#d4af37;"></i>Tapu & Kapanış
+                                </button>
+                                <button @click="leadPanelTab='komisyon'" :class="['panel-tab', leadPanelTab==='komisyon'?'active':'']" style="color:#10b981;">
+                                    <i class="fas fa-calculator panel-tab-icon" style="color:#10b981;"></i>Komisyon
+                                </button>
                             </div>
                         </div>
 
@@ -4255,6 +4268,111 @@
                                 </div>
                             </div>
                             </template><!-- /chat -->
+
+                            <!-- ══ TAB: WEBTAPU & BÜROKRATİK KAPANIŞ LİSTESİ ══ -->
+                            <template v-if="leadPanelTab==='webtapu'">
+                                <div class="space-y-4">
+                                    <div class="glass rounded-xl p-4 border border-amber-500/20" style="background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(13,17,23,0.5) 100%);">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <div>
+                                                <h4 class="text-sm font-bold flex items-center gap-2 text-amber-300">
+                                                    <i class="fas fa-stamp"></i>Coldwell Banker CB VIP — 10 Adımlı Tapu & Kapanış
+                                                </h4>
+                                                <p class="text-xs text-gray-400 mt-0.5">Taşınmaz Ticareti Yönetmeliği ve WebTapu Mevzuat Takip Çizelgesi</p>
+                                            </div>
+                                            <span class="px-2.5 py-1 rounded-full text-xs font-bold" :style="{ background: webtapuProgressPercent === 100 ? 'rgba(34,197,94,0.2)' : 'rgba(212,175,55,0.2)', color: webtapuProgressPercent === 100 ? '#4ade80' : '#fbbf24', border: '1px solid currentColor' }">
+                                                %{{ webtapuProgressPercent }} Tamamlandı
+                                            </span>
+                                        </div>
+
+                                        <!-- Progress Bar -->
+                                        <div class="w-full bg-white/10 rounded-full h-2 mb-4 overflow-hidden">
+                                            <div class="h-2 rounded-full transition-all duration-500" :style="{ width: webtapuProgressPercent + '%', background: webtapuProgressPercent === 100 ? '#22c55e' : 'linear-gradient(90deg, #d4af37, #f59e0b)' }"></div>
+                                        </div>
+
+                                        <!-- Checklist Items -->
+                                        <div class="space-y-2">
+                                            <div v-for="item in activeWebtapuChecklist" :key="item.id"
+                                                 @click="toggleWebtapuItem(item)"
+                                                 class="flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all border"
+                                                 :style="item.done ? 'background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.3);' : 'background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08);'">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-5 h-5 rounded flex items-center justify-center border text-xs"
+                                                         :class="item.done ? 'bg-emerald-600 border-emerald-500 text-white' : 'border-gray-500 text-transparent'">
+                                                        <i class="fas fa-check"></i>
+                                                    </div>
+                                                    <span class="text-xs font-medium" :class="item.done ? 'text-gray-200 line-through' : 'text-gray-300'">
+                                                        {{ item.label }}
+                                                    </span>
+                                                </div>
+                                                <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded"
+                                                      :class="item.done ? 'bg-emerald-500/20 text-emerald-300' : 'bg-gray-800 text-gray-400'">
+                                                    {{ item.done ? 'Tamam' : 'Bekliyor' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- ══ TAB: COLDWELL BANKER KOMİSYON & SPLIT HESAPLAYICI ══ -->
+                            <template v-if="leadPanelTab==='komisyon'">
+                                <div class="space-y-4">
+                                    <div class="glass rounded-xl p-4 border border-emerald-500/20" style="background: linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(13,17,23,0.5) 100%);">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <h4 class="text-sm font-bold flex items-center gap-2 text-emerald-300">
+                                                <i class="fas fa-calculator"></i>Coldwell Banker CB VIP Komisyon & Hakediş Modeli
+                                            </h4>
+                                            <span class="text-xs text-gray-400">Lisans: 0600470 / 0602339</span>
+                                        </div>
+
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                                            <div>
+                                                <label class="block text-xs text-gray-400 mb-1">Mülk / Satış Tutarı (₺)</label>
+                                                <input v-model.number="commissionDealPrice" type="number" step="100000" class="w-full text-xs p-2 rounded-lg bg-black/40 border border-white/10 text-white" placeholder="Örn: 15000000">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs text-gray-400 mb-1">Hizmet Bedeli (%)</label>
+                                                <select v-model.number="commissionRate" class="w-full text-xs p-2 rounded-lg bg-black/40 border border-white/10 text-white">
+                                                    <option :value="4">%4 (Alıcı %2 + Satıcı %2)</option>
+                                                    <option :value="3">%3 (İndirimli Hizmet)</option>
+                                                    <option :value="2">%2 (Tek Taraflı)</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs text-gray-400 mb-1">Danışman Payı (%)</label>
+                                                <select v-model.number="advisorSplitRate" class="w-full text-xs p-2 rounded-lg bg-black/40 border border-white/10 text-white">
+                                                    <option :value="50">%50 Danışman Split</option>
+                                                    <option :value="60">%60 CB VIP Standart</option>
+                                                    <option :value="70">%70 Üst Segment Split</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Hakediş Döküm Kartları -->
+                                        <div class="grid grid-cols-2 gap-3 mb-3">
+                                            <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+                                                <div class="text-[10px] text-gray-400 uppercase font-semibold">Toplam Brüt Komisyon (+%20 KDV)</div>
+                                                <div class="text-base font-bold text-amber-300 mt-1">{{ formatCurrency(calculatedCommission.totalGross) }}</div>
+                                                <div class="text-[10px] text-gray-400 mt-0.5">KDV Hariç: {{ formatCurrency(calculatedCommission.rawCommission) }}</div>
+                                            </div>
+                                            <div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
+                                                <div class="text-[10px] text-emerald-300 uppercase font-semibold">Yiğit Narin Net Hakediş</div>
+                                                <div class="text-base font-bold text-emerald-400 mt-1">{{ formatCurrency(calculatedCommission.advisorNet) }}</div>
+                                                <div class="text-[10px] text-emerald-400/70 mt-0.5">%{{ advisorSplitRate }} Danışman Payı</div>
+                                            </div>
+                                            <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+                                                <div class="text-[10px] text-gray-400 uppercase font-semibold">Coldwell Banker CB VIP Ofis Payı</div>
+                                                <div class="text-sm font-bold text-indigo-300 mt-1">{{ formatCurrency(calculatedCommission.officeShare) }}</div>
+                                            </div>
+                                            <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+                                                <div class="text-[10px] text-gray-400 uppercase font-semibold">Franchise Royalty (%9)</div>
+                                                <div class="text-sm font-bold text-purple-300 mt-1">{{ formatCurrency(calculatedCommission.franchiseRoyalty) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
 
                             
                             
@@ -5947,7 +6065,7 @@
     // ── CHART INSTANCES (fix: destroy before re-create) ──────────
     const chartInstances = {};
 
-    createApp({
+    const crmAppInstance = createApp({
         setup() {
             // ── STATE ────────────────────────────────────────────
             const user = ref(null);
@@ -6244,6 +6362,97 @@
                 const msg = `*${title}*${price}${loc}\n\nDetaylı PDF Sunumu:\n${link}\n\nYiğit Narin | Coldwell Banker CB VIP Ankara\nTel: +90 532 451 40 08`;
                 return `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
             };
+
+// ── SPEED-TO-LEAD 5-DK SLA ENGINE (FUB / kvCORE Benchmark) ────
+            const nowTick = ref(Date.now());
+            setInterval(() => { nowTick.value = Date.now(); }, 1000);
+
+            const urgentSlaLead = computed(() => {
+                if (!webLeads.value || webLeads.value.length === 0) return null;
+                const uncontacted = webLeads.value.filter(l => !l.status || l.status === 'new_lead');
+                if (uncontacted.length === 0) return null;
+                return uncontacted[0];
+            });
+
+            const urgentSlaRemainingSeconds = computed(() => {
+                if (!urgentSlaLead.value) return 0;
+                const createdDt = parseSafeDate(urgentSlaLead.value.createdAt);
+                if (!createdDt) return 300;
+                const elapsedSec = Math.floor((nowTick.value - createdDt.getTime()) / 1000);
+                return Math.max(-86400, 300 - elapsedSec);
+            });
+
+            const urgentSlaRemainingText = computed(() => {
+                const s = urgentSlaRemainingSeconds.value;
+                if (s > 0) {
+                    const mins = Math.floor(s / 60);
+                    const secs = s % 60;
+                    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                } else {
+                    const overdueMins = Math.abs(Math.floor(s / 60));
+                    return overdueMins > 0 ? `-${overdueMins} dk` : 'SLA Doldu';
+                }
+            });
+
+            // ── 10-ADIMLI WEBTAPU & BÜROKRATİK KAPANIŞ LİSTESİ ──────────
+            const DEFAULT_WEBTAPU_CHECKLIST = [
+                { id: 'kapora', label: '1. Kapora & Alım-Satım Ön Protokolü İmzalandı', done: false },
+                { id: 'yetki', label: '2. Taşınmaz Ticareti Yetkilendirme Sözleşmesi & EİDS Doğrulaması', done: false },
+                { id: 'ekspertiz', label: '3. SPK Lisanslı Ekspertiz Raporu Alındı & Kredi Onaylandı', done: false },
+                { id: 'belediye', label: '4. Belediye Rayiç Bedel & Emlak Vergisi Borçsuzluk Belgesi', done: false },
+                { id: 'dask', label: '5. DASK (Zorunlu Deprem Sigortası) Poliçesi Düzenlendi', done: false },
+                { id: 'webtapu_no', label: '6. WebTapu Başvurusu Yapıldı (SMS Harç/Randevu Kodu Geldi)', done: false },
+                { id: 'harclar', label: '7. Tapu Harçları ve Döner Sermaye Dekontları Yatırıldı (%2 Alıcı / %2 Satıcı)', done: false },
+                { id: 'guvenli_odeme', label: '8. Güvenli Ödeme Sistemi Kuruldu (Takasbank / Banka Bloke Çek)', done: false },
+                { id: 'tapu_randevu', label: '9. Tapu Müdürlüğü Randevu Saati Belirlendi & İmza Merasimi', done: false },
+                { id: 'anahtar_teslim', label: '10. Tahliye Taahhütnamesi & Anahtar Teslim Tutanağı Tamamlandı', done: false },
+            ];
+
+            const activeWebtapuChecklist = computed(() => {
+                if (!activeLead.value) return DEFAULT_WEBTAPU_CHECKLIST;
+                if (!activeLead.value._webtapuChecklist) {
+                    activeLead.value._webtapuChecklist = JSON.parse(JSON.stringify(DEFAULT_WEBTAPU_CHECKLIST));
+                }
+                return activeLead.value._webtapuChecklist;
+            });
+
+            const webtapuProgressPercent = computed(() => {
+                const list = activeWebtapuChecklist.value;
+                if (!list || list.length === 0) return 0;
+                const completed = list.filter(item => item.done).length;
+                return Math.round((completed / list.length) * 100);
+            });
+
+            const toggleWebtapuItem = (item) => {
+                item.done = !item.done;
+                showToast(`Tapu Aşaması: ${item.done ? '✓ Tamamlandı' : 'Beklemede'}`, 'fas fa-stamp text-amber-400');
+            };
+
+            // ── COLDWELL BANKER CB VIP KOMİSYON & SPLIT HESAPLAYICI ─────
+            const commissionDealPrice = ref(0);
+            const commissionRate = ref(4);
+            const advisorSplitRate = ref(60);
+            const includeKdv = ref(true);
+
+            const calculatedCommission = computed(() => {
+                const price = Number(commissionDealPrice.value) || Number(activeLead.value?.price) || 0;
+                const rawCommission = price * (commissionRate.value / 100);
+                const kdv = includeKdv.value ? rawCommission * 0.20 : 0;
+                const totalGross = rawCommission + kdv;
+                const advisorNet = rawCommission * (advisorSplitRate.value / 100);
+                const officeShare = rawCommission - advisorNet;
+                const franchiseRoyalty = rawCommission * 0.09;
+
+                return {
+                    dealPrice: price,
+                    rawCommission,
+                    kdv,
+                    totalGross,
+                    advisorNet,
+                    officeShare,
+                    franchiseRoyalty
+                };
+            });
 
             // ── NEXASCOUT (FAZ 2: OTONOM ALICI RADARI & STRATEJİ) ──
             const showNexaScoutModal = ref(false);
@@ -6819,6 +7028,7 @@
             // ── PIPELINE CATEGORIES & STAGES ────────────────────
             const pipelineCategories = [
                 { id: 'buyer', label: 'ALICI', icon: 'fas fa-user-check' },
+                { id: 'seller', label: 'SATICI', icon: 'fas fa-user-tag' },
                 { id: 'fsbo', label: 'FSBO', icon: 'fas fa-home' },
                 { id: 'project', label: 'PROJE', icon: 'fas fa-building' },
                 { id: 'client', label: 'MÜŞTERİ', icon: 'fas fa-user' },
@@ -6827,6 +7037,7 @@
 
             const stagesByCategory = {
                 buyer: buyerStages,
+                seller: sellerStages,
                 fsbo: [
                     { id: 'contact', name: 'İlk Temas', color: '#3b82f6' },
                     { id: 'valuation', name: 'Değerleme', color: '#8b5cf6' },
@@ -7140,23 +7351,91 @@
                 return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
             };
 
+            const parseSafeDate = (val) => {
+                if (!val) return null;
+                if (val instanceof Date && !isNaN(val.getTime())) return val;
+                if (typeof val === 'number') return new Date(val);
+                const s = String(val).trim();
+                if (!s) return null;
+                const trMatch = s.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/);
+                if (trMatch) {
+                    const d = parseInt(trMatch[1], 10);
+                    const m = parseInt(trMatch[2], 10) - 1;
+                    const y = parseInt(trMatch[3], 10);
+                    const hh = trMatch[4] ? parseInt(trMatch[4], 10) : 0;
+                    const mm = trMatch[5] ? parseInt(trMatch[5], 10) : 0;
+                    const ss = trMatch[6] ? parseInt(trMatch[6], 10) : 0;
+                    const dt = new Date(y, m, d, hh, mm, ss);
+                    if (!isNaN(dt.getTime())) return dt;
+                }
+                const isoDt = new Date(s);
+                return isNaN(isoDt.getTime()) ? null : isoDt;
+            };
+
             const getCategoryLabel = (catId) => {
-                if (catId === 'buyer' || catId === 'alici' || catId === 'alıcı') return 'ALICI';
+                const norm = String(catId || '').toLowerCase();
+                if (norm === 'buyer' || norm === 'alici' || norm === 'alıcı') return 'ALICI';
+                if (norm === 'seller' || norm === 'satici' || norm === 'satıcı') return 'SATICI';
+                if (norm === 'fsbo') return 'FSBO';
                 return pipelineCategories.find(c => c.id === catId)?.label || (catId ? String(catId).toUpperCase() : 'MÜŞTERİ');
             };
-            const getCurrentCategoryStages = (catId) => stagesByCategory[catId] || [];
+            const getCurrentCategoryStages = (catId) => {
+                const norm = String(catId || '').toLowerCase();
+                if (norm === 'buyer' || norm === 'alici' || norm === 'alıcı') return stagesByCategory.buyer || [];
+                if (norm === 'seller' || norm === 'satici' || norm === 'satıcı') return stagesByCategory.seller || [];
+                return stagesByCategory[norm] || [];
+            };
             const getStageBadgeClass = (stage) => {
-                if (stage === 'closed' || stage === 'active') return 'badge-success';
+                if (stage === 'closed' || stage === 'active' || stage === 'tapu') return 'badge-success';
                 if (stage === 'lead' || stage === 'new') return 'badge-primary';
-                if (stage === 'offer' || stage === 'proposal') return 'badge-warning';
+                if (stage === 'offer' || stage === 'proposal' || stage === 'negotiation') return 'badge-warning';
                 return 'badge-info';
             };
             const getDaysInStage = (contact) => {
-                if (!contact.updatedAt && !contact.createdAt) return 0;
-                const start = new Date(contact.stageChangedAt || contact.updatedAt || contact.createdAt);
-                return Math.ceil((new Date() - start) / 86400000);
+                if (!contact) return 0;
+                const raw = contact.stageChangedAt || contact.updatedAt || contact.createdAt;
+                const start = parseSafeDate(raw);
+                if (!start) return 0;
+                const diff = Math.ceil((new Date() - start) / 86400000);
+                return isNaN(diff) || diff < 0 ? 0 : diff;
             };
-            const getStageContacts = (stageId) => contacts.value.filter(c => c.category === currentPipeline.value && c.stage === stageId);
+            const getStageContacts = (stageId) => {
+                return contacts.value.filter(c => {
+                    const cat = String(c.category || c.role || '').toLowerCase();
+                    const pipe = currentPipeline.value;
+
+                    let catMatches = (cat === pipe);
+                    if (pipe === 'buyer') {
+                        catMatches = ['buyer', 'alici', 'alıcı'].includes(cat) || c.role === 'buyer' || Boolean(c.listingRef) || Boolean(c.offer);
+                    } else if (pipe === 'seller') {
+                        catMatches = ['seller', 'satici', 'satıcı'].includes(cat) || c.role === 'seller';
+                    }
+
+                    if (!catMatches) return false;
+
+                    const cStage = String(c.stage || '').toLowerCase();
+                    if (cStage === stageId) return true;
+
+                    if (pipe === 'buyer') {
+                        if (stageId === 'negotiation') return ['offer', 'teklif', 'pazarlık', 'negotiation'].includes(cStage);
+                        if (stageId === 'proposal') return ['showing', 'gösterim', 'yer', 'proposal'].includes(cStage);
+                        if (stageId === 'closed') return ['contract', 'sözleşme', 'kapora', 'closed'].includes(cStage);
+                        if (stageId === 'tapu') return ['tapu', 'satıldı', 'devir'].includes(cStage);
+                        if (stageId === 'contacted') return ['arandı', 'analiz', 'contacted'].includes(cStage);
+                        if (stageId === 'meeting') return ['sunum', 'meeting'].includes(cStage);
+                        if (stageId === 'new') return ['new', 'yeni', 'ilk temas'].includes(cStage);
+                    } else if (pipe === 'seller' || pipe === 'fsbo') {
+                        if (stageId === 'offer') return ['offer', 'teklif', 'negotiation'].includes(cStage);
+                        if (stageId === 'showing') return ['showing', 'gösterim', 'proposal'].includes(cStage);
+                        if (stageId === 'contract') return ['contract', 'sözleşme', 'kapora'].includes(cStage);
+                        if (stageId === 'closed') return ['closed', 'satıldı', 'tapu'].includes(cStage);
+                        if (stageId === 'valuation') return ['valuation', 'değerleme'].includes(cStage);
+                        if (stageId === 'contact') return ['contact', 'ilk temas', 'new'].includes(cStage);
+                    }
+
+                    return false;
+                });
+            };
             const getStageCount = (stageId) => getStageContacts(stageId).length;
             const formatCurrency = (value) => {
                 if (!value) return '₺0';
@@ -7164,11 +7443,12 @@
             };
             const formatDate = (dateStr) => {
                 if (!dateStr) return '-';
-                const date = new Date(dateStr);
+                const date = parseSafeDate(dateStr);
+                if (!date) return String(dateStr);
                 const diffDays = Math.floor((new Date() - date) / 86400000);
                 if (diffDays === 0) return 'Bugün';
                 if (diffDays === 1) return 'Dün';
-                if (diffDays < 7) return `${diffDays} gün önce`;
+                if (diffDays > 1 && diffDays < 7) return `${diffDays} gün önce`;
                 return date.toLocaleDateString('tr-TR');
             };
 
@@ -7492,16 +7772,36 @@
                     if (!data.createdAt) data.createdAt = new Date().toISOString();
                     data.updatedAt = new Date().toISOString();
                     if (!data.source) data.source = 'manual';
-                    const targetUid = data._ownerUid || user.value.uid;
+                    const targetUid = data._ownerUid || user.value?.uid;
+
+                    // 1. Portfolio buyer SQLite/JSON dual sync
+                    if (data.id && (data.id.startsWith('b_') || data.listingRef || data._isPortfolioBuyer)) {
+                        try {
+                            await fetch(`/api/portfolio/buyer/${encodeURIComponent(data.id)}/update`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(data)
+                            });
+                        } catch(err) {
+                            console.warn("Backend buyer update sync error:", err);
+                        }
+                    }
+
+                    // 2. Use .set({merge: true}) instead of .update() to prevent NOT_FOUND crash
                     if (data.id) {
-                        await db.collection('users').doc(targetUid).collection('contacts').doc(data.id).update(data);
+                        if (targetUid && typeof db !== 'undefined' && db) {
+                            await db.collection('users').doc(targetUid).collection('contacts').doc(data.id).set(data, { merge: true });
+                        }
                         const idx = contacts.value.findIndex(c => c.id === data.id);
                         if (idx !== -1) contacts.value[idx] = data;
                     } else {
-                        const docRef = await db.collection('users').doc(user.value.uid).collection('contacts').add(data);
-                        contacts.value.push({ id: docRef.id, _ownerUid: user.value.uid, ...data });
-                        // Bekleyen screenshot'ları Firestore'a yaz
-                        await _flushPendingModalScreenshots(docRef.id);
+                        let newId = `c_${Date.now()}`;
+                        if (targetUid && typeof db !== 'undefined' && db) {
+                            const docRef = await db.collection('users').doc(user.value.uid).collection('contacts').add(data);
+                            newId = docRef.id;
+                            await _flushPendingModalScreenshots(docRef.id);
+                        }
+                        contacts.value.push({ id: newId, _ownerUid: user.value?.uid, ...data });
                     }
                     showToast('Kaydedildi', 'fas fa-check-circle text-green-400');
                     closeContactModal();
@@ -7514,13 +7814,33 @@
             const deleteContact = async () => {
                 if (!confirm('Silmek istediğinize emin misiniz?')) return;
                 try {
-                    const targetUid = editingContact.value._ownerUid || user.value.uid;
-                    await db.collection('users').doc(targetUid).collection('contacts').doc(editingContact.value.id).delete();
-                    contacts.value = contacts.value.filter(c => c.id !== editingContact.value.id);
-                    showToast('Silindi', 'fas fa-check-circle text-green-400');
+                    const cId = editingContact.value.id;
+                    const targetUid = editingContact.value._ownerUid || user.value?.uid;
+
+                    // 1. Permanent SQLite & JSON removal for portfolio buyers
+                    if (cId && (cId.startsWith('b_') || editingContact.value.listingRef || editingContact.value._isPortfolioBuyer)) {
+                        try {
+                            await fetch(`/api/portfolio/buyer/${encodeURIComponent(cId)}`, { method: 'DELETE' });
+                        } catch(err) {
+                            console.warn("Backend buyer delete warning:", err);
+                        }
+                    }
+
+                    // 2. Firestore removal
+                    if (targetUid && typeof db !== 'undefined' && db && cId) {
+                        try {
+                            await db.collection('users').doc(targetUid).collection('contacts').doc(cId).delete();
+                        } catch(e) {
+                            console.warn("Firestore delete warning:", e);
+                        }
+                    }
+
+                    contacts.value = contacts.value.filter(c => c.id !== cId);
+                    showToast('Kayıt başarıyla silindi', 'fas fa-check-circle text-green-400');
                     closeContactModal();
+                    initCharts();
                 } catch (e) {
-                    showToast('Silme hatası', 'fas fa-times-circle text-red-400');
+                    showToast('Silme hatası: ' + e.message, 'fas fa-times-circle text-red-400');
                 }
             };
 
@@ -8553,7 +8873,8 @@
                     await loadData();
                 });
 
-                // ── BUG #3 FIX: Global paste listener — Ctrl+V her zaman çalışır ──
+
+            // ── BUG #3 FIX: Global paste listener — Ctrl+V her zaman çalışır ──
                 document.addEventListener('paste', (e) => {
                     if (!showLeadPanel.value && !showContactModal.value) return;
                     const items = Array.from(e.clipboardData?.items || [])
@@ -9649,10 +9970,14 @@ ${comments}`;
                 isOverdue, formatReminderDate,
                 handleDragStart, handleDragEnd, handleDragOver, handleDragLeave, handleDrop,
                 formatCurrency, formatDate, exportData, exportingExcel, exportCrmToExcel,
-                openImportModal, closeImportModal, handleImportFile, handleImportDrop, executeImport
+                openImportModal, closeImportModal, handleImportFile, handleImportDrop, executeImport,
+                parseSafeDate, urgentSlaLead, urgentSlaRemainingSeconds, urgentSlaRemainingText,
+                DEFAULT_WEBTAPU_CHECKLIST, activeWebtapuChecklist, webtapuProgressPercent, toggleWebtapuItem,
+                commissionDealPrice, commissionRate, advisorSplitRate, includeKdv, calculatedCommission
             };
         }
-    }).mount('#app');
+    });
+    window.__crmApp = crmAppInstance.mount('#app');
 </script>
 <script>
   const BUYER_API_BASE = "/api/buyer";

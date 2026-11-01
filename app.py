@@ -14023,6 +14023,148 @@ def get_lead_stages():
     """Geçerli stage listesini döner (frontend için)."""
     return jsonify({"ok": True, "stages": LEAD_STAGES})
 
+
+
+@app.route("/api/lead/capture", methods=["GET", "POST"])
+
+@app.route("/api/lead", methods=["GET", "POST"])
+
+def capture_web_lead():
+
+    """Web lead yakalama ve CRM'e kaydetme endpoint'i (site.html ve dış entegrasyonlar için)."""
+
+    if flask_request.method == "GET":
+
+        return jsonify({"ok": True, "endpoint": "/api/lead/capture", "status": "active"})
+
+    try:
+
+        data = flask_request.get_json(silent=True) or {}
+
+        name = html.escape((data.get("name") or "").strip()[:100])
+
+        phone = html.escape((data.get("phone") or "").strip()[:30])
+
+        email = html.escape((data.get("email") or "").strip()[:100])
+
+        project = html.escape((data.get("project") or data.get("project_name") or "").strip()[:150])
+
+        notes = html.escape((data.get("notes") or data.get("note") or "").strip()[:1000])
+
+        source = html.escape((data.get("source") or "web_capture").strip()[:50])
+
+
+
+        if not name and not phone and not email:
+
+            return jsonify({"ok": False, "error": "İsim veya iletişim bilgisi gereklidir."}), 400
+
+
+
+        lead_id = f"lead_{int(time.time())}_{random.randint(100, 999)}"
+
+        lead_record = {
+
+            "id": lead_id,
+
+            "name": name or "İsimsiz Web Lead",
+
+            "phone": phone or "-",
+
+            "email": email or "",
+
+            "project": project,
+
+            "notes": notes,
+
+            "source": source,
+
+            "status": "new_lead",
+
+            "createdAt": datetime.now().strftime("%d.%m.%Y %H:%M")
+
+        }
+
+
+
+        try:
+
+            db_path = os.path.join("data", "intelligence.db")
+
+            with sqlite3.connect(db_path) as conn:
+
+                cur = conn.cursor()
+
+                cur.execute("""
+
+                CREATE TABLE IF NOT EXISTS web_leads (
+
+                    id TEXT PRIMARY KEY,
+
+                    name TEXT,
+
+                    phone TEXT,
+
+                    email TEXT,
+
+                    project TEXT,
+
+                    notes TEXT,
+
+                    source TEXT,
+
+                    status TEXT,
+
+                    createdAt TEXT
+
+                )
+
+                """)
+
+                cur.execute("""
+
+                INSERT OR REPLACE INTO web_leads (id, name, phone, email, project, notes, source, status, createdAt)
+
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+                """, (lead_id, name, phone, email, project, notes, source, "new_lead", lead_record["createdAt"]))
+
+                conn.commit()
+
+        except Exception as se:
+
+            print(f"⚠️ Web lead SQLite save warning: {se}")
+
+
+
+        try:
+
+            global db_admin
+
+            if db_admin is None:
+
+                init_firebase_admin()
+
+            target_db = db_admin or globals().get("db")
+
+            if target_db:
+
+                target_db.collection("leads").document(lead_id).set(lead_record, merge=True)
+
+                target_db.collection("crm_leads").document(lead_id).set(lead_record, merge=True)
+
+        except Exception as fe:
+
+            print(f"⚠️ Web lead Firestore sync warning: {fe}")
+
+
+
+        return jsonify({"ok": True, "success": True, "leadId": lead_id, "lead": lead_record})
+
+    except Exception as e:
+
+        return jsonify({"ok": False, "error": str(e)}), 500
+
 @app.route("/api/followup/schedule", methods=["POST"])
 def schedule_followup():
     if not _fb_initialized:
@@ -16308,6 +16450,8 @@ import time
 import threading
 import tempfile
 _DASHBOARD_LOCK = threading.RLock()
+_SQLITE_PORTFOLIO_LOCK = threading.RLock()
+_PORTFOLIO_SQLITE_INITIALIZED = False
 _PORTFOLIO_DASHBOARD_FILE = os.path.join("static", "data", "portfolio_listing_dashboards.json")
 
 def _load_listing_dashboards():
@@ -16339,66 +16483,98 @@ def _save_listing_dashboards(data):
             raise
 
 def _init_portfolio_sqlite():
-    try:
-        db_path = os.path.join("data", "intelligence.db")
-        os.makedirs(os.path.dirname(db_path), exist_ok=True)
-        with sqlite3.connect(db_path) as conn:
-            cur = conn.cursor()
-            cur.execute("""
-            CREATE TABLE IF NOT EXISTS portfolio_listing_buyers (
-                id TEXT PRIMARY KEY,
-                refId TEXT NOT NULL,
-                name TEXT NOT NULL,
-                phone TEXT,
-                offer TEXT,
-                stage TEXT,
-                note TEXT,
-                listingTitle TEXT,
-                createdAt TEXT
-            );
-            """)
-            cur.execute("""
-            CREATE TABLE IF NOT EXISTS portfolio_listing_timeline (
-                id TEXT PRIMARY KEY,
-                refId TEXT NOT NULL,
-                type TEXT,
-                title TEXT,
-                note TEXT,
-                date TEXT,
-                author TEXT
-            );
-            """)
-            conn.commit()
-    except Exception as e:
-        print(f"⚠️ Portfolio SQLite init error: {e}")
+    global _PORTFOLIO_SQLITE_INITIALIZED
+    if _PORTFOLIO_SQLITE_INITIALIZED:
+        return
+    with _SQLITE_PORTFOLIO_LOCK:
+        if _PORTFOLIO_SQLITE_INITIALIZED:
+            return
+        try:
+            db_path = os.path.join("data", "intelligence.db")
+            os.makedirs(os.path.dirname(db_path), exist_ok=True)
+            with sqlite3.connect(db_path, timeout=30.0) as conn:
+                cur = conn.cursor()
+                cur.execute("PRAGMA journal_mode=WAL;")
+                cur.execute("PRAGMA busy_timeout=30000;")
+                cur.execute("PRAGMA synchronous=NORMAL;")
+                cur.execute("""
+                CREATE TABLE IF NOT EXISTS portfolio_listing_buyers (
+                    id TEXT PRIMARY KEY,
+                    refId TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    phone TEXT,
+                    offer TEXT,
+                    stage TEXT,
+                    note TEXT,
+                    listingTitle TEXT,
+                    createdAt TEXT
+                );
+                """)
+                cur.execute("""
+                CREATE TABLE IF NOT EXISTS portfolio_listing_timeline (
+                    id TEXT PRIMARY KEY,
+                    refId TEXT NOT NULL,
+                    type TEXT,
+                    title TEXT,
+                    note TEXT,
+                    date TEXT,
+                    author TEXT
+                );
+                """)
+                conn.commit()
+            _PORTFOLIO_SQLITE_INITIALIZED = True
+        except Exception as e:
+            print(f"⚠️ Portfolio SQLite init error: {e}")
 
 def _save_portfolio_buyer_to_sqlite(b):
-    try:
-        _init_portfolio_sqlite()
-        db_path = os.path.join("data", "intelligence.db")
-        with sqlite3.connect(db_path) as conn:
-            cur = conn.cursor()
-            cur.execute("""
-            INSERT OR REPLACE INTO portfolio_listing_buyers (id, refId, name, phone, offer, stage, note, listingTitle, createdAt)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (b.get('id'), b.get('refId'), b.get('name'), b.get('phone') or '-', b.get('offer') or '', b.get('stage') or 'Yeni Talep', b.get('note') or '', b.get('listingTitle') or '', b.get('createdAt') or ''))
-            conn.commit()
-    except Exception as e:
-        print(f"⚠️ Portfolio buyer SQLite save error: {e}")
+    _init_portfolio_sqlite()
+    db_path = os.path.join("data", "intelligence.db")
+    with _SQLITE_PORTFOLIO_LOCK:
+        for attempt in range(5):
+            try:
+                with sqlite3.connect(db_path, timeout=30.0) as conn:
+                    cur = conn.cursor()
+                    cur.execute("""
+                    INSERT OR REPLACE INTO portfolio_listing_buyers (id, refId, name, phone, offer, stage, note, listingTitle, createdAt)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (b.get('id'), b.get('refId'), b.get('name'), b.get('phone') or '-', b.get('offer') or '', b.get('stage') or 'Yeni Talep', b.get('note') or '', b.get('listingTitle') or '', b.get('createdAt') or ''))
+                    conn.commit()
+                return True
+            except sqlite3.OperationalError as oe:
+                if "locked" in str(oe).lower() and attempt < 4:
+                    time.sleep(0.05 * (attempt + 1))
+                    continue
+                print(f"⚠️ Portfolio buyer SQLite save lock error: {oe}")
+                return False
+            except Exception as e:
+                print(f"⚠️ Portfolio buyer SQLite save error: {e}")
+                return False
+    return False
 
 def _save_portfolio_timeline_to_sqlite(t, ref_id):
-    try:
-        _init_portfolio_sqlite()
-        db_path = os.path.join("data", "intelligence.db")
-        with sqlite3.connect(db_path) as conn:
-            cur = conn.cursor()
-            cur.execute("""
-            INSERT OR REPLACE INTO portfolio_listing_timeline (id, refId, type, title, note, date, author)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (t.get('id'), ref_id, t.get('type') or 'note', t.get('title') or '', t.get('note') or '', t.get('date') or '', t.get('author') or 'Yiğit Narin'))
-            conn.commit()
-    except Exception as e:
-        print(f"⚠️ Portfolio timeline SQLite save error: {e}")
+    _init_portfolio_sqlite()
+    db_path = os.path.join("data", "intelligence.db")
+    with _SQLITE_PORTFOLIO_LOCK:
+        for attempt in range(5):
+            try:
+                with sqlite3.connect(db_path, timeout=30.0) as conn:
+                    cur = conn.cursor()
+                    cur.execute("""
+                    INSERT OR REPLACE INTO portfolio_listing_timeline (id, refId, type, title, note, date, author)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """, (t.get('id'), ref_id, t.get('type') or 'note', t.get('title') or '', t.get('note') or '', t.get('date') or '', t.get('author') or 'Yiğit Narin'))
+                    conn.commit()
+                return True
+            except sqlite3.OperationalError as oe:
+                if "locked" in str(oe).lower() and attempt < 4:
+                    time.sleep(0.05 * (attempt + 1))
+                    continue
+                print(f"⚠️ Portfolio timeline SQLite save lock error: {oe}")
+                return False
+            except Exception as e:
+                print(f"⚠️ Portfolio timeline SQLite save error: {e}")
+                return False
+    return False
 
 def _get_sqlite_portfolio_buyers(ref_id=None):
     try:
@@ -16553,14 +16729,18 @@ def get_all_portfolio_buyers():
 
             stage_lower = (b.get("stage") or "").lower()
             stage_id = "new"
-            if any(x in stage_lower for x in ["randevu", "görüşme", "yer", "gösterim"]):
-                stage_id = "showing"
-            elif any(x in stage_lower for x in ["teklif", "pazarlık"]):
-                stage_id = "offer"
-            elif any(x in stage_lower for x in ["sözleşme", "anlaşıldı", "kapora"]):
-                stage_id = "contract"
-            elif any(x in stage_lower for x in ["satıldı", "kapandı", "tapu"]):
+            if any(x in stage_lower for x in ["randevu", "görüşme", "yer", "gösterim", "showing", "proposal"]):
+                stage_id = "proposal"
+            elif any(x in stage_lower for x in ["teklif", "pazarlık", "offer", "negotiation"]):
+                stage_id = "negotiation"
+            elif any(x in stage_lower for x in ["sözleşme", "anlaşıldı", "kapora", "contract"]):
                 stage_id = "closed"
+            elif any(x in stage_lower for x in ["satıldı", "kapandı", "tapu"]):
+                stage_id = "tapu"
+            elif any(x in stage_lower for x in ["analiz", "arandı", "contacted"]):
+                stage_id = "contacted"
+            elif any(x in stage_lower for x in ["sunum", "meeting"]):
+                stage_id = "meeting"
 
             listing_title = b.get("listingTitle") or "Portföy İlanı"
             ref_id = b.get("refId") or ""
@@ -16590,6 +16770,87 @@ def get_all_portfolio_buyers():
         return jsonify({"ok": True, "buyers": formatted_contacts, "count": len(formatted_contacts)})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e), "buyers": []}), 500
+
+@app.route("/api/portfolio/buyer/<path:buyer_id>", methods=["DELETE", "POST"])
+def delete_portfolio_listing_buyer(buyer_id):
+    """İlan alıcısını hem SQLite hem JSON dashboard'dan kalıcı olarak siler."""
+    try:
+        # 1. Delete from SQLite
+        _init_portfolio_sqlite()
+        db_path = os.path.join("data", "intelligence.db")
+        deleted_ref_id = None
+        with _SQLITE_PORTFOLIO_LOCK:
+            with sqlite3.connect(db_path, timeout=30.0) as conn:
+                cur = conn.cursor()
+                cur.execute("SELECT refId FROM portfolio_listing_buyers WHERE id = ?", (buyer_id,))
+                row = cur.fetchone()
+                if row:
+                    deleted_ref_id = row[0]
+                cur.execute("DELETE FROM portfolio_listing_buyers WHERE id = ?", (buyer_id,))
+                conn.commit()
+
+        # 2. Delete from JSON dashboards
+        with _DASHBOARD_LOCK:
+            all_data = _load_listing_dashboards()
+            for ref_id, item in all_data.items():
+                buyers = item.get("buyers", [])
+                new_buyers = [b for b in buyers if b.get("id") != buyer_id]
+                if len(new_buyers) != len(buyers):
+                    item["buyers"] = new_buyers
+                    if not deleted_ref_id:
+                        deleted_ref_id = ref_id
+            _save_listing_dashboards(all_data)
+
+        return jsonify({"ok": True, "deleted": buyer_id, "refId": deleted_ref_id})
+    except Exception as e:
+        print(f"❌ Error deleting buyer {buyer_id}: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/api/portfolio/buyer/<path:buyer_id>/update", methods=["POST"])
+def update_portfolio_listing_buyer(buyer_id):
+    """Alıcı bilgilerini SQLite ve JSON dashboard üzerinde senkronize günceller."""
+    try:
+        payload = flask_request.get_json(silent=True) or {}
+        name = payload.get("name")
+        phone = payload.get("phone")
+        offer = payload.get("offer")
+        stage = payload.get("stage") or payload.get("pipelineStage")
+        note = payload.get("notes") or payload.get("note")
+
+        # 1. Update in SQLite
+        _init_portfolio_sqlite()
+        db_path = os.path.join("data", "intelligence.db")
+        with _SQLITE_PORTFOLIO_LOCK:
+            with sqlite3.connect(db_path, timeout=30.0) as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                    UPDATE portfolio_listing_buyers
+                    SET name = COALESCE(?, name),
+                        phone = COALESCE(?, phone),
+                        offer = COALESCE(?, offer),
+                        stage = COALESCE(?, stage),
+                        note = COALESCE(?, note)
+                    WHERE id = ?
+                """, (name, phone, offer, stage, note, buyer_id))
+                conn.commit()
+
+        # 2. Update in JSON dashboards
+        with _DASHBOARD_LOCK:
+            all_data = _load_listing_dashboards()
+            for ref_id, item in all_data.items():
+                for b in item.get("buyers", []):
+                    if b.get("id") == buyer_id:
+                        if name is not None: b["name"] = name
+                        if phone is not None: b["phone"] = phone
+                        if offer is not None: b["offer"] = offer
+                        if stage is not None: b["stage"] = stage
+                        if note is not None: b["note"] = note
+            _save_listing_dashboards(all_data)
+
+        return jsonify({"ok": True, "updated": buyer_id})
+    except Exception as e:
+        print(f"❌ Error updating buyer {buyer_id}: {e}")
+        return jsonify({"ok": False, "error": str(e)}), 500
 
 @app.route("/api/crm/export/xlsx", methods=["GET", "POST"])
 def export_crm_xlsx():
