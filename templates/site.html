@@ -9034,88 +9034,7 @@
     display: block;
   }
 
-  /* Elevator HUD Wayfinder */
-  .nxa-elevator-hud {
-    position: fixed;
-    right: 28px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 9990;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    pointer-events: auto;
-  }
-  .nxa-elevator-track {
-    width: 2px;
-    height: 220px;
-    background: rgba(255, 255, 255, 0.12);
-    position: relative;
-    border-radius: 2px;
-  }
-  .nxa-elevator-thumb {
-    position: absolute;
-    top: 0;
-    left: -1px;
-    width: 4px;
-    height: 30px;
-    background: var(--gold);
-    border-radius: 2px;
-    box-shadow: 0 0 10px var(--gold);
-    transition: top 0.25s ease;
-  }
-  .nxa-elevator-nodes {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 220px;
-  }
-  .nxa-elevator-node {
-    background: transparent;
-    border: none;
-    padding: 4px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    text-align: left;
-    position: relative;
-  }
-  .node-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    transition: all 0.25s ease;
-  }
-  .node-label {
-    font-size: 10.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: rgba(255, 255, 255, 0.45);
-    opacity: 0;
-    transform: translateX(10px);
-    transition: all 0.25s ease;
-    white-space: nowrap;
-    background: rgba(3, 6, 16, 0.85);
-    padding: 2px 8px;
-    border-radius: 6px;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-  }
-  .nxa-elevator-node:hover .node-dot,
-  .nxa-elevator-node.active .node-dot {
-    background: var(--gold);
-    box-shadow: 0 0 10px var(--gold);
-    transform: scale(1.4);
-  }
-  .nxa-elevator-node:hover .node-label,
-  .nxa-elevator-node.active .node-label {
-    opacity: 1;
-    transform: translateX(0);
-    color: #ffffff;
-  }
+  
 
   /* Responsive Rules */
   @media (max-width: 1100px) {
@@ -9130,9 +9049,6 @@
     }
   }
   @media (max-width: 991px) {
-    .nxa-elevator-hud {
-      display: none !important;
-    }
     .nxa-slide-drawer {
       width: 100%;
     }
@@ -17739,51 +17655,7 @@ ${src.length ? `
 
 
 
-  <!-- ══════════════════════════════════════════════════════════════════════════
-       ELEVATOR HUD WAYFINDER (SAĞ KENAR LÜKS KAT GÖSTERGESİ)
-  ══════════════════════════════════════════════════════════════════════════ -->
-  <nav class="nxa-elevator-hud" id="nxaElevatorHud" aria-label="Sayfa Navigasyon Katları">
-    <div class="nxa-elevator-track">
-      <div class="nxa-elevator-thumb" id="nxaElevatorThumb"></div>
-    </div>
-    <div class="nxa-elevator-nodes">
-      <button type="button" class="nxa-elevator-node active" data-target="home" onclick="scrollToElevatorTarget('home')" title="Giriş">
-        <span class="node-dot"></span>
-        <span class="node-label">00 Giriş</span>
-      </button>
-      <button type="button" class="nxa-elevator-node" data-target="portfolio" onclick="scrollToElevatorTarget('portfolio')" title="Vitrin & Projeler">
-        <span class="node-dot"></span>
-        <span class="node-label">01 Vitrin</span>
-      </button>
-      <button type="button" class="nxa-elevator-node" data-target="executiveBento" onclick="scrollToElevatorTarget('executiveBento')" title="Executive Bento">
-        <span class="node-dot"></span>
-        <span class="node-label">02 Kokpit</span>
-      </button>
-      <button type="button" class="nxa-elevator-node" data-target="harita" onclick="scrollToElevatorTarget('harita')" title="İnteraktif Harita">
-        <span class="node-dot"></span>
-        <span class="node-label">03 Harita</span>
-      </button>
-      <button type="button" class="nxa-elevator-node" data-target="services" onclick="scrollToElevatorTarget('services')" title="Hizmetler">
-        <span class="node-dot"></span>
-        <span class="node-label">04 Hizmet</span>
-      </button>
-      <button type="button" class="nxa-elevator-node" data-target="yigitNarinProfile" onclick="scrollToElevatorTarget('yigitNarinProfile')" title="Yiğit Narin Profil">
-        <span class="node-dot"></span>
-        <span class="node-label">05 Profil</span>
-      </button>
-      <button type="button" class="nxa-elevator-node" data-target="marketDashboardSection" onclick="scrollToElevatorTarget('marketDashboardSection')" title="Piyasa Endeksi">
-        <span class="node-dot"></span>
-        <span class="node-label">06 Endeks</span>
-      </button>
-      <button type="button" class="nxa-elevator-node" data-target="contact" onclick="scrollToElevatorTarget('contact')" title="VIP İletişim">
-        <span class="node-dot"></span>
-        <span class="node-label">07 İletişim</span>
-      </button>
-    </div>
-  </nav>
-
-
-<script>
+  <script>
 
   // ══════════════════════════════════════════════════════════════════════════
   // NEXA MODULAR DRAWER & ELEVATOR WAYFINDER CONTROLLERS
@@ -17843,46 +17715,7 @@ ${src.length ? `
     }
   });
 
-  // Elevator HUD Wayfinder Controller
-  function scrollToElevatorTarget(targetId) {
-    const el = document.getElementById(targetId);
-    if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  (function initElevatorHud() {
-    const nodes = document.querySelectorAll('.nxa-elevator-node');
-    const thumb = document.getElementById('nxaElevatorThumb');
-    if (!nodes.length) return;
-
-    const sections = Array.from(nodes).map(node => {
-      const id = node.getAttribute('data-target');
-      return { id: id, el: document.getElementById(id), node: node };
-    }).filter(item => item.el !== null);
-
-    window.addEventListener('scroll', function() {
-      const scrollY = window.scrollY + 300;
-      let currentSection = sections[0];
-
-      for (let s of sections) {
-        if (s.el.offsetTop <= scrollY) {
-          currentSection = s;
-        }
-      }
-
-      nodes.forEach(n => n.classList.remove('active'));
-      if (currentSection) {
-        currentSection.node.classList.add('active');
-        if (thumb) {
-          const index = sections.indexOf(currentSection);
-          const topPercent = (index / (sections.length - 1)) * (220 - 30);
-          thumb.style.top = topPercent + 'px';
-        }
-      }
-    }, { passive: true });
-  })();
-
-</script>
+  </script>
 
 </body>
 </html>
