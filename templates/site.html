@@ -4732,20 +4732,70 @@
     /* ═══════════════════════════════════════════════════════════════════════════
        SHOWCASE ULTRA-LUXURY ARCHITECTURAL BLUEPRINT ATMOSPHERE
     ═══════════════════════════════════════════════════════════════════════════ */
+    
+    /* ============================================================
+       ULTRA-PREMIUM BESPOKE CADASTRAL DIGITAL TWIN BACKGROUND
+       Gayrimenkul Mühendisi & Coldwell Banker VIP Architectural Experience
+       ============================================================ */
+    
+    /* ============================================================
+       BESPOKE IMPERIAL GUILLOCHÉ & ARCHITECTURAL PATTERN BACKGROUND
+       Gayrimenkul Mühendisi & Coldwell Banker VIP Luxury Showcase
+       ============================================================ */
     .showcase-luxury-section {
       position: relative !important;
       scroll-margin-top: 90px !important;
-      background-color: #030610 !important;
+      background-color: #030611 !important;
       background-image: 
-        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212, 175, 55, 0.25) 0%, transparent 60%),
-        radial-gradient(ellipse 95% 70% at 50% 50%, rgba(12, 25, 52, 0.65) 0%, transparent 85%),
-        radial-gradient(ellipse 80% 45% at 50% 100%, rgba(2, 5, 12, 0.95) 0%, transparent 100%) !important;
+        radial-gradient(circle 1000px at 50% -10%, rgba(212, 175, 55, 0.28) 0%, transparent 70%),
+        radial-gradient(circle 900px at 0% 30%, rgba(212, 175, 55, 0.14) 0%, transparent 65%),
+        radial-gradient(circle 900px at 100% 30%, rgba(56, 189, 248, 0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 95% 70% at 50% 50%, rgba(5, 14, 30, 0.85) 0%, transparent 90%),
+        radial-gradient(ellipse 80% 45% at 50% 100%, rgba(2, 4, 10, 0.98) 0%, transparent 100%) !important;
       overflow: hidden !important;
-      padding-top: 90px !important;
-      padding-bottom: 100px !important;
+      padding-top: 95px !important;
+      padding-bottom: 110px !important;
     }
 
-    /* CAD Blueprint SVG Layer */
+    /* Ambient Pulsing Gold Aura Crown */
+    .showcase-luxury-section::before {
+      content: '';
+      position: absolute;
+      top: -140px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1100px;
+      height: 520px;
+      background: radial-gradient(ellipse at center, rgba(253, 224, 71, 0.3) 0%, rgba(212, 175, 55, 0.12) 42%, transparent 75%);
+      filter: blur(85px);
+      pointer-events: none;
+      z-index: 1;
+      animation: nxcCrownAuraPulse 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes nxcCrownAuraPulse {
+      0% { opacity: 0.65; transform: translateX(-50%) scale(0.96); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    }
+
+    /* Subtle Animated Luxury Light Sheen */
+    .showcase-luxury-section::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 0%, rgba(212, 175, 55, 0.04) 45%, rgba(255, 255, 255, 0.07) 50%, rgba(212, 175, 55, 0.04) 55%, transparent 100%);
+      background-size: 250% 250%;
+      pointer-events: none;
+      z-index: 1;
+      animation: nxcLuxurySheen 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes nxcLuxurySheen {
+      0% { background-position: 0% 0%; opacity: 0.5; }
+      100% { background-position: 100% 100%; opacity: 1; }
+    }
+
+    /* Full-Canvas Architectural CAD & Guilloché SVG Layer */
     .showcase-cad-bg {
       position: absolute;
       top: 0;
@@ -4754,7 +4804,7 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.95;
+      opacity: 0.98;
       user-select: none;
     }
 
@@ -4762,6 +4812,198 @@
       position: relative;
       z-index: 2;
     }
+
+
+    /* ============================================================
+       RESPONSIVE FLOATING HUD TELEMETRY WINGS (LEFT & RIGHT)
+       Guaranteed never to clip on any monitor aspect ratio
+       ============================================================ */
+    .showcase-hud-wing {
+      position: absolute;
+      top: 140px;
+      bottom: 70px;
+      width: 250px;
+      z-index: 2;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      transition: opacity 0.4s ease;
+    }
+
+    .showcase-hud-left {
+      left: clamp(20px, 3.2vw, 55px);
+    }
+
+    .showcase-hud-right {
+      right: clamp(20px, 3.2vw, 55px);
+      align-items: flex-end;
+    }
+
+    /* Glassmorphic Cadastral HUD Pill Card */
+    .nxc-hud-card {
+      position: relative;
+      background: rgba(4, 10, 22, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.32);
+      border-radius: 12px;
+      padding: 14px 18px;
+      width: 245px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 
+                  0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                  0 0 24px rgba(212, 175, 55, 0.1);
+      pointer-events: auto;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nxc-hud-card:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: rgba(253, 224, 71, 0.6);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8), 
+                  0 0 35px rgba(212, 175, 55, 0.25);
+    }
+
+    .nxc-hud-card.cyan-accent {
+      border-color: rgba(56, 189, 248, 0.32);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 
+                  0 0 24px rgba(56, 189, 248, 0.1);
+    }
+
+    .nxc-hud-card.cyan-accent:hover {
+      border-color: rgba(56, 189, 248, 0.65);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8), 
+                  0 0 35px rgba(56, 189, 248, 0.25);
+    }
+
+    .nxc-hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .nxc-hud-badge.gold {
+      color: #fde047;
+    }
+
+    .nxc-hud-badge.cyan {
+      color: #38bdf8;
+    }
+
+    .nxc-hud-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: nxcDotBlink 2.2s infinite;
+    }
+
+    @keyframes nxcDotBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .nxc-hud-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 5px;
+      line-height: 1.25;
+      letter-spacing: 0.3px;
+    }
+
+    .nxc-hud-meta {
+      font-family: 'Inter', monospace, sans-serif;
+      font-size: 10px;
+      color: #94a3b8;
+      line-height: 1.45;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nxc-hud-meta span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nxc-hud-meta strong {
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    /* Radar Beacon Pulsing Target */
+    .nxc-radar-target {
+      position: absolute;
+      top: -10px;
+      width: 22px;
+      height: 22px;
+      pointer-events: none;
+    }
+    .showcase-hud-left .nxc-radar-target { right: -11px; }
+    .showcase-hud-right .nxc-radar-target { left: -11px; }
+
+    .nxc-radar-target::before, .nxc-radar-target::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid #fde047;
+      animation: nxcRadarRipple 3.2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    }
+    .nxc-radar-target::after {
+      animation-delay: 1.3s;
+    }
+
+    @keyframes nxcRadarRipple {
+      0% { transform: scale(0.2); opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    /* Engineering Compass Rose Card */
+    .nxc-compass-card {
+      background: rgba(4, 10, 22, 0.82);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      width: 245px;
+      pointer-events: auto;
+    }
+
+    .nxc-compass-svg {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      animation: nxcCompassSway 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes nxcCompassSway {
+      0% { transform: rotate(-3deg); }
+      100% { transform: rotate(3deg); }
+    }
+
+    /* Hide floating HUD wings on screens narrower than 1540px where margins are < 240px */
+    @media (max-width: 1540px) {
+      .showcase-hud-wing {
+        display: none !important;
+      }
+    }
+
+    .showcase-luxury-section > .container { position: relative; z-index: 3; }
 
     /* Contrast Restoration: Section Label & Title */
     #portfolio .section-label {
@@ -8760,127 +9002,123 @@
        ULTRA PRO PORTFOLIO SECTION (LUXURY ARCHITECTURAL BLUEPRINT)
   ============================================================ -->
   <section class="section showcase-luxury-section" id="portfolio">
-    <!-- Chic Architectural CAD Plan & Blueprint Background SVG -->
-    <svg class="showcase-cad-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- Bespoke Imperial Guilloché & Architectural Luxury Pattern SVG -->
+    <svg class="showcase-cad-bg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true">
       <defs>
-        <!-- Metallic Liquid Gold Gradients -->
-        <linearGradient id="goldBeamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#fde047" stop-opacity="0.35"/>
-          <stop offset="40%" stop-color="#d4af37" stop-opacity="0.15"/>
-          <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+        <!-- Metallic Gold & Platinum Gradient Highlights -->
+        <linearGradient id="patGoldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fde047" stop-opacity="0.22"/>
+          <stop offset="50%" stop-color="#d4af37" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="#b8860b" stop-opacity="0.04"/>
         </linearGradient>
 
-        <linearGradient id="goldRibbonGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#d4af37" stop-opacity="0"/>
-          <stop offset="20%" stop-color="#d4af37" stop-opacity="0.4"/>
-          <stop offset="50%" stop-color="#fde047" stop-opacity="0.75"/>
-          <stop offset="80%" stop-color="#d4af37" stop-opacity="0.4"/>
-          <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+        <linearGradient id="patGoldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
+          <stop offset="40%" stop-color="#fde047" stop-opacity="0.14"/>
+          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.04"/>
         </linearGradient>
 
-        <linearGradient id="goldRibbonGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0"/>
-          <stop offset="25%" stop-color="#38bdf8" stop-opacity="0.3"/>
-          <stop offset="70%" stop-color="#d4af37" stop-opacity="0.45"/>
-          <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+        <linearGradient id="patCyanGrad" x1="0%" y1="100%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="#0284c7" stop-opacity="0.04"/>
         </linearGradient>
 
-        <!-- BESPOKE HAUTE-ARCHITECTURAL IMPERIAL OCTAGON & DIAMOND LATTICE (80x80) -->
-        <pattern id="imperialLattice" width="80" height="80" patternUnits="userSpaceOnUse">
-          <!-- Primary Octagon Frame -->
-          <!-- Vertices of octagon centered at 40,40 with radius ~28:
-               (28, 12), (52, 12), (68, 28), (68, 52), (52, 68), (28, 68), (12, 52), (12, 28) -->
-          <polygon points="28,12 52,12 68,28 68,52 52,68 28,68 12,52 12,28"
-                   fill="none" stroke="rgba(212, 175, 55, 0.16)" stroke-width="0.9"/>
-          
-          <!-- Inner Concentric Octagon -->
-          <polygon points="31,19 49,19 61,31 61,49 49,61 31,61 19,49 19,31"
-                   fill="none" stroke="rgba(212, 175, 55, 0.07)" stroke-width="0.5"/>
+        <!-- ========================================================
+             PATTERN TILE: IMPERIAL GUILLOCHÉ & ARCHITECTURAL OCTAGON
+             Size: 96x96 - Scaled for perfect density on both mobile and 4K
+             ======================================================== -->
+        <pattern id="nxcImperialPattern" width="96" height="96" patternUnits="userSpaceOnUse">
+          <!-- Background Sub-Grid (24x24 CAD coordinates) -->
+          <path d="M 24 0 L 24 96 M 48 0 L 48 96 M 72 0 L 72 96 M 0 24 L 96 24 M 0 48 L 96 48 M 0 72 L 96 72" 
+                stroke="rgba(212, 175, 55, 0.035)" stroke-width="0.5"/>
 
-          <!-- Interlocking Corner Squares (Forming Diamonds at Cell Junctions) -->
-          <!-- At (0,0), (80,0), (0,80), (80,80) -->
-          <polygon points="0,12 12,0 0,-12 -12,0" fill="none" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.8"/>
-          <polygon points="80,12 92,0 80,-12 68,0" fill="none" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.8"/>
-          <polygon points="0,92 12,80 0,68 -12,80" fill="none" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.8"/>
-          <polygon points="80,92 92,80 80,68 68,80" fill="none" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.8"/>
+          <!-- Central Octagon (Outer) -->
+          <polygon points="33.6,14.4 62.4,14.4 81.6,33.6 81.6,62.4 62.4,81.6 33.6,81.6 14.4,62.4 14.4,33.6" 
+                   fill="none" stroke="url(#patGoldGrad1)" stroke-width="1"/>
 
-          <!-- Central 8-Point Starburst Accent in Each Octagon -->
-          <path d="M 40 24 L 40 56 M 24 40 L 56 40" stroke="rgba(212, 175, 55, 0.3)" stroke-width="0.7"/>
-          <path d="M 29 29 L 51 51 M 29 51 L 51 29" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.5"/>
-          <circle cx="40" cy="40" r="2" fill="rgba(212, 175, 55, 0.5)"/>
+          <!-- Central Octagon (Inner Concentric) -->
+          <polygon points="36.8,20.8 59.2,20.8 75.2,36.8 75.2,59.2 59.2,75.2 36.8,75.2 20.8,59.2 20.8,36.8" 
+                   fill="none" stroke="rgba(212, 175, 55, 0.06)" stroke-width="0.5"/>
 
-          <!-- Junction Micro Star Nodes -->
-          <circle cx="0" cy="0" r="1.5" fill="rgba(253, 224, 71, 0.6)"/>
-          <circle cx="80" cy="0" r="1.5" fill="rgba(253, 224, 71, 0.6)"/>
-          <circle cx="0" cy="80" r="1.5" fill="rgba(253, 224, 71, 0.6)"/>
-          <circle cx="80" cy="80" r="1.5" fill="rgba(253, 224, 71, 0.6)"/>
+          <!-- Concentric Guilloché Rings in Octagon Center -->
+          <circle cx="48" cy="48" r="17.5" fill="none" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.6"/>
+          <circle cx="48" cy="48" r="12.5" fill="none" stroke="rgba(56, 189, 248, 0.08)" stroke-width="0.5" stroke-dasharray="2,2"/>
+          <circle cx="48" cy="48" r="6" fill="none" stroke="rgba(253, 224, 71, 0.15)" stroke-width="0.6"/>
+          <circle cx="48" cy="48" r="1.6" fill="#fde047" opacity="0.45"/>
+
+          <!-- 8 Radial Rays in Octagon Center -->
+          <path d="M 48 30 L 48 66 M 30 48 L 66 48 M 35 35 L 61 61 M 35 61 L 61 35" 
+                stroke="rgba(212, 175, 55, 0.08)" stroke-width="0.5"/>
+
+          <!-- Corner Interlocking Rhombus / Diamonds -->
+          <!-- Top-Left Diamond -->
+          <polygon points="0,14.4 14.4,0 0,-14.4 -14.4,0" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
+          <!-- Top-Right Diamond -->
+          <polygon points="96,14.4 110.4,0 96,-14.4 81.6,0" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
+          <!-- Bottom-Left Diamond -->
+          <polygon points="0,110.4 14.4,96 0,81.6 -14.4,96" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
+          <!-- Bottom-Right Diamond -->
+          <polygon points="96,110.4 110.4,96 96,81.6 81.6,96" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
+
+          <!-- Center Diamonds connecting the Octagon edges -->
+          <!-- Top Diamond -->
+          <polygon points="48,14.4 62.4,0 48,-14.4 33.6,0" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
+          <circle cx="48" cy="0" r="1.4" fill="#fde047" opacity="0.4"/>
+
+          <!-- Bottom Diamond -->
+          <polygon points="48,110.4 62.4,96 48,81.6 33.6,96" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
+          <circle cx="48" cy="96" r="1.4" fill="#fde047" opacity="0.4"/>
+
+          <!-- Left Diamond -->
+          <polygon points="0,62.4 14.4,48 0,33.6 -14.4,48" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
+          <circle cx="0" cy="48" r="1.4" fill="#fde047" opacity="0.4"/>
+
+          <!-- Right Diamond -->
+          <polygon points="96,62.4 110.4,48 96,33.6 81.6,48" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
+          <circle cx="96" cy="48" r="1.4" fill="#fde047" opacity="0.4"/>
+
+          <!-- Diagonal Connectors linking Octagons & Diamonds -->
+          <line x1="14.4" y1="33.6" x2="0" y2="33.6" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <line x1="14.4" y1="62.4" x2="0" y2="62.4" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <line x1="81.6" y1="33.6" x2="96" y2="33.6" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <line x1="81.6" y1="62.4" x2="96" y2="62.4" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <line x1="33.6" y1="14.4" x2="33.6" y2="0" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <line x1="62.4" y1="14.4" x2="62.4" y2="0" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <line x1="33.6" y1="81.6" x2="33.6" y2="96" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <line x1="62.4" y1="81.6" x2="62.4" y2="96" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
         </pattern>
 
-        <!-- FINE CAD MICRO-SCALE SUB-GRID (20x20) -->
-        <pattern id="microSubGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-          <circle cx="10" cy="10" r="0.6" fill="rgba(255, 255, 255, 0.08)"/>
-        </pattern>
-
-        <!-- LUXURY VIGNETTE MASK (Maximum clarity in center, glowing texture on wings & borders) -->
-        <radialGradient id="luxFadeMask" cx="50%" cy="45%" r="70%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
-          <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"/>
-          <stop offset="80%" stop-color="#ffffff" stop-opacity="0.8"/>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.25"/>
+        <!-- Dynamic Vignette Mask for Perfect Contrast Hierarchy -->
+        <radialGradient id="vignetteSoftMask" cx="50%" cy="45%" r="65%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+          <stop offset="50%" stop-color="#ffffff" stop-opacity="0.75"/>
+          <stop offset="90%" stop-color="#ffffff" stop-opacity="1"/>
         </radialGradient>
-        <mask id="luxMask">
-          <rect width="2400" height="1200" fill="url(#luxFadeMask)"/>
+        <mask id="patternSoftMask">
+          <rect width="100%" height="100%" fill="url(#vignetteSoftMask)"/>
         </mask>
       </defs>
 
-      <g mask="url(#luxMask)">
-        <!-- Layer 1: Seamless All-Over Haute Imperial Octagon-Diamond Lattice -->
-        <rect width="2400" height="1200" fill="url(#microSubGrid)"/>
-        <rect width="2400" height="1200" fill="url(#imperialLattice)"/>
+      <!-- LAYER 1: BESPOKE IMPERIAL GUILLOCHÉ & ARCHITECTURAL PATTERN TILE -->
+      <rect width="100%" height="100%" fill="url(#nxcImperialPattern)" mask="url(#patternSoftMask)"/>
 
-        <!-- Layer 2: Subtle Architectural Light Pillars (God-Rays from Top Ceiling) -->
-        <polygon points="600,0 720,0 900,900 700,900" fill="url(#goldBeamGrad)" opacity="0.3"/>
-        <polygon points="1200,0 1280,0 1340,900 1180,900" fill="url(#goldBeamGrad)" opacity="0.4"/>
-        <polygon points="1680,0 1800,0 1960,900 1760,900" fill="url(#goldBeamGrad)" opacity="0.3"/>
-
-        <!-- Layer 3: Parametric Architectural Waves (Lüks Mühendislik & Akış Çizgileri) -->
-        <g fill="none">
-          <!-- Flowing Wave 1 -->
-          <path d="M -100 240 C 400 150, 800 310, 1250 220 C 1700 130, 2100 290, 2500 200" 
-                stroke="url(#goldRibbonGrad1)" stroke-width="1.6"/>
-          <!-- Flowing Wave 2 -->
-          <path d="M -100 370 C 350 280, 850 460, 1300 360 C 1750 260, 2150 420, 2500 330" 
-                stroke="url(#goldRibbonGrad2)" stroke-width="1.2" stroke-dasharray="10,6"/>
-          <!-- Flowing Wave 3 -->
-          <path d="M -100 620 C 450 510, 900 700, 1350 600 C 1800 500, 2200 650, 2500 580" 
-                stroke="url(#goldRibbonGrad1)" stroke-width="1.8"/>
-          <!-- Flowing Wave 4 -->
-          <path d="M -100 760 C 380 670, 860 840, 1300 750 C 1740 660, 2160 800, 2500 730" 
-                stroke="url(#goldRibbonGrad2)" stroke-width="1.1"/>
-          <!-- Flowing Wave 5 -->
-          <path d="M -100 920 C 320 820, 780 980, 1260 900 C 1740 820, 2180 950, 2500 880" 
-                stroke="url(#goldRibbonGrad1)" stroke-width="1.5" stroke-dasharray="12,8"/>
-        </g>
-
-        <!-- Layer 4: Floating Constellation Nodes at Key Geometric Vertices -->
-        <g fill="#fde047">
-          <circle cx="280" cy="180" r="2.5" opacity="0.7"/>
-          <circle cx="560" cy="240" r="2" opacity="0.6"/>
-          <circle cx="840" cy="190" r="2.5" opacity="0.8"/>
-          <circle cx="1560" cy="210" r="2.5" opacity="0.8"/>
-          <circle cx="1840" cy="250" r="2" opacity="0.6"/>
-          <circle cx="2120" cy="190" r="2.5" opacity="0.7"/>
-
-          <circle cx="200" cy="620" r="2.5" opacity="0.7"/>
-          <circle cx="440" cy="580" r="2" opacity="0.6"/>
-          <circle cx="1960" cy="590" r="2" opacity="0.6"/>
-          <circle cx="2200" cy="630" r="2.5" opacity="0.7"/>
-
-          <circle cx="360" cy="920" r="2.5" opacity="0.7"/>
-          <circle cx="720" cy="890" r="2" opacity="0.5"/>
-          <circle cx="1680" cy="900" r="2" opacity="0.5"/>
-          <circle cx="2040" cy="930" r="2.5" opacity="0.7"/>
-        </g>
+      <!-- LAYER 2: CINEMATIC FLOWING TOPOGRAPHIC CONTOUR WAVES -->
+      <g fill="none" opacity="0.55" style="mix-blend-mode: screen;">
+        <!-- Top Wave 1 -->
+        <path d="M -50 160 Q 400 80 850 180 T 1750 120 T 2600 150" 
+              stroke="url(#patGoldGrad1)" stroke-width="1.6" stroke-dasharray="10,6"/>
+        <!-- Wave 2 (Cyan Accent) -->
+        <path d="M -50 320 Q 450 200 950 340 T 1850 240 T 2600 280" 
+              stroke="url(#patCyanGrad)" stroke-width="1.2"/>
+        <!-- Wave 3 (Gold Accent) -->
+        <path d="M -50 560 Q 500 420 1050 580 T 1950 460 T 2600 520" 
+              stroke="url(#patGoldGrad2)" stroke-width="1.4"/>
+        <!-- Wave 4 (Cyan Accent) -->
+        <path d="M -50 820 Q 450 700 950 840 T 1850 740 T 2600 790" 
+              stroke="url(#patCyanGrad)" stroke-width="1.2" stroke-dasharray="8,6"/>
+        <!-- Wave 5 (Deep Gold) -->
+        <path d="M -50 1080 Q 520 940 1020 1100 T 1920 980 T 2600 1040" 
+              stroke="url(#patGoldGrad1)" stroke-width="1.6"/>
       </g>
     </svg>
 
