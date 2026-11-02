@@ -1772,6 +1772,10 @@
       transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease !important;
       display: block !important;
       will-change: transform, filter;
+      image-rendering: -webkit-optimize-contrast !important;
+      image-rendering: high-quality !important;
+      backface-visibility: hidden !important;
+      transform: translateZ(0) !important;
     }
 
     .nxc-cinematic-card:hover .nxc-img img,
@@ -1786,21 +1790,13 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 110px;
-      background: linear-gradient(180deg, rgba(6, 11, 20, 0.85) 0%, rgba(6, 11, 20, 0.4) 50%, transparent 100%);
+      height: 65px;
+      background: linear-gradient(180deg, rgba(6, 11, 20, 0.5) 0%, transparent 100%);
       pointer-events: none;
       z-index: 2;
     }
     .nxc-cinematic-card .nxc-vignette-bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 240px;
-      background: linear-gradient(0deg, rgba(6, 11, 20, 0.96) 0%, rgba(6, 11, 20, 0.65) 45%, transparent 100%);
-      pointer-events: none;
-      z-index: 2;
-      transition: opacity 0.4s ease;
+      display: none !important;
     }
 
     /* TOP FLOATING BADGES BAR */
@@ -12008,7 +12004,18 @@
       card.className = 'nxc-card nxc-cinematic-card' + (isFeatured ? ' nxc-featured' : '');
       
       const waMsg = encodeURIComponent(`Merhaba, "${listing.title}" ilanı hakkında bilgi almak istiyorum.`);
-      const imgSrc = listing.img || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+      
+      // Upgrade Coldwell Banker thumbnail (_331X224) to ultra-crisp 2K/3K/4K original resolution
+      function resolveUltraHdCover(url) {
+        if (!url) return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85';
+        if (url.includes('cb.com.tr') || url.includes('StockMediaFiles')) {
+          return url.replace(/_\d+[xX]\d+(\.[a-zA-Z0-9]+)$/, '$1');
+        }
+        return url;
+      }
+
+      const rawImgSrc = listing.img || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85';
+      const imgSrc = resolveUltraHdCover(rawImgSrc);
       const badgeClass = listing.type === 'Kiralık' ? 'nxc-badge-kiralik' : 'nxc-badge-satilik';
       const typeLabel = listing.type || 'Satılık';
       const price = listing.price || 'Fiyat Sorunuz';
@@ -12023,7 +12030,7 @@
             src="${imgSrc}"
             alt="${title}"
             loading="lazy"
-            onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'"
+            onerror="if (this.src !== '${rawImgSrc}') { this.src = '${rawImgSrc}'; } else { this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85'; }"
           >
           <div class="nxc-vignette-top"></div>
           <div class="nxc-vignette-bottom"></div>

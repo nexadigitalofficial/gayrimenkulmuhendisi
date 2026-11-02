@@ -12282,9 +12282,15 @@ def fetch_real_estate_data() -> list:
                     link = "https://www.cb.com.tr" + link
 
                 img_el = card.select_one(".cb-list-img-container img") or card.select_one("img.card-img-top")
-                img_url = "https://via.placeholder.com/400x300"
+                img_url = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85"
                 if img_el:
-                    img_url = img_el.get("src") or img_el.get("data-src") or img_url
+                    raw_src = img_el.get("src") or img_el.get("data-src") or ""
+                    if raw_src:
+                        # Upgrade Coldwell Banker 331x224 thumbnail to full ultra-HD 2K/3K/4K resolution
+                        if "cb.com.tr" in raw_src or "StockMediaFiles" in raw_src:
+                            img_url = re.sub(r'_\d+[xX]\d+(\.[a-zA-Z0-9]+)$', r'\1', raw_src)
+                        else:
+                            img_url = raw_src
 
                 region_el = card.select_one('span[itemprop="addressRegion"]')
                 street_el = card.select_one('span[itemprop="streetAddress"]')
