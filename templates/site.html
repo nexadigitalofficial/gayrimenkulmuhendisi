@@ -1713,376 +1713,392 @@
         .nxc-incele:hover i { transform: translateX(3px); }
 
     /* ══════════════════════════════════════════════════════════════════
-       NEXA ULTRA-LUXURY CINEMATIC FULL-COVER CARD & HOVER REVEAL
+       NEXA ULTRA-LUXURY PROPTECH LISTING CARD (EXACT SPEC MATCH)
        ══════════════════════════════════════════════════════════════════ */
     .nxc-card.nxc-cinematic-card,
     .carousel-track .nxc-card.nxc-cinematic-card,
-    .portfolio-grid-view .nxc-card.nxc-cinematic-card {
+    .portfolio-grid-view .nxc-card.nxc-cinematic-card,
+    .nxc-card {
       position: relative !important;
-      width: 420px !important;
-      min-width: 420px !important;
-      max-width: 420px !important;
-      height: 410px !important;
-      min-height: 410px !important;
-      max-height: 410px !important;
+      flex: 0 0 330px !important;
+      width: 330px !important;
+      min-width: 330px !important;
+      max-width: 330px !important;
       border-radius: 20px !important;
       overflow: hidden !important;
-      background: #060b14 !important;
-      border: 1px solid rgba(212, 175, 55, 0.3) !important;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65) !important;
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.45s ease !important;
+      background: #070d19 !important;
+      border: 1px solid rgba(212, 175, 55, 0.24) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.35s ease !important;
       cursor: pointer !important;
       display: flex !important;
       flex-direction: column !important;
       scroll-snap-align: start !important;
     }
 
-    .nxc-card.nxc-cinematic-card:hover,
-    .nxc-card.nxc-cinematic-card.touch-expanded {
-      transform: translateY(-8px) scale(1.01) !important;
+    .nxc-card:hover,
+    .nxc-card.nxc-cinematic-card:hover {
+      transform: translateY(-6px) scale(1.01) !important;
       border-color: var(--gold) !important;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.88), 0 0 35px rgba(212, 175, 55, 0.38) !important;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.28) !important;
     }
 
-    /* FULL-BLEED COVER IMAGE CONTAINER */
-    .nxc-cinematic-card .nxc-img,
-    .carousel-track .nxc-cinematic-card .nxc-img,
-    .portfolio-grid-view .nxc-cinematic-card .nxc-img {
-      position: absolute !important;
-      inset: 0 !important;
+    /* TOP IMAGE CONTAINER */
+    .nxc-card .nxc-img,
+    .carousel-track .nxc-card .nxc-img,
+    .portfolio-grid-view .nxc-card .nxc-img {
+      position: relative !important;
       width: 100% !important;
-      height: 100% !important;
-      min-height: 100% !important;
-      max-height: 100% !important;
-      aspect-ratio: auto !important;
-      border-radius: 20px !important;
+      height: 215px !important;
+      min-height: 215px !important;
+      max-height: 215px !important;
       overflow: hidden !important;
-      z-index: 1 !important;
-      background: #070d18 !important;
+      background: #000 !important;
+      flex-shrink: 0 !important;
+      border-radius: 20px 20px 0 0 !important;
     }
 
-    .nxc-cinematic-card .nxc-img img,
-    .carousel-track .nxc-cinematic-card .nxc-img img {
+    .nxc-card .nxc-img img,
+    .carousel-track .nxc-card .nxc-img img {
       width: 100% !important;
       height: 100% !important;
       object-fit: cover !important;
       object-position: center !important;
-      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease !important;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
       display: block !important;
-      will-change: transform, filter;
       image-rendering: -webkit-optimize-contrast !important;
       image-rendering: high-quality !important;
-      backface-visibility: hidden !important;
-      transform: translateZ(0) !important;
     }
 
-    .nxc-cinematic-card:hover .nxc-img img,
-    .nxc-cinematic-card.touch-expanded .nxc-img img {
-      transform: scale(1.09) !important;
-      filter: brightness(0.8) contrast(1.05) !important;
+    .nxc-card:hover .nxc-img img {
+      transform: scale(1.05) !important;
     }
 
-    /* TOP & BOTTOM CINEMATIC VIGNETTES */
-    .nxc-cinematic-card .nxc-vignette-top {
+    /* IMAGE OVERLAY GRADIENT */
+    .nxc-card .nxc-img-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 65px;
-      background: linear-gradient(180deg, rgba(6, 11, 20, 0.5) 0%, transparent 100%);
+      inset: 0;
+      background: linear-gradient(to top, rgba(7, 13, 25, 0.95) 0%, rgba(7, 13, 25, 0.4) 38%, transparent 70%);
       pointer-events: none;
       z-index: 2;
     }
-    .nxc-cinematic-card .nxc-vignette-bottom {
-      display: none !important;
+
+    /* TOP LEFT BADGE: SATILIK / KIRALIK */
+    .nxc-card .nxc-badge-top {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 5;
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+    .nxc-badge-satilik-luxury {
+      background: #d4af37 !important;
+      color: #070d19 !important;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+    .nxc-badge-kiralik-luxury {
+      background: #10b981 !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* TOP FLOATING BADGES BAR */
-    .nxc-cinematic-card .nxc-badge-bar {
+    /* TOP RIGHT FAVORITE (HEART) BUTTON */
+    .nxc-card .nxc-fav-btn {
       position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .nxc-cinematic-card .nxc-badge {
-      position: static !important;
-      padding: 5px 12px !important;
-      border-radius: 50px !important;
-      font-family: 'Outfit', sans-serif !important;
-      font-size: 11px !important;
-      font-weight: 800 !important;
-      letter-spacing: 0.5px !important;
-      backdrop-filter: blur(10px) !important;
-      -webkit-backdrop-filter: blur(10px) !important;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.5) !important;
-    }
-    .nxc-cinematic-card .nxc-badge-vip {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      background: rgba(10, 18, 32, 0.82);
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      border-radius: 50px;
-      color: #fef08a;
-      font-family: 'Outfit', sans-serif;
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
+      top: 12px;
+      right: 12px;
+      z-index: 5;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #cbd5e1;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
-    .nxc-cinematic-card .nxc-badge-vip i {
-      color: var(--gold);
-      font-size: 10px;
+    .nxc-card .nxc-fav-btn:hover {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #ef4444;
+      transform: scale(1.08);
+    }
+    .nxc-card .nxc-fav-btn.is-favorite {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      color: #ef4444;
     }
 
-    /* SLIDING FROSTED GLASS SHEET (PEEK STATE -> EXPANDS ON HOVER) */
-    .nxc-cinematic-card .nxc-reveal-sheet,
-    .carousel-track .nxc-cinematic-card .nxc-body,
-    .portfolio-grid-view .nxc-cinematic-card .nxc-body {
-      position: absolute !important;
-      bottom: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      z-index: 6 !important;
-      background: linear-gradient(180deg, rgba(10, 19, 35, 0.90) 0%, rgba(6, 11, 20, 0.98) 22%, #040812 100%) !important;
-      backdrop-filter: blur(20px) saturate(190%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-      border-top: 1.5px solid rgba(212, 175, 55, 0.45) !important;
-      border-radius: 22px 22px 0 0 !important;
-      padding: 12px 18px 16px !important;
-      box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.65) !important;
+    /* PROMINENT PRICE ON IMAGE */
+    .nxc-card .nxc-img-price {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      z-index: 5;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 23px !important;
+      font-weight: 800 !important;
+      color: #fde047 !important;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95) !important;
+      letter-spacing: -0.01em !important;
+      line-height: 1 !important;
+      pointer-events: none;
+    }
+
+    /* CARD BODY (BELOW IMAGE) */
+    .nxc-card .nxc-body,
+    .carousel-track .nxc-card .nxc-body,
+    .portfolio-grid-view .nxc-card .nxc-body {
+      padding: 16px 18px 20px !important;
       display: flex !important;
       flex-direction: column !important;
-      transform: translateY(calc(100% - 124px)) !important;
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.4s ease,
-                  border-top-color 0.4s ease !important;
-      max-height: 94% !important;
-      overflow: hidden !important;
-      will-change: transform;
-    }
-
-    .nxc-cinematic-card:hover .nxc-reveal-sheet,
-    .nxc-cinematic-card.touch-expanded .nxc-reveal-sheet,
-    .carousel-track .nxc-cinematic-card:hover .nxc-body,
-    .carousel-track .nxc-cinematic-card.touch-expanded .nxc-body,
-    .portfolio-grid-view .nxc-cinematic-card:hover .nxc-body,
-    .portfolio-grid-view .nxc-cinematic-card.touch-expanded .nxc-body {
-      transform: translateY(0) !important;
-      box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.3) !important;
-      border-top-color: var(--gold) !important;
-    }
-
-    /* PEEK HEADER */
-    .nxc-cinematic-card .nxc-peek-header {
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-    .nxc-cinematic-card .nxc-peek-topline {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 7px;
-    }
-    .nxc-cinematic-card .nxc-price {
+      flex-grow: 1 !important;
+      background: #070d19 !important;
       position: static !important;
-      font-family: 'Outfit', sans-serif !important;
-      font-size: 17.5px !important;
-      font-weight: 800 !important;
-      color: #fef08a !important;
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(7, 13, 24, 0.85) 100%) !important;
-      border: 1px solid rgba(212, 175, 55, 0.48) !important;
-      border-radius: 8px !important;
-      padding: 3px 11px !important;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.8) !important;
-      line-height: 1.15 !important;
-      display: inline-block !important;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
-    }
-    .nxc-cinematic-card .nxc-peek-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: #94a3b8;
-      background: rgba(255, 255, 255, 0.07);
-      padding: 3px 9px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      transition: all 0.3s ease;
-    }
-    .nxc-cinematic-card .nxc-peek-hint i {
-      color: var(--gold);
-      font-size: 10px;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .nxc-cinematic-card:hover .nxc-peek-hint,
-    .nxc-cinematic-card.touch-expanded .nxc-peek-hint {
-      color: #fef08a;
-      background: rgba(212, 175, 55, 0.2);
-      border-color: rgba(212, 175, 55, 0.45);
-    }
-    .nxc-cinematic-card:hover .nxc-peek-hint i,
-    .nxc-cinematic-card.touch-expanded .nxc-peek-hint i {
-      transform: rotate(180deg);
+      transform: none !important;
+      border-top: none !important;
+      box-shadow: none !important;
+      border-radius: 0 0 20px 20px !important;
+      max-height: none !important;
+      overflow: visible !important;
     }
 
-    .nxc-cinematic-card .nxc-title {
+    .nxc-card .nxc-title {
       font-family: 'Playfair Display', Georgia, serif !important;
-      font-size: 15px !important;
+      font-size: 16px !important;
       font-weight: 700 !important;
       color: #ffffff !important;
-      line-height: 1.3 !important;
-      margin-bottom: 5px !important;
+      line-height: 1.35 !important;
+      margin-bottom: 7px !important;
       display: -webkit-box !important;
       -webkit-line-clamp: 2 !important;
       -webkit-box-orient: vertical !important;
       overflow: hidden !important;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
     }
-    .nxc-cinematic-card .nxc-loc {
+
+    .nxc-card .nxc-loc {
       display: flex !important;
       align-items: center !important;
-      gap: 5px !important;
-      color: #cbd5e1 !important;
+      gap: 6px !important;
+      color: #94a3b8 !important;
       font-family: 'Outfit', sans-serif !important;
       font-size: 11.5px !important;
-      font-weight: 500 !important;
-      margin-bottom: 0 !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.3px !important;
+      text-transform: uppercase !important;
+      margin-bottom: 12px !important;
       white-space: nowrap !important;
       overflow: hidden !important;
       text-overflow: ellipsis !important;
     }
-    .nxc-cinematic-card .nxc-loc i {
+    .nxc-card .nxc-loc i {
       color: var(--gold) !important;
       font-size: 11px !important;
     }
 
-    /* EXPANDED DETAILS (CASCADING STAGGERED REVEAL) */
-    .nxc-cinematic-card .nxc-expanded-details {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.09);
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-    .nxc-cinematic-card .nxc-specs {
+    /* SPECS ROW */
+    .nxc-card .nxc-specs-row {
       display: flex !important;
-      gap: 5px !important;
+      gap: 6px !important;
       flex-wrap: wrap !important;
-      margin-bottom: 0 !important;
-      padding-bottom: 0 !important;
-      border-bottom: none !important;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.35s ease 0.08s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
-      will-change: transform, opacity;
+      margin-bottom: 15px !important;
     }
-    .nxc-cinematic-card .nxc-actions {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 6px !important;
-      margin-bottom: 0 !important;
-      margin-top: 0 !important;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.35s ease 0.14s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.14s;
-      will-change: transform, opacity;
-    }
-    .nxc-cinematic-card .nxc-persona-row {
-      margin-top: 0;
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.35s ease 0.20s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.20s;
-      will-change: transform, opacity;
-    }
-    .nxc-cinematic-card .nxc-cta-row {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 6px !important;
-      margin-top: 1px !important;
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.35s ease 0.26s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.26s;
-      will-change: transform, opacity;
-    }
-
-    /* Cascade Activation */
-    .nxc-cinematic-card:hover .nxc-specs,
-    .nxc-cinematic-card:hover .nxc-actions,
-    .nxc-cinematic-card:hover .nxc-persona-row,
-    .nxc-cinematic-card:hover .nxc-cta-row,
-    .nxc-cinematic-card.touch-expanded .nxc-specs,
-    .nxc-cinematic-card.touch-expanded .nxc-actions,
-    .nxc-cinematic-card.touch-expanded .nxc-persona-row,
-    .nxc-cinematic-card.touch-expanded .nxc-cta-row {
-      opacity: 1 !important;
-      transform: translateY(0) !important;
-    }
-
-    /* Buttons inside the sheet */
-    .nxc-sunum-btn {
-      width: 100%;
-      padding: 7px 10px;
-      background: rgba(212, 175, 55, 0.12) !important;
-      border: 1px solid rgba(212, 175, 55, 0.45) !important;
-      color: #fde047 !important;
-      font-weight: 700 !important;
-      border-radius: 10px !important;
-      font-size: 11.5px !important;
-      font-family: 'Outfit', sans-serif !important;
+    .nxc-card .nxc-spec-chip {
       display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 4px 10px !important;
+      background: rgba(255, 255, 255, 0.04) !important;
+      border: 1px solid rgba(212, 175, 55, 0.28) !important;
+      border-radius: 8px !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      color: #ffffff !important;
+      transition: all 0.2s ease !important;
+    }
+    .nxc-card .nxc-spec-chip i {
+      color: var(--gold) !important;
+      font-size: 11px !important;
+    }
+    .nxc-card:hover .nxc-spec-chip {
+      border-color: rgba(212, 175, 55, 0.5) !important;
+      background: rgba(212, 175, 55, 0.12) !important;
+    }
+
+    /* ACTIONS ROW 1: WHATSAPP & ARA */
+    .nxc-card .nxc-actions-row {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+      margin-bottom: 8px !important;
+    }
+    .nxc-card .nxc-btn-wa-pill {
+      background: rgba(37, 211, 102, 0.12) !important;
+      color: #4ade80 !important;
+      border: 1px solid rgba(74, 222, 128, 0.35) !important;
+      border-radius: 10px !important;
+      padding: 9px 0 !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       gap: 6px !important;
+      text-decoration: none !important;
+      transition: all 0.25s ease !important;
+      cursor: pointer !important;
+    }
+    .nxc-card .nxc-btn-wa-pill:hover {
+      background: #25d366 !important;
+      color: #070d19 !important;
+      border-color: #25d366 !important;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .nxc-card .nxc-btn-tel-pill {
+      background: rgba(212, 175, 55, 0.1) !important;
+      color: #fde047 !important;
+      border: 1px solid rgba(253, 224, 71, 0.32) !important;
+      border-radius: 10px !important;
+      padding: 9px 0 !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      text-decoration: none !important;
+      transition: all 0.25s ease !important;
+      cursor: pointer !important;
+    }
+    .nxc-card .nxc-btn-tel-pill:hover {
+      background: var(--gold) !important;
+      color: #070d19 !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    /* ACTIONS ROW 2: POWERED BY NEXA AI SWARM BUTTON */
+    .nxc-card .nxc-ai-swarm-bar {
+      width: 100% !important;
+      padding: 9px 12px !important;
+      border-radius: 12px !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      color: #fef08a !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.3px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      cursor: pointer !important;
+      margin-bottom: 8px !important;
+      transition: all 0.25s ease !important;
+    }
+    .nxc-card .nxc-ai-swarm-bar:hover {
+      background: rgba(212, 175, 55, 0.2) !important;
+      border-color: var(--gold) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25) !important;
+    }
+    .nxc-card .nxc-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      display: inline-block;
+      margin-right: 5px;
+      animation: nxcPulseGlow 2s infinite ease-in-out;
+    }
+    @keyframes nxcPulseGlow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    /* ACTIONS ROW 3: İLANİ İNCELE FULL-WIDTH BUTTON */
+    .nxc-card .nxc-incele-btn-luxury {
+      width: 100% !important;
+      padding: 10px 14px !important;
+      border-radius: 12px !important;
+      background: rgba(212, 175, 55, 0.08) !important;
+      border: 1.5px solid rgba(212, 175, 55, 0.42) !important;
+      color: #fef08a !important;
+      font-family: 'Outfit', sans-serif !important;
+      font-size: 13px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.3px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
       cursor: pointer !important;
       transition: all 0.25s ease !important;
     }
-    .nxc-sunum-btn:hover {
-      background: rgba(212, 175, 55, 0.26) !important;
+    .nxc-card .nxc-incele-btn-luxury:hover {
+      background: var(--gold) !important;
+      color: #070d19 !important;
       border-color: var(--gold) !important;
-      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4) !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35) !important;
+    }
+    .nxc-card .nxc-incele-btn-luxury i {
+      transition: transform 0.25s ease !important;
+    }
+    .nxc-card .nxc-incele-btn-luxury:hover i {
+      transform: translateX(4px) !important;
     }
 
-    /* RESPONSIVE ADAPTATIONS (TABLET & MOBILE) */
+    /* RESPONSIVE ADAPTATIONS (MOBILE) */
     @media (max-width: 768px) {
-      .carousel-track .nxc-card.nxc-cinematic-card {
-        flex: 0 0 320px !important;
-        width: 320px !important;
-        min-width: 320px !important;
-        max-width: 320px !important;
-        height: 355px !important;
-        min-height: 355px !important;
-        max-height: 355px !important;
+      .carousel-track .nxc-card.nxc-cinematic-card,
+      .nxc-card {
+        flex: 0 0 290px !important;
+        width: 290px !important;
+        min-width: 290px !important;
+        max-width: 290px !important;
       }
-      .carousel-track .nxc-cinematic-card .nxc-body {
-        transform: translateY(calc(100% - 116px)) !important;
-        padding: 10px 14px 14px !important;
+      .nxc-card .nxc-img {
+        height: 190px !important;
+        min-height: 190px !important;
+        max-height: 190px !important;
       }
-      .carousel-track .nxc-cinematic-card.touch-expanded .nxc-body {
-        transform: translateY(0) !important;
+      .nxc-card .nxc-img-price {
+        font-size: 20px !important;
       }
-      .nxc-cinematic-card .nxc-price {
-        font-size: 15px !important;
-        padding: 2px 9px !important;
+      .nxc-card .nxc-body {
+        padding: 14px 15px 16px !important;
       }
-      .nxc-cinematic-card .nxc-title {
-        font-size: 13px !important;
+      .nxc-card .nxc-title {
+        font-size: 14.5px !important;
+      }
+      .nxc-card .nxc-ai-swarm-bar {
+        font-size: 10px !important;
+        padding: 8px 10px !important;
       }
     }
 
@@ -12016,15 +12032,17 @@
 
       const rawImgSrc = listing.img || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85';
       const imgSrc = resolveUltraHdCover(rawImgSrc);
-      const badgeClass = listing.type === 'Kiralık' ? 'nxc-badge-kiralik' : 'nxc-badge-satilik';
+      const isKiralik = listing.type === 'Kiralık';
+      const badgeClass = isKiralik ? 'nxc-badge-kiralik-luxury' : 'nxc-badge-satilik-luxury';
       const typeLabel = listing.type || 'Satılık';
       const price = listing.price || 'Fiyat Sorunuz';
       const title = escapeHtml(listing.title || '');
       const loc = escapeHtml(listing.loc || 'Ankara, Çankaya');
       const link = escapeHtml(listing.link || '');
+      const listingId = listing.id || Math.random().toString(36).substring(7);
 
       card.innerHTML = `
-        <!-- 1. FULL-BLEED COVER IMAGE WITH CINEMATIC VIGNETTES -->
+        <!-- TOP IMAGE AREA -->
         <div class="nxc-img">
           <img
             src="${imgSrc}"
@@ -12032,103 +12050,92 @@
             loading="lazy"
             onerror="if (this.src !== '${rawImgSrc}') { this.src = '${rawImgSrc}'; } else { this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85'; }"
           >
-          <div class="nxc-vignette-top"></div>
-          <div class="nxc-vignette-bottom"></div>
-        </div>
-
-        <!-- 2. TOP FLOATING BADGES -->
-        <div class="nxc-badge-bar">
-          <div class="nxc-badge ${badgeClass}">✦ ${typeLabel}</div>
-          <div class="nxc-badge-vip"><i class="fas fa-crown"></i> CB VIP ONAYLI</div>
-        </div>
-
-        <!-- 3. SLIDING FROSTED GLASS SHEET (PEEK STATE -> EXPANDS ON HOVER) -->
-        <div class="nxc-body nxc-reveal-sheet">
-          <!-- PEEK HEADER (Always Visible at card bottom) -->
-          <div class="nxc-peek-header">
-            <div class="nxc-peek-topline">
-              <div class="nxc-price">${escapeHtml(price)}</div>
-              <div class="nxc-peek-hint" title="Tüm detayları açmak için dokunun veya üzerine gelin">
-                <span>Detaylar</span>
-                <i class="fas fa-chevron-up"></i>
-              </div>
-            </div>
-            <h3 class="nxc-title">${title}</h3>
-            <div class="nxc-loc">
-              <i class="fas fa-map-marker-alt"></i>
-              <span>${loc}</span>
-            </div>
+          <div class="nxc-img-overlay"></div>
+          
+          <!-- Top Left Badge: SATILIK / KIRALIK -->
+          <div class="nxc-badge-top ${badgeClass}">${typeLabel}</div>
+          
+          <!-- Top Right Favorite Heart Button -->
+          <div class="nxc-fav-btn" onclick="event.stopPropagation(); window.toggleListingFavorite(this, '${listingId}')" title="İlanı Favorilere Ekle">
+            <i class="far fa-heart"></i>
           </div>
 
-          <!-- EXPANDABLE CONTENT (SLIDES & CASCADES ON HOVER) -->
-          <div class="nxc-expanded-details">
-            <!-- Specs -->
-            <div class="nxc-specs">
-              ${listing.rooms ? `<span class="nxc-spec"><i class="fas fa-bed"></i>${escapeHtml(listing.rooms)}</span>` : ''}
-              ${listing.area ? `<span class="nxc-spec"><i class="fas fa-ruler-combined"></i>${escapeHtml(listing.area)}</span>` : ''}
-              ${listing.floor ? `<span class="nxc-spec"><i class="fas fa-layer-group"></i>${escapeHtml(listing.floor)}</span>` : ''}
-            </div>
+          <!-- Prominent Gold Price on Bottom Left of Image -->
+          <div class="nxc-img-price">${escapeHtml(price)}</div>
+        </div>
 
-            <!-- Quick Contact Row -->
-            <div class="nxc-actions">
-              <a href="https://wa.me/905324514008?text=${waMsg}" class="nxc-btn nxc-btn-wa" target="_blank" onclick="event.stopPropagation()">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-              </a>
-              <a href="tel:+905324514008" class="nxc-btn nxc-btn-tel" onclick="event.stopPropagation()">
-                <i class="fas fa-phone"></i> Ara
-              </a>
-            </div>
-
-            <!-- Kimler İçin Uygun? AI Swarm Button -->
-            <div class="nxc-persona-row">
-              <button class="nxc-persona-btn ${listing.type === 'Kiralık' ? 'nxc-persona-btn-kiralik' : 'nxc-persona-btn-satilik'}"
-                data-url="${link}"
-                data-title="${title}"
-                data-type="${typeLabel}"
-                data-price="${price}"
-                data-loc="${loc}"
-                data-img="${imgSrc}"
-                data-rooms="${listing.rooms || ''}"
-                data-area="${listing.area || ''}"
-                data-prop="${listing.property_type || ''}"
-                onclick="event.stopPropagation(); window.openPersonaIntelligenceModal(this)">
-                <i class="fas fa-bullseye" style="font-size:12px;"></i>
-                <span>🎯 Kimler İçin Uygun? (AI Swarm)</span>
-              </button>
-            </div>
-
-            <!-- Incele & Sunum CTA Row -->
-            <div class="nxc-cta-row">
-              <button class="nxc-incele" style="margin:0; width:100%; justify-content:center; padding:7px 10px;"
-                data-url="${link}"
-                onclick="event.stopPropagation(); nexaInceleCard(this)">
-                <span>İlanı İncele</span>
-                <i class="fas fa-arrow-right"></i>
-              </button>
-              <button class="nxc-sunum-btn"
-                onclick="event.stopPropagation(); openAppointmentModal('', '${title} - Portföy Sunumu')">
-                <i class="fas fa-file-pdf" style="color:#ef4444;"></i>
-                <span>Sunum Dosyası</span>
-              </button>
-            </div>
+        <!-- CARD BODY -->
+        <div class="nxc-body">
+          <!-- Title -->
+          <h3 class="nxc-title">${title}</h3>
+          
+          <!-- Location -->
+          <div class="nxc-loc">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>${loc}</span>
           </div>
+
+          <!-- Specs Row -->
+          <div class="nxc-specs-row">
+            ${listing.rooms ? `<span class="nxc-spec-chip"><i class="fas fa-bed"></i>${escapeHtml(listing.rooms)}</span>` : ''}
+            ${listing.area ? `<span class="nxc-spec-chip"><i class="fas fa-ruler-combined"></i>${escapeHtml(listing.area)}</span>` : ''}
+            ${listing.floor ? `<span class="nxc-spec-chip"><i class="fas fa-layer-group"></i>${escapeHtml(listing.floor)}</span>` : ''}
+          </div>
+
+          <!-- Actions Row 1: WhatsApp & Ara -->
+          <div class="nxc-actions-row">
+            <a href="https://wa.me/905324514008?text=${waMsg}" class="nxc-btn-wa-pill" target="_blank" onclick="event.stopPropagation()">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="tel:+905324514008" class="nxc-btn-tel-pill" onclick="event.stopPropagation()">
+              <i class="fas fa-phone"></i> Ara
+            </a>
+          </div>
+
+          <!-- Actions Row 2: Powered by NEXA AI Swarm Button -->
+          <button class="nxc-ai-swarm-bar"
+            data-url="${link}"
+            data-title="${title}"
+            data-type="${typeLabel}"
+            data-price="${price}"
+            data-loc="${loc}"
+            data-img="${imgSrc}"
+            data-rooms="${listing.rooms || ''}"
+            data-area="${listing.area || ''}"
+            data-prop="${listing.property_type || ''}"
+            onclick="event.stopPropagation(); window.openPersonaIntelligenceModal(this)">
+            <span style="display:flex; align-items:center; gap:5px;">
+              <span class="nxc-pulse-dot"></span>
+              <span>🎯 POWERED BY NEXA AI SWARM • HEDEF KİTLE ANALİZİ</span>
+            </span>
+            <i class="fas fa-chevron-right" style="font-size:10px; opacity:0.8;"></i>
+          </button>
+
+          <!-- Actions Row 3: İlanı İncele Button -->
+          <button class="nxc-incele-btn-luxury"
+            data-url="${link}"
+            onclick="event.stopPropagation(); nexaInceleCard(this)">
+            <span>İlanı İncele</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
       `;
-
-      card.addEventListener('click', function(e) {
-        if (e.target.closest('a') || e.target.closest('button')) return;
-        this.classList.toggle('touch-expanded');
-      });
 
       return card;
     }
 
-    // Global click listener to close touched cinematic cards when clicking outside
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.nxc-cinematic-card')) {
-        document.querySelectorAll('.nxc-cinematic-card.touch-expanded').forEach(c => c.classList.remove('touch-expanded'));
+    // Global favorite toggle handler
+    window.toggleListingFavorite = function(btn, id) {
+      btn.classList.toggle('is-favorite');
+      const icon = btn.querySelector('i');
+      if (btn.classList.contains('is-favorite')) {
+        icon.className = 'fas fa-heart';
+        if (window.showToast) window.showToast('İlan favorilerinize eklendi ✦');
+      } else {
+        icon.className = 'far fa-heart';
+        if (window.showToast) window.showToast('İlan favorilerinizden çıkarıldı');
       }
-    });
+    };
 
     window.nexaIncele = function(btn) {
       var url = btn.getAttribute('data-url');
