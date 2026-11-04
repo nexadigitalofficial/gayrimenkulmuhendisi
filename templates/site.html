@@ -5158,14 +5158,14 @@
        ============================================================ */
     .showcase-luxury-section {
       position: relative !important;
-      scroll-margin-top: 90px !important;
+      scroll-margin-top: 110px !important;
       background-color: #030611 !important;
       background-image: 
-        radial-gradient(circle 1000px at 50% -10%, rgba(212, 175, 55, 0.28) 0%, transparent 70%),
-        radial-gradient(circle 900px at 0% 30%, rgba(212, 175, 55, 0.14) 0%, transparent 65%),
-        radial-gradient(circle 900px at 100% 30%, rgba(56, 189, 248, 0.12) 0%, transparent 65%),
-        radial-gradient(ellipse 95% 70% at 50% 50%, rgba(5, 14, 30, 0.85) 0%, transparent 90%),
-        radial-gradient(ellipse 80% 45% at 50% 100%, rgba(2, 4, 10, 0.98) 0%, transparent 100%) !important;
+        radial-gradient(ellipse 1100px 650px at 50% -10%, rgba(253, 224, 71, 0.22) 0%, transparent 70%),
+        radial-gradient(circle 950px at 15% 25%, rgba(30, 58, 138, 0.32) 0%, transparent 65%),
+        radial-gradient(circle 950px at 85% 25%, rgba(30, 58, 138, 0.32) 0%, transparent 65%),
+        radial-gradient(ellipse 95% 75% at 50% 50%, rgba(4, 8, 20, 0.72) 0%, transparent 95%),
+        linear-gradient(180deg, #030611 0%, #040814 50%, #020409 100%) !important;
       overflow: hidden !important;
       padding-top: 95px !important;
       padding-bottom: 110px !important;
@@ -5180,7 +5180,7 @@
       transform: translateX(-50%);
       width: 1100px;
       height: 520px;
-      background: radial-gradient(ellipse at center, rgba(253, 224, 71, 0.3) 0%, rgba(212, 175, 55, 0.12) 42%, transparent 75%);
+      background: radial-gradient(ellipse at center, rgba(253, 224, 71, 0.28) 0%, rgba(212, 175, 55, 0.12) 42%, transparent 75%);
       filter: blur(85px);
       pointer-events: none;
       z-index: 1;
@@ -5224,9 +5224,8 @@
 
     .showcase-luxury-section > .container {
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
-
 
     /* ============================================================
        RESPONSIVE FLOATING HUD TELEMETRY WINGS (LEFT & RIGHT)
@@ -10106,28 +10105,139 @@
        ULTRA PRO PORTFOLIO SECTION (LUXURY ARCHITECTURAL BLUEPRINT)
   ============================================================ -->
   <section class="section showcase-luxury-section" id="portfolio">
-    <!-- Bespoke Imperial Guilloché & Architectural Luxury Pattern SVG -->
-    <!-- Bespoke Haute-Couture Gucci-Style Continuous NEXA "N" Monogram Pattern SVG -->
+    <!-- Haute-Couture Bespoke Gucci-Diamante NEXA Double-N Continuous Pattern SVG -->
     <svg class="showcase-cad-bg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true">
       <defs>
-        <!-- Metallic Gold & Platinum Gradient Highlights -->
-        <linearGradient id="patGoldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#fde047" stop-opacity="0.95"/>
-          <stop offset="45%" stop-color="#d4af37" stop-opacity="0.65"/>
-          <stop offset="100%" stop-color="#aa820a" stop-opacity="0.35"/>
+        <!-- 18K & 24K Brushed & Chiseled Metallic Gold Gradients: Tone-on-Tone Luxury Depth -->
+        <linearGradient id="goldFacetLight" x1="0%" y1="0%" x2="100%" y2="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+          <stop offset="50%" stop-color="#fde047" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.32"/>
         </linearGradient>
 
-        <linearGradient id="patGoldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
-          <stop offset="50%" stop-color="#fde047" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.3"/>
+        <linearGradient id="goldFacetDark" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#d4af37" stop-opacity="0.38"/>
+          <stop offset="60%" stop-color="#a16207" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#713f12" stop-opacity="0.20"/>
         </linearGradient>
 
-        <radialGradient id="nxaMonogramAura" cx="50%" cy="35%" r="65%">
-          <stop offset="0%" stop-color="#14264c" stop-opacity="0.45"/>
-          <stop offset="60%" stop-color="#081329" stop-opacity="0.15"/>
-          <stop offset="100%" stop-color="#030610" stop-opacity="0"/>
+        <linearGradient id="patStitchGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fde047" stop-opacity="0.30"/>
+          <stop offset="50%" stop-color="#d4af37" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#ca8a04" stop-opacity="0.15"/>
+        </linearGradient>
+
+        <!-- Platinum Rivet Gradients -->
+        <radialGradient id="patPlatDomeGrad" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+          <stop offset="45%" stop-color="#e2e8f0" stop-opacity="0.75"/>
+          <stop offset="80%" stop-color="#94a3b8" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#475569" stop-opacity="0.50"/>
         </radialGradient>
+
+        <linearGradient id="patPlatBezelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#cbd5e1" stop-opacity="0.60"/>
+          <stop offset="100%" stop-color="#334155" stop-opacity="0.40"/>
+        </linearGradient>
+
+        <!-- 1. Deep Spatial Obsidian Base -->
+        <linearGradient id="nxaObsidianBase" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#030611"/>
+          <stop offset="45%" stop-color="#040814"/>
+          <stop offset="100%" stop-color="#020409"/>
+        </linearGradient>
+
+        <!-- 2. Radiant Crown 24K Gold Halo -->
+        <radialGradient id="nxaCrownGoldAura" cx="50%" cy="0%" r="65%">
+          <stop offset="0%" stop-color="#fde047" stop-opacity="0.30"/>
+          <stop offset="25%" stop-color="#d4af37" stop-opacity="0.16"/>
+          <stop offset="55%" stop-color="#ca8a04" stop-opacity="0.05"/>
+          <stop offset="100%" stop-color="#030611" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Center Atmospheric Sapphire Core Aura -->
+        <radialGradient id="nxaSapphireAura" cx="50%" cy="38%" r="62%">
+          <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.34"/>
+          <stop offset="35%" stop-color="#0f214d" stop-opacity="0.20"/>
+          <stop offset="70%" stop-color="#071126" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#030611" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Center Gold Dust Micro-Bloom -->
+        <radialGradient id="nxaCenterGoldDust" cx="50%" cy="32%" r="42%">
+          <stop offset="0%" stop-color="#fef08a" stop-opacity="0.16"/>
+          <stop offset="30%" stop-color="#d4af37" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#030611" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- 5. Readability Shield (100% WCAG AAA Card & Headline Contrast Vignette) -->
+        <radialGradient id="nxaReadabilityShield" cx="50%" cy="48%" r="60%">
+          <stop offset="0%" stop-color="#030611" stop-opacity="0.68"/>
+          <stop offset="45%" stop-color="#040814" stop-opacity="0.52"/>
+          <stop offset="80%" stop-color="#020409" stop-opacity="0.22"/>
+          <stop offset="100%" stop-color="#020409" stop-opacity="0.82"/>
+        </radialGradient>
+
+        <!-- ========================================================
+             REUSABLE VECTOR SYMBOLS FOR TILE:
+             1. Faceted Diamond Stud (#facetedDiamondStud)
+             2. Gucci Star Floret (#gucciFloret)
+             3. Sculpted Seriffed 'N' Letter (#nexaSculptedN)
+             ======================================================== -->
+        <!-- 4-Faceted 3D Diamond Stud (Intersection Micro-Pyramid) -->
+        <g id="facetedDiamondStud">
+          <polygon points="0,-3.4 3.4,0 0,3.4 -3.4,0" fill="none" stroke="rgba(254, 240, 138, 0.35)" stroke-width="0.3"/>
+          <polygon points="0,-3.2 3.2,0 0,0" fill="#fffbeb" opacity="0.85"/>
+          <polygon points="3.2,0 0,3.2 0,0" fill="#fde047" opacity="0.75"/>
+          <polygon points="0,3.2 -3.2,0 0,0" fill="#ca8a04" opacity="0.60"/>
+          <polygon points="-3.2,0 0,-3.2 0,0" fill="#eab308" opacity="0.78"/>
+          <circle cx="0" cy="0" r="0.65" fill="#ffffff" opacity="0.90"/>
+        </g>
+
+        <!-- 8-Faceted Haute-Couture Gucci Floret with Center Platinum Rivet -->
+        <g id="gucciFloret">
+          <!-- 4 Cardinal Faceted Petals (North, East, South, West) -->
+          <polygon points="0,-1.4 -2.0,-4.0 0,-7.2 0,-1.4" fill="#fef08a" opacity="0.80"/>
+          <polygon points="0,-1.4 2.0,-4.0 0,-7.2 0,-1.4" fill="#d4af37" opacity="0.68"/>
+          <polygon points="1.4,0 4.0,-2.0 7.2,0 1.4,0" fill="#fef08a" opacity="0.80"/>
+          <polygon points="1.4,0 4.0,2.0 7.2,0 1.4,0" fill="#d4af37" opacity="0.68"/>
+          <polygon points="0,1.4 2.0,4.0 0,7.2 0,1.4" fill="#fef08a" opacity="0.80"/>
+          <polygon points="0,1.4 -2.0,4.0 0,7.2 0,1.4" fill="#d4af37" opacity="0.68"/>
+          <polygon points="-1.4,0 -4.0,2.0 -7.2,0 -1.4,0" fill="#fef08a" opacity="0.80"/>
+          <polygon points="-1.4,0 -4.0,-2.0 -7.2,0 -1.4,0" fill="#d4af37" opacity="0.68"/>
+
+          <!-- 4 Diagonal Micro-Facet Lobes -->
+          <polygon points="1.0,-1.0 3.6,-3.6 1.6,-4.0 0,-1.6" fill="#fde047" opacity="0.60"/>
+          <polygon points="1.0,1.0 3.6,3.6 4.0,1.6 1.6,0" fill="#ca8a04" opacity="0.55"/>
+          <polygon points="-1.0,1.0 -3.6,3.6 -1.6,4.0 0,1.6" fill="#ca8a04" opacity="0.55"/>
+          <polygon points="-1.0,-1.0 -3.6,-3.6 -4.0,-1.6 -1.6,0" fill="#fde047" opacity="0.60"/>
+
+          <!-- Center Platinum Rivet (Platin Perçin) -->
+          <circle cx="0" cy="0" r="2.2" fill="#0f172a" stroke="url(#patPlatBezelGrad)" stroke-width="0.55"/>
+          <circle cx="0" cy="0" r="1.6" fill="url(#patPlatDomeGrad)"/>
+          <circle cx="-0.4" cy="-0.4" r="0.65" fill="#ffffff" opacity="0.85"/>
+        </g>
+
+        <!-- Sculpted 18K Beveled Letter 'N' Motif with Serifs -->
+        <g id="nexaSculptedN">
+          <!-- Left Vertical Stem (x: -7.4 to -4.6, split at -6.0) -->
+          <polygon points="-7.4,-10.8 -6.0,-10.8 -6.0,10.8 -7.4,10.8" fill="url(#goldFacetLight)"/>
+          <polygon points="-6.0,-10.8 -4.6,-10.8 -4.6,10.8 -6.0,10.8" fill="url(#goldFacetDark)"/>
+          <!-- Classical Serifs -->
+          <polygon points="-9.2,-12.0 -2.8,-12.0 -4.6,-10.4 -7.4,-10.4" fill="url(#goldFacetLight)"/>
+          <polygon points="-9.2,12.0 -2.8,12.0 -4.6,10.4 -7.4,10.4" fill="url(#goldFacetDark)"/>
+
+          <!-- Right Vertical Stem (x: 4.6 to 7.4, split at 6.0) -->
+          <polygon points="4.6,-10.8 6.0,-10.8 6.0,10.8 4.6,10.8" fill="url(#goldFacetLight)"/>
+          <polygon points="6.0,-10.8 7.4,-10.8 7.4,10.8 6.0,10.8" fill="url(#goldFacetDark)"/>
+          <!-- Classical Serifs -->
+          <polygon points="2.8,-12.0 9.2,-12.0 7.4,-10.4 4.6,-10.4" fill="url(#goldFacetLight)"/>
+          <polygon points="2.8,12.0 9.2,12.0 7.4,10.4 4.6,10.4" fill="url(#goldFacetDark)"/>
+
+          <!-- Diagonal Blade (Chamfered Bevel Cut from Top-Left to Bottom-Right) -->
+          <polygon points="-6.6,-11.2 -4.8,-11.2 6.0,11.2 4.2,11.2" fill="url(#goldFacetLight)" opacity="0.88"/>
+          <polygon points="-4.8,-11.2 -3.0,-11.2 7.8,11.2 6.0,11.2" fill="url(#goldFacetDark)" opacity="0.75"/>
+        </g>
 
         <!-- ========================================================
              CONTINUOUS GUCCI DIAMANTE MONOGRAM TILE: NEXA "NN"
@@ -10135,88 +10245,70 @@
              Uniform, identical repeat everywhere across all viewports
              ======================================================== -->
         <pattern id="nxaGucciMonogram" width="96" height="96" patternUnits="userSpaceOnUse">
-          <!-- Diamond Trellis Stitched Diagonal Lines (Gucci Diamante stitch) -->
-          <line x1="0" y1="48" x2="48" y2="0" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
-          <line x1="48" y1="0" x2="96" y2="48" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
-          <line x1="96" y1="48" x2="48" y2="96" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
-          <line x1="48" y1="96" x2="0" y2="48" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
+          <!-- 1. Stitched Trellis Lines (stroke-dasharray="3,2.5", 18K gold) -->
+          <line x1="0" y1="48" x2="48" y2="0" stroke="url(#patStitchGold)" stroke-width="0.85" stroke-dasharray="3,2.5" stroke-linecap="round"/>
+          <line x1="48" y1="0" x2="96" y2="48" stroke="url(#patStitchGold)" stroke-width="0.85" stroke-dasharray="3,2.5" stroke-linecap="round"/>
+          <line x1="96" y1="48" x2="48" y2="96" stroke="url(#patStitchGold)" stroke-width="0.85" stroke-dasharray="3,2.5" stroke-linecap="round"/>
+          <line x1="48" y1="96" x2="0" y2="48" stroke="url(#patStitchGold)" stroke-width="0.85" stroke-dasharray="3,2.5" stroke-linecap="round"/>
 
-          <!-- Secondary Subtle Inner Hairline Diamond -->
-          <polygon points="48,12 84,48 48,84 12,48" fill="none" stroke="rgba(212, 175, 55, 0.08)" stroke-width="0.5"/>
+          <!-- 2. Hairline Inner Diamond Frames (Kılcal iç elmas çerçeveler) -->
+          <!-- Center Diamond Inset -->
+          <polygon points="48,14 82,48 48,82 14,48" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="0.6"/>
+          <polygon points="48,17 79,48 48,79 17,48" fill="none" stroke="rgba(253, 224, 71, 0.07)" stroke-width="0.4"/>
 
-          <!-- Intersection Micro-Diamond Studs -->
-          <polygon points="48,-2.5 50.5,0 48,2.5 45.5,0" fill="#fde047" opacity="0.85"/>
-          <polygon points="48,93.5 50.5,96 48,98.5 45.5,96" fill="#fde047" opacity="0.85"/>
-          <polygon points="-2.5,48 0,50.5 2.5,48 0,45.5" fill="#fde047" opacity="0.85"/>
-          <polygon points="93.5,48 96,50.5 98.5,48 96,45.5" fill="#fde047" opacity="0.85"/>
+          <!-- Corner Diamond Inset Segments (Seamless matching when tiled) -->
+          <polyline points="34,0 0,34" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="0.6"/>
+          <polyline points="31,0 0,31" fill="none" stroke="rgba(253, 224, 71, 0.07)" stroke-width="0.4"/>
+          <polyline points="62,0 96,34" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="0.6"/>
+          <polyline points="65,0 96,31" fill="none" stroke="rgba(253, 224, 71, 0.07)" stroke-width="0.4"/>
+          <polyline points="0,62 34,96" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="0.6"/>
+          <polyline points="0,65 31,96" fill="none" stroke="rgba(253, 224, 71, 0.07)" stroke-width="0.4"/>
+          <polyline points="96,62 62,96" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="0.6"/>
+          <polyline points="96,65 65,96" fill="none" stroke="rgba(253, 224, 71, 0.07)" stroke-width="0.4"/>
 
-          <!-- ==============================================
-               CENTER MOTIF: INTERLOCKING MIRRORED DOUBLE-N
-               Gucci GG Style Bespoke Haute-Couture Monogram
-               ============================================== -->
-          <!-- Left N (Upright) -->
-          <g transform="translate(42, 48)" fill="url(#patGoldGrad1)">
-            <!-- Left vertical stem with serif -->
-            <rect x="-9" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
-            <polygon points="-11,-12 -6,-12 -7.5,-10" opacity="0.8"/>
-            <polygon points="-11,12 -6,12 -7.5,10" opacity="0.8"/>
-            <!-- Diagonal blade -->
-            <polygon points="-7,-11 -4,-11 6,10 3,10" opacity="0.75"/>
-            <!-- Right vertical stem with serif -->
-            <rect x="4" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
-            <polygon points="2,-12 7,-12 5.5,-10" opacity="0.8"/>
-            <polygon points="2,12 7,12 5.5,10" opacity="0.8"/>
-          </g>
-          <!-- Right N (Mirrored / Facing 180° Inverted) -->
-          <g transform="translate(54, 48) rotate(180)" fill="url(#patGoldGrad1)">
-            <rect x="-9" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
-            <polygon points="-11,-12 -6,-12 -7.5,-10" opacity="0.8"/>
-            <polygon points="-11,12 -6,12 -7.5,10" opacity="0.8"/>
-            <polygon points="-7,-11 -4,-11 6,10 3,10" opacity="0.75"/>
-            <rect x="4" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
-            <polygon points="2,-12 7,-12 5.5,-10" opacity="0.8"/>
-            <polygon points="2,12 7,12 5.5,10" opacity="0.8"/>
-          </g>
+          <!-- 3. Intersection Points: 4-Faceted 3D Diamond Studs (#fde047) -->
+          <use href="#facetedDiamondStud" x="48" y="0"/>
+          <use href="#facetedDiamondStud" x="48" y="96"/>
+          <use href="#facetedDiamondStud" x="0" y="48"/>
+          <use href="#facetedDiamondStud" x="96" y="48"/>
 
-          <!-- ==============================================
-               CORNER MOTIF: 4-POINT FACETED DIAMOND CRYSTAL
-               Gucci Diamante Floret / Gold Rivet
-               ============================================== -->
-          <g transform="translate(0, 0)">
-            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
-            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
+          <!-- 4. Corner Nodes: Haute-Couture Gucci Florets with Platinum Center Rivet -->
+          <use href="#gucciFloret" x="0" y="0"/>
+          <use href="#gucciFloret" x="96" y="0"/>
+          <use href="#gucciFloret" x="0" y="96"/>
+          <use href="#gucciFloret" x="96" y="96"/>
+
+          <!-- 5. Center Motif: Interlocking Mirrored Sculptural Double-N (NEXA Haute-Couture Monogram) -->
+          <!-- Upright Primary N (Shifted left to x: 43.5, y: 48) -->
+          <g transform="translate(43.5, 48)">
+            <use href="#nexaSculptedN"/>
           </g>
-          <g transform="translate(96, 0)">
-            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
-            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
+          <!-- Inverted Secondary N (Rotated 180°, shifted right to x: 52.5, y: 48) -->
+          <g transform="translate(52.5, 48) rotate(180)">
+            <use href="#nexaSculptedN"/>
           </g>
-          <g transform="translate(0, 96)">
-            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
-            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
-          </g>
-          <g transform="translate(96, 96)">
-            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
-            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
-          </g>
+          <!-- Interlocking Depth: Hairline relief blade crossover -->
+          <path d="M 46.5 45.5 L 49.5 50.5" stroke="#040814" stroke-width="0.75" stroke-linecap="round" opacity="0.75"/>
         </pattern>
       </defs>
 
-      <!-- Atmospheric Deep Midnight Base Backdrop -->
-      <rect width="100%" height="100%" fill="#040814"/>
+      <!-- Layer 1: Spatial Deep Obsidian Ground Canvas -->
+      <rect width="100%" height="100%" fill="url(#nxaObsidianBase)"/>
 
-      <!-- Ambient Luxury Center Aura -->
-      <rect width="100%" height="100%" fill="url(#nxaMonogramAura)"/>
+      <!-- Layer 2: Radiant Crown 24K Gold Halo -->
+      <rect width="100%" height="100%" fill="url(#nxaCrownGoldAura)"/>
 
-      <!-- CONTINUOUS GUCCI-STYLE NEXA MONOGRAM CANVAS (Sürekli her yerde aynı) -->
+      <!-- Layer 3: Atmospheric Sapphire Core Aura -->
+      <rect width="100%" height="100%" fill="url(#nxaSapphireAura)"/>
+
+      <!-- Layer 4: Micro Gold Dust Bloom -->
+      <rect width="100%" height="100%" fill="url(#nxaCenterGoldDust)"/>
+
+      <!-- Layer 5: Seamless Haute-Couture Gucci-Style NEXA Diamante Pattern (Continuous Tessellation) -->
       <rect width="100%" height="100%" fill="url(#nxaGucciMonogram)"/>
 
-      <!-- Soft Edge Vignette for Crystal Clear Card Contrast & Typography Readability -->
-      <radialGradient id="nxaMonogramVignette" cx="50%" cy="50%" r="55%">
-        <stop offset="0%" stop-color="#040814" stop-opacity="0"/>
-        <stop offset="65%" stop-color="#040814" stop-opacity="0.3"/>
-        <stop offset="100%" stop-color="#030610" stop-opacity="0.75"/>
-      </radialGradient>
-      <rect width="100%" height="100%" fill="url(#nxaMonogramVignette)"/>
+      <!-- Layer 6: Readability Shield Vignette (Ensures 100% WCAG AAA Text & Card Contrast) -->
+      <rect width="100%" height="100%" fill="url(#nxaReadabilityShield)"/>
     </svg>
 
     <div class="container">
