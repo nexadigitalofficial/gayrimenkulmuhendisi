@@ -9061,6 +9061,145 @@
   }
 
 </style>
+
+<style>
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MOBİL KAYDIRMA ERGONOMİSİ & GÜVENLİ KENAR ŞERİTLERİ (SAFE TOUCH RAILS)
+  ══════════════════════════════════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    /* 1. Global Container Güvenli Kenar Şeritleri */
+    .container {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* 2. Executive Bento Bölümü Mobil Çerçevesi */
+    .nxa-executive-bento-section {
+      padding: 60px 0 70px 0 !important;
+    }
+    .nxa-bento-grid {
+      padding: 0 18px !important;
+      box-sizing: border-box !important;
+      gap: 16px !important;
+    }
+    .nxa-bento-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      border-radius: 20px !important;
+    }
+
+    /* 3. Harita Bölümü Mobil Lüks Çerçeveleme (0px yerine 16px kenar payı) */
+    .map-section {
+      padding: 0 16px 40px 16px !important;
+      box-sizing: border-box !important;
+    }
+    #mapContainer {
+      height: 380px !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      border: 1px solid rgba(212, 175, 55, 0.3) !important;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* 4. Yiğit Narin Master Profil Mobil Boşlukları */
+    .nxa-master-profile-section {
+      padding: 60px 0 !important;
+    }
+    .nxa-master-profile-grid {
+      padding: 0 18px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 5. Vitrin Kartları ve Carousel Dikey Kaydırma İzni */
+    .carousel-track {
+      touch-action: pan-y !important; /* Dikey kaydırmayı tarayıcıya bırakır, dikey kilitlenmeyi önler */
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+      scroll-padding-left: 20px !important;
+      scroll-padding-right: 20px !important;
+    }
+    .showcase-chips-bar,
+    .hero-quick-chips,
+    .nxa-district-tabs-wrap {
+      touch-action: pan-y !important;
+    }
+
+    /* 6. Tüm Bölümler İçin Kenar Payı */
+    #services .container,
+    #contact .container,
+    #marketDashboardSection .container,
+    #haberlerSection .container,
+    #testimonials .container,
+    #videoGallerySection .container,
+    #odullerimiz .container {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Harita İpucu ve Geçiş Butonları */
+    .nxa-map-hint-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: rgba(7, 13, 24, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fde047;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+    .nxa-map-hint-badge.show-hint {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .nxa-map-toggle-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(7, 13, 24, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #ffffff;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      z-index: 1001;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      transition: all 0.25s ease;
+    }
+    .nxa-map-toggle-btn.is-active {
+      background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+      color: #030610;
+      border-color: #fde047;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+    }
+  }
+
+</style>
 </head>
 <body>
   <!-- Top Announcement Bar -->
@@ -11434,13 +11573,72 @@
     (function initMap() {
       const ANKARA = [39.9334, 32.8597];
 
-      // Haritayı oluştur
+      const isMobileDevice = window.innerWidth <= 768 || ('ontouchstart' in window && window.innerWidth <= 1024);
+
+      // Haritayı oluştur (Mobilde tek parmakla sayfa kaydırmasını kilitlemez)
       const map = L.map('mapContainer', {
         center: ANKARA,
         zoom: 12,
-        zoomControl: true,
-        scrollWheelZoom: true
+        zoomControl: !isMobileDevice,
+        scrollWheelZoom: !isMobileDevice,
+        dragging: !isMobileDevice, // Mobilde tek parmak sayfa kaydırması için varsayılan pasif
+        tap: !isMobileDevice
       });
+
+      // Mobil Cooperative Gesture Handling (İki parmakla harita, tek parmakla sayfa kaydırma)
+      if (isMobileDevice) {
+        let isMapInteractive = false;
+        const container = document.getElementById('mapContainer');
+        if (container) {
+          // İpucu rozeti
+          const hintBadge = document.createElement('div');
+          hintBadge.className = 'nxa-map-hint-badge';
+          hintBadge.innerHTML = '<i class="fas fa-hand-pointer"></i> Haritada gezinmek için iki parmağınızı kullanın';
+          container.appendChild(hintBadge);
+
+          // Etkinleştirme butonu
+          const toggleBtn = document.createElement('button');
+          toggleBtn.type = 'button';
+          toggleBtn.className = 'nxa-map-toggle-btn';
+          toggleBtn.innerHTML = '<i class="fas fa-lock"></i> Haritada Gezin';
+          toggleBtn.onclick = function(e) {
+            e.stopPropagation();
+            isMapInteractive = !isMapInteractive;
+            if (isMapInteractive) {
+              map.dragging.enable();
+              toggleBtn.innerHTML = '<i class="fas fa-unlock"></i> Harita Aktif';
+              toggleBtn.classList.add('is-active');
+            } else {
+              map.dragging.disable();
+              toggleBtn.innerHTML = '<i class="fas fa-lock"></i> Haritada Gezin';
+              toggleBtn.classList.remove('is-active');
+            }
+          };
+          container.appendChild(toggleBtn);
+
+          // İki parmak algılama
+          container.addEventListener('touchstart', function(e) {
+            if (isMapInteractive) return;
+            if (e.touches.length >= 2) {
+              map.dragging.enable();
+            } else {
+              map.dragging.disable();
+              hintBadge.classList.add('show-hint');
+              clearTimeout(hintBadge._timeout);
+              hintBadge._timeout = setTimeout(() => {
+                hintBadge.classList.remove('show-hint');
+              }, 1800);
+            }
+          }, { passive: true });
+
+          container.addEventListener('touchend', function(e) {
+            if (isMapInteractive) return;
+            if (e.touches.length < 2) {
+              map.dragging.disable();
+            }
+          }, { passive: true });
+        }
+      }
 
       // OpenStreetMap tile katmanı
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
