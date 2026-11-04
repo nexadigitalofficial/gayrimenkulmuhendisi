@@ -9693,123 +9693,116 @@
   ============================================================ -->
   <section class="section showcase-luxury-section" id="portfolio">
     <!-- Bespoke Imperial Guilloché & Architectural Luxury Pattern SVG -->
+    <!-- Bespoke Haute-Couture Gucci-Style Continuous NEXA "N" Monogram Pattern SVG -->
     <svg class="showcase-cad-bg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true">
       <defs>
         <!-- Metallic Gold & Platinum Gradient Highlights -->
         <linearGradient id="patGoldGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#fde047" stop-opacity="0.22"/>
-          <stop offset="50%" stop-color="#d4af37" stop-opacity="0.12"/>
-          <stop offset="100%" stop-color="#b8860b" stop-opacity="0.04"/>
+          <stop offset="0%" stop-color="#fde047" stop-opacity="0.95"/>
+          <stop offset="45%" stop-color="#d4af37" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#aa820a" stop-opacity="0.35"/>
         </linearGradient>
 
         <linearGradient id="patGoldGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.28"/>
-          <stop offset="40%" stop-color="#fde047" stop-opacity="0.14"/>
-          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.04"/>
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#fde047" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.3"/>
         </linearGradient>
 
-        <linearGradient id="patCyanGrad" x1="0%" y1="100%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.18"/>
-          <stop offset="100%" stop-color="#0284c7" stop-opacity="0.04"/>
-        </linearGradient>
+        <radialGradient id="nxaMonogramAura" cx="50%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#14264c" stop-opacity="0.45"/>
+          <stop offset="60%" stop-color="#081329" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#030610" stop-opacity="0"/>
+        </radialGradient>
 
         <!-- ========================================================
-             PATTERN TILE: IMPERIAL GUILLOCHÉ & ARCHITECTURAL OCTAGON
-             Size: 96x96 - Scaled for perfect density on both mobile and 4K
+             CONTINUOUS GUCCI DIAMANTE MONOGRAM TILE: NEXA "NN"
+             Tile Size: 96x96 - Infinite Seamless Tessellation
+             Uniform, identical repeat everywhere across all viewports
              ======================================================== -->
-        <pattern id="nxcImperialPattern" width="96" height="96" patternUnits="userSpaceOnUse">
-          <!-- Background Sub-Grid (24x24 CAD coordinates) -->
-          <path d="M 24 0 L 24 96 M 48 0 L 48 96 M 72 0 L 72 96 M 0 24 L 96 24 M 0 48 L 96 48 M 0 72 L 96 72" 
-                stroke="rgba(212, 175, 55, 0.035)" stroke-width="0.5"/>
+        <pattern id="nxaGucciMonogram" width="96" height="96" patternUnits="userSpaceOnUse">
+          <!-- Diamond Trellis Stitched Diagonal Lines (Gucci Diamante stitch) -->
+          <line x1="0" y1="48" x2="48" y2="0" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
+          <line x1="48" y1="0" x2="96" y2="48" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
+          <line x1="96" y1="48" x2="48" y2="96" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
+          <line x1="48" y1="96" x2="0" y2="48" stroke="rgba(212, 175, 55, 0.22)" stroke-width="0.8" stroke-dasharray="3,2.5"/>
 
-          <!-- Central Octagon (Outer) -->
-          <polygon points="33.6,14.4 62.4,14.4 81.6,33.6 81.6,62.4 62.4,81.6 33.6,81.6 14.4,62.4 14.4,33.6" 
-                   fill="none" stroke="url(#patGoldGrad1)" stroke-width="1"/>
+          <!-- Secondary Subtle Inner Hairline Diamond -->
+          <polygon points="48,12 84,48 48,84 12,48" fill="none" stroke="rgba(212, 175, 55, 0.08)" stroke-width="0.5"/>
 
-          <!-- Central Octagon (Inner Concentric) -->
-          <polygon points="36.8,20.8 59.2,20.8 75.2,36.8 75.2,59.2 59.2,75.2 36.8,75.2 20.8,59.2 20.8,36.8" 
-                   fill="none" stroke="rgba(212, 175, 55, 0.06)" stroke-width="0.5"/>
+          <!-- Intersection Micro-Diamond Studs -->
+          <polygon points="48,-2.5 50.5,0 48,2.5 45.5,0" fill="#fde047" opacity="0.85"/>
+          <polygon points="48,93.5 50.5,96 48,98.5 45.5,96" fill="#fde047" opacity="0.85"/>
+          <polygon points="-2.5,48 0,50.5 2.5,48 0,45.5" fill="#fde047" opacity="0.85"/>
+          <polygon points="93.5,48 96,50.5 98.5,48 96,45.5" fill="#fde047" opacity="0.85"/>
 
-          <!-- Concentric Guilloché Rings in Octagon Center -->
-          <circle cx="48" cy="48" r="17.5" fill="none" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.6"/>
-          <circle cx="48" cy="48" r="12.5" fill="none" stroke="rgba(56, 189, 248, 0.08)" stroke-width="0.5" stroke-dasharray="2,2"/>
-          <circle cx="48" cy="48" r="6" fill="none" stroke="rgba(253, 224, 71, 0.15)" stroke-width="0.6"/>
-          <circle cx="48" cy="48" r="1.6" fill="#fde047" opacity="0.45"/>
+          <!-- ==============================================
+               CENTER MOTIF: INTERLOCKING MIRRORED DOUBLE-N
+               Gucci GG Style Bespoke Haute-Couture Monogram
+               ============================================== -->
+          <!-- Left N (Upright) -->
+          <g transform="translate(42, 48)" fill="url(#patGoldGrad1)">
+            <!-- Left vertical stem with serif -->
+            <rect x="-9" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
+            <polygon points="-11,-12 -6,-12 -7.5,-10" opacity="0.8"/>
+            <polygon points="-11,12 -6,12 -7.5,10" opacity="0.8"/>
+            <!-- Diagonal blade -->
+            <polygon points="-7,-11 -4,-11 6,10 3,10" opacity="0.75"/>
+            <!-- Right vertical stem with serif -->
+            <rect x="4" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
+            <polygon points="2,-12 7,-12 5.5,-10" opacity="0.8"/>
+            <polygon points="2,12 7,12 5.5,10" opacity="0.8"/>
+          </g>
+          <!-- Right N (Mirrored / Facing 180° Inverted) -->
+          <g transform="translate(54, 48) rotate(180)" fill="url(#patGoldGrad1)">
+            <rect x="-9" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
+            <polygon points="-11,-12 -6,-12 -7.5,-10" opacity="0.8"/>
+            <polygon points="-11,12 -6,12 -7.5,10" opacity="0.8"/>
+            <polygon points="-7,-11 -4,-11 6,10 3,10" opacity="0.75"/>
+            <rect x="4" y="-12" width="2.8" height="24" rx="0.4" opacity="0.65"/>
+            <polygon points="2,-12 7,-12 5.5,-10" opacity="0.8"/>
+            <polygon points="2,12 7,12 5.5,10" opacity="0.8"/>
+          </g>
 
-          <!-- 8 Radial Rays in Octagon Center -->
-          <path d="M 48 30 L 48 66 M 30 48 L 66 48 M 35 35 L 61 61 M 35 61 L 61 35" 
-                stroke="rgba(212, 175, 55, 0.08)" stroke-width="0.5"/>
-
-          <!-- Corner Interlocking Rhombus / Diamonds -->
-          <!-- Top-Left Diamond -->
-          <polygon points="0,14.4 14.4,0 0,-14.4 -14.4,0" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
-          <!-- Top-Right Diamond -->
-          <polygon points="96,14.4 110.4,0 96,-14.4 81.6,0" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
-          <!-- Bottom-Left Diamond -->
-          <polygon points="0,110.4 14.4,96 0,81.6 -14.4,96" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
-          <!-- Bottom-Right Diamond -->
-          <polygon points="96,110.4 110.4,96 96,81.6 81.6,96" fill="none" stroke="url(#patGoldGrad2)" stroke-width="0.8"/>
-
-          <!-- Center Diamonds connecting the Octagon edges -->
-          <!-- Top Diamond -->
-          <polygon points="48,14.4 62.4,0 48,-14.4 33.6,0" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
-          <circle cx="48" cy="0" r="1.4" fill="#fde047" opacity="0.4"/>
-
-          <!-- Bottom Diamond -->
-          <polygon points="48,110.4 62.4,96 48,81.6 33.6,96" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
-          <circle cx="48" cy="96" r="1.4" fill="#fde047" opacity="0.4"/>
-
-          <!-- Left Diamond -->
-          <polygon points="0,62.4 14.4,48 0,33.6 -14.4,48" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
-          <circle cx="0" cy="48" r="1.4" fill="#fde047" opacity="0.4"/>
-
-          <!-- Right Diamond -->
-          <polygon points="96,62.4 110.4,48 96,33.6 81.6,48" fill="none" stroke="url(#patGoldGrad1)" stroke-width="0.9"/>
-          <circle cx="96" cy="48" r="1.4" fill="#fde047" opacity="0.4"/>
-
-          <!-- Diagonal Connectors linking Octagons & Diamonds -->
-          <line x1="14.4" y1="33.6" x2="0" y2="33.6" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
-          <line x1="14.4" y1="62.4" x2="0" y2="62.4" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
-          <line x1="81.6" y1="33.6" x2="96" y2="33.6" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
-          <line x1="81.6" y1="62.4" x2="96" y2="62.4" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
-          <line x1="33.6" y1="14.4" x2="33.6" y2="0" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
-          <line x1="62.4" y1="14.4" x2="62.4" y2="0" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
-          <line x1="33.6" y1="81.6" x2="33.6" y2="96" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
-          <line x1="62.4" y1="81.6" x2="62.4" y2="96" stroke="rgba(212, 175, 55, 0.1)" stroke-width="0.6"/>
+          <!-- ==============================================
+               CORNER MOTIF: 4-POINT FACETED DIAMOND CRYSTAL
+               Gucci Diamante Floret / Gold Rivet
+               ============================================== -->
+          <g transform="translate(0, 0)">
+            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
+            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <g transform="translate(96, 0)">
+            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
+            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <g transform="translate(0, 96)">
+            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
+            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
+          </g>
+          <g transform="translate(96, 96)">
+            <path d="M 0 -6 L 1.8 -1.8 L 6 0 L 1.8 1.8 L 0 6 L -1.8 1.8 L -6 0 L -1.8 -1.8 Z" fill="#fde047" opacity="0.6"/>
+            <circle cx="0" cy="0" r="1.2" fill="#ffffff" opacity="0.9"/>
+          </g>
         </pattern>
-
-        <!-- Dynamic Vignette Mask for Perfect Contrast Hierarchy -->
-        <radialGradient id="vignetteSoftMask" cx="50%" cy="45%" r="65%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
-          <stop offset="50%" stop-color="#ffffff" stop-opacity="0.75"/>
-          <stop offset="90%" stop-color="#ffffff" stop-opacity="1"/>
-        </radialGradient>
-        <mask id="patternSoftMask">
-          <rect width="100%" height="100%" fill="url(#vignetteSoftMask)"/>
-        </mask>
       </defs>
 
-      <!-- LAYER 1: BESPOKE IMPERIAL GUILLOCHÉ & ARCHITECTURAL PATTERN TILE -->
-      <rect width="100%" height="100%" fill="url(#nxcImperialPattern)" mask="url(#patternSoftMask)"/>
+      <!-- Atmospheric Deep Midnight Base Backdrop -->
+      <rect width="100%" height="100%" fill="#040814"/>
 
-      <!-- LAYER 2: CINEMATIC FLOWING TOPOGRAPHIC CONTOUR WAVES -->
-      <g fill="none" opacity="0.55" style="mix-blend-mode: screen;">
-        <!-- Top Wave 1 -->
-        <path d="M -50 160 Q 400 80 850 180 T 1750 120 T 2600 150" 
-              stroke="url(#patGoldGrad1)" stroke-width="1.6" stroke-dasharray="10,6"/>
-        <!-- Wave 2 (Cyan Accent) -->
-        <path d="M -50 320 Q 450 200 950 340 T 1850 240 T 2600 280" 
-              stroke="url(#patCyanGrad)" stroke-width="1.2"/>
-        <!-- Wave 3 (Gold Accent) -->
-        <path d="M -50 560 Q 500 420 1050 580 T 1950 460 T 2600 520" 
-              stroke="url(#patGoldGrad2)" stroke-width="1.4"/>
-        <!-- Wave 4 (Cyan Accent) -->
-        <path d="M -50 820 Q 450 700 950 840 T 1850 740 T 2600 790" 
-              stroke="url(#patCyanGrad)" stroke-width="1.2" stroke-dasharray="8,6"/>
-        <!-- Wave 5 (Deep Gold) -->
-        <path d="M -50 1080 Q 520 940 1020 1100 T 1920 980 T 2600 1040" 
-              stroke="url(#patGoldGrad1)" stroke-width="1.6"/>
-      </g>
+      <!-- Ambient Luxury Center Aura -->
+      <rect width="100%" height="100%" fill="url(#nxaMonogramAura)"/>
+
+      <!-- CONTINUOUS GUCCI-STYLE NEXA MONOGRAM CANVAS (Sürekli her yerde aynı) -->
+      <rect width="100%" height="100%" fill="url(#nxaGucciMonogram)"/>
+
+      <!-- Soft Edge Vignette for Crystal Clear Card Contrast & Typography Readability -->
+      <radialGradient id="nxaMonogramVignette" cx="50%" cy="50%" r="55%">
+        <stop offset="0%" stop-color="#040814" stop-opacity="0"/>
+        <stop offset="65%" stop-color="#040814" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#030610" stop-opacity="0.75"/>
+      </radialGradient>
+      <rect width="100%" height="100%" fill="url(#nxaMonogramVignette)"/>
     </svg>
 
     <div class="container">
