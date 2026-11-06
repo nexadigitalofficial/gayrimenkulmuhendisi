@@ -8,6 +8,14 @@
 
   <!-- NEXA Preloader Session Controller -->
   <script>
+    window.escapeHtml = function(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    };
+    var escapeHtml = window.escapeHtml;
+
     (function() {
       try {
         var params = new URLSearchParams(window.location.search);
@@ -2942,6 +2950,140 @@
       color: #ffffff !important;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+    }
+
+    /* ============================================================
+       NEXA PROXIMITY SPATIAL INTELLIGENCE HUD (Lüks Mesafe Zekası)
+       ============================================================ */
+    .popup-spatial-hud {
+      margin-top: 6px;
+      margin-bottom: 4px;
+      padding: 6px 8px;
+      background: rgba(4, 9, 18, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .spatial-hud-header {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 2px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .spatial-radar-pulse {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 6px #38bdf8;
+      animation: poiPulse 1.6s infinite ease-in-out;
+    }
+
+    .spatial-hud-title {
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: rgba(212, 175, 55, 0.9);
+      text-transform: uppercase;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .spatial-hud-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .spatial-hud-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+
+    .spatial-hud-row:hover {
+      background: rgba(212, 175, 55, 0.14);
+      border-color: rgba(212, 175, 55, 0.45);
+      transform: translateX(2px);
+    }
+
+    .spatial-hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .spatial-hud-badge.badge-metro {
+      background: rgba(192, 132, 252, 0.18);
+      color: #c084fc;
+      border: 1px solid rgba(192, 132, 252, 0.35);
+    }
+
+    .spatial-hud-badge.badge-okul {
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .spatial-hud-badge.badge-hastane {
+      background: rgba(251, 113, 133, 0.18);
+      color: #fb7185;
+      border: 1px solid rgba(251, 113, 133, 0.35);
+    }
+
+    .spatial-hud-target {
+      font-size: 10px;
+      color: #e2e8f0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      text-align: left;
+    }
+
+    .spatial-hud-val {
+      font-size: 10px;
+      font-weight: 700;
+      color: #f4e4a6;
+      white-space: nowrap;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .spatial-hud-val i {
+      font-size: 8px;
+      color: rgba(212, 175, 55, 0.7);
+    }
+
+    /* Cyber Flight Beam Lazer Çizgisi */
+    @keyframes dashBeam {
+      to {
+        stroke-dashoffset: -28;
+      }
+    }
+    .nexa-flight-beam {
+      animation: dashBeam 1.2s linear infinite;
     }
 
     /* Zoom Seviyesine Göre Haritayı Boğmayan Kademeli Görünüm */
@@ -12681,7 +12823,7 @@
           // [ORTA DERECE - Semt / İlçe Ölçeği (Çankaya, Beytepe, İncek)]
           cardW = isMobile ? Math.min(220, Math.floor(w * 0.68)) : 240;
           imgH = isMobile ? 75 : 88;
-          maxH = Math.min(245, Math.floor(h * 0.55));
+          maxH = Math.min(320, Math.floor(h * 0.65));
           titleSize = '12px';
           priceSize = '14px';
           pad = '8px 10px';
@@ -12691,7 +12833,7 @@
           // [YAKINLAŞTIRILDI - Cadde / Parsel / Mahalle Ölçeği]
           cardW = isMobile ? Math.min(245, Math.floor(w * 0.76)) : 265;
           imgH = isMobile ? 90 : 105;
-          maxH = Math.min(280, Math.floor(h * 0.62));
+          maxH = Math.min(365, Math.floor(h * 0.72));
           titleSize = '13px';
           priceSize = '15px';
           pad = '10px 12px';
@@ -12719,11 +12861,266 @@
       // İlk boyutta çalıştır
       setTimeout(updateMapCardProportions, 100);
 
-      // Popup HTML içeriği (Lüks cam kart, orantılı ve şık)
+      // ============================================================
+      // NEXA SPATIAL INTELLIGENCE CORE: DOĞRULANMIŞ ANKARA CBS VERİ TABANI
+      // Sıfır gecikme (0ms), %100 doğrulanmış koordinatlar, 6 ana koridor
+      // ============================================================
+      const NEXA_SPATIAL_DB = {
+        okul: [
+          { lat: 39.8458, lon: 32.8028, name: 'TED Ankara Koleji Ana Kampüsü', district: 'İncek Aksı' },
+          { lat: 39.8698, lon: 32.7483, name: 'Bilkent Üniversitesi Merkez Kampüs', district: 'Bilkent' },
+          { lat: 39.8914, lon: 32.7844, name: 'ODTÜ (Orta Doğu Teknik Üniversitesi)', district: 'ODTÜ Aksı' },
+          { lat: 39.8665, lon: 32.7352, name: 'Hacettepe Üniversitesi Beytepe Yerleşkesi', district: 'Beytepe' },
+          { lat: 39.8880, lon: 32.7750, name: 'ODTÜ Geliştirme Vakfı Okulları', district: 'Çankaya/Bilkent' },
+          { lat: 39.8730, lon: 32.7530, name: 'Bilkent Uluslararası Okulları (BLIS)', district: 'Bilkent' },
+          { lat: 39.8320, lon: 32.8120, name: 'Maya Okulları İncek Yerleşkesi', district: 'İncek' },
+          { lat: 39.8385, lon: 32.8055, name: 'Charles de Gaulle Fransız Lisesi', district: 'İncek' },
+          { lat: 39.8820, lon: 32.6850, name: 'Çayyolu Doğa Koleji Bilim Kampüsü', district: 'Çayyolu' },
+          { lat: 39.8883, lon: 32.6558, name: 'Başkent Üniversitesi Bağlıca Kampüsü', district: 'Bağlıca' },
+          { lat: 39.8950, lon: 32.6650, name: 'Zafer Koleji Kampüsü', district: 'Bağlıca' },
+          { lat: 39.9120, lon: 32.7980, name: 'Tevfik Fikret Okulları', district: 'Mustafa Kemal' },
+          { lat: 39.9230, lon: 32.8010, name: 'TOBB ETÜ Söğütözü Kampüsü', district: 'Söğütözü' },
+          { lat: 39.8750, lon: 32.8550, name: 'MEF Uluslararası Okulları', district: 'Çankaya' },
+          { lat: 39.8790, lon: 32.7020, name: 'Özel Sevgi Koleji', district: 'Çayyolu' },
+          { lat: 39.9360, lon: 32.8330, name: 'Ankara Üniversitesi Tandoğan', district: 'Merkez' }
+        ],
+        metro: [
+          { lat: 39.8842, lon: 32.6872, name: 'M2 Koru Metro İstasyonu (Son Durak)', district: 'Koru/Çayyolu' },
+          { lat: 39.8920, lon: 32.7035, name: 'M2 Çayyolu İstasyonu', district: 'Çayyolu' },
+          { lat: 39.9015, lon: 32.7198, name: 'M2 Ümitköy İstasyonu', district: 'Ümitköy' },
+          { lat: 39.9078, lon: 32.7455, name: 'M2 Beytepe Metro İstasyonu', district: 'Beytepe/Köprü' },
+          { lat: 39.9095, lon: 32.7602, name: 'M2 Bilkent Metro İstasyonu', district: 'Bilkent' },
+          { lat: 39.9122, lon: 32.7798, name: 'M2 ODTÜ Metro İstasyonu', district: 'ODTÜ Aksı' },
+          { lat: 39.9135, lon: 32.8035, name: 'M2 MTA Metro İstasyonu', district: 'Mustafa Kemal' },
+          { lat: 39.9145, lon: 32.8125, name: 'M2 Söğütözü Aktarma İstasyonu', district: 'Söğütözü' },
+          { lat: 39.9160, lon: 32.8315, name: 'M2 Milli Kütüphane İstasyonu', district: 'Bahçelievler' },
+          { lat: 39.9175, lon: 32.8485, name: 'M2 Necatibey İstasyonu', district: 'Bakanlıklar' },
+          { lat: 39.9208, lon: 32.8540, name: 'M1/M2 Kızılay Merkezi Aktarma Garı', district: 'Kızılay' },
+          { lat: 39.9480, lon: 32.6820, name: 'Başkentray Etimesgut Banliyö İstasyonu', district: 'Etimesgut' },
+          { lat: 39.9610, lon: 32.6510, name: 'Başkentray Eryaman YHT & Banliyö Garı', district: 'Eryaman' },
+          { lat: 39.9680, lon: 32.7450, name: 'M1 Batıkent Aktarma İstasyonu', district: 'Batıkent' },
+          { lat: 39.9820, lon: 32.5850, name: 'M3 Harikalar Diyarı İstasyonu', district: 'Sincan' }
+        ],
+        hastane: [
+          { lat: 39.8967, lon: 32.7689, name: 'Ankara Bilkent Şehir Hastanesi', district: 'Bilkent' },
+          { lat: 39.9102, lon: 32.8125, name: 'Medicana International Ankara', district: 'Söğütözü' },
+          { lat: 39.8860, lon: 32.6950, name: 'Güven Çayyolu Sağlık Kampüsü', district: 'Çayyolu' },
+          { lat: 39.9010, lon: 32.8580, name: 'Güven Hastanesi Kavaklıdere', district: 'Kavaklıdere' },
+          { lat: 39.8950, lon: 32.8180, name: 'Memorial Ankara Hastanesi', district: 'Balgat/Çukurambar' },
+          { lat: 39.9120, lon: 32.8140, name: 'Bayındır Sağlık Grubu Söğütözü', district: 'Söğütözü' },
+          { lat: 39.9190, lon: 32.8050, name: 'TOBB ETÜ Hastanesi', district: 'Söğütözü' },
+          { lat: 39.8350, lon: 32.8150, name: 'Lösante Çocuk & Yetişkin Hastanesi', district: 'İncek' },
+          { lat: 39.8660, lon: 32.7350, name: 'Hacettepe Üniversitesi Beytepe Sağlık Merkezi', district: 'Beytepe' },
+          { lat: 39.8490, lon: 32.8380, name: 'Acıbadem Ankara Hastanesi', district: 'Oran' },
+          { lat: 39.9050, lon: 32.8120, name: 'Koru Ankara Hastanesi', district: 'Çukurambar' },
+          { lat: 39.9030, lon: 32.8620, name: 'Liv Hospital Ankara', district: 'Kavaklıdere' },
+          { lat: 39.9620, lon: 32.8250, name: 'Etlik Şehir Hastanesi', district: 'Etlik/Yenimahalle' },
+          { lat: 39.9150, lon: 32.8590, name: 'Lokman Hekim Akay Hastanesi', district: 'Kavaklıdere' }
+        ],
+        avm: [
+          { lat: 39.8850, lon: 32.6880, name: 'Arcadium AVM & Sinema', district: 'Çayyolu' },
+          { lat: 39.9025, lon: 32.7050, name: 'Gordion AVM & Yaşam Merkezi', district: 'Çayyolu/Ümitköy' },
+          { lat: 39.8780, lon: 32.7560, name: 'Bilkent Center & Ankuva', district: 'Bilkent' },
+          { lat: 39.8510, lon: 32.8390, name: 'Panora AVM & Meydan', district: 'Oran' },
+          { lat: 39.8495, lon: 32.8350, name: 'One Tower AVM & Rezidans', district: 'Oran' },
+          { lat: 39.8480, lon: 32.8340, name: 'Kuzu Effect Luxury Mall', district: 'Oran' },
+          { lat: 39.9135, lon: 32.8090, name: 'Armada AVM & İş Kuleleri', district: 'Söğütözü' },
+          { lat: 39.9110, lon: 32.8110, name: 'Next Level AVM & Office Tower', district: 'Söğütözü' },
+          { lat: 39.9100, lon: 32.7820, name: 'Cepa Alışveriş Merkezi', district: 'Mustafa Kemal' },
+          { lat: 39.9095, lon: 32.7800, name: 'Kentpark Alışveriş Merkezi', district: 'Mustafa Kemal' },
+          { lat: 39.9080, lon: 32.7660, name: 'Tepe Prime Avenue Açıkhava AVM', district: 'Mustafa Kemal' },
+          { lat: 39.8860, lon: 32.8560, name: 'Atakule Alışveriş & Seyir Terası', district: 'Çankaya' },
+          { lat: 39.8870, lon: 32.8220, name: 'Taurus AVM', district: 'Konya Yolu/Balgat' },
+          { lat: 39.9650, lon: 32.7820, name: 'Podium AVM', district: 'Yenimahalle' },
+          { lat: 39.9720, lon: 32.6580, name: 'Optimum Outlet & Yaşam', district: 'Eryaman' }
+        ],
+        park: [
+          { lat: 39.8420, lon: 32.7950, name: 'Ahlatlıbel Atatürk Parkı & Korusu', district: 'İncek' },
+          { lat: 39.8720, lon: 32.7420, name: 'Beytepe Kent Ormanı Koşu Parkuru', district: 'Beytepe' },
+          { lat: 39.7750, lon: 32.8020, name: 'Mogan Gölü Tabiat Parkı Sahil Bandı', district: 'Gölbaşı' },
+          { lat: 39.8250, lon: 32.8310, name: 'Eymir Gölü ODTÜ Koruma Havzası', district: 'Gölbaşı/ODTÜ' },
+          { lat: 39.8310, lon: 32.8080, name: 'İncek Doğa & Binicilik Parkı', district: 'İncek' },
+          { lat: 39.8920, lon: 32.8610, name: 'Seğmenler Parkı & Açık Hava Amfisi', district: 'Çankaya' },
+          { lat: 39.8990, lon: 32.8600, name: 'Kuğulu Park & Botanik Korusu', district: 'Kavaklıdere' },
+          { lat: 39.8850, lon: 32.8450, name: 'Dikmen Vadisi Rekreasyon Alanı', district: 'Dikmen' },
+          { lat: 39.9000, lon: 32.8050, name: 'Çansera Kent Bahçesi Fuar Parkı', district: 'Çukurambar' },
+          { lat: 39.9410, lon: 32.8050, name: 'Atatürk Orman Çiftliği & Millet Bahçesi', district: 'Yenimahalle' },
+          { lat: 39.9880, lon: 32.6520, name: 'Göksu Parkı & Gölet Rekreasyonu', district: 'Eryaman' },
+          { lat: 39.9820, lon: 32.5850, name: 'Harikalar Diyarı Doğa Parkı', district: 'Sincan' }
+        ],
+        restoran: [
+          { lat: 39.8785, lon: 32.7550, name: 'Bilkent Station Gurme & Sosyal Meydan', district: 'Bilkent' },
+          { lat: 39.8810, lon: 32.6930, name: 'Çayyolu Park Caddesi Gastronomi Aksı', district: 'Çayyolu' },
+          { lat: 39.9080, lon: 32.7660, name: 'Tepe Prime Avenue Restoranlar Hattı', district: 'Mustafa Kemal' },
+          { lat: 39.9075, lon: 32.7720, name: 'Maidan İş ve Gurme Meydanı', district: 'Mustafa Kemal' },
+          { lat: 39.8360, lon: 32.8120, name: 'İncek Loft Meydan & Lezzet Koridoru', district: 'İncek' },
+          { lat: 39.8750, lon: 32.7380, name: 'Beytepe Restoranlar Aksı (Kanuni Blv)', district: 'Beytepe' },
+          { lat: 39.8970, lon: 32.8680, name: 'Filistin & Arjantin Caddeleri Fine Dining', district: 'Gaziosmanpaşa' },
+          { lat: 39.9040, lon: 32.8600, name: 'Tunalı Hilmi & Bestekar Gastronomi', district: 'Kavaklıdere' },
+          { lat: 39.9050, lon: 32.8110, name: '1071 Ankara Plaza Gurme Meydanı', district: 'Çukurambar' },
+          { lat: 39.8480, lon: 32.8340, name: 'Kuzu Effect Lounge & Fine Dining', district: 'Oran' },
+          { lat: 39.8860, lon: 32.8560, name: 'Atakule Seyir Terası Gastronomi Alanı', district: 'Çankaya' },
+          { lat: 39.8870, lon: 32.7210, name: 'Beysukent Mutlukent Kafe & Bistro Aksı', district: 'Beysukent' }
+        ]
+      };
+
+      // Geriye dönük uyumluluk referansı
+      const FALLBACK_POI = NEXA_SPATIAL_DB;
+
+
+      // ============================================================
+      // NEXA PROXIMITY ANALYTICS ENGINE (Mekansal Mesafe & Ulaşım Zekası)
+      // ============================================================
+      function getProximityIntelligence(lat, lng) {
+        if (!lat || !lng || typeof NEXA_SPATIAL_DB === 'undefined') return null;
+
+        function calcDistKm(lat1, lon1, lat2, lon2) {
+          const R = 6371;
+          const dLat = (lat2 - lat1) * Math.PI / 180;
+          const dLon = (lon2 - lon1) * Math.PI / 180;
+          const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+          return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+        }
+
+        function findClosest(categoryKey) {
+          const items = NEXA_SPATIAL_DB[categoryKey] || [];
+          if (!items.length) return null;
+
+          let closest = null;
+          let minD = Infinity;
+
+          for (let i = 0; i < items.length; i++) {
+            const it = items[i];
+            const d = calcDistKm(lat, lng, it.lat, it.lon);
+            if (d < minD) {
+              minD = d;
+              closest = { ...it, distanceKm: d };
+            }
+          }
+          if (!closest) return null;
+
+          let distStr = '';
+          let timeEst = '';
+          if (closest.distanceKm < 1.0) {
+            const m = Math.round(closest.distanceKm * 1000);
+            distStr = `${m} m`;
+            const walkMin = Math.max(1, Math.round(m / 80));
+            timeEst = `~${walkMin} dk yürüyüş`;
+          } else {
+            distStr = `${closest.distanceKm.toFixed(1)} km`;
+            const driveMin = Math.max(2, Math.round(closest.distanceKm * 1.8));
+            timeEst = `~${driveMin} dk araç`;
+          }
+
+          const short = closest.name
+            .replace(/\s*\([^)]*\)/g, '')
+            .replace('Metro İstasyonu', '')
+            .replace('İstasyonu', '')
+            .replace('Alışveriş Merkezi', '')
+            .replace('Hastanesi', 'Hast.')
+            .trim();
+
+          return {
+            name: closest.name,
+            shortName: short,
+            district: closest.district || '',
+            lat: closest.lat,
+            lon: closest.lon,
+            distanceKm: closest.distanceKm,
+            distFormatted: distStr,
+            timeEst: timeEst
+          };
+        }
+
+        return {
+          metro: findClosest('metro'),
+          okul: findClosest('okul'),
+          hastane: findClosest('hastane'),
+          avm: findClosest('avm')
+        };
+      }
+
+      // Haritada hedef POI'ye akıllı rota / kuş uçuşu lazer bağlantı çizgisi
+      let activeFlightLine = null;
+      let activeHighlightMarker = null;
+
+      window.nexaHighlightPoi = function(targetLat, targetLon, targetName, targetColor, fromLat, fromLon) {
+        if (!window.nexaMap) return;
+        const map = window.nexaMap;
+
+        // Eski çizgiyi ve geçici marker'ı temizle
+        if (activeFlightLine) {
+          map.removeLayer(activeFlightLine);
+          activeFlightLine = null;
+        }
+        if (activeHighlightMarker) {
+          map.removeLayer(activeHighlightMarker);
+          activeHighlightMarker = null;
+        }
+
+        // Şık kesikli parlayan lazer uçuş çizgisi (Cyber Flight Path)
+        activeFlightLine = L.polyline([[fromLat, fromLon], [targetLat, targetLon]], {
+          color: targetColor || '#d4af37',
+          weight: 2.5,
+          opacity: 0.95,
+          dashArray: '6, 8',
+          lineCap: 'round',
+          className: 'nexa-flight-beam'
+        }).addTo(map);
+
+        // Hedef POI üzerinde lüks parlayan hedef halkası
+        const highlightIcon = L.divIcon({
+          className: 'poi-flight-target',
+          html: `<div style="
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: radial-gradient(circle, ${targetColor} 40%, transparent 80%);
+            border: 2px solid ${targetColor};
+            box-shadow: 0 0 16px ${targetColor}, 0 0 30px ${targetColor};
+            animation: poiPulse 1s infinite alternate;
+          "></div>`,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+
+        activeHighlightMarker = L.marker([targetLat, targetLon], { icon: highlightIcon })
+          .bindTooltip(`<strong>🎯 ${targetName}</strong>`, { permanent: true, direction: 'top', className: 'leaflet-tooltip' })
+          .addTo(map);
+
+        // Kamerayı ikisini de görecek şekilde nazikçe ayarla
+        map.fitBounds([[fromLat, fromLon], [targetLat, targetLon]], {
+          padding: [50, 50],
+          maxZoom: 15,
+          animate: true,
+          duration: 0.8
+        });
+
+        // 8 saniye sonra çizgiyi temizle
+        setTimeout(() => {
+          if (activeFlightLine) {
+            map.removeLayer(activeFlightLine);
+            activeFlightLine = null;
+          }
+          if (activeHighlightMarker) {
+            map.removeLayer(activeHighlightMarker);
+            activeHighlightMarker = null;
+          }
+        }, 8000);
+      };
+
+
+      // Popup HTML içeriği (Lüks cam kart, orantılı ve şık + Dinamik Mesafe Zekası)
       function buildPopupHtml(listing) {
         const badgeClass = listing.type === 'Kiralık' ? 'badge-kiralik' : 'badge-satilik';
         const waMsg = encodeURIComponent(`✦ [NEXA HARİTA VIP TALEBİ]\nReferans: ${listing.title}\nFiyat: ${listing.price || '—'}\nDetaylı sunum dosyası ve yer görme randevusu almak istiyorum.`);
         const imgSrc = listing.img || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=70';
+
+        // Dinamik Mekansal Yakınlık İstihbaratı (Haversine Zekası)
+        const prox = (listing.lat && listing.lng) ? getProximityIntelligence(listing.lat, listing.lng) : null;
+
         return `
           <div class="popup-card">
             <div class="popup-img-wrap">
@@ -12741,6 +13138,40 @@
                 ${listing.area ? `<span><i class="fas fa-ruler-combined"></i> ${listing.area}</span>` : ''}
                 <span><i class="fas fa-location-dot"></i> Ankara</span>
               </div>
+
+              ${prox ? `
+              <!-- NEXA Dinamik Mesafe & Ulaşım İstihbarat Paneli -->
+              <div class="popup-spatial-hud">
+                <div class="spatial-hud-header">
+                  <span class="spatial-radar-pulse"></span>
+                  <span class="spatial-hud-title">LOKASYON &amp; ERİŞİM İSTİHBARATI</span>
+                </div>
+                <div class="spatial-hud-list">
+                  ${prox.metro ? `
+                    <div class="spatial-hud-row" onclick="window.nexaHighlightPoi(${prox.metro.lat}, ${prox.metro.lon}, '${prox.metro.name.replace(/'/g, "\\'")}', '#c084fc', ${listing.lat}, ${listing.lng})" title="${prox.metro.name} (${prox.metro.timeEst} - Haritada Çizgiyle Göster)">
+                      <span class="spatial-hud-badge badge-metro"><i class="fas fa-subway"></i> Metro</span>
+                      <span class="spatial-hud-target">${prox.metro.shortName}</span>
+                      <span class="spatial-hud-val">${prox.metro.distFormatted} <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                  ` : ''}
+                  ${prox.okul ? `
+                    <div class="spatial-hud-row" onclick="window.nexaHighlightPoi(${prox.okul.lat}, ${prox.okul.lon}, '${prox.okul.name.replace(/'/g, "\\'")}', '#38bdf8', ${listing.lat}, ${listing.lng})" title="${prox.okul.name} (${prox.okul.timeEst} - Haritada Çizgiyle Göster)">
+                      <span class="spatial-hud-badge badge-okul"><i class="fas fa-graduation-cap"></i> Kolej</span>
+                      <span class="spatial-hud-target">${prox.okul.shortName}</span>
+                      <span class="spatial-hud-val">${prox.okul.distFormatted} <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                  ` : ''}
+                  ${prox.hastane ? `
+                    <div class="spatial-hud-row" onclick="window.nexaHighlightPoi(${prox.hastane.lat}, ${prox.hastane.lon}, '${prox.hastane.name.replace(/'/g, "\\'")}', '#fb7185', ${listing.lat}, ${listing.lng})" title="${prox.hastane.name} (${prox.hastane.timeEst} - Haritada Çizgiyle Göster)">
+                      <span class="spatial-hud-badge badge-hastane"><i class="fas fa-hospital"></i> Sağlık</span>
+                      <span class="spatial-hud-target">${prox.hastane.shortName}</span>
+                      <span class="spatial-hud-val">${prox.hastane.distFormatted} <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+              ` : ''}
+
               <div class="popup-actions">
                 <button class="popup-btn popup-btn-primary nexa-popup-incele" data-url="${listing.link||''}" type="button">
                   <i class="fas fa-expand-arrows-alt"></i> İncele
@@ -12753,7 +13184,6 @@
           </div>`;
       }
 
-      // Sol panel liste öğesi HTML
       function buildSidebarItem(listing, index) {
         const badgeClass = listing.type === 'Kiralık' ? 'badge-kiralik' : 'badge-satilik';
         return `
@@ -13007,112 +13437,6 @@
           textEl.textContent = count === 0 ? '0 Katman Aktif' : `${count} / 6 Katman Aktif`;
         }
       }
-
-      // ============================================================
-      // NEXA SPATIAL INTELLIGENCE CORE: DOĞRULANMIŞ ANKARA CBS VERİ TABANI
-      // Sıfır gecikme (0ms), %100 doğrulanmış koordinatlar, 6 ana koridor
-      // ============================================================
-      const NEXA_SPATIAL_DB = {
-        okul: [
-          { lat: 39.8458, lon: 32.8028, name: 'TED Ankara Koleji Ana Kampüsü', district: 'İncek Aksı' },
-          { lat: 39.8698, lon: 32.7483, name: 'Bilkent Üniversitesi Merkez Kampüs', district: 'Bilkent' },
-          { lat: 39.8914, lon: 32.7844, name: 'ODTÜ (Orta Doğu Teknik Üniversitesi)', district: 'ODTÜ Aksı' },
-          { lat: 39.8665, lon: 32.7352, name: 'Hacettepe Üniversitesi Beytepe Yerleşkesi', district: 'Beytepe' },
-          { lat: 39.8880, lon: 32.7750, name: 'ODTÜ Geliştirme Vakfı Okulları', district: 'Çankaya/Bilkent' },
-          { lat: 39.8730, lon: 32.7530, name: 'Bilkent Uluslararası Okulları (BLIS)', district: 'Bilkent' },
-          { lat: 39.8320, lon: 32.8120, name: 'Maya Okulları İncek Yerleşkesi', district: 'İncek' },
-          { lat: 39.8385, lon: 32.8055, name: 'Charles de Gaulle Fransız Lisesi', district: 'İncek' },
-          { lat: 39.8820, lon: 32.6850, name: 'Çayyolu Doğa Koleji Bilim Kampüsü', district: 'Çayyolu' },
-          { lat: 39.8883, lon: 32.6558, name: 'Başkent Üniversitesi Bağlıca Kampüsü', district: 'Bağlıca' },
-          { lat: 39.8950, lon: 32.6650, name: 'Zafer Koleji Kampüsü', district: 'Bağlıca' },
-          { lat: 39.9120, lon: 32.7980, name: 'Tevfik Fikret Okulları', district: 'Mustafa Kemal' },
-          { lat: 39.9230, lon: 32.8010, name: 'TOBB ETÜ Söğütözü Kampüsü', district: 'Söğütözü' },
-          { lat: 39.8750, lon: 32.8550, name: 'MEF Uluslararası Okulları', district: 'Çankaya' },
-          { lat: 39.8790, lon: 32.7020, name: 'Özel Sevgi Koleji', district: 'Çayyolu' },
-          { lat: 39.9360, lon: 32.8330, name: 'Ankara Üniversitesi Tandoğan', district: 'Merkez' }
-        ],
-        metro: [
-          { lat: 39.8842, lon: 32.6872, name: 'M2 Koru Metro İstasyonu (Son Durak)', district: 'Koru/Çayyolu' },
-          { lat: 39.8920, lon: 32.7035, name: 'M2 Çayyolu İstasyonu', district: 'Çayyolu' },
-          { lat: 39.9015, lon: 32.7198, name: 'M2 Ümitköy İstasyonu', district: 'Ümitköy' },
-          { lat: 39.9078, lon: 32.7455, name: 'M2 Beytepe Metro İstasyonu', district: 'Beytepe/Köprü' },
-          { lat: 39.9095, lon: 32.7602, name: 'M2 Bilkent Metro İstasyonu', district: 'Bilkent' },
-          { lat: 39.9122, lon: 32.7798, name: 'M2 ODTÜ Metro İstasyonu', district: 'ODTÜ Aksı' },
-          { lat: 39.9135, lon: 32.8035, name: 'M2 MTA Metro İstasyonu', district: 'Mustafa Kemal' },
-          { lat: 39.9145, lon: 32.8125, name: 'M2 Söğütözü Aktarma İstasyonu', district: 'Söğütözü' },
-          { lat: 39.9160, lon: 32.8315, name: 'M2 Milli Kütüphane İstasyonu', district: 'Bahçelievler' },
-          { lat: 39.9175, lon: 32.8485, name: 'M2 Necatibey İstasyonu', district: 'Bakanlıklar' },
-          { lat: 39.9208, lon: 32.8540, name: 'M1/M2 Kızılay Merkezi Aktarma Garı', district: 'Kızılay' },
-          { lat: 39.9480, lon: 32.6820, name: 'Başkentray Etimesgut Banliyö İstasyonu', district: 'Etimesgut' },
-          { lat: 39.9610, lon: 32.6510, name: 'Başkentray Eryaman YHT & Banliyö Garı', district: 'Eryaman' },
-          { lat: 39.9680, lon: 32.7450, name: 'M1 Batıkent Aktarma İstasyonu', district: 'Batıkent' },
-          { lat: 39.9820, lon: 32.5850, name: 'M3 Harikalar Diyarı İstasyonu', district: 'Sincan' }
-        ],
-        hastane: [
-          { lat: 39.8967, lon: 32.7689, name: 'Ankara Bilkent Şehir Hastanesi', district: 'Bilkent' },
-          { lat: 39.9102, lon: 32.8125, name: 'Medicana International Ankara', district: 'Söğütözü' },
-          { lat: 39.8860, lon: 32.6950, name: 'Güven Çayyolu Sağlık Kampüsü', district: 'Çayyolu' },
-          { lat: 39.9010, lon: 32.8580, name: 'Güven Hastanesi Kavaklıdere', district: 'Kavaklıdere' },
-          { lat: 39.8950, lon: 32.8180, name: 'Memorial Ankara Hastanesi', district: 'Balgat/Çukurambar' },
-          { lat: 39.9120, lon: 32.8140, name: 'Bayındır Sağlık Grubu Söğütözü', district: 'Söğütözü' },
-          { lat: 39.9190, lon: 32.8050, name: 'TOBB ETÜ Hastanesi', district: 'Söğütözü' },
-          { lat: 39.8350, lon: 32.8150, name: 'Lösante Çocuk & Yetişkin Hastanesi', district: 'İncek' },
-          { lat: 39.8660, lon: 32.7350, name: 'Hacettepe Üniversitesi Beytepe Sağlık Merkezi', district: 'Beytepe' },
-          { lat: 39.8490, lon: 32.8380, name: 'Acıbadem Ankara Hastanesi', district: 'Oran' },
-          { lat: 39.9050, lon: 32.8120, name: 'Koru Ankara Hastanesi', district: 'Çukurambar' },
-          { lat: 39.9030, lon: 32.8620, name: 'Liv Hospital Ankara', district: 'Kavaklıdere' },
-          { lat: 39.9620, lon: 32.8250, name: 'Etlik Şehir Hastanesi', district: 'Etlik/Yenimahalle' },
-          { lat: 39.9150, lon: 32.8590, name: 'Lokman Hekim Akay Hastanesi', district: 'Kavaklıdere' }
-        ],
-        avm: [
-          { lat: 39.8850, lon: 32.6880, name: 'Arcadium AVM & Sinema', district: 'Çayyolu' },
-          { lat: 39.9025, lon: 32.7050, name: 'Gordion AVM & Yaşam Merkezi', district: 'Çayyolu/Ümitköy' },
-          { lat: 39.8780, lon: 32.7560, name: 'Bilkent Center & Ankuva', district: 'Bilkent' },
-          { lat: 39.8510, lon: 32.8390, name: 'Panora AVM & Meydan', district: 'Oran' },
-          { lat: 39.8495, lon: 32.8350, name: 'One Tower AVM & Rezidans', district: 'Oran' },
-          { lat: 39.8480, lon: 32.8340, name: 'Kuzu Effect Luxury Mall', district: 'Oran' },
-          { lat: 39.9135, lon: 32.8090, name: 'Armada AVM & İş Kuleleri', district: 'Söğütözü' },
-          { lat: 39.9110, lon: 32.8110, name: 'Next Level AVM & Office Tower', district: 'Söğütözü' },
-          { lat: 39.9100, lon: 32.7820, name: 'Cepa Alışveriş Merkezi', district: 'Mustafa Kemal' },
-          { lat: 39.9095, lon: 32.7800, name: 'Kentpark Alışveriş Merkezi', district: 'Mustafa Kemal' },
-          { lat: 39.9080, lon: 32.7660, name: 'Tepe Prime Avenue Açıkhava AVM', district: 'Mustafa Kemal' },
-          { lat: 39.8860, lon: 32.8560, name: 'Atakule Alışveriş & Seyir Terası', district: 'Çankaya' },
-          { lat: 39.8870, lon: 32.8220, name: 'Taurus AVM', district: 'Konya Yolu/Balgat' },
-          { lat: 39.9650, lon: 32.7820, name: 'Podium AVM', district: 'Yenimahalle' },
-          { lat: 39.9720, lon: 32.6580, name: 'Optimum Outlet & Yaşam', district: 'Eryaman' }
-        ],
-        park: [
-          { lat: 39.8420, lon: 32.7950, name: 'Ahlatlıbel Atatürk Parkı & Korusu', district: 'İncek' },
-          { lat: 39.8720, lon: 32.7420, name: 'Beytepe Kent Ormanı Koşu Parkuru', district: 'Beytepe' },
-          { lat: 39.7750, lon: 32.8020, name: 'Mogan Gölü Tabiat Parkı Sahil Bandı', district: 'Gölbaşı' },
-          { lat: 39.8250, lon: 32.8310, name: 'Eymir Gölü ODTÜ Koruma Havzası', district: 'Gölbaşı/ODTÜ' },
-          { lat: 39.8310, lon: 32.8080, name: 'İncek Doğa & Binicilik Parkı', district: 'İncek' },
-          { lat: 39.8920, lon: 32.8610, name: 'Seğmenler Parkı & Açık Hava Amfisi', district: 'Çankaya' },
-          { lat: 39.8990, lon: 32.8600, name: 'Kuğulu Park & Botanik Korusu', district: 'Kavaklıdere' },
-          { lat: 39.8850, lon: 32.8450, name: 'Dikmen Vadisi Rekreasyon Alanı', district: 'Dikmen' },
-          { lat: 39.9000, lon: 32.8050, name: 'Çansera Kent Bahçesi Fuar Parkı', district: 'Çukurambar' },
-          { lat: 39.9410, lon: 32.8050, name: 'Atatürk Orman Çiftliği & Millet Bahçesi', district: 'Yenimahalle' },
-          { lat: 39.9880, lon: 32.6520, name: 'Göksu Parkı & Gölet Rekreasyonu', district: 'Eryaman' },
-          { lat: 39.9820, lon: 32.5850, name: 'Harikalar Diyarı Doğa Parkı', district: 'Sincan' }
-        ],
-        restoran: [
-          { lat: 39.8785, lon: 32.7550, name: 'Bilkent Station Gurme & Sosyal Meydan', district: 'Bilkent' },
-          { lat: 39.8810, lon: 32.6930, name: 'Çayyolu Park Caddesi Gastronomi Aksı', district: 'Çayyolu' },
-          { lat: 39.9080, lon: 32.7660, name: 'Tepe Prime Avenue Restoranlar Hattı', district: 'Mustafa Kemal' },
-          { lat: 39.9075, lon: 32.7720, name: 'Maidan İş ve Gurme Meydanı', district: 'Mustafa Kemal' },
-          { lat: 39.8360, lon: 32.8120, name: 'İncek Loft Meydan & Lezzet Koridoru', district: 'İncek' },
-          { lat: 39.8750, lon: 32.7380, name: 'Beytepe Restoranlar Aksı (Kanuni Blv)', district: 'Beytepe' },
-          { lat: 39.8970, lon: 32.8680, name: 'Filistin & Arjantin Caddeleri Fine Dining', district: 'Gaziosmanpaşa' },
-          { lat: 39.9040, lon: 32.8600, name: 'Tunalı Hilmi & Bestekar Gastronomi', district: 'Kavaklıdere' },
-          { lat: 39.9050, lon: 32.8110, name: '1071 Ankara Plaza Gurme Meydanı', district: 'Çukurambar' },
-          { lat: 39.8480, lon: 32.8340, name: 'Kuzu Effect Lounge & Fine Dining', district: 'Oran' },
-          { lat: 39.8860, lon: 32.8560, name: 'Atakule Seyir Terası Gastronomi Alanı', district: 'Çankaya' },
-          { lat: 39.8870, lon: 32.7210, name: 'Beysukent Mutlukent Kafe & Bistro Aksı', district: 'Beysukent' }
-        ]
-      };
-
-      // Geriye dönük uyumluluk referansı
-      const FALLBACK_POI = NEXA_SPATIAL_DB;
 
       // Anında (0ms) Mekansal İstihbarat Çözücü
       async function fetchPoi(key) {
