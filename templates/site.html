@@ -15709,10 +15709,10 @@
     #nxp-persona-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(3, 7, 18, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 100050;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 2000000 !important;
       display: none;
       align-items: center;
       justify-content: center;
@@ -16874,6 +16874,7 @@
         .then(function(r){ return r.json(); })
         .then(function(d){
           if(!d.ok) throw new Error(d.error || 'Bilinmeyen hata');
+          d.url = cbUrl;
           window._currentPreviewData = d;
           render(d);
         })
@@ -17145,7 +17146,12 @@
     window.closePersonaModal = function() {
       var overlay = document.getElementById('nxp-persona-overlay');
       if (overlay) overlay.classList.remove('open');
-      document.body.style.overflow = '';
+      var previewOv = document.getElementById('nxp-overlay');
+      if (previewOv && previewOv.classList.contains('nxp-open')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
     };
 
     window.openPersonaFromPreview = function() {
