@@ -15100,129 +15100,564 @@
        NexaPreview — CB İlan Detay Önizleme Modali
        ============================================================ -->
   <style>
-    /* ── Overlay ── */
+    /* ============================================================
+       NEXA PREVIEW — ULTRA-PREMIUM HAUTE COUTURE LISTING SUITE
+       Zero Circles / Unobstructed Visuals / Master Dossier
+       ============================================================ */
     #nxp-overlay {
-      position:fixed;inset:0;z-index:99999;
-      background:rgba(0,0,0,.88);backdrop-filter:blur(12px);
-      display:flex;align-items:center;justify-content:center;
-      padding:0;box-sizing:border-box;
-      opacity:0;pointer-events:none;transition:opacity .3s ease;
+      position: fixed; inset: 0; z-index: 999999;
+      background: rgba(4, 8, 16, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex; align-items: stretch; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    #nxp-overlay.nxp-open{opacity:1;pointer-events:auto;}
+    #nxp-overlay.nxp-open {
+      opacity: 1; pointer-events: auto;
+    }
 
-    /* ── Modal ── */
     #nxp-modal {
-      background:#141419;border:1px solid rgba(255,255,255,.07);
-      border-radius:0;width:100%;max-width:100%;
-      height:100vh;overflow-y:auto;position:relative;
-      display:flex;flex-direction:column;
-      transform:translateY(30px) scale(.97);
-      transition:transform .42s cubic-bezier(.22,.61,.36,1);
-      scrollbar-width:thin;scrollbar-color:rgba(201,168,76,.13) transparent;
+      display: flex; flex-direction: row;
+      width: 100%; max-width: 100%; height: 100vh;
+      background: #080d1a;
+      transform: scale(0.98) translateY(14px);
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+      position: relative;
     }
-    #nxp-overlay.nxp-open #nxp-modal{transform:translateY(0) scale(1);}
-    #nxp-modal::-webkit-scrollbar{width:4px}
-    #nxp-modal::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);border-radius:2px}
-
-    /* ── Slider ── */
-    #nxp-sl-wrap{position:relative;background:#000;flex-shrink:0;user-select:none;overflow:hidden;width:100%}
-    #nxp-sl-track{display:flex;overflow:visible;touch-action:pan-y;transition:transform .4s cubic-bezier(.22,.61,.36,1);width:100%}
-    .nxp-slide{min-width:100%;width:100%;flex:0 0 100%;flex-shrink:0;position:relative;height:440px;background:#0d0d12;display:flex;align-items:center;justify-content:center}
-    .nxp-slide img{width:100%;height:440px;display:block;max-height:440px;object-fit:cover}
-    .nxp-slide-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(0,0,0,.55));pointer-events:none}
-
-    /* arrows */
-    .nxp-sl-btn{
-      position:absolute;top:50%;transform:translateY(-50%);
-      width:40px;height:40px;border-radius:50%;
-      background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
-      border:1px solid rgba(255,255,255,.15);color:#fff;
-      display:flex;align-items:center;justify-content:center;
-      cursor:pointer;z-index:10;font-size:1.1rem;
-      transition:background .2s,border-color .2s;
+    #nxp-overlay.nxp-open #nxp-modal {
+      transform: scale(1) translateY(0);
     }
-    .nxp-sl-btn:hover{background:#c9a84c;border-color:#c9a84c;color:#0c0c11}
-    #nxp-sl-prev{left:14px}#nxp-sl-next{right:14px}
 
-    /* dots */
-    #nxp-sl-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
-    .nxp-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;border:none;padding:0;transition:background .2s,transform .2s}
-    .nxp-dot.active{background:#c9a84c;transform:scale(1.4)}
+    /* ── LEFT: Cinematic Gallery Stage (58%) ── */
+    #nxp-gallery {
+      flex: 0 0 58%;
+      display: flex; flex-direction: column;
+      background: #03060c;
+      position: relative;
+      overflow: hidden;
+      border-right: 1px solid rgba(212, 175, 55, 0.15);
+    }
 
-    /* counter */
-    #nxp-sl-count{position:absolute;top:12px;right:14px;z-index:10;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);color:#fff;font-size:.7rem;padding:4px 9px;border-radius:2px}
+    #nxp-sl-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #050811;
+      user-select: none;
+      display: flex; align-items: center; justify-content: center;
+    }
 
-    /* close */
-    #nxp-close{position:absolute;top:13px;left:14px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:20}
-    #nxp-close:hover{background:#c9a84c;color:#0c0c11;border-color:#c9a84c}
+    #nxp-sl-track {
+      display: flex;
+      width: 100%; height: 100%;
+      transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
 
-    /* ── Thumbnail strip ── */
-    #nxp-thumbs{display:flex;gap:6px;padding:10px 20px;overflow-x:auto;background:rgba(0,0,0,.35);flex-shrink:0;scrollbar-width:thin;scrollbar-color:rgba(201,168,76,.13) transparent}
-    #nxp-thumbs::-webkit-scrollbar{height:3px}
-    #nxp-thumbs::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2)}
-    .nxp-thumb{width:70px;height:46px;flex-shrink:0;border-radius:3px;overflow:hidden;border:1.5px solid transparent;cursor:pointer;opacity:.55;transition:border-color .2s,opacity .2s}
-    .nxp-thumb:hover,.nxp-thumb.active{border-color:#c9a84c;opacity:1}
-    .nxp-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .nxp-slide {
+      min-width: 100%; width: 100%; flex: 0 0 100%; flex-shrink: 0; height: 100%;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      background: #040710;
+    }
 
-    /* ── Body ── */
-    #nxp-body{padding:26px 30px 34px}
+    .nxp-slide img {
+      max-width: 100%; max-height: 100%;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+    }
 
-    #nxp-m-tag{display:inline-block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#c9a84c;border:1px solid rgba(201,168,76,.2);padding:4px 10px;border-radius:2px;margin-bottom:11px}
-    #nxp-m-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:600;color:#fff;line-height:1.25;margin-bottom:9px}
-    #nxp-m-loc{display:flex;align-items:center;gap:6px;font-size:.79rem;color:#6b6879;margin-bottom:22px}
+    .nxp-slide-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 65%, rgba(4,7,16,0.7) 100%);
+      pointer-events: none;
+    }
 
-    /* stats grid */
-    #nxp-m-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:4px;overflow:hidden;margin-bottom:22px}
-    .nxp-stat{background:#1b1b24;padding:15px 17px;display:flex;flex-direction:column;gap:4px}
-    .nxp-stat-l{font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879}
-    .nxp-stat-v{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:500;color:#fff}
+    /* ZERO CIRCLES / NO DOTS PER USER REQUIREMENT */
 
-    /* features */
-    .nxp-feats-title{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#6b6879;margin-bottom:10px}
-    .nxp-feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:7px;margin-bottom:22px}
-    .nxp-feat-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:8px 12px;background:#1b1b24;border:1px solid rgba(255,255,255,.07);border-radius:3px;font-size:.76rem}
-    .nxp-feat-row .fl{color:#6b6879}.nxp-feat-row .fv{color:#e3dfd7;font-weight:500;text-align:right}
+    /* Sleek Frosted Glass Chevrons */
+    .nxp-sl-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #f8fafc; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 15;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .nxp-sl-btn:hover {
+      background: #d4af37;
+      border-color: #d4af37;
+      color: #070d18;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    }
+    #nxp-sl-prev { left: 18px; }
+    #nxp-sl-next { right: 18px; }
 
-    /* description */
-    #nxp-m-desc{font-size:.82rem;line-height:1.65;color:#6b6879;margin-bottom:22px;padding:14px 16px;background:#1b1b24;border:1px solid rgba(255,255,255,.07);border-radius:4px}
+    /* Top Left Close Button inside Gallery */
+    #nxp-close {
+      position: absolute; top: 16px; left: 18px; z-index: 25;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #f8fafc; font-size: 1.05rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    #nxp-close:hover {
+      background: #d4af37;
+      color: #070d18;
+      border-color: #d4af37;
+      transform: scale(1.08);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+    }
 
-    /* price bar */
-    #nxp-m-price-bar{display:flex;align-items:baseline;gap:14px;padding:20px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:20px}
-    .nxp-price-lbl{font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879}
-    #nxp-m-price{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;color:#e8c97a;line-height:1}
+    /* Top Right Photo Counter Badge & Fullscreen */
+    .nxp-gallery-top-right {
+      position: absolute; top: 16px; right: 18px; z-index: 20;
+      display: flex; align-items: center; gap: 8px;
+    }
 
-    /* agent */
-    #nxp-m-agent{display:flex;align-items:center;gap:14px;background:#1b1b24;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:15px 17px;margin-bottom:20px}
-    #nxp-m-agent img{width:44px;height:44px;border-radius:50%;border:1px solid #c9a84c;object-fit:cover;flex-shrink:0}
-    .nxp-agent-av-placeholder{width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,.13);border:1px solid #c9a84c;display:flex;align-items:center;justify-content:center;color:#c9a84c;font-size:.9rem;flex-shrink:0}
-    .nxp-aname{font-size:.88rem;font-weight:500;color:#fff}
-    .nxp-aoff{font-size:.67rem;color:#c9a84c;margin-top:2px;letter-spacing:.07em}
+    #nxp-sl-count {
+      background: rgba(7, 13, 24, 0.8);
+      backdrop-filter: blur(10px);
+      color: #f4e4a6;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+      padding: 6px 14px; border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
 
-    /* actions */
-    #nxp-m-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .nxp-btn{flex:1;padding:13px;border-radius:3px;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s;border:1px solid transparent}
-    .nxp-btn-gold{background:#c9a84c;color:#0c0c11;border-color:#c9a84c}
-    .nxp-btn-gold:hover{background:#e8c97a;border-color:#e8c97a}
-    .nxp-btn-out{background:transparent;color:#e3dfd7;border-color:rgba(255,255,255,.07)}
-    .nxp-btn-out:hover{border-color:#c9a84c;color:#c9a84c}
-    .nxp-btn-kredi{background:rgba(201,168,76,.12);color:#c9a84c;border-color:rgba(201,168,76,.3)}
-    .nxp-btn-kredi:hover{background:#c9a84c;color:#0c0c11;border-color:#c9a84c}
+    #nxp-fullscreen-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #f4e4a6; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+    }
+    #nxp-fullscreen-btn:hover {
+      background: #d4af37; color: #070d18; border-color: #d4af37;
+    }
 
-    /* loader */
-    #nxp-loader{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;gap:16px;color:#6b6879;font-size:.82rem}
-    .nxp-spinner{width:36px;height:36px;border:3px solid rgba(201,168,76,.15);border-top-color:#c9a84c;border-radius:50%;animation:nxpSpin .75s linear infinite}
-    @keyframes nxpSpin{to{transform:rotate(360deg)}}
+    /* Thumbnail Filmstrip */
+    #nxp-thumbs {
+      display: flex; gap: 7px;
+      padding: 12px 18px;
+      overflow-x: auto;
+      background: rgba(4, 7, 14, 0.95);
+      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      flex-shrink: 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.25) transparent;
+    }
+    #nxp-thumbs::-webkit-scrollbar { height: 4px; }
+    #nxp-thumbs::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 2px; }
 
-    /* no-img */
-    .nxp-no-img{width:100%;height:280px;display:flex;align-items:center;justify-content:center;background:#1b1b24;color:#6b6879;font-size:.8rem}
+    .nxp-thumb {
+      width: 84px; height: 56px;
+      flex-shrink: 0; border-radius: 8px; overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer; opacity: 0.45;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      background: #020408;
+    }
+    .nxp-thumb:hover {
+      opacity: 0.85; transform: translateY(-2px);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+    .nxp-thumb.active {
+      border-color: #d4af37; opacity: 1; transform: translateY(-2px);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.45);
+    }
+    .nxp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .nxp-thumb-num {
+      position: absolute; bottom: 3px; right: 4px;
+      font-size: 0.58rem; font-weight: 700; color: #f4e4a6;
+      background: rgba(7, 13, 24, 0.8);
+      padding: 1px 5px; border-radius: 3px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
 
-    /* responsive */
-    @media(max-width:600px){
-      #nxp-body{padding:18px 16px 28px}
-      #nxp-m-title{font-size:1.3rem}
-      #nxp-m-price{font-size:1.8rem}
-      #nxp-m-actions{grid-template-columns:1fr}
-      .nxp-sl-btn{display:none}
+    /* ── RIGHT: VIP Dossier & Intelligence Panel (42%) ── */
+    #nxp-info {
+      flex: 1;
+      background: #090f1d;
+      overflow-y: auto;
+      position: relative;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.2) transparent;
+      display: flex; flex-direction: column;
+    }
+    #nxp-info::-webkit-scrollbar { width: 4px; }
+    #nxp-info::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 2px; }
+
+    #nxp-body {
+      padding: 32px 36px 44px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+
+    /* Category & Verification Deck */
+    .nxp-header-deck {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+    }
+    #nxp-m-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #fde047; border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 5px 13px; border-radius: 20px;
+      background: rgba(212, 175, 55, 0.12);
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.15);
+    }
+    .nxp-verified-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
+      color: #38bdf8; background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 10px; border-radius: 20px;
+    }
+
+    #nxp-m-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; font-weight: 700;
+      color: #ffffff; line-height: 1.3;
+      margin: 0 0 10px 0;
+      letter-spacing: -0.01em;
+    }
+
+    #nxp-m-loc {
+      display: flex; align-items: center; gap: 7px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem; color: #94a3b8;
+      margin-bottom: 22px;
+    }
+    #nxp-m-loc i, #nxp-m-loc svg { color: #d4af37; font-size: 0.9rem; flex-shrink: 0; }
+
+    /* Executive Specification Grid */
+    #nxp-m-stats {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 10px; margin-bottom: 24px;
+    }
+    .nxp-stat-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      transition: all 0.25s ease;
+    }
+    .nxp-stat-card:hover {
+      background: rgba(212, 175, 55, 0.06);
+      border-color: rgba(212, 175, 55, 0.35);
+      transform: translateY(-1px);
+    }
+    .nxp-stat-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: #f4e4a6; font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nxp-stat-content {
+      display: flex; flex-direction: column; gap: 2px; min-width: 0;
+    }
+    .nxp-stat-l {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #94a3b8;
+    }
+    .nxp-stat-v {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem; font-weight: 700; color: #f8fafc;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Detailed Features Grid */
+    .nxp-feats-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #d4af37;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nxp-feat-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 7px; margin-bottom: 24px;
+    }
+    .nxp-feat-row {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 8px; padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px; font-size: 0.78rem;
+    }
+    .nxp-feat-row .fl { color: #94a3b8; font-weight: 500; }
+    .nxp-feat-row .fv { color: #f1f5f9; font-weight: 600; text-align: right; }
+
+    /* Description */
+    #nxp-m-desc {
+      font-size: 0.86rem; line-height: 1.75; color: #cbd5e1;
+      margin-bottom: 24px; padding: 18px 20px;
+      background: rgba(4, 9, 18, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-left: 3px solid #d4af37;
+      border-radius: 8px;
+    }
+
+    /* VIP Financial Deck */
+    #nxp-m-price-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      padding: 22px 24px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(7, 13, 24, 0.8) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 12px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .nxp-price-meta { display: flex; flex-direction: column; gap: 3px; }
+    .nxp-price-lbl {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #d4af37;
+    }
+    #nxp-m-price {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.3rem; font-weight: 800; color: #fde047;
+      line-height: 1; letter-spacing: 0.02em;
+      text-shadow: 0 0 25px rgba(253, 224, 71, 0.3);
+    }
+    .nxp-price-status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.72rem; font-weight: 700; color: #34d399;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 6px 12px; border-radius: 20px;
+    }
+
+    /* Agent Deck */
+    #nxp-m-agent {
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 12px; padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+    #nxp-m-agent img, .nxp-agent-av-placeholder {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 2px solid #d4af37; object-fit: cover; flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+    }
+    .nxp-aname {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700; color: #f8fafc;
+    }
+    .nxp-aoff {
+      font-size: 0.7rem; color: #d4af37; margin-top: 2px; font-weight: 600;
+    }
+    .nxp-astars {
+      color: #fbbf24; font-size: 0.75rem; margin-top: 3px; letter-spacing: 1px;
+    }
+
+    /* VIP Action Console */
+    #nxp-m-actions {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 0.8fr;
+      gap: 10px; margin-bottom: 0;
+    }
+    .nxp-btn {
+      padding: 14px 12px; border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.25s ease; border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .nxp-btn-wa {
+      background: linear-gradient(135deg, #25D366 0%, #15803d 100%);
+      color: #ffffff !important; border-color: #25D366;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+    }
+    .nxp-btn-wa:hover {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    }
+    .nxp-btn-call {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8 !important; border-color: rgba(56, 189, 248, 0.4);
+    }
+    .nxp-btn-call:hover {
+      background: #38bdf8; color: #070d18 !important;
+      transform: translateY(-1px);
+    }
+    .nxp-btn-kredi {
+      background: rgba(212, 175, 55, 0.14);
+      color: #f4e4a6 !important; border-color: rgba(212, 175, 55, 0.4);
+    }
+    .nxp-btn-kredi:hover {
+      background: #d4af37; color: #070d18 !important;
+      transform: translateY(-1px);
+    }
+    .nxp-btn-out {
+      background: rgba(255, 255, 255, 0.04);
+      color: #94a3b8 !important; border-color: rgba(255, 255, 255, 0.1);
+    }
+    .nxp-btn-out:hover {
+      background: rgba(255, 255, 255, 0.08); color: #f8fafc !important;
+    }
+
+    /* Kredi Simulator Panel */
+    #nxp-kredi-panel {
+      margin-top: 18px; padding: 22px 24px;
+      background: #050811; border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 12px; display: none;
+    }
+    .nxp-kredi-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px;
+    }
+    .nxp-kredi-header h3 {
+      font-family: 'Playfair Display', serif; color: #fde047; font-size: 1.05rem; margin: 0;
+    }
+    .nxp-kredi-close {
+      background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer;
+    }
+    .nxp-kredi-inputs {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px;
+    }
+    .nxp-kredi-inputs label {
+      font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8;
+      display: block; margin-bottom: 6px;
+    }
+    .nxp-kredi-inputs input, .nxp-kredi-inputs select {
+      width: 100%; background: #080e1a;
+      border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 8px;
+      padding: 10px 12px; color: #f8fafc; font-size: 0.86rem; outline: none;
+    }
+    #nxp-kredi-result {
+      background: #080e1a; border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 10px; padding: 18px; margin-top: 14px;
+    }
+    .nxp-k-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center; }
+    .nxp-k-row .kl { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; margin-bottom: 4px; }
+    .nxp-k-row .kv { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; color: #fde047; }
+    .nxp-kredi-note { font-size: 0.65rem; color: #64748b; margin-top: 10px; text-align: center; }
+
+    /* Lightbox */
+    #nxp-lightbox {
+      position: fixed; inset: 0; z-index: 9999999;
+      background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(16px);
+      display: none; align-items: center; justify-content: center;
+    }
+    #nxp-lightbox.open { display: flex; }
+    #nxp-lb-img { max-width: 92%; max-height: 88vh; object-fit: contain; }
+    #nxp-lb-close {
+      position: absolute; top: 20px; right: 24px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fff; font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    #nxp-lb-close:hover { background: #d4af37; color: #070d18; }
+    #nxp-lb-prev, #nxp-lb-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 54px; height: 54px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.7); border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fff; font-size: 1.3rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    #nxp-lb-prev:hover, #nxp-lb-next:hover { background: #d4af37; color: #070d18; }
+    #nxp-lb-prev { left: 24px; } #nxp-lb-next { right: 24px; }
+    #nxp-lb-counter {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      color: #f4e4a6; font-size: 0.8rem; font-weight: 700;
+      background: rgba(7, 13, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 6px 18px; border-radius: 20px;
+    }
+
+    /* Loader & No-Img */
+    #nxp-loader {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 90px 30px; gap: 16px; color: #94a3b8; font-size: 0.88rem;
+    }
+    .nxp-spinner {
+      width: 42px; height: 42px;
+      border: 3px solid rgba(212, 175, 55, 0.15); border-top-color: #d4af37;
+      border-radius: 50%; animation: nxpSpin 0.75s linear infinite;
+    }
+    @keyframes nxpSpin { to { transform: rotate(360deg); } }
+
+    /* Responsive Breakpoints */
+    @media(max-width: 960px) {
+      #nxp-modal { flex-direction: column; overflow-y: auto; }
+      #nxp-gallery { flex: 0 0 auto; height: 380px; max-height: 50vh; border-right: none; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+      #nxp-info { flex: 1; overflow-y: visible; }
+      #nxp-body { padding: 22px 20px 36px; }
+      #nxp-m-title { font-size: 1.35rem; }
+      #nxp-m-price { font-size: 1.8rem; }
+      #nxp-m-actions { grid-template-columns: 1fr 1fr; }
+      .nxp-btn-wa { grid-column: 1 / -1; }
+    }
+    @media(max-width: 600px) {
+      #nxp-gallery { height: 300px; max-height: 42vh; }
+      .nxp-sl-btn { width: 38px; height: 38px; font-size: 0.95rem; }
+      #nxp-m-stats { grid-template-columns: 1fr; }
+      .nxp-feat-grid { grid-template-columns: 1fr; }
+      #nxp-kredi-inputs { grid-template-columns: 1fr; }
+    }
+
+    /* Persona VIP Trigger Button */
+    .nxp-persona-vip-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(212,175,55,0.18) 0%, rgba(16,185,129,0.18) 100%);
+      border: 1px solid rgba(212,175,55,0.45);
+      color: #ffffff;
+      padding: 13px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .nxp-persona-vip-btn:hover {
+      background: linear-gradient(135deg, rgba(212,175,55,0.32) 0%, rgba(16,185,129,0.32) 100%);
+      border-color: rgba(212,175,55,0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212,175,55,0.25);
+    }
+    .nxp-persona-pulse-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 12px #10b981;
+      animation: nxpRadarPulse 1.8s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes nxpRadarPulse {
+      0% { transform: scale(0.95); opacity: 0.95; }
+      50% { transform: scale(1.4); opacity: 0.45; }
+      100% { transform: scale(0.95); opacity: 0.95; }
     }
 
     /* ══════════════════════════════════════════════════════════════════
@@ -15796,108 +16231,176 @@
   </style>
 
   <!-- Modal HTML -->
+  <!-- ══════════════════════════════════════════════════════════════════
+       NEXA PREVIEW — ULTRA-PREMIUM HAUTE COUTURE LISTING SUITE
+       Zero Circles / Unobstructed Visuals / Master Dossier
+       ══════════════════════════════════════════════════════════════════ -->
   <div id="nxp-overlay" role="dialog" aria-modal="true" aria-label="İlan Önizleme">
     <div id="nxp-modal">
-      <!-- Kapat -->
-      <button id="nxp-close" aria-label="Kapat">✕</button>
 
-      <!-- SLIDER -->
-      <div id="nxp-sl-wrap">
-        <div id="nxp-sl-track"></div>
-        <button class="nxp-sl-btn" id="nxp-sl-prev">&#8592;</button>
-        <button class="nxp-sl-btn" id="nxp-sl-next">&#8594;</button>
-        <div id="nxp-sl-dots"></div>
-        <div id="nxp-sl-count">1 / 1</div>
-      </div>
+      <!-- ── LEFT: Cinematic Gallery Stage (58%) ────────────────── -->
+      <div id="nxp-gallery">
+        <!-- Close button (Top Left) -->
+        <button id="nxp-close" aria-label="Kapat" title="Kapat">✕</button>
 
-      <!-- THUMBNAIL STRIP -->
-      <div id="nxp-thumbs"></div>
-
-      <!-- LOADER (scrape sırasında) -->
-      <div id="nxp-loader" style="display:none">
-        <div class="nxp-spinner"></div>
-        <span id="nxp-loader-msg">İlan bilgileri alınıyor…</span>
-      </div>
-
-      <!-- BODY -->
-      <div id="nxp-body" style="display:none">
-        <div id="nxp-m-tag"></div>
-        <h2 id="nxp-m-title"></h2>
-        <div id="nxp-m-loc">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span id="nxp-m-loc-text"></span>
-        </div>
-        <div id="nxp-m-stats"></div>
-        <div id="nxp-m-feats"></div>
-        <div id="nxp-m-desc"></div>
-        <div id="nxp-m-price-bar">
-          <span class="nxp-price-lbl">Satış Fiyatı</span>
-          <span id="nxp-m-price">—</span>
-        </div>
-        <div id="nxp-m-agent"></div>
-        <div id="nxp-m-persona-wrap" style="margin: 16px 0 12px 0;">
-          <button id="nxp-m-persona-btn" onclick="openPersonaFromPreview()" class="nxp-persona-vip-btn" type="button">
-            <div class="nxp-persona-pulse-dot"></div>
-            <div style="text-align:left; flex:1;">
-              <div style="font-size:10.5px; font-weight:800; letter-spacing:0.8px; text-transform:uppercase; opacity:0.85;">NEXA AI Swarm Intelligence</div>
-              <div style="font-size:13.5px; font-weight:700;">🎯 Bu Portföy Kimler İçin Uygun? (Canlı Hedef Kitle Analizi)</div>
-            </div>
-            <i class="fas fa-chevron-right" style="font-size:13px; opacity:0.7;"></i>
+        <!-- Top Right Indicators: Photo Counter & Fullscreen -->
+        <div class="nxp-gallery-top-right">
+          <div id="nxp-sl-count"><i class="fas fa-camera"></i> <span>1 / 1</span></div>
+          <button id="nxp-fullscreen-btn" title="Tam Ekran Büyüt" aria-label="Tam Ekran">
+            <i class="fas fa-expand-alt"></i>
           </button>
         </div>
-        <div id="nxp-m-actions">
-          <a class="nxp-btn nxp-btn-gold" id="nxp-m-link" href="#" target="_blank" rel="noopener" style="background:#25D366;border-color:#25D366;color:#fff;">
-            <i class="fab fa-whatsapp" style="font-size:15px;"></i>
-            WhatsApp
-          </a>
-          <a class="nxp-btn" id="nxp-m-call" href="tel:+905324514008" style="background:rgba(59,130,246,.15);color:#60a5fa;border-color:rgba(59,130,246,.3);">
-            <i class="fas fa-phone" style="font-size:13px;"></i>
-            Ara
-          </a>
-          <button class="nxp-btn nxp-btn-kredi" id="nxp-m-kredi" onclick="nexaShowKredi()">
-            <i class="fas fa-calculator" style="font-size:13px;"></i>
-            Kredi Hesapla
+
+        <!-- Slider Stage -->
+        <div id="nxp-sl-wrap">
+          <div id="nxp-sl-track"></div>
+          <!-- Sleek Frosted Glass Chevrons -->
+          <button class="nxp-sl-btn" id="nxp-sl-prev" aria-label="Önceki Fotoğraf">
+            <i class="fas fa-chevron-left"></i>
           </button>
-          <button class="nxp-btn nxp-btn-out" id="nxp-m-close2">Kapat</button>
+          <button class="nxp-sl-btn" id="nxp-sl-next" aria-label="Sonraki Fotoğraf">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <!-- NO DOTS / NO CIRCLES AT ALL! (Purged per user request) -->
         </div>
-        <!-- Kredi Hesaplama Paneli -->
-        <div id="nxp-kredi-panel" style="display:none;padding:20px 30px;background:#1b1b24;border-top:1px solid rgba(255,255,255,.07);">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-            <h3 style="font-family:'Playfair Display',serif;color:#e8c97a;font-size:1.1rem;">Konut Kredisi Hesapla</h3>
-            <button onclick="document.getElementById('nxp-kredi-panel').style.display='none'" style="background:none;border:none;color:#6b6879;cursor:pointer;font-size:1.2rem;">✕</button>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px;">
-            <div>
-              <label style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879;display:block;margin-bottom:6px;">Kredi Tutarı (₺)</label>
-              <input id="nxp-kredi-amount" type="number" placeholder="Örn: 3.000.000" style="width:100%;background:#0c0c11;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:10px 12px;color:#e3dfd7;font-size:.85rem;outline:none;">
-            </div>
-            <div>
-              <label style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879;display:block;margin-bottom:6px;">Vade (Ay)</label>
-              <select id="nxp-kredi-vade" style="width:100%;background:#0c0c11;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:10px 12px;color:#e3dfd7;font-size:.85rem;outline:none;">
-                <option value="60">60 Ay (5 Yıl)</option>
-                <option value="84">84 Ay (7 Yıl)</option>
-                <option value="120" selected>120 Ay (10 Yıl)</option>
-                <option value="180">180 Ay (15 Yıl)</option>
-                <option value="240">240 Ay (20 Yıl)</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879;display:block;margin-bottom:6px;">Aylık Faiz (%)</label>
-              <input id="nxp-kredi-faiz" type="number" step="0.01" value="3.09" style="width:100%;background:#0c0c11;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:10px 12px;color:#e3dfd7;font-size:.85rem;outline:none;">
-            </div>
-          </div>
-          <button onclick="nexaKrediHesapla()" style="background:#c9a84c;color:#0c0c11;border:none;border-radius:4px;padding:11px 28px;font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%;margin-bottom:14px;">Hesapla</button>
-          <div id="nxp-kredi-result" style="display:none;background:#0c0c11;border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:16px;">
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;">
-              <div><div style="font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879;margin-bottom:4px;">Aylık Taksit</div><div id="nxp-k-taksit" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#e8c97a;font-weight:600;"></div></div>
-              <div><div style="font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879;margin-bottom:4px;">Toplam Ödeme</div><div id="nxp-k-toplam" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;font-weight:600;"></div></div>
-              <div><div style="font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6879;margin-bottom:4px;">Toplam Faiz</div><div id="nxp-k-faiz" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#e3dfd7;font-weight:600;"></div></div>
-            </div>
-          </div>
-          <p style="font-size:.6rem;color:#6b6879;margin-top:10px;text-align:center;">* Bu hesaplama tahminidir, bankadan onay alınız.</p>
-        </div>
+
+        <!-- Luxury Thumbnail Filmstrip -->
+        <div id="nxp-thumbs"></div>
       </div>
-    </div>
+
+      <!-- ── RIGHT: VIP Dossier & Intelligence Panel (42%) ───────── -->
+      <div id="nxp-info">
+        <!-- Loader during scrape / API fetch -->
+        <div id="nxp-loader" style="display:none">
+          <div class="nxp-spinner"></div>
+          <span id="nxp-loader-msg">VIP Portföy Verileri Doğrulanıyor…</span>
+        </div>
+
+        <!-- Body Content -->
+        <div id="nxp-body" style="display:none">
+          <!-- Tag & Verification Header -->
+          <div class="nxp-header-deck">
+            <span id="nxp-m-tag">DAİRE · SATILIK</span>
+            <span class="nxp-verified-badge"><i class="fas fa-certificate"></i> COLDWELL BANKER VIP ONAYLI</span>
+          </div>
+
+          <h2 id="nxp-m-title">Portföy Başlığı</h2>
+          
+          <div id="nxp-m-loc">
+            <i class="fas fa-map-marker-alt"></i>
+            <span id="nxp-m-loc-text">Ankara</span>
+          </div>
+
+          <!-- VIP Financial Deck -->
+          <div id="nxp-m-price-bar">
+            <div class="nxp-price-meta">
+              <span class="nxp-price-lbl">PORTFÖY SATIŞ / KİRA DEĞERİ</span>
+              <span id="nxp-m-price">—</span>
+            </div>
+            <div class="nxp-price-status-badge">
+              <i class="fas fa-shield-alt"></i> Tek Yetkili Portföy
+            </div>
+          </div>
+
+          <!-- Executive Specification Tiles -->
+          <div id="nxp-m-stats"></div>
+
+          <!-- Detailed Features Grid -->
+          <div id="nxp-m-feats"></div>
+
+          <!-- Description / Expert Note -->
+          <div id="nxp-m-desc"></div>
+
+          <!-- Danışman Deck -->
+          <div id="nxp-m-agent">
+            <img src="https://media.cb.com.tr/OfficeUserImages/4979/Yig-it-Bey1_3S207WHO46_295X350.png"
+                 alt="Yiğit Narin"
+                 onerror="this.src='/static/yigit_narin_portrait.png'">
+            <div>
+              <div class="nxp-aname">Yiğit Narin</div>
+              <div class="nxp-aoff">Coldwell Banker CB VIP · Gayrimenkul Mühendisi</div>
+              <div class="nxp-astars">★★★★★ 5.0 (Doğrulanmış VIP Danışman)</div>
+            </div>
+          </div>
+
+          <!-- NEXA AI Swarm Target Persona Integration -->
+          <div id="nxp-m-persona-wrap" style="margin: 16px 0 14px 0;">
+            <button id="nxp-m-persona-btn" onclick="openPersonaFromPreview()" class="nxp-persona-vip-btn" type="button">
+              <div class="nxp-persona-pulse-dot"></div>
+              <div style="text-align:left; flex:1;">
+                <div style="font-size:10px; font-weight:800; letter-spacing:0.8px; text-transform:uppercase; opacity:0.85; color:#fde047;">NEXA AI Swarm Intelligence</div>
+                <div style="font-size:13px; font-weight:700; color:#ffffff;">🎯 Bu Portföy Kimler İçin Uygun? (Canlı Hedef Kitle Analizi)</div>
+              </div>
+              <i class="fas fa-chevron-right" style="font-size:13px; color:#d4af37;"></i>
+            </button>
+          </div>
+
+          <!-- Action Console -->
+          <div id="nxp-m-actions">
+            <a class="nxp-btn nxp-btn-wa" id="nxp-m-link" href="#" target="_blank" rel="noopener">
+              <i class="fab fa-whatsapp" style="font-size:16px;"></i> WhatsApp VIP
+            </a>
+            <a class="nxp-btn nxp-btn-call" id="nxp-m-call" href="tel:+905324514008">
+              <i class="fas fa-phone-alt"></i> Danışmanı Ara
+            </a>
+            <button class="nxp-btn nxp-btn-kredi" id="nxp-m-kredi" onclick="nexaShowKredi()" type="button">
+              <i class="fas fa-calculator"></i> Kredi Hesapla
+            </button>
+            <button class="nxp-btn nxp-btn-out" id="nxp-m-close2" type="button">✕ Kapat</button>
+          </div>
+
+          <!-- Kredi Hesaplama Paneli -->
+          <div id="nxp-kredi-panel" style="display:none;">
+            <div class="nxp-kredi-header">
+              <h3><i class="fas fa-calculator" style="color:var(--gold);margin-right:8px;"></i>Konut Kredisi Hesaplama Simülatörü</h3>
+              <button class="nxp-kredi-close" onclick="document.getElementById('nxp-kredi-panel').style.display='none'" type="button">✕</button>
+            </div>
+            <div class="nxp-kredi-inputs">
+              <div>
+                <label>Kredi Tutarı (₺)</label>
+                <input id="nxp-kredi-amount" type="number" placeholder="Örn: 3.000.000">
+              </div>
+              <div>
+                <label>Vade (Ay)</label>
+                <select id="nxp-kredi-vade">
+                  <option value="60">60 Ay (5 Yıl)</option>
+                  <option value="84">84 Ay (7 Yıl)</option>
+                  <option value="120" selected>120 Ay (10 Yıl)</option>
+                  <option value="180">180 Ay (15 Yıl)</option>
+                  <option value="240">240 Ay (20 Yıl)</option>
+                </select>
+              </div>
+              <div>
+                <label>Aylık Faiz Oranı (%)</label>
+                <input id="nxp-kredi-faiz" type="number" step="0.01" value="3.09">
+              </div>
+            </div>
+            <button onclick="nexaKrediHesapla()" class="nxp-btn nxp-btn-kredi" style="width:100%;margin-top:10px;" type="button">
+              <i class="fas fa-chart-line"></i> Simülasyonu Çalıştır
+            </button>
+            <div id="nxp-kredi-result" style="display:none;">
+              <div class="nxp-k-row">
+                <div><div class="kl">Aylık Taksit</div><div class="kv" id="nxp-k-taksit">0 ₺</div></div>
+                <div><div class="kl">Toplam Geri Ödeme</div><div class="kv" id="nxp-k-toplam">0 ₺</div></div>
+                <div><div class="kl">Toplam Faiz Maliyeti</div><div class="kv" id="nxp-k-faiz">0 ₺</div></div>
+              </div>
+              <p class="nxp-kredi-note">* Hesaplanan değerler bağlayıcı olmayan piyasa simülasyonudur.</p>
+            </div>
+          </div>
+
+        </div><!-- /nxp-body -->
+      </div><!-- /nxp-info -->
+
+    </div><!-- /nxp-modal -->
+  </div><!-- /nxp-overlay -->
+
+  <!-- Fullscreen Lightbox Stage -->
+  <div id="nxp-lightbox" role="dialog" aria-modal="true" aria-label="Görsel Büyütme">
+    <button id="nxp-lb-close" aria-label="Kapat">✕</button>
+    <button id="nxp-lb-prev" aria-label="Önceki"><i class="fas fa-chevron-left"></i></button>
+    <button id="nxp-lb-next" aria-label="Sonraki"><i class="fas fa-chevron-right"></i></button>
+    <img id="nxp-lb-img" src="" alt="Büyütülmüş Fotoğraf">
+    <div id="nxp-lb-counter">1 / 1</div>
   </div>
 
   <!-- ══ NEXA AI SWARM PERSONA INTELLIGENCE MODAL ═══════════════════════════ -->
@@ -16048,15 +16551,65 @@
   </div>
 
   <script>
-  // ── NexaPreview ─────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+  // NEXA PREVIEW CONTROLLER — UNIFIED ULTRA-PREMIUM SUITE
+  // ══════════════════════════════════════════════════════════════════
   (function () {
     'use strict';
-    var images = [], curIdx = 0, swipeX0 = null, swipeActive = false;
-
+    var images = [], curIdx = 0;
+    var swipeX0 = null, swipeActive = false;
     function $(id){ return document.getElementById(id); }
-    function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function esc(s){ return window.escapeHtml ? window.escapeHtml(String(s||'')) : String(s||''); }
 
-    // ── Slider ──────────────────────────────────────────────────────────────
+    /* ── Build slider & thumbs (ZERO DOTS!) ── */
+    function buildSlider(imgs){
+      images = (imgs && imgs.length) ? imgs : [];
+      curIdx = 0;
+      var track = $('nxp-sl-track');
+      var thumbs = $('nxp-thumbs');
+      var count = $('nxp-sl-count');
+
+      if(!images.length){
+        track.innerHTML = '<div class="nxp-slide"><div style="color:#64748b;font-size:0.9rem;"><i class="fas fa-image" style="font-size:2rem;margin-bottom:8px;display:block;opacity:0.4;"></i>Görsel mevcut değil</div></div>';
+        if(thumbs) { thumbs.innerHTML = ''; thumbs.style.display = 'none'; }
+        if(count) count.innerHTML = '<i class="fas fa-camera"></i> <span>0 / 0</span>';
+        document.querySelectorAll('.nxp-sl-btn').forEach(function(b){ b.style.display = 'none'; });
+        var fs = $('nxp-fullscreen-btn'); if(fs) fs.style.display = 'none';
+        return;
+      }
+
+      // Eager preloading
+      images.forEach(function(src){
+        if(src){
+          var pre = new Image();
+          pre.src = src;
+        }
+      });
+
+      track.innerHTML = images.map(function(src, i){
+        return '<div class="nxp-slide">' +
+          '<img src="' + esc(src) + '" alt="Fotoğraf ' + (i+1) + '" loading="eager" draggable="false" onerror="this.onerror=null;this.src=\'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80\'">' +
+          '<div class="nxp-slide-overlay"></div>' +
+        '</div>';
+      }).join('');
+
+      if(thumbs) {
+        thumbs.innerHTML = images.map(function(src, i){
+          return '<div class="nxp-thumb' + (i === 0 ? ' active' : '') + '" data-i="' + i + '">' +
+            '<img src="' + esc(src) + '" alt="" loading="eager" onerror="this.style.opacity=\'0.3\'">' +
+            '<span class="nxp-thumb-num">' + (i + 1) + '</span>' +
+          '</div>';
+        }).join('');
+
+        thumbs.style.display = images.length > 1 ? 'flex' : 'none';
+      }
+
+      var fsBtn = $('nxp-fullscreen-btn');
+      if(fsBtn) fsBtn.style.display = '';
+
+      updateSlider();
+    }
+
     function preloadAdjacent(idx){
       var n = images.length;
       if(n <= 1) return;
@@ -16069,50 +16622,6 @@
       });
     }
 
-    function buildSlider(imgs){
-      images = (imgs && imgs.length) ? imgs : [''];
-      curIdx = 0;
-      var track  = $('nxp-sl-track');
-      var dots   = $('nxp-sl-dots');
-      var thumbs = $('nxp-thumbs');
-
-      // Eager preloading for instant modal rendering
-      images.forEach(function(src){
-        if(src){
-          var pre = new Image();
-          pre.src = src;
-        }
-      });
-
-      track.innerHTML = images.map(function(src, i){
-        return src
-          ? '<div class="nxp-slide"><img src="'+esc(src)+'" alt="Fotoğraf '+(i+1)+'" loading="eager" onerror="this.onerror=null;this.src=\'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=80\'"><div class="nxp-slide-overlay"></div></div>'
-          : '<div class="nxp-slide"><div class="nxp-no-img">Görsel mevcut değil</div></div>';
-      }).join('');
-
-      dots.innerHTML = images.length > 1
-        ? images.map(function(_,i){ return '<button class="nxp-dot'+(i===0?' active':'')+'" data-i="'+i+'"></button>'; }).join('')
-        : '';
-
-      thumbs.innerHTML = images.length > 1
-        ? images.map(function(src,i){
-            return '<div class="nxp-thumb'+(i===0?' active':'')+'" data-i="'+i+'"><img src="'+esc(src)+'" alt="" loading="eager" onerror="this.style.opacity=\'0.3\'"></div>';
-          }).join('')
-        : '';
-
-      updateSlider();
-    }
-
-    // Thumbnail ve dot click — tek seferlik event delegation
-    $('nxp-sl-dots').addEventListener('click', function(e){
-      var btn = e.target.closest('.nxp-dot');
-      if(btn) goSlide(+btn.getAttribute('data-i'));
-    });
-    $('nxp-thumbs').addEventListener('click', function(e){
-      var th = e.target.closest('.nxp-thumb');
-      if(th) goSlide(+th.getAttribute('data-i'));
-    });
-
     function updateSlider(){
       var n = images.length || 1;
       var track = $('nxp-sl-track');
@@ -16120,17 +16629,26 @@
         track.style.transform = 'translateX(-' + (curIdx * 100) + '%)';
       }
       var count = $('nxp-sl-count');
-      if (count) count.textContent = (curIdx + 1) + ' / ' + n;
+      if (count) count.innerHTML = '<i class="fas fa-camera"></i> <span>' + (curIdx + 1) + ' / ' + n + '</span>';
 
-      document.querySelectorAll('.nxp-dot').forEach(function(d,i){ d.classList.toggle('active', i===curIdx); });
-      var ths = $('nxp-thumbs').querySelectorAll('.nxp-thumb');
-      ths.forEach(function(t,i){
-        t.classList.toggle('active', i===curIdx);
-        if(i===curIdx) t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'});
+      var thumbs = $('nxp-thumbs');
+      if(thumbs) {
+        var ths = thumbs.querySelectorAll('.nxp-thumb');
+        ths.forEach(function(t, i){
+          t.classList.toggle('active', i === curIdx);
+          if(i === curIdx) t.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+        });
+      }
+
+      document.querySelectorAll('.nxp-sl-btn').forEach(function(b){
+        b.style.display = n > 1 ? 'flex' : 'none';
       });
-      document.querySelectorAll('.nxp-sl-btn').forEach(function(b){ b.style.display = n>1?'':'none'; });
-      $('nxp-sl-wrap').style.display = '';
-      $('nxp-thumbs').style.display = n>1 ? '' : 'none';
+
+      var lbImg = $('nxp-lb-img');
+      if(lbImg && images[curIdx]) lbImg.src = images[curIdx];
+      var lbCount = $('nxp-lb-counter');
+      if(lbCount) lbCount.textContent = (curIdx + 1) + ' / ' + n;
+
       preloadAdjacent(curIdx);
     }
 
@@ -16140,164 +16658,270 @@
       updateSlider();
     }
 
-    // Swipe
-    $('nxp-sl-track').addEventListener('mousedown',  function(e){ swipeX0=e.clientX; swipeActive=true; });
-    $('nxp-sl-track').addEventListener('touchstart', function(e){ swipeX0=e.touches[0].clientX; swipeActive=true; }, {passive:true});
-    $('nxp-sl-track').addEventListener('mousemove',  function(e){
-      if(!swipeActive) return;
-      $('nxp-sl-track').style.transition='none';
-      $('nxp-sl-track').style.transform='translateX(calc(-'+(curIdx*100)+'% + '+(e.clientX-swipeX0)+'px))';
-    });
-    $('nxp-sl-track').addEventListener('touchmove', function(e){
-      if(!swipeActive) return;
-      $('nxp-sl-track').style.transition='none';
-      $('nxp-sl-track').style.transform='translateX(calc(-'+(curIdx*100)+'% + '+(e.touches[0].clientX-swipeX0)+'px))';
-    }, {passive:true});
-    function swipeEnd(e){
-      if(!swipeActive) return;
-      swipeActive=false;
-      var dx = ((e.changedTouches?e.changedTouches[0]:e).clientX)-swipeX0;
-      $('nxp-sl-track').style.transition='transform .4s cubic-bezier(.22,.61,.36,1)';
-      if(Math.abs(dx)>50) goSlide(curIdx+(dx<0?1:-1));
-      else updateSlider();
+    // Thumb click via delegation
+    var thumbsEl = $('nxp-thumbs');
+    if(thumbsEl) {
+      thumbsEl.addEventListener('click', function(e){
+        var th = e.target.closest('.nxp-thumb');
+        if(th) goSlide(parseInt(th.getAttribute('data-i')));
+      });
     }
-    $('nxp-sl-track').addEventListener('mouseup',    swipeEnd);
-    $('nxp-sl-track').addEventListener('touchend',   swipeEnd);
-    $('nxp-sl-track').addEventListener('mouseleave', function(){ if(swipeActive){swipeActive=false; updateSlider();} });
 
-    $('nxp-sl-prev').addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx-1); });
-    $('nxp-sl-next').addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx+1); });
+    // Touch & Swipe
+    var trackEl = $('nxp-sl-track');
+    if(trackEl) {
+      trackEl.addEventListener('mousedown',  function(e){ swipeX0 = e.clientX; swipeActive = true; });
+      trackEl.addEventListener('touchstart', function(e){ swipeX0 = e.touches[0].clientX; swipeActive = true; }, { passive: true });
+      trackEl.addEventListener('mousemove',  function(e){
+        if(!swipeActive) return;
+        trackEl.style.transition = 'none';
+        trackEl.style.transform = 'translateX(calc(-' + (curIdx * 100) + '% + ' + (e.clientX - swipeX0) + 'px))';
+      });
+      trackEl.addEventListener('touchmove', function(e){
+        if(!swipeActive) return;
+        trackEl.style.transition = 'none';
+        trackEl.style.transform = 'translateX(calc(-' + (curIdx * 100) + '% + ' + (e.touches[0].clientX - swipeX0) + 'px))';
+      }, { passive: true });
 
-    // Klavye
-    document.addEventListener('keydown', function(e){
-      if(!$('nxp-overlay').classList.contains('nxp-open')) return;
-      if(e.key==='ArrowLeft')  goSlide(curIdx-1);
-      if(e.key==='ArrowRight') goSlide(curIdx+1);
-      if(e.key==='Escape')     closeModal();
-    });
+      function endSwipe(e){
+        if(!swipeActive) return;
+        swipeActive = false;
+        var clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+        var dx = clientX - swipeX0;
+        trackEl.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1)';
+        if(Math.abs(dx) > 40) goSlide(curIdx + (dx < 0 ? 1 : -1));
+        else updateSlider();
+      }
 
-    // ── Render ──────────────────────────────────────────────────────────────
-    function render(d){
-      // Slider
-      buildSlider(d.images || []);
+      trackEl.addEventListener('mouseup',    endSwipe);
+      trackEl.addEventListener('touchend',   endSwipe);
+      trackEl.addEventListener('mouseleave', function(){ if(swipeActive){ swipeActive = false; updateSlider(); } });
+    }
 
-      // Tag, başlık, lokasyon
-      $('nxp-m-tag').textContent = (d.type||'İlan')+' · '+(d.status||'Satılık');
-      $('nxp-m-title').textContent = d.title || '—';
-      $('nxp-m-loc-text').textContent = d.location || '—';
-      $('nxp-m-price').textContent = d.price || 'Fiyat sorunuz';
-      var waTitle = d.title || 'ilan';
-      var waText = encodeURIComponent('Merhaba, "' + waTitle + '" ilanı hakkında bilgi almak istiyorum.');
-      $('nxp-m-link').href = 'https://wa.me/905324514008?text=' + waText;
+    var prevBtn = $('nxp-sl-prev');
+    if(prevBtn) prevBtn.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx - 1); });
+    var nextBtn = $('nxp-sl-next');
+    if(nextBtn) nextBtn.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx + 1); });
 
-      // Stats (rooms, sqm, type, status + ilk 2 feature)
-      var statsData = [];
-      if(d.rooms)  statsData.push({l:'Oda',   v:d.rooms});
-      if(d.sqm)    statsData.push({l:'Alan',   v:d.sqm});
-      if(d.status) statsData.push({l:'Durum',  v:d.status});
-      if(d.type)   statsData.push({l:'Tür',    v:d.type});
-      var usedLabels = new Set(statsData.map(function(s){return s.l.toLowerCase();}));
-      (d.features||[]).forEach(function(f){
-        if(statsData.length>=6) return;
-        if(!usedLabels.has(f.label.toLowerCase())){
-          statsData.push({l:f.label, v:f.value});
-          usedLabels.add(f.label.toLowerCase());
+    // Fullscreen Lightbox Controls
+    var fsBtn = $('nxp-fullscreen-btn');
+    if(fsBtn) {
+      fsBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var lb = $('nxp-lightbox');
+        if(lb) {
+          lb.classList.add('open');
+          var lbImg = $('nxp-lb-img');
+          if(lbImg && images[curIdx]) lbImg.src = images[curIdx];
+          var lbCount = $('nxp-lb-counter');
+          if(lbCount) lbCount.textContent = (curIdx + 1) + ' / ' + (images.length || 1);
         }
       });
-      $('nxp-m-stats').innerHTML = statsData.slice(0,6).map(function(s){
-        return '<div class="nxp-stat"><span class="nxp-stat-l">'+esc(s.l)+'</span><span class="nxp-stat-v">'+esc(s.v)+'</span></div>';
-      }).join('');
-
-      // Features (stats'ta gösterilmeyenler)
-      var restFeats = (d.features||[]).filter(function(f){
-        return !usedLabels.has(f.label.toLowerCase());
-      });
-      $('nxp-m-feats').innerHTML = restFeats.length
-        ? '<div class="nxp-feats-title">Özellikler</div><div class="nxp-feat-grid">'
-          + restFeats.map(function(f){
-              return '<div class="nxp-feat-row"><span class="fl">'+esc(f.label)+'</span><span class="fv">'+esc(f.value)+'</span></div>';
-            }).join('')
-          + '</div>'
-        : '';
-
-      // Açıklama
-      var descEl = $('nxp-m-desc');
-      if(d.description){ descEl.textContent=d.description; descEl.style.display=''; }
-      else descEl.style.display='none';
-
-      // Danışman
-      var ag = d.agent || {};
-      $('nxp-m-agent').innerHTML = (ag.img
-        ? '<img src="'+esc(ag.img)+'" alt="'+esc(ag.name||'')+'">'
-        : '<div class="nxp-agent-av-placeholder">👤</div>')
-        + '<div><div class="nxp-aname">'+esc(ag.name||'Danışman')+'</div>'
-        + '<div class="nxp-aoff">'+esc(ag.office||'Coldwell Banker')+'</div></div>';
-
-      $('nxp-loader').style.display='none';
-      $('nxp-body').style.display='';
     }
 
-    // ── open / close ─────────────────────────────────────────────────────────
+    var lbClose = $('nxp-lb-close');
+    if(lbClose) lbClose.addEventListener('click', function(){ $('nxp-lightbox').classList.remove('open'); });
+    var lbPrev = $('nxp-lb-prev');
+    if(lbPrev) lbPrev.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx - 1); });
+    var lbNext = $('nxp-lb-next');
+    if(lbNext) lbNext.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx + 1); });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e){
+      var overlay = $('nxp-overlay');
+      if(!overlay || !overlay.classList.contains('nxp-open')) return;
+      var lb = $('nxp-lightbox');
+      if(lb && lb.classList.contains('open')) {
+        if(e.key === 'Escape') lb.classList.remove('open');
+        if(e.key === 'ArrowLeft') goSlide(curIdx - 1);
+        if(e.key === 'ArrowRight') goSlide(curIdx + 1);
+        return;
+      }
+      if(e.key === 'ArrowLeft')  goSlide(curIdx - 1);
+      if(e.key === 'ArrowRight') goSlide(curIdx + 1);
+      if(e.key === 'Escape')     closeModal();
+    });
+
+    /* ── Render Listing Dossier ── */
+    function render(d){
+      buildSlider(d.images || []);
+
+      // Tag & Title & Location
+      var tagEl = $('nxp-m-tag');
+      if(tagEl) tagEl.textContent = (d.type || 'İlan') + ' · ' + (d.status || 'Satılık');
+
+      var titleEl = $('nxp-m-title');
+      if(titleEl) titleEl.textContent = d.title || '—';
+
+      var locEl = $('nxp-m-loc-text');
+      if(locEl) locEl.textContent = d.location || 'Ankara';
+
+      var priceEl = $('nxp-m-price');
+      if(priceEl) priceEl.textContent = d.price || 'Fiyat Sorunuz';
+
+      // WhatsApp link prefill
+      var waMsg = encodeURIComponent('✦ [NEXA VIP PORTFÖY TALEBİ]\\nReferans: ' + (d.title || 'İlan') + '\\nFiyat: ' + (d.price || '—') + '\\nDetaylı sunum dosyası ve yer gösterme randevusu almak istiyorum.');
+      var waBtn = $('nxp-m-link');
+      if(waBtn) waBtn.href = 'https://wa.me/905324514008?text=' + waMsg;
+
+      // Executive Specification Cards (Iconized)
+      var statIcons = {
+        'oda': 'fa-bed',
+        'alan': 'fa-ruler-combined',
+        'durum': 'fa-shield-alt',
+        'tür': 'fa-home',
+        'konum': 'fa-map-marker-alt',
+        'tapu durumu': 'fa-file-contract',
+        'bina yaşı': 'fa-history',
+        'bulunduğu kat': 'fa-layer-group',
+        'ısıtma': 'fa-fire-alt',
+        'balkon': 'fa-sun',
+        'banyo': 'fa-bath',
+        'kullanım durumu': 'fa-key'
+      };
+
+      var statsData = [];
+      if(d.rooms)  statsData.push({ l: 'Oda Sayısı', v: d.rooms });
+      if(d.sqm)    statsData.push({ l: 'Net / Brüt Alan', v: d.sqm });
+      if(d.status) statsData.push({ l: 'İşlem Durumu', v: d.status });
+      if(d.type)   statsData.push({ l: 'Mülk Türü', v: d.type });
+
+      var usedLabels = new Set(statsData.map(function(s){ return s.l.toLowerCase(); }));
+      (d.features || []).forEach(function(f){
+        if(statsData.length >= 6) return;
+        var lbl = (f.label || '').toLowerCase();
+        if(!usedLabels.has(lbl)){
+          statsData.push({ l: f.label, v: f.value });
+          usedLabels.add(lbl);
+        }
+      });
+
+      var statsEl = $('nxp-m-stats');
+      if(statsEl) {
+        statsEl.innerHTML = statsData.slice(0, 6).map(function(s){
+          var norm = s.l.toLowerCase().trim();
+          var iconClass = 'fa-check-circle';
+          for(var key in statIcons) {
+            if(norm.indexOf(key) !== -1) { iconClass = statIcons[key]; break; }
+          }
+          return '<div class="nxp-stat-card">' +
+            '<div class="nxp-stat-icon"><i class="fas ' + iconClass + '"></i></div>' +
+            '<div class="nxp-stat-content">' +
+              '<span class="nxp-stat-l">' + esc(s.l) + '</span>' +
+              '<span class="nxp-stat-v" title="' + esc(s.v) + '">' + esc(s.v) + '</span>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      // Rest features
+      var restFeats = (d.features || []).filter(function(f){
+        return !usedLabels.has((f.label || '').toLowerCase());
+      });
+      var featsEl = $('nxp-m-feats');
+      if(featsEl) {
+        featsEl.innerHTML = restFeats.length
+          ? '<div class="nxp-feats-title"><i class="fas fa-layer-group"></i> Donatılar &amp; Öne Çıkan Özellikler</div><div class="nxp-feat-grid">' +
+            restFeats.map(function(f){
+              return '<div class="nxp-feat-row"><span class="fl">' + esc(f.label) + '</span><span class="fv">' + esc(f.value) + '</span></div>';
+            }).join('') + '</div>'
+          : '';
+      }
+
+      // Description
+      var descEl = $('nxp-m-desc');
+      if(descEl) {
+        if(d.description){
+          descEl.innerHTML = '<div style="font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#d4af37;margin-bottom:8px;"><i class="fas fa-quote-left" style="margin-right:6px;"></i>Gayrimenkul Mühendisi Ekspertiz Notu</div>' + esc(d.description);
+          descEl.style.display = '';
+        } else {
+          descEl.style.display = 'none';
+        }
+      }
+
+      var loaderEl = $('nxp-loader');
+      if(loaderEl) loaderEl.style.display = 'none';
+      var bodyEl = $('nxp-body');
+      if(bodyEl) bodyEl.style.display = '';
+    }
+
+    /* ── Open / Close Modal ── */
     function openModal(cbUrl){
       if(!cbUrl) return;
-      console.log('[NexaPreview] →', cbUrl);
+      console.log('[NexaPreview Unified] Opening →', cbUrl);
 
-      // Reset
-      images=[]; curIdx=0;
-      $('nxp-sl-track').innerHTML='';
-      $('nxp-sl-dots').innerHTML='';
-      $('nxp-thumbs').innerHTML='';
-      $('nxp-sl-count').textContent='';
-      $('nxp-sl-wrap').style.display='none';
-      $('nxp-thumbs').style.display='none';
-      $('nxp-body').style.display='none';
-      $('nxp-loader').style.display='flex';
-      $('nxp-loader-msg').textContent='İlan bilgileri alınıyor…';
-      $('nxp-m-link').href = 'https://wa.me/905324514008';
+      images = []; curIdx = 0;
+      var track = $('nxp-sl-track'); if(track) track.innerHTML = '';
+      var thumbs = $('nxp-thumbs'); if(thumbs) thumbs.innerHTML = '';
+      var count = $('nxp-sl-count'); if(count) count.innerHTML = '<i class="fas fa-camera"></i> <span>1 / 1</span>';
 
-      $('nxp-overlay').classList.add('nxp-open');
-      document.body.style.overflow='hidden';
-      $('nxp-modal').scrollTop=0;
+      var bodyEl = $('nxp-body'); if(bodyEl) bodyEl.style.display = 'none';
+      var loaderEl = $('nxp-loader');
+      if(loaderEl) {
+        loaderEl.style.display = 'flex';
+        var msg = $('nxp-loader-msg');
+        if(msg) msg.textContent = 'VIP Portföy Verileri Doğrulanıyor…';
+      }
 
-      fetch('/api/listing/preview?url='+encodeURIComponent(cbUrl))
+      var overlay = $('nxp-overlay');
+      if(overlay) overlay.classList.add('nxp-open');
+      document.body.style.overflow = 'hidden';
+
+      var modalEl = $('nxp-modal');
+      if(modalEl) modalEl.scrollTop = 0;
+
+      fetch('/api/listing/preview?url=' + encodeURIComponent(cbUrl))
         .then(function(r){ return r.json(); })
         .then(function(d){
-          if(!d.ok) throw new Error(d.error||'Bilinmeyen hata');
+          if(!d.ok) throw new Error(d.error || 'Bilinmeyen hata');
           window._currentPreviewData = d;
           render(d);
         })
         .catch(function(err){
-          $('nxp-loader').style.display='flex';
-          $('nxp-loader-msg').textContent='⚠ '+(err.message||'Sayfa alınamadı');
+          if(loaderEl) {
+            loaderEl.style.display = 'flex';
+            var msg = $('nxp-loader-msg');
+            if(msg) msg.textContent = '⚠ ' + (err.message || 'Sayfa alınamadı');
+          }
         });
     }
 
     function closeModal(){
-      $('nxp-overlay').classList.remove('nxp-open');
-      document.body.style.overflow='';
+      var overlay = $('nxp-overlay');
+      if(overlay) overlay.classList.remove('nxp-open');
+      document.body.style.overflow = '';
+      var lb = $('nxp-lightbox');
+      if(lb) lb.classList.remove('open');
+      var kredi = $('nxp-kredi-panel');
+      if(kredi) kredi.style.display = 'none';
     }
 
-    $('nxp-close').addEventListener('click',   closeModal);
-    $('nxp-m-close2').addEventListener('click', closeModal);
-    $('nxp-overlay').addEventListener('click', function(e){ if(e.target===$('nxp-overlay')) closeModal(); });
+    var closeBtn = $('nxp-close');
+    if(closeBtn) closeBtn.addEventListener('click', closeModal);
+    var closeBtn2 = $('nxp-m-close2');
+    if(closeBtn2) closeBtn2.addEventListener('click', closeModal);
+    var overlayEl = $('nxp-overlay');
+    if(overlayEl) {
+      overlayEl.addEventListener('click', function(e){
+        if(e.target === overlayEl) closeModal();
+      });
+    }
 
     window.NexaPreview = { open: openModal, close: closeModal };
   })();
 
-  // ── Kredi Hesaplama ──────────────────────────────────────────────
+  // ── Kredi Simülatörü Fonksiyonları ──
   window.nexaShowKredi = function () {
     var panel = document.getElementById('nxp-kredi-panel');
     if (!panel) return;
     var isOpen = panel.style.display !== 'none';
     panel.style.display = isOpen ? 'none' : 'block';
-    // Fiyatı otomatik doldur
     if (!isOpen) {
       var priceEl = document.getElementById('nxp-m-price');
       if (priceEl) {
         var raw = priceEl.textContent.replace(/[^0-9]/g, '');
         var val = parseFloat(raw) || 0;
         if (val > 0) {
-          // Varsayılan: %20 peşinat düş
           var krediTutari = Math.round(val * 0.80);
           var amountInput = document.getElementById('nxp-kredi-amount');
           if (amountInput && !amountInput.value) {
@@ -16330,10 +16954,14 @@
       return Math.round(v).toLocaleString('tr-TR') + ' ₺';
     };
 
-    document.getElementById('nxp-k-taksit').textContent = fmt(taksit);
-    document.getElementById('nxp-k-toplam').textContent = fmt(toplam);
-    document.getElementById('nxp-k-faiz').textContent   = fmt(faiz);
-    document.getElementById('nxp-kredi-result').style.display = 'block';
+    var taksitEl = document.getElementById('nxp-k-taksit');
+    if(taksitEl) taksitEl.textContent = fmt(taksit);
+    var toplamEl = document.getElementById('nxp-k-toplam');
+    if(toplamEl) toplamEl.textContent = fmt(toplam);
+    var faizEl = document.getElementById('nxp-k-faiz');
+    if(faizEl) faizEl.textContent = fmt(faiz);
+    var resEl = document.getElementById('nxp-kredi-result');
+    if(resEl) resEl.style.display = 'block';
   };
 
   // ── NEXA Persona Intelligence Swarm Controller ────────────────────────

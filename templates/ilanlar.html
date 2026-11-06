@@ -1484,423 +1484,567 @@
 
 <!-- ══ NexaPreview Modal — Yeniden Tasarım ══════════════════════ -->
   <style>
-    /* ── Overlay ───────────────────────────────────────────────── */
-    #nxp-overlay{
-      position:fixed;inset:0;z-index:99999;
-      background:rgba(6,8,14,.92);backdrop-filter:blur(14px);
-      display:flex;align-items:stretch;justify-content:center;
-      opacity:0;pointer-events:none;transition:opacity .3s ease;
+    /* ============================================================
+       NEXA PREVIEW — ULTRA-PREMIUM HAUTE COUTURE LISTING SUITE
+       Zero Circles / Unobstructed Visuals / Master Dossier
+       ============================================================ */
+    #nxp-overlay {
+      position: fixed; inset: 0; z-index: 999999;
+      background: rgba(4, 8, 16, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex; align-items: stretch; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    #nxp-overlay.nxp-open{opacity:1;pointer-events:auto;}
-
-    /* ── Modal shell — side-by-side layout ─────────────────────── */
-    #nxp-modal{
-      display:flex;flex-direction:row;
-      width:100%;max-width:100%;height:100vh;
-      transform:scale(.97) translateY(18px);
-      transition:transform .42s cubic-bezier(.22,.61,.36,1);
-    }
-    #nxp-overlay.nxp-open #nxp-modal{transform:scale(1) translateY(0);}
-
-    /* ── LEFT — gallery panel ──────────────────────────────────── */
-    #nxp-gallery{
-      flex:0 0 58%;
-      display:flex;flex-direction:column;
-      background:#06080e;
-      position:relative;
-      overflow:hidden;
+    #nxp-overlay.nxp-open {
+      opacity: 1; pointer-events: auto;
     }
 
-    /* Main slider viewport */
-    #nxp-sl-wrap{
-      flex:1;
-      position:relative;
-      overflow:hidden;
-      background:#0a0c14;
-      cursor:zoom-in;
-      user-select:none;
+    #nxp-modal {
+      display: flex; flex-direction: row;
+      width: 100%; max-width: 100%; height: 100vh;
+      background: #080d1a;
+      transform: scale(0.98) translateY(14px);
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+      position: relative;
     }
-    #nxp-sl-track{
-      display:flex;
-      width:100%;
-      height:100%;
-      transition:transform .45s cubic-bezier(.22,.61,.36,1);
-    }
-    .nxp-slide{
-      min-width:100%;width:100%;flex:0 0 100%;flex-shrink:0;height:100%;
-      position:relative;
-      display:flex;align-items:center;justify-content:center;
-    }
-    /* ★ KEY: contain = tam fotoğraf, kesilme yok */
-    .nxp-slide img{
-      max-width:100%;max-height:100%;
-      width:100%;height:100%;
-      object-fit:contain;
-      display:block;
-    }
-    /* subtle vignette */
-    .nxp-slide::after{
-      content:'';position:absolute;inset:0;
-      background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.35) 100%);
-      pointer-events:none;
-    }
-    .nxp-no-img{
-      width:100%;height:100%;min-height:300px;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      gap:12px;color:#3a3a4a;font-size:.8rem;
-    }
-    .nxp-no-img i{font-size:2.5rem;opacity:.3;}
-
-    /* Prev / Next arrows */
-    .nxp-sl-btn{
-      position:absolute;top:50%;transform:translateY(-50%);
-      width:46px;height:46px;border-radius:50%;
-      background:rgba(0,0,0,.6);backdrop-filter:blur(8px);
-      border:1px solid rgba(255,255,255,.14);
-      color:#fff;font-size:1rem;
-      display:flex;align-items:center;justify-content:center;
-      cursor:pointer;z-index:10;
-      transition:background .2s,border-color .2s,transform .2s;
-    }
-    .nxp-sl-btn:hover{
-      background:#c9a84c;border-color:#c9a84c;color:#0c0c11;
-      transform:translateY(-50%) scale(1.08);
-    }
-    #nxp-sl-prev{left:16px;}
-    #nxp-sl-next{right:16px;}
-
-    /* counter badge */
-    #nxp-sl-count{
-      position:absolute;top:14px;right:16px;z-index:10;
-      background:rgba(0,0,0,.65);backdrop-filter:blur(6px);
-      color:rgba(255,255,255,.8);font-size:.67rem;letter-spacing:.08em;
-      padding:5px 11px;border-radius:20px;
-      border:1px solid rgba(255,255,255,.1);
+    #nxp-overlay.nxp-open #nxp-modal {
+      transform: scale(1) translateY(0);
     }
 
-    /* fullscreen btn */
-    #nxp-fullscreen-btn{
-      position:absolute;bottom:16px;right:16px;z-index:10;
-      width:36px;height:36px;border-radius:8px;
-      background:rgba(0,0,0,.65);backdrop-filter:blur(6px);
-      border:1px solid rgba(255,255,255,.12);
-      color:rgba(255,255,255,.7);font-size:.85rem;
-      display:flex;align-items:center;justify-content:center;
-      cursor:pointer;transition:all .2s;
-    }
-    #nxp-fullscreen-btn:hover{background:#c9a84c;color:#0c0c11;border-color:#c9a84c;}
-
-    /* ── Thumbnail strip ───────────────────────────────────────── */
-    #nxp-thumbs{
-      display:flex;
-      gap:5px;
-      padding:10px 12px;
-      overflow-x:auto;
-      background:#06080e;
-      flex-shrink:0;
-      scrollbar-width:thin;
-      scrollbar-color:rgba(201,168,76,.2) transparent;
-    }
-    #nxp-thumbs::-webkit-scrollbar{height:3px;}
-    #nxp-thumbs::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);border-radius:2px;}
-
-    .nxp-thumb{
-      width:90px;height:62px;
-      flex-shrink:0;border-radius:6px;overflow:hidden;
-      border:2px solid transparent;
-      cursor:pointer;opacity:.45;
-      transition:border-color .18s,opacity .18s,transform .18s;
-      position:relative;
-    }
-    .nxp-thumb:hover{opacity:.8;transform:translateY(-2px);}
-    .nxp-thumb.active{border-color:#c9a84c;opacity:1;transform:translateY(-2px);}
-    .nxp-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-    .nxp-thumb-num{
-      position:absolute;bottom:3px;right:4px;
-      font-size:.55rem;color:rgba(255,255,255,.6);
-      background:rgba(0,0,0,.5);padding:1px 4px;border-radius:3px;
+    /* ── LEFT: Cinematic Gallery Stage (58%) ── */
+    #nxp-gallery {
+      flex: 0 0 58%;
+      display: flex; flex-direction: column;
+      background: #03060c;
+      position: relative;
+      overflow: hidden;
+      border-right: 1px solid rgba(212, 175, 55, 0.15);
     }
 
-    /* ── RIGHT — info panel ────────────────────────────────────── */
-    #nxp-info{
-      flex:1;
-      background:#111118;
-      overflow-y:auto;
-      position:relative;
-      scrollbar-width:thin;
-      scrollbar-color:rgba(201,168,76,.1) transparent;
-      border-left:1px solid rgba(255,255,255,.06);
-    }
-    #nxp-info::-webkit-scrollbar{width:3px;}
-    #nxp-info::-webkit-scrollbar-thumb{background:rgba(201,168,76,.15);border-radius:2px;}
-
-    /* close btn — top-right of info panel */
-    #nxp-close{
-      position:sticky;top:0;z-index:20;
-      display:flex;align-items:center;justify-content:flex-end;
-      padding:14px 16px 0;
-      background:transparent;
-      pointer-events:none;
-    }
-    #nxp-close-btn{
-      width:34px;height:34px;border-radius:50%;
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.12);
-      color:rgba(255,255,255,.7);font-size:.85rem;
-      cursor:pointer;display:flex;align-items:center;justify-content:center;
-      transition:all .2s;pointer-events:auto;flex-shrink:0;
-    }
-    #nxp-close-btn:hover{background:#c9a84c;color:#0c0c11;border-color:#c9a84c;}
-
-    /* loader */
-    #nxp-loader{
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      padding:80px 30px;gap:16px;color:#4a4a5e;font-size:.82rem;
-    }
-    .nxp-spinner{
-      width:38px;height:38px;
-      border:3px solid rgba(201,168,76,.12);
-      border-top-color:#c9a84c;
-      border-radius:50%;
-      animation:nxpSpin .75s linear infinite;
-    }
-    @keyframes nxpSpin{to{transform:rotate(360deg)}}
-
-    /* body content */
-    #nxp-body{padding:0 28px 36px;}
-
-    #nxp-m-tag{
-      display:inline-flex;align-items:center;gap:6px;
-      font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
-      color:#c9a84c;border:1px solid rgba(201,168,76,.22);
-      padding:5px 12px;border-radius:20px;margin-bottom:14px;
-      background:rgba(201,168,76,.06);
-    }
-    #nxp-m-tag::before{
-      content:'';width:5px;height:5px;border-radius:50%;
-      background:#c9a84c;animation:nxpPulse 2s infinite;
-    }
-    @keyframes nxpPulse{0%,100%{opacity:1}50%{opacity:.35}}
-
-    #nxp-m-title{
-      font-family:'Playfair Display',serif;
-      font-size:1.6rem;font-weight:700;
-      color:#f0ece4;line-height:1.3;margin-bottom:10px;
-    }
-    #nxp-m-loc{
-      display:flex;align-items:center;gap:6px;
-      font-size:.76rem;color:#5a5a72;margin-bottom:26px;
-    }
-    #nxp-m-loc svg{flex-shrink:0;color:#c9a84c;}
-
-    /* stats grid */
-    #nxp-m-stats{
-      display:grid;grid-template-columns:repeat(2,1fr);
-      gap:1px;background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:10px;overflow:hidden;
-      margin-bottom:24px;
-    }
-    .nxp-stat{
-      background:#1a1a24;padding:16px 18px;
-      display:flex;flex-direction:column;gap:5px;
-      transition:background .2s;
-    }
-    .nxp-stat:hover{background:#1e1e2a;}
-    .nxp-stat-l{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:#5a5a72;}
-    .nxp-stat-v{
-      font-family:'Playfair Display',serif;
-      font-size:1.1rem;font-weight:600;color:#f0ece4;
+    #nxp-sl-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #050811;
+      user-select: none;
+      display: flex; align-items: center; justify-content: center;
     }
 
-    /* features */
-    .nxp-feats-title{
-      font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;
-      color:#5a5a72;margin-bottom:10px;
-    }
-    .nxp-feat-grid{
-      display:grid;grid-template-columns:repeat(2,1fr);
-      gap:6px;margin-bottom:24px;
-    }
-    .nxp-feat-row{
-      display:flex;justify-content:space-between;align-items:center;
-      gap:8px;padding:9px 12px;
-      background:#1a1a24;border:1px solid rgba(255,255,255,.05);
-      border-radius:7px;font-size:.74rem;
-    }
-    .nxp-feat-row .fl{color:#5a5a72;flex-shrink:0;}
-    .nxp-feat-row .fv{color:#d8d4cc;font-weight:500;text-align:right;}
-
-    /* description */
-    #nxp-m-desc{
-      font-size:.8rem;line-height:1.7;color:#5a5a72;
-      margin-bottom:24px;padding:14px 16px;
-      background:#1a1a24;border:1px solid rgba(255,255,255,.05);
-      border-radius:8px;
+    #nxp-sl-track {
+      display: flex;
+      width: 100%; height: 100%;
+      transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
-    /* price bar */
-    #nxp-m-price-bar{
-      display:flex;align-items:baseline;gap:12px;
-      padding:20px 0;
-      border-top:1px solid rgba(255,255,255,.06);
-      border-bottom:1px solid rgba(255,255,255,.06);
-      margin-bottom:20px;
-    }
-    .nxp-price-lbl{
-      font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#5a5a72;
-    }
-    #nxp-m-price{
-      font-family:'Playfair Display',serif;
-      font-size:2rem;font-weight:700;color:#e8c97a;line-height:1;
+    .nxp-slide {
+      min-width: 100%; width: 100%; flex: 0 0 100%; flex-shrink: 0; height: 100%;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      background: #040710;
     }
 
-    /* agent */
-    #nxp-m-agent{
-      display:flex;align-items:center;gap:14px;
-      background:#1a1a24;border:1px solid rgba(255,255,255,.05);
-      border-radius:10px;padding:14px 16px;margin-bottom:20px;
-    }
-    #nxp-m-agent-avatar{
-      width:46px;height:46px;border-radius:50%;
-      background:linear-gradient(135deg,#c9a84c,#8b6914);
-      display:flex;align-items:center;justify-content:center;
-      font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
-      color:#0c0c11;flex-shrink:0;
-      border:2px solid rgba(201,168,76,.3);
-    }
-    .nxp-aname{font-size:.86rem;font-weight:600;color:#f0ece4;}
-    .nxp-aoff{font-size:.64rem;color:#c9a84c;margin-top:3px;letter-spacing:.06em;}
-    .nxp-astars{color:#c9a84c;font-size:.7rem;margin-top:4px;letter-spacing:1px;}
-
-    /* action buttons */
-    #nxp-m-actions{display:flex;gap:9px;margin-bottom:0;}
-    .nxp-btn{
-      flex:1;padding:13px 10px;border-radius:8px;
-      font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-      cursor:pointer;text-decoration:none;
-      display:flex;align-items:center;justify-content:center;gap:8px;
-      transition:all .2s;border:1px solid transparent;
-    }
-    .nxp-btn-wa{background:#25D366;color:#fff;border-color:#25D366;}
-    .nxp-btn-wa:hover{background:#1ebe59;border-color:#1ebe59;transform:translateY(-1px);}
-    .nxp-btn-kredi{
-      background:rgba(201,168,76,.1);color:#c9a84c;
-      border-color:rgba(201,168,76,.3);
-    }
-    .nxp-btn-kredi:hover{background:#c9a84c;color:#0c0c11;border-color:#c9a84c;}
-    .nxp-btn-out{
-      background:transparent;color:#8a8a9a;
-      border-color:rgba(255,255,255,.08);
-      flex:0 0 auto;padding:13px 18px;
-    }
-    .nxp-btn-out:hover{border-color:#c9a84c;color:#c9a84c;}
-
-    /* Kredi panel */
-    #nxp-kredi-panel{
-      margin-top:16px;padding:20px;
-      background:#0e0e18;border:1px solid rgba(201,168,76,.15);
-      border-radius:10px;display:none;
-    }
-    .nxp-kredi-header{
-      display:flex;justify-content:space-between;align-items:center;
-      margin-bottom:16px;
-    }
-    .nxp-kredi-header h3{
-      font-family:'Playfair Display',serif;
-      color:#e8c97a;font-size:1rem;
-    }
-    .nxp-kredi-close{
-      background:none;border:none;color:#5a5a72;
-      cursor:pointer;font-size:1.1rem;line-height:1;
-    }
-    .nxp-kredi-inputs{
-      display:grid;grid-template-columns:repeat(3,1fr);
-      gap:12px;margin-bottom:14px;
-    }
-    .nxp-kredi-inputs label{
-      font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;
-      color:#5a5a72;display:block;margin-bottom:6px;
-    }
-    .nxp-kredi-inputs input,
-    .nxp-kredi-inputs select{
-      width:100%;background:#06080e;
-      border:1px solid rgba(255,255,255,.1);border-radius:6px;
-      padding:9px 11px;color:#d8d4cc;font-size:.82rem;outline:none;
-    }
-    .nxp-kredi-inputs input:focus,
-    .nxp-kredi-inputs select:focus{border-color:rgba(201,168,76,.4);}
-    #nxp-kredi-result{
-      display:none;
-      background:#06080e;border:1px solid rgba(201,168,76,.18);
-      border-radius:8px;padding:16px;margin-top:14px;
-    }
-    .nxp-k-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;}
-    .nxp-k-row > div > .kl{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#5a5a72;margin-bottom:4px;}
-    .nxp-k-row > div > .kv{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;}
-    .nxp-k-row > div:nth-child(1) .kv{color:#e8c97a;}
-    .nxp-k-row > div:nth-child(2) .kv{color:#f0ece4;}
-    .nxp-k-row > div:nth-child(3) .kv{color:#8a8a9a;}
-    .nxp-kredi-note{font-size:.58rem;color:#5a5a72;margin-top:10px;text-align:center;}
-
-    /* ── Fullscreen lightbox ───────────────────────────────────── */
-    #nxp-lightbox{
-      position:fixed;inset:0;z-index:999999;
-      background:#000;
-      display:none;align-items:center;justify-content:center;
-    }
-    #nxp-lightbox.open{display:flex;}
-    #nxp-lb-img{
-      max-width:100%;max-height:100vh;
-      object-fit:contain;
-    }
-    #nxp-lb-close{
-      position:absolute;top:18px;right:20px;
-      width:40px;height:40px;border-radius:50%;
-      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
-      color:#fff;font-size:1.1rem;
-      display:flex;align-items:center;justify-content:center;
-      cursor:pointer;transition:all .2s;
-    }
-    #nxp-lb-close:hover{background:#c9a84c;color:#000;border-color:#c9a84c;}
-    #nxp-lb-prev,#nxp-lb-next{
-      position:absolute;top:50%;transform:translateY(-50%);
-      width:50px;height:50px;border-radius:50%;
-      background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
-      border:1px solid rgba(255,255,255,.15);
-      color:#fff;font-size:1.2rem;
-      display:flex;align-items:center;justify-content:center;
-      cursor:pointer;transition:all .2s;
-    }
-    #nxp-lb-prev:hover,#nxp-lb-next:hover{background:#c9a84c;color:#000;border-color:#c9a84c;}
-    #nxp-lb-prev{left:20px;}#nxp-lb-next{right:20px;}
-    #nxp-lb-counter{
-      position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
-      color:rgba(255,255,255,.6);font-size:.72rem;letter-spacing:.1em;
-      background:rgba(0,0,0,.5);padding:5px 14px;border-radius:20px;
+    .nxp-slide img {
+      max-width: 100%; max-height: 100%;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
-    /* ── Responsive ────────────────────────────────────────────── */
-    @media(max-width:860px){
-      #nxp-modal{flex-direction:column;}
-      #nxp-gallery{flex:0 0 auto;max-height:55vh;}
-      #nxp-sl-wrap{min-height:220px;}
-      #nxp-info{flex:1;overflow-y:auto;}
-      #nxp-body{padding:0 18px 28px;}
-      #nxp-m-title{font-size:1.25rem;}
-      #nxp-m-price{font-size:1.6rem;}
-      #nxp-m-actions{flex-wrap:wrap;}
-      .nxp-btn-out{flex:1 1 100%;}
-      .nxp-kredi-inputs{grid-template-columns:1fr 1fr;}
-      .nxp-feat-grid{grid-template-columns:1fr;}
-    }
-    @media(max-width:500px){
-      .nxp-sl-btn{display:none;}
-      #nxp-gallery{max-height:48vh;}
-      .nxp-thumb{width:72px;height:50px;}
+    .nxp-slide-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 65%, rgba(4,7,16,0.7) 100%);
+      pointer-events: none;
     }
 
-.nxc-persona-btn {
+    /* ZERO CIRCLES / NO DOTS PER USER REQUIREMENT */
+
+    /* Sleek Frosted Glass Chevrons */
+    .nxp-sl-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #f8fafc; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 15;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .nxp-sl-btn:hover {
+      background: #d4af37;
+      border-color: #d4af37;
+      color: #070d18;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    }
+    #nxp-sl-prev { left: 18px; }
+    #nxp-sl-next { right: 18px; }
+
+    /* Top Left Close Button inside Gallery */
+    #nxp-close {
+      position: absolute; top: 16px; left: 18px; z-index: 25;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #f8fafc; font-size: 1.05rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    #nxp-close:hover {
+      background: #d4af37;
+      color: #070d18;
+      border-color: #d4af37;
+      transform: scale(1.08);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Top Right Photo Counter Badge & Fullscreen */
+    .nxp-gallery-top-right {
+      position: absolute; top: 16px; right: 18px; z-index: 20;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    #nxp-sl-count {
+      background: rgba(7, 13, 24, 0.8);
+      backdrop-filter: blur(10px);
+      color: #f4e4a6;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+      padding: 6px 14px; border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+
+    #nxp-fullscreen-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #f4e4a6; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+    }
+    #nxp-fullscreen-btn:hover {
+      background: #d4af37; color: #070d18; border-color: #d4af37;
+    }
+
+    /* Thumbnail Filmstrip */
+    #nxp-thumbs {
+      display: flex; gap: 7px;
+      padding: 12px 18px;
+      overflow-x: auto;
+      background: rgba(4, 7, 14, 0.95);
+      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      flex-shrink: 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.25) transparent;
+    }
+    #nxp-thumbs::-webkit-scrollbar { height: 4px; }
+    #nxp-thumbs::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 2px; }
+
+    .nxp-thumb {
+      width: 84px; height: 56px;
+      flex-shrink: 0; border-radius: 8px; overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer; opacity: 0.45;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      background: #020408;
+    }
+    .nxp-thumb:hover {
+      opacity: 0.85; transform: translateY(-2px);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+    .nxp-thumb.active {
+      border-color: #d4af37; opacity: 1; transform: translateY(-2px);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.45);
+    }
+    .nxp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .nxp-thumb-num {
+      position: absolute; bottom: 3px; right: 4px;
+      font-size: 0.58rem; font-weight: 700; color: #f4e4a6;
+      background: rgba(7, 13, 24, 0.8);
+      padding: 1px 5px; border-radius: 3px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    /* ── RIGHT: VIP Dossier & Intelligence Panel (42%) ── */
+    #nxp-info {
+      flex: 1;
+      background: #090f1d;
+      overflow-y: auto;
+      position: relative;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.2) transparent;
+      display: flex; flex-direction: column;
+    }
+    #nxp-info::-webkit-scrollbar { width: 4px; }
+    #nxp-info::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 2px; }
+
+    #nxp-body {
+      padding: 32px 36px 44px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+
+    /* Category & Verification Deck */
+    .nxp-header-deck {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+    }
+    #nxp-m-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #fde047; border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 5px 13px; border-radius: 20px;
+      background: rgba(212, 175, 55, 0.12);
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.15);
+    }
+    .nxp-verified-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
+      color: #38bdf8; background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 10px; border-radius: 20px;
+    }
+
+    #nxp-m-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; font-weight: 700;
+      color: #ffffff; line-height: 1.3;
+      margin: 0 0 10px 0;
+      letter-spacing: -0.01em;
+    }
+
+    #nxp-m-loc {
+      display: flex; align-items: center; gap: 7px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem; color: #94a3b8;
+      margin-bottom: 22px;
+    }
+    #nxp-m-loc i, #nxp-m-loc svg { color: #d4af37; font-size: 0.9rem; flex-shrink: 0; }
+
+    /* Executive Specification Grid */
+    #nxp-m-stats {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 10px; margin-bottom: 24px;
+    }
+    .nxp-stat-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      transition: all 0.25s ease;
+    }
+    .nxp-stat-card:hover {
+      background: rgba(212, 175, 55, 0.06);
+      border-color: rgba(212, 175, 55, 0.35);
+      transform: translateY(-1px);
+    }
+    .nxp-stat-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: #f4e4a6; font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nxp-stat-content {
+      display: flex; flex-direction: column; gap: 2px; min-width: 0;
+    }
+    .nxp-stat-l {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #94a3b8;
+    }
+    .nxp-stat-v {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem; font-weight: 700; color: #f8fafc;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Detailed Features Grid */
+    .nxp-feats-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #d4af37;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nxp-feat-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 7px; margin-bottom: 24px;
+    }
+    .nxp-feat-row {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 8px; padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px; font-size: 0.78rem;
+    }
+    .nxp-feat-row .fl { color: #94a3b8; font-weight: 500; }
+    .nxp-feat-row .fv { color: #f1f5f9; font-weight: 600; text-align: right; }
+
+    /* Description */
+    #nxp-m-desc {
+      font-size: 0.86rem; line-height: 1.75; color: #cbd5e1;
+      margin-bottom: 24px; padding: 18px 20px;
+      background: rgba(4, 9, 18, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-left: 3px solid #d4af37;
+      border-radius: 8px;
+    }
+
+    /* VIP Financial Deck */
+    #nxp-m-price-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      padding: 22px 24px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(7, 13, 24, 0.8) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 12px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .nxp-price-meta { display: flex; flex-direction: column; gap: 3px; }
+    .nxp-price-lbl {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #d4af37;
+    }
+    #nxp-m-price {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.3rem; font-weight: 800; color: #fde047;
+      line-height: 1; letter-spacing: 0.02em;
+      text-shadow: 0 0 25px rgba(253, 224, 71, 0.3);
+    }
+    .nxp-price-status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.72rem; font-weight: 700; color: #34d399;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 6px 12px; border-radius: 20px;
+    }
+
+    /* Agent Deck */
+    #nxp-m-agent {
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 12px; padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+    #nxp-m-agent img, .nxp-agent-av-placeholder {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 2px solid #d4af37; object-fit: cover; flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+    }
+    .nxp-aname {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700; color: #f8fafc;
+    }
+    .nxp-aoff {
+      font-size: 0.7rem; color: #d4af37; margin-top: 2px; font-weight: 600;
+    }
+    .nxp-astars {
+      color: #fbbf24; font-size: 0.75rem; margin-top: 3px; letter-spacing: 1px;
+    }
+
+    /* VIP Action Console */
+    #nxp-m-actions {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 0.8fr;
+      gap: 10px; margin-bottom: 0;
+    }
+    .nxp-btn {
+      padding: 14px 12px; border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.25s ease; border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .nxp-btn-wa {
+      background: linear-gradient(135deg, #25D366 0%, #15803d 100%);
+      color: #ffffff !important; border-color: #25D366;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+    }
+    .nxp-btn-wa:hover {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    }
+    .nxp-btn-call {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8 !important; border-color: rgba(56, 189, 248, 0.4);
+    }
+    .nxp-btn-call:hover {
+      background: #38bdf8; color: #070d18 !important;
+      transform: translateY(-1px);
+    }
+    .nxp-btn-kredi {
+      background: rgba(212, 175, 55, 0.14);
+      color: #f4e4a6 !important; border-color: rgba(212, 175, 55, 0.4);
+    }
+    .nxp-btn-kredi:hover {
+      background: #d4af37; color: #070d18 !important;
+      transform: translateY(-1px);
+    }
+    .nxp-btn-out {
+      background: rgba(255, 255, 255, 0.04);
+      color: #94a3b8 !important; border-color: rgba(255, 255, 255, 0.1);
+    }
+    .nxp-btn-out:hover {
+      background: rgba(255, 255, 255, 0.08); color: #f8fafc !important;
+    }
+
+    /* Kredi Simulator Panel */
+    #nxp-kredi-panel {
+      margin-top: 18px; padding: 22px 24px;
+      background: #050811; border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 12px; display: none;
+    }
+    .nxp-kredi-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px;
+    }
+    .nxp-kredi-header h3 {
+      font-family: 'Playfair Display', serif; color: #fde047; font-size: 1.05rem; margin: 0;
+    }
+    .nxp-kredi-close {
+      background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer;
+    }
+    .nxp-kredi-inputs {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px;
+    }
+    .nxp-kredi-inputs label {
+      font-family: 'Outfit', sans-serif; font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #94a3b8;
+      display: block; margin-bottom: 6px;
+    }
+    .nxp-kredi-inputs input, .nxp-kredi-inputs select {
+      width: 100%; background: #080e1a;
+      border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 8px;
+      padding: 10px 12px; color: #f8fafc; font-size: 0.86rem; outline: none;
+    }
+    #nxp-kredi-result {
+      background: #080e1a; border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 10px; padding: 18px; margin-top: 14px;
+    }
+    .nxp-k-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center; }
+    .nxp-k-row .kl { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; margin-bottom: 4px; }
+    .nxp-k-row .kv { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; color: #fde047; }
+    .nxp-kredi-note { font-size: 0.65rem; color: #64748b; margin-top: 10px; text-align: center; }
+
+    /* Lightbox */
+    #nxp-lightbox {
+      position: fixed; inset: 0; z-index: 9999999;
+      background: rgba(0, 0, 0, 0.96); backdrop-filter: blur(16px);
+      display: none; align-items: center; justify-content: center;
+    }
+    #nxp-lightbox.open { display: flex; }
+    #nxp-lb-img { max-width: 92%; max-height: 88vh; object-fit: contain; }
+    #nxp-lb-close {
+      position: absolute; top: 20px; right: 24px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fff; font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    #nxp-lb-close:hover { background: #d4af37; color: #070d18; }
+    #nxp-lb-prev, #nxp-lb-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 54px; height: 54px; border-radius: 50%;
+      background: rgba(7, 13, 24, 0.7); border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fff; font-size: 1.3rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    #nxp-lb-prev:hover, #nxp-lb-next:hover { background: #d4af37; color: #070d18; }
+    #nxp-lb-prev { left: 24px; } #nxp-lb-next { right: 24px; }
+    #nxp-lb-counter {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      color: #f4e4a6; font-size: 0.8rem; font-weight: 700;
+      background: rgba(7, 13, 24, 0.8); border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 6px 18px; border-radius: 20px;
+    }
+
+    /* Loader & No-Img */
+    #nxp-loader {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 90px 30px; gap: 16px; color: #94a3b8; font-size: 0.88rem;
+    }
+    .nxp-spinner {
+      width: 42px; height: 42px;
+      border: 3px solid rgba(212, 175, 55, 0.15); border-top-color: #d4af37;
+      border-radius: 50%; animation: nxpSpin 0.75s linear infinite;
+    }
+    @keyframes nxpSpin { to { transform: rotate(360deg); } }
+
+    /* Responsive Breakpoints */
+    @media(max-width: 960px) {
+      #nxp-modal { flex-direction: column; overflow-y: auto; }
+      #nxp-gallery { flex: 0 0 auto; height: 380px; max-height: 50vh; border-right: none; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+      #nxp-info { flex: 1; overflow-y: visible; }
+      #nxp-body { padding: 22px 20px 36px; }
+      #nxp-m-title { font-size: 1.35rem; }
+      #nxp-m-price { font-size: 1.8rem; }
+      #nxp-m-actions { grid-template-columns: 1fr 1fr; }
+      .nxp-btn-wa { grid-column: 1 / -1; }
+    }
+    @media(max-width: 600px) {
+      #nxp-gallery { height: 300px; max-height: 42vh; }
+      .nxp-sl-btn { width: 38px; height: 38px; font-size: 0.95rem; }
+      #nxp-m-stats { grid-template-columns: 1fr; }
+      .nxp-feat-grid { grid-template-columns: 1fr; }
+      #nxp-kredi-inputs { grid-template-columns: 1fr; }
+    }
+
+    /* Persona VIP Trigger Button */
+    .nxp-persona-vip-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(212,175,55,0.18) 0%, rgba(16,185,129,0.18) 100%);
+      border: 1px solid rgba(212,175,55,0.45);
+      color: #ffffff;
+      padding: 13px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .nxp-persona-vip-btn:hover {
+      background: linear-gradient(135deg, rgba(212,175,55,0.32) 0%, rgba(16,185,129,0.32) 100%);
+      border-color: rgba(212,175,55,0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212,175,55,0.25);
+    }
+    .nxp-persona-pulse-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 12px #10b981;
+      animation: nxpRadarPulse 1.8s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes nxpRadarPulse {
+      0% { transform: scale(0.95); opacity: 0.95; }
+      50% { transform: scale(1.4); opacity: 0.45; }
+      100% { transform: scale(0.95); opacity: 0.95; }
+    }
+
+    .nxc-persona-btn {
       width: 100%;
       display: inline-flex;
       align-items: center;
@@ -2467,96 +2611,129 @@
     }
   </style>
 
-  <!-- Fullscreen lightbox -->
-  <div id="nxp-lightbox">
-    <img id="nxp-lb-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="">
-    <button id="nxp-lb-close">✕</button>
-    <button id="nxp-lb-prev">&#8592;</button>
-    <button id="nxp-lb-next">&#8594;</button>
-    <div id="nxp-lb-counter">1 / 1</div>
-  </div>
-
-  <!-- Main modal -->
+  <!-- ══════════════════════════════════════════════════════════════════
+       NEXA PREVIEW — ULTRA-PREMIUM HAUTE COUTURE LISTING SUITE
+       Zero Circles / Unobstructed Visuals / Master Dossier
+       ══════════════════════════════════════════════════════════════════ -->
   <div id="nxp-overlay" role="dialog" aria-modal="true" aria-label="İlan Önizleme">
     <div id="nxp-modal">
 
-      <!-- ── LEFT: gallery ───────────────────────────────────── -->
+      <!-- ── LEFT: Cinematic Gallery Stage (58%) ────────────────── -->
       <div id="nxp-gallery">
-        <div id="nxp-sl-wrap">
-          <div id="nxp-sl-track"></div>
-          <button class="nxp-sl-btn" id="nxp-sl-prev">&#8592;</button>
-          <button class="nxp-sl-btn" id="nxp-sl-next">&#8594;</button>
-          <div id="nxp-sl-count">1 / 1</div>
-          <button id="nxp-fullscreen-btn" title="Tam ekran">
+        <!-- Close button (Top Left) -->
+        <button id="nxp-close" aria-label="Kapat" title="Kapat">✕</button>
+
+        <!-- Top Right Indicators: Photo Counter & Fullscreen -->
+        <div class="nxp-gallery-top-right">
+          <div id="nxp-sl-count"><i class="fas fa-camera"></i> <span>1 / 1</span></div>
+          <button id="nxp-fullscreen-btn" title="Tam Ekran Büyüt" aria-label="Tam Ekran">
             <i class="fas fa-expand-alt"></i>
           </button>
         </div>
-        <!-- thumbnail strip -->
+
+        <!-- Slider Stage -->
+        <div id="nxp-sl-wrap">
+          <div id="nxp-sl-track"></div>
+          <!-- Sleek Frosted Glass Chevrons -->
+          <button class="nxp-sl-btn" id="nxp-sl-prev" aria-label="Önceki Fotoğraf">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="nxp-sl-btn" id="nxp-sl-next" aria-label="Sonraki Fotoğraf">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <!-- NO DOTS / NO CIRCLES AT ALL! (Purged per user request) -->
+        </div>
+
+        <!-- Luxury Thumbnail Filmstrip -->
         <div id="nxp-thumbs"></div>
       </div>
 
-      <!-- ── RIGHT: info ─────────────────────────────────────── -->
+      <!-- ── RIGHT: VIP Dossier & Intelligence Panel (42%) ───────── -->
       <div id="nxp-info">
-        <!-- sticky close -->
-        <div id="nxp-close">
-          <button id="nxp-close-btn" aria-label="Kapat">✕</button>
-        </div>
-
-        <!-- loader -->
+        <!-- Loader during scrape / API fetch -->
         <div id="nxp-loader" style="display:none">
           <div class="nxp-spinner"></div>
-          <span id="nxp-loader-msg">İlan bilgileri alınıyor…</span>
+          <span id="nxp-loader-msg">VIP Portföy Verileri Doğrulanıyor…</span>
         </div>
 
-        <!-- content -->
+        <!-- Body Content -->
         <div id="nxp-body" style="display:none">
-          <div id="nxp-m-tag"></div>
-          <h2 id="nxp-m-title"></h2>
+          <!-- Tag & Verification Header -->
+          <div class="nxp-header-deck">
+            <span id="nxp-m-tag">DAİRE · SATILIK</span>
+            <span class="nxp-verified-badge"><i class="fas fa-certificate"></i> COLDWELL BANKER VIP ONAYLI</span>
+          </div>
+
+          <h2 id="nxp-m-title">Portföy Başlığı</h2>
+          
           <div id="nxp-m-loc">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span id="nxp-m-loc-text"></span>
+            <i class="fas fa-map-marker-alt"></i>
+            <span id="nxp-m-loc-text">Ankara</span>
           </div>
-          <div id="nxp-m-stats"></div>
-          <div id="nxp-m-feats"></div>
-          <div id="nxp-m-desc"></div>
+
+          <!-- VIP Financial Deck -->
           <div id="nxp-m-price-bar">
-            <span class="nxp-price-lbl">Fiyat</span>
-            <span id="nxp-m-price">—</span>
+            <div class="nxp-price-meta">
+              <span class="nxp-price-lbl">PORTFÖY SATIŞ / KİRA DEĞERİ</span>
+              <span id="nxp-m-price">—</span>
+            </div>
+            <div class="nxp-price-status-badge">
+              <i class="fas fa-shield-alt"></i> Tek Yetkili Portföy
+            </div>
           </div>
+
+          <!-- Executive Specification Tiles -->
+          <div id="nxp-m-stats"></div>
+
+          <!-- Detailed Features Grid -->
+          <div id="nxp-m-feats"></div>
+
+          <!-- Description / Expert Note -->
+          <div id="nxp-m-desc"></div>
+
+          <!-- Danışman Deck -->
           <div id="nxp-m-agent">
             <img src="https://media.cb.com.tr/OfficeUserImages/4979/Yig-it-Bey1_3S207WHO46_295X350.png"
-              style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid rgba(201,168,76,.3);" alt="Yiğit Narin">
+                 alt="Yiğit Narin"
+                 onerror="this.src='/static/yigit_narin_portrait.png'">
             <div>
               <div class="nxp-aname">Yiğit Narin</div>
-              <div class="nxp-aoff">Coldwell Banker CB VIP · Ankara</div>
-              <div class="nxp-astars">★★★★★</div>
+              <div class="nxp-aoff">Coldwell Banker CB VIP · Gayrimenkul Mühendisi</div>
+              <div class="nxp-astars">★★★★★ 5.0 (Doğrulanmış VIP Danışman)</div>
             </div>
-          </div>
-        <div id="nxp-m-persona-wrap" style="margin: 16px 0 12px 0;">
-          <button id="nxp-m-persona-btn" onclick="openPersonaFromPreview()" class="nxp-persona-vip-btn" type="button">
-            <div class="nxp-persona-pulse-dot"></div>
-            <div style="text-align:left; flex:1;">
-              <div style="font-size:10.5px; font-weight:800; letter-spacing:0.8px; text-transform:uppercase; opacity:0.85;">NEXA AI Swarm Intelligence</div>
-              <div style="font-size:13.5px; font-weight:700;">🎯 Bu Portföy Kimler İçin Uygun? (Canlı Hedef Kitle Analizi)</div>
-            </div>
-            <i class="fas fa-chevron-right" style="font-size:13px; opacity:0.7;"></i>
-          </button>
-        </div>
-          <div id="nxp-m-actions">
-            <a class="nxp-btn nxp-btn-wa" id="nxp-m-link" href="#" target="_blank" rel="noopener">
-              <i class="fab fa-whatsapp"></i> WhatsApp
-            </a>
-            <button class="nxp-btn nxp-btn-kredi" id="nxp-m-kredi" onclick="nexaShowKredi()">
-              <i class="fas fa-calculator"></i> Kredi
-            </button>
-            <button class="nxp-btn nxp-btn-out" id="nxp-m-close2">✕</button>
           </div>
 
-          <!-- Kredi paneli -->
-          <div id="nxp-kredi-panel">
+          <!-- NEXA AI Swarm Target Persona Integration -->
+          <div id="nxp-m-persona-wrap" style="margin: 16px 0 14px 0;">
+            <button id="nxp-m-persona-btn" onclick="openPersonaFromPreview()" class="nxp-persona-vip-btn" type="button">
+              <div class="nxp-persona-pulse-dot"></div>
+              <div style="text-align:left; flex:1;">
+                <div style="font-size:10px; font-weight:800; letter-spacing:0.8px; text-transform:uppercase; opacity:0.85; color:#fde047;">NEXA AI Swarm Intelligence</div>
+                <div style="font-size:13px; font-weight:700; color:#ffffff;">🎯 Bu Portföy Kimler İçin Uygun? (Canlı Hedef Kitle Analizi)</div>
+              </div>
+              <i class="fas fa-chevron-right" style="font-size:13px; color:#d4af37;"></i>
+            </button>
+          </div>
+
+          <!-- Action Console -->
+          <div id="nxp-m-actions">
+            <a class="nxp-btn nxp-btn-wa" id="nxp-m-link" href="#" target="_blank" rel="noopener">
+              <i class="fab fa-whatsapp" style="font-size:16px;"></i> WhatsApp VIP
+            </a>
+            <a class="nxp-btn nxp-btn-call" id="nxp-m-call" href="tel:+905324514008">
+              <i class="fas fa-phone-alt"></i> Danışmanı Ara
+            </a>
+            <button class="nxp-btn nxp-btn-kredi" id="nxp-m-kredi" onclick="nexaShowKredi()" type="button">
+              <i class="fas fa-calculator"></i> Kredi Hesapla
+            </button>
+            <button class="nxp-btn nxp-btn-out" id="nxp-m-close2" type="button">✕ Kapat</button>
+          </div>
+
+          <!-- Kredi Hesaplama Paneli -->
+          <div id="nxp-kredi-panel" style="display:none;">
             <div class="nxp-kredi-header">
-              <h3>Konut Kredisi Hesapla</h3>
-              <button class="nxp-kredi-close" onclick="document.getElementById('nxp-kredi-panel').style.display='none'">✕</button>
+              <h3><i class="fas fa-calculator" style="color:var(--gold);margin-right:8px;"></i>Konut Kredisi Hesaplama Simülatörü</h3>
+              <button class="nxp-kredi-close" onclick="document.getElementById('nxp-kredi-panel').style.display='none'" type="button">✕</button>
             </div>
             <div class="nxp-kredi-inputs">
               <div>
@@ -2566,35 +2743,45 @@
               <div>
                 <label>Vade (Ay)</label>
                 <select id="nxp-kredi-vade">
-                  <option value="60">60 Ay — 5 Yıl</option>
-                  <option value="84">84 Ay — 7 Yıl</option>
-                  <option value="120" selected>120 Ay — 10 Yıl</option>
-                  <option value="180">180 Ay — 15 Yıl</option>
-                  <option value="240">240 Ay — 20 Yıl</option>
+                  <option value="60">60 Ay (5 Yıl)</option>
+                  <option value="84">84 Ay (7 Yıl)</option>
+                  <option value="120" selected>120 Ay (10 Yıl)</option>
+                  <option value="180">180 Ay (15 Yıl)</option>
+                  <option value="240">240 Ay (20 Yıl)</option>
                 </select>
               </div>
               <div>
-                <label>Aylık Faiz (%)</label>
+                <label>Aylık Faiz Oranı (%)</label>
                 <input id="nxp-kredi-faiz" type="number" step="0.01" value="3.09">
               </div>
             </div>
-            <button onclick="nexaKrediHesapla()" style="width:100%;background:#c9a84c;color:#0c0c11;border:none;border-radius:7px;padding:11px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">
-              Hesapla
+            <button onclick="nexaKrediHesapla()" class="nxp-btn nxp-btn-kredi" style="width:100%;margin-top:10px;" type="button">
+              <i class="fas fa-chart-line"></i> Simülasyonu Çalıştır
             </button>
-            <div id="nxp-kredi-result">
+            <div id="nxp-kredi-result" style="display:none;">
               <div class="nxp-k-row">
-                <div><div class="kl">Aylık Taksit</div><div class="kv" id="nxp-k-taksit"></div></div>
-                <div><div class="kl">Toplam Ödeme</div><div class="kv" id="nxp-k-toplam"></div></div>
-                <div><div class="kl">Toplam Faiz</div><div class="kv" id="nxp-k-faiz"></div></div>
+                <div><div class="kl">Aylık Taksit</div><div class="kv" id="nxp-k-taksit">0 ₺</div></div>
+                <div><div class="kl">Toplam Geri Ödeme</div><div class="kv" id="nxp-k-toplam">0 ₺</div></div>
+                <div><div class="kl">Toplam Faiz Maliyeti</div><div class="kv" id="nxp-k-faiz">0 ₺</div></div>
               </div>
+              <p class="nxp-kredi-note">* Hesaplanan değerler bağlayıcı olmayan piyasa simülasyonudur.</p>
             </div>
-            <p class="nxp-kredi-note">* Tahminidir, bankadan onay alınız.</p>
           </div>
+
         </div><!-- /nxp-body -->
       </div><!-- /nxp-info -->
 
     </div><!-- /nxp-modal -->
   </div><!-- /nxp-overlay -->
+
+  <!-- Fullscreen Lightbox Stage -->
+  <div id="nxp-lightbox" role="dialog" aria-modal="true" aria-label="Görsel Büyütme">
+    <button id="nxp-lb-close" aria-label="Kapat">✕</button>
+    <button id="nxp-lb-prev" aria-label="Önceki"><i class="fas fa-chevron-left"></i></button>
+    <button id="nxp-lb-next" aria-label="Sonraki"><i class="fas fa-chevron-right"></i></button>
+    <img id="nxp-lb-img" src="" alt="Büyütülmüş Fotoğraf">
+    <div id="nxp-lb-counter">1 / 1</div>
+  </div>
 
 <!-- ══ NEXA AI SWARM PERSONA INTELLIGENCE MODAL ═══════════════════════════ -->
   <div id="nxp-persona-overlay" role="dialog" aria-modal="true" aria-label="Kimler İçin Uygun - AI Swarm Raporu">
@@ -3179,29 +3366,34 @@
     document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') applyFilters(); });
   });
 
-  // ── NEXA PREVIEW MODAL ────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════
+  // NEXA PREVIEW CONTROLLER — UNIFIED ULTRA-PREMIUM SUITE
+  // ══════════════════════════════════════════════════════════════════
   (function () {
+    'use strict';
     var images = [], curIdx = 0;
     var swipeX0 = null, swipeActive = false;
     function $(id){ return document.getElementById(id); }
+    function esc(s){ return window.escapeHtml ? window.escapeHtml(String(s||'')) : String(s||''); }
 
-    /* ── Build slider & thumbs ── */
+    /* ── Build slider & thumbs (ZERO DOTS!) ── */
     function buildSlider(imgs){
-      images = imgs.length ? imgs : [];
+      images = (imgs && imgs.length) ? imgs : [];
       curIdx = 0;
       var track = $('nxp-sl-track');
+      var thumbs = $('nxp-thumbs');
+      var count = $('nxp-sl-count');
 
       if(!images.length){
-        track.innerHTML = '<div class="nxp-slide"><div class="nxp-no-img"><i class="fas fa-image"></i><span>Görsel mevcut değil</span></div></div>';
-        $('nxp-thumbs').innerHTML = '';
-        $('nxp-thumbs').style.display = 'none';
-        $('nxp-sl-count').textContent = '';
-        document.querySelectorAll('.nxp-sl-btn').forEach(function(b){b.style.display='none';});
-        $('nxp-fullscreen-btn').style.display = 'none';
+        track.innerHTML = '<div class="nxp-slide"><div style="color:#64748b;font-size:0.9rem;"><i class="fas fa-image" style="font-size:2rem;margin-bottom:8px;display:block;opacity:0.4;"></i>Görsel mevcut değil</div></div>';
+        if(thumbs) { thumbs.innerHTML = ''; thumbs.style.display = 'none'; }
+        if(count) count.innerHTML = '<i class="fas fa-camera"></i> <span>0 / 0</span>';
+        document.querySelectorAll('.nxp-sl-btn').forEach(function(b){ b.style.display = 'none'; });
+        var fs = $('nxp-fullscreen-btn'); if(fs) fs.style.display = 'none';
         return;
       }
 
-      // Eager preloading for instant rendering
+      // Eager preloading
       images.forEach(function(src){
         if(src){
           var pre = new Image();
@@ -3209,25 +3401,27 @@
         }
       });
 
-      track.innerHTML = images.map(function(src,i){
-        return '<div class="nxp-slide">'
-          + '<img src="'+src+'" alt="Fotoğraf '+(i+1)+'" loading="eager" draggable="false" onerror="this.onerror=null;this.src=\'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=80\'">'
-          + '</div>';
+      track.innerHTML = images.map(function(src, i){
+        return '<div class="nxp-slide">' +
+          '<img src="' + esc(src) + '" alt="Fotoğraf ' + (i+1) + '" loading="eager" draggable="false" onerror="this.onerror=null;this.src=\'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80\'">' +
+          '<div class="nxp-slide-overlay"></div>' +
+        '</div>';
       }).join('');
 
-      $('nxp-thumbs').innerHTML = images.map(function(src,i){
-        return '<div class="nxp-thumb'+(i===0?' active':'')+'" data-i="' + i + '">'
-          + '<img src="'+src+'" alt="" loading="eager" onerror="this.style.opacity=\'0.3\'">'
-          + '<span class="nxp-thumb-num">'+(i+1)+'</span>'
-          + '</div>';
-      }).join('');
+      if(thumbs) {
+        thumbs.innerHTML = images.map(function(src, i){
+          return '<div class="nxp-thumb' + (i === 0 ? ' active' : '') + '" data-i="' + i + '">' +
+            '<img src="' + esc(src) + '" alt="" loading="eager" onerror="this.style.opacity=\'0.3\'">' +
+            '<span class="nxp-thumb-num">' + (i + 1) + '</span>' +
+          '</div>';
+        }).join('');
 
-      // thumb click
-      $('nxp-thumbs').querySelectorAll('.nxp-thumb').forEach(function(t){
-        t.addEventListener('click', function(){ goSlide(parseInt(this.dataset.i)); });
-      });
+        thumbs.style.display = images.length > 1 ? 'flex' : 'none';
+      }
 
-      $('nxp-fullscreen-btn').style.display = '';
+      var fsBtn = $('nxp-fullscreen-btn');
+      if(fsBtn) fsBtn.style.display = '';
+
       updateSlider();
     }
 
@@ -3250,17 +3444,26 @@
         track.style.transform = 'translateX(-' + (curIdx * 100) + '%)';
       }
       var count = $('nxp-sl-count');
-      if (count) count.textContent = (curIdx + 1) + ' / ' + n;
+      if (count) count.innerHTML = '<i class="fas fa-camera"></i> <span>' + (curIdx + 1) + ' / ' + n + '</span>';
 
-      var ths = $('nxp-thumbs').querySelectorAll('.nxp-thumb');
-      ths.forEach(function(t,i){
-        t.classList.toggle('active', i===curIdx);
-        if(i===curIdx) t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'});
+      var thumbs = $('nxp-thumbs');
+      if(thumbs) {
+        var ths = thumbs.querySelectorAll('.nxp-thumb');
+        ths.forEach(function(t, i){
+          t.classList.toggle('active', i === curIdx);
+          if(i === curIdx) t.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+        });
+      }
+
+      document.querySelectorAll('.nxp-sl-btn').forEach(function(b){
+        b.style.display = n > 1 ? 'flex' : 'none';
       });
 
-      var showBtns = n > 1;
-      document.querySelectorAll('.nxp-sl-btn').forEach(function(b){b.style.display=showBtns?'flex':'none';});
-      $('nxp-thumbs').style.display = n > 1 ? 'flex' : 'none';
+      var lbImg = $('nxp-lb-img');
+      if(lbImg && images[curIdx]) lbImg.src = images[curIdx];
+      var lbCount = $('nxp-lb-counter');
+      if(lbCount) lbCount.textContent = (curIdx + 1) + ' / ' + n;
+
       preloadAdjacent(curIdx);
     }
 
@@ -3270,179 +3473,310 @@
       updateSlider();
     }
 
-    /* ── Swipe & drag ── */
-    var slWrap = $('nxp-sl-wrap');
-    slWrap.addEventListener('mousedown', function(e){ swipeX0=e.clientX; swipeActive=true; });
-    slWrap.addEventListener('mousemove', function(e){ if(!swipeActive) return; });
-    slWrap.addEventListener('mouseup',   function(e){
-      if(!swipeActive) return;
-      var dx = e.clientX - swipeX0;
-      if(Math.abs(dx)>40) goSlide(dx<0 ? curIdx+1 : curIdx-1);
-      swipeActive = false;
-    });
-    slWrap.addEventListener('mouseleave', function(){ swipeActive=false; });
-    slWrap.addEventListener('touchstart', function(e){ swipeX0=e.touches[0].clientX; swipeActive=true; }, {passive:true});
-    slWrap.addEventListener('touchend',   function(e){
-      if(!swipeActive) return;
-      var dx = e.changedTouches[0].clientX - swipeX0;
-      if(Math.abs(dx)>40) goSlide(dx<0 ? curIdx+1 : curIdx-1);
-      swipeActive = false;
-    });
-
-    $('nxp-sl-prev').addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx-1); });
-    $('nxp-sl-next').addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx+1); });
-
-    /* ── Fullscreen lightbox ── */
-    var lbOpen = false;
-    function openLightbox(idx){
-      if(!images.length) return;
-      curIdx = idx;
-      lbOpen = true;
-      var lb = $('nxp-lightbox');
-      lb.classList.add('open');
-      updateLightbox();
+    // Thumb click via delegation
+    var thumbsEl = $('nxp-thumbs');
+    if(thumbsEl) {
+      thumbsEl.addEventListener('click', function(e){
+        var th = e.target.closest('.nxp-thumb');
+        if(th) goSlide(parseInt(th.getAttribute('data-i')));
+      });
     }
-    function updateLightbox(){
-      $('nxp-lb-img').src = images[curIdx];
-      $('nxp-lb-counter').textContent = (curIdx+1)+' / '+images.length;
-    }
-    function closeLightbox(){
-      lbOpen = false;
-      $('nxp-lightbox').classList.remove('open');
-    }
-    slWrap.addEventListener('click', function(e){
-      if(Math.abs(e.clientX - swipeX0) < 8) openLightbox(curIdx);
-    });
-    $('nxp-fullscreen-btn').addEventListener('click', function(e){
-      e.stopPropagation(); openLightbox(curIdx);
-    });
-    $('nxp-lb-close').addEventListener('click', closeLightbox);
-    $('nxp-lb-prev').addEventListener('click', function(){
-      curIdx = ((curIdx-1)+images.length)%images.length;
-      updateLightbox(); updateSlider();
-    });
-    $('nxp-lb-next').addEventListener('click', function(){
-      curIdx = (curIdx+1)%images.length;
-      updateLightbox(); updateSlider();
-    });
-    $('nxp-lightbox').addEventListener('click', function(e){
-      if(e.target === $('nxp-lightbox') || e.target === $('nxp-lb-img')) closeLightbox();
-    });
 
-    /* ── Keyboard ── */
+    // Touch & Swipe
+    var trackEl = $('nxp-sl-track');
+    if(trackEl) {
+      trackEl.addEventListener('mousedown',  function(e){ swipeX0 = e.clientX; swipeActive = true; });
+      trackEl.addEventListener('touchstart', function(e){ swipeX0 = e.touches[0].clientX; swipeActive = true; }, { passive: true });
+      trackEl.addEventListener('mousemove',  function(e){
+        if(!swipeActive) return;
+        trackEl.style.transition = 'none';
+        trackEl.style.transform = 'translateX(calc(-' + (curIdx * 100) + '% + ' + (e.clientX - swipeX0) + 'px))';
+      });
+      trackEl.addEventListener('touchmove', function(e){
+        if(!swipeActive) return;
+        trackEl.style.transition = 'none';
+        trackEl.style.transform = 'translateX(calc(-' + (curIdx * 100) + '% + ' + (e.touches[0].clientX - swipeX0) + 'px))';
+      }, { passive: true });
+
+      function endSwipe(e){
+        if(!swipeActive) return;
+        swipeActive = false;
+        var clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+        var dx = clientX - swipeX0;
+        trackEl.style.transition = 'transform .45s cubic-bezier(.22,.61,.36,1)';
+        if(Math.abs(dx) > 40) goSlide(curIdx + (dx < 0 ? 1 : -1));
+        else updateSlider();
+      }
+
+      trackEl.addEventListener('mouseup',    endSwipe);
+      trackEl.addEventListener('touchend',   endSwipe);
+      trackEl.addEventListener('mouseleave', function(){ if(swipeActive){ swipeActive = false; updateSlider(); } });
+    }
+
+    var prevBtn = $('nxp-sl-prev');
+    if(prevBtn) prevBtn.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx - 1); });
+    var nextBtn = $('nxp-sl-next');
+    if(nextBtn) nextBtn.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx + 1); });
+
+    // Fullscreen Lightbox Controls
+    var fsBtn = $('nxp-fullscreen-btn');
+    if(fsBtn) {
+      fsBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var lb = $('nxp-lightbox');
+        if(lb) {
+          lb.classList.add('open');
+          var lbImg = $('nxp-lb-img');
+          if(lbImg && images[curIdx]) lbImg.src = images[curIdx];
+          var lbCount = $('nxp-lb-counter');
+          if(lbCount) lbCount.textContent = (curIdx + 1) + ' / ' + (images.length || 1);
+        }
+      });
+    }
+
+    var lbClose = $('nxp-lb-close');
+    if(lbClose) lbClose.addEventListener('click', function(){ $('nxp-lightbox').classList.remove('open'); });
+    var lbPrev = $('nxp-lb-prev');
+    if(lbPrev) lbPrev.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx - 1); });
+    var lbNext = $('nxp-lb-next');
+    if(lbNext) lbNext.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx + 1); });
+
+    // Keyboard navigation
     document.addEventListener('keydown', function(e){
-      if(lbOpen){
-        if(e.key==='ArrowLeft')  { curIdx=((curIdx-1)+images.length)%images.length; updateLightbox(); updateSlider(); }
-        if(e.key==='ArrowRight') { curIdx=(curIdx+1)%images.length; updateLightbox(); updateSlider(); }
-        if(e.key==='Escape')     closeLightbox();
+      var overlay = $('nxp-overlay');
+      if(!overlay || !overlay.classList.contains('nxp-open')) return;
+      var lb = $('nxp-lightbox');
+      if(lb && lb.classList.contains('open')) {
+        if(e.key === 'Escape') lb.classList.remove('open');
+        if(e.key === 'ArrowLeft') goSlide(curIdx - 1);
+        if(e.key === 'ArrowRight') goSlide(curIdx + 1);
         return;
       }
-      if(!$('nxp-overlay').classList.contains('nxp-open')) return;
-      if(e.key==='ArrowLeft')  goSlide(curIdx-1);
-      if(e.key==='ArrowRight') goSlide(curIdx+1);
-      if(e.key==='Escape')     closeModal();
+      if(e.key === 'ArrowLeft')  goSlide(curIdx - 1);
+      if(e.key === 'ArrowRight') goSlide(curIdx + 1);
+      if(e.key === 'Escape')     closeModal();
     });
 
-    /* ── Render data ── */
+    /* ── Render Listing Dossier ── */
     function render(d){
       buildSlider(d.images || []);
 
-      var waTitle = d.title || 'ilan';
-      var waText  = encodeURIComponent('Merhaba, "'+waTitle+'" ilanı hakkında bilgi almak istiyorum.');
-      $('nxp-m-link').href = 'https://wa.me/905324514008?text='+waText;
+      // Tag & Title & Location
+      var tagEl = $('nxp-m-tag');
+      if(tagEl) tagEl.textContent = (d.type || 'İlan') + ' · ' + (d.status || 'Satılık');
 
-      $('nxp-m-tag').textContent = (d.type||'İlan')+' · '+(d.status||'Satılık');
-      $('nxp-m-title').textContent = d.title||'—';
-      $('nxp-m-loc-text').textContent = d.location||'—';
-      $('nxp-m-price').textContent = d.price||'Fiyat sorunuz';
+      var titleEl = $('nxp-m-title');
+      if(titleEl) titleEl.textContent = d.title || '—';
+
+      var locEl = $('nxp-m-loc-text');
+      if(locEl) locEl.textContent = d.location || 'Ankara';
+
+      var priceEl = $('nxp-m-price');
+      if(priceEl) priceEl.textContent = d.price || 'Fiyat Sorunuz';
+
+      // WhatsApp link prefill
+      var waMsg = encodeURIComponent('✦ [NEXA VIP PORTFÖY TALEBİ]\\nReferans: ' + (d.title || 'İlan') + '\\nFiyat: ' + (d.price || '—') + '\\nDetaylı sunum dosyası ve yer gösterme randevusu almak istiyorum.');
+      var waBtn = $('nxp-m-link');
+      if(waBtn) waBtn.href = 'https://wa.me/905324514008?text=' + waMsg;
+
+      // Executive Specification Cards (Iconized)
+      var statIcons = {
+        'oda': 'fa-bed',
+        'alan': 'fa-ruler-combined',
+        'durum': 'fa-shield-alt',
+        'tür': 'fa-home',
+        'konum': 'fa-map-marker-alt',
+        'tapu durumu': 'fa-file-contract',
+        'bina yaşı': 'fa-history',
+        'bulunduğu kat': 'fa-layer-group',
+        'ısıtma': 'fa-fire-alt',
+        'balkon': 'fa-sun',
+        'banyo': 'fa-bath',
+        'kullanım durumu': 'fa-key'
+      };
 
       var statsData = [];
-      if(d.rooms)  statsData.push({l:'Oda Sayısı',  v:d.rooms});
-      if(d.sqm)    statsData.push({l:'Brüt Alan',   v:d.sqm});
-      if(d.status) statsData.push({l:'Durum',       v:d.status});
-      if(d.type)   statsData.push({l:'Tür',         v:d.type});
-      $('nxp-m-stats').innerHTML = statsData.map(function(s){
-        return '<div class="nxp-stat"><span class="nxp-stat-l">'+s.l+'</span><span class="nxp-stat-v">'+s.v+'</span></div>';
-      }).join('');
+      if(d.rooms)  statsData.push({ l: 'Oda Sayısı', v: d.rooms });
+      if(d.sqm)    statsData.push({ l: 'Net / Brüt Alan', v: d.sqm });
+      if(d.status) statsData.push({ l: 'İşlem Durumu', v: d.status });
+      if(d.type)   statsData.push({ l: 'Mülk Türü', v: d.type });
 
-      // Features
-      var featsEl = $('nxp-m-feats');
-      if(d.features && d.features.length){
-        featsEl.innerHTML = '<div class="nxp-feats-title">Özellikler</div>'
-          + '<div class="nxp-feat-grid">'
-          + d.features.map(function(f){
-              return '<div class="nxp-feat-row"><span class="fl">'+f.label+'</span><span class="fv">'+f.value+'</span></div>';
-            }).join('')
-          + '</div>';
-      } else {
-        featsEl.innerHTML = '';
+      var usedLabels = new Set(statsData.map(function(s){ return s.l.toLowerCase(); }));
+      (d.features || []).forEach(function(f){
+        if(statsData.length >= 6) return;
+        var lbl = (f.label || '').toLowerCase();
+        if(!usedLabels.has(lbl)){
+          statsData.push({ l: f.label, v: f.value });
+          usedLabels.add(lbl);
+        }
+      });
+
+      var statsEl = $('nxp-m-stats');
+      if(statsEl) {
+        statsEl.innerHTML = statsData.slice(0, 6).map(function(s){
+          var norm = s.l.toLowerCase().trim();
+          var iconClass = 'fa-check-circle';
+          for(var key in statIcons) {
+            if(norm.indexOf(key) !== -1) { iconClass = statIcons[key]; break; }
+          }
+          return '<div class="nxp-stat-card">' +
+            '<div class="nxp-stat-icon"><i class="fas ' + iconClass + '"></i></div>' +
+            '<div class="nxp-stat-content">' +
+              '<span class="nxp-stat-l">' + esc(s.l) + '</span>' +
+              '<span class="nxp-stat-v" title="' + esc(s.v) + '">' + esc(s.v) + '</span>' +
+            '</div>' +
+          '</div>';
+        }).join('');
       }
 
-      var descEl = $('nxp-m-desc');
-      if(d.description){ descEl.textContent=d.description; descEl.style.display=''; }
-      else descEl.style.display='none';
+      // Rest features
+      var restFeats = (d.features || []).filter(function(f){
+        return !usedLabels.has((f.label || '').toLowerCase());
+      });
+      var featsEl = $('nxp-m-feats');
+      if(featsEl) {
+        featsEl.innerHTML = restFeats.length
+          ? '<div class="nxp-feats-title"><i class="fas fa-layer-group"></i> Donatılar &amp; Öne Çıkan Özellikler</div><div class="nxp-feat-grid">' +
+            restFeats.map(function(f){
+              return '<div class="nxp-feat-row"><span class="fl">' + esc(f.label) + '</span><span class="fv">' + esc(f.value) + '</span></div>';
+            }).join('') + '</div>'
+          : '';
+      }
 
-      $('nxp-loader').style.display = 'none';
-      $('nxp-body').style.display   = '';
-      $('nxp-info').scrollTop = 0;
+      // Description
+      var descEl = $('nxp-m-desc');
+      if(descEl) {
+        if(d.description){
+          descEl.innerHTML = '<div style="font-size:0.65rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#d4af37;margin-bottom:8px;"><i class="fas fa-quote-left" style="margin-right:6px;"></i>Gayrimenkul Mühendisi Ekspertiz Notu</div>' + esc(d.description);
+          descEl.style.display = '';
+        } else {
+          descEl.style.display = 'none';
+        }
+      }
+
+      var loaderEl = $('nxp-loader');
+      if(loaderEl) loaderEl.style.display = 'none';
+      var bodyEl = $('nxp-body');
+      if(bodyEl) bodyEl.style.display = '';
     }
 
-    /* ── Open modal ── */
+    /* ── Open / Close Modal ── */
     function openModal(cbUrl){
       if(!cbUrl) return;
-      images=[]; curIdx=0;
-      $('nxp-sl-track').innerHTML='';
-      $('nxp-thumbs').innerHTML='';
-      $('nxp-thumbs').style.display='none';
-      $('nxp-sl-count').textContent='';
-      $('nxp-body').style.display='none';
-      $('nxp-loader').style.display='flex';
-      $('nxp-loader-msg').textContent='İlan bilgileri alınıyor…';
-      $('nxp-m-link').href='https://wa.me/905324514008';
-      $('nxp-overlay').classList.add('nxp-open');
-      document.body.style.overflow='hidden';
-      $('nxp-info').scrollTop=0;
+      console.log('[NexaPreview Unified] Opening →', cbUrl);
 
-      fetch('/api/listing/preview?url='+encodeURIComponent(cbUrl))
+      images = []; curIdx = 0;
+      var track = $('nxp-sl-track'); if(track) track.innerHTML = '';
+      var thumbs = $('nxp-thumbs'); if(thumbs) thumbs.innerHTML = '';
+      var count = $('nxp-sl-count'); if(count) count.innerHTML = '<i class="fas fa-camera"></i> <span>1 / 1</span>';
+
+      var bodyEl = $('nxp-body'); if(bodyEl) bodyEl.style.display = 'none';
+      var loaderEl = $('nxp-loader');
+      if(loaderEl) {
+        loaderEl.style.display = 'flex';
+        var msg = $('nxp-loader-msg');
+        if(msg) msg.textContent = 'VIP Portföy Verileri Doğrulanıyor…';
+      }
+
+      var overlay = $('nxp-overlay');
+      if(overlay) overlay.classList.add('nxp-open');
+      document.body.style.overflow = 'hidden';
+
+      var modalEl = $('nxp-modal');
+      if(modalEl) modalEl.scrollTop = 0;
+
+      fetch('/api/listing/preview?url=' + encodeURIComponent(cbUrl))
         .then(function(r){ return r.json(); })
-        .then(function(d){ if(!d.ok) throw new Error(d.error||'Hata'); window._currentPreviewData = d; render(d); })
-        .catch(function(err){ $('nxp-loader-msg').textContent='⚠ '+(err.message||'Sayfa alınamadı'); });
+        .then(function(d){
+          if(!d.ok) throw new Error(d.error || 'Bilinmeyen hata');
+          window._currentPreviewData = d;
+          render(d);
+        })
+        .catch(function(err){
+          if(loaderEl) {
+            loaderEl.style.display = 'flex';
+            var msg = $('nxp-loader-msg');
+            if(msg) msg.textContent = '⚠ ' + (err.message || 'Sayfa alınamadı');
+          }
+        });
     }
 
-    /* ── Close modal ── */
     function closeModal(){
-      $('nxp-overlay').classList.remove('nxp-open');
-      document.body.style.overflow='';
-      var kp=document.getElementById('nxp-kredi-panel');
-      if(kp) kp.style.display='none';
+      var overlay = $('nxp-overlay');
+      if(overlay) overlay.classList.remove('nxp-open');
+      document.body.style.overflow = '';
+      var lb = $('nxp-lightbox');
+      if(lb) lb.classList.remove('open');
+      var kredi = $('nxp-kredi-panel');
+      if(kredi) kredi.style.display = 'none';
     }
 
-    $('nxp-close-btn').addEventListener('click', closeModal);
-    $('nxp-m-close2').addEventListener('click',  closeModal);
-    $('nxp-overlay').addEventListener('click', function(e){
-      if(e.target===$('nxp-overlay')) closeModal();
-    });
+    var closeBtn = $('nxp-close');
+    if(closeBtn) closeBtn.addEventListener('click', closeModal);
+    var closeBtn2 = $('nxp-m-close2');
+    if(closeBtn2) closeBtn2.addEventListener('click', closeModal);
+    var overlayEl = $('nxp-overlay');
+    if(overlayEl) {
+      overlayEl.addEventListener('click', function(e){
+        if(e.target === overlayEl) closeModal();
+      });
+    }
 
     window.NexaPreview = { open: openModal, close: closeModal };
   })();
 
-  // ── KREDI ─────────────────────────────────────────────────────
-  window.nexaShowKredi = function() {
-    var p = document.getElementById('nxp-kredi-panel');
-    if(p.style.display==='none'){ p.style.display='block'; }
-    else { p.style.display='none'; }
+  // ── Kredi Simülatörü Fonksiyonları ──
+  window.nexaShowKredi = function () {
+    var panel = document.getElementById('nxp-kredi-panel');
+    if (!panel) return;
+    var isOpen = panel.style.display !== 'none';
+    panel.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) {
+      var priceEl = document.getElementById('nxp-m-price');
+      if (priceEl) {
+        var raw = priceEl.textContent.replace(/[^0-9]/g, '');
+        var val = parseFloat(raw) || 0;
+        if (val > 0) {
+          var krediTutari = Math.round(val * 0.80);
+          var amountInput = document.getElementById('nxp-kredi-amount');
+          if (amountInput && !amountInput.value) {
+            amountInput.value = krediTutari;
+          }
+        }
+      }
+    }
   };
-  window.nexaKrediHesapla = function() {
-    var P = parseFloat(document.getElementById('nxp-kredi-amount').value)||0;
-    var n = parseFloat(document.getElementById('nxp-kredi-vade').value)||120;
-    var r = parseFloat(document.getElementById('nxp-kredi-faiz').value)/100;
-    if(!P||!r) return;
-    var taksit = P*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
-    var fmt = function(v){ return Math.round(v).toLocaleString('tr-TR')+' ₺'; };
-    document.getElementById('nxp-k-taksit').textContent = fmt(taksit);
-    document.getElementById('nxp-k-toplam').textContent = fmt(taksit*n);
-    document.getElementById('nxp-k-faiz').textContent   = fmt(taksit*n - P);
-    document.getElementById('nxp-kredi-result').style.display = 'block';
+
+  window.nexaKrediHesapla = function () {
+    var P = parseFloat(document.getElementById('nxp-kredi-amount').value) || 0;
+    var n = parseFloat(document.getElementById('nxp-kredi-vade').value)   || 120;
+    var r = parseFloat(document.getElementById('nxp-kredi-faiz').value)   / 100;
+
+    if (!P || P <= 0) {
+      alert('Lütfen kredi tutarını giriniz.');
+      return;
+    }
+    if (!r || r <= 0) {
+      alert('Lütfen faiz oranını giriniz.');
+      return;
+    }
+
+    var taksit = P * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    var toplam  = taksit * n;
+    var faiz    = toplam - P;
+
+    var fmt = function (v) {
+      return Math.round(v).toLocaleString('tr-TR') + ' ₺';
+    };
+
+    var taksitEl = document.getElementById('nxp-k-taksit');
+    if(taksitEl) taksitEl.textContent = fmt(taksit);
+    var toplamEl = document.getElementById('nxp-k-toplam');
+    if(toplamEl) toplamEl.textContent = fmt(toplam);
+    var faizEl = document.getElementById('nxp-k-faiz');
+    if(faizEl) faizEl.textContent = fmt(faiz);
+    var resEl = document.getElementById('nxp-kredi-result');
+    if(resEl) resEl.style.display = 'block';
   };
 
   // ── INIT ──────────────────────────────────────────────────────
