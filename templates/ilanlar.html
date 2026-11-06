@@ -1606,6 +1606,99 @@
       box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
     }
 
+    
+    /* ── SINEMA MODU (CINEMA AUTOPLAY SUITE) ── */
+    .nxp-cinema-ctrl {
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(7, 13, 24, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 999px;
+      padding: 3px 6px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nxp-cinema-ctrl.active {
+      border-color: #d4af37;
+      background: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+    }
+
+    #nxp-cinema-btn {
+      background: transparent; border: none;
+      color: #f8fafc; font-size: 0.78rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 999px;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      letter-spacing: 0.04em;
+      transition: all 0.2s ease;
+    }
+    #nxp-cinema-btn:hover {
+      color: #d4af37;
+    }
+    .nxp-cinema-ctrl.active #nxp-cinema-btn {
+      color: #d4af37;
+    }
+    .nxp-cinema-ctrl.active #nxp-cinema-btn i {
+      animation: nxpCinemaPulse 1.4s infinite;
+    }
+    @keyframes nxpCinemaPulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .nxp-cinema-speeds {
+      display: flex; align-items: center; gap: 2px;
+      padding-left: 4px;
+      border-left: 1px solid rgba(212, 175, 55, 0.3);
+    }
+    .nxp-speed-btn {
+      background: transparent; border: none;
+      color: #94a3b8; font-size: 0.72rem; font-weight: 700;
+      padding: 3px 6px; border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+    .nxp-speed-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .nxp-speed-btn.active {
+      color: #030712 !important;
+      background: #d4af37 !important;
+      font-weight: 800;
+      box-shadow: 0 1px 6px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Progress bar along top of the image */
+    .nxp-cinema-progress-wrap {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 25;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    #nxp-gallery.nxp-cinema-mode .nxp-cinema-progress-wrap {
+      opacity: 1;
+    }
+    .nxp-cinema-progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #d4af37, #fde047);
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.85);
+    }
+
+    /* SAĞ VE SOL OKLAR SİNEMA MODUNDAYKEN TAMAMEN ORTADAN KALKAR (USER REQUIREMENT) */
+    #nxp-gallery.nxp-cinema-mode .nxp-sl-btn {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+      transform: translateY(-50%) scale(0.65) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
     /* Top Right Photo Counter Badge & Fullscreen */
     .nxp-gallery-top-right {
       position: absolute; top: 16px; right: 18px; z-index: 20;
@@ -2623,16 +2716,34 @@
         <!-- Close button (Top Left) -->
         <button id="nxp-close" aria-label="Kapat" title="Kapat">✕</button>
 
-        <!-- Top Right Indicators: Photo Counter & Fullscreen -->
+        <!-- Top Right Indicators: Cinema Mode, Photo Counter & Fullscreen -->
         <div class="nxp-gallery-top-right">
+          <!-- Sinema Modu (Autoplay & Hız Kontrolü) -->
+          <div class="nxp-cinema-ctrl" id="nxp-cinema-ctrl" title="Sinema Modu (Otomatik Kaydırma)">
+            <button id="nxp-cinema-btn" type="button" title="Sinema Modunu Başlat / Durdur" aria-label="Sinema Modu">
+              <i class="fas fa-play" id="nxp-cinema-icon"></i>
+              <span id="nxp-cinema-txt">Sinema</span>
+            </button>
+            <div class="nxp-cinema-speeds" id="nxp-cinema-speeds">
+              <button class="nxp-speed-btn" data-speed="0.5" type="button" title="½x Hız (Yavaş - 6sn)">½x</button>
+              <button class="nxp-speed-btn active" data-speed="1" type="button" title="1x Standart Hız (3sn)">1x</button>
+              <button class="nxp-speed-btn" data-speed="2" type="button" title="2x Hızlı (1.5sn)">2x</button>
+            </div>
+          </div>
+
           <div id="nxp-sl-count"><i class="fas fa-camera"></i> <span>1 / 1</span></div>
-          <button id="nxp-fullscreen-btn" title="Tam Ekran Büyüt" aria-label="Tam Ekran">
+          <button id="nxp-fullscreen-btn" type="button" title="Tam Ekran Büyüt" aria-label="Tam Ekran">
             <i class="fas fa-expand-alt"></i>
           </button>
         </div>
 
         <!-- Slider Stage -->
         <div id="nxp-sl-wrap">
+          <!-- Sinema Modu Süre İlerleme Çubuğu -->
+          <div id="nxp-cinema-progress-wrap" class="nxp-cinema-progress-wrap">
+            <div id="nxp-cinema-progress-bar" class="nxp-cinema-progress-bar"></div>
+          </div>
+
           <div id="nxp-sl-track"></div>
           <!-- Sleek Frosted Glass Chevrons -->
           <button class="nxp-sl-btn" id="nxp-sl-prev" aria-label="Önceki Fotoğraf">
@@ -3390,6 +3501,7 @@
         if(count) count.innerHTML = '<i class="fas fa-camera"></i> <span>0 / 0</span>';
         document.querySelectorAll('.nxp-sl-btn').forEach(function(b){ b.style.display = 'none'; });
         var fs = $('nxp-fullscreen-btn'); if(fs) fs.style.display = 'none';
+        var cCtrl = $('nxp-cinema-ctrl'); if(cCtrl) cCtrl.style.display = 'none';
         return;
       }
 
@@ -3421,6 +3533,7 @@
 
       var fsBtn = $('nxp-fullscreen-btn');
       if(fsBtn) fsBtn.style.display = '';
+      var cCtrl = $('nxp-cinema-ctrl'); if(cCtrl) cCtrl.style.display = images.length > 1 ? 'flex' : 'none';
 
       updateSlider();
     }
@@ -3467,10 +3580,104 @@
       preloadAdjacent(curIdx);
     }
 
+    
+    /* ── Sinema Modu (Cinema Autoplay & Speed Controller) ── */
+    var cinemaActive = false;
+    var cinemaSpeed = 1; // 0.5, 1, 2
+    var cinemaTimer = null;
+
+    function getCinemaInterval(sp) {
+      if (sp === 0.5) return 6000;
+      if (sp === 2)   return 1500;
+      return 3000; // default 1x
+    }
+
+    function updateCinemaProgress() {
+      var bar = $('nxp-cinema-progress-bar');
+      if (!bar) return;
+      if (!cinemaActive) {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        return;
+      }
+      var duration = getCinemaInterval(cinemaSpeed);
+      bar.style.transition = 'none';
+      bar.style.width = '0%';
+      void bar.offsetWidth; // force reflow
+      bar.style.transition = 'width ' + duration + 'ms linear';
+      bar.style.width = '100%';
+    }
+
+    function advanceCinema() {
+      if (!cinemaActive || !images.length) return;
+      goSlide(curIdx + 1);
+      updateCinemaProgress();
+      clearTimeout(cinemaTimer);
+      cinemaTimer = setTimeout(advanceCinema, getCinemaInterval(cinemaSpeed));
+    }
+
+    function startCinema() {
+      if (!images.length || images.length <= 1) return;
+      cinemaActive = true;
+      var gal = $('nxp-gallery');
+      if (gal) gal.classList.add('nxp-cinema-mode');
+      var ctrl = $('nxp-cinema-ctrl');
+      if (ctrl) ctrl.classList.add('active');
+      var icon = $('nxp-cinema-icon');
+      if (icon) icon.className = 'fas fa-pause';
+      var txt = $('nxp-cinema-txt');
+      if (txt) txt.textContent = 'Durdur';
+
+      updateCinemaProgress();
+      clearTimeout(cinemaTimer);
+      cinemaTimer = setTimeout(advanceCinema, getCinemaInterval(cinemaSpeed));
+    }
+
+    function stopCinema() {
+      cinemaActive = false;
+      clearTimeout(cinemaTimer);
+      var gal = $('nxp-gallery');
+      if (gal) gal.classList.remove('nxp-cinema-mode');
+      var ctrl = $('nxp-cinema-ctrl');
+      if (ctrl) ctrl.classList.remove('active');
+      var icon = $('nxp-cinema-icon');
+      if (icon) icon.className = 'fas fa-play';
+      var txt = $('nxp-cinema-txt');
+      if (txt) txt.textContent = 'Sinema';
+      var bar = $('nxp-cinema-progress-bar');
+      if (bar) {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+      }
+    }
+
+    function toggleCinema() {
+      if (cinemaActive) stopCinema();
+      else startCinema();
+    }
+
+    function setCinemaSpeed(sp) {
+      cinemaSpeed = parseFloat(sp) || 1;
+      document.querySelectorAll('.nxp-speed-btn').forEach(function(b) {
+        var bSp = parseFloat(b.getAttribute('data-speed')) || 1;
+        b.classList.toggle('active', bSp === cinemaSpeed);
+      });
+      if (cinemaActive) {
+        clearTimeout(cinemaTimer);
+        updateCinemaProgress();
+        cinemaTimer = setTimeout(advanceCinema, getCinemaInterval(cinemaSpeed));
+      }
+    }
+
     function goSlide(idx){
       var n = images.length || 1;
       curIdx = ((idx % n) + n) % n;
       updateSlider();
+      if (cinemaActive) {
+        clearTimeout(cinemaTimer);
+        updateCinemaProgress();
+        cinemaTimer = setTimeout(advanceCinema, getCinemaInterval(cinemaSpeed));
+      }
     }
 
     // Thumb click via delegation
@@ -3513,6 +3720,26 @@
       trackEl.addEventListener('mouseleave', function(){ if(swipeActive){ swipeActive = false; updateSlider(); } });
     }
 
+    // Cinema Event Listeners
+    var cinemaBtn = $('nxp-cinema-btn');
+    if (cinemaBtn) {
+      cinemaBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleCinema();
+      });
+    }
+
+    var speedsWrap = $('nxp-cinema-speeds');
+    if (speedsWrap) {
+      speedsWrap.addEventListener('click', function(e) {
+        var btn = e.target.closest('.nxp-speed-btn');
+        if (btn) {
+          e.stopPropagation();
+          setCinemaSpeed(btn.getAttribute('data-speed'));
+        }
+      });
+    }
+
     var prevBtn = $('nxp-sl-prev');
     if(prevBtn) prevBtn.addEventListener('click', function(e){ e.stopPropagation(); goSlide(curIdx - 1); });
     var nextBtn = $('nxp-sl-next');
@@ -3550,10 +3777,20 @@
         if(e.key === 'Escape') lb.classList.remove('open');
         if(e.key === 'ArrowLeft') goSlide(curIdx - 1);
         if(e.key === 'ArrowRight') goSlide(curIdx + 1);
+      if(e.code === 'Space') {
+        if(document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT')) return;
+        e.preventDefault();
+        toggleCinema();
+      }
         return;
       }
       if(e.key === 'ArrowLeft')  goSlide(curIdx - 1);
       if(e.key === 'ArrowRight') goSlide(curIdx + 1);
+      if(e.code === 'Space') {
+        if(document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT')) return;
+        e.preventDefault();
+        toggleCinema();
+      }
       if(e.key === 'Escape')     closeModal();
     });
 
