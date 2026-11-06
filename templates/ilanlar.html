@@ -1609,26 +1609,32 @@
     
     /* ── SINEMA MODU (CINEMA AUTOPLAY SUITE) ── */
     .nxp-cinema-ctrl {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 22;
       display: flex; align-items: center; gap: 4px;
       background: rgba(7, 13, 24, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(212, 175, 55, 0.35);
       border-radius: 999px;
       padding: 3px 6px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+      white-space: nowrap;
     }
     .nxp-cinema-ctrl.active {
       border-color: #d4af37;
       background: rgba(15, 23, 42, 0.95);
-      box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
     }
 
     #nxp-cinema-btn {
       background: transparent; border: none;
       color: #f8fafc; font-size: 0.78rem; font-weight: 700;
-      padding: 4px 10px; border-radius: 999px;
+      padding: 5px 12px; border-radius: 999px;
       cursor: pointer; display: flex; align-items: center; gap: 6px;
       letter-spacing: 0.04em;
       transition: all 0.2s ease;
@@ -1656,7 +1662,7 @@
     .nxp-speed-btn {
       background: transparent; border: none;
       color: #94a3b8; font-size: 0.72rem; font-weight: 700;
-      padding: 3px 6px; border-radius: 6px;
+      padding: 4px 7px; border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
       line-height: 1;
@@ -1672,7 +1678,34 @@
       box-shadow: 0 1px 6px rgba(212, 175, 55, 0.5);
     }
 
-    /* Progress bar along top of the image */
+    /* Mobilde 2. görselden itibaren sinema ibaresi kaybolur (curIdx > 0) */
+    .nxp-cinema-ctrl.nxp-cinema-mobile-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+      transform: translateX(-50%) translateY(-14px) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    /* SİNEMA MODU BAŞLADIĞINDA: TÜM BUTONLAR VE OKLAR KAYBOLUR */
+    #nxp-gallery.nxp-cinema-mode #nxp-cinema-ctrl,
+    #nxp-gallery.nxp-cinema-mode .nxp-sl-btn,
+    #nxp-gallery.nxp-cinema-mode .nxp-gallery-top-right,
+    #nxp-gallery.nxp-cinema-mode #nxp-thumbs {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+      transform: translateY(-8px) scale(0.9) !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    #nxp-gallery.nxp-cinema-mode #nxp-cinema-ctrl {
+      transform: translateX(-50%) translateY(-14px) scale(0.9) !important;
+    }
+    #nxp-gallery.nxp-cinema-mode #nxp-thumbs {
+      transform: translateY(14px) scale(0.95) !important;
+    }
+
+    /* Sinema Modu Süre İlerleme Çubuğu */
     .nxp-cinema-progress-wrap {
       position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: rgba(0, 0, 0, 0.4);
@@ -1690,13 +1723,34 @@
       box-shadow: 0 0 8px rgba(212, 175, 55, 0.85);
     }
 
-    /* SAĞ VE SOL OKLAR SİNEMA MODUNDAYKEN TAMAMEN ORTADAN KALKAR (USER REQUIREMENT) */
-    #nxp-gallery.nxp-cinema-mode .nxp-sl-btn {
-      opacity: 0 !important;
-      pointer-events: none !important;
-      visibility: hidden !important;
-      transform: translateY(-50%) scale(0.65) !important;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    /* Sinema Modu Aktif Bildirimi (Herhangi bir yere basınca durur) */
+    .nxp-cinema-running-toast {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(4, 8, 16, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: #fde047;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 6px 16px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 28;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      white-space: nowrap;
+    }
+    #nxp-gallery.nxp-cinema-mode .nxp-cinema-running-toast {
+      opacity: 0.95;
     }
 
     /* Top Right Photo Counter Badge & Fullscreen */
@@ -2084,8 +2138,37 @@
     @keyframes nxpSpin { to { transform: rotate(360deg); } }
 
     /* Responsive Breakpoints */
-    @media(max-width: 960px) {
-      #nxp-modal { flex-direction: column; overflow-y: auto; }
+        @media(max-width: 960px) {
+      .nxp-cinema-ctrl {
+        top: 56px !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.6) !important;
+      }
+      .nxp-gallery-top-right {
+        top: 12px !important;
+        right: 14px !important;
+        gap: 6px !important;
+      }
+      #nxp-close {
+        top: 12px !important;
+        left: 14px !important;
+        width: 36px !important;
+        height: 36px !important;
+      }
+      #nxp-sl-count {
+        padding: 5px 10px !important;
+        font-size: 0.72rem !important;
+      }
+      #nxp-fullscreen-btn {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.85rem !important;
+      }
+      .nxp-cinema-running-toast {
+        bottom: 14px !important;
+        font-size: 0.7rem !important;
+        padding: 5px 12px !important;
+      }
+            #nxp-modal { flex-direction: column; overflow-y: auto; }
       #nxp-gallery { flex: 0 0 auto; height: 380px; max-height: 50vh; border-right: none; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
       #nxp-info { flex: 1; overflow-y: visible; }
       #nxp-body { padding: 22px 20px 36px; }
@@ -2716,21 +2799,21 @@
         <!-- Close button (Top Left) -->
         <button id="nxp-close" aria-label="Kapat" title="Kapat">✕</button>
 
-        <!-- Top Right Indicators: Cinema Mode, Photo Counter & Fullscreen -->
-        <div class="nxp-gallery-top-right">
-          <!-- Sinema Modu (Autoplay & Hız Kontrolü) -->
-          <div class="nxp-cinema-ctrl" id="nxp-cinema-ctrl" title="Sinema Modu (Otomatik Kaydırma)">
-            <button id="nxp-cinema-btn" type="button" title="Sinema Modunu Başlat / Durdur" aria-label="Sinema Modu">
-              <i class="fas fa-play" id="nxp-cinema-icon"></i>
-              <span id="nxp-cinema-txt">Sinema</span>
-            </button>
-            <div class="nxp-cinema-speeds" id="nxp-cinema-speeds">
-              <button class="nxp-speed-btn" data-speed="0.5" type="button" title="½x Hız (Yavaş - 6sn)">½x</button>
-              <button class="nxp-speed-btn active" data-speed="1" type="button" title="1x Standart Hız (3sn)">1x</button>
-              <button class="nxp-speed-btn" data-speed="2" type="button" title="2x Hızlı (1.5sn)">2x</button>
-            </div>
+        <!-- Top-Center Floating Cinema Control Bar (Centered & Independent) -->
+        <div class="nxp-cinema-ctrl" id="nxp-cinema-ctrl" title="Sinema Modu (Otomatik Kaydırma)">
+          <button id="nxp-cinema-btn" type="button" title="Sinema Modunu Başlat" aria-label="Sinema Modu">
+            <i class="fas fa-play" id="nxp-cinema-icon"></i>
+            <span id="nxp-cinema-txt">Sinema</span>
+          </button>
+          <div class="nxp-cinema-speeds" id="nxp-cinema-speeds">
+            <button class="nxp-speed-btn" data-speed="0.5" type="button" title="½x Hız (Yavaş - 6sn)">½x</button>
+            <button class="nxp-speed-btn active" data-speed="1" type="button" title="1x Standart Hız (3sn)">1x</button>
+            <button class="nxp-speed-btn" data-speed="2" type="button" title="2x Hızlı (1.5sn)">2x</button>
           </div>
+        </div>
 
+        <!-- Top Right Indicators: Photo Counter & Fullscreen -->
+        <div class="nxp-gallery-top-right">
           <div id="nxp-sl-count"><i class="fas fa-camera"></i> <span>1 / 1</span></div>
           <button id="nxp-fullscreen-btn" type="button" title="Tam Ekran Büyüt" aria-label="Tam Ekran">
             <i class="fas fa-expand-alt"></i>
@@ -2752,6 +2835,8 @@
           <button class="nxp-sl-btn" id="nxp-sl-next" aria-label="Sonraki Fotoğraf">
             <i class="fas fa-chevron-right"></i>
           </button>
+          <!-- Sinema Modu Aktif Bildirimi (Dokununca durur) -->
+          <div class="nxp-cinema-running-toast" id="nxp-cinema-toast"><i class="fas fa-film"></i> Sinema Modu · Durdurmak için dokunun</div>
           <!-- NO DOTS / NO CIRCLES AT ALL! (Purged per user request) -->
         </div>
 
@@ -3533,7 +3618,7 @@
 
       var fsBtn = $('nxp-fullscreen-btn');
       if(fsBtn) fsBtn.style.display = '';
-      var cCtrl = $('nxp-cinema-ctrl'); if(cCtrl) cCtrl.style.display = images.length > 1 ? 'flex' : 'none';
+      var cCtrl = $('nxp-cinema-ctrl'); if(cCtrl) { cCtrl.classList.remove('nxp-cinema-mobile-hidden'); cCtrl.style.display = images.length > 1 ? 'flex' : 'none'; }
 
       updateSlider();
     }
@@ -3578,6 +3663,21 @@
       if(lbCount) lbCount.textContent = (curIdx + 1) + ' / ' + n;
 
       preloadAdjacent(curIdx);
+
+      // Mobilde 2. görselden itibaren sinema ibaresi kaybolur; 1. görsele dönünce geri gelir
+      var isMobile = window.innerWidth <= 960;
+      var cCtrl = $('nxp-cinema-ctrl');
+      if (cCtrl) {
+        if (!cinemaActive && isMobile) {
+          if (curIdx > 0) {
+            cCtrl.classList.add('nxp-cinema-mobile-hidden');
+          } else {
+            cCtrl.classList.remove('nxp-cinema-mobile-hidden');
+          }
+        } else if (!cinemaActive && !isMobile) {
+          cCtrl.classList.remove('nxp-cinema-mobile-hidden');
+        }
+      }
     }
 
     
@@ -3634,6 +3734,7 @@
     }
 
     function stopCinema() {
+      if (!cinemaActive) return;
       cinemaActive = false;
       clearTimeout(cinemaTimer);
       var gal = $('nxp-gallery');
@@ -3649,6 +3750,8 @@
         bar.style.transition = 'none';
         bar.style.width = '0%';
       }
+      // Re-evaluate mobile hidden class based on curIdx
+      updateSlider();
     }
 
     function toggleCinema() {
@@ -3727,6 +3830,27 @@
         e.stopPropagation();
         toggleCinema();
       });
+    }
+
+    // Herhangi bir yere tıklayınca/dokununca Sinema Modu durur ve butonlar geri gelir (USER REQUIREMENT)
+    var galEl = $('nxp-gallery');
+    if (galEl) {
+      galEl.addEventListener('click', function(e) {
+        if (cinemaActive) {
+          if (e.target.closest('#nxp-close')) return;
+          e.stopPropagation();
+          stopCinema();
+        }
+      });
+    }
+
+    var slWrapEl = $('nxp-sl-wrap');
+    if (slWrapEl) {
+      slWrapEl.addEventListener('touchstart', function(e) {
+        if (cinemaActive) {
+          stopCinema();
+        }
+      }, { passive: true });
     }
 
     var speedsWrap = $('nxp-cinema-speeds');
