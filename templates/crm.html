@@ -12140,50 +12140,138 @@ ${comments}`;
             // ── GÖREV İŞLEMLERİ (METHODS) ─────────────────────────────
             const loadTasks = async () => {
                 tasksLoading.value = true;
+                // LAYER 1: 0ms instant display from localStorage cache
+                try {
+                    const cached = localStorage.getItem('nexa_crm_tasks');
+                    if (cached) {
+                        const parsed = JSON.parse(cached);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            tasks.value = parsed;
+                        }
+                    }
+                } catch(e) {}
+
+                // LAYER 2: Direct primary read from Firebase Firestore (users/{uid}/tasks)
+                let fsTasks = [];
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        const taskSnap = await db.collection('users').doc(user.value.uid).collection('tasks').get();
+                        if (!taskSnap.empty) {
+                            fsTasks = taskSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        } else if (isUserAdmin.value) {
+                            for (const altUid of YIGIT_ADMIN_UIDS) {
+                                if (altUid !== user.value.uid) {
+                                    try {
+                                        const altSnap = await db.collection('users').doc(altUid).collection('tasks').get();
+                                        if (!altSnap.empty) {
+                                            fsTasks = altSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                                            break;
+                                        }
+                                    } catch(e) {}
+                                }
+                            }
+                        }
+
+                        if (fsTasks.length > 0) {
+                            const taskMap = new Map();
+                            for (const t of tasks.value) if (t && t.id) taskMap.set(t.id, t);
+                            for (const ft of fsTasks) if (ft && ft.id) taskMap.set(ft.id, ft);
+                            tasks.value = Array.from(taskMap.values());
+                        }
+                    } catch(fsErr) {
+                        console.warn("Firestore tasks direct load warning:", fsErr);
+                    }
+                }
+
+                // LAYER 3: Fetch from backend API /api/crm/tasks
                 try {
                     const res = await fetch('/api/crm/tasks');
                     const json = await res.json();
-                    if (json.ok) {
-                        tasks.value = json.tasks || [];
+                    if (json.ok && Array.isArray(json.tasks)) {
+                        const serverTasks = json.tasks;
+                        const mergedMap = new Map();
+                        for (const st of serverTasks) if (st && st.id) mergedMap.set(st.id, st);
+                        for (const t of tasks.value) {
+                            if (t && t.id) {
+                                if (!mergedMap.has(t.id)) mergedMap.set(t.id, t);
+                                else mergedMap.set(t.id, { ...mergedMap.get(t.id), ...t });
+                            }
+                        }
+                        tasks.value = Array.from(mergedMap.values());
                         if (json.stats) tasksStats.value = json.stats;
                         if (json.categories && json.categories.length) taskCategories.value = json.categories;
+
+                        // Firestore background sync
+                        if (user.value && typeof db !== 'undefined' && db) {
+                            for (const t of tasks.value) {
+                                if (!t || !t.id) continue;
+                                db.collection('users').doc(user.value.uid).collection('tasks').doc(t.id).set(t, { merge: true }).catch(() => {});
+                            }
+                        }
                     }
                 } catch (err) {
                     console.error("Görevler yüklenirken hata:", err);
                 } finally {
                     tasksLoading.value = false;
                 }
+
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
             };
 
             const quickAddTask = async () => {
                 const title = quickTaskTitle.value.trim();
                 if (!title) return;
 
-                try {
-                    const payload = {
-                        title: title,
-                        category: quickTaskCategory.value || 'Genel',
-                        priority: quickTaskPriority.value || 'medium',
-                        due_date: quickTaskDueDate.value || '',
-                        status: 'todo',
-                        checklist: []
-                    };
+                const taskId = 'task_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                const nowIso = new Date().toISOString();
 
-                    const res = await fetch('/api/crm/tasks', {
+                const taskDoc = {
+                    id: taskId,
+                    user_id: user.value ? user.value.uid : 'default',
+                    title: title,
+                    content: '',
+                    category: quickTaskCategory.value || 'Genel',
+                    priority: quickTaskPriority.value || 'medium',
+                    due_date: quickTaskDueDate.value || '',
+                    status: 'todo',
+                    is_pinned: 0,
+                    checklist: [],
+                    tags: [],
+                    related_to: '',
+                    voice_transcript: '',
+                    created_at: nowIso,
+                    updated_at: nowIso
+                };
+
+                // Instant UI update
+                tasks.value.unshift(taskDoc);
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+                quickTaskTitle.value = '';
+                quickTaskDueDate.value = '';
+
+                // Firestore Direct Write
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(taskId).set(taskDoc, { merge: true });
+                    } catch(fsErr) {
+                        console.warn("Firestore quick task write warning:", fsErr);
+                    }
+                }
+
+                // Backend dual sync
+                try {
+                    await fetch('/api/crm/tasks', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify(taskDoc)
                     });
-                    const json = await res.json();
-                    if (json.ok) {
-                        quickTaskTitle.value = '';
-                        quickTaskDueDate.value = '';
-                        await loadTasks();
-                    } else {
-                        alert(json.error || "Görev eklenemedi");
-                    }
+                    await loadTasks();
                 } catch (err) {
-                    alert("Görev eklenirken bağlantı hatası: " + err);
+                    console.warn("Backend task sync error:", err);
                 }
             };
 
@@ -12229,25 +12317,51 @@ ${comments}`;
                 }
 
                 taskSaving.value = true;
-                try {
-                    const isEdit = taskModalMode.value === 'edit' && currentTaskForm.value.id;
-                    const url = isEdit ? `/api/crm/tasks/${currentTaskForm.value.id}` : '/api/crm/tasks';
-                    const method = isEdit ? 'PUT' : 'POST';
+                const nowIso = new Date().toISOString();
+                const isEdit = taskModalMode.value === 'edit' && currentTaskForm.value.id;
+                const taskId = isEdit ? currentTaskForm.value.id : ('task_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
 
-                    const res = await fetch(url, {
+                const taskDoc = {
+                    ...currentTaskForm.value,
+                    id: taskId,
+                    user_id: user.value ? user.value.uid : 'default',
+                    updated_at: nowIso,
+                    created_at: currentTaskForm.value.created_at || nowIso
+                };
+
+                if (isEdit) {
+                    const idx = tasks.value.findIndex(t => t.id === taskId);
+                    if (idx >= 0) tasks.value[idx] = taskDoc;
+                } else {
+                    tasks.value.unshift(taskDoc);
+                }
+
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+                showTaskModal.value = false;
+
+                // Direct Firestore Write
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(taskId).set(taskDoc, { merge: true });
+                    } catch(fsErr) {
+                        console.warn("Firestore saveTaskForm write warning:", fsErr);
+                    }
+                }
+
+                // Backend API Sync
+                try {
+                    const url = isEdit ? `/api/crm/tasks/${taskId}` : '/api/crm/tasks';
+                    const method = isEdit ? 'PUT' : 'POST';
+                    await fetch(url, {
                         method: method,
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(currentTaskForm.value)
+                        body: JSON.stringify(taskDoc)
                     });
-                    const json = await res.json();
-                    if (json.ok) {
-                        showTaskModal.value = false;
-                        await loadTasks();
-                    } else {
-                        alert(json.error || "İşlem başarısız oldu");
-                    }
+                    await loadTasks();
                 } catch (err) {
-                    alert("Kaydedilirken hata oluştu: " + err);
+                    console.warn("Backend task save error:", err);
                 } finally {
                     taskSaving.value = false;
                 }
@@ -12255,13 +12369,24 @@ ${comments}`;
 
             const deleteTaskFn = async (taskId) => {
                 if (!confirm("Bu görevi / notu silmek istediğinize emin misiniz?")) return;
+                tasks.value = tasks.value.filter(t => t.id !== taskId);
                 try {
-                    const res = await fetch(`/api/crm/tasks/${taskId}`, { method: 'DELETE' });
-                    const json = await res.json();
-                    if (json.ok) {
-                        tasks.value = tasks.value.filter(t => t.id !== taskId);
-                        await loadTasks();
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+
+                // Direct Firestore Delete
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(taskId).delete();
+                    } catch(fsErr) {
+                        console.warn("Firestore deleteTask delete warning:", fsErr);
                     }
+                }
+
+                // Backend Delete
+                try {
+                    await fetch(`/api/crm/tasks/${taskId}`, { method: 'DELETE' });
+                    await loadTasks();
                 } catch (err) {
                     console.error("Silme hatası:", err);
                 }
@@ -12270,16 +12395,27 @@ ${comments}`;
             const toggleTaskDone = async (taskId) => {
                 // Optimistic UI update
                 const task = tasks.value.find(t => t.id === taskId);
+                const newStatus = task && task.status === 'done' ? 'todo' : 'done';
                 if (task) {
-                    task.status = task.status === 'done' ? 'todo' : 'done';
+                    task.status = newStatus;
+                }
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+
+                // Direct Firestore Update
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(taskId).set({
+                            status: newStatus,
+                            updated_at: new Date().toISOString()
+                        }, { merge: true });
+                    } catch(fsErr) {}
                 }
 
                 try {
-                    const res = await fetch(`/api/crm/tasks/${taskId}/toggle`, { method: 'POST' });
-                    const json = await res.json();
-                    if (json.ok) {
-                        await loadTasks();
-                    }
+                    await fetch(`/api/crm/tasks/${taskId}/toggle`, { method: 'POST' });
+                    await loadTasks();
                 } catch (err) {
                     console.error("Toggle hatası:", err);
                 }
@@ -12288,6 +12424,19 @@ ${comments}`;
             const toggleTaskChecklistItem = async (task, idx) => {
                 if (!task.checklist || !task.checklist[idx]) return;
                 task.checklist[idx].done = !task.checklist[idx].done;
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+
+                // Direct Firestore Update
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(task.id).set({
+                            checklist: task.checklist,
+                            updated_at: new Date().toISOString()
+                        }, { merge: true });
+                    } catch(fsErr) {}
+                }
 
                 try {
                     await fetch(`/api/crm/tasks/${task.id}/checklist/${idx}/toggle`, { method: 'POST' });
@@ -12314,6 +12463,20 @@ ${comments}`;
             const moveTaskStatus = async (task, newStatus) => {
                 task.status = newStatus;
                 try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+
+                // Direct Firestore Update
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(task.id).set({
+                            status: newStatus,
+                            updated_at: new Date().toISOString()
+                        }, { merge: true });
+                    } catch(fsErr) {}
+                }
+
+                try {
                     await fetch(`/api/crm/tasks/${task.id}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
@@ -12327,6 +12490,20 @@ ${comments}`;
 
             const togglePin = async (task) => {
                 task.is_pinned = !task.is_pinned;
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+
+                // Direct Firestore Update
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(task.id).set({
+                            is_pinned: task.is_pinned ? 1 : 0,
+                            updated_at: new Date().toISOString()
+                        }, { merge: true });
+                    } catch(fsErr) {}
+                }
+
                 try {
                     await fetch(`/api/crm/tasks/${task.id}`, {
                         method: 'PUT',
@@ -12602,34 +12779,54 @@ ${comments}`;
                 if (!voiceExtractedData.value) return;
 
                 taskSaving.value = true;
-                try {
-                    const payload = {
-                        title: voiceExtractedData.value.title,
-                        content: voiceExtractedData.value.content,
-                        category: voiceExtractedData.value.category,
-                        priority: voiceExtractedData.value.priority,
-                        due_date: voiceExtractedData.value.due_date,
-                        checklist: voiceExtractedData.value.checklist,
-                        tags: voiceExtractedData.value.tags,
-                        related_to: voiceExtractedData.value.related_to,
-                        voice_transcript: voiceExtractedData.value.transcript,
-                        status: 'todo'
-                    };
+                const taskId = 'task_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                const nowIso = new Date().toISOString();
 
-                    const res = await fetch('/api/crm/tasks', {
+                const taskDoc = {
+                    id: taskId,
+                    user_id: user.value ? user.value.uid : 'default',
+                    title: voiceExtractedData.value.title,
+                    content: voiceExtractedData.value.content,
+                    category: voiceExtractedData.value.category,
+                    priority: voiceExtractedData.value.priority,
+                    due_date: voiceExtractedData.value.due_date,
+                    checklist: voiceExtractedData.value.checklist,
+                    tags: voiceExtractedData.value.tags,
+                    related_to: voiceExtractedData.value.related_to,
+                    voice_transcript: voiceExtractedData.value.transcript,
+                    status: 'todo',
+                    is_pinned: 0,
+                    created_at: nowIso,
+                    updated_at: nowIso
+                };
+
+                // Instant local UI update
+                tasks.value.unshift(taskDoc);
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+                showVoiceModal.value = false;
+
+                // Direct Firestore Write
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(taskId).set(taskDoc, { merge: true });
+                        console.log("✅ Sesli görev Firestore'a kaydedildi:", taskId);
+                    } catch(fsErr) {
+                        console.warn("Firestore voice task write warning:", fsErr);
+                    }
+                }
+
+                // Backend API Sync
+                try {
+                    await fetch('/api/crm/tasks', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify(taskDoc)
                     });
-                    const json = await res.json();
-                    if (json.ok) {
-                        showVoiceModal.value = false;
-                        await loadTasks();
-                    } else {
-                        alert(json.error || "Görev kaydedilemedi");
-                    }
+                    await loadTasks();
                 } catch (err) {
-                    alert("Kayıt hatası: " + err);
+                    console.warn("Backend voice task save error:", err);
                 } finally {
                     taskSaving.value = false;
                 }

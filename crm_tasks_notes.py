@@ -62,6 +62,34 @@ TASK_CATEGORIES = [
 ]
 
 
+ADMIN_UIDS = [
+    'L8sPnXFGTpbaaAmGR2MdahJe9O32',
+    'RnHhsj3K4VSWRY4cjc3Pc09JMFn2',
+    'GP3Eiiz0cvPgibGnXPoNElCeWzW2',
+    'N24DQxhNQHVYGHoX9bBi52mINYi1',
+    'URaEvk4heBZmwTAIPbeDTNziqDx1'
+]
+
+def get_db_admin():
+    """Firebase Admin SDK Firestore istemcisini güvenli şekilde döndürür."""
+    try:
+        from app import db_admin as active_db_admin, init_firebase_admin
+        if active_db_admin is None:
+            init_firebase_admin()
+        from app import db_admin as resolved_db
+        if resolved_db:
+            return resolved_db
+    except Exception:
+        pass
+    try:
+        import firebase_admin
+        from firebase_admin import firestore
+        if firebase_admin._apps:
+            return firestore.client()
+    except Exception:
+        pass
+    return None
+
 def get_db():
     """SQLite veritabanı bağlantısı açar (WAL modunda, row_factory ile)."""
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
@@ -290,6 +318,50 @@ def list_tasks(status: Optional[str] = None,
                 d["tags"] = []
             results.append(d)
 
+        # Dual-persistence: Stream from Firestore to guarantee 100% sync
+        db_fs = get_db_admin()
+        if db_fs:
+            try:
+                target_uid = user_id if user_id and user_id != 'all' and user_id != 'default' else ADMIN_UIDS[0]
+                fs_stream = db_fs.collection("users").document(target_uid).collection("tasks").stream()
+                fs_docs = [doc.to_dict() for doc in fs_stream]
+                if not fs_docs and target_uid == ADMIN_UIDS[0]:
+                    for alt_uid in ADMIN_UIDS[1:]:
+                        alt_stream = db_fs.collection("users").document(alt_uid).collection("tasks").stream()
+                        alt_docs = [doc.to_dict() for doc in alt_stream]
+                        if alt_docs:
+                            fs_docs = alt_docs
+                            break
+                if fs_docs:
+                    existing_ids = {r["id"] for r in results}
+                    for fd in fs_docs:
+                        if fd and fd.get("id") and fd["id"] not in existing_ids:
+                            results.append(fd)
+                            # Backfill into SQLite
+                            try:
+                                now_iso = datetime.datetime.now().isoformat()
+                                cur.execute("""
+                                    INSERT OR REPLACE INTO crm_tasks_notes (
+                                        id, user_id, title, content, category, priority, status,
+                                        due_date, is_pinned, checklist, tags, related_to,
+                                        voice_transcript, audio_url, created_at, updated_at
+                                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                """, (
+                                    fd["id"], fd.get("user_id", "default"), fd.get("title", ""),
+                                    fd.get("content", ""), fd.get("category", "Genel"),
+                                    fd.get("priority", "medium"), fd.get("status", "todo"),
+                                    fd.get("due_date", ""), 1 if fd.get("is_pinned") else 0,
+                                    json.dumps(fd.get("checklist", []), ensure_ascii=False),
+                                    json.dumps(fd.get("tags", []), ensure_ascii=False),
+                                    fd.get("related_to", ""), fd.get("voice_transcript", ""),
+                                    fd.get("audio_url", ""), fd.get("created_at", now_iso), fd.get("updated_at", now_iso)
+                                ))
+                                con.commit()
+                            except Exception:
+                                pass
+            except Exception as fs_err:
+                print(f"⚠ Firestore list_tasks stream warning: {fs_err}")
+
         return results
 
 
@@ -359,6 +431,33 @@ def create_task(data: Dict[str, Any]) -> Dict[str, Any]:
         ))
         con.commit()
 
+    # Dual-persistence: Save to Firebase Firestore
+    db_fs = get_db_admin()
+    if db_fs:
+        try:
+            target_uid = user_id if user_id and user_id != 'default' else ADMIN_UIDS[0]
+            fs_doc = {
+                "id": task_id,
+                "user_id": target_uid,
+                "title": title,
+                "content": content,
+                "category": category,
+                "priority": priority,
+                "status": status,
+                "due_date": due_date,
+                "is_pinned": bool(is_pinned),
+                "checklist": checklist if isinstance(checklist, list) else [],
+                "tags": tags if isinstance(tags, list) else [],
+                "related_to": related_to,
+                "voice_transcript": voice_transcript,
+                "audio_url": audio_url,
+                "created_at": now,
+                "updated_at": now
+            }
+            db_fs.collection("users").document(target_uid).collection("tasks").document(task_id).set(fs_doc, merge=True)
+        except Exception as fs_err:
+            print(f"⚠ Firestore create_task warning: {fs_err}")
+
     return get_task(task_id)
 
 
@@ -407,17 +506,54 @@ def update_task(task_id: str, data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         ))
         con.commit()
 
+    # Dual-persistence: Update in Firebase Firestore
+    db_fs = get_db_admin()
+    if db_fs:
+        try:
+            target_uid = existing.get("user_id")
+            if not target_uid or target_uid == 'default':
+                target_uid = ADMIN_UIDS[0]
+            fs_update_doc = {
+                "id": task_id,
+                "title": title,
+                "content": content,
+                "category": category,
+                "priority": priority,
+                "status": status,
+                "due_date": due_date,
+                "is_pinned": bool(is_pinned),
+                "checklist": checklist if isinstance(checklist, list) else [],
+                "tags": tags if isinstance(tags, list) else [],
+                "related_to": related_to,
+                "updated_at": now
+            }
+            db_fs.collection("users").document(target_uid).collection("tasks").document(task_id).set(fs_update_doc, merge=True)
+        except Exception as fs_err:
+            print(f"⚠ Firestore update_task warning: {fs_err}")
+
     return get_task(task_id)
 
 
 def delete_task(task_id: str) -> bool:
-    """Görevi siler."""
+    """Görevi siler (SQLite + Firestore)."""
     init_tasks_db()
+    deleted = False
     with get_db() as con:
         cur = con.cursor()
         cur.execute("DELETE FROM crm_tasks_notes WHERE id = ?", (task_id,))
         con.commit()
-        return cur.rowcount > 0
+        deleted = cur.rowcount > 0
+
+    # Dual-persistence: Delete from Firebase Firestore across admin UIDs
+    db_fs = get_db_admin()
+    if db_fs:
+        for uid in ADMIN_UIDS:
+            try:
+                db_fs.collection("users").document(uid).collection("tasks").document(task_id).delete()
+            except Exception:
+                pass
+
+    return deleted
 
 
 def toggle_task_status(task_id: str) -> Optional[Dict[str, Any]]:
