@@ -5271,6 +5271,14 @@ try:
 except Exception as _ns_err:
     print(f"⚠️ NexaScout Blueprint app.py'ye yüklenemedi: {_ns_err}")
 
+# ── Nexa CRM İş Takip & Notlar Blueprint (Gemini AI Speech-to-Text & Gemini 3.8 Flash TTS) ──
+try:
+    from crm_tasks_notes import crm_tasks_bp
+    app.register_blueprint(crm_tasks_bp)
+    print("✅ Nexa CRM İş Takip & Notlar (Gemini AI Ses) Blueprint app.py'ye entegre edildi.")
+except Exception as _ct_err:
+    print(f"⚠️ Nexa CRM İş Takip Blueprint app.py'ye yüklenemedi: {_ct_err}")
+
 @app.after_request
 def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
@@ -16630,7 +16638,13 @@ def _get_sqlite_portfolio_buyers(ref_id=None):
             else:
                 cur.execute('SELECT * FROM portfolio_listing_buyers ORDER BY rowid DESC')
             rows = cur.fetchall()
-            return [dict(r) for r in rows]
+            clean_rows = []
+            for r in rows:
+                d = dict(r)
+                if not d.get("phone"):
+                    d["phone"] = "-"
+                clean_rows.append(d)
+            return clean_rows
     except Exception as e:
         print(f"⚠️ Portfolio buyer SQLite read error: {e}")
         return []
@@ -16684,20 +16698,60 @@ def get_portfolio_listing_dashboard(ref_id):
             all_data[ref_id] = item
             _save_listing_dashboards(all_data)
 
-        # Merge with SQLite buyers and timeline to guarantee zero data loss
+        # ── 1. FIREBASE FIRST: Read from Firestore buyers & listings via db_admin ──
+        try:
+            global db_admin
+            if db_admin is None:
+                init_firebase_admin()
+            if db_admin:
+                existing_bids = {b.get("id") for b in item.get("buyers", []) if b.get("id")}
+                # Search admin users listing buyers subcollection
+                for u in ['L8sPnXFGTpbaaAmGR2MdahJe9O32', 'RnHhsj3K4VSWRY4cjc3Pc09JMFn2', 'GP3Eiiz0cvPgibGnXPoNElCeWzW2', 'N24DQxhNQHVYGHoX9bBi52mINYi1', 'URaEvk4heBZmwTAIPbeDTNziqDx1']:
+                    try:
+                        u_buyers = db_admin.collection("users").document(u).collection("listings").document(ref_id).collection("buyers").stream()
+                        for doc in u_buyers:
+                            d = doc.to_dict()
+                            if d and d.get("id") and d.get("id") not in existing_bids:
+                                item.setdefault("buyers", []).append(d)
+                                existing_bids.add(d.get("id"))
+                    except Exception:
+                        pass
+                # Also check crm_leads where listingRef == ref_id
+                try:
+                    q_leads = db_admin.collection("crm_leads").where("listingRef", "==", ref_id).stream()
+                    for doc in q_leads:
+                        d = doc.to_dict()
+                        if d and d.get("id") and d.get("id") not in existing_bids:
+                            item.setdefault("buyers", []).append(d)
+                            existing_bids.add(d.get("id"))
+                except Exception:
+                    pass
+        except Exception as _fb_err:
+            print(f"⚠️ Firebase dashboard sync notice: {_fb_err}")
+
+        # ── 2. SQLite & JSON secondary fallback merge ──
         sql_buyers = _get_sqlite_portfolio_buyers(ref_id)
         existing_bids = {b.get("id") for b in item.get("buyers", []) if b.get("id")}
+        added_buyer = False
         for sb in sql_buyers:
             if sb.get("id") not in existing_bids:
                 item.setdefault("buyers", []).append(sb)
                 existing_bids.add(sb.get("id"))
+                added_buyer = True
 
         sql_timeline = _get_sqlite_portfolio_timeline(ref_id)
         existing_tids = {t.get("id") for t in item.get("timeline", []) if t.get("id")}
+        added_timeline = False
         for st in sql_timeline:
             if st.get("id") not in existing_tids:
                 item.setdefault("timeline", []).append(st)
                 existing_tids.add(st.get("id"))
+                added_timeline = True
+
+        if added_buyer or added_timeline:
+            with _DASHBOARD_LOCK:
+                all_data[ref_id] = item
+                _save_listing_dashboards(all_data)
 
         return jsonify({"ok": True, "data": item})
     except Exception as e:
@@ -16736,6 +16790,20 @@ def save_portfolio_platform_stats(ref_id):
             all_data[ref_id]["platform_stats"] = stats
             all_data[ref_id]["updatedAt"] = datetime.now().isoformat()
             _save_listing_dashboards(all_data)
+
+        # Sync platform stats to Firestore listing doc
+        try:
+            global db_admin
+            if db_admin is None:
+                init_firebase_admin()
+            if db_admin:
+                for u in ['L8sPnXFGTpbaaAmGR2MdahJe9O32', 'RnHhsj3K4VSWRY4cjc3Pc09JMFn2', 'GP3Eiiz0cvPgibGnXPoNElCeWzW2', 'N24DQxhNQHVYGHoX9bBi52mINYi1', 'URaEvk4heBZmwTAIPbeDTNziqDx1']:
+                    try:
+                        db_admin.collection("users").document(u).collection("listings").document(ref_id).set({"platform_stats": stats, "updatedAt": datetime.now().isoformat()}, merge=True)
+                    except Exception:
+                        pass
+        except Exception:
+            pass
         
         return jsonify({"ok": True, "platform_stats": stats})
     except Exception as e:
@@ -16842,6 +16910,27 @@ def delete_portfolio_listing_buyer(buyer_id):
                     if not deleted_ref_id:
                         deleted_ref_id = ref_id
             _save_listing_dashboards(all_data)
+
+        # Sync deletion to Firestore
+        try:
+            global db_admin
+            if db_admin is None:
+                init_firebase_admin()
+            if db_admin:
+                for u in ['L8sPnXFGTpbaaAmGR2MdahJe9O32', 'RnHhsj3K4VSWRY4cjc3Pc09JMFn2', 'GP3Eiiz0cvPgibGnXPoNElCeWzW2', 'N24DQxhNQHVYGHoX9bBi52mINYi1', 'URaEvk4heBZmwTAIPbeDTNziqDx1']:
+                    try:
+                        if deleted_ref_id:
+                            db_admin.collection("users").document(u).collection("listings").document(deleted_ref_id).collection("buyers").document(buyer_id).delete()
+                        db_admin.collection("users").document(u).collection("contacts").document(buyer_id).delete()
+                    except Exception:
+                        pass
+                try:
+                    db_admin.collection("crm_leads").document(buyer_id).delete()
+                    db_admin.collection("buyers").document(buyer_id).delete()
+                except Exception:
+                    pass
+        except Exception:
+            pass
 
         return jsonify({"ok": True, "deleted": buyer_id, "refId": deleted_ref_id})
     except Exception as e:
@@ -17049,8 +17138,10 @@ def add_portfolio_listing_buyer(ref_id):
                 for u in target_uids:
                     try:
                         target_db.collection("users").document(u).collection("contacts").document(buyer_id).set(contact_data, merge=True)
+                        target_db.collection("users").document(u).collection("listings").document(ref_id).collection("buyers").document(buyer_id).set(buyer_record, merge=True)
+                        target_db.collection("users").document(u).collection("listings").document(ref_id).collection("timeline").document(timeline_event["id"]).set(timeline_event, merge=True)
                     except Exception as ce:
-                        print(f"Firestore contact add error for {u}: {ce}")
+                        print(f"Firestore listing buyer add error for {u}: {ce}")
 
                 try:
                     target_db.collection("crm_leads").document(buyer_id).set(contact_data, merge=True)
