@@ -219,6 +219,14 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     callback?.invoke(origin, true, false)
                 }
+
+                override fun onPermissionRequest(request: PermissionRequest?) {
+                    try {
+                        request?.grant(request.resources)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Permission request grant failed", e)
+                    }
+                }
             }
 
             webView.webViewClient = object : WebViewClient() {
@@ -397,11 +405,14 @@ class MainActivity : AppCompatActivity() {
         try {
             val permissions = mutableListOf(
                 Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 permissions.add(Manifest.permission.READ_MEDIA_IMAGES)
+                permissions.add(Manifest.permission.READ_MEDIA_AUDIO)
+                permissions.add(Manifest.permission.POST_NOTIFICATIONS)
             } else {
                 permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
             }

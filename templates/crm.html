@@ -2,6 +2,19 @@
 <html lang="tr">
 <head>
     <link rel="icon" type="image/png" href="/static/yigit_narin_portrait.png">
+    <!-- ── PWA & NATIVE APPLICATION CAPABILITIES ── -->
+    <link rel="manifest" href="/crm-manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Nexa CRM Pro">
+    <meta name="application-name" content="Nexa CRM Pro">
+    <meta name="theme-color" content="#0B0F19">
+    <meta name="msapplication-navbutton-color" content="#0B0F19">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/static/icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/static/icons/icon-512.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nexa CRM Pro - Süreç Yönetimi</title>
@@ -1846,13 +1859,10 @@
                         <span class="hidden sm:inline">URL'den PDF</span>
                     </button>
 
-                    <a href="/mobile" target="_blank" class="btn" style="background: linear-gradient(135deg, rgba(56,189,248,0.2) 0%, rgba(2,132,199,0.3) 100%); border: 1px solid rgba(56,189,248,0.45); color: #38bdf8; font-weight: 700; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 10px rgba(56,189,248,0.2); display: inline-flex; align-items: center; gap: 6px; font-size: 12px; text-decoration: none;" title="NEXA CRM Pro Android Mobil APK İndir">
-
-                        <i class="fab fa-android text-sky-400"></i>
-
-                        <span class="hidden sm:inline">Mobil APK</span>
-
-                    </a>
+                    <button @click="openAppCenterModal" class="btn" style="background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(245,158,11,0.25) 100%); border: 1px solid rgba(212,175,55,0.45); color: #f59e0b; font-weight: 700; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 10px rgba(245,158,11,0.15); display: inline-flex; align-items: center; gap: 6px; font-size: 12px;" title="Nexa CRM Pro Uygulama Merkezi (PWA, Android APK, Masaüstü)">
+                        <i class="fas fa-mobile-screen-button text-amber-400"></i>
+                        <span class="hidden sm:inline">Uygulama</span>
+                    </button>
                     <button @click="showMenu = !showMenu" class="btn btn-secondary" style="padding:6px 10px;" aria-label="Menü">
                         <i class="fas fa-ellipsis-v"></i>
                     </button>
@@ -1863,6 +1873,14 @@
             <transition>
                 <div v-if="showMenu" class="fixed inset-0 z-50 bg-black/50" @click="showMenu = false">
                     <div class="absolute top-16 right-4 glass-strong rounded-xl p-2 min-w-[220px] shadow-2xl" @click.stop style="border:1px solid var(--border-default)">
+                        <button @click="openAppCenterModal(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center justify-between text-sm" style="color: #f59e0b; font-weight:700;">
+                            <span class="flex items-center gap-3">
+                                <i class="fas fa-mobile-screen-button text-amber-400"></i><span>Uygulamaya Dönüştür / İndir</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                App
+                            </span>
+                        </button>
                         <button @click="activeView = 'tasks_notes'; loadTasks(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center justify-between text-sm" style="color: #10b981; font-weight:700;">
                             <span class="flex items-center gap-3">
                                 <i class="fas fa-calendar-check" style="color: #10b981"></i><span>İş Takip, Notlar & Takvim</span>
@@ -6550,6 +6568,117 @@
             </div>
         </transition>
 
+        <!-- ═══════════════════ NEXA CRM PRO UYGULAMA MERKEZİ (PWA, ANDROID APK & MASAÜSTÜ) MODALI ═══════════════════ -->
+        <transition>
+            <div v-if="showAppCenterModal" class="modal-backdrop flex items-center justify-center p-4" style="z-index: 9999;" @click.self="showAppCenterModal = false">
+                <div class="modal-content glass-strong rounded-2xl p-6 shadow-2xl border border-amber-500/30 max-w-xl w-full" @click.stop style="background: rgba(13, 17, 23, 0.96); backdrop-filter: blur(20px);">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-600/30 border border-amber-500/40 text-amber-400 flex items-center justify-center text-xl shadow-lg">
+                                <i class="fas fa-mobile-screen-button"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                                    Nexa CRM Pro Uygulama Ekosistemi
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-wider">v1.1.0</span>
+                                </h3>
+                                <p class="text-xs text-gray-400">Telefonunuza, tabletinize veya bilgisayarınıza bağımsız uygulama olarak yükleyin</p>
+                            </div>
+                        </div>
+                        <button @click="showAppCenterModal = false" class="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+                            <i class="fas fa-times text-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- 1. PWA Standalone Install -->
+                        <div class="p-4 rounded-xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-transparent relative overflow-hidden">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg mt-0.5 shrink-0">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="text-sm font-bold text-white">Anında Cihaza Yükle (PWA)</h4>
+                                        <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold border border-emerald-500/30">Önerilen</span>
+                                    </div>
+                                    <p class="text-xs text-gray-300 mt-1 leading-relaxed">
+                                        Mağaza indirmesi gerektirmeden, tarayıcı çubukları olmaksızın <strong>tam ekran bağımsız uygulama</strong> olarak çalışır. iOS, Android ve PC ile tam uyumludur.
+                                    </p>
+                                    <div v-if="isIosSafari" class="mt-3 p-2.5 rounded-lg bg-sky-500/10 border border-sky-500/20 text-xs text-sky-200">
+                                        <div class="font-semibold flex items-center gap-1.5 mb-1 text-sky-300">
+                                            <i class="fab fa-apple"></i> iPhone / iPad Kurulumu:
+                                        </div>
+                                        1. Safari altındaki <strong>Paylaş <i class="fas fa-arrow-up-from-bracket mx-0.5"></i></strong> butonuna dokunun.<br>
+                                        2. Menüden <strong>"Ana Ekrana Ekle"</strong> seçeneğini seçin.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-2 border-t border-white/5">
+                                <button v-if="canInstallPwa" @click="triggerPwaInstall" class="w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all transform active:scale-95">
+                                    <i class="fas fa-download"></i> Hemen Ana Ekrana / Masaüstüne Yükle (1 Dokunuş)
+                                </button>
+                                <div v-else-if="isStandaloneApp" class="w-full py-2 px-3 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-semibold flex items-center justify-center gap-2 border border-emerald-500/20">
+                                    <i class="fas fa-check-circle"></i> Nexa CRM Pro şu anda bağımsız uygulama modunda çalışıyor!
+                                </div>
+                                <div v-else class="text-[11px] text-gray-400 flex items-center gap-1.5">
+                                    <i class="fas fa-info-circle text-amber-400"></i>
+                                    <span>Chrome, Edge veya Safari üzerinden "Uygulamayı Yükle" veya "Ana Ekrana Ekle" seçeneğiyle doğrudan kurulabilir.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Native Android APK -->
+                        <div class="p-4 rounded-xl border border-sky-500/30 bg-gradient-to-r from-sky-500/10 via-blue-500/5 to-transparent">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg mt-0.5 shrink-0">
+                                    <i class="fab fa-android"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-sm font-bold text-white">Native Android APK Paketi</h4>
+                                        <span class="text-[10px] text-sky-300 font-mono bg-sky-500/20 px-2 py-0.5 rounded border border-sky-500/30">13.0 MB</span>
+                                    </div>
+                                    <p class="text-xs text-gray-300 mt-1 leading-relaxed">
+                                        Google Play gerekmeden doğrudan Android telefonunuza kurulabilen native paket. Gemini AI sesli not kaydı, kamera erişimi, dosya yükleme ve push bildirim desteği içerir.
+                                    </p>
+                                    <div class="mt-3">
+                                        <a href="/download/android-apk" download="Nexa_CRM_Pro.apk" class="inline-flex items-center gap-2 py-2 px-4 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 text-xs font-bold transition-all">
+                                            <i class="fas fa-cloud-arrow-down"></i> Android APK İndir (.apk)
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Windows Desktop Mode -->
+                        <div class="p-4 rounded-xl border border-purple-500/30 bg-gradient-to-r from-purple-500/10 via-indigo-500/5 to-transparent">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg mt-0.5 shrink-0">
+                                    <i class="fab fa-windows"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold text-white">Windows Masaüstü Uygulaması</h4>
+                                    <p class="text-xs text-gray-300 mt-1 leading-relaxed">
+                                        Proje kök dizinindeki <code>NexaCRM_Desktop.bat</code> dosyasını masaüstüne kısayol ekleyerek bağımsız, pencereli bir Windows masaüstü uygulaması gibi çalıştırabilirsiniz.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fas fa-shield-halved text-emerald-400"></i> Firebase Güvenli Oturum & Çift Yönlü Senkronizasyon
+                        </span>
+                        <button @click="showAppCenterModal = false" class="px-4 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold transition-colors">
+                            Kapat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
         <!-- ═══════════════════ URL'DEN SUNUM PDF MODALI ═══════════════════ -->
         <transition>
             <div v-if="showUrlPdfModal" class="modal-backdrop flex items-center justify-center p-4" style="z-index: 9999;" @click.self="showUrlPdfModal = false">
@@ -8314,6 +8443,30 @@
             const showMenu = ref(false);
             const showContactModal = ref(false);
             const editingContact = ref({});
+
+            // ── UYGULAMA MERKEZİ & PWA REFS ──
+            const showAppCenterModal = ref(false);
+            const canInstallPwa = ref(false);
+            const isStandaloneApp = ref(false);
+            const deferredInstallPrompt = ref(null);
+            const isIosSafari = ref(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream);
+
+            const openAppCenterModal = () => {
+                showAppCenterModal.value = true;
+            };
+
+            const triggerPwaInstall = async () => {
+                if (deferredInstallPrompt.value) {
+                    deferredInstallPrompt.value.prompt();
+                    try {
+                        const choiceResult = await deferredInstallPrompt.value.userChoice;
+                        if (choiceResult && choiceResult.outcome === 'accepted') {
+                            canInstallPwa.value = false;
+                        }
+                    } catch (e) {}
+                    deferredInstallPrompt.value = null;
+                }
+            };
 
             // ── OTONOM SOSYAL MEDYA & İÇERİK PLANI (SOCIAL AUTOPILOT) ──
             const socialWeeklySchedule = ref([]);
@@ -11131,6 +11284,28 @@
             // ── LIFECYCLE ─────────────────────────────────────────
             onMounted(() => {
                 loadTasks();
+
+                // ── PWA SERVICE WORKER & STANDALONE APP TESPİTİ ──
+                if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', () => {
+                        navigator.serviceWorker.register('/crm-sw.js')
+                            .then(reg => console.log('✅ [Nexa CRM SW] Service Worker aktif:', reg.scope))
+                            .catch(err => console.warn('[Nexa CRM SW] Kayıt uyarısı:', err));
+                    });
+                }
+                try {
+                    isStandaloneApp.value = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+                } catch(e) {}
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredInstallPrompt.value = e;
+                    canInstallPwa.value = true;
+                });
+                window.addEventListener('appinstalled', () => {
+                    canInstallPwa.value = false;
+                    isStandaloneApp.value = true;
+                    showAppCenterModal.value = false;
+                });
                 const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 if (isLocalHost && (window.location.search.includes('demo=1') || window.location.search.includes('mode=preview'))) {
                     user.value = { email: 'yigit.narin@coldwellbanker.vip', displayName: 'Yiğit Narin', uid: 'demo_yigit' };
@@ -13850,6 +14025,10 @@ ${comments}`;
 
             // ── RETURN ────────────────────────────────────────────
             return {
+                // ── UYGULAMA MERKEZİ & PWA & NATIVE ANDROID ──
+                showAppCenterModal, canInstallPwa, isStandaloneApp, isIosSafari,
+                openAppCenterModal, triggerPwaInstall,
+
                 // ── İŞ TAKİP & GEMINI SESLİ NOTLAR & TAKVİM ──
                 tasks, tasksLoading, tasksStats, taskCategories, tasksViewMode, taskStatusFilter, taskCategoryFilter, taskPriorityFilter, taskSearchQuery,
                 pendingTasksCount, filteredTasks, kanbanColumns,

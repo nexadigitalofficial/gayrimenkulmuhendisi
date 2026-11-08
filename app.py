@@ -11396,6 +11396,37 @@ def pwa_manifest():
     except Exception as e:
         return jsonify({"error": str(e)}), 404
 
+@app.route("/crm-manifest.json")
+def crm_pwa_manifest():
+    """Dedicated PWA Manifest for Nexa CRM Pro"""
+    try:
+        return send_from_directory("static", "crm-manifest.json", mimetype="application/manifest+json")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 404
+
+@app.route("/crm-sw.js")
+def crm_pwa_service_worker():
+    """Dedicated PWA Service Worker for Nexa CRM Pro"""
+    try:
+        return send_from_directory("static", "crm-sw.js", mimetype="application/javascript")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 404
+
+@app.route("/download/android-apk")
+@app.route("/download/nexa_crm_pro.apk")
+def download_android_apk():
+    """Direct download for native Nexa CRM Pro Android APK"""
+    try:
+        return send_from_directory(
+            "static/downloads",
+            "nexa_crm_pro.apk",
+            as_attachment=True,
+            download_name="Nexa_CRM_Pro.apk",
+            mimetype="application/vnd.android.package-archive"
+        )
+    except Exception as e:
+        return jsonify({"error": f"APK indirilemedi: {str(e)}"}), 404
+
 @app.route("/sw.js")
 def pwa_service_worker():
     """PWA Service Worker for Offline & Cache"""

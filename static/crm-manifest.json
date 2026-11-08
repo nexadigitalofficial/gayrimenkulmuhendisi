@@ -1,0 +1,59 @@
+{
+  "id": "/crm",
+  "name": "Nexa CRM Pro | Gayrimenkul İşletim Sistemi",
+  "short_name": "Nexa CRM",
+  "description": "Yapay Zeka Destekli Gayrimenkul Portföy, Süreç ve Müşteri İşletim Sistemi",
+  "start_url": "/crm",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "theme_color": "#0B0F19",
+  "background_color": "#070A11",
+  "lang": "tr",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Portföy & İlanlarım",
+      "short_name": "İlanlarım",
+      "description": "Aktif portföy ve gayrimenkul ilanları",
+      "url": "/crm#listings",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "İş Takip & Notlar",
+      "short_name": "Notlar",
+      "description": "Görevler, günlük ajanda ve AI sesli notlar",
+      "url": "/crm#tasks",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Müşteriler & Rehber",
+      "short_name": "Rehber",
+      "description": "Alıcı adayları ve müşteri rehberi",
+      "url": "/crm#contacts",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
