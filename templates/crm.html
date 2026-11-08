@@ -8105,9 +8105,25 @@
                 return Math.round((completed / list.length) * 100);
             });
 
-            const toggleWebtapuItem = (item) => {
+            const toggleWebtapuItem = async (item) => {
                 item.done = !item.done;
                 showToast(`Tapu Aşaması: ${item.done ? '✓ Tamamlandı' : 'Beklemede'}`, 'fas fa-stamp text-amber-400');
+                if (!activeLead.value) return;
+                try {
+                    const checklist = activeLead.value._webtapuChecklist;
+                    const leadId = activeLead.value.id;
+                    const isWeb = activeLead.value._fromWeb;
+                    if (user.value && typeof db !== 'undefined' && db && leadId) {
+                        const now = new Date().toISOString();
+                        if (isWeb) {
+                            await db.collection('leads').doc(leadId).set({ _webtapuChecklist: checklist, updatedAt: now }, { merge: true });
+                        } else {
+                            await db.collection('users').doc(user.value.uid).collection('contacts').doc(leadId).set({ _webtapuChecklist: checklist, updatedAt: now }, { merge: true });
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Webtapu checklist persist error:', e);
+                }
             };
 
             // ── COLDWELL BANKER CB VIP KOMİSYON & SPLIT HESAPLAYICI ─────
@@ -8117,7 +8133,23 @@
             const includeKdv = ref(true);
 
             const calculatedCommission = computed(() => {
-                const price = Number(commissionDealPrice.value) || Number(activeLead.value?.price) || 0;
+                let price = 0;
+                const parseCleanNumber = (val) => {
+                    if (typeof val === 'number') return isNaN(val) ? 0 : val;
+                    if (typeof val === 'string') {
+                        const digits = val.replace(/[^0-9]/g, '');
+                        return digits ? Number(digits) : 0;
+                    }
+                    return 0;
+                };
+
+                const dealVal = parseCleanNumber(commissionDealPrice.value);
+                if (dealVal > 0) {
+                    price = dealVal;
+                } else if (activeLead.value) {
+                    price = parseCleanNumber(activeLead.value.price);
+                }
+
                 const rawCommission = price * (commissionRate.value / 100);
                 const kdv = includeKdv.value ? rawCommission * 0.20 : 0;
                 const totalGross = rawCommission + kdv;
@@ -8309,11 +8341,15 @@
                 return listingPlatformStats.value.reduce((acc, p) => acc + (Number(p.messages) || 0) + (Number(p.calls) || 0), 0);
             });
             const topPerformingPlatform = Vue.computed(() => {
-                if (!listingPlatformStats.value.length) return '—';
+                if (!listingPlatformStats.value || !listingPlatformStats.value.length) return '—';
                 const hasScore = listingPlatformStats.value.some(p => (Number(p.views) || 0) > 0 || (Number(p.favorites) || 0) > 0 || (Number(p.score) || 0) > 0);
                 if (!hasScore) return 'Başlangıç (0)';
-                const sorted = [...listingPlatformStats.value].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
-                return sorted[0]?.platform || 'SAHIBINDEN';
+                const sorted = [...listingPlatformStats.value].sort((a, b) => {
+                    const scoreA = Number(a.score) || ((Number(a.views) || 0) * 1 + (Number(a.favorites) || 0) * 5 + (Number(a.messages) || 0) * 15 + (Number(a.calls) || 0) * 25 + (Number(a.influence) || 0) * 20);
+                    const scoreB = Number(b.score) || ((Number(b.views) || 0) * 1 + (Number(b.favorites) || 0) * 5 + (Number(b.messages) || 0) * 15 + (Number(b.calls) || 0) * 25 + (Number(b.influence) || 0) * 20);
+                    return scoreB - scoreA;
+                });
+                return sorted[0]?.platform || '-';
             });
 
             const portfoyChatActions     = [
@@ -10980,6 +11016,7 @@ ${comments}`;
             // ── LISTING DASHBOARD METHODS ──
             const getListingBuyerCount = (lst) => {
                 if (!lst) return 0;
+                if (typeof lst.buyer_count === 'number' && lst.buyer_count > 0) return lst.buyer_count;
                 const refId = lst.id || lst.ref_id;
                 if (refId) {
                     try {
@@ -11161,7 +11198,7 @@ ${comments}`;
                         refId: refId,
                         name: c.name || 'Alıcı Adayı',
                         phone: c.phone || '-',
-                        offer: c.offer || (c.price ? Number(c.price).toLocaleString('tr-TR') + ' ₺' : ''),
+                        offer: c.offer || (c.price ? (typeof c.price === 'number' ? c.price.toLocaleString('tr-TR') + ' ₺' : (Number(String(c.price).replace(/[^0-9]/g, '')) ? Number(String(c.price).replace(/[^0-9]/g, '')).toLocaleString('tr-TR') + ' ₺' : String(c.price))) : ''),
                         stage: c.stageName || c.stage || 'Yeni Talep',
                         note: c.note || c.notes || '',
                         listingTitle: c.listingTitle || titleMatch || 'Portföy İlanı',
@@ -11231,6 +11268,9 @@ ${comments}`;
                     if (contacts && contacts.value) {
                         contacts.value = contacts.value.filter(c => c.id !== buyerId);
                     }
+                    if (currentListingObj.value && typeof currentListingObj.value.buyer_count === 'number') {
+                        currentListingObj.value.buyer_count = Math.max(0, currentListingObj.value.buyer_count - 1);
+                    }
                     if (refId) {
                         try {
                             localStorage.setItem('nexa_listing_buyers_' + refId, JSON.stringify(listingBuyers.value));
@@ -11243,6 +11283,10 @@ ${comments}`;
                         try {
                             if (refId) {
                                 await db.collection('users').doc(uid).collection('listings').doc(refId).collection('buyers').doc(buyerId).delete();
+                                await db.collection('users').doc(uid).collection('listings').doc(refId).set({
+                                    buyer_count: firebase.firestore.FieldValue.increment(-1),
+                                    updatedAt: new Date().toISOString()
+                                }, { merge: true });
                             }
                             await db.collection('users').doc(uid).collection('contacts').doc(buyerId).delete();
                             await db.collection('crm_leads').doc(buyerId).delete();

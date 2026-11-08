@@ -16763,6 +16763,8 @@ def save_portfolio_platform_stats(ref_id):
     try:
         payload = flask_request.json or {}
         stats = payload.get("platform_stats", [])
+        if not isinstance(stats, list):
+            stats = []
         
         def _to_safe_int(val, default=0):
             try:
@@ -16773,7 +16775,10 @@ def save_portfolio_platform_stats(ref_id):
                 return default
 
         # Calculate weighted total scores for each platform
+        safe_stats = []
         for st in stats:
+            if not isinstance(st, dict):
+                continue
             v = _to_safe_int(st.get("views"), 0)
             f = _to_safe_int(st.get("favorites"), 0)
             m = _to_safe_int(st.get("messages"), 0)
@@ -16782,6 +16787,8 @@ def save_portfolio_platform_stats(ref_id):
             # Weighted formula
             score = (v * 1) + (f * 5) + (m * 15) + (c * 25) + (inf * 20)
             st["score"] = score
+            safe_stats.append(st)
+        stats = safe_stats
         
         with _DASHBOARD_LOCK:
             all_data = _load_listing_dashboards()
@@ -16921,6 +16928,14 @@ def delete_portfolio_listing_buyer(buyer_id):
                     try:
                         if deleted_ref_id:
                             db_admin.collection("users").document(u).collection("listings").document(deleted_ref_id).collection("buyers").document(buyer_id).delete()
+                            try:
+                                from google.cloud import firestore
+                                db_admin.collection("users").document(u).collection("listings").document(deleted_ref_id).set({
+                                    "buyer_count": firestore.Increment(-1),
+                                    "updatedAt": datetime.now().isoformat()
+                                }, merge=True)
+                            except Exception:
+                                pass
                         db_admin.collection("users").document(u).collection("contacts").document(buyer_id).delete()
                     except Exception:
                         pass
