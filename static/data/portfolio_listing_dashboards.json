@@ -5928,6 +5928,14 @@
     ],
     "timeline": [
       {
+        "id": "t_1794136423",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz",
+        "note": "Teklif: 14.500.000 ₺ | Aşama: Teklif Aşamasında",
+        "date": "08.11.2026 14:13",
+        "author": "Yiğit Narin"
+      },
+      {
         "id": "t_1794135217",
         "type": "buyer",
         "title": "Yeni Alıcı Eklendi: Ahmet Yılmaz",
@@ -5952,6 +5960,170 @@
         "author": "Yiğit Narin"
       }
     ],
-    "updatedAt": "2026-11-08T13:53:36.451431"
+    "updatedAt": "2026-11-08T14:13:42.407747"
+  },
+  "listing_alpha_101": {
+    "refId": "listing_alpha_101",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [
+      {
+        "id": "b_custom_id_alpha_777",
+        "refId": "listing_alpha_101",
+        "name": "Canan Demir (Alpha)",
+        "phone": "05321110001",
+        "offer": "12.000.000 ₺",
+        "stage": "Teklif",
+        "note": "",
+        "listingTitle": "Kadıköy Daire",
+        "createdAt": "08.11.2026 14:12"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1794136338",
+        "type": "buyer",
+        "title": "Yeni Alıcı Eklendi: Canan Demir (Alpha)",
+        "note": "Teklif: 12.000.000 ₺ | Aşama: Teklif",
+        "date": "08.11.2026 14:12",
+        "author": "Yiğit Narin"
+      }
+    ]
+  },
+  "listing_beta_202": {
+    "refId": "listing_beta_202",
+    "platform_stats": [
+      {
+        "platform": "SAHIBINDEN",
+        "logo": "🟡",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "HEPSIEMLAK",
+        "logo": "🔴",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "EMLAKJET",
+        "logo": "🟣",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "COLDWELL BANKER",
+        "logo": "🔵",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "BRANDA / AFİŞ",
+        "logo": "🟠",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      },
+      {
+        "platform": "SOSYAL MEDYA & AD",
+        "logo": "🟢",
+        "views": 0,
+        "favorites": 0,
+        "messages": 0,
+        "calls": 0,
+        "influence": 0,
+        "score": 0
+      }
+    ],
+    "buyers": [],
+    "timeline": [
+      {
+        "id": "init",
+        "type": "status",
+        "title": "Portföy CRM'e Eklendi",
+        "note": "İlan sisteme başarıyla tanımlandı ve takibe alındı.",
+        "date": "08.11.2026 14:12",
+        "author": "Yiğit Narin"
+      }
+    ]
   }
 }

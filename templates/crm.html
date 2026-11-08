@@ -10507,41 +10507,177 @@
                     toast.value = { show: true, message: '📊 Tüm müşteri, alıcı ve portföy verileri kurumsal Excel (XLSX) olarak hazırlanıyor...', icon: 'file-excel' };
                     setTimeout(() => { toast.value.show = false; }, 3500);
                 }
-                try {
-                    const payload = {
-                        contacts: contacts.value || [],
-                        webLeads: webLeads.value || []
-                    };
-                    const response = await fetch('/api/crm/export/xlsx', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
 
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
+                const now = new Date();
+                const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+                const filename = `NEXA_CRM_Musteri_Yedek_${dateStr}.xlsx`;
 
-                    const blob = await response.blob();
+                // Helper to download blob safely without premature URL revocation
+                const downloadBlob = (blob, fName) => {
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    const now = new Date();
-                    const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
-                    a.download = `NEXA_CRM_Musteri_Yedek_${dateStr}.xlsx`;
+                    a.download = fName;
                     document.body.appendChild(a);
                     a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
+                    setTimeout(() => {
+                        try {
+                            window.URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        } catch(e) {}
+                    }, 2000);
+                };
+
+                // Helper for client-side SheetJS XLSX generation fallback
+                const generateClientSideXlsx = (cleanContacts, cleanLeads, fName) => {
+                    if (typeof XLSX === 'undefined') {
+                        throw new Error('XLSX kütüphanesi yüklenemedi.');
+                    }
+                    const wb = XLSX.utils.book_new();
+
+                    // Sheet 1: Alıcılar
+                    const buyers = cleanContacts.filter(c => c.category === 'buyer' || c.role === 'buyer' || c.type === 'buyer' || (c.id && c.id.startsWith('b_')));
+                    const buyerRows = buyers.map((b, i) => ({
+                        'Sıra': i + 1,
+                        'ID': b.id || '-',
+                        'Alıcı Adı': b.name || 'Alıcı Adayı',
+                        'Telefon': b.phone || '-',
+                        'Teklif Tutarı': b.offer || (b.price ? b.price.toLocaleString('tr-TR') + ' ₺' : '-'),
+                        'Süreç Aşaması': b.stageName || b.stage || 'Yeni Talep',
+                        'İlgilendiği Portföy': b.listingTitle || '-',
+                        'İlan Ref': b.listingRef || '-',
+                        'Notlar': b.notes || '',
+                        'Kayıt Tarihi': b.createdAt || ''
+                    }));
+                    const wsBuyers = XLSX.utils.json_to_sheet(buyerRows.length ? buyerRows : [{'Bilgi': 'Henüz alıcı adayı kaydı yok'}]);
+                    XLSX.utils.book_append_sheet(wb, wsBuyers, 'Alıcılar ve Teklifler');
+
+                    // Sheet 2: Mülk Sahipleri / Satıcılar
+                    const sellers = cleanContacts.filter(c => c.category !== 'buyer' && c.role !== 'buyer' && c.type !== 'buyer' && !(c.id && c.id.startsWith('b_')));
+                    const sellerRows = sellers.map((s, i) => ({
+                        'Sıra': i + 1,
+                        'ID': s.id || '-',
+                        'Mülk Sahibi Adı': s.name || 'Mülk Sahibi',
+                        'Telefon': s.phone || '-',
+                        'E-Posta': s.email || '-',
+                        'Portföy Başlığı': s.listingTitle || s.title || '-',
+                        'Fiyat (₺)': s.price ? Number(s.price).toLocaleString('tr-TR') + ' ₺' : '-',
+                        'Bölge': s.district || s.location || '-',
+                        'Kategori': s.category || 'Mülk Sahibi',
+                        'Aşama': s.stageName || s.stage || 'Yeni',
+                        'Notlar': s.notes || '',
+                        'Kayıt Tarihi': s.createdAt || ''
+                    }));
+                    const wsSellers = XLSX.utils.json_to_sheet(sellerRows.length ? sellerRows : [{'Bilgi': 'Henüz mülk sahibi kaydı yok'}]);
+                    XLSX.utils.book_append_sheet(wb, wsSellers, 'Mülk Sahipleri');
+
+                    // Sheet 3: Tüm Kişiler
+                    const allRows = cleanContacts.map((c, i) => ({
+                        'Sıra': i + 1,
+                        'ID': c.id || '-',
+                        'Kategori': (c.category || 'Diğer').toUpperCase(),
+                        'Ad Soyad': c.name || '-',
+                        'Telefon': c.phone || '-',
+                        'Fiyat / Teklif': c.offer || (c.price ? Number(c.price).toLocaleString('tr-TR') + ' ₺' : '-'),
+                        'Aşama': c.stageName || c.stage || '-',
+                        'Portföy / İlan': c.listingTitle || '-',
+                        'Notlar': c.notes || '',
+                        'Kayıt Tarihi': c.createdAt || ''
+                    }));
+                    const wsAll = XLSX.utils.json_to_sheet(allRows.length ? allRows : [{'Bilgi': 'Henüz kişi kaydı yok'}]);
+                    XLSX.utils.book_append_sheet(wb, wsAll, 'Tüm Kişiler');
+
+                    // Sheet 4: Web Leadleri
+                    const leadRows = (cleanLeads || []).map((l, i) => ({
+                        'Sıra': i + 1,
+                        'ID': l.id || '-',
+                        'Gönderen Adı': l.name || 'İsimsiz Lead',
+                        'Telefon': l.phone || '-',
+                        'E-Posta': l.email || '-',
+                        'İlgilenilen Konu': l.property_title || l.title || l.subject || 'Web Talebi',
+                        'Durum': l.status || l.stage || 'Yeni',
+                        'Mesaj / Not': l.message || l.notes || '',
+                        'Tarih': l.createdAt || ''
+                    }));
+                    const wsLeads = XLSX.utils.json_to_sheet(leadRows.length ? leadRows : [{'Bilgi': 'Henüz web lead kaydı yok'}]);
+                    XLSX.utils.book_append_sheet(wb, wsLeads, 'Web Leadleri');
+
+                    XLSX.writeFile(wb, fName);
+                };
+
+                // Clean light-weight contacts stripping heavy binary/screenshot fields
+                const cleanContacts = (contacts.value || []).map(c => ({
+                    id: c.id,
+                    name: c.name || '',
+                    phone: c.phone || '',
+                    email: c.email || '',
+                    category: c.category || c.role || c.type || 'seller',
+                    stage: c.stage || c.status || '',
+                    stageName: c.stageName || c.stage || '',
+                    price: typeof c.price === 'number' ? c.price : (Number(String(c.price || '').replace(/[^0-9]/g, '')) || 0),
+                    offer: c.offer || '',
+                    listingTitle: c.listingTitle || c.title || '',
+                    listingRef: c.listingRef || c.parentId || '',
+                    district: c.district || c.location || '',
+                    score: c.score || 75,
+                    heat: c.heat || 'Normal',
+                    source: c.source || '',
+                    source_label: c.source_label || '',
+                    hasExchange: !!c.hasExchange,
+                    exchangeNotes: c.exchangeNotes || '',
+                    notes: c.notes || c.note || '',
+                    createdAt: c.createdAt || ''
+                }));
+
+                const cleanLeads = (webLeads.value || []).map(l => ({
+                    id: l.id,
+                    name: l.name || '',
+                    phone: l.phone || '',
+                    email: l.email || '',
+                    property_title: l.property_title || l.title || l.subject || '',
+                    status: l.status || l.stage || '',
+                    message: l.message || l.notes || '',
+                    createdAt: l.createdAt || ''
+                }));
+
+                try {
+                    // Try Server-side OpenPyXL stylized export first
+                    const response = await fetch('/api/crm/export/xlsx', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contacts: cleanContacts,
+                            webLeads: cleanLeads
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Server returned HTTP ${response.status}`);
+                    }
+
+                    const blob = await response.blob();
+                    if (blob.size < 100) {
+                        throw new Error('Boş veya geçersiz dosya içeriği.');
+                    }
+                    downloadBlob(blob, filename);
 
                     if (toast && toast.value) {
                         toast.value = { show: true, message: '✅ Kurumsal Excel çalışma kitabı başarıyla indirildi!', icon: 'check-circle' };
                         setTimeout(() => { toast.value.show = false; }, 4000);
                     }
                 } catch (err) {
-                    console.error('Excel export error, falling back to direct GET:', err);
-                    window.location.href = '/api/crm/export/xlsx';
+                    console.warn('Backend Excel export warning, activating instant Client-side SheetJS generator:', err);
+                    try {
+                        generateClientSideXlsx(cleanContacts, cleanLeads, filename);
+                        if (toast && toast.value) {
+                            toast.value = { show: true, message: '✅ Excel çalışma kitabı başarıyla oluşturuldu ve indirildi!', icon: 'check-circle' };
+                            setTimeout(() => { toast.value.show = false; }, 4000);
+                        }
+                    } catch (clientErr) {
+                        console.error('Client XLSX export error:', clientErr);
+                        window.location.href = '/api/crm/export/xlsx';
+                    }
                 } finally {
                     exportingExcel.value = false;
                 }
@@ -10993,6 +11129,10 @@ ${comments}`;
 
             // ── PORTFÖY İLERLEME: PANEL AÇ/KAPAT ────────────────
             const resetPortfoyState = () => {
+                listingBuyers.value = [];
+                listingPlatformStats.value = JSON.parse(JSON.stringify(DEFAULT_PLATFORMS));
+                listingTimeline.value = [];
+                listingNewBuyer.value = { name: '', phone: '', offer: '', stage: 'Yeni Talep', note: '' };
                 portfoyMedia.value = [];
                 portfoyNotes.value = [];
                 portfoyReports.value = [];
@@ -11016,25 +11156,32 @@ ${comments}`;
             // ── LISTING DASHBOARD METHODS ──
             const getListingBuyerCount = (lst) => {
                 if (!lst) return 0;
-                if (typeof lst.buyer_count === 'number' && lst.buyer_count > 0) return lst.buyer_count;
                 const refId = lst.id || lst.ref_id;
-                if (refId) {
-                    try {
-                        const cachedRaw = localStorage.getItem('nexa_listing_buyers_' + refId);
-                        if (cachedRaw) {
-                            const parsed = JSON.parse(cachedRaw);
-                            if (Array.isArray(parsed) && parsed.length > 0) return parsed.length;
+                if (!refId) return Number(lst.buyer_count) || 0;
+
+                // Priority 1: Check localStorage cache strictly for this listing
+                try {
+                    const cachedRaw = localStorage.getItem('nexa_listing_buyers_' + refId);
+                    if (cachedRaw) {
+                        const parsed = JSON.parse(cachedRaw);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            const valid = parsed.filter(b => !b.refId || b.refId === refId);
+                            if (valid.length > 0) return valid.length;
                         }
-                    } catch(e) {}
-                }
-                if (contacts && contacts.value && refId) {
+                    }
+                } catch(e) {}
+
+                // Priority 2: Check contacts strictly matching this refId (NO generic title matching)
+                if (contacts && contacts.value) {
                     const matching = contacts.value.filter(c => 
                         (c.category === 'buyer' || c.role === 'buyer' || c.type === 'buyer' || (c.id && c.id.startsWith('b_'))) &&
-                        (c.listingRef === refId || c.parentId === refId || (c.listingTitle && lst.title && c.listingTitle === lst.title))
+                        (c.listingRef === refId || c.parentId === refId)
                     );
                     if (matching.length > 0) return matching.length;
                 }
-                return 0;
+
+                // Priority 3: Fallback to listing doc buyer_count
+                return Number(lst.buyer_count) || 0;
             };
 
             // ── MANUEL PORTFÖY / İLAN EKLEME (FIREBASE FIRST) ──
@@ -11127,13 +11274,18 @@ ${comments}`;
             const loadListingDashboardData = async (refId) => {
                 if (!refId) return;
 
-                // LAYER 1: 0ms instant display from localStorage cache
+                // LAYER 0: Immediately reset previous listing state so no buyers/stats leak across listings!
+                listingBuyers.value = [];
+                listingPlatformStats.value = JSON.parse(JSON.stringify(DEFAULT_PLATFORMS));
+                listingTimeline.value = [];
+
+                // LAYER 1: 0ms instant display from localStorage cache strictly for this listing
                 try {
                     const cachedRaw = localStorage.getItem('nexa_listing_buyers_' + refId);
                     if (cachedRaw) {
                         const parsed = JSON.parse(cachedRaw);
                         if (Array.isArray(parsed) && parsed.length > 0) {
-                            listingBuyers.value = parsed;
+                            listingBuyers.value = parsed.filter(b => !b.refId || b.refId === refId);
                         }
                     }
                 } catch(e) {}
@@ -11177,8 +11329,12 @@ ${comments}`;
 
                         if (fsBuyers.length > 0) {
                             const bMap = new Map();
-                            for (const b of listingBuyers.value) if (b && b.id) bMap.set(b.id, b);
-                            for (const fb of fsBuyers) if (fb && fb.id) bMap.set(fb.id, fb);
+                            for (const b of listingBuyers.value) {
+                                if (b && b.id && (!b.refId || b.refId === refId)) bMap.set(b.id, b);
+                            }
+                            for (const fb of fsBuyers) {
+                                if (fb && fb.id && (!fb.refId || fb.refId === refId)) bMap.set(fb.id, fb);
+                            }
                             listingBuyers.value = Array.from(bMap.values());
                         }
                     } catch(fsErr) {
@@ -11186,13 +11342,13 @@ ${comments}`;
                     }
                 }
 
-                // LAYER 3: Instant local sync from contacts.value (matching listingRef)
+                // LAYER 3: Instant local sync from contacts.value strictly matching this listing's refId
                 try {
-                    const titleMatch = currentListingObj.value?.title || portfoyCtx.value?.title;
                     const fromContacts = (contacts.value || []).filter(c => {
                         const isBuyer = c.category === 'buyer' || c.role === 'buyer' || c.type === 'buyer' || (c.id && c.id.startsWith('b_'));
-                        const isRef = c.listingRef === refId || c.parentId === refId || (titleMatch && c.listingTitle === titleMatch);
-                        return isBuyer && isRef;
+                        if (!isBuyer) return false;
+                        // Strict refId match - NEVER match on generic title so buyers never bleed across listings
+                        return (c.listingRef === refId || c.parentId === refId);
                     }).map(c => ({ 
                         id: c.id,
                         refId: refId,
@@ -11201,7 +11357,7 @@ ${comments}`;
                         offer: c.offer || (c.price ? (typeof c.price === 'number' ? c.price.toLocaleString('tr-TR') + ' ₺' : (Number(String(c.price).replace(/[^0-9]/g, '')) ? Number(String(c.price).replace(/[^0-9]/g, '')).toLocaleString('tr-TR') + ' ₺' : String(c.price))) : ''),
                         stage: c.stageName || c.stage || 'Yeni Talep',
                         note: c.note || c.notes || '',
-                        listingTitle: c.listingTitle || titleMatch || 'Portföy İlanı',
+                        listingTitle: c.listingTitle || currentListingObj.value?.title || portfoyCtx.value?.title || 'Portföy İlanı',
                         createdAt: c.createdAt ? (c.createdAt.includes('T') ? new Date(c.createdAt).toLocaleDateString('tr-TR') : c.createdAt) : ''
                     }));
 
@@ -11229,14 +11385,14 @@ ${comments}`;
                         const serverBuyers = data.data.buyers || [];
                         const mergedBuyersMap = new Map();
 
-                        // Add server buyers
+                        // Add server buyers matching this refId
                         for (const sb of serverBuyers) {
-                            if (sb && sb.id) mergedBuyersMap.set(sb.id, sb);
+                            if (sb && sb.id && (!sb.refId || sb.refId === refId)) mergedBuyersMap.set(sb.id, sb);
                         }
 
-                        // Keep all Firestore/local buyers so none are dropped
+                        // Keep local buyers matching this refId
                         for (const lb of listingBuyers.value) {
-                            if (lb && lb.id) {
+                            if (lb && lb.id && (!lb.refId || lb.refId === refId)) {
                                 if (!mergedBuyersMap.has(lb.id)) {
                                     mergedBuyersMap.set(lb.id, lb);
                                 } else {
@@ -11691,6 +11847,7 @@ ${comments}`;
             };
 
             const openListingPortfoy = (lst, preferredTab = null) => {
+                resetPortfoyState();
                 currentListingObj.value = lst;
                 if (preferredTab) {
                     activeListingTab.value = preferredTab;

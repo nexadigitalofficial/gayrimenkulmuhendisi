@@ -219,7 +219,7 @@ def _collect_master_data(provided_contacts=None, provided_leads=None, db_admin=N
     # 4. Firestore Admin (Eğer canlıda/yerelde initialize edilmişse ve contacts_map azsa)
     if len(contacts_map) < 50 and db_admin:
         try:
-            admin_uids = ['RnHhsj3K4VSWRY4cjc3Pc09JMFn2', 'GP3Eiiz0cvPgibGnXPoNElCeWzW2', 'N24DQxhNQHVYGHoX9bBi52mINYi1']
+            admin_uids = ['L8sPnXFGTpbaaAmGR2MdahJe9O32', 'RnHhsj3K4VSWRY4cjc3Pc09JMFn2', 'GP3Eiiz0cvPgibGnXPoNElCeWzW2', 'N24DQxhNQHVYGHoX9bBi52mINYi1', 'URaEvk4heBZmwTAIPbeDTNziqDx1']
             for u in admin_uids:
                 docs = db_admin.collection("users").document(u).collection("contacts").stream()
                 for doc in docs:

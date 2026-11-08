@@ -17062,7 +17062,8 @@ def add_portfolio_listing_buyer(ref_id):
         if not phone:
             phone = "-"
 
-        buyer_id = f"b_{int(time.time())}_{random.randint(100, 999)}"
+        # Use existing ID from frontend if provided to prevent duplicate creation and desync
+        buyer_id = (payload.get("id") or "").strip() or f"b_{int(time.time())}_{random.randint(100, 999)}"
         buyer_record = {
             "id": buyer_id,
             "refId": ref_id,
