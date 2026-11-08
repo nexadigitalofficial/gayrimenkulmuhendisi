@@ -3737,6 +3737,15 @@
                 >
                     <i class="fas fa-th-large"></i>
                 </button>
+                <button 
+                    @click="tasksViewMode = 'calendar'" 
+                    :class="tasksViewMode === 'calendar' ? 'bg-emerald-600 text-white shadow-md font-bold' : 'text-slate-400 hover:text-white'" 
+                    title="İnteraktif Takvim & Günlük Ajanda"
+                    class="px-2.5 py-1 rounded-lg text-xs transition-colors flex items-center gap-1.5"
+                >
+                    <i class="fas fa-calendar-alt text-amber-300"></i>
+                    <span class="hidden sm:inline">Takvim</span>
+                </button>
             </div>
         </div>
     </div>
@@ -4369,6 +4378,419 @@
             <i class="fas fa-notes-medical text-4xl mb-3 block opacity-30"></i>
             Henüz not kartı eklenmedi. Üstteki çubuktan hızlıca not veya ses kaydı ekleyebilirsiniz.
         </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         GÖRÜNÜM 4: İNTERAKTİF TAKVİM & GÜNLÜK AJANDA (CALENDAR & DAILY AGENDA)
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div v-else-if="tasksViewMode === 'calendar'" class="space-y-6">
+        
+        <!-- ÜST TAKVİM KONTROL VE BİLGİ ŞERİDİ -->
+        <div class="glass-strong rounded-2xl p-4 sm:p-5 border border-emerald-500/20 bg-slate-900/80 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
+            <!-- Sol: Ay / Yıl Navigasyonu -->
+            <div class="flex items-center gap-3">
+                <div class="flex items-center bg-slate-950/70 border border-white/10 rounded-xl p-1 shadow-inner">
+                    <button 
+                        @click="changeCalendarMonth(-1)" 
+                        title="Önceki Ay"
+                        class="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+                    >
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+                    <button 
+                        @click="goToToday()" 
+                        class="px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-400 hover:bg-emerald-500/10 transition-colors flex items-center gap-1.5"
+                    >
+                        <i class="fas fa-dot-circle text-[10px]"></i>
+                        Bugün
+                    </button>
+                    <button 
+                        @click="changeCalendarMonth(1)" 
+                        title="Sonraki Ay"
+                        class="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+                    >
+                        <i class="fas fa-chevron-right text-sm"></i>
+                    </button>
+                </div>
+
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+                        <span>{{ calendarMonthLabel }}</span>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-semibold hidden sm:inline-flex items-center gap-1">
+                            <i class="fas fa-tasks text-[10px]"></i>
+                            {{ calendarMonthTasksCount }} Planlı İşlem
+                        </span>
+                    </h2>
+                    <p class="text-xs text-slate-400 hidden sm:block">
+                        Seçili Tarih: <span class="text-emerald-300 font-semibold">{{ selectedDayFormattedLabel }}</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sağ: Hızlı Kısayollar & Filtre Göstergeleri -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <button 
+                    @click="openVoiceTaskModal(selectedCalendarDate)" 
+                    class="px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-lg shadow-emerald-600/30 transition-all flex items-center gap-1.5 active:scale-95"
+                >
+                    <i class="fas fa-microphone-alt text-amber-300"></i>
+                    <span>Bu Güne Sesli Not</span>
+                </button>
+                <button 
+                    @click="openNewTaskModal(selectedCalendarDate)" 
+                    class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/15 text-white border border-white/10 transition-all flex items-center gap-1.5"
+                >
+                    <i class="fas fa-plus text-emerald-400"></i>
+                    <span>Yeni Görev / Randevu</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ANA GÖVDE: 2 KOLONLU DÜZEN (TAKVİM IZGARASI + GÜNÜN AJANDASI & NOT PANELİ) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- SOL KOLON: 7x6 TAKVİM IZGARASI (8 KOLON) -->
+            <div class="lg:col-span-8 glass-strong rounded-2xl p-4 sm:p-5 border border-white/10 bg-slate-900/70 shadow-2xl space-y-4">
+                
+                <!-- HAFTANIN GÜNLERİ BAŞLIKLARI (PAZARTESİ - PAZAR) -->
+                <div class="grid grid-cols-7 gap-1.5 sm:gap-2 text-center">
+                    <div class="py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 rounded-lg bg-slate-950/40">Pzt</div>
+                    <div class="py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 rounded-lg bg-slate-950/40">Sal</div>
+                    <div class="py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 rounded-lg bg-slate-950/40">Çar</div>
+                    <div class="py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 rounded-lg bg-slate-950/40">Per</div>
+                    <div class="py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 rounded-lg bg-slate-950/40">Cum</div>
+                    <div class="py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-amber-400/90 rounded-lg bg-amber-500/10 border border-amber-500/20">Cmt</div>
+                    <div class="py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-400/90 rounded-lg bg-rose-500/10 border border-rose-500/20">Paz</div>
+                </div>
+
+                <!-- 42 GÜNLÜK TAKVİM HÜCRELERİ -->
+                <div class="grid grid-cols-7 gap-1.5 sm:gap-2">
+                    <div 
+                        v-for="cell in calendarDays" 
+                        :key="cell.dateStr"
+                        @click="selectCalendarDate(cell.dateStr)"
+                        class="min-h-[82px] sm:min-h-[105px] p-1.5 sm:p-2 rounded-xl sm:rounded-2xl border transition-all duration-150 cursor-pointer flex flex-col justify-between group relative overflow-hidden"
+                        :class="[
+                            cell.isSelected 
+                                ? 'bg-emerald-950/40 border-emerald-400 ring-2 ring-emerald-400/60 shadow-lg shadow-emerald-500/20 z-10' 
+                                : cell.isToday 
+                                    ? 'bg-amber-950/30 border-amber-400/60 hover:border-amber-400 shadow-md' 
+                                    : cell.isCurrentMonth 
+                                        ? 'bg-slate-950/60 border-white/5 hover:border-emerald-500/40 hover:bg-slate-900/80' 
+                                        : 'bg-slate-950/20 border-transparent opacity-40 hover:opacity-75 hover:bg-slate-950/40'
+                        ]"
+                    >
+                        <!-- HÜCRE ÜSTÜ: GÜN SAYISI VE ROZETLER -->
+                        <div class="flex items-center justify-between">
+                            <span 
+                                class="text-xs sm:text-sm font-black w-6 h-6 rounded-lg flex items-center justify-center transition-colors"
+                                :class="[
+                                    cell.isToday 
+                                        ? 'bg-amber-400 text-slate-950 font-extrabold shadow-sm' 
+                                        : cell.isSelected 
+                                            ? 'bg-emerald-500 text-slate-950 font-extrabold shadow-sm' 
+                                            : cell.isCurrentMonth 
+                                                ? 'text-slate-200 group-hover:text-white' 
+                                                : 'text-slate-500'
+                                ]"
+                            >
+                                {{ cell.dayNumber }}
+                            </span>
+
+                            <!-- GÖREV SAYISI BİLDİRİMİ -->
+                            <span 
+                                v-if="cell.tasks.length > 0" 
+                                class="text-[10px] font-bold px-1.5 py-0.2 rounded-full border"
+                                :class="cell.isSelected ? 'bg-emerald-500/30 text-emerald-200 border-emerald-400/50' : 'bg-slate-800 text-slate-300 border-white/10'"
+                            >
+                                {{ cell.tasks.length }}
+                            </span>
+                        </div>
+
+                        <!-- HÜCRE ORTASI / ALTI: GÖREV ÖNİZLEME PİLLERİ -->
+                        <div class="space-y-1 mt-1 overflow-hidden">
+                            <!-- En fazla ilk 2 görevin başlığını mini hap olarak göster -->
+                            <div 
+                                v-for="t in cell.tasks.slice(0, 2)" 
+                                :key="t.id"
+                                class="text-[9px] sm:text-[10px] truncate px-1.5 py-0.5 rounded font-medium flex items-center gap-1"
+                                :class="t.status === 'done' ? 'line-through opacity-50 bg-white/5 text-slate-400' : 'text-slate-100'"
+                                :style="{ background: (getCategoryColor(t.category) || '#10b981') + '26', borderLeft: '2px solid ' + (getCategoryColor(t.category) || '#10b981') }"
+                                :title="t.title"
+                            >
+                                <span class="w-1.5 h-1.5 rounded-full shrink-0" :style="{ background: getCategoryColor(t.category) || '#10b981' }"></span>
+                                <span class="truncate">{{ t.title }}</span>
+                            </div>
+
+                            <!-- 2'den fazla görev varsa sayaç -->
+                            <div 
+                                v-if="cell.tasks.length > 2" 
+                                class="text-[9px] font-semibold text-emerald-400 text-center tracking-tight"
+                            >
+                                +{{ cell.tasks.length - 2 }} diğer
+                            </div>
+                        </div>
+
+                        <!-- Seçili gün gösterge çizgisi -->
+                        <div 
+                            v-if="cell.isSelected" 
+                            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 to-teal-400"
+                        ></div>
+                    </div>
+                </div>
+
+                <!-- TAKVİM ALT BİLGİLENDİRME LEJANTI -->
+                <div class="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-400">
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-md bg-amber-400 inline-block"></span>
+                            <span>Bugün</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-md bg-emerald-500 inline-block"></span>
+                            <span>Seçili Gün</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>
+                            <span>Acil / Yüksek</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                            <span>Tamamlandı</span>
+                        </div>
+                    </div>
+                    <div class="text-slate-500 text-[10px]">
+                        💡 Gün kutusuna tıklayarak sağdaki panelden o güne özel not, görev veya ses kaydı ekleyebilirsiniz.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAĞ KOLON: SEÇİLİ GÜNÜN AJANDASI & ÖZEL NOT PANELİ (4 KOLON) -->
+            <div class="lg:col-span-4 space-y-4">
+                
+                <div class="glass-strong rounded-2xl p-5 border border-emerald-500/30 bg-slate-900/85 shadow-2xl space-y-5">
+                    
+                    <!-- GÜN BAŞLIĞI VE ÖZET -->
+                    <div class="border-b border-white/10 pb-4">
+                        <div class="flex items-start justify-between gap-2">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block mb-0.5">
+                                    <i class="far fa-calendar-check mr-1"></i> Günlük Ajanda & Not Merkezi
+                                </span>
+                                <h3 class="text-lg font-black text-white leading-tight">
+                                    {{ selectedDayFormattedLabel }}
+                                </h3>
+                            </div>
+                            <span 
+                                v-if="selectedCalendarDate === new Date().toISOString().substring(0, 10)" 
+                                class="px-2 py-0.5 rounded-md text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wider"
+                            >
+                                BUGÜN
+                            </span>
+                        </div>
+                        <div class="mt-2 text-xs text-slate-400 flex items-center justify-between">
+                            <span>Bu tarihe kayıtlı görev & notlar:</span>
+                            <span class="font-bold text-white bg-white/10 px-2 py-0.5 rounded-full text-[11px]">
+                                {{ selectedDayTasks.length }} Adet
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- GÜNE ÖZEL HIZLI NOT & GÖREV EKLEME FORMU -->
+                    <div class="bg-slate-950/70 rounded-xl p-3.5 border border-white/10 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                                <i class="fas fa-edit text-emerald-400"></i> Bu Güne Not / Görev Yaz
+                            </span>
+                            <span class="text-[10px] text-slate-500">
+                                {{ selectedCalendarDate }}
+                            </span>
+                        </div>
+
+                        <!-- Başlık Girdisi -->
+                        <input 
+                            v-model="calendarQuickTitle" 
+                            @keydown.enter="addCalendarQuickTask"
+                            type="text" 
+                            placeholder="Örn: 14:00 Kadıköy tapu randevusu, müşteri aranacak..." 
+                            class="w-full px-3 py-2 text-xs rounded-lg bg-slate-900 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                        />
+
+                        <!-- Kategori ve Öncelik Seçimi -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <select 
+                                v-model="calendarQuickCategory" 
+                                class="w-full px-2 py-1.5 text-xs rounded-lg bg-slate-900 border border-white/10 text-slate-300 focus:outline-none focus:border-emerald-500"
+                            >
+                                <option v-for="c in taskCategories" :key="c.id" :value="c.id">{{ c.name }}</option>
+                            </select>
+
+                            <select 
+                                v-model="calendarQuickPriority" 
+                                class="w-full px-2 py-1.5 text-xs rounded-lg bg-slate-900 border border-white/10 text-slate-300 focus:outline-none focus:border-emerald-500"
+                            >
+                                <option value="low">🟢 Düşük Öncelik</option>
+                                <option value="medium">🟡 Normal</option>
+                                <option value="high">🟠 Yüksek</option>
+                                <option value="urgent">🔴 Acil</option>
+                            </select>
+                        </div>
+
+                        <!-- Aksiyon Butonları (Ekle + Sesli Not Al) -->
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <button 
+                                @click="addCalendarQuickTask"
+                                :disabled="!calendarQuickTitle.trim()"
+                                class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white shadow-md transition-all flex items-center justify-center gap-1.5"
+                            >
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Notu Ekle</span>
+                            </button>
+
+                            <button 
+                                @click="openVoiceTaskModal(selectedCalendarDate)" 
+                                title="Gemini AI Ses Tanıma ile bu güne sesli not ekleyin"
+                                class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-gradient-to-r from-teal-600 to-indigo-600 hover:from-teal-500 hover:to-indigo-500 text-white shadow-md transition-all flex items-center justify-center gap-1.5"
+                            >
+                                <i class="fas fa-microphone text-amber-300"></i>
+                                <span>Sesli Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SEÇİLİ GÜNE AİT GÖREV & NOT LİSTESİ -->
+                    <div class="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
+                        
+                        <!-- Boş Durum (Bu günde görev yoksa) -->
+                        <div v-if="selectedDayTasks.length === 0" class="text-center py-10 px-4 rounded-xl border border-dashed border-white/10 bg-slate-950/40">
+                            <div class="w-12 h-12 rounded-full bg-slate-800/80 mx-auto flex items-center justify-center text-slate-500 text-xl mb-3">
+                                <i class="far fa-calendar-times"></i>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-300 mb-1">Bu Güne Not Planlanmamış</h4>
+                            <p class="text-[11px] text-slate-500 leading-relaxed mb-3">
+                                {{ selectedDayFormattedLabel }} tarihi için henüz kayıtlı bir iş veya not bulunmuyor.
+                            </p>
+                            <button 
+                                @click="openVoiceTaskModal(selectedCalendarDate)" 
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors"
+                            >
+                                <i class="fas fa-microphone text-amber-300"></i>
+                                <span>Sesinizle Hemen Not Alın</span>
+                            </button>
+                        </div>
+
+                        <!-- Görev & Not Kartları -->
+                        <div 
+                            v-for="task in selectedDayTasks" 
+                            :key="task.id"
+                            class="p-3.5 rounded-xl border transition-all duration-150 flex flex-col justify-between gap-2.5 hover:shadow-lg"
+                            :class="task.status === 'done' ? 'bg-slate-950/40 border-white/5 opacity-60' : 'bg-slate-950/75 border-white/10 hover:border-emerald-500/30'"
+                            :style="{ borderLeftWidth: '4px', borderLeftColor: getCategoryColor(task.category) }"
+                        >
+                            <div class="space-y-1.5">
+                                <!-- Üst Etiketler & Öncelik -->
+                                <div class="flex items-center justify-between gap-1.5">
+                                    <span 
+                                        class="px-2 py-0.5 rounded text-[10px] font-semibold inline-flex items-center gap-1"
+                                        :style="{ background: getCategoryColor(task.category) + '22', color: getCategoryColor(task.category) }"
+                                    >
+                                        <i :class="getCategoryIcon(task.category)"></i>
+                                        {{ task.category }}
+                                    </span>
+                                    <div class="flex items-center gap-1">
+                                        <span :class="getPriorityBadgeClass(task.priority)" class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase">
+                                            {{ getPriorityLabel(task.priority) }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Başlık & Tamamlama Kutucuğu -->
+                                <div class="flex items-start gap-2.5">
+                                    <button 
+                                        @click="toggleTaskDone(task.id)" 
+                                        class="mt-0.5 text-base transition-colors shrink-0"
+                                        :class="task.status === 'done' ? 'text-emerald-400' : 'text-slate-500 hover:text-emerald-400'"
+                                        title="Tamamlandı olarak işaretle"
+                                    >
+                                        <i :class="task.status === 'done' ? 'fas fa-check-circle' : 'far fa-circle'"></i>
+                                    </button>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 
+                                            class="text-xs font-bold leading-snug cursor-pointer transition-colors"
+                                            :class="task.status === 'done' ? 'line-through text-slate-500' : 'text-white hover:text-emerald-300'"
+                                            @click="openEditTaskModal(task)"
+                                        >
+                                            {{ task.title }}
+                                        </h4>
+                                        <p v-if="task.content" class="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                                            {{ task.content }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Kontrol Listesi Özeti (Varsa) -->
+                                <div v-if="task.checklist && task.checklist.length > 0" class="text-[10px] text-slate-400 flex items-center gap-1.5 pl-6">
+                                    <i class="fas fa-check-square text-emerald-400"></i>
+                                    <span>Kontrol: {{ getCompletedChecklistCount(task) }}/{{ task.checklist.length }} alt madde</span>
+                                </div>
+                            </div>
+
+                            <!-- Alt Aksiyon Butonları -->
+                            <div class="flex items-center justify-between pt-2 border-t border-white/5 text-xs text-slate-400 pl-6">
+                                <span class="text-[10px] text-slate-500 flex items-center gap-1">
+                                    <i class="far fa-clock"></i>
+                                    {{ formatDueDate(task.due_date) }}
+                                </span>
+
+                                <div class="flex items-center gap-1">
+                                    <!-- Gemini TTS ile Oku -->
+                                    <button 
+                                        @click="playTaskTTS(task)" 
+                                        title="Gemini TTS ile Sesli Dinle"
+                                        class="p-1 rounded text-slate-400 hover:text-indigo-400 hover:bg-white/5 transition-colors"
+                                    >
+                                        <i v-if="taskTtsLoadingId === task.id" class="fas fa-spinner fa-spin text-indigo-400"></i>
+                                        <i v-else class="fas fa-volume-up"></i>
+                                    </button>
+
+                                    <!-- Düzenle -->
+                                    <button 
+                                        @click="openEditTaskModal(task)" 
+                                        title="Düzenle"
+                                        class="p-1 rounded text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+                                    >
+                                        <i class="fas fa-pen text-[11px]"></i>
+                                    </button>
+
+                                    <!-- Sil -->
+                                    <button 
+                                        @click="deleteTaskFn(task.id)" 
+                                        title="Sil"
+                                        class="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-white/5 transition-colors"
+                                    >
+                                        <i class="fas fa-trash text-[11px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Detaylı Modal Aç Butonu -->
+                    <button 
+                        @click="openNewTaskModal(selectedCalendarDate)" 
+                        class="w-full py-2.5 rounded-xl border border-white/10 hover:border-emerald-500/40 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-semibold transition-all flex items-center justify-center gap-2"
+                    >
+                        <i class="fas fa-calendar-plus text-emerald-400"></i>
+                        <span>Bu Güne Detaylı Görev & Hatırlatma Aç</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
@@ -12193,7 +12615,14 @@ ${comments}`;
                 { id: "Finans & Muhasebe", name: "Finans & Komisyon", icon: "fas fa-coins", color: "#eab308" }
             ]);
 
-            const tasksViewMode = ref('kanban'); // 'kanban' | 'list' | 'cards'
+            const tasksViewMode = ref('kanban'); // 'kanban' | 'list' | 'cards' | 'calendar'
+            const calendarCurrentYear = ref(new Date().getFullYear());
+            const calendarCurrentMonth = ref(new Date().getMonth());
+            const selectedCalendarDate = ref(new Date().toISOString().substring(0, 10));
+            const voiceModalDefaultDueDate = ref('');
+            const calendarQuickTitle = ref('');
+            const calendarQuickCategory = ref('Genel');
+            const calendarQuickPriority = ref('medium');
             const taskStatusFilter = ref('all');
             const taskCategoryFilter = ref('all');
             const taskPriorityFilter = ref('all');
@@ -12338,6 +12767,119 @@ ${comments}`;
                 return cols;
             });
 
+            // ── TAKVİM VE GÜNLÜK AJANDA HESAPLAMALARI ─────────────────
+            const MONTH_NAMES_TR = [
+                'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+                'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+            ];
+            const DAY_NAMES_TR = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+
+            const calendarMonthLabel = computed(() => {
+                return `${MONTH_NAMES_TR[calendarCurrentMonth.value]} ${calendarCurrentYear.value}`;
+            });
+
+            const selectedDayFormattedLabel = computed(() => {
+                if (!selectedCalendarDate.value) return '';
+                try {
+                    const parts = selectedCalendarDate.value.split('-');
+                    if (parts.length === 3) {
+                        const y = parseInt(parts[0], 10);
+                        const m = parseInt(parts[1], 10) - 1;
+                        const d = parseInt(parts[2], 10);
+                        const dateObj = new Date(y, m, d);
+                        const dayOfWeek = (dateObj.getDay() + 6) % 7;
+                        return `${d} ${MONTH_NAMES_TR[m]} ${y}, ${DAY_NAMES_TR[dayOfWeek]}`;
+                    }
+                } catch(e) {}
+                return selectedCalendarDate.value;
+            });
+
+            const selectedDayTasks = computed(() => {
+                if (!selectedCalendarDate.value) return [];
+                const dStr = selectedCalendarDate.value;
+                return tasks.value.filter(t => t.due_date && t.due_date.startsWith(dStr));
+            });
+
+            const calendarMonthTasksCount = computed(() => {
+                const y = calendarCurrentYear.value;
+                const m = calendarCurrentMonth.value + 1;
+                const prefix = `${y}-${m < 10 ? '0' + m : m}`;
+                return tasks.value.filter(t => t.due_date && t.due_date.startsWith(prefix)).length;
+            });
+
+            const calendarDays = computed(() => {
+                const year = calendarCurrentYear.value;
+                const month = calendarCurrentMonth.value;
+
+                const firstDay = new Date(year, month, 1);
+                const firstDayIndex = (firstDay.getDay() + 6) % 7; // Monday = 0
+
+                const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
+                const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+                const todayStr = new Date().toISOString().substring(0, 10);
+                const cells = [];
+
+                // 1. Önceki aydan taşan günler
+                for (let i = firstDayIndex - 1; i >= 0; i--) {
+                    const d = daysInPrevMonth - i;
+                    const prevMonth = month === 0 ? 11 : month - 1;
+                    const prevYear = month === 0 ? year - 1 : year;
+                    const mStr = (prevMonth + 1) < 10 ? `0${prevMonth + 1}` : `${prevMonth + 1}`;
+                    const dStr = d < 10 ? `0${d}` : `${d}`;
+                    const dateStr = `${prevYear}-${mStr}-${dStr}`;
+                    const dayTasks = tasks.value.filter(t => t.due_date && t.due_date.startsWith(dateStr));
+
+                    cells.push({
+                        dateStr,
+                        dayNumber: d,
+                        isCurrentMonth: false,
+                        isToday: dateStr === todayStr,
+                        isSelected: dateStr === selectedCalendarDate.value,
+                        tasks: dayTasks
+                    });
+                }
+
+                // 2. Mevcut ayın günleri
+                for (let d = 1; d <= daysInCurrentMonth; d++) {
+                    const mStr = (month + 1) < 10 ? `0${month + 1}` : `${month + 1}`;
+                    const dStr = d < 10 ? `0${d}` : `${d}`;
+                    const dateStr = `${year}-${mStr}-${dStr}`;
+                    const dayTasks = tasks.value.filter(t => t.due_date && t.due_date.startsWith(dateStr));
+
+                    cells.push({
+                        dateStr,
+                        dayNumber: d,
+                        isCurrentMonth: true,
+                        isToday: dateStr === todayStr,
+                        isSelected: dateStr === selectedCalendarDate.value,
+                        tasks: dayTasks
+                    });
+                }
+
+                // 3. Sonraki aydan taşan günler (toplam 42 hücreye tamamla)
+                const remaining = 42 - cells.length;
+                for (let d = 1; d <= remaining; d++) {
+                    const nextMonth = month === 11 ? 0 : month + 1;
+                    const nextYear = month === 11 ? year + 1 : year;
+                    const mStr = (nextMonth + 1) < 10 ? `0${nextMonth + 1}` : `${nextMonth + 1}`;
+                    const dStr = d < 10 ? `0${d}` : `${d}`;
+                    const dateStr = `${nextYear}-${mStr}-${dStr}`;
+                    const dayTasks = tasks.value.filter(t => t.due_date && t.due_date.startsWith(dateStr));
+
+                    cells.push({
+                        dateStr,
+                        dayNumber: d,
+                        isCurrentMonth: false,
+                        isToday: dateStr === todayStr,
+                        isSelected: dateStr === selectedCalendarDate.value,
+                        tasks: dayTasks
+                    });
+                }
+
+                return cells;
+            });
+
             // ── GÖREV İŞLEMLERİ (METHODS) ─────────────────────────────
             const loadTasks = async () => {
                 tasksLoading.value = true;
@@ -12476,7 +13018,97 @@ ${comments}`;
                 }
             };
 
-            const openNewTaskModal = () => {
+            // ── TAKVİM VE GÜNLÜK AJANDA METOTLARI ─────────────────────
+            const changeCalendarMonth = (delta) => {
+                let m = calendarCurrentMonth.value + delta;
+                let y = calendarCurrentYear.value;
+                if (m < 0) {
+                    m = 11;
+                    y--;
+                } else if (m > 11) {
+                    m = 0;
+                    y++;
+                }
+                calendarCurrentMonth.value = m;
+                calendarCurrentYear.value = y;
+            };
+
+            const goToToday = () => {
+                const now = new Date();
+                calendarCurrentYear.value = now.getFullYear();
+                calendarCurrentMonth.value = now.getMonth();
+                selectedCalendarDate.value = now.toISOString().substring(0, 10);
+            };
+
+            const selectCalendarDate = (dateStr) => {
+                selectedCalendarDate.value = dateStr;
+                try {
+                    const [y, m] = dateStr.split('-').map(Number);
+                    if (y !== calendarCurrentYear.value || (m - 1) !== calendarCurrentMonth.value) {
+                        calendarCurrentYear.value = y;
+                        calendarCurrentMonth.value = m - 1;
+                    }
+                } catch(e) {}
+            };
+
+            const addCalendarQuickTask = async () => {
+                const title = calendarQuickTitle.value.trim();
+                if (!title) {
+                    alert("Lütfen bir not veya görev başlığı yazın.");
+                    return;
+                }
+                const targetDate = selectedCalendarDate.value || new Date().toISOString().substring(0, 10);
+                const taskId = 'task_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                const nowIso = new Date().toISOString();
+
+                const taskDoc = {
+                    id: taskId,
+                    user_id: user.value ? user.value.uid : 'default',
+                    title: title,
+                    content: '',
+                    category: calendarQuickCategory.value || 'Genel',
+                    priority: calendarQuickPriority.value || 'medium',
+                    due_date: targetDate,
+                    status: 'todo',
+                    is_pinned: 0,
+                    checklist: [],
+                    tags: ['takvim-notu'],
+                    related_to: '',
+                    voice_transcript: '',
+                    created_at: nowIso,
+                    updated_at: nowIso
+                };
+
+                // Anında UI ve yerel önbellek güncellemesi
+                tasks.value.unshift(taskDoc);
+                try {
+                    localStorage.setItem('nexa_crm_tasks', JSON.stringify(tasks.value));
+                } catch(e) {}
+                calendarQuickTitle.value = '';
+
+                // Firestore Doğrudan Yazım
+                if (user.value && typeof db !== 'undefined' && db) {
+                    try {
+                        await db.collection('users').doc(user.value.uid).collection('tasks').doc(taskId).set(taskDoc, { merge: true });
+                    } catch(fsErr) {
+                        console.warn("Firestore takvim hızlı not yazım uyarısı:", fsErr);
+                    }
+                }
+
+                // Backend SQLite senkronizasyonu
+                try {
+                    await fetch('/api/crm/tasks', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(taskDoc)
+                    });
+                    await loadTasks();
+                } catch(err) {
+                    console.warn("Backend takvim hızlı not senkronizasyon hatası:", err);
+                }
+            };
+
+            const openNewTaskModal = (initialDueDate = '') => {
                 taskModalMode.value = 'create';
                 currentTaskForm.value = {
                     id: '',
@@ -12485,7 +13117,7 @@ ${comments}`;
                     category: 'Genel',
                     priority: 'medium',
                     status: 'todo',
-                    due_date: '',
+                    due_date: initialDueDate || '',
                     is_pinned: false,
                     checklist: [],
                     tags: [],
@@ -12785,7 +13417,8 @@ ${comments}`;
             };
 
             // ── GEMINI SPEECH-TO-TEXT (SES KAYDI & AKILLI GÖREV ÇIKARMA) ──
-            const openVoiceTaskModal = () => {
+            const openVoiceTaskModal = (initialDueDate = '') => {
+                voiceModalDefaultDueDate.value = initialDueDate || '';
                 voiceRecording.value = false;
                 voiceRecordingDuration.value = 0;
                 voiceLiveTranscript.value = '';
@@ -12912,7 +13545,7 @@ ${comments}`;
                             content: d.content || d.transcript || '',
                             category: d.category || 'Genel',
                             priority: d.priority || 'medium',
-                            due_date: d.due_date || '',
+                            due_date: d.due_date || voiceModalDefaultDueDate.value || '',
                             checklist: Array.isArray(d.checklist) ? d.checklist : [],
                             tags: Array.isArray(d.tags) ? d.tags : [],
                             related_to: d.related_to || '',
@@ -13205,9 +13838,13 @@ ${comments}`;
 
             // ── RETURN ────────────────────────────────────────────
             return {
-                // ── İŞ TAKİP & GEMINI SESLİ NOTLAR ──
+                // ── İŞ TAKİP & GEMINI SESLİ NOTLAR & TAKVİM ──
                 tasks, tasksLoading, tasksStats, taskCategories, tasksViewMode, taskStatusFilter, taskCategoryFilter, taskPriorityFilter, taskSearchQuery,
                 pendingTasksCount, filteredTasks, kanbanColumns,
+                calendarCurrentYear, calendarCurrentMonth, selectedCalendarDate, voiceModalDefaultDueDate,
+                calendarQuickTitle, calendarQuickCategory, calendarQuickPriority,
+                calendarMonthLabel, selectedDayFormattedLabel, selectedDayTasks, calendarMonthTasksCount, calendarDays,
+                changeCalendarMonth, goToToday, selectCalendarDate, addCalendarQuickTask,
                 quickTaskTitle, quickTaskCategory, quickTaskPriority, quickTaskDueDate, quickAddTask,
                 showTaskModal, taskModalMode, currentTaskForm, newChecklistItemText, taskSaving,
                 openNewTaskModal, openNewTaskModalWithStatus, openEditTaskModal, saveTaskForm, deleteTaskFn, toggleTaskDone, toggleTaskChecklistItem,

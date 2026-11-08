@@ -270,7 +270,8 @@ def list_tasks(status: Optional[str] = None,
                category: Optional[str] = None,
                priority: Optional[str] = None,
                search: Optional[str] = None,
-               user_id: Optional[str] = None) -> List[Dict[str, Any]]:
+               user_id: Optional[str] = None,
+               due_date: Optional[str] = None) -> List[Dict[str, Any]]:
     """Görevleri ve notları listeler (filtreleme ve arama destekli)."""
     init_tasks_db()
     with get_db() as con:
@@ -298,6 +299,10 @@ def list_tasks(status: Optional[str] = None,
             term = f"%{search.strip()}%"
             query += " AND (title LIKE ? OR content LIKE ? OR tags LIKE ? OR related_to LIKE ?)"
             params.extend([term, term, term, term])
+
+        if due_date and due_date.strip():
+            query += " AND due_date LIKE ?"
+            params.append(f"{due_date.strip()}%")
 
         # Sabitlenenler en başta, sonra son tarihe göre, sonra en yeniler
         query += " ORDER BY is_pinned DESC, CASE WHEN due_date != '' THEN 0 ELSE 1 END, due_date ASC, updated_at DESC"
@@ -1015,8 +1020,9 @@ def api_list_tasks():
     priority = request.args.get("priority")
     search = request.args.get("search")
     user_id = request.args.get("user_id")
+    due_date = request.args.get("due_date")
 
-    tasks = list_tasks(status=status, category=category, priority=priority, search=search, user_id=user_id)
+    tasks = list_tasks(status=status, category=category, priority=priority, search=search, user_id=user_id, due_date=due_date)
     stats = get_task_stats(user_id=user_id)
     return jsonify({
         "ok": True,
