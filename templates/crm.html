@@ -1862,7 +1862,18 @@
             <!-- MENU DROPDOWN -->
             <transition>
                 <div v-if="showMenu" class="fixed inset-0 z-50 bg-black/50" @click="showMenu = false">
-                    <div class="absolute top-16 right-4 glass-strong rounded-xl p-2 min-w-[200px] shadow-2xl" @click.stop style="border:1px solid var(--border-default)">
+                    <div class="absolute top-16 right-4 glass-strong rounded-xl p-2 min-w-[220px] shadow-2xl" @click.stop style="border:1px solid var(--border-default)">
+                        <button @click="activeView = 'tasks_notes'; loadTasks(); showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center justify-between text-sm" style="color: #10b981; font-weight:700;">
+                            <span class="flex items-center gap-3">
+                                <i class="fas fa-calendar-check" style="color: #10b981"></i><span>İş Takip, Notlar & Takvim</span>
+                            </span>
+                            <span v-if="tasksStats && (tasksStats.todo + tasksStats.in_progress) > 0" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                {{ tasksStats.todo + tasksStats.in_progress }}
+                            </span>
+                        </button>
+                        <button @click="activeView = 'pipeline'; showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm">
+                            <i class="fas fa-columns" style="color: var(--accent)"></i><span>Pipeline (Satış Hunisi)</span>
+                        </button>
                         <button @click="showUrlPdfModal = true; showMenu=false" class="w-full text-left px-4 py-3 rounded-lg hover:bg-white/5 flex items-center gap-3 text-sm" style="color: #f59e0b; font-weight:600;">
                             <i class="fas fa-file-pdf" style="color: #f59e0b"></i><span>URL'den Sunum PDF</span>
                         </button>
@@ -8029,9 +8040,10 @@
                 <i class="fas fa-chart-pie"></i>
                 <span>Dashboard</span>
             </button>
-            <button @click="activeView = 'pipeline'" :class="['bottom-nav-item', activeView === 'pipeline' ? 'active' : '']">
-                <i class="fas fa-columns"></i>
-                <span>Pipeline</span>
+            <button @click="activeView = 'tasks_notes'; loadTasks();" :class="['bottom-nav-item', activeView === 'tasks_notes' ? 'active' : '']" style="color: #10b981;">
+                <i class="fas fa-calendar-check"></i>
+                <span>Notlar</span>
+                <span v-if="tasksStats && (tasksStats.todo + tasksStats.in_progress) > 0" class="bottom-nav-badge" style="background:#10b981;">{{ (tasksStats.todo + tasksStats.in_progress) > 9 ? '9+' : (tasksStats.todo + tasksStats.in_progress) }}</span>
             </button>
             <button @click="activeView = 'my_listings'; loadMyListings();" :class="['bottom-nav-item', activeView === 'my_listings' ? 'active' : '']" style="color: var(--gold);">
                 <i class="fas fa-crown"></i>
