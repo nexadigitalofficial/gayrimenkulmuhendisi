@@ -8897,16 +8897,17 @@
             const showPortfoyModal     = Vue.ref(false);
 
             // ── LISTING OPERATIONS & INTELLIGENCE DASHBOARD STATE ──
-            const activeListingTab      = Vue.ref('matrix'); // 'matrix', 'chat', 'buyers', 'timeline', 'media'
-            const currentListingObj     = Vue.ref({});
-            const listingPlatformStats  = Vue.ref([
+            const DEFAULT_PLATFORMS = [
                 { platform: 'SAHIBINDEN', logo: '🟡', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
                 { platform: 'HEPSIEMLAK', logo: '🔴', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
                 { platform: 'EMLAKJET', logo: '🟣', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
                 { platform: 'COLDWELL BANKER', logo: '🔵', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
                 { platform: 'BRANDA / AFİŞ', logo: '🟠', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 },
                 { platform: 'SOSYAL MEDYA & AD', logo: '🟢', views: 0, favorites: 0, messages: 0, calls: 0, influence: 0, score: 0 }
-            ]);
+            ];
+            const activeListingTab      = Vue.ref('matrix'); // 'matrix', 'chat', 'buyers', 'timeline', 'media'
+            const currentListingObj     = Vue.ref({});
+            const listingPlatformStats  = Vue.ref(JSON.parse(JSON.stringify(DEFAULT_PLATFORMS)));
             const listingBuyers         = Vue.ref([]);
             const listingTimeline       = Vue.ref([]);
             const listingStatsSaving    = Vue.ref(false);
