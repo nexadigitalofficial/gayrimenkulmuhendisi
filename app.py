@@ -16753,7 +16753,7 @@ def get_portfolio_listing_dashboard(ref_id):
                 all_data[ref_id] = item
                 _save_listing_dashboards(all_data)
 
-        return jsonify({"ok": True, "data": item})
+        return jsonify({"ok": True, "data": item, "dashboard": item})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
 

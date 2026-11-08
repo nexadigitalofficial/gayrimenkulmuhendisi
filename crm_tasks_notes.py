@@ -340,32 +340,75 @@ def list_tasks(status: Optional[str] = None,
                 if fs_docs:
                     existing_ids = {r["id"] for r in results}
                     for fd in fs_docs:
-                        if fd and fd.get("id") and fd["id"] not in existing_ids:
+                        if not fd or not fd.get("id"):
+                            continue
+
+                        # Backfill into SQLite first
+                        try:
+                            now_iso = datetime.datetime.now().isoformat()
+                            cur.execute("""
+                                INSERT OR REPLACE INTO crm_tasks_notes (
+                                    id, user_id, title, content, category, priority, status,
+                                    due_date, is_pinned, checklist, tags, related_to,
+                                    voice_transcript, audio_url, created_at, updated_at
+                                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            """, (
+                                fd["id"], fd.get("user_id", "default"), fd.get("title", ""),
+                                fd.get("content", ""), fd.get("category", "Genel"),
+                                fd.get("priority", "medium"), fd.get("status", "todo"),
+                                fd.get("due_date", ""), 1 if fd.get("is_pinned") else 0,
+                                json.dumps(fd.get("checklist", []), ensure_ascii=False) if isinstance(fd.get("checklist"), list) else (fd.get("checklist") or "[]"),
+                                json.dumps(fd.get("tags", []), ensure_ascii=False) if isinstance(fd.get("tags"), list) else (fd.get("tags") or "[]"),
+                                fd.get("related_to", ""), fd.get("voice_transcript", ""),
+                                fd.get("audio_url", ""), fd.get("created_at", now_iso), fd.get("updated_at", now_iso)
+                            ))
+                            con.commit()
+                        except Exception:
+                            pass
+
+                        # Append to results only if not present AND matches current filters
+                        if fd["id"] not in existing_ids:
+                            if status and status != 'all' and fd.get("status", "todo") != status:
+                                continue
+                            if category and category != 'all' and fd.get("category", "Genel") != category:
+                                continue
+                            if priority and priority != 'all' and fd.get("priority", "medium") != priority:
+                                continue
+                            if due_date and due_date.strip():
+                                f_due = (fd.get("due_date") or "").strip()
+                                if not f_due.startswith(due_date.strip()):
+                                    continue
+                            if search and search.strip():
+                                s_term = search.strip().lower()
+                                title_val = (fd.get("title") or "").lower()
+                                content_val = (fd.get("content") or "").lower()
+                                tags_val = [str(t).lower() for t in fd.get("tags", [])] if isinstance(fd.get("tags"), list) else []
+                                if not (s_term in title_val or s_term in content_val or any(s_term in t for t in tags_val)):
+                                    continue
+
+                            if not isinstance(fd.get("checklist"), list):
+                                try:
+                                    fd["checklist"] = json.loads(fd.get("checklist") or "[]")
+                                except Exception:
+                                    fd["checklist"] = []
+                            if not isinstance(fd.get("tags"), list):
+                                try:
+                                    fd["tags"] = json.loads(fd.get("tags") or "[]")
+                                except Exception:
+                                    fd["tags"] = []
+
                             results.append(fd)
-                            # Backfill into SQLite
-                            try:
-                                now_iso = datetime.datetime.now().isoformat()
-                                cur.execute("""
-                                    INSERT OR REPLACE INTO crm_tasks_notes (
-                                        id, user_id, title, content, category, priority, status,
-                                        due_date, is_pinned, checklist, tags, related_to,
-                                        voice_transcript, audio_url, created_at, updated_at
-                                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                                """, (
-                                    fd["id"], fd.get("user_id", "default"), fd.get("title", ""),
-                                    fd.get("content", ""), fd.get("category", "Genel"),
-                                    fd.get("priority", "medium"), fd.get("status", "todo"),
-                                    fd.get("due_date", ""), 1 if fd.get("is_pinned") else 0,
-                                    json.dumps(fd.get("checklist", []), ensure_ascii=False),
-                                    json.dumps(fd.get("tags", []), ensure_ascii=False),
-                                    fd.get("related_to", ""), fd.get("voice_transcript", ""),
-                                    fd.get("audio_url", ""), fd.get("created_at", now_iso), fd.get("updated_at", now_iso)
-                                ))
-                                con.commit()
-                            except Exception:
-                                pass
+                            existing_ids.add(fd["id"])
+
             except Exception as fs_err:
                 print(f"⚠ Firestore list_tasks stream warning: {fs_err}")
+
+        # Consistency sort: pinned first, then due_date, then updated_at
+        results.sort(key=lambda x: (
+            -(1 if x.get("is_pinned") else 0),
+            0 if (x.get("due_date") or "").strip() else 1,
+            x.get("due_date") or "9999-99-99"
+        ))
 
         return results
 
